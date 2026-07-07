@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from 'react'
+import { CheckCircle2 } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -34,7 +35,7 @@ export default function ContactForm() {
 
       if (!response.ok) {
         const data = await response.json().catch(() => ({ message: "" }))
-        throw new Error(data.message || 'Failed to submit form')
+        throw new Error(data.message || 'Não conseguimos enviar sua mensagem.')
       }
 
       setSuccess(true)
@@ -44,20 +45,43 @@ export default function ContactForm() {
       setCompany('')
       setTurnstileToken('')
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred. Please try again.')
+      setError(err instanceof Error ? err.message : 'Ocorreu um erro. Tente novamente.')
     } finally {
       setIsSubmitting(false)
     }
   }
 
   return (
-    <section className="py-20 bg-gray-50">
-      <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-8">Entre em Contato</h2>
+    <section aria-labelledby="contato-title" className="section-normal">
+      <div className="container-page">
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 id="contato-title" className="text-h2 font-semibold text-ink">
+            Entre em contato
+          </h2>
+          <p className="mt-4 text-lead text-muted-ink">
+            Escreva pra gente e a equipe Flowo responde rapidinho.
+          </p>
+        </div>
+
         {success ? (
-          <p className="text-green-500 text-center">Sua mensagem foi enviada com sucesso!</p>
+          <div role="status" className="mx-auto mt-10 max-w-lg text-center">
+            <CheckCircle2 aria-hidden="true" className="mx-auto h-12 w-12 text-success" />
+            <p className="mt-4 text-body font-medium text-ink">
+              Sua mensagem foi enviada com sucesso!
+            </p>
+            <p className="mt-2 text-sm text-muted-ink">
+              Respondemos pelo e-mail que você informou.
+            </p>
+            <Button
+              variant="outline"
+              className="mt-6 rounded-full"
+              onClick={() => setSuccess(false)}
+            >
+              Enviar outra mensagem
+            </Button>
+          </div>
         ) : (
-          <form onSubmit={handleSubmit} className="max-w-lg mx-auto space-y-4">
+          <form onSubmit={handleSubmit} className="mx-auto mt-10 max-w-lg space-y-5">
             <input
               type="text"
               name="company"
@@ -68,26 +92,49 @@ export default function ContactForm() {
               autoComplete="off"
               aria-hidden="true"
             />
-            <div>
-              <Label htmlFor="name">Nome</Label>
-              <Input id="name" value={name} onChange={(e) => setName(e.target.value)} required />
+            <div className="space-y-1.5">
+              <Label htmlFor="contact-name">Nome</Label>
+              <Input
+                id="contact-name"
+                value={name}
+                autoComplete="name"
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
             </div>
-            <div>
-              <Label htmlFor="email">E-mail</Label>
-              <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            <div className="space-y-1.5">
+              <Label htmlFor="contact-email">E-mail</Label>
+              <Input
+                id="contact-email"
+                type="email"
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
             </div>
-            <div>
-              <Label htmlFor="message">Mensagem</Label>
-              <Textarea id="message" value={message} onChange={(e) => setMessage(e.target.value)} required />
+            <div className="space-y-1.5">
+              <Label htmlFor="contact-message">Mensagem</Label>
+              <Textarea
+                id="contact-message"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                rows={5}
+                required
+              />
             </div>
             <TurnstileWidget action="contact_form" onTokenChange={setTurnstileToken} className="mx-auto" />
-            {error && <p className="text-red-500">{error}</p>}
+            {error && (
+              <p role="alert" className="text-sm font-medium text-danger">
+                {error}
+              </p>
+            )}
             <Button
               type="submit"
-              className="w-full"
+              className="w-full rounded-full font-semibold"
               disabled={isSubmitting || (Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY) && !turnstileToken)}
             >
-              {isSubmitting ? 'Enviando...' : 'Enviar Mensagem'}
+              {isSubmitting ? 'Enviando...' : 'Enviar mensagem'}
             </Button>
           </form>
         )}

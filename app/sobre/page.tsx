@@ -1,26 +1,24 @@
-import { Metadata } from "next";
+import Image from "next/image";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
-import { Section } from "@/components/section";
 import { Breadcrumb } from "@/components/breadcrumb";
-import { Button } from "@/components/ui/button";
-import { LeadCaptureModal } from "@/components/lead-capture-modal";
+import { buildMetadata } from "@/lib/seo";
 import {
   Building2,
-  Target,
-  Zap,
-  Heart,
-  MessageCircle,
   Brain,
   Clock,
+  Heart,
+  MessageCircle,
   Shield,
+  Zap,
 } from "lucide-react";
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: "Sobre o Flowo: Sistema de Agendamento para Barbearia com IA",
   description:
     "Conheça o Flowo: a plataforma brasileira de agendamento via WhatsApp com IA para barbearias e negócios de serviços.",
-};
+  path: "/sobre",
+});
 
 const values = [
   {
@@ -31,42 +29,42 @@ const values = [
   },
   {
     icon: Heart,
-    title: "Foco no Cliente",
+    title: "Foco no cliente",
     description:
-      "Seu sucesso é nosso sucesso. Estamos aqui para fazer seu negócio crescer.",
+      "Seu sucesso é o nosso sucesso. Estamos aqui para o seu negócio crescer.",
   },
   {
     icon: Shield,
     title: "Confiança",
     description:
-      "Seus dados e dos seus clientes são tratados com máxima segurança.",
+      "Seus dados e os dos seus clientes são tratados com máxima segurança.",
   },
   {
     icon: Brain,
     title: "Inovação",
     description:
-      "IA de verdade que funciona, não promessas vazias. Resultados reais.",
+      "IA de verdade, que atende e agenda de fato. Não promessa de demo.",
   },
 ];
 
 const differentials = [
   {
     icon: MessageCircle,
-    title: "WhatsApp Nativo",
+    title: "WhatsApp nativo",
     description:
-      "Usa seu próprio número de WhatsApp. Seus clientes não precisam baixar nada novo.",
+      "Funciona no número de WhatsApp da sua barbearia. Seus clientes não precisam baixar nada novo.",
   },
   {
     icon: Brain,
-    title: "IA que Entende",
+    title: "IA que entende",
     description:
-      "Nossa IA entende linguagem natural e agenda automaticamente, 24 horas por dia.",
+      "A IA entende linguagem natural e agenda automaticamente, 24 horas por dia.",
   },
   {
     icon: Clock,
-    title: "Lembretes Automáticos",
+    title: "Lembretes automáticos",
     description:
-      "Reduz faltas drasticamente com lembretes personalizados 24h e 2h antes.",
+      "Lembretes e confirmação automática antes do horário ajudam a reduzir faltas.",
   },
   {
     icon: Building2,
@@ -80,144 +78,173 @@ export default function AboutPage() {
   return (
     <>
       <Navbar />
-      <main className="bg-white min-h-screen">
-        <Section background="white" className="pt-32 pb-16">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto">
-              <Breadcrumb
-                items={[
-                  { label: "Início", href: "/" },
-                  { label: "Sobre", href: "/sobre" },
-                ]}
-              />
+      <main id="main-content" className="bg-cream">
+        {/* Header */}
+        <section className="section-normal pt-32 md:pt-36">
+          <div className="container-page">
+            <Breadcrumb
+              items={[
+                { label: "Início", href: "/" },
+                { label: "Sobre", href: "/sobre" },
+              ]}
+            />
+            <div className="mt-10 max-w-3xl">
+              <h1 className="text-h2 font-semibold text-ink">
+                Simplificando o agendamento para quem faz acontecer
+              </h1>
+              <p className="mt-6 max-w-measure text-lead text-muted-ink">
+                O Flowo nasceu de uma frustração real: donos de barbearia
+                perdendo horas respondendo WhatsApp, clientes que não aparecem
+                e dinheiro deixado na mesa. Criamos a solução que gostaríamos
+                de ter.
+              </p>
+            </div>
+          </div>
+        </section>
 
-              {/* Hero */}
-              <div className="mt-8 mb-16">
-                <div className="inline-flex items-center gap-2 text-sm font-medium text-primary bg-primary/5 px-3 py-1.5 rounded-full mb-4">
-                  <Building2 className="w-4 h-4" />
-                  Sobre Nós
-                </div>
-                <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-                  Simplificando o agendamento para quem faz acontecer
-                </h1>
-                <p className="text-xl text-gray-600 leading-relaxed">
-                  O Flowo nasceu de uma frustração real: donos de barbearias perdendo
-                  horas respondendo WhatsApp, clientes não aparecendo, e muito dinheiro
-                  deixado na mesa. Criamos a solução que gostaríamos de ter.
-                </p>
-              </div>
-
-              {/* Mission */}
-              <div className="mb-16 p-8 bg-gray-50 rounded-2xl">
-                <div className="flex items-start gap-4">
-                  <div className="p-3 bg-primary/10 rounded-xl">
-                    <Target className="w-6 h-6 text-primary" />
-                  </div>
-                  <div>
-                    <h2 className="text-2xl font-bold text-gray-900 mb-3">
-                      Nossa Missão
-                    </h2>
-                    <p className="text-lg text-gray-600">
-                      Dar a todo profissional de serviços as mesmas ferramentas de
-                      agendamento e automação que grandes redes têm, de forma simples
-                      e acessível. Porque quem trabalha com as mãos merece tecnologia
-                      que trabalha por eles.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Story */}
-              <div className="mb-16">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                  Nossa História
+        {/* História + photo */}
+        <section className="section-tight">
+          <div className="container-page">
+            <div className="grid items-center gap-12 lg:grid-cols-[1fr_minmax(0,26rem)] lg:gap-20">
+              <div>
+                <h2 className="text-h3 font-semibold text-ink">
+                  Nossa história
                 </h2>
-                <div className="space-y-4 text-gray-600">
+                <div className="mt-6 max-w-measure space-y-5 text-body text-muted-ink">
                   <p>
-                    Tudo começou observando o dia a dia de uma barbearia. O barbeiro
-                    parava no meio do corte para responder WhatsApp. Clientes ligavam
-                    para remarcar. Outros simplesmente não apareciam. No final do mês,
-                    a conta não fechava como deveria.
+                    Tudo começou observando o dia a dia de uma barbearia. O
+                    barbeiro parava no meio do corte para responder WhatsApp.
+                    Clientes ligavam para remarcar. Outros simplesmente não
+                    apareciam. No fim do mês, a conta não fechava como deveria.
                   </p>
                   <p>
-                    Percebemos que o problema não era falta de clientes, era falta de
-                    organização. E que a solução não poderia ser um app complicado que
-                    ninguém ia usar. Tinha que ser algo que funcionasse onde os clientes
-                    já estão: no WhatsApp.
+                    Percebemos que o problema não era falta de clientes, era
+                    falta de organização. E que a solução não podia ser um app
+                    complicado que ninguém ia usar. Tinha que funcionar onde os
+                    clientes já estão: no WhatsApp.
                   </p>
                   <p>
-                    Assim nasceu o Flowo: uma IA que responde pelo WhatsApp, agenda
-                    automaticamente, envia lembretes e reduz faltas. Simples assim.
-                    Hoje ajudamos centenas de barbearias e negócios de serviços a
-                    economizarem tempo e ganharem mais.
+                    Assim nasceu o Flowo: uma IA que responde pelo WhatsApp,
+                    agenda automaticamente, envia lembretes e confirma cada
+                    horário. Simples assim, para a barbearia cuidar do corte
+                    enquanto a agenda cuida de si mesma.
                   </p>
                 </div>
               </div>
-
-              {/* Values */}
-              <div className="mb-16">
-                <h2 className="text-2xl font-bold text-gray-900 mb-8">
-                  Nossos Valores
-                </h2>
-                <div className="grid md:grid-cols-2 gap-6">
-                  {values.map((value) => (
-                    <div
-                      key={value.title}
-                      className="p-6 bg-white border border-gray-200 rounded-xl hover:border-primary/30 transition-colors"
-                    >
-                      <value.icon className="w-8 h-8 text-primary mb-4" />
-                      <h3 className="text-lg font-bold text-gray-900 mb-2">
-                        {value.title}
-                      </h3>
-                      <p className="text-gray-600">{value.description}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Differentials */}
-              <div className="mb-16">
-                <h2 className="text-2xl font-bold text-gray-900 mb-8">
-                  Por que o Flowo?
-                </h2>
-                <div className="grid md:grid-cols-2 gap-6">
-                  {differentials.map((diff) => (
-                    <div key={diff.title} className="flex gap-4">
-                      <div className="p-3 bg-primary/5 rounded-xl h-fit">
-                        <diff.icon className="w-6 h-6 text-primary" />
-                      </div>
-                      <div>
-                        <h3 className="text-lg font-bold text-gray-900 mb-1">
-                          {diff.title}
-                        </h3>
-                        <p className="text-gray-600">{diff.description}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* CTA */}
-              <div className="p-8 bg-primary text-white rounded-2xl text-center">
-                <h3 className="text-2xl md:text-3xl font-bold mb-3">
-                  Pronto para simplificar seu agendamento?
-                </h3>
-                <p className="text-primary-foreground/80 mb-6 max-w-xl mx-auto">
-                  Teste o Flowo por 14 dias grátis. Sem cartão de crédito, sem
-                  compromisso.
-                </p>
-                <LeadCaptureModal>
-                  <Button
-                    size="lg"
-                    className="bg-white text-primary hover:bg-white/90"
-                  >
-                    Começar teste grátis
-                  </Button>
-                </LeadCaptureModal>
+              <div className="relative aspect-[4/5] overflow-hidden rounded-lg shadow-card">
+                <Image
+                  src="https://images.unsplash.com/photo-1567894340315-735d7c361db0?auto=format&fit=crop&w=1200&q=80"
+                  alt="Barbeiro de avental fazendo o acabamento do corte de um cliente na cadeira"
+                  fill
+                  sizes="(min-width: 1024px) 26rem, 100vw"
+                  className="img-duotone object-cover"
+                />
               </div>
             </div>
           </div>
-        </Section>
+        </section>
+
+        {/* Missão: the page's single serif statement, on ink */}
+        <section className="on-ink section-normal">
+          <div className="container-page">
+            <div className="mx-auto max-w-4xl text-center">
+              <p className="text-caption text-muted-ink">Nossa missão</p>
+              <p className="mt-6 font-serif text-h2 font-medium leading-tight text-ink [letter-spacing:-0.008em]">
+                Quem trabalha com as mãos merece tecnologia que trabalha por
+                elas.
+              </p>
+              <p className="mx-auto mt-8 max-w-measure text-body text-muted-ink">
+                Dar a todo profissional de serviços as mesmas ferramentas de
+                agendamento e automação que as grandes redes têm, de forma
+                simples e acessível.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Valores */}
+        <section className="section-normal">
+          <div className="container-page">
+            <h2 className="text-h3 font-semibold text-ink">Nossos valores</h2>
+            <div className="mt-10 grid gap-x-16 sm:grid-cols-2">
+              {values.map((value) => (
+                <div
+                  key={value.title}
+                  className="border-t border-line py-8"
+                >
+                  <value.icon
+                    aria-hidden="true"
+                    strokeWidth={1.75}
+                    className="h-6 w-6 text-ink"
+                  />
+                  <h3 className="mt-4 text-body font-semibold text-ink">
+                    {value.title}
+                  </h3>
+                  <p className="mt-2 text-body text-muted-ink">
+                    {value.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Por que o Flowo */}
+        <section className="section-tight">
+          <div className="container-page">
+            <h2 className="text-h3 font-semibold text-ink">
+              Por que o Flowo?
+            </h2>
+            <div className="mt-10 grid gap-10 sm:grid-cols-2">
+              {differentials.map((diff) => (
+                <div key={diff.title} className="flex gap-5">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-line bg-surface">
+                    <diff.icon
+                      aria-hidden="true"
+                      strokeWidth={1.75}
+                      className="h-5 w-5 text-ink"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="text-body font-semibold text-ink">
+                      {diff.title}
+                    </h3>
+                    <p className="mt-1.5 text-body text-muted-ink">
+                      {diff.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* CTA band */}
+        <section className="on-ink section-normal">
+          <div className="container-page text-center">
+            <h2 className="mx-auto max-w-2xl text-h2 font-semibold text-ink">
+              Pronto para simplificar seu agendamento?
+            </h2>
+            <p className="mx-auto mt-5 max-w-measure text-lead text-muted-ink">
+              Assine o Flowo e deixe a IA atender, agendar e confirmar seus
+              clientes no WhatsApp.
+            </p>
+            <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <a
+                href="https://barber.flowo.com.br/sign-up"
+                className="inline-flex items-center justify-center rounded-full bg-ink px-8 py-3.5 text-label font-medium text-cream transition-colors duration-200 ease-out-quint hover:bg-ink-strong"
+              >
+                Começar agora
+              </a>
+              <a
+                href="mailto:contato@flowo.com.br"
+                className="inline-flex items-center justify-center rounded-full border border-line px-8 py-3.5 text-label font-medium text-ink transition-colors duration-200 ease-out-quint hover:bg-surface"
+              >
+                Tirar dúvidas
+              </a>
+            </div>
+          </div>
+        </section>
       </main>
       <Footer />
     </>

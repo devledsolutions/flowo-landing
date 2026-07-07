@@ -1,20 +1,17 @@
 import { type LucideIcon } from "lucide-react";
-import * as Icons from "lucide-react";
 
 interface TrustSignalProps {
-  icon: string;
+  icon: LucideIcon;
   title: string;
   description: string;
 }
 
-export function TrustSignal({ icon, title, description }: TrustSignalProps) {
-  const IconComponent = Icons[icon as keyof typeof Icons] as LucideIcon;
-
+export function TrustSignal({ icon: Icon, title, description }: TrustSignalProps) {
   return (
-    <div>
-      <IconComponent className="w-12 h-12 text-primary mx-auto mb-4" />
-      <h4 className="font-semibold mb-2">{title}</h4>
-      <p className="text-sm text-gray-600">{description}</p>
+    <div className="border-t border-line pt-5">
+      <Icon className="h-5 w-5 text-ink" aria-hidden />
+      <h3 className="mt-3 text-label text-ink">{title}</h3>
+      <p className="mt-1 text-sm text-muted-ink">{description}</p>
     </div>
   );
 }

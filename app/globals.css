@@ -1,95 +1,162 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
+/* ============================================================
+   BARBEARIA NOIR — committed ink+cream monochrome (OKLCH).
+   The only non-neutral hues allowed anywhere on the page:
+   (a) WhatsApp green / blue-tick INSIDE the phone mock,
+   (b) low-chroma semantic states (--success / --danger) for the
+       mock's confirm tick and form validation.
+   Everything else is ink or cream. No blue, no pink, no charts.
+   ============================================================ */
+
 @layer base {
   :root {
-    --background: oklch(0.9736 0.0057 84.5662);
-    --foreground: oklch(0.2050 0.0153 113.5445);
-    --card: oklch(1.0000 0 0);
-    --card-foreground: oklch(0.2050 0.0153 113.5445);
-    --popover: oklch(1.0000 0 0);
-    --popover-foreground: oklch(0.2050 0.0153 113.5445);
-    --primary: oklch(0.2050 0.0153 113.5445);
-    --primary-foreground: oklch(1.0000 0 0);
-    --secondary: oklch(0.5761 0.0841 245.8094);
-    --secondary-foreground: oklch(1.0000 0 0);
-    --muted: oklch(0.9310 0 0);
-    --muted-foreground: oklch(0.5510 0.0234 264.3637);
-    --accent: oklch(0.9310 0 0);
-    --accent-foreground: oklch(0.2050 0.0153 113.5445);
-    --destructive: oklch(0.7664 0.0661 30.5597);
-    --destructive-foreground: oklch(1.0000 0 0);
-    --border: oklch(0.9310 0 0);
-    --input: oklch(1.0000 0 0);
-    --ring: oklch(0.5761 0.0841 245.8094);
-    --radius: 0.75rem;
-    --chart-1: oklch(0.6868 0.1605 2.2838);
-    --chart-2: oklch(0.5761 0.0841 245.8094);
-    --chart-3: oklch(0.7664 0.0661 30.5597);
-    --chart-4: oklch(0.5510 0.0234 264.3637);
-    --chart-5: oklch(0.7137 0.0192 261.3246);
+    /* --- core monochrome tokens (brand hue ~104-110, warm-olive ink) --- */
+    --bg: oklch(0.972 0.004 95);              /* #f8f6f2 cream */
+    --surface: oklch(0.988 0.003 95);         /* warm white, cards sit just above cream */
+    --surface-2: oklch(0.955 0.005 98);       /* recessed panel on cream */
+    --ink: oklch(0.205 0.012 110);            /* #171810 headings + primary */
+    --ink-strong: oklch(0.17 0.012 110);      /* max-contrast display */
+    --muted-ink: oklch(0.46 0.01 106);        /* body-secondary, ~6.5:1 on cream */
+    --faint-ink: oklch(0.56 0.009 104);       /* labels / LARGE text only, ~4.6:1 — never body or placeholder */
+    --line: oklch(0.205 0.012 110 / 0.12);    /* warm hairline; full borders only, never side-stripe */
+
+    /* --- semantic states (rare, low-chroma; never brand decoration) --- */
+    --success: oklch(0.62 0.12 150);
+    --danger: oklch(0.55 0.15 27);
+
+    /* --- legacy shadcn-style names, re-pointed at the monochrome system.
+           Existing components keep compiling; the stale blue --secondary and
+           pink/chart accents are gone. --- */
+    --background: var(--bg);
+    --foreground: var(--ink);
+    --card: var(--surface);
+    --card-foreground: var(--ink);
+    --popover: var(--surface);
+    --popover-foreground: var(--ink);
+    --primary: var(--ink);
+    --primary-foreground: var(--bg);
+    --secondary: var(--surface-2);
+    --secondary-foreground: var(--ink);
+    --muted: var(--surface-2);
+    --muted-foreground: var(--muted-ink);
+    --accent: var(--surface-2);
+    --accent-foreground: var(--ink);
+    --destructive: var(--danger);
+    --destructive-foreground: oklch(0.988 0.003 95);
+    --border: var(--line);
+    --input: var(--surface);
+    --ring: var(--ink);                        /* focus = ink, 2px + 2px offset */
+    --radius: 0.75rem;                         /* cards/inputs/media 12px; pills via rounded-full */
+
+    /* --- fluid type scale (ratio ~1.25; every step max ≤ 2.5× min) --- */
+    --text-caption: 0.833rem;
+    --text-label: 0.9rem;
+    --text-body: 1.0625rem;
+    --text-lead: clamp(1.125rem, 1.03rem + 0.45vw, 1.375rem);
+    --text-h3: clamp(1.5rem, 1.34rem + 0.8vw, 1.95rem);
+    --text-h2: clamp(2rem, 1.55rem + 2.1vw, 3.05rem);
+    --text-display: clamp(2.6rem, 1.9rem + 3.3vw, 4.75rem);
+
+    /* --- section cadence (three rhythms, not one-size py-24) --- */
+    --section-y-tight: clamp(3rem, 6vw, 4.5rem);
+    --section-y-normal: clamp(4.5rem, 9vw, 7.5rem);
+    --section-y-loose: clamp(6rem, 12vw, 10rem);
+    --container-max: 75rem;                    /* 1200px */
+    --gutter: clamp(1.25rem, 5vw, 2.5rem);
+
+    /* --- motion --- */
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);   /* entrances, 500-800ms */
+    --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1); /* state changes, 150-250ms */
   }
-  .dark {
-    --background: oklch(0.2101 0.0318 264.6645);
-    --foreground: oklch(0.9846 0.0017 247.8389);
-    --card: oklch(0.2781 0.0296 256.8480);
-    --card-foreground: oklch(0.9846 0.0017 247.8389);
-    --popover: oklch(0.2781 0.0296 256.8480);
-    --popover-foreground: oklch(0.9846 0.0017 247.8389);
-    --primary: oklch(0.6868 0.1605 2.2838);
-    --primary-foreground: oklch(1.0000 0 0);
-    --secondary: oklch(0.6231 0.1880 259.8145);
-    --secondary-foreground: oklch(1.0000 0 0);
-    --muted: oklch(0.3729 0.0306 259.7328);
-    --muted-foreground: oklch(0.7137 0.0192 261.3246);
-    --accent: oklch(0.6868 0.1605 2.2838);
-    --accent-foreground: oklch(0.2101 0.0318 264.6645);
-    --destructive: oklch(0.6868 0.1605 2.2838);
-    --destructive-foreground: oklch(1.0000 0 0);
-    --border: oklch(0.3729 0.0306 259.7328);
-    --input: oklch(0.3729 0.0306 259.7328);
-    --ring: oklch(0.6231 0.1880 259.8145);
-    --chart-1: oklch(0.6868 0.1605 2.2838);
-    --chart-2: oklch(0.6231 0.1880 259.8145);
-    --chart-3: oklch(0.7664 0.0661 30.5597);
-    --chart-4: oklch(0.5510 0.0234 264.3637);
-    --chart-5: oklch(0.4461 0.0263 256.8018);
+
+  /* Scoped ink context for deliberate full-bleed bands (hero photo band,
+     craft statement, CTA band, footer). NOT a global dark mode. */
+  .on-ink {
+    --bg: oklch(0.185 0.01 110);
+    --surface: oklch(0.235 0.01 110);
+    --surface-2: oklch(0.285 0.01 108);
+    --ink: oklch(0.955 0.004 92);              /* cream text on ink */
+    --ink-strong: oklch(0.975 0.004 92);
+    --muted-ink: oklch(0.76 0.006 100);        /* ≥4.5:1 on the ink bg */
+    --faint-ink: oklch(0.68 0.007 100);
+    --line: oklch(0.955 0.004 92 / 0.14);
+    --ring: oklch(0.955 0.004 92);
+    background-color: var(--bg);
+    color: var(--ink);
   }
 }
- 
+
 @layer base {
   * {
     @apply border-border;
   }
+  html {
+    font-optical-sizing: auto;
+    font-kerning: normal;
+  }
+  /* Horizontal-scroll safety net: full-bleed bands and transformed hero
+     elements must never widen the page. `clip` keeps position:sticky
+     working; the `hidden` line is the fallback for older engines. */
+  html,
+  body {
+    overflow-x: hidden;
+    overflow-x: clip;
+  }
   body {
     @apply bg-background text-foreground;
+    font-size: var(--text-body);
+    line-height: 1.6;
+  }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  p,
+  li,
+  blockquote {
+    text-wrap: pretty;
+  }
+  ::selection {
+    background: var(--ink);
+    color: var(--bg);
+  }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
   }
 }
 
-.gradient-text {
-  color: var(--primary);
+@layer components {
+  /* Section cadence utilities — pick one per section, vary the rhythm. */
+  .section-tight {
+    padding-block: var(--section-y-tight);
+  }
+  .section-normal {
+    padding-block: var(--section-y-normal);
+  }
+  .section-loose {
+    padding-block: var(--section-y-loose);
+  }
+  /* Page container: 1200px max, fluid gutter. */
+  .container-page {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+  /* Ink-duotone treatment for barbershop photography so photos join the
+     monochrome system. Pair with an .on-ink scrim for full-bleed bands. */
+  .img-duotone {
+    filter: grayscale(1) contrast(1.06) brightness(0.96) sepia(0.14);
+  }
 }
 
-/* Custom gradient utilities using Flowo primary color */
-.gradient-bg-light {
-  background: oklch(0.97 0.005 113.545);
-}
-
-.gradient-bg-medium {
-  background: oklch(0.45 0.03 113.545);
-}
-
-.gradient-bg-brand {
-  background: oklch(0.35 0.025 113.545);
-}
-
-/* Melhorias de acessibilidade */
-:focus {
-  outline: 2px solid var(--primary);
-  outline-offset: 2px;
-}
-
+/* Reduced motion: keep the global kill-switch. whileInView elements must
+   also render visible without JS (initial visible; animate as enhancement). */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
@@ -98,29 +165,3 @@
     scroll-behavior: auto !important;
   }
 }
-
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
-}
-
-@keyframes shimmer {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
-
-.animate-shimmer {
-  animation: shimmer 3s infinite;
-}
-

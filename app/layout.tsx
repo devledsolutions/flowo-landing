@@ -1,58 +1,78 @@
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import { Suspense } from "react"
-import { Poppins, Lora } from 'next/font/google'
+import { Poppins, Lora } from "next/font/google"
 import "./globals.css"
 import { SegmentProvider } from "@/providers/segment-provider"
+import { MotionProvider } from "@/providers/motion-provider"
 import { CookieBanner } from "@/components/cookie-banner"
 import { ConsentInitializer } from "@/components/consent-initializer"
+import {
+  SITE_URL,
+  SITE_NAME,
+  DEFAULT_OG_IMAGE,
+  TWITTER_HANDLE,
+} from "@/lib/seo"
 
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ['300', '400', '500', '600', '700'],
-  variable: '--font-poppins',
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-poppins",
 })
 
 const lora = Lora({
   subsets: ["latin"],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-lora',
+  weight: ["500", "600"],
+  style: ["normal", "italic"],
+  variable: "--font-lora",
 })
 
+const DEFAULT_TITLE =
+  "Sistema de Agendamento para Barbearia | WhatsApp + IA - Flowo"
+const DEFAULT_DESCRIPTION =
+  "Software de agendamento para barbearias: a IA atende no WhatsApp, agenda e confirma seus clientes. Lembretes automáticos e pagamento do atendimento por PIX ou cartão."
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://flowo.com.br'),
-  alternates: {
-    canonical: '/',
-  },
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Sistema de Agendamento para Barbearia | WhatsApp + IA - Flowo',
-    template: '%s | Flowo',
+    default: DEFAULT_TITLE,
+    template: `%s | ${SITE_NAME}`,
   },
-  description: "Software de agendamento via WhatsApp para barbearias. Reduza faltas, gerencie barbeiros e aumente faturamento. Teste grátis 14 dias sem cartão.",
-  keywords: ['agendamento barbearia', 'sistema barbearia', 'whatsapp barbearia', 'agenda barbearia', 'gestão barbearia', 'software barbearia', 'lembrete agendamento', 'reduzir faltas barbearia'],
+  description: DEFAULT_DESCRIPTION,
+  applicationName: SITE_NAME,
+  keywords: [
+    "agendamento barbearia",
+    "sistema barbearia",
+    "whatsapp barbearia",
+    "agenda barbearia",
+    "gestão barbearia",
+    "software barbearia",
+    "lembrete agendamento",
+    "reduzir faltas barbearia",
+  ],
   openGraph: {
-    title: 'Flowo | Sistema de Agendamento para Barbearia via WhatsApp',
+    title: `${SITE_NAME} | Sistema de Agendamento para Barbearia via WhatsApp`,
     description:
-      'Automatize agendamento, confirmação e lembretes no WhatsApp para reduzir faltas e aumentar faturamento.',
-    url: 'https://flowo.com.br',
-    type: 'website',
-    locale: 'pt_BR',
-    siteName: 'Flowo',
+      "A IA atende no WhatsApp, agenda e confirma seus clientes. Lembretes automáticos contra faltas e pagamento do atendimento por PIX ou cartão.",
+    url: SITE_URL,
+    type: "website",
+    locale: "pt_BR",
+    siteName: SITE_NAME,
     images: [
       {
-        url: '/og-image.jpg',
+        url: DEFAULT_OG_IMAGE,
         width: 1200,
         height: 630,
-        alt: 'Flowo - Sistema de Agendamento para Barbearia via WhatsApp com IA',
+        alt: "Flowo - Sistema de Agendamento para Barbearia via WhatsApp com IA",
       },
     ],
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'Flowo | Sistema de Agendamento para Barbearia',
+    card: "summary_large_image",
+    title: `${SITE_NAME} | Sistema de Agendamento para Barbearia`,
     description:
-      'Agendamento no WhatsApp com IA, lembretes automáticos e PIX antecipado.',
-    creator: '@flowoapp',
-    images: ['/og-image.jpg'],
+      "Agendamento no WhatsApp com IA, lembretes automáticos e pagamento do atendimento por PIX ou cartão.",
+    creator: TWITTER_HANDLE,
+    images: [DEFAULT_OG_IMAGE],
   },
   robots: {
     index: true,
@@ -60,11 +80,17 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
+}
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#f8f6f2",
 }
 
 export default function RootLayout({
@@ -94,52 +120,22 @@ export default function RootLayout({
             `,
           }}
         />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'Organization',
-              name: 'Flowo',
-              url: 'https://flowo.com.br',
-              logo: 'https://flowo.com.br/flowo-logo.svg',
-              contactPoint: [
-                {
-                  '@type': 'ContactPoint',
-                  contactType: 'customer support',
-                  email: 'contato@flowo.com.br',
-                  availableLanguage: ['pt-BR'],
-                },
-              ],
-              sameAs: [],
-            }),
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'WebSite',
-              name: 'Flowo',
-              url: 'https://flowo.com.br',
-              inLanguage: 'pt-BR',
-              potentialAction: {
-                '@type': 'SearchAction',
-                target: 'https://flowo.com.br/recursos/guias',
-                'query-input': 'required name=search_term_string',
-              },
-            }),
-          }}
-        />
       </head>
-      <body className="font-sans">
+      <body className="font-sans antialiased">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:inline-flex focus:items-center focus:rounded-full focus:bg-ink focus:px-5 focus:py-2.5 focus:text-label focus:font-medium focus:text-cream"
+        >
+          Pular para o conteúdo principal
+        </a>
         <ConsentInitializer />
-        <Suspense fallback={null}>
-          <SegmentProvider writeKey={process.env.NEXT_PUBLIC_SEGMENT_WRITE_KEY}>
-            {children}
-          </SegmentProvider>
-        </Suspense>
+        <MotionProvider>
+          <Suspense fallback={null}>
+            <SegmentProvider writeKey={process.env.NEXT_PUBLIC_SEGMENT_WRITE_KEY}>
+              {children}
+            </SegmentProvider>
+          </Suspense>
+        </MotionProvider>
         <CookieBanner />
       </body>
     </html>

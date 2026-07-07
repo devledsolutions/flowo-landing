@@ -17,12 +17,10 @@ export function CookieBanner() {
   });
 
   useEffect(() => {
-    // Check if user has already made a choice
     const savedConsent = getSavedConsent();
     if (savedConsent) {
       setPreferences(savedConsent);
     } else {
-      // Show banner after a short delay for better UX
       const timer = setTimeout(() => setIsVisible(true), 1000);
       return () => clearTimeout(timer);
     }
@@ -40,7 +38,7 @@ export function CookieBanner() {
 
   const handleRejectAll = () => {
     const allRejected: ConsentPreferences = {
-      necessary: true, // Always required
+      necessary: true,
       analytics: false,
       marketing: false,
     };
@@ -57,27 +55,33 @@ export function CookieBanner() {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed bottom-4 left-4 z-50 max-w-sm animate-in slide-in-from-bottom-4 fade-in duration-300">
-      <div className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
-        {/* Compact Banner */}
+    <section
+      aria-label="Aviso de cookies"
+      className="fixed bottom-4 left-4 z-50 max-w-sm animate-in slide-in-from-bottom-4 fade-in duration-300"
+    >
+      <div className="overflow-hidden rounded-xl bg-surface shadow-[0_4px_8px_-2px_oklch(0.205_0.012_110/0.22)]">
         {!showPreferences ? (
           <div className="p-4">
-            <div className="flex items-start gap-3 mb-3">
-              <Cookie className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+            <div className="mb-3 flex items-start gap-3">
+              <Cookie aria-hidden="true" className="mt-0.5 h-5 w-5 flex-shrink-0 text-ink" />
               <div>
-                <p className="text-sm text-gray-700 leading-relaxed">
+                <p className="text-sm leading-relaxed text-muted-ink">
                   Usamos cookies para melhorar sua experiência.{" "}
-                  <Link href="/privacidade" prefetch={false} className="text-primary hover:underline">
+                  <Link
+                    href="/privacidade"
+                    prefetch={false}
+                    className="font-medium text-ink underline underline-offset-4 hover:no-underline"
+                  >
                     Saiba mais
                   </Link>
                 </p>
               </div>
               <button
                 onClick={handleRejectAll}
-                className="p-1 rounded-full hover:bg-gray-100 transition-colors flex-shrink-0"
-                aria-label="Fechar"
+                className="flex-shrink-0 rounded-full p-1 transition-colors duration-200 ease-out-quint hover:bg-secondary"
+                aria-label="Fechar e rejeitar cookies opcionais"
               >
-                <X className="w-4 h-4 text-gray-400" />
+                <X aria-hidden="true" className="h-4 w-4 text-muted-ink" />
               </button>
             </div>
 
@@ -85,23 +89,23 @@ export function CookieBanner() {
               <Button
                 variant="ghost"
                 size="sm"
-                className="text-xs h-8 px-3"
+                className="h-8 rounded-full px-3 text-xs text-muted-ink hover:text-ink"
                 onClick={() => setShowPreferences(true)}
               >
-                <Settings className="w-3.5 h-3.5 mr-1.5" />
+                <Settings aria-hidden="true" className="mr-1.5 h-3.5 w-3.5" />
                 Preferências
               </Button>
               <Button
                 variant="outline"
                 size="sm"
-                className="text-xs h-8 px-3"
+                className="h-8 rounded-full px-3 text-xs"
                 onClick={handleRejectAll}
               >
                 Rejeitar
               </Button>
               <Button
                 size="sm"
-                className="text-xs h-8 px-3 bg-primary hover:bg-primary/90"
+                className="h-8 rounded-full px-3 text-xs"
                 onClick={handleAcceptAll}
               >
                 Aceitar
@@ -109,42 +113,42 @@ export function CookieBanner() {
             </div>
           </div>
         ) : (
-          /* Preferences Panel */
           <div className="p-4">
-            <div className="flex items-center justify-between mb-3">
+            <div className="mb-3 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Shield className="w-4 h-4 text-primary" />
-                <h3 className="font-medium text-sm text-gray-900">Preferências de cookies</h3>
+                <Shield aria-hidden="true" className="h-4 w-4 text-ink" />
+                <h2 className="text-sm font-medium text-ink">
+                  Preferências de cookies
+                </h2>
               </div>
               <button
                 onClick={() => setShowPreferences(false)}
-                className="p-1 rounded-full hover:bg-gray-100 transition-colors"
-                aria-label="Fechar"
+                className="rounded-full p-1 transition-colors duration-200 ease-out-quint hover:bg-secondary"
+                aria-label="Voltar"
               >
-                <X className="w-4 h-4 text-gray-400" />
+                <X aria-hidden="true" className="h-4 w-4 text-muted-ink" />
               </button>
             </div>
 
-            <div className="space-y-2.5 mb-4">
-              {/* Necessary */}
-              <div className="flex items-center justify-between py-2 px-2.5 bg-gray-50 rounded-lg">
+            <div className="mb-4 space-y-2.5">
+              <div className="flex items-center justify-between rounded-lg bg-secondary px-2.5 py-2">
                 <div className="flex items-center gap-2">
-                  <Shield className="w-4 h-4 text-gray-500" />
-                  <span className="text-sm text-gray-700">Necessários</span>
+                  <Shield aria-hidden="true" className="h-4 w-4 text-muted-ink" />
+                  <span className="text-sm text-ink">Necessários</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <Check className="w-3.5 h-3.5 text-green-600" />
-                  <span className="text-xs text-green-600">Ativo</span>
+                  <Check aria-hidden="true" className="h-3.5 w-3.5 text-muted-ink" />
+                  <span className="text-xs text-muted-ink">Sempre ativos</span>
                 </div>
               </div>
 
-              {/* Analytics */}
-              <div className="flex items-center justify-between py-2 px-2.5 bg-gray-50 rounded-lg">
+              <div className="flex items-center justify-between rounded-lg bg-secondary px-2.5 py-2">
                 <div className="flex items-center gap-2">
-                  <BarChart3 className="w-4 h-4 text-gray-500" />
-                  <span className="text-sm text-gray-700">Analíticos</span>
+                  <BarChart3 aria-hidden="true" className="h-4 w-4 text-muted-ink" />
+                  <span className="text-sm text-ink">Analíticos</span>
                 </div>
                 <Switch
+                  aria-label="Cookies analíticos"
                   checked={preferences.analytics}
                   onCheckedChange={(checked) =>
                     setPreferences((prev) => ({ ...prev, analytics: checked }))
@@ -152,13 +156,13 @@ export function CookieBanner() {
                 />
               </div>
 
-              {/* Marketing */}
-              <div className="flex items-center justify-between py-2 px-2.5 bg-gray-50 rounded-lg">
+              <div className="flex items-center justify-between rounded-lg bg-secondary px-2.5 py-2">
                 <div className="flex items-center gap-2">
-                  <Megaphone className="w-4 h-4 text-gray-500" />
-                  <span className="text-sm text-gray-700">Marketing</span>
+                  <Megaphone aria-hidden="true" className="h-4 w-4 text-muted-ink" />
+                  <span className="text-sm text-ink">Marketing</span>
                 </div>
                 <Switch
+                  aria-label="Cookies de marketing"
                   checked={preferences.marketing}
                   onCheckedChange={(checked) =>
                     setPreferences((prev) => ({ ...prev, marketing: checked }))
@@ -171,14 +175,14 @@ export function CookieBanner() {
               <Button
                 variant="outline"
                 size="sm"
-                className="flex-1 text-xs h-8"
+                className="h-8 flex-1 rounded-full text-xs"
                 onClick={() => setShowPreferences(false)}
               >
                 Voltar
               </Button>
               <Button
                 size="sm"
-                className="flex-1 text-xs h-8 bg-primary hover:bg-primary/90"
+                className="h-8 flex-1 rounded-full text-xs"
                 onClick={handleSavePreferences}
               >
                 Salvar
@@ -187,6 +191,6 @@ export function CookieBanner() {
           </div>
         )}
       </div>
-    </div>
+    </section>
   );
 }

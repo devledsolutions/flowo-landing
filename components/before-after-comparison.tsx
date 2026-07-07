@@ -1,39 +1,56 @@
-import { ArrowRight } from 'lucide-react'
-import { motion } from 'framer-motion'
+import { ArrowDown, ArrowRight } from "lucide-react";
 
 interface ComparisonItem {
-  before: string
-  after: string
+  before: string;
+  after: string;
 }
 
 interface BeforeAfterComparisonProps {
-  items: ComparisonItem[]
+  items: ComparisonItem[];
+  /** Passe null para suprimir o título quando a seção pai já tem um h2. */
+  title?: string | null;
 }
 
-export default function BeforeAfterComparison({ items }: BeforeAfterComparisonProps) {
+export default function BeforeAfterComparison({
+  items,
+  title = "Antes e depois do Flowo",
+}: BeforeAfterComparisonProps) {
   return (
-    <div className="bg-gray-50 rounded-lg p-6 mb-12">
-      <h3 className="text-2xl font-bold mb-6 text-center">Antes e Depois do Flowo</h3>
-      <div className="space-y-6">
-        {items.map((item, index) => (
-          <motion.div
-            key={index}
-            className="flex items-center justify-between"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
+    <div className="my-10">
+      {title ? (
+        <h3 className="mb-6 text-h3 font-semibold text-ink">{title}</h3>
+      ) : null}
+      <ul className="space-y-4">
+        {items.map((item) => (
+          <li
+            key={item.before}
+            className="grid items-stretch gap-3 md:grid-cols-[1fr_auto_1fr]"
           >
-            <div className="bg-white rounded-lg p-4 flex-1 mr-4">
-              <p className="text-gray-600">{item.before}</p>
+            <div className="rounded-xl border border-line bg-surface p-5">
+              <p className="text-caption font-medium text-muted-ink">Antes</p>
+              <p className="mt-1.5 leading-relaxed text-muted-ink">
+                {item.before}
+              </p>
             </div>
-            <ArrowRight className="text-primary w-8 h-8 flex-shrink-0" />
-            <div className="bg-primary text-white rounded-lg p-4 flex-1 ml-4">
-              <p>{item.after}</p>
+            <div
+              aria-hidden="true"
+              className="flex items-center justify-center text-faint-ink"
+            >
+              <ArrowDown className="h-5 w-5 md:hidden" strokeWidth={1.75} />
+              <ArrowRight
+                className="hidden h-5 w-5 md:block"
+                strokeWidth={1.75}
+              />
             </div>
-          </motion.div>
+            <div className="on-ink rounded-xl p-5">
+              <p className="text-caption font-medium text-muted-ink">
+                Com o Flowo
+              </p>
+              <p className="mt-1.5 leading-relaxed">{item.after}</p>
+            </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
-  )
+  );
 }
-

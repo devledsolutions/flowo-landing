@@ -1,114 +1,85 @@
-"use client";
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
+import {
+  BeforeAfter,
+  CaseChecklist,
+  CaseSection,
+  CaseStudyPage,
+} from "@/app/casos-de-sucesso/_components/case-study";
+import { buildMetadata } from "@/lib/seo";
 
-import SuccessStoryLayout from "@/components/success-story-layout";
-import KeyResults from "@/components/key-results";
-import BeforeAfterComparison from "@/components/before-after-comparison";
-import FloatingCTA from "@/components/floating-cta";
-import Image from "next/image";
-import { Users, DollarSign, Clock, Smile } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import FAQ from "@/components/faq";
-import { Section } from "@/components/section";
-
-const keyResults = [
-  { icon: Users, value: 35, suffix: "%", label: "Mais clientes atendidos" },
-  { icon: DollarSign, value: 40, suffix: "%", label: "Aumento na receita" },
-  { icon: Clock, value: 15, label: "Horas economizadas/semana" },
-  { icon: Smile, value: 95, suffix: "%", label: "Satisfação dos clientes" },
-];
+export const metadata = buildMetadata({
+  title: "Caso de Uso: Estúdio de Beleza (Exemplo Ilustrativo)",
+  description:
+    "Cenário ilustrativo de como um estúdio de beleza usaria o Flowo: agenda por profissional, lembretes automáticos e reativação de clientes pelo WhatsApp.",
+  path: "/casos-de-sucesso/estudio-beleza-radiante",
+});
 
 const beforeAfterItems = [
   {
-    before: "25% de horários não preenchidos",
-    after: "Apenas 5% de horários vagos",
+    before: "Horários ociosos entre um atendimento e outro",
+    after: "Agenda visível por profissional, com encaixes oferecidos pela IA",
   },
   {
-    before: "15 horas/semana em agendamentos manuais",
-    after: "2 horas/semana em gestão de agenda",
+    before: "Agendamento manual pelo telefone e por mensagem",
+    after: "Cliente agenda sozinho pelo WhatsApp, a qualquer hora",
   },
   {
-    before: "Dificuldade em fidelizar clientes",
-    after: "Sistema de lembretes e recompensas automático",
+    before: "Cliente some e ninguém percebe",
+    after: "Reativação segmentada para quem está sumido há mais de 45 dias",
   },
   {
-    before: "Comunicação ineficiente com clientes",
-    after: "Interação personalizada via WhatsApp",
+    before: "Cobrança na correria da recepção",
+    after: "Pagamento do atendimento por PIX ou cartão, pela conversa",
   },
 ];
 
 export default function EstudioBelezaRadiantePage() {
   return (
-    <SuccessStoryLayout
-      title="Estúdio Beleza Radiante"
-      industry="Beleza e Estética"
-      result="Aumento de 40% na receita e 35% mais clientes atendidos"
-    >
-      <KeyResults results={keyResults} />
+    <>
+      <Navbar />
+      <main className="min-h-screen">
+        <CaseStudyPage
+          crumbLabel="Estúdio de Beleza"
+          industry="Beleza e Estética"
+          title="Estúdio Beleza Radiante"
+          lead="Um cenário ilustrativo: como um estúdio com várias profissionais usaria o Flowo para preencher horários ociosos e manter as clientes voltando."
+        >
+          <CaseSection title="O desafio típico">
+            <p>
+              Estúdios de beleza vivem de recorrência: a cliente que volta todo
+              mês vale mais que a novidade da semana. Mas sem sistema, os
+              horários vagos entre atendimentos se acumulam, o telefone não
+              para e ninguém tem tempo de chamar quem sumiu.
+            </p>
+          </CaseSection>
 
-      <Image
-        src="/beauty-success.jpg"
-        alt="Estúdio Beleza Radiante"
-        width={800}
-        height={400}
-        className="rounded-lg mb-8"
-      />
+          <CaseSection title="Como o Flowo entraria">
+            <CaseChecklist
+              items={[
+                "Cada profissional tem a própria agenda, com serviços e tempos diferentes",
+                "A cliente agenda pelo WhatsApp e escolhe com quem quer ser atendida",
+                "Lembretes 24h e 2h antes reduzem esquecimento, com confirmação automática",
+                "Clientes sem retorno há mais de 45 dias entram num fluxo de reativação com contexto",
+                "O pagamento do atendimento pode ser feito por PIX ou cartão na própria conversa",
+              ]}
+            />
+          </CaseSection>
 
-      <h2 className="text-3xl font-bold mb-6">
-        Revolução na Gestão de Beleza com o Flowo
-      </h2>
-      <p className="text-xl mb-8">
-        O Estúdio Beleza Radiante enfrentava desafios com horários ociosos e
-        dificuldades na fidelização de clientes. Com a implementação do Flowo, o
-        salão não apenas superou esses obstáculos, mas também alcançou um
-        crescimento exponencial.
-      </p>
-
-      <BeforeAfterComparison items={beforeAfterItems} />
-
-      <h2 className="text-3xl font-bold mb-6">
-        Como o Flowo Transformou o Negócio
-      </h2>
-      <ul className="list-disc pl-6 mb-8 text-lg space-y-2">
-        <li>
-          Agendamento inteligente que maximiza a ocupação dos profissionais
-        </li>
-        <li>Sistema de lembretes via WhatsApp que reduziu faltas em 70%</li>
-        <li>
-          Recomendações personalizadas de serviços baseadas no histórico do
-          cliente
-        </li>
-        <li>Gestão de estoque integrada para otimização de recursos</li>
-      </ul>
-
-      <blockquote className="border-l-4 border-primary pl-6 italic my-8 text-xl">
-        &quot;O Flowo não apenas simplificou nossa operação, mas também nos
-        ajudou a criar uma experiência verdadeiramente personalizada para nossos
-        clientes. O resultado? Mais fidelidade, mais indicações e um aumento
-        significativo em nossa receita.&quot;
-        <footer className="text-right mt-4 text-gray-600">
-          - Ana Silva, Proprietária do Estúdio Beleza Radiante
-        </footer>
-      </blockquote>
-
-      <div className="bg-primary text-white rounded-lg p-8 mb-8">
-        <h3 className="text-2xl font-bold mb-4">
-          Pronto para transformar seu salão de beleza?
-        </h3>
-        <p className="mb-6">
-          Junte-se a centenas de profissionais de beleza que já estão elevando
-          seus negócios com o Flowo. Agende uma demonstração gratuita e descubra
-          como podemos impulsionar seus resultados.
-        </p>
-        <Button size="lg" variant="secondary" className="w-full md:w-auto">
-          Agende sua demo personalizada
-        </Button>
-      </div>
-
-      <Section background="gradient-reverse">
-        <FAQ />
-      </Section>
-
-      <FloatingCTA />
-    </SuccessStoryLayout>
+          <CaseSection title="Antes e depois, no dia a dia">
+            <BeforeAfter items={beforeAfterItems} />
+            <p>
+              A lógica é a mesma da barbearia:{" "}
+              <strong>
+                agenda organizada, confirmação automática e relacionamento
+                contínuo
+              </strong>{" "}
+              pelo canal onde a cliente já está.
+            </p>
+          </CaseSection>
+        </CaseStudyPage>
+      </main>
+      <Footer />
+    </>
   );
 }

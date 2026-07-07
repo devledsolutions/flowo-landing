@@ -1,0 +1,4 @@
+- generic [active]:
+  - link "Pular para o conteúdo principal" [ref=e1] [cursor=pointer]:
+    - /url: "#main-content"
+  - alert [ref=e2]

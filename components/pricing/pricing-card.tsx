@@ -1,116 +1,95 @@
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { LeadCaptureModal } from "../lead-capture-modal";
 import { Check } from "lucide-react";
+import { LeadCaptureModal } from "../lead-capture-modal";
+import { cn } from "@/lib/utils";
+import {
+  ANNUAL_DISCOUNT_LABEL,
+  formatBRL,
+  planPriceForCycle,
+  type BillingCycle,
+  type Plan,
+} from "@/data/pricing-data";
+import { SIGNUP_URL } from "./links";
 
 interface PricingCardProps {
-  name: string;
-  description: string;
-  monthlyPrice?: number;
-  yearlyPrice?: number;
-  price?: string;
-  isCustomPricing?: boolean;
-  customPriceLabel?: string;
-  features: string[];
-  isPopular?: boolean;
-  isYearly: boolean;
+  plan: Plan;
+  cycle: BillingCycle;
 }
 
-export function PricingCard({
-  name,
-  description,
-  monthlyPrice,
-  yearlyPrice,
-  price,
-  isCustomPricing,
-  customPriceLabel,
-  features,
-  isPopular,
-  isYearly,
-}: PricingCardProps) {
-  const displayPrice = isCustomPricing ? customPriceLabel : (price || (isYearly ? yearlyPrice : monthlyPrice));
+const CTA_BASE =
+  "inline-flex h-11 w-full items-center justify-center rounded-full text-sm font-medium transition-colors duration-200 ease-out-quint";
+
+export function PricingCard({ plan, cycle }: PricingCardProps) {
+  const isPopular = Boolean(plan.isPopular);
+  const price = planPriceForCycle(plan, cycle);
 
   return (
-    <div
-      className={`relative h-full flex flex-col rounded-2xl p-6 sm:p-8 bg-white transition-all duration-300 ${
-        isPopular
-          ? "border-2 border-primary shadow-lg"
-          : "border border-gray-200 hover:border-gray-300 hover:shadow-md"
-      }`}
-    >
-      {isPopular && (
-        <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-          <Badge className="bg-primary text-primary-foreground px-3 py-1 text-xs rounded-full">
-            Mais popular
-          </Badge>
-        </div>
+    <article
+      aria-label={`Plano ${plan.name}`}
+      className={cn(
+        "flex h-full flex-col rounded-[14px] p-7 sm:p-8",
+        isPopular ? "on-ink shadow-card" : "border border-line bg-surface"
       )}
-
-      {/* Header */}
-      <div className="mb-6">
-        <h3 className="font-display text-xl sm:text-2xl font-bold text-gray-900 mb-2">
-          {name}
-        </h3>
-        <p className="text-sm text-gray-600">{description}</p>
-      </div>
-
-      {/* Price */}
-      <div className="mb-6">
-        {typeof displayPrice === "number" ? (
-          <div>
-            <p className="flex items-baseline">
-              <span className="text-lg font-semibold text-gray-900">R$</span>
-              <span className="text-4xl sm:text-5xl font-bold tracking-tight text-gray-900 mx-1">
-                {displayPrice}
-              </span>
-              <span className="text-gray-500">/mês</span>
-            </p>
-            {isYearly && (
-              <p className="text-sm text-gray-600 mt-1">
-                Economize 12% com o plano anual
-              </p>
-            )}
-          </div>
-        ) : (
-          <p className="text-2xl font-bold text-gray-900">{displayPrice}</p>
-        )}
-        {!isCustomPricing && (
-          <p className="text-xs text-gray-500 mt-2">
-            {isYearly ? "Faturado anualmente" : "Faturado mensalmente"}
+    >
+      <div className="flex items-center justify-between gap-3">
+        <h3 className="text-xl font-semibold text-ink">{plan.name}</h3>
+        {isPopular && (
+          <p className="whitespace-nowrap rounded-full border border-line px-2.5 py-1 text-caption font-medium text-ink">
+            Mais escolhido
           </p>
         )}
       </div>
+      <p className="mt-2 text-sm text-muted-ink">{plan.description}</p>
 
-      {/* Features */}
-      <ul className="mb-8 space-y-3 flex-grow">
-        {features.map((feature, index) => (
-          <li key={index} className="flex items-start gap-3 text-sm">
-            <Check className="w-4 h-4 text-gray-400 flex-shrink-0 mt-0.5" />
-            <span className="text-gray-700">{feature}</span>
+      <p className="mt-7 flex items-baseline gap-1.5" aria-live="polite">
+        <span className="text-sm font-medium text-muted-ink">R$</span>
+        <span className="text-[2.75rem] font-bold leading-none tracking-tight text-ink tabular-nums">
+          {price.toLocaleString("pt-BR")}
+        </span>
+        <span className="text-sm text-muted-ink">/mês</span>
+      </p>
+      <p className="mt-2.5 text-caption text-muted-ink">
+        {cycle === "yearly"
+          ? `${formatBRL(plan.annualTotal)} faturados uma vez ao ano · ${ANNUAL_DISCOUNT_LABEL}`
+          : "Faturado mês a mês"}
+      </p>
+
+      <div className="mt-7">
+        {plan.salesLed ? (
+          <LeadCaptureModal>
+            <button
+              type="button"
+              className={cn(
+                CTA_BASE,
+                "border border-line bg-transparent text-ink hover:bg-surface-2"
+              )}
+            >
+              Falar com a gente
+            </button>
+          </LeadCaptureModal>
+        ) : (
+          <a
+            href={SIGNUP_URL}
+            aria-label={`Começar agora no plano ${plan.name}`}
+            className={cn(CTA_BASE, "bg-ink text-cream hover:bg-ink-strong")}
+          >
+            Começar agora
+          </a>
+        )}
+        <p className="mt-3 text-center text-caption text-muted-ink">
+          {plan.salesLed
+            ? "Converse com o time antes de assinar"
+            : "Sem fidelidade. Cancele quando quiser"}
+        </p>
+      </div>
+
+      <ul className="mt-7 flex-1 space-y-3 border-t border-line pt-6">
+        {plan.features.map((feature) => (
+          <li key={feature} className="flex items-start gap-2.5 text-sm text-ink">
+            <Check className="mt-0.5 h-4 w-4 shrink-0 text-ink" aria-hidden />
+            {feature}
           </li>
         ))}
       </ul>
-
-      {/* CTA */}
-      <div className="mt-auto">
-        <LeadCaptureModal>
-          <Button
-            size="lg"
-            className={`w-full h-11 font-medium ${
-              isPopular
-                ? "bg-primary text-primary-foreground hover:bg-primary/90"
-                : "bg-white text-gray-900 border border-gray-300 hover:bg-gray-50"
-            }`}
-          >
-            {isCustomPricing ? "Fale com Especialista" : "Começar Período de Teste"}
-          </Button>
-        </LeadCaptureModal>
-        <p className="text-xs text-center text-gray-500 mt-3">
-          {isCustomPricing
-            ? "Soluções personalizadas para redes e franquias"
-            : "Sem cartão de crédito • Cancele quando quiser"}
-        </p>
-      </div>
-    </div>
+    </article>
   );
 }

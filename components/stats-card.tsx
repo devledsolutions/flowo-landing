@@ -1,36 +1,30 @@
-"use client";
+import type { LucideIcon } from "lucide-react";
 
-import { useInView } from "react-intersection-observer";
-import CountUp from "react-countup";
-import { LucideProps } from "lucide-react";
-import { ForwardRefExoticComponent, RefAttributes } from "react";
-
-interface StatsCardProps {
-  icon?: ForwardRefExoticComponent<
-    Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
-  >;
-  value: number;
+export interface StatsCardProps {
+  icon?: LucideIcon;
   label: string;
-  suffix?: string;
-  decimal?: boolean;
+  detail: string;
 }
 
-export function StatsCard({ value, label, suffix = "" }: StatsCardProps) {
-  const { ref, inView } = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
+/**
+ * Fact unit for the honest capability strip. Não exibe métricas inventadas:
+ * recebe uma capacidade verificável (label) e a explicação curta (detail).
+ * Token-driven: funciona em fundo creme e dentro de bandas .on-ink.
+ */
+export function StatsCard({ icon: Icon, label, detail }: StatsCardProps) {
   return (
-    <div ref={ref}>
-      <div className="text-[56px] font-bold leading-tight">
-        {inView ? (
-          <CountUp end={value} duration={2} separator="," suffix={suffix} />
-        ) : (
-          "0"
-        )}
-      </div>
-      <div className="text-gray-600 text-lg">{label}</div>
+    <div className="flex flex-col gap-2.5">
+      {Icon ? (
+        <Icon
+          aria-hidden="true"
+          strokeWidth={1.75}
+          className="h-5 w-5 text-muted-ink"
+        />
+      ) : null}
+      <p className="font-semibold leading-snug text-ink">{label}</p>
+      <p className="text-[0.9375rem] leading-relaxed text-muted-ink">
+        {detail}
+      </p>
     </div>
   );
 }

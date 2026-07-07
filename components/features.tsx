@@ -1,112 +1,166 @@
-"use client";
-
+import Image from "next/image";
 import {
-  Calendar,
-  Clock,
-  Users,
-  MessageCircle,
-  TrendingUp,
+  Bell,
+  CalendarDays,
   CreditCard,
+  Globe,
+  History,
+  LineChart,
+  Megaphone,
   RefreshCw,
-  Webhook,
+  Users,
 } from "lucide-react";
-import { motion } from "framer-motion";
-import { Section } from "./section";
 
-const features = [
+const featureGroups = [
   {
-    icon: MessageCircle,
-    title: "Agendamento via WhatsApp com IA",
-    description:
-      "Cliente manda 'Quero marcar corte', a IA entende, mostra horários livres e confirma. Funciona 24/7, responde em segundos. Você dorme, a barbearia continua agendando.",
-    metric: "3h economizadas/dia",
+    title: "Agenda",
+    items: [
+      {
+        icon: CalendarDays,
+        title: "Sincronização de calendários",
+        description:
+          "Google, Apple e Outlook sempre em dia. O agendamento aparece no seu celular na hora.",
+      },
+      {
+        icon: Bell,
+        title: "Lembretes 24h e 2h antes",
+        description:
+          "Por WhatsApp e e-mail, com pedido de confirmação. O cliente responde na própria conversa.",
+      },
+      {
+        icon: RefreshCw,
+        title: "Remarcação pelo WhatsApp",
+        description:
+          "Remarcar ou cancelar é uma mensagem, não uma ligação. A agenda se ajusta sozinha.",
+      },
+    ],
   },
   {
-    icon: CreditCard,
-    title: "Pagamento Antecipado via PIX (Opcional)",
-    description:
-      "Ative pagamento antecipado para reduzir faltas drasticamente. Cliente paga antes, você garante presença. Funciona com PIX instantâneo.",
-    metric: "Menos faltas",
+    title: "Equipe e clientes",
+    items: [
+      {
+        icon: Users,
+        title: "Agenda por barbeiro",
+        description:
+          "Cada barbeiro com seus serviços, preços e horários. O cliente escolhe com quem cortar.",
+      },
+      {
+        icon: History,
+        title: "Histórico de cada cliente",
+        description:
+          "Último corte, preferências e frequência guardados. A IA usa isso na conversa.",
+      },
+      {
+        icon: LineChart,
+        title: "Relatórios de faturamento",
+        description:
+          "O que entrou, por serviço e por barbeiro, direto no painel financeiro.",
+      },
+    ],
   },
   {
-    icon: Calendar,
-    title: "Sincroniza com Seus Calendários",
-    description:
-      "Conecta com Google Calendar, Apple Calendar e Microsoft Outlook. Agendamento aparece automaticamente no seu celular. Conflitos de horário? Nunca mais.",
-    metric: "Sync em tempo real",
+    title: "Pagamentos e alcance",
+    items: [
+      {
+        icon: CreditCard,
+        title: "Pagamento no atendimento",
+        description:
+          "PIX ou cartão na hora do serviço, se você quiser oferecer. Sem maquininha extra.",
+      },
+      {
+        icon: Megaphone,
+        title: "Campanhas pelo WhatsApp",
+        description:
+          "Mensagens para sua base dentro do limite mensal do seu plano, sem planilha.",
+      },
+      {
+        icon: Globe,
+        title: "Página de agendamento online",
+        description:
+          "Um link da sua barbearia para quem prefere agendar sem conversar.",
+      },
+    ],
   },
-  {
-    icon: Clock,
-    title: "Lembretes Automáticos Inteligentes",
-    description:
-      "Lembrete 24h e 2h antes por WhatsApp e e-mail. Cliente confirma ou remarca pelo WhatsApp. Se não responder, libera o horário automaticamente.",
-    metric: "Menos faltas",
-  },
-  {
-    icon: Users,
-    title: "Gestão de Equipe Completa",
-    description:
-      "2, 5 ou 10 barbeiros? Cada um com sua agenda e especialidades. Preços padronizados por serviço. Sistema mostra quem está livre e o cliente escolhe.",
-    metric: "4.8★ avaliação",
-  },
-  {
-    icon: TrendingUp,
-    title: "Histórico e Preferências do Cliente",
-    description:
-      "Sistema guarda tudo: último corte, preferências, se gosta de barba. Na próxima vez, IA sugere combo automaticamente. Seu ticket médio sobe natural.",
-    metric: "+35% ticket médio",
-  },
-  {
-    icon: RefreshCw,
-    title: "Remarcação e Cancelamento Fácil",
-    description:
-      "Cliente remarca ou cancela direto pelo WhatsApp. Se não confirmar o lembrete, sistema libera o horário automaticamente. Sua agenda sempre otimizada.",
-    metric: "Zero horário vago",
-  },
-  {
-    icon: Webhook,
-    title: "Integrações e Automações",
-    description:
-      "Conecta com Zapier, CRMs e seus sistemas via webhooks e API. Integre com HubSpot, Pipedrive, RD Station e milhares de apps. Automatize do seu jeito.",
-    metric: "+1000 apps",
-  },
+];
+
+const aiPoints = [
+  "Responde de madrugada, no domingo e com a barbearia cheia",
+  "Oferece só horários realmente livres na agenda",
+  "Remarca e cancela na mesma conversa",
+  "Passa a conversa para você quando precisar",
 ];
 
 export default function Features() {
   return (
-    <Section background="white">
-      <div className="container mx-auto px-4">
-        <h2 className="text-4xl font-bold text-center mb-4">
-          Tudo que Sua Barbearia Precisa
-        </h2>
-        <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
-          Agendamento inteligente, pagamento garantido e gestão completa em uma única plataforma
-        </p>
+    <section id="recursos" aria-labelledby="recursos-title" className="section-normal bg-cream">
+      <div className="container-page">
+        <div className="max-w-3xl">
+          <h2 id="recursos-title" className="text-h2 font-semibold text-ink">
+            Tudo que a barbearia precisa
+          </h2>
+          <p className="mt-4 max-w-measure text-lead text-muted-ink">
+            A IA cuida do atendimento. O resto do dia a dia da barbearia vem
+            junto, no mesmo painel.
+          </p>
+        </div>
 
-        {/* 8 cards in responsive grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-          {features.map((feature, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-white rounded-xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-shadow"
-            >
-              <feature.icon className="w-12 h-12 text-primary mb-4" />
-              <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
-              <p className="text-gray-600 text-sm mb-4 leading-relaxed">
-                {feature.description}
-              </p>
-              <div className="pt-3 border-t border-gray-200">
-                <span className="inline-flex items-center gap-2 text-primary font-semibold text-sm">
-                  {feature.metric}
-                </span>
-              </div>
-            </motion.div>
+        {/* AI lede: the real differentiator gets the wide row */}
+        <div className="mt-12 grid items-center gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-14">
+          <div>
+            <h3 className="text-h3 font-semibold text-ink">
+              A IA que atende, agenda e confirma
+            </h3>
+            <p className="mt-4 max-w-measure text-muted-ink">
+              O cliente manda &quot;quero marcar um corte&quot; e recebe
+              resposta em segundos, em linguagem natural: serviços com preço,
+              horários livres de verdade e confirmação na hora. E a IA só diz
+              que agendou quando o horário entrou mesmo na agenda.
+            </p>
+            <ul className="mt-6 divide-y divide-line border-y border-line">
+              {aiPoints.map((point) => (
+                <li key={point} className="flex items-baseline gap-3 py-3">
+                  <span
+                    aria-hidden="true"
+                    className="h-1.5 w-1.5 shrink-0 translate-y-[-2px] rounded-full bg-ink"
+                  />
+                  <span className="text-muted-ink">{point}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="group relative aspect-[4/3] overflow-hidden rounded-xl">
+            <Image
+              src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1400&q=80"
+              alt="Close do barbeiro aparando a barba na tesoura, luz baixa e quente"
+              fill
+              sizes="(min-width: 1024px) 45vw, 100vw"
+              className="img-duotone object-cover transition-[filter] duration-500 ease-out-expo group-hover:[filter:grayscale(1)_contrast(1.06)_brightness(0.98)_sepia(0.32)]"
+            />
+          </div>
+        </div>
+
+        {/* Themed groups, editorial columns instead of 8 clone cards */}
+        <div className="mt-16 grid gap-10 border-t border-line pt-10 md:grid-cols-3 md:gap-8">
+          {featureGroups.map((group) => (
+            <div key={group.title}>
+              <h3 className="text-label font-medium text-faint-ink">{group.title}</h3>
+              <ul className="mt-4 space-y-6">
+                {group.items.map((item) => (
+                  <li key={item.title} className="flex gap-3.5">
+                    <item.icon aria-hidden="true" className="mt-1 h-5 w-5 shrink-0 text-ink" />
+                    <div>
+                      <h4 className="font-semibold text-ink">{item.title}</h4>
+                      <p className="mt-1 text-sm leading-relaxed text-muted-ink">
+                        {item.description}
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
           ))}
         </div>
       </div>
-    </Section>
+    </section>
   );
 }

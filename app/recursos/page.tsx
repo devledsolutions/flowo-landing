@@ -1,65 +1,62 @@
-import { Metadata } from "next";
-import Navbar from "@/components/navbar";
-import Footer from "@/components/footer";
-import { Section } from "@/components/section";
-import { Breadcrumb } from "@/components/breadcrumb";
-import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import Link from "next/link";
 import {
-  BookOpen,
-  Calendar,
   ArrowRight,
+  Bell,
+  Calendar,
+  Clapperboard,
   Clock,
   CreditCard,
-  MessageCircle,
-  Bell,
   Download,
   FileSpreadsheet,
+  MessageCircle,
 } from "lucide-react";
-import Link from "next/link";
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
+import { Breadcrumb } from "@/components/breadcrumb";
+import { Button } from "@/components/ui/button";
 import { LeadCaptureModal } from "@/components/lead-capture-modal";
+import { buildMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Guias e Recursos Gratuitos para Barbearias",
+export const metadata = buildMetadata({
+  title: "Recursos e Guias para Barbearias",
   description:
-    "Baixe planilhas, guias e materiais gratuitos para reduzir faltas, organizar agenda e aumentar faturamento da sua barbearia.",
-};
+    "Guias práticos, planilhas e roteiros gratuitos para organizar a agenda, confirmar clientes pelo WhatsApp e cuidar do financeiro da sua barbearia.",
+  path: "/recursos",
+});
 
 const guides = [
   {
     title: "Guia Definitivo de Agendamento",
     description:
-      "Configure seu calendário, automatize lembretes e reduza faltas em até 70%.",
+      "Configure horários, lembretes e confirmação automática pelo WhatsApp.",
     readTime: "10 min",
     href: "/recursos/guias/guia-definitivo-agendamento",
     icon: Calendar,
-    topics: ["Lembretes automáticos", "PIX antecipado", "Liberação de horários"],
   },
   {
     title: "Pagamentos com PIX",
     description:
-      "Configure pagamentos antecipados via PIX e receba antes de atender.",
+      "Receba o pagamento do atendimento por PIX ou cartão direto pelo WhatsApp.",
     readTime: "12 min",
     href: "/recursos/guias/pagamentos-pix",
     icon: CreditCard,
-    topics: ["PIX automático", "Política de reembolso", "Conta digital"],
   },
   {
     title: "Configurando WhatsApp com IA",
     description:
-      "Transforme seu WhatsApp em um assistente que agenda automaticamente 24/7.",
+      "Transforme seu WhatsApp em um assistente que responde e agenda a qualquer hora.",
     readTime: "8 min",
     href: "/recursos/guias/configurando-whatsapp",
     icon: MessageCircle,
-    topics: ["IA no WhatsApp", "Respostas automáticas", "Agendamento 24/7"],
   },
   {
     title: "Reduzindo Faltas",
     description:
-      "Estratégias para diminuir no-shows em até 80% na sua barbearia.",
+      "Lembretes e confirmação automática pelo WhatsApp para proteger sua agenda.",
     readTime: "10 min",
     href: "/recursos/guias/reduzindo-faltas",
     icon: Bell,
-    topics: ["Lembretes 24h/2h", "PIX antecipado", "Política clara"],
   },
 ];
 
@@ -68,19 +65,16 @@ const downloads = [
     title: "Planilha de Precificação",
     description: "Calcule o preço ideal dos seus serviços",
     icon: FileSpreadsheet,
-    href: "/recursos/materiais",
   },
   {
     title: "Calendário de Conteúdo",
     description: "30 dias de ideias para Instagram",
     icon: Calendar,
-    href: "/recursos/materiais",
   },
   {
     title: "Planilha de Comissões",
     description: "Controle pagamentos da equipe",
     icon: FileSpreadsheet,
-    href: "/recursos/materiais",
   },
 ];
 
@@ -90,10 +84,10 @@ export default function ResourcesPage() {
   return (
     <>
       <Navbar />
-      <main className="bg-white min-h-screen">
-        <Section background="white" className="pt-32 pb-16">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto">
+      <main className="min-h-screen">
+        <section className="pt-32 pb-section-normal">
+          <div className="container-page">
+            <div className="mx-auto max-w-4xl">
               <Breadcrumb
                 items={[
                   { label: "Início", href: "/" },
@@ -102,56 +96,66 @@ export default function ResourcesPage() {
               />
 
               {/* Hero */}
-              <div className="mt-8 mb-16">
-                <div className="inline-flex items-center gap-2 text-sm font-medium text-primary bg-primary/5 px-3 py-1.5 rounded-full mb-4">
-                  <BookOpen className="w-4 h-4" />
-                  Central de Recursos
+              <div className="mt-10 mb-16 grid items-center gap-10 md:grid-cols-[1fr_260px]">
+                <div>
+                  <h1 className="text-h2 font-bold leading-tight text-ink">
+                    Aprenda a cuidar da sua barbearia como quem cuida do{" "}
+                    <em className="font-serif font-medium italic">corte</em>
+                  </h1>
+                  <p className="mt-4 max-w-measure text-lead leading-relaxed text-muted-ink">
+                    Guias práticos e materiais gratuitos para organizar a
+                    agenda, confirmar clientes pelo WhatsApp e acompanhar o
+                    financeiro.
+                  </p>
                 </div>
-                <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 leading-tight">
-                  Aprenda a Otimizar sua Barbearia
-                </h1>
-                <p className="text-xl text-gray-600 max-w-2xl leading-relaxed">
-                  Guias práticos e materiais gratuitos para reduzir faltas,
-                  automatizar agendamentos e fazer sua barbearia crescer.
-                </p>
+                <div className="hidden overflow-hidden rounded-lg md:block">
+                  <Image
+                    src="https://images.unsplash.com/photo-1493256338651-d82f7acb2b38?auto=format&fit=crop&w=1000&q=80"
+                    alt="Máquina de cortar cabelo em close sobre a bancada"
+                    width={520}
+                    height={640}
+                    className="img-duotone h-auto w-full object-cover"
+                    sizes="260px"
+                  />
+                </div>
               </div>
 
-              {/* Guides Section */}
+              {/* Guides */}
               <div className="mb-16">
-                <div className="flex items-center justify-between mb-8">
-                  <h2 className="text-2xl font-bold text-gray-900">
-                    Guias Disponíveis
-                  </h2>
+                <div className="mb-8 flex items-center justify-between gap-4">
+                  <h2 className="text-h3 font-bold text-ink">Guias disponíveis</h2>
                   <Link
                     href="/recursos/guias"
-                    className="text-sm text-primary hover:underline flex items-center gap-1"
+                    className="flex items-center gap-1 text-label font-medium text-muted-ink transition-colors hover:text-ink"
                   >
-                    Ver todos ({TOTAL_GUIDES}) <ArrowRight className="w-4 h-4" />
+                    Ver todos ({TOTAL_GUIDES})
+                    <ArrowRight className="h-4 w-4" aria-hidden="true" />
                   </Link>
                 </div>
 
                 <div className="grid gap-4 sm:grid-cols-2">
-                  {guides.map((guide, index) => (
+                  {guides.map((guide) => (
                     <Link
-                      key={index}
+                      key={guide.href}
                       href={guide.href}
-                      className="group block bg-white rounded-xl border border-gray-200 p-5 hover:border-primary/30 hover:shadow-lg transition-all duration-300"
+                      className="group block rounded-lg border border-line bg-surface p-5 transition-colors duration-200 ease-out-quint hover:border-ink/40"
                     >
                       <div className="flex items-start gap-4">
-                        <div className="p-2.5 bg-primary/5 rounded-lg group-hover:bg-primary/10 transition-colors">
-                          <guide.icon className="w-5 h-5 text-primary" />
+                        <div className="rounded-lg bg-surface-2 p-2.5">
+                          <guide.icon
+                            className="h-5 w-5 text-ink"
+                            aria-hidden="true"
+                          />
                         </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-1">
-                            <span className="text-xs text-gray-500 flex items-center gap-1">
-                              <Clock className="w-3 h-3" />
-                              {guide.readTime}
-                            </span>
-                          </div>
-                          <h3 className="font-semibold text-gray-900 group-hover:text-primary transition-colors">
+                        <div className="min-w-0 flex-1">
+                          <span className="flex items-center gap-1 text-caption text-faint-ink">
+                            <Clock className="h-3 w-3" aria-hidden="true" />
+                            {guide.readTime}
+                          </span>
+                          <h3 className="mt-1 font-semibold text-ink">
                             {guide.title}
                           </h3>
-                          <p className="text-sm text-gray-600 mt-1 line-clamp-2">
+                          <p className="mt-1 text-label text-muted-ink">
                             {guide.description}
                           </p>
                         </div>
@@ -161,60 +165,73 @@ export default function ResourcesPage() {
                 </div>
               </div>
 
-              {/* Shorts/Reels Section */}
-              <div className="mb-16 rounded-2xl border border-primary/20 bg-primary/5 p-6 sm:p-8">
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                  <div>
-                    <h2 className="text-2xl font-bold text-gray-900">
-                      Shorts e Reels prontos (30 dias)
-                    </h2>
-                    <p className="mt-1 text-gray-600">
-                      8 roteiros conectados às páginas de maior intenção
-                      comercial para gerar tráfego e leads.
-                    </p>
+              {/* Shorts/Reels */}
+              <div className="mb-16 rounded-lg border border-line bg-surface p-6 sm:p-8">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="flex items-start gap-4">
+                    <div className="rounded-lg bg-surface-2 p-2.5">
+                      <Clapperboard className="h-5 w-5 text-ink" aria-hidden="true" />
+                    </div>
+                    <div>
+                      <h2 className="text-h3 font-bold text-ink">
+                        Shorts e Reels prontos
+                      </h2>
+                      <p className="mt-1 text-muted-ink">
+                        8 roteiros de vídeos curtos conectados aos guias, para
+                        divulgar sua barbearia e gerar agendamentos.
+                      </p>
+                    </div>
                   </div>
-                  <Button variant="outline" asChild>
+                  <Button
+                    variant="outline"
+                    asChild
+                    className="rounded-full sm:flex-shrink-0"
+                  >
                     <Link href="/recursos/videos">Ver roteiros de vídeo</Link>
                   </Button>
                 </div>
               </div>
 
-              {/* Downloads Section */}
+              {/* Downloads */}
               <div className="mb-16">
-                <div className="flex items-center justify-between mb-8">
+                <div className="mb-8 flex items-center justify-between gap-4">
                   <div>
-                    <h2 className="text-2xl font-bold text-gray-900">
-                      Materiais Gratuitos
+                    <h2 className="text-h3 font-bold text-ink">
+                      Materiais gratuitos
                     </h2>
-                    <p className="text-gray-600 text-sm mt-1">
+                    <p className="mt-1 text-label text-muted-ink">
                       Planilhas e templates para baixar
                     </p>
                   </div>
                   <Link
                     href="/recursos/materiais"
-                    className="text-sm text-primary hover:underline flex items-center gap-1"
+                    className="flex items-center gap-1 text-label font-medium text-muted-ink transition-colors hover:text-ink"
                   >
-                    Ver todos <ArrowRight className="w-4 h-4" />
+                    Ver todos
+                    <ArrowRight className="h-4 w-4" aria-hidden="true" />
                   </Link>
                 </div>
 
                 <div className="grid gap-4 sm:grid-cols-3">
-                  {downloads.map((item, index) => (
+                  {downloads.map((item) => (
                     <Link
-                      key={index}
-                      href={item.href}
-                      className="group block bg-gray-50 rounded-xl border border-gray-100 p-5 hover:bg-white hover:border-primary/30 hover:shadow-lg transition-all duration-300"
+                      key={item.title}
+                      href="/recursos/materiais"
+                      className="group block rounded-lg border border-line bg-surface p-5 transition-colors duration-200 ease-out-quint hover:border-ink/40"
                     >
-                      <div className="flex items-center gap-3 mb-3">
-                        <div className="p-2 bg-green-50 rounded-lg">
-                          <item.icon className="w-5 h-5 text-green-600" />
+                      <div className="mb-3 flex items-center justify-between">
+                        <div className="rounded-lg bg-surface-2 p-2">
+                          <item.icon className="h-5 w-5 text-ink" aria-hidden="true" />
                         </div>
-                        <Download className="w-4 h-4 text-gray-400 group-hover:text-primary transition-colors" />
+                        <Download
+                          className="h-4 w-4 text-faint-ink transition-colors group-hover:text-ink"
+                          aria-hidden="true"
+                        />
                       </div>
-                      <h3 className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">
+                      <h3 className="text-label font-semibold text-ink">
                         {item.title}
                       </h3>
-                      <p className="text-xs text-gray-500 mt-1">
+                      <p className="mt-1 text-caption text-muted-ink">
                         {item.description}
                       </p>
                     </Link>
@@ -222,42 +239,44 @@ export default function ResourcesPage() {
                 </div>
               </div>
 
-              {/* CTA Section */}
-              <div className="p-8 bg-primary text-white rounded-2xl">
+              {/* CTA */}
+              <div className="on-ink rounded-lg p-8 sm:p-10">
                 <div className="max-w-2xl">
-                  <h3 className="text-2xl font-bold mb-3">
+                  <h2 className="text-h3 font-bold">
                     Quer ver o Flowo na prática?
-                  </h3>
-                  <p className="text-primary-foreground/80 mb-6">
-                    Configure sua barbearia em 5 minutos. 14 dias grátis para
-                    testar tudo que você leu nos guias.
+                  </h2>
+                  <p className="mt-3 text-muted-ink">
+                    Configure sua barbearia em poucos minutos e aplique tudo que
+                    você leu nos guias.
                   </p>
-                  <LeadCaptureModal>
-                    <Button
-                      size="lg"
-                      className="bg-white text-primary hover:bg-white/90"
+                  <div className="mt-6 flex flex-wrap items-center gap-4">
+                    <LeadCaptureModal>
+                      <Button size="lg" className="rounded-full px-7">
+                        Começar agora
+                      </Button>
+                    </LeadCaptureModal>
+                    <Link
+                      href="/precos"
+                      className="text-label font-medium underline-offset-4 hover:underline"
                     >
-                      Começar teste grátis
-                    </Button>
-                  </LeadCaptureModal>
+                      Ver planos e preços
+                    </Link>
+                  </div>
                 </div>
               </div>
 
-              {/* More coming */}
-              <div className="mt-12 text-center">
-                <p className="text-gray-500 text-sm">
-                  Mais guias e materiais em breve. Tem uma dúvida específica?{" "}
-                  <a
-                    href="mailto:contato@flowo.com.br"
-                    className="text-primary hover:underline"
-                  >
-                    Fale conosco
-                  </a>
-                </p>
-              </div>
+              <p className="mt-12 text-center text-label text-muted-ink">
+                Mais guias e materiais em breve. Tem uma dúvida específica?{" "}
+                <a
+                  href="mailto:contato@flowo.com.br"
+                  className="font-medium text-ink underline-offset-4 hover:underline"
+                >
+                  Fale conosco
+                </a>
+              </p>
             </div>
           </div>
-        </Section>
+        </section>
       </main>
       <Footer />
     </>

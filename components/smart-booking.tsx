@@ -1,122 +1,76 @@
-import { Calendar, Bell, Shield, Zap } from 'lucide-react'
-import { motion } from 'framer-motion'
-import { Section } from './section'
+import Image from "next/image";
+import { Bell, CalendarCheck2, RefreshCw, UserCheck } from "lucide-react";
 
 const features = [
   {
-    icon: Calendar,
-    title: "Agendamento Simplificado",
-    description: "Sistema intuitivo que elimina a necessidade de entrada manual de dados. Seus clientes agendam em segundos."
+    icon: CalendarCheck2,
+    title: "Só horários que existem",
+    description:
+      "A IA oferece apenas horários realmente livres na agenda. Nada de encaixe duplicado nem cliente esperando em pé.",
   },
   {
     icon: Bell,
-    title: "Lembretes Inteligentes",
-    description: "Notificações automáticas via WhatsApp que reduzem faltas significativamente. Nunca mais perca um compromisso."
+    title: "Lembretes e confirmação",
+    description:
+      "Lembrete 24h e 2h antes do horário, pelo WhatsApp. O cliente confirma, remarca ou cancela na própria conversa.",
   },
   {
-    icon: Zap,
-    title: "Calendário Sempre Atualizado",
-    description: "Sincronização em tempo real com Google Calendar e Outlook. Atualizações instantâneas para toda a equipe."
+    icon: RefreshCw,
+    title: "Calendário sempre em dia",
+    description:
+      "Sincronização em tempo real com Google, Apple e Outlook. O que entra na agenda aparece no seu celular.",
   },
   {
-    icon: Shield,
-    title: "Proteção Contra Spam",
-    description: "Sistema de IA que identifica e bloqueia agendamentos falsos, garantindo apenas reservas legítimas."
-  }
-]
+    icon: UserCheck,
+    title: "Você no controle",
+    description:
+      "Assuma qualquer conversa quando quiser. A IA para de responder e espera você terminar.",
+  },
+];
 
 export default function SmartBooking() {
   return (
-    <Section background="light">
-      <div className="container mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+    <section aria-labelledby="smart-booking-title" className="section-normal bg-cream">
+      <div className="container-page">
+        <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-14">
           <div>
-            <motion.span
-              className="inline-block text-primary font-semibold mb-4"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              Automação Inteligente
-            </motion.span>
-            
-            <motion.h2
-              className="text-4xl font-bold mb-6"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-            >
+            <h2 id="smart-booking-title" className="text-h2 font-semibold text-ink">
               Agenda no piloto automático
-            </motion.h2>
-            
-            <motion.p
-              className="text-xl text-gray-600 mb-12"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              Economize horas todos os dias com agendamento automático e gestão inteligente de lembretes.
-            </motion.p>
+            </h2>
+            <p className="mt-4 max-w-measure text-lead text-muted-ink">
+              O agendamento acontece sozinho, do primeiro contato à confirmação
+              de presença. Você fica com a tesoura, não com o celular.
+            </p>
 
-            <div className="space-y-8">
-              {features.map((feature, index) => (
-                <motion.div
-                  key={index}
-                  className="flex gap-4"
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
-                >
-                  <div className="flex-shrink-0">
-                    <feature.icon className="w-6 h-6 text-primary" />
-                  </div>
+            <ul className="mt-8 divide-y divide-line border-y border-line">
+              {features.map((feature) => (
+                <li key={feature.title} className="flex gap-4 py-5">
+                  <feature.icon
+                    aria-hidden="true"
+                    className="mt-1 h-5 w-5 shrink-0 text-ink"
+                  />
                   <div>
-                    <h3 className="font-semibold mb-2">{feature.title}</h3>
-                    <p className="text-gray-600">{feature.description}</p>
+                    <h3 className="font-semibold text-ink">{feature.title}</h3>
+                    <p className="mt-1 max-w-measure text-muted-ink">
+                      {feature.description}
+                    </p>
                   </div>
-                </motion.div>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
 
-          <motion.div
-            className="relative"
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="relative gradient-bg-medium rounded-2xl p-8 min-h-[400px] flex items-center justify-center">
-              <div className="grid grid-cols-2 gap-4 w-full">
-                {[
-                  { icon: Calendar, label: "Agenda" },
-                  { icon: Bell, label: "Lembretes" },
-                  { icon: Zap, label: "Rápido" },
-                  { icon: Shield, label: "Seguro" },
-                ].map((item, i) => (
-                  <div
-                    key={i}
-                    className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center"
-                  >
-                    <item.icon className="w-8 h-8 text-white mx-auto mb-2" />
-                    <p className="text-white/90 text-sm">{item.label}</p>
-                  </div>
-                ))}
-              </div>
-
-              <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-lg shadow-xl">
-                <p className="font-bold text-2xl text-primary">3h+</p>
-                <p className="text-sm text-gray-600">Economizadas/dia</p>
-              </div>
-
-              <div className="absolute -top-6 -right-6 bg-white p-4 rounded-lg shadow-xl">
-                <p className="font-bold text-2xl text-green-500">Menos</p>
-                <p className="text-sm text-gray-600">Faltas</p>
-              </div>
-            </div>
-          </motion.div>
+          <div className="relative aspect-[4/3] overflow-hidden rounded-xl lg:aspect-[4/5]">
+            <Image
+              src="https://images.unsplash.com/photo-1493256338651-d82f7acb2b38?auto=format&fit=crop&w=1000&q=80"
+              alt="Máquina de cortar cabelo em close sobre a bancada"
+              fill
+              sizes="(min-width: 1024px) 45vw, 100vw"
+              className="img-duotone object-cover"
+            />
+          </div>
         </div>
       </div>
-    </Section>
-  )
+    </section>
+  );
 }
-

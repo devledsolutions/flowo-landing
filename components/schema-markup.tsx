@@ -1,156 +1,103 @@
+import { PRICING, formatBRL } from "@/data/pricing-data";
+import { faqItems } from "@/data/faq-items";
+import { SITE_URL, absoluteUrl } from "@/lib/seo";
+
+/**
+ * JSON-LD for the home page. Rules:
+ * - Prices come ONLY from data/pricing-data.ts (mirrored, never hardcoded).
+ * - No aggregateRating anywhere (we have no verified review corpus).
+ * - ONE Organization node for the whole page (layout.tsx must not add another).
+ * - FAQ is generated from data/faq-items.ts so page copy and schema never drift.
+ */
 export default function SchemaMarkup() {
+  const offers = PRICING.plans.map((plan) => ({
+    "@type": "Offer",
+    name: `Plano ${plan.name}`,
+    price: String(plan.monthly),
+    priceCurrency: PRICING.currency,
+    priceValidUntil: PRICING.priceValidUntil,
+    availability: "https://schema.org/InStock",
+    url: absoluteUrl("/precos"),
+  }));
+
   const softwareApplicationSchema = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "name": "Flowo",
-    "applicationCategory": "BusinessApplication",
-    "operatingSystem": "Web, iOS, Android",
-    "offers": {
-      "@type": "Offer",
-      "price": "97",
-      "priceCurrency": "BRL",
-      "priceValidUntil": "2025-12-31",
-      "availability": "https://schema.org/InStock",
-      "url": "https://flowo.com.br/precos"
-    },
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.8",
-      "ratingCount": "219",
-      "bestRating": "5",
-      "worstRating": "1"
-    },
-    "description": "Sistema de agendamento para barbearias via WhatsApp com IA. Reduza faltas, gerencie barbeiros e aumente o faturamento da sua barbearia.",
-    "screenshot": "https://flowo.com.br/how-it-works-demo.png",
-    "featureList": [
-      "Agendamento pelo WhatsApp",
-      "Lembretes automáticos",
+    name: "Flowo",
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Web",
+    offers,
+    description:
+      "Sistema de agendamento para barbearias: a IA atende no WhatsApp, agenda e confirma clientes. Lembretes automáticos e pagamento do atendimento por PIX ou cartão.",
+    featureList: [
+      "Agendamento pelo WhatsApp com IA",
+      "Lembretes e confirmação automática",
       "Gestão de múltiplos barbeiros",
+      "Sincronização com Google, Apple e Outlook",
       "Histórico de clientes",
       "Relatórios de faturamento",
-      "IA para otimização de agenda"
     ],
-    "softwareVersion": "2.0",
-    "datePublished": "2024-01-15",
-    "author": {
+    inLanguage: "pt-BR",
+    author: {
       "@type": "Organization",
-      "name": "Flowo",
-      "url": "https://flowo.com.br"
-    }
+      name: "Flowo",
+      url: SITE_URL,
+    },
   };
 
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "Flowo",
-    "url": "https://flowo.com.br",
-    "logo": "https://flowo.com.br/flowo-logo.svg",
-    "description": "Software de agendamento para barbearias via WhatsApp com inteligência artificial",
-    "foundingDate": "2024",
-    "address": {
+    name: "Flowo",
+    url: SITE_URL,
+    logo: absoluteUrl("/flowo-logo.svg"),
+    description:
+      "Software de agendamento para barbearias via WhatsApp com inteligência artificial",
+    address: {
       "@type": "PostalAddress",
-      "addressCountry": "BR"
+      addressCountry: "BR",
     },
-    "sameAs": [
-      "https://instagram.com/flowo",
-      "https://facebook.com/flowo",
-      "https://linkedin.com/company/flowo"
-    ],
-    "contactPoint": {
+    contactPoint: {
       "@type": "ContactPoint",
-      "contactType": "Customer Support",
-      "availableLanguage": ["Portuguese"]
-    }
+      contactType: "Customer Support",
+      email: "contato@flowo.com.br",
+      availableLanguage: ["Portuguese"],
+    },
+  };
+
+  const webSiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Flowo",
+    url: SITE_URL,
+    inLanguage: "pt-BR",
+  };
+
+  const pricingFaq = {
+    "@type": "Question",
+    name: "Quanto custa o Flowo?",
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: `Temos 3 planos: ${PRICING.plans
+        .map((plan) => `${plan.name} (${formatBRL(plan.monthly)}/mês)`)
+        .join(", ")}. No plano anual você leva 2 meses grátis. Sem fidelidade: cancele quando quiser.`,
+    },
   };
 
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": [
-      {
+    mainEntity: [
+      pricingFaq,
+      ...faqItems.map((item) => ({
         "@type": "Question",
-        "name": "Como funciona o agendamento pelo WhatsApp?",
-        "acceptedAnswer": {
+        name: item.question,
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "O cliente manda mensagem no WhatsApp da sua barbearia. Nossa IA entende a solicitação, mostra horários disponíveis e serviços, e o cliente escolhe o melhor horário. Tudo automático, sem você precisar atender durante o corte."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Quanto custa o Flowo?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Temos 3 planos: Solo (R$ 97/mês para até 150 cortes), Barbearia (R$ 197/mês com cortes ilimitados e até 5 barbeiros), e Franquia (preço personalizado para múltiplas unidades). Todos os planos incluem 14 dias de teste grátis sem cartão de crédito."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Como o Flowo reduz faltas de clientes?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "O sistema envia lembretes automáticos via WhatsApp 24h antes e 2h antes do horário marcado. Isso reduz esquecimentos e aumenta significativamente a taxa de comparecimento."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Preciso de conhecimento técnico para usar?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Não! O Flowo foi feito especialmente para barbeiros. A configuração leva apenas 5 minutos e nossa equipe te ajuda em todo o processo. Se você sabe usar WhatsApp, você sabe usar Flowo."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Posso cancelar quando quiser?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Sim! Não há fidelidade. Você pode cancelar sua assinatura a qualquer momento sem multas ou taxas extras. Oferecemos 14 dias de teste grátis para você experimentar sem compromisso."
-        }
-      }
-    ]
-  };
-
-  const serviceSchema = {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "serviceType": "Sistema de Agendamento para Barbearias",
-    "provider": {
-      "@type": "Organization",
-      "name": "Flowo"
-    },
-    "areaServed": {
-      "@type": "Country",
-      "name": "Brasil"
-    },
-    "hasOfferCatalog": {
-      "@type": "OfferCatalog",
-      "name": "Planos Flowo",
-      "itemListElement": [
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "Plano Solo"
-          },
-          "price": "97",
-          "priceCurrency": "BRL"
+          text: item.answer,
         },
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "Plano Barbearia"
-          },
-          "price": "197",
-          "priceCurrency": "BRL"
-        }
-      ]
-    },
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.8",
-      "reviewCount": "219"
-    }
+      })),
+    ],
   };
 
   return (
@@ -165,11 +112,11 @@ export default function SchemaMarkup() {
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteSchema) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
     </>
   );
