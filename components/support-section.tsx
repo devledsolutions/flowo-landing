@@ -2,101 +2,88 @@
 
 import { Button } from "@/components/ui/button";
 import { LeadCaptureModal } from "./lead-capture-modal";
-import { Section } from "./section";
-import { motion } from "framer-motion";
-import { HeadphonesIcon } from "lucide-react";
+import { BookOpen, Headphones, MessagesSquare, Target } from "lucide-react";
+
+const supportItems = [
+  {
+    icon: Target,
+    title: "Onboarding personalizado",
+    description:
+      "Configuramos o sistema com você e treinamos a equipe para a barbearia começar a usar sem travar.",
+  },
+  {
+    icon: MessagesSquare,
+    title: "Atendimento por chat e e-mail",
+    description:
+      "Fala com gente de verdade quando precisar de ajuda, sem robô empurrando você de um lado para o outro.",
+  },
+  {
+    icon: BookOpen,
+    title: "Base de conhecimento",
+    description:
+      "Tutoriais, guias e boas práticas para tirar o máximo do Flowo no seu ritmo.",
+  },
+];
 
 export default function SupportSection() {
   return (
-    <Section background="gradient">
-      <div className="container mx-auto px-4">
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <span className="text-primary font-semibold mb-2 block">
-              Suporte Dedicado
-            </span>
-            <h2 className="text-4xl font-bold mb-6">
-              Estamos aqui para apoiar seu negócio 🙌
+    <section aria-labelledby="suporte-title" className="section-normal bg-cream">
+      <div className="container-page">
+        <div className="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-2">
+          <div>
+            <h2 id="suporte-title" className="text-h2 font-semibold text-ink">
+              A gente ajuda você a começar
             </h2>
-            <p className="text-xl text-gray-600 mb-8">
-              O Flowo é uma ferramenta completa de agendamento, gestão de
-              calendário e automação. Oferecemos suporte total para garantir o
-              máximo aproveitamento e sucesso da sua operação.
+            <p className="mt-4 max-w-measure text-lead text-muted-ink">
+              O Flowo cuida do agendamento, da agenda e da automação. E se
+              aparecer dúvida no caminho, tem gente pronta para responder.
             </p>
-            <div className="flex items-center gap-6">
-              <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center">
-                <HeadphonesIcon className="w-6 h-6 text-white" />
-              </div>
+            <div className="mt-8 flex items-center gap-4">
+              <span
+                aria-hidden="true"
+                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-line bg-surface"
+              >
+                <Headphones className="h-5 w-5 text-ink" />
+              </span>
               <div>
-                <p className="font-semibold">
+                <p className="font-semibold text-ink">
                   Nossa equipe está pronta para ajudar
                 </p>
-                <p className="text-gray-600">Resposta em até 5 minutos</p>
+                <p className="text-muted-ink">
+                  Suporte em português, no horário comercial.
+                </p>
               </div>
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            className="bg-white rounded-2xl p-8 shadow-lg"
-          >
-            <div className="space-y-6">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <span className="text-2xl">🎯</span>
-                </div>
-                <div>
-                  <h3 className="font-semibold mb-2">
-                    Onboarding Personalizado
-                  </h3>
-                  <p className="text-gray-600">
-                    Configuração completa do sistema e treinamento da sua equipe
-                    para garantir o máximo aproveitamento.
-                  </p>
-                </div>
-              </div>
+          <div className="rounded-xl border border-line bg-surface p-6 md:p-8">
+            <ul className="space-y-6">
+              {supportItems.map((item) => (
+                <li key={item.title} className="flex items-start gap-4">
+                  <span
+                    aria-hidden="true"
+                    className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-line bg-cream"
+                  >
+                    <item.icon className="h-5 w-5 text-ink" />
+                  </span>
+                  <div>
+                    <h3 className="font-semibold text-ink">{item.title}</h3>
+                    <p className="mt-1 text-sm leading-relaxed text-muted-ink">
+                      {item.description}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
 
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <span className="text-2xl">💬</span>
-                </div>
-                <div>
-                  <h3 className="font-semibold mb-2">Suporte 24/7</h3>
-                  <p className="text-gray-600">
-                    Atendimento via chat e e-mail com tempo de resposta de até 5
-                    minutos.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <span className="text-2xl">📚</span>
-                </div>
-                <div>
-                  <h3 className="font-semibold mb-2">Base de Conhecimento</h3>
-                  <p className="text-gray-600">
-                    Acesso a tutoriais, guias e melhores práticas para maximizar
-                    seus resultados.
-                  </p>
-                </div>
-              </div>
-
-              <LeadCaptureModal>
-                <Button size="lg" className="w-full">
-                  Agende uma demonstração
-                </Button>
-              </LeadCaptureModal>
-            </div>
-          </motion.div>
+            <LeadCaptureModal>
+              <Button size="lg" className="mt-8 w-full">
+                Agende uma demonstração
+              </Button>
+            </LeadCaptureModal>
+          </div>
         </div>
       </div>
-    </Section>
+    </section>
   );
 }
