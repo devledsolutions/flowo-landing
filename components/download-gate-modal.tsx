@@ -36,6 +36,15 @@ const formatPhoneNumber = (phone: string, dialCode: string) => {
   return phone;
 };
 
+const RESOURCE_TYPE_LABEL: Record<
+  NonNullable<DownloadGateModalProps["resourceType"]>,
+  string
+> = {
+  pdf: "PDF",
+  spreadsheet: "Planilha",
+  template: "Modelo",
+};
+
 interface DownloadGateModalProps {
   children: React.ReactNode;
   resourceTitle: string;
@@ -130,7 +139,6 @@ export function DownloadGateModal({
         data: { resourceTitle },
       });
 
-      // Trigger download after successful submission
       setTimeout(() => {
         window.open(downloadUrl, "_blank");
       }, 1500);
@@ -195,74 +203,69 @@ export function DownloadGateModal({
     setWhatsapp(input);
   };
 
-  const getResourceIcon = () => {
-    switch (resourceType) {
-      case "spreadsheet":
-        return <FileText className="w-8 h-8 text-green-600" />;
-      case "template":
-        return <FileText className="w-8 h-8 text-blue-600" />;
-      default:
-        return <FileText className="w-8 h-8 text-red-600" />;
-    }
-  };
-
   return (
     <>
       <div onClick={() => setIsOpen(true)} className="cursor-pointer">
         {children}
       </div>
       <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md rounded-xl">
           {isSuccess ? (
-            <div className="text-center py-6">
+            <div className="py-6 text-center" role="status">
               <div className="mb-4 flex justify-center">
-                <CheckCircle2 className="w-16 h-16 text-green-500" />
+                <CheckCircle2 aria-hidden="true" className="h-16 w-16 text-success" />
               </div>
               <DialogHeader>
-                <DialogTitle className="text-2xl mb-2">
-                  Download Iniciado!
+                <DialogTitle className="mb-2 text-h3 font-semibold sm:text-center">
+                  Download iniciado!
                 </DialogTitle>
-                <DialogDescription className="text-base">
+                <DialogDescription className="text-body text-muted-ink sm:text-center">
                   O download de &ldquo;{resourceTitle}&rdquo; vai começar
                   automaticamente. Se não iniciar, clique no botão abaixo.
                 </DialogDescription>
               </DialogHeader>
               <div className="mt-6 space-y-3">
-                <Button onClick={() => window.open(downloadUrl, "_blank")} className="w-full">
-                  <Download className="mr-2 h-4 w-4" />
+                <Button
+                  onClick={() => window.open(downloadUrl, "_blank")}
+                  className="w-full rounded-full"
+                >
+                  <Download aria-hidden="true" className="mr-2 h-4 w-4" />
                   Baixar novamente
                 </Button>
                 <Button
                   variant="outline"
                   onClick={() => handleOpenChange(false)}
-                  className="w-full"
+                  className="w-full rounded-full"
                 >
                   Fechar
                 </Button>
               </div>
             </div>
           ) : isError ? (
-            <div className="text-center py-6">
+            <div className="py-6 text-center" role="alert">
               <div className="mb-4 flex justify-center">
-                <XCircle className="w-16 h-16 text-red-500" />
+                <XCircle aria-hidden="true" className="h-16 w-16 text-danger" />
               </div>
-              <DialogHeader className="text-center">
-                <DialogTitle className="text-2xl mb-2 text-center">
+              <DialogHeader>
+                <DialogTitle className="mb-2 text-h3 font-semibold sm:text-center">
                   Algo deu errado
                 </DialogTitle>
-                <DialogDescription className="text-base text-center">
+                <DialogDescription className="text-body text-muted-ink sm:text-center">
                   Não conseguimos processar sua solicitação no momento. Por
                   favor, tente novamente.
                 </DialogDescription>
               </DialogHeader>
               <div className="mt-6 space-y-3">
-                <Button onClick={() => setIsError(false)} className="w-full">
-                  Tentar Novamente
+                <Button
+                  onClick={() => setIsError(false)}
+                  className="w-full rounded-full"
+                >
+                  Tentar novamente
                 </Button>
                 <Button
                   onClick={() => handleOpenChange(false)}
                   variant="outline"
-                  className="w-full"
+                  className="w-full rounded-full"
                 >
                   Fechar
                 </Button>
@@ -271,20 +274,25 @@ export function DownloadGateModal({
           ) : (
             <>
               <DialogHeader>
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="p-3 bg-gray-100 rounded-xl">
-                    {getResourceIcon()}
+                <div className="mb-2 flex items-center gap-3">
+                  <div className="rounded-lg bg-secondary p-3">
+                    <FileText aria-hidden="true" className="h-7 w-7 text-ink" />
                   </div>
-                  <div>
-                    <DialogTitle className="text-xl">{resourceTitle}</DialogTitle>
-                    <DialogDescription className="text-sm mt-1">
+                  <div className="text-left">
+                    <p className="text-caption font-medium uppercase tracking-wide text-muted-ink">
+                      {RESOURCE_TYPE_LABEL[resourceType]} gratuito
+                    </p>
+                    <DialogTitle className="mt-0.5 text-xl font-semibold">
+                      {resourceTitle}
+                    </DialogTitle>
+                    <DialogDescription className="mt-1 text-sm text-muted-ink">
                       {resourceDescription}
                     </DialogDescription>
                   </div>
                 </div>
               </DialogHeader>
-              <div className="mt-4">
-                <p className="text-sm text-gray-600 mb-4">
+              <div className="mt-2">
+                <p className="mb-4 text-sm text-muted-ink">
                   Preencha seus dados para baixar gratuitamente:
                 </p>
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -298,35 +306,40 @@ export function DownloadGateModal({
                     autoComplete="off"
                     aria-hidden="true"
                   />
-                  <div>
-                    <Label htmlFor="name">Nome</Label>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="download-name">Nome</Label>
                     <Input
-                      id="name"
+                      id="download-name"
                       value={name}
+                      autoComplete="name"
                       onChange={(e) => setName(e.target.value)}
                       placeholder="Seu nome"
                       required
                     />
                   </div>
-                  <div>
-                    <Label htmlFor="email">E-mail</Label>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="download-email">E-mail</Label>
                     <Input
-                      id="email"
+                      id="download-email"
                       type="email"
+                      autoComplete="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="seu@email.com"
                       required
                     />
                   </div>
-                  <div>
-                    <Label htmlFor="whatsapp">WhatsApp</Label>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="download-whatsapp">WhatsApp</Label>
                     <div className="flex">
                       <Select
                         onValueChange={handleCountryChange}
                         defaultValue={`BR:+55`}
                       >
-                        <SelectTrigger className="w-[100px]">
+                        <SelectTrigger
+                          className="w-[100px]"
+                          aria-label="Código do país"
+                        >
                           <SelectValue>
                             <div className="flex items-center">
                               <FlagIcon
@@ -357,12 +370,13 @@ export function DownloadGateModal({
                         </SelectContent>
                       </Select>
                       <Input
-                        id="whatsapp"
+                        id="download-whatsapp"
                         type="tel"
+                        autoComplete="tel-national"
                         value={formatPhoneNumber(whatsapp, dialCode)}
                         onChange={handleWhatsAppChange}
                         placeholder="(11) 98765-4321"
-                        className="flex-1 ml-2"
+                        className="ml-2 flex-1"
                         required
                       />
                     </div>
@@ -374,22 +388,23 @@ export function DownloadGateModal({
                   />
                   <Button
                     type="submit"
-                    className="w-full"
+                    className="w-full rounded-full font-semibold"
                     disabled={
                       isSubmitting ||
-                      (Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY) && !turnstileToken)
+                      (Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY) &&
+                        !turnstileToken)
                     }
                   >
                     {isSubmitting ? (
                       "Processando..."
                     ) : (
                       <>
-                        <Download className="mr-2 h-4 w-4" />
-                        Baixar Grátis
+                        <Download aria-hidden="true" className="mr-2 h-4 w-4" />
+                        Baixar material
                       </>
                     )}
                   </Button>
-                  <p className="text-xs text-gray-500 text-center">
+                  <p className="text-center text-caption text-muted-ink">
                     Seus dados estão seguros. Não compartilhamos com terceiros.
                   </p>
                 </form>

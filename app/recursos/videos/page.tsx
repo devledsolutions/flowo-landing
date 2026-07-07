@@ -1,24 +1,23 @@
-import { Metadata } from "next";
 import Link from "next/link";
-import Navbar from "@/components/navbar";
-import Footer from "@/components/footer";
-import { Section } from "@/components/section";
-import { Breadcrumb } from "@/components/breadcrumb";
-import { Button } from "@/components/ui/button";
 import {
   ArrowUpRight,
-  CalendarDays,
   Clapperboard,
   Download,
-  Play,
+  Timer,
 } from "lucide-react";
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
+import { Breadcrumb } from "@/components/breadcrumb";
+import { Button } from "@/components/ui/button";
 import { LeadCaptureModal } from "@/components/lead-capture-modal";
+import { buildMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Shorts e Reels para Barbearias | Flowo",
+export const metadata = buildMetadata({
+  title: "Roteiros de Shorts e Reels para Barbearias",
   description:
-    "8 roteiros prontos de Shorts e Reels para divulgar sua barbearia e gerar agendamentos.",
-};
+    "8 roteiros prontos de Shorts e Reels, com hook, estrutura e CTA, para divulgar sua barbearia e gerar agendamentos.",
+  path: "/recursos/videos",
+});
 
 const shortsPlan = [
   {
@@ -28,7 +27,7 @@ const shortsPlan = [
     steps: [
       "Mostre um combo simples (corte + barba + acabamento).",
       "Explique quando ofertar: no agendamento e na confirmação.",
-      "Feche com exemplo real de ganho por semana.",
+      "Feche com um exemplo de conta por semana.",
     ],
     cta: "Baixe a planilha de combos e aplique hoje.",
     sourceUrl: "/recursos/guias/aumentar-ticket-medio",
@@ -94,15 +93,15 @@ const shortsPlan = [
     sourceUrl: "/flowo-vs-planilha",
   },
   {
-    title: "No-show: lembrete + PIX antecipado",
+    title: "No-show: confirmação automática pelo WhatsApp",
     duration: "45-60s",
-    hook: "Quer reduzir no-show rápido? Combine lembrete e sinal PIX.",
+    hook: "Quer reduzir no-show sem constranger cliente? Confirmação automática.",
     steps: [
-      "Escolha serviços e horários críticos.",
-      "Aplique sinal somente nesses casos.",
-      "Comunique política de forma transparente.",
+      "Lembrete 24h antes com pedido de confirmação.",
+      "Sem resposta? O horário pode ser liberado para outro cliente.",
+      "Comunique a política de cancelamento de forma transparente.",
     ],
-    cta: "Confira o guia de pagamentos com PIX.",
+    cta: "Confira o guia de confirmação e pagamentos.",
     sourceUrl: "/software-barbearia-com-pix",
   },
   {
@@ -123,10 +122,10 @@ export default function VideosPage() {
   return (
     <>
       <Navbar />
-      <main className="bg-white min-h-screen">
-        <Section background="white" className="pt-32 pb-16">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto">
+      <main className="min-h-screen">
+        <section className="pt-32 pb-section-normal">
+          <div className="container-page">
+            <div className="mx-auto max-w-3xl">
               <Breadcrumb
                 items={[
                   { label: "Início", href: "/" },
@@ -136,107 +135,109 @@ export default function VideosPage() {
               />
 
               {/* Hero */}
-              <div className="mt-8 mb-16">
-                <div className="inline-flex items-center gap-2 text-sm font-medium text-primary bg-primary/5 px-3 py-1.5 rounded-full mb-4">
-                  <Play className="w-4 h-4" />
-                  Shorts & Reels (30 dias)
-                </div>
-                <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 leading-tight">
+              <div className="mt-10 mb-14">
+                <h1 className="text-h2 font-bold leading-tight text-ink">
                   8 roteiros de vídeos curtos prontos para publicar
                 </h1>
-                <p className="text-xl text-gray-600 max-w-2xl leading-relaxed">
-                  Cada roteiro está conectado a um artigo estratégico do site.
-                  Use estes scripts para transformar conteúdo em alcance e
-                  gerar mais agendamentos.
+                <p className="mt-4 max-w-measure text-lead leading-relaxed text-muted-ink">
+                  Cada roteiro está conectado a um guia ou comparativo do site.
+                  Use os scripts para transformar conteúdo em alcance e gerar
+                  mais agendamentos.
                 </p>
               </div>
 
-              <div className="mb-8 flex flex-col gap-3 rounded-2xl border border-gray-200 bg-gray-50 p-6 sm:flex-row sm:items-center sm:justify-between">
+              {/* Download pack */}
+              <div className="mb-10 flex flex-col gap-4 rounded-lg border border-line bg-surface p-6 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                  <h2 className="text-xl font-bold text-gray-900">
+                  <h2 className="text-h3 font-bold text-ink">
                     Pacote de distribuição pronto
                   </h2>
-                  <p className="mt-1 text-sm text-gray-600">
+                  <p className="mt-1 text-label text-muted-ink">
                     Inclui hook, estrutura de roteiro e CTA para cada tema.
                   </p>
                 </div>
-                <Button variant="outline" asChild>
+                <Button variant="outline" asChild className="rounded-full sm:flex-shrink-0">
                   <Link href="/downloads/lead-magnets/roteiros-shorts-reels-30-dias.csv">
-                    <Download className="mr-2 h-4 w-4" />
-                    Baixar roteiro CSV
+                    <Download className="mr-2 h-4 w-4" aria-hidden="true" />
+                    Baixar roteiros (CSV)
                   </Link>
                 </Button>
               </div>
 
-              <div className="space-y-4">
+              {/* Scripts */}
+              <ol className="space-y-4">
                 {shortsPlan.map((item, index) => (
-                  <article
-                    key={item.title}
-                    className="rounded-2xl border border-gray-200 bg-white p-6"
-                  >
-                    <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                      <div>
-                        <div className="inline-flex items-center gap-2 rounded-full bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
-                          <Clapperboard className="h-3.5 w-3.5" />
-                          Roteiro {index + 1}
+                  <li key={item.title}>
+                    <article className="rounded-lg border border-line bg-surface p-6 sm:p-7">
+                      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                        <div>
+                          <span className="inline-flex items-center gap-2 rounded-full border border-line px-3 py-1 text-caption font-medium text-muted-ink">
+                            <Clapperboard className="h-3.5 w-3.5" aria-hidden="true" />
+                            Roteiro {index + 1}
+                          </span>
+                          <h3 className="mt-3 text-h3 font-semibold text-ink">
+                            {item.title}
+                          </h3>
                         </div>
-                        <h3 className="mt-3 text-xl font-bold text-gray-900">
-                          {item.title}
-                        </h3>
+                        <span className="inline-flex items-center gap-2 self-start rounded-full bg-surface-2 px-3 py-1 text-caption font-medium text-muted-ink">
+                          <Timer className="h-3.5 w-3.5" aria-hidden="true" />
+                          {item.duration}
+                        </span>
                       </div>
-                      <div className="inline-flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600">
-                        <CalendarDays className="h-3.5 w-3.5" />
-                        {item.duration}
-                      </div>
-                    </div>
 
-                    <p className="mt-4 text-sm text-gray-700">
-                      <span className="font-semibold text-gray-900">Hook:</span>{" "}
-                      {item.hook}
-                    </p>
-                    <ol className="mt-4 list-decimal space-y-1 pl-5 text-sm text-gray-600">
-                      {item.steps.map((step) => (
-                        <li key={step}>{step}</li>
-                      ))}
-                    </ol>
-                    <p className="mt-4 text-sm text-gray-700">
-                      <span className="font-semibold text-gray-900">CTA:</span>{" "}
-                      {item.cta}
-                    </p>
-                    <Link
-                      href={item.sourceUrl}
-                      className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline"
-                    >
-                      Ver página base do roteiro
-                      <ArrowUpRight className="h-4 w-4" />
-                    </Link>
-                  </article>
+                      <p className="mt-4 text-muted-ink">
+                        <strong className="font-semibold text-ink">Hook:</strong>{" "}
+                        {item.hook}
+                      </p>
+                      <ol className="mt-4 list-decimal space-y-1 pl-5 text-muted-ink marker:text-faint-ink">
+                        {item.steps.map((step) => (
+                          <li key={step}>{step}</li>
+                        ))}
+                      </ol>
+                      <p className="mt-4 text-muted-ink">
+                        <strong className="font-semibold text-ink">CTA:</strong>{" "}
+                        {item.cta}
+                      </p>
+                      <Link
+                        href={item.sourceUrl}
+                        className="mt-4 inline-flex items-center gap-1 text-label font-semibold text-ink underline-offset-4 hover:underline"
+                      >
+                        Ver página base do roteiro
+                        <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+                      </Link>
+                    </article>
+                  </li>
                 ))}
-              </div>
+              </ol>
 
-              {/* CTA Section */}
-              <div className="mt-16 p-8 bg-primary text-white rounded-2xl">
+              {/* CTA */}
+              <div className="on-ink mt-16 rounded-lg p-8 sm:p-10">
                 <div className="max-w-2xl">
-                  <h3 className="text-2xl font-bold mb-3">
-                    Quer transformar esses roteiros em agenda lotada?
-                  </h3>
-                  <p className="text-primary-foreground/80 mb-6">
-                    Estruture sua operação com automação de WhatsApp e rode o
-                    plano de conteúdo com conversão no final.
+                  <h2 className="text-h3 font-bold">
+                    Quer transformar esses roteiros em agenda cheia?
+                  </h2>
+                  <p className="mt-3 text-muted-ink">
+                    Estruture sua operação com a IA do Flowo no WhatsApp e
+                    receba os agendamentos que o conteúdo gerar.
                   </p>
-                  <LeadCaptureModal>
-                    <Button
-                      size="lg"
-                      className="bg-white text-primary hover:bg-white/90"
+                  <div className="mt-6 flex flex-wrap items-center gap-4">
+                    <LeadCaptureModal>
+                      <Button size="lg" className="rounded-full px-7">
+                        Começar agora
+                      </Button>
+                    </LeadCaptureModal>
+                    <Link
+                      href="/precos"
+                      className="text-label font-medium underline-offset-4 hover:underline"
                     >
-                      Começar teste grátis
-                    </Button>
-                  </LeadCaptureModal>
+                      Ver planos e preços
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </Section>
+        </section>
       </main>
       <Footer />
     </>

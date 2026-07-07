@@ -1,14 +1,19 @@
 import { FAQItem } from "@/types/faq"
+import { getPlan, formatBRL } from "@/data/pricing-data"
+
+const solo = getPlan("solo")
+const equipe = getPlan("equipe")
+const empresarial = getPlan("empresarial")
 
 export const faqItems: FAQItem[] = [
   {
     question: "Como funciona o agendamento pelo WhatsApp?",
-    answer: "Seu cliente manda uma mensagem no WhatsApp da barbearia pedindo pra marcar horário. A IA do Flowo responde automaticamente mostrando os horários disponíveis dos seus barbeiros, serviços e preços. Cliente escolhe e pronto - está agendado. Funciona 24/7, mesmo você dormindo.",
+    answer: "Seu cliente manda uma mensagem no WhatsApp da barbearia pedindo pra marcar horário. A IA do Flowo responde automaticamente mostrando os horários disponíveis dos seus barbeiros, serviços e preços. Cliente escolhe e pronto: está agendado. Funciona 24/7, mesmo você dormindo.",
     category: "WhatsApp"
   },
   {
     question: "Como funciona o pagamento via PIX?",
-    answer: "O Flowo permite configurar pagamento antecipado via PIX. O cliente recebe o link de pagamento e o horário só é confirmado após o pagamento. Isso reduz drasticamente as faltas, já que o cliente tem compromisso financeiro.",
+    answer: "O Flowo cobra o atendimento por PIX ou cartão: o cliente recebe o link e paga sem precisar de dinheiro na mão. O pagamento é do atendimento, não uma condição para agendar. Contra faltas, o que trabalha é a confirmação automática pelo WhatsApp antes do horário.",
     category: "Pagamento"
   },
   {
@@ -18,13 +23,23 @@ export const faqItems: FAQItem[] = [
   },
   {
     question: "Quanto tempo leva para configurar o Flowo na minha barbearia?",
-    answer: "Em média 30 minutos. Você cadastra seus barbeiros, serviços (corte, barba, degradê, etc) e horários de funcionamento. Conecta o WhatsApp e pronto. Nossa equipe te ajuda no onboarding para garantir que tudo funcione perfeitamente.",
+    answer: "Pouco tempo: você cadastra seus barbeiros, serviços (corte, barba, degradê, etc) e horários de funcionamento, conecta o WhatsApp e pronto. Nossa equipe acompanha o onboarding para garantir que tudo funcione desde o primeiro dia.",
     category: "Configuração"
   },
   {
     question: "Serve para barbeiro solo ou só para barbearias grandes?",
-    answer: "Serve para os dois! Temos barbeiros autônomos usando o Flowo, assim como redes com 10+ unidades. O sistema se adapta: se você trabalha sozinho, a agenda é simples. Se tem vários barbeiros, o sistema distribui os clientes automaticamente entre eles.",
+    answer: "Serve para os dois. O plano Solo é para quem trabalha sozinho e quer a agenda simples, com a IA atendendo no WhatsApp. Nos planos Equipe e Empresarial, o sistema organiza vários barbeiros, distribui os clientes entre eles e comporta mais de uma unidade.",
     category: "Planos"
+  },
+  {
+    question: "Quanto custa o Flowo?",
+    answer: `São três planos: Solo por ${formatBRL(solo.monthly)}/mês, Equipe por ${formatBRL(equipe.monthly)}/mês e Empresarial por ${formatBRL(empresarial.monthly)}/mês. No plano anual você leva 2 meses grátis (o Solo, por exemplo, sai por ${formatBRL(solo.annualTotal)}/ano). Sem taxa de instalação e sem fidelidade.`,
+    category: "Planos"
+  },
+  {
+    question: "Tem período de teste grátis?",
+    answer: "Não. O Flowo é uma assinatura paga desde o primeiro dia, sem período de teste. Você contrata o plano, configura com a ajuda do nosso time e começa a usar no mesmo dia. E como não tem fidelidade, você pode cancelar quando quiser.",
+    category: "Assinatura"
   },
   {
     question: "Como os lembretes reduzem as faltas?",
@@ -43,7 +58,7 @@ export const faqItems: FAQItem[] = [
   },
   {
     question: "Posso integrar o Flowo com outros sistemas?",
-    answer: "Sim! Oferecemos webhooks para você receber notificações em tempo real de agendamentos, cancelamentos, pagamentos e mais. Você pode conectar com seu sistema de gestão, CRM ou qualquer ferramenta que aceite webhooks. No plano Empresarial, também temos API completa.",
+    answer: "O Flowo sincroniza a agenda com Google Calendar, Apple Calendar e Microsoft Outlook em tempo real, e os pagamentos por PIX e cartão já são integrados ao sistema. Precisa de outra integração? Fale com a gente e contamos o que já está no plano da sua barbearia.",
     category: "Integrações"
   },
   {
@@ -52,13 +67,13 @@ export const faqItems: FAQItem[] = [
     category: "Clientes"
   },
   {
-    question: "Tem período de teste?",
-    answer: "Sim! 14 dias grátis, sem precisar cadastrar cartão. Durante o teste você tem acesso completo ao sistema: agendamento pelo WhatsApp com IA, pagamento via PIX, sync de calendários, lembretes automáticos, gestão de equipe, tudo. Se não gostar, é só não contratar.",
-    category: "Teste"
+    question: "Como funciona a assinatura? Tem fidelidade?",
+    answer: "A assinatura é mensal ou anual (no anual você leva 2 meses grátis) e começa a valer assim que você contrata. Não tem fidelidade: você pode cancelar quando quiser, sem multa, e usa o sistema até o fim do período já pago.",
+    category: "Assinatura"
   },
   {
     question: "E se eu precisar de ajuda? Tem suporte?",
-    answer: "Tem! Suporte via WhatsApp e email com resposta rápida. Além disso, você tem acesso a uma base de conhecimento com vídeos e guias passo a passo. No plano Profissional, você tem suporte prioritário. No Empresarial, um gerente de conta dedicado.",
+    answer: "Tem! Suporte via WhatsApp e email com resposta rápida. Além disso, você tem acesso a uma base de conhecimento com vídeos e guias passo a passo. No plano Empresarial, o atendimento é ainda mais próximo do time Flowo.",
     category: "Suporte"
   }
 ]

@@ -1,126 +1,138 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, useAnimation } from "framer-motion";
-import { MessageCircle, Calendar, Bell, TrendingUp } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { motion, useInView, useReducedMotion } from "framer-motion";
+import { Bell, CalendarCheck2, MessageCircle, Scissors } from "lucide-react";
+
+const EASE_OUT_QUINT = [0.22, 1, 0.36, 1] as const;
 
 const steps = [
   {
     icon: MessageCircle,
-    title: "Contato via WhatsApp",
-    description:
-      "O cliente entra em contato pelo WhatsApp a qualquer momento, 24/7.",
+    title: "Contato no WhatsApp",
+    description: "O cliente chama a qualquer hora e a IA responde em segundos.",
     detail:
-      "Nossa integração com o WhatsApp permite que seus clientes agendem horários de forma conveniente, a qualquer hora do dia.",
+      "Sem app novo, sem cadastro. O cliente escreve no WhatsApp que já usa todo dia e é atendido na hora, em linguagem natural.",
   },
   {
-    icon: Calendar,
-    title: "IA Agenda",
-    description:
-      "A IA do Flowo responde instantaneamente e agenda o horário ideal.",
+    icon: CalendarCheck2,
+    title: "A IA agenda",
+    description: "Serviços com preço e só horários realmente livres.",
     detail:
-      "Nossa IA avançada analisa sua agenda, preferências do cliente e histórico para sugerir o melhor horário, aumentando a eficiência.",
+      "A IA consulta a agenda de verdade antes de oferecer qualquer horário e só confirma quando o agendamento entrou de fato na agenda.",
   },
   {
     icon: Bell,
-    title: "Lembretes Automáticos",
-    description: "Lembretes personalizados são enviados para reduzir faltas.",
+    title: "Confirmação automática",
+    description: "Lembrete 24h e 2h antes, com pedido de confirmação.",
     detail:
-      "Lembretes inteligentes são enviados 24h e 2h antes do horário, reduzindo faltas significativamente.",
+      "O cliente confirma, remarca ou cancela respondendo a própria mensagem. É assim que o Flowo combate as faltas, sem cobrar sinal.",
   },
   {
-    icon: TrendingUp,
-    title: "Aumento no Faturamento",
-    description: "A otimização resulta em mais negócios e maior satisfação.",
+    icon: Scissors,
+    title: "Cliente na cadeira",
+    description: "O dia aparece organizado no painel e você só atende.",
     detail:
-      "Menos faltas e agenda sempre cheia resultam em aumento significativo no faturamento.",
+      "A agenda sincroniza com Google, Apple e Outlook. Se você quiser, o cliente paga o atendimento por PIX ou cartão na hora.",
   },
 ];
 
 export default function FlowDiagram() {
   const [currentStep, setCurrentStep] = useState(0);
-  const controls = useAnimation();
+  const [paused, setPaused] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(rootRef, { amount: 0.4 });
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
+    if (reduceMotion || paused || !inView) return;
     const timer = setInterval(() => {
-      setCurrentStep((prevStep) => (prevStep + 1) % steps.length);
+      setCurrentStep((prev) => (prev + 1) % steps.length);
     }, 5000);
-
     return () => clearInterval(timer);
-  }, []);
+  }, [reduceMotion, paused, inView]);
 
-  useEffect(() => {
-    controls.start({ width: `${(currentStep + 1) * (100 / steps.length)}%` });
-  }, [currentStep, controls]);
+  const active = steps[currentStep];
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4">
-      <div className="relative mb-16">
-        {/* Linha de progresso */}
-        <div className="absolute top-1/2 left-0 w-full h-2 bg-gray-200 transform -translate-y-1/2 rounded-full overflow-hidden">
+    <div
+      ref={rootRef}
+      className="mx-auto w-full max-w-4xl"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onFocus={() => setPaused(true)}
+      onBlur={() => setPaused(false)}
+    >
+      <div className="relative">
+        {/* Progress rail */}
+        <div
+          aria-hidden="true"
+          className="absolute left-0 top-7 hidden h-px w-full overflow-hidden bg-line sm:block"
+        >
           <motion.div
-            className="h-full bg-primary"
-            initial={{ width: 0 }}
-            animate={controls}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
+            className="h-full bg-ink"
+            initial={false}
+            animate={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
+            transition={
+              reduceMotion
+                ? { duration: 0 }
+                : { duration: 0.5, ease: EASE_OUT_QUINT }
+            }
           />
         </div>
 
-        {/* Passos do fluxo */}
-        <div className="relative z-10 flex justify-between">
-          {steps.map((step, index) => (
-            <motion.button
-              key={index}
-              className="flex flex-col items-center focus:outline-none"
-              initial={{ opacity: 0.5, y: 20 }}
-              animate={{
-                opacity: index <= currentStep ? 1 : 0.5,
-                y: 0,
-                scale: index === currentStep ? 1.1 : 1,
-              }}
-              transition={{ duration: 0.3 }}
-              onClick={() => setCurrentStep(index)}
-              aria-label={`Ver detalhes do passo: ${step.title}`}
-            >
-              <div
-                className={`bg-white border-2 ${
-                  index <= currentStep ? "border-primary" : "border-gray-300"
-                } rounded-full p-4 mb-4`}
-              >
-                <step.icon
-                  className={`w-8 h-8 ${
-                    index <= currentStep ? "text-primary" : "text-gray-400"
-                  }`}
-                />
-              </div>
-              <h3
-                className={`text-sm font-semibold mb-1 text-center ${
-                  index <= currentStep ? "text-gray-900" : "text-gray-500"
-                }`}
-              >
-                {step.title}
-              </h3>
-            </motion.button>
-          ))}
-        </div>
+        <ol className="relative z-10 grid grid-cols-2 gap-x-3 gap-y-6 sm:flex sm:justify-between sm:gap-0">
+          {steps.map((step, index) => {
+            const isActive = index === currentStep;
+            const isReached = index <= currentStep;
+            return (
+              <li key={step.title}>
+                <button
+                  type="button"
+                  onClick={() => setCurrentStep(index)}
+                  aria-current={isActive ? "step" : undefined}
+                  aria-label={`Passo ${index + 1}: ${step.title}`}
+                  className="group flex w-full flex-col items-center gap-3 rounded-lg p-1 sm:w-32"
+                >
+                  <span
+                    className={`flex h-14 w-14 items-center justify-center rounded-full border transition-colors duration-200 ease-out-quint ${
+                      isActive
+                        ? "border-ink bg-ink text-cream"
+                        : isReached
+                          ? "border-ink bg-surface text-ink"
+                          : "border-line bg-surface text-faint-ink group-hover:border-ink group-hover:text-ink"
+                    }`}
+                  >
+                    <step.icon aria-hidden="true" className="h-6 w-6" />
+                  </span>
+                  <span
+                    className={`text-center text-sm font-medium leading-snug ${
+                      isReached ? "text-ink" : "text-muted-ink"
+                    }`}
+                  >
+                    {step.title}
+                  </span>
+                </button>
+              </li>
+            );
+          })}
+        </ol>
       </div>
 
-      {/* Descrição do passo atual */}
-      <motion.div
-        className="text-center"
-        key={currentStep}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <h4 className="text-2xl font-semibold mb-4">
-          {steps[currentStep].title}
-        </h4>
-        <p className="text-lg text-gray-600 mb-4">
-          {steps[currentStep].description}
-        </p>
-        <p className="text-md text-gray-500">{steps[currentStep].detail}</p>
-      </motion.div>
+      <div aria-live="polite" className="mt-10 text-center">
+        <motion.div
+          key={currentStep}
+          initial={false}
+          animate={reduceMotion ? { opacity: 1 } : { opacity: [0, 1], y: [10, 0] }}
+          transition={{ duration: 0.4, ease: EASE_OUT_QUINT }}
+        >
+          <h3 className="text-h3 font-semibold text-ink">{active.title}</h3>
+          <p className="mx-auto mt-3 max-w-measure text-lead text-muted-ink">
+            {active.description}
+          </p>
+          <p className="mx-auto mt-3 max-w-measure text-muted-ink">{active.detail}</p>
+        </motion.div>
+      </div>
     </div>
   );
 }

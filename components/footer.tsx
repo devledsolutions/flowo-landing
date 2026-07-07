@@ -1,150 +1,75 @@
 import Link from "next/link";
 import Image from "next/image";
-import { MapPin, Mail } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Mail, MapPin } from "lucide-react";
+
+const SIGNUP_URL = "https://barber.flowo.com.br/sign-up";
+const APP_URL = "https://barber.flowo.com.br";
+
+const produtoLinks = [
+  { href: "/recursos", label: "Recursos" },
+  { href: "/precos", label: "Preços" },
+  { href: "/sobre", label: "Sobre nós" },
+  { href: "/casos-de-sucesso", label: "Casos de sucesso" },
+];
+
+const barbeariasLinks = [
+  { href: "/sistema-agendamento-barbearia", label: "Sistema de agendamento" },
+  { href: "/agenda-barbearia-whatsapp", label: "Agenda no WhatsApp" },
+  { href: "/software-barbearia-com-pix", label: "Pagamentos PIX no atendimento" },
+  { href: "/flowo-vs-planilha", label: "Flowo vs planilha" },
+  { href: "/flowo-vs-agenda-manual", label: "Flowo vs agenda manual" },
+];
+
+const aprendaLinks = [
+  { href: "/recursos/guias", label: "Guias" },
+  { href: "/recursos/materiais", label: "Materiais gratuitos" },
+];
+
+function FooterLinkList({ links }: { links: { href: string; label: string }[] }) {
+  return (
+    <ul className="mt-5 space-y-3">
+      {links.map((link) => (
+        <li key={link.href}>
+          <Link
+            href={link.href}
+            prefetch={false}
+            className="text-sm text-muted-ink transition-colors duration-200 ease-out-quint hover:text-ink"
+          >
+            {link.label}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  );
+}
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-100 border-t border-gray-200">
-      <div className="container mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-          {/* Coluna 1 - Sobre */}
+    <footer className="on-ink border-t border-line">
+      <div className="container-page section-tight">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1.2fr_1fr]">
           <div>
             <Image
               src="/flowo-logo.svg"
-              alt="Logo Flowo"
-              width={120}
-              height={30}
-              className="mb-6"
+              alt="Flowo"
+              width={104}
+              height={51}
+              className="brightness-0 invert"
             />
-            <p className="text-gray-600 mb-6 leading-relaxed">
-              Simplifique seu agendamento com ferramentas alimentadas por IA.
-              Aumente sua produtividade e reduza faltas com o Flowo.
+            <p className="mt-5 max-w-xs text-sm leading-relaxed text-muted-ink">
+              A recepção da sua barbearia no WhatsApp: a IA atende, agenda e
+              confirma. Você cuida do corte.
             </p>
-          </div>
-
-          {/* Coluna 2 - Links Rápidos */}
-          <div>
-            <h3 className="text-gray-900 font-semibold text-lg mb-6">
-              Links Rápidos
-            </h3>
-            <ul className="space-y-3">
-              <li>
-                <Link
-                  href="/sobre"
-                  prefetch={false}
-                  className="text-gray-600 hover:text-primary transition-colors"
-                >
-                  Sobre Nós
-                </Link>
+            <ul className="mt-6 space-y-3">
+              <li className="flex items-center gap-3 text-sm text-muted-ink">
+                <MapPin aria-hidden="true" className="h-4 w-4 shrink-0" />
+                São Paulo, SP, Brasil
               </li>
-              <li>
-                <Link
-                  href="/recursos"
-                  prefetch={false}
-                  className="text-gray-600 hover:text-primary transition-colors"
-                >
-                  Recursos
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/precos"
-                  prefetch={false}
-                  className="text-gray-600 hover:text-primary transition-colors"
-                >
-                  Preços
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/sistema-agendamento-barbearia"
-                  prefetch={false}
-                  className="text-gray-600 hover:text-primary transition-colors"
-                >
-                  Sistema de Agendamento
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/agenda-barbearia-whatsapp"
-                  prefetch={false}
-                  className="text-gray-600 hover:text-primary transition-colors"
-                >
-                  Agenda no WhatsApp
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/software-barbearia-com-pix"
-                  prefetch={false}
-                  className="text-gray-600 hover:text-primary transition-colors"
-                >
-                  Software com PIX
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/flowo-vs-planilha"
-                  prefetch={false}
-                  className="text-gray-600 hover:text-primary transition-colors"
-                >
-                  Flowo vs Planilha
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/flowo-vs-agenda-manual"
-                  prefetch={false}
-                  className="text-gray-600 hover:text-primary transition-colors"
-                >
-                  Flowo vs Agenda Manual
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/casos-de-sucesso"
-                  prefetch={false}
-                  className="text-gray-600 hover:text-primary transition-colors"
-                >
-                  Casos de Sucesso
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/recursos/guias"
-                  prefetch={false}
-                  className="text-gray-600 hover:text-primary transition-colors"
-                >
-                  Guias
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/recursos/materiais"
-                  prefetch={false}
-                  className="text-gray-600 hover:text-primary transition-colors"
-                >
-                  Materiais Gratuitos
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Coluna 3 - Contato */}
-          <div>
-            <h3 className="text-gray-900 font-semibold text-lg mb-6">Contato</h3>
-            <ul className="space-y-4">
-              <li className="flex items-center text-gray-600">
-                <MapPin className="h-5 w-5 mr-3 text-primary flex-shrink-0" />
-                <span>São Paulo, SP - Brasil</span>
-              </li>
-              <li className="flex items-center">
-                <Mail className="h-5 w-5 mr-3 text-primary flex-shrink-0" />
+              <li className="flex items-center gap-3 text-sm">
+                <Mail aria-hidden="true" className="h-4 w-4 shrink-0 text-muted-ink" />
                 <a
                   href="mailto:contato@flowo.com.br"
-                  className="text-gray-600 hover:text-primary transition-colors"
+                  className="text-muted-ink transition-colors duration-200 ease-out-quint hover:text-ink"
                 >
                   contato@flowo.com.br
                 </a>
@@ -152,49 +77,60 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Coluna 4 - Newsletter */}
-          <div>
-            <h3 className="text-gray-900 font-semibold text-lg mb-6">
-              Newsletter
-            </h3>
-            <p className="text-gray-600 mb-4">
-              Receba dicas e novidades sobre gestão de agenda e produtividade.
-            </p>
-            <div className="space-y-3">
-              <Input
-                type="email"
-                placeholder="Seu e-mail"
-                className="bg-white border-gray-300 text-gray-900 placeholder:text-gray-400 focus:border-primary focus:ring-primary"
-              />
-              <Button className="w-full bg-primary hover:bg-primary/90">
-                Inscrever-se
-              </Button>
-            </div>
-          </div>
+          <nav aria-label="Produto">
+            <h3 className="text-label font-medium text-ink">Produto</h3>
+            <FooterLinkList links={produtoLinks} />
+          </nav>
+
+          <nav aria-label="Para barbearias">
+            <h3 className="text-label font-medium text-ink">Para barbearias</h3>
+            <FooterLinkList links={barbeariasLinks} />
+          </nav>
+
+          <nav aria-label="Conta e aprendizado">
+            <h3 className="text-label font-medium text-ink">Aprenda</h3>
+            <FooterLinkList links={aprendaLinks} />
+            <h3 className="mt-8 text-label font-medium text-ink">Conta</h3>
+            <ul className="mt-5 space-y-3">
+              <li>
+                <a
+                  href={APP_URL}
+                  className="text-sm text-muted-ink transition-colors duration-200 ease-out-quint hover:text-ink"
+                >
+                  Entrar
+                </a>
+              </li>
+              <li>
+                <a
+                  href={SIGNUP_URL}
+                  className="text-sm font-medium text-ink underline-offset-4 hover:underline"
+                >
+                  Começar agora
+                </a>
+              </li>
+            </ul>
+          </nav>
         </div>
 
-        {/* Barra inferior */}
-        <div className="border-t border-gray-200 mt-12 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-sm text-gray-500 mb-4 md:mb-0">
-              © {new Date().getFullYear()} Flowo. Todos os direitos reservados.
-            </p>
-            <div className="flex space-x-6 text-sm">
-              <Link
-                href="/privacidade"
-                prefetch={false}
-                className="text-gray-500 hover:text-primary transition-colors"
-              >
-                Política de Privacidade
-              </Link>
-              <Link
-                href="/termos"
-                prefetch={false}
-                className="text-gray-500 hover:text-primary transition-colors"
-              >
-                Termos de Uso
-              </Link>
-            </div>
+        <div className="mt-14 flex flex-col gap-4 border-t border-line pt-8 md:flex-row md:items-center md:justify-between">
+          <p className="text-caption text-muted-ink">
+            © {new Date().getFullYear()} Flowo. Todos os direitos reservados.
+          </p>
+          <div className="flex gap-6 text-caption">
+            <Link
+              href="/privacidade"
+              prefetch={false}
+              className="text-muted-ink transition-colors duration-200 ease-out-quint hover:text-ink"
+            >
+              Política de Privacidade
+            </Link>
+            <Link
+              href="/termos"
+              prefetch={false}
+              className="text-muted-ink transition-colors duration-200 ease-out-quint hover:text-ink"
+            >
+              Termos de Uso
+            </Link>
           </div>
         </div>
       </div>

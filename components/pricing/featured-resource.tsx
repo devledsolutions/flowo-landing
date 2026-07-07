@@ -1,5 +1,4 @@
-import { LucideIcon } from "lucide-react";
-import { Check } from "lucide-react";
+import { Check, type LucideIcon } from "lucide-react";
 
 interface FeaturedResourceProps {
   icon: LucideIcon;
@@ -15,16 +14,14 @@ export function FeaturedResource({
   benefits,
 }: FeaturedResourceProps) {
   return (
-    <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-      <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 text-primary mb-4">
-        <Icon className="w-6 h-6" />
-      </div>
-      <h4 className="text-lg font-semibold mb-2">{title}</h4>
-      <p className="text-gray-600">{description}</p>
+    <div className="flex h-full flex-col rounded-[14px] border border-line bg-surface p-6">
+      <Icon className="h-5 w-5 text-ink" aria-hidden />
+      <h3 className="mt-4 text-lg font-semibold text-ink">{title}</h3>
+      <p className="mt-2 text-sm text-muted-ink">{description}</p>
       <ul className="mt-4 space-y-2">
-        {benefits.map((benefit, index) => (
-          <li key={index} className="flex items-center text-sm text-gray-600">
-            <Check className="w-4 h-4 text-green-500 mr-2" />
+        {benefits.map((benefit) => (
+          <li key={benefit} className="flex items-start gap-2 text-sm text-ink">
+            <Check className="mt-0.5 h-4 w-4 shrink-0 text-ink" aria-hidden />
             {benefit}
           </li>
         ))}

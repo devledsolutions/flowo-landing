@@ -1,47 +1,62 @@
-import { MessageSquare, CreditCard, Calendar, Bell, Zap } from "lucide-react";
+import Image from "next/image";
+import {
+  Bell,
+  CalendarDays,
+  CreditCard,
+  MessageCircle,
+  Smartphone,
+} from "lucide-react";
 
 const benefits = [
-  { text: "Agendamento 24/7 via WhatsApp com IA", icon: MessageSquare },
-  { text: "PIX antecipado opcional para reduzir faltas", icon: CreditCard },
-  { text: "Sync com Google, Apple e Outlook Calendar", icon: Calendar },
-  { text: "Lembretes automáticos reduzem faltas significativamente", icon: Bell },
-  { text: "Setup em 30 minutos, sem complicação", icon: Zap },
+  {
+    icon: MessageCircle,
+    text: "A IA atende o WhatsApp a qualquer hora, até com a barbearia cheia.",
+  },
+  {
+    icon: Bell,
+    text: "Confirmação automática antes de cada horário, contra faltas.",
+  },
+  {
+    icon: CalendarDays,
+    text: "Agenda sincronizada com Google, Apple e Outlook.",
+  },
+  {
+    icon: CreditCard,
+    text: "Pagamento do atendimento por PIX ou cartão, se você quiser oferecer.",
+  },
+  {
+    icon: Smartphone,
+    text: "Nada para o cliente instalar: tudo acontece no WhatsApp dele.",
+  },
 ];
 
 export default function Benefits() {
   return (
-    <section className="py-20">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col lg:flex-row items-center">
-          <div className="lg:w-1/2 mb-10 lg:mb-0">
-            <div className="gradient-bg-medium rounded-2xl p-8 text-white">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
-                  <p className="text-4xl font-bold">Menos</p>
-                  <p className="text-sm opacity-80">Faltas</p>
-                </div>
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
-                  <p className="text-4xl font-bold">24/7</p>
-                  <p className="text-sm opacity-80">IA agendando</p>
-                </div>
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
-                  <p className="text-4xl font-bold">Agenda</p>
-                  <p className="text-sm opacity-80">Lotada</p>
-                </div>
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
-                  <p className="text-4xl font-bold">30min</p>
-                  <p className="text-sm opacity-80">Para configurar</p>
-                </div>
-              </div>
-            </div>
+    <section aria-labelledby="benefits-title" className="section-tight bg-cream">
+      <div className="container-page">
+        <div className="grid items-center gap-10 lg:grid-cols-[2fr_3fr] lg:gap-14">
+          <div className="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-xl">
+            <Image
+              src="https://images.unsplash.com/photo-1621645582931-d1d3e6564943?auto=format&fit=crop&w=1000&q=80"
+              alt="Cadeira de barbeiro preta e cromada, retrato de objeto"
+              fill
+              sizes="(min-width: 1024px) 35vw, (min-width: 640px) 24rem, 100vw"
+              className="img-duotone object-cover"
+            />
           </div>
-          <div className="lg:w-1/2 lg:pl-12">
-            <h2 className="text-3xl font-bold mb-6">Por que Escolher o Flowo?</h2>
-            <ul className="space-y-4">
-              {benefits.map((benefit, index) => (
-                <li key={index} className="flex items-start">
-                  <benefit.icon className="w-6 h-6 text-primary mr-3 flex-shrink-0" />
-                  <span className="text-gray-700">{benefit.text}</span>
+
+          <div>
+            <h2 id="benefits-title" className="text-h2 font-semibold text-ink">
+              Por que barbearias escolhem o Flowo
+            </h2>
+            <ul className="mt-8 space-y-5">
+              {benefits.map((benefit) => (
+                <li key={benefit.text} className="flex items-start gap-4">
+                  <benefit.icon
+                    aria-hidden="true"
+                    className="mt-0.5 h-5 w-5 shrink-0 text-ink"
+                  />
+                  <span className="max-w-measure text-muted-ink">{benefit.text}</span>
                 </li>
               ))}
             </ul>

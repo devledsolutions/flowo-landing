@@ -1,68 +1,62 @@
-import { TrendingDown, TrendingUp, Users } from "lucide-react";
-
-interface ProofMetric {
-  label: string;
-  value: string;
-  helper: string;
-}
+import { CalendarCheck2, Megaphone, MessageCircle } from "lucide-react";
 
 interface ProofResultsSectionProps {
   title?: string;
   description?: string;
-  metrics?: ProofMetric[];
 }
 
-const defaultMetrics: ProofMetric[] = [
+/**
+ * Antiga "Prova de resultado em barbearias reais" com -70%/+32%/+24%
+ * fabricados. Agora explica o mecanismo, sem inventar métrica: a honestidade
+ * é a postura. Renderizada em 5 páginas de SEO.
+ */
+const mechanisms = [
   {
-    label: "Redução média de faltas",
-    value: "-70%",
-    helper: "Com lembrete + confirmação pelo WhatsApp",
+    icon: MessageCircle,
+    title: "A IA responde e agenda",
+    detail:
+      "O cliente marca pelo WhatsApp a qualquer hora, sem a equipe largar a tesoura para responder.",
   },
   {
-    label: "Aumento de comparecimento",
-    value: "+32%",
-    helper: "Mais previsibilidade na agenda semanal",
+    icon: CalendarCheck2,
+    title: "Confirmação automática",
+    detail:
+      "Lembrete antes do horário. O cliente confirma, remarca ou cancela respondendo a mensagem, e a agenda se ajusta sozinha.",
   },
   {
-    label: "Retorno de clientes",
-    value: "+24%",
-    helper: "Com follow-up e reativação automática",
+    icon: Megaphone,
+    title: "Cliente sumido recebe convite",
+    detail:
+      "Campanhas pelo WhatsApp para chamar de volta quem faz tempo que não corta.",
   },
 ];
 
 export function ProofResultsSection({
-  title = "Prova de resultado em barbearias reais",
-  description = "Resultados observados em operações que aplicaram automação de agenda, confirmação e rotina de reengajamento com o Flowo.",
-  metrics = defaultMetrics,
+  title = "Como o Flowo segura a sua agenda",
+  description = "Nenhum número inventado aqui. O Flowo ataca as causas da cadeira vazia: mensagem sem resposta, esquecimento e cliente que some. O resultado você acompanha na sua própria agenda.",
 }: ProofResultsSectionProps) {
   return (
-    <section className="mt-10 rounded-2xl border border-gray-200 bg-gray-50 p-6 md:p-8">
-      <div className="flex items-center gap-2 text-primary">
-        <Users className="h-5 w-5" />
-        <span className="text-sm font-semibold">Casos reais</span>
-      </div>
-      <h2 className="mt-2 text-2xl font-bold text-gray-900">{title}</h2>
-      <p className="mt-2 max-w-3xl text-gray-600">{description}</p>
+    <section className="mt-10 rounded-xl border border-line bg-surface p-6 md:p-8">
+      <h2 className="text-h3 font-semibold text-ink-strong">{title}</h2>
+      <p className="mt-3 max-w-measure leading-relaxed text-muted-ink">
+        {description}
+      </p>
 
-      <div className="mt-6 grid gap-4 md:grid-cols-3">
-        {metrics.map((metric) => (
-          <article
-            key={metric.label}
-            className="rounded-xl border border-gray-200 bg-white p-5"
-          >
-            <div className="flex items-start justify-between">
-              <p className="text-sm text-gray-600">{metric.label}</p>
-              {metric.value.startsWith("-") ? (
-                <TrendingDown className="h-5 w-5 text-emerald-600" />
-              ) : (
-                <TrendingUp className="h-5 w-5 text-primary" />
-              )}
-            </div>
-            <p className="mt-2 text-3xl font-bold text-gray-900">{metric.value}</p>
-            <p className="mt-1 text-xs text-gray-500">{metric.helper}</p>
-          </article>
+      <ul className="mt-8 grid gap-8 md:grid-cols-3 md:gap-10">
+        {mechanisms.map((item) => (
+          <li key={item.title}>
+            <item.icon
+              aria-hidden="true"
+              strokeWidth={1.75}
+              className="h-5 w-5 text-muted-ink"
+            />
+            <h3 className="mt-3 font-semibold text-ink">{item.title}</h3>
+            <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-muted-ink">
+              {item.detail}
+            </p>
+          </li>
         ))}
-      </div>
+      </ul>
     </section>
   );
 }

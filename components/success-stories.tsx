@@ -1,75 +1,56 @@
-import { motion } from "framer-motion";
 import Image from "next/image";
+import {
+  ILLUSTRATIVE_LABEL,
+  ILLUSTRATIVE_NOTE,
+  illustrativeScenarios,
+} from "@/data/success-metrics";
 
-const successStories = [
-  {
-    name: "Barbearia Dom Pedro",
-    industry: "Barbearia",
-    result: "Muito menos faltas",
-    description:
-      "Com pagamento PIX antecipado e lembretes automáticos, o Dom Pedro reduziu drasticamente as faltas e aumentou o faturamento.",
-    image: "/images/barbershops/success-1.jpg",
-    link: "#",
-  },
-  {
-    name: "Barber House SP",
-    industry: "Barbearia",
-    result: "R$ 8.000 extras por mês",
-    description:
-      "Atendimento 24/7 via WhatsApp com IA garantiu agendamentos até de madrugada. Calendário sempre cheio.",
-    image: "/images/barbershops/success-2.jpg",
-    link: "#",
-  },
-  {
-    name: "Corte Certo Barbearia",
-    industry: "Barbearia",
-    result: "5 barbeiros sincronizados",
-    description:
-      "Equipe inteira com agendas conectadas ao Google Calendar. Zero conflitos, cada barbeiro vê só os próprios horários.",
-    image: "/images/barbershops/success-3.jpg",
-    link: "#",
-  },
-];
-
+/**
+ * Antigos "casos de sucesso" com clientes fictícios e R$ inventados
+ * (Dom Pedro, Barber House SP, R$8.000/mês). Agora são cenários de uso
+ * claramente rotulados, sem números e sem nomes de clientes.
+ */
 export default function SuccessStories() {
   return (
-    <section className="py-20 bg-gray-50">
-      <div className="container mx-auto px-4">
-        <motion.h2
-          className="text-4xl font-bold text-center mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          Barbearias que Usam o Flowo
-        </motion.h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {successStories.map((story, index) => (
-            <motion.div
-              key={index}
-              className="bg-white rounded-lg shadow-lg overflow-hidden"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 * index }}
-            >
-              <Image
-                src={story.image}
-                alt={story.name}
-                width={800}
-                height={400}
-                className="w-full h-48 object-cover"
-              />
-              <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">{story.name}</h3>
-                <p className="text-gray-600 mb-4">{story.industry}</p>
-                <p className="text-2xl font-bold text-primary mb-4">
-                  {story.result}
-                </p>
-                <p className="text-gray-700">{story.description}</p>
+    <section className="section-normal bg-cream">
+      <div className="container-page">
+        <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-3">
+          <h2 className="max-w-2xl text-h2 font-semibold text-ink-strong">
+            Como uma barbearia usa o Flowo
+          </h2>
+          <span className="inline-flex items-center rounded-full border border-line bg-surface px-3.5 py-1 text-caption font-medium text-muted-ink">
+            {ILLUSTRATIVE_LABEL}
+          </span>
+        </div>
+        <p className="mt-4 max-w-measure text-lead text-muted-ink">
+          Três jeitos de trabalhar, o mesmo atendimento no WhatsApp.
+        </p>
+
+        <div className="mt-12 grid gap-8 md:grid-cols-3">
+          {illustrativeScenarios.map((scenario) => (
+            <article key={scenario.id} className="group">
+              <div className="relative aspect-[3/2] overflow-hidden rounded-xl">
+                <Image
+                  src={scenario.image}
+                  alt={scenario.imageAlt}
+                  fill
+                  sizes="(min-width: 768px) 33vw, 100vw"
+                  className="img-duotone object-cover transition-[filter,transform] duration-500 ease-out-quint group-hover:scale-[1.02] group-hover:[filter:grayscale(0.7)_contrast(1.05)_brightness(0.97)_sepia(0.18)]"
+                />
               </div>
-            </motion.div>
+              <h3 className="mt-5 text-lg font-semibold leading-snug text-ink">
+                {scenario.name}
+              </h3>
+              <p className="mt-2 text-[0.9375rem] leading-relaxed text-muted-ink">
+                {scenario.story}
+              </p>
+            </article>
           ))}
         </div>
+
+        <p className="mt-10 border-t border-line pt-4 text-caption text-muted-ink">
+          {ILLUSTRATIVE_NOTE}
+        </p>
       </div>
     </section>
   );

@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { LeadCaptureModal } from "@/components/lead-capture-modal";
+
+const SIGNUP_URL = "https://barber.flowo.com.br/sign-up";
 
 interface CTAContextualProps {
   title: string;
@@ -12,36 +13,34 @@ interface CTAContextualProps {
 export function CTAContextual({
   title,
   description,
-  ctaLabel = "Começar teste grátis",
+  ctaLabel = "Começar agora",
 }: CTAContextualProps) {
   return (
-    <div className="mt-12 rounded-2xl bg-primary p-8 text-white">
-      <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+    <div className="on-ink mt-12 rounded-xl p-8 sm:p-10">
+      <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
         <div className="max-w-2xl">
-          <h2 className="text-2xl font-bold leading-tight">{title}</h2>
-          <p className="mt-3 text-primary-foreground/85">{description}</p>
-          <p className="mt-2 text-sm text-primary-foreground/75">
-            14 dias grátis, sem cartão de crédito.
-          </p>
+          <h2 className="text-h3 font-semibold tracking-[-0.01em] text-ink">
+            {title}
+          </h2>
+          <p className="mt-3 text-body text-muted-ink">{description}</p>
         </div>
 
-        <div className="flex flex-col gap-3 sm:flex-row">
-          <LeadCaptureModal>
-            <Button
-              size="lg"
-              className="bg-white text-primary hover:bg-white/90"
-            >
-              {ctaLabel}
-            </Button>
-          </LeadCaptureModal>
+        <div className="flex flex-col gap-3 sm:flex-row lg:shrink-0">
+          <Button
+            asChild
+            size="lg"
+            className="rounded-full px-7 font-semibold"
+          >
+            <a href={SIGNUP_URL}>{ctaLabel}</a>
+          </Button>
           <Button
             asChild
             size="lg"
             variant="outline"
-            className="border-white/40 bg-transparent text-white hover:bg-white/10"
+            className="rounded-full border-line bg-transparent px-7 text-ink hover:bg-surface hover:text-ink"
           >
-            <Link href="/precos">
-              Ver planos <ArrowRight className="h-4 w-4" />
+            <Link href="/precos" prefetch={false}>
+              Ver planos <ArrowRight aria-hidden="true" className="h-4 w-4" />
             </Link>
           </Button>
         </div>

@@ -1,14 +1,12 @@
-"use client";
-
 import {
-  Clock,
   ArrowRight,
+  BarChart3,
+  Bell,
   Calendar,
-  Users,
+  Clock,
   CreditCard,
   MessageCircle,
-  Bell,
-  BarChart3,
+  Users,
 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -18,12 +16,12 @@ const guides = [
   {
     title: "Guia Definitivo de Agendamento",
     description:
-      "Configure seu calendário, automatize lembretes e reduza faltas em até 70%. O guia completo para otimizar sua agenda.",
+      "Configure horários, lembretes e confirmação automática pelo WhatsApp. O guia completo para organizar sua agenda.",
     readTime: "10 min",
     category: "Agendamento",
     href: "/recursos/guias/guia-definitivo-agendamento",
     icon: Calendar,
-    topics: ["Lembretes automáticos", "PIX antecipado", "Liberação de horários"],
+    topics: ["Lembretes automáticos", "Confirmação no WhatsApp", "Liberação de horários"],
   },
   {
     title: "Gerenciamento de Equipe",
@@ -38,32 +36,32 @@ const guides = [
   {
     title: "Pagamentos com PIX",
     description:
-      "Configure pagamentos antecipados via PIX, reduza faltas e receba antes mesmo do atendimento.",
+      "Receba o pagamento do atendimento por PIX ou cartão direto pelo WhatsApp, sem maquininha na frente do espelho.",
     readTime: "12 min",
     category: "Pagamentos",
     href: "/recursos/guias/pagamentos-pix",
     icon: CreditCard,
-    topics: ["PIX automático", "Política de reembolso", "Conta digital"],
+    topics: ["PIX no atendimento", "Cartão", "Conta digital"],
   },
   {
     title: "Configurando WhatsApp com IA",
     description:
-      "Transforme seu WhatsApp em um assistente que responde clientes 24/7 e agenda automaticamente.",
+      "Transforme seu WhatsApp em um assistente que responde clientes e agenda a qualquer hora do dia.",
     readTime: "8 min",
     category: "WhatsApp",
     href: "/recursos/guias/configurando-whatsapp",
     icon: MessageCircle,
-    topics: ["IA no WhatsApp", "Respostas automáticas", "Agendamento 24/7"],
+    topics: ["IA no WhatsApp", "Respostas automáticas", "Agendamento sem telefone"],
   },
   {
     title: "Reduzindo Faltas na Barbearia",
     description:
-      "Estratégias comprovadas para diminuir no-shows em até 80% com lembretes e políticas claras.",
+      "Como usar lembretes e confirmação automática pelo WhatsApp para proteger sua agenda dos no-shows.",
     readTime: "10 min",
     category: "No-shows",
     href: "/recursos/guias/reduzindo-faltas",
     icon: Bell,
-    topics: ["Lembretes 24h/2h", "PIX antecipado", "Política de cancelamento"],
+    topics: ["Lembretes 24h/2h", "Confirmação automática", "Política de cancelamento"],
   },
   {
     title: "Relatórios e Métricas",
@@ -86,16 +84,6 @@ const guides = [
     topics: ["Combos", "Upsell inteligente", "Preço por valor"],
   },
   {
-    title: "Escala de Equipe",
-    description:
-      "Monte uma escala eficiente para reduzir atrasos, conflitos e sobrecarga na operação.",
-    readTime: "11 min",
-    category: "Equipe",
-    href: "/recursos/guias/escala-equipe",
-    icon: Users,
-    topics: ["Capacidade semanal", "Distribuição de agenda", "Turnos"],
-  },
-  {
     title: "Fidelização de Clientes",
     description:
       "Aumente a frequência de retorno com reativação e relacionamento contínuo no WhatsApp.",
@@ -104,6 +92,16 @@ const guides = [
     href: "/recursos/guias/fidelizacao-clientes",
     icon: MessageCircle,
     topics: ["Reativação", "Recorrência", "Pós-atendimento"],
+  },
+  {
+    title: "Escala de Equipe",
+    description:
+      "Organize turnos e distribua a agenda entre os barbeiros com previsibilidade, sem conflito de horários.",
+    readTime: "11 min",
+    category: "Equipe",
+    href: "/recursos/guias/escala-equipe",
+    icon: Users,
+    topics: ["Blocos por barbeiro", "Capacidade semanal", "Revisão de escala"],
   },
   {
     title: "Controle Financeiro da Barbearia",
@@ -118,95 +116,82 @@ const guides = [
 ];
 
 export function GuideGrid() {
-  if (guides.length === 0) {
-    return null;
-  }
-
   return (
-    <section className="py-16 px-4">
-      <div className="container mx-auto max-w-4xl">
-        <h2 className="text-2xl font-bold text-gray-900 mb-8">
-          Guias Disponíveis
-        </h2>
+    <section className="pb-section-tight pt-10">
+      <div className="container-page">
+        <div className="mx-auto max-w-3xl">
+          <ul className="space-y-4">
+            {guides.map((guide) => (
+              <li key={guide.href}>
+                <Link
+                  href={guide.href}
+                  className="group block rounded-lg border border-line bg-surface p-6 transition-colors duration-200 ease-out-quint hover:border-ink/40 sm:p-7"
+                >
+                  <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
+                    <div className="w-fit rounded-lg bg-surface-2 p-3">
+                      <guide.icon className="h-6 w-6 text-ink" aria-hidden="true" />
+                    </div>
 
-        <div className="space-y-6">
-          {guides.map((guide, index) => (
-            <Link
-              key={index}
-              href={guide.href}
-              className="group block bg-white rounded-2xl border border-gray-200 p-6 sm:p-8 hover:border-primary/30 hover:shadow-lg transition-all duration-300"
-            >
-              <div className="flex flex-col sm:flex-row sm:items-start gap-6">
-                {/* Icon */}
-                <div className="p-3 bg-primary/5 rounded-xl w-fit group-hover:bg-primary/10 transition-colors">
-                  <guide.icon className="w-6 h-6 text-primary" />
-                </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="mb-2 flex flex-wrap items-center gap-3">
+                        <span className="rounded-full border border-line px-2.5 py-0.5 text-caption font-medium text-muted-ink">
+                          {guide.category}
+                        </span>
+                        <span className="flex items-center gap-1 text-caption text-faint-ink">
+                          <Clock className="h-3.5 w-3.5" aria-hidden="true" />
+                          {guide.readTime} de leitura
+                        </span>
+                      </div>
 
-                {/* Content */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex flex-wrap items-center gap-3 mb-3">
-                    <span className="text-xs font-medium text-primary bg-primary/5 px-2.5 py-1 rounded-full">
-                      {guide.category}
-                    </span>
-                    <span className="text-xs text-gray-500 flex items-center gap-1">
-                      <Clock className="w-3.5 h-3.5" />
-                      {guide.readTime} de leitura
-                    </span>
+                      <h3 className="text-h3 font-semibold text-ink">
+                        {guide.title}
+                      </h3>
+                      <p className="mt-2 text-muted-ink">{guide.description}</p>
+
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        {guide.topics.map((topic) => (
+                          <span
+                            key={topic}
+                            className="rounded-full bg-surface-2 px-2.5 py-1 text-caption text-muted-ink"
+                          >
+                            {topic}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="hidden items-center self-center sm:flex">
+                      <ArrowRight
+                        className="h-5 w-5 text-faint-ink transition-transform duration-200 ease-out-quint group-hover:translate-x-1 group-hover:text-ink"
+                        aria-hidden="true"
+                      />
+                    </div>
                   </div>
+                </Link>
+              </li>
+            ))}
+          </ul>
 
-                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors">
-                    {guide.title}
-                  </h3>
+          <div className="on-ink mt-16 rounded-lg p-8 text-center sm:p-10">
+            <h2 className="text-h3 font-bold">Quer ver o Flowo na prática?</h2>
+            <p className="mx-auto mt-3 max-w-md text-muted-ink">
+              Configure sua barbearia em poucos minutos e aplique o que você leu
+              nos guias.
+            </p>
+            <div className="mt-6">
+              <LeadCaptureModal>
+                <Button size="lg" className="rounded-full px-7">
+                  Começar agora
+                </Button>
+              </LeadCaptureModal>
+            </div>
+          </div>
 
-                  <p className="text-gray-600 mb-4">{guide.description}</p>
-
-                  {/* Topics */}
-                  <div className="flex flex-wrap gap-2">
-                    {guide.topics.map((topic, topicIndex) => (
-                      <span
-                        key={topicIndex}
-                        className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded"
-                      >
-                        {topic}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Arrow */}
-                <div className="hidden sm:flex items-center">
-                  <div className="p-2 rounded-full bg-gray-100 group-hover:bg-primary group-hover:text-white transition-all">
-                    <ArrowRight className="w-5 h-5" />
-                  </div>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-
-        {/* CTA Section */}
-        <div className="mt-16 p-8 bg-gray-50 rounded-2xl border border-gray-100 text-center">
-          <h3 className="text-xl font-bold text-gray-900 mb-2">
-            Quer ver o Flowo na prática?
-          </h3>
-          <p className="text-gray-600 mb-6 max-w-md mx-auto">
-            Configure sua barbearia em 5 minutos. 14 dias grátis para testar
-            tudo que você leu nos guias.
-          </p>
-          <LeadCaptureModal>
-            <Button size="lg" className="bg-primary text-white hover:bg-primary/90">
-              Começar teste grátis
-            </Button>
-          </LeadCaptureModal>
-        </div>
-
-        {/* More guides coming */}
-        <div className="mt-12 text-center">
-          <p className="text-gray-500 text-sm">
+          <p className="mt-12 text-center text-label text-muted-ink">
             Mais guias em breve. Tem uma dúvida específica?{" "}
             <a
               href="mailto:contato@flowo.com.br"
-              className="text-primary hover:underline"
+              className="font-medium text-ink underline-offset-4 hover:underline"
             >
               Fale conosco
             </a>

@@ -1,53 +1,51 @@
-import type { Metadata } from "next";
 import SchemaMarkup from "@/components/schema-markup";
-import UrgencyBanner from "@/components/urgency-banner";
 import Navbar from "@/components/navbar";
 import Hero from "@/components/hero";
+import Testimonials from "@/components/testimonials";
 import HowItWorks from "@/components/how-it-works";
 import Features from "@/components/features";
-import Testimonials from "@/components/testimonials";
 import HomePricingSection from "@/components/home-pricing-section";
+import SupportSection from "@/components/support-section";
 import FAQ from "@/components/faq";
 import CallToAction from "@/components/call-to-action";
-import SupportSection from "@/components/support-section";
 import Footer from "@/components/footer";
-import { Section } from "@/components/section";
-import AIChatbotLazy from "@/components/ai-chatbot-lazy";
+import { buildMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: "Sistema de Agendamento para Barbearia | WhatsApp + IA - Flowo",
   description:
-    "Software de agendamento via WhatsApp para barbearias. Reduza faltas, gerencie barbeiros e aumente faturamento. Teste grátis 14 dias sem cartão.",
-};
+    "A IA da Flowo atende no WhatsApp, agenda e confirma seus clientes. Lembretes automáticos contra faltas e pagamento do atendimento por PIX ou cartão.",
+  path: "/",
+  absoluteTitle: true,
+});
 
+/**
+ * Home composition. Each section component owns its own <section>, background
+ * band and vertical cadence (no double-wrapping, no duplicated ids: the
+ * `como-funciona` anchor lives inside HowItWorks). Order follows the
+ * Barbearia Noir art direction: hero, proof band, how it works, features,
+ * pricing, support, FAQ, closing ink CTA band above the footer.
+ */
 export default function Home() {
   return (
     <>
       <SchemaMarkup />
-      <UrgencyBanner />
       <Navbar />
-      <main>
+      <main id="main-content">
         <Hero />
-        <Section id="como-funciona" background="gradient">
-          <HowItWorks />
-        </Section>
-        <Section id="recursos" background="white">
-          <Features />
-        </Section>
-        <Section background="gradient">
-          <Testimonials />
-        </Section>
-        <Section id="precos" background="white">
-          <HomePricingSection />
-        </Section>
+        <Testimonials />
+        <HowItWorks />
+        <Features />
+        <section id="precos" className="section-normal scroll-mt-24">
+          <div className="container-page">
+            <HomePricingSection />
+          </div>
+        </section>
         <SupportSection />
+        <FAQ />
         <CallToAction />
-        <Section background="gradient-reverse">
-          <FAQ />
-        </Section>
       </main>
       <Footer />
-      <AIChatbotLazy />
     </>
   );
 }

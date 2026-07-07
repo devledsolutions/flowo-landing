@@ -1,34 +1,44 @@
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
+"use client";
+
+import { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
+import { SIGNUP_URL } from "./cta-links";
 
 export default function FloatingCTA() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const toggleVisibility = () => {
-      if (window.pageYOffset > 300) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(() => {
+        setIsVisible(window.scrollY > 480);
+        ticking = false;
+      });
     };
-
-    window.addEventListener("scroll", toggleVisibility);
-    return () => window.removeEventListener("scroll", toggleVisibility);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  if (!isVisible) return null;
-
   return (
-    <div className="fixed bottom-4 right-4 z-50">
-      <Button
-        size="lg"
-        className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg"
+    <div
+      className={`fixed bottom-[calc(env(safe-area-inset-bottom)+1rem)] right-4 z-40 transition-all duration-200 ease-out-quint ${
+        isVisible
+          ? "translate-y-0 opacity-100"
+          : "pointer-events-none translate-y-3 opacity-0"
+      }`}
+      aria-hidden={!isVisible}
+    >
+      <a
+        href={SIGNUP_URL}
+        tabIndex={isVisible ? 0 : -1}
+        className="inline-flex h-12 items-center gap-2 rounded-full bg-ink px-6 text-label font-semibold text-cream shadow-card transition-colors duration-200 hover:bg-ink/90"
       >
-        Comece agora
-        <ArrowRight className="ml-2 h-5 w-5" />
-      </Button>
+        Começar agora
+        <ArrowRight className="h-4 w-4" aria-hidden="true" />
+      </a>
     </div>
   );
 }

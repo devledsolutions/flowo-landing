@@ -1,71 +1,124 @@
-import { motion } from "framer-motion";
-import Image from "next/image";
-import { User, Users, Building2 } from "lucide-react";
+import Link from "next/link";
+import {
+  ArrowRight,
+  Building2,
+  Check,
+  User,
+  Users,
+  type LucideIcon,
+} from "lucide-react";
+import { formatBRL, getPlan, type PlanId } from "@/data/pricing-data";
 
-const scenarios = [
+interface Scenario {
+  planId: PlanId;
+  icon: LucideIcon;
+  name: string;
+  blurb: string;
+}
+
+/**
+ * Cada cartão espelha o plano correspondente em data/pricing-data.ts
+ * (fonte única de preço e recursos). Os antigos recursos inventados
+ * ("API completa", "gerente de conta dedicado", "PIX garante o horário")
+ * foram removidos.
+ */
+const scenarios: readonly Scenario[] = [
   {
-    name: "Barbeiro Autônomo",
-    description: "Um profissional, agenda simples, sem conflitos. PIX garante o horário.",
-    image: "/images/barbershops/scenario-solo.jpg",
+    planId: "solo",
     icon: User,
-    features: ["Até 200 agendamentos/mês", "WhatsApp com IA básica", "PIX automático"],
+    name: "Barbeiro solo",
+    blurb:
+      "Você corta o dia inteiro e ninguém responde o WhatsApp por você. A IA assume o chat e a agenda.",
   },
   {
-    name: "Barbearia com Equipe",
-    description: "Vários barbeiros, cada um com sua agenda sincronizada. Cliente escolhe o profissional.",
-    image: "/images/barbershops/scenario-team.jpg",
+    planId: "equipe",
     icon: Users,
-    features: ["Agendamentos ilimitados", "Sync Google/Apple/Outlook", "Webhooks e integrações"],
+    name: "Barbearia com equipe",
+    blurb:
+      "Cada barbeiro com a própria agenda. O cliente escolhe o profissional no chat e ninguém marca em cima de ninguém.",
   },
   {
-    name: "Rede de Barbearias",
-    description: "Múltiplas unidades, dashboard consolidado, gestão centralizada.",
-    image: "/images/barbershops/scenario-chain.jpg",
+    planId: "empresarial",
     icon: Building2,
-    features: ["Unidades ilimitadas", "API completa", "Gerente de conta dedicado"],
+    name: "Rede de barbearias",
+    blurb:
+      "Várias unidades no mesmo padrão de atendimento, com relatórios para acompanhar o todo.",
   },
 ];
 
 export default function IndustryExamples() {
   return (
-    <section className="py-16 bg-white">
-      <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-4">
-          Para Todo Tamanho de Barbearia
-        </h2>
-        <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
-          De barbeiro autônomo a redes com dezenas de unidades, o Flowo se adapta ao seu negócio
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {scenarios.map((scenario, index) => (
-            <motion.div
-              key={index}
-              className="bg-gray-50 rounded-lg overflow-hidden shadow-lg"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
-              <Image
-                src={scenario.image}
-                alt={scenario.name}
-                width={800}
-                height={400}
-                className="w-full h-48 object-cover"
-              />
-              <div className="p-6">
-                <div className="flex items-center gap-2 mb-2">
-                  <scenario.icon className="w-5 h-5 text-primary" />
-                  <h3 className="text-xl font-semibold">{scenario.name}</h3>
-                </div>
-                <p className="text-gray-600 mb-4">{scenario.description}</p>
-                <ul className="space-y-1">
-                  {scenario.features.map((feature, i) => (
-                    <li key={i} className="text-sm text-gray-500">• {feature}</li>
+    <section className="section-normal bg-cream">
+      <div className="container-page">
+        <div className="max-w-3xl">
+          <h2 className="text-h2 font-semibold text-ink-strong">
+            Para todo tamanho de barbearia
+          </h2>
+          <p className="mt-4 max-w-measure text-lead text-muted-ink">
+            Do barbeiro solo à rede com várias unidades, o plano acompanha o
+            tamanho da sua operação.
+          </p>
+        </div>
+
+        <div className="mt-12 grid gap-5 md:grid-cols-3">
+          {scenarios.map((scenario) => {
+            const plan = getPlan(scenario.planId);
+            const highlighted = Boolean(plan.isPopular);
+            return (
+              <article
+                key={scenario.planId}
+                className={
+                  highlighted
+                    ? "on-ink flex flex-col rounded-xl p-7"
+                    : "flex flex-col rounded-xl border border-line bg-surface p-7"
+                }
+              >
+                <scenario.icon
+                  aria-hidden="true"
+                  strokeWidth={1.75}
+                  className="h-6 w-6 text-muted-ink"
+                />
+                <h3 className="mt-4 text-h3 font-semibold leading-tight text-ink">
+                  {scenario.name}
+                </h3>
+                <p className="mt-2.5 text-[0.9375rem] leading-relaxed text-muted-ink">
+                  {scenario.blurb}
+                </p>
+
+                <ul className="mt-6 space-y-2.5 border-t border-line pt-6">
+                  {plan.features.slice(0, 4).map((feature) => (
+                    <li key={feature} className="flex items-start gap-2.5">
+                      <Check
+                        aria-hidden="true"
+                        strokeWidth={2}
+                        className="mt-1 h-4 w-4 flex-none text-muted-ink"
+                      />
+                      <span className="text-[0.9375rem] leading-relaxed text-ink">
+                        {feature}
+                      </span>
+                    </li>
                   ))}
                 </ul>
-              </div>
-            </motion.div>
-          ))}
+
+                <p className="mt-auto pt-7 text-label text-muted-ink">
+                  Plano {plan.name} ·{" "}
+                  <span className="font-semibold tabular-nums text-ink">
+                    {formatBRL(plan.monthly)}/mês
+                  </span>
+                </p>
+              </article>
+            );
+          })}
+        </div>
+
+        <div className="mt-10">
+          <Link
+            href="/precos"
+            className="inline-flex items-center gap-2 text-label font-semibold text-ink transition-colors duration-200 ease-out-quint hover:text-muted-ink"
+          >
+            Ver planos e preços
+            <ArrowRight aria-hidden="true" className="h-4 w-4" />
+          </Link>
         </div>
       </div>
     </section>

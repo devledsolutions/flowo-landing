@@ -1,15 +1,16 @@
-import { Section } from "@/components/section";
 import { FAQSection } from "@/components/faq-section";
 import { faqItems } from "@/data/faq-items";
 
 export default function FAQ() {
   return (
-    <Section background="gradient-reverse">
-      <FAQSection
-        title="Perguntas Frequentes"
-        description="Tire suas dúvidas sobre o Flowo"
-        items={faqItems}
-      />
-    </Section>
+    <section aria-label="Perguntas frequentes" className="section-normal">
+      <div className="container-page">
+        <FAQSection
+          title="Perguntas frequentes"
+          description="Tire suas dúvidas sobre o Flowo"
+          items={faqItems}
+        />
+      </div>
+    </section>
   );
 }

@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
-import { getSiteUrl } from "@/lib/site-url";
+import { SITE_URL } from "@/lib/seo";
 
-const LAST_MODIFIED = new Date("2026-02-21T00:00:00.000Z");
+const LAST_MODIFIED = new Date("2026-07-06T00:00:00.000Z");
 
 const ROUTES = [
   "/",
@@ -36,10 +36,8 @@ const ROUTES = [
 ] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const siteUrl = getSiteUrl();
-
   return ROUTES.map((route) => ({
-    url: `${siteUrl}${route}`,
+    url: `${SITE_URL}${route}`,
     lastModified: LAST_MODIFIED,
     changeFrequency: route === "/" ? "daily" : "weekly",
     priority:

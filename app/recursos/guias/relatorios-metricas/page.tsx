@@ -1,28 +1,31 @@
-import { Metadata } from "next";
-import Navbar from "@/components/navbar";
-import Footer from "@/components/footer";
-import { Section } from "@/components/section";
-import { Breadcrumb } from "@/components/breadcrumb";
-import { Button } from "@/components/ui/button";
 import {
-  ArrowLeft,
-  Clock,
   BarChart3,
+  Clock,
+  Target,
   TrendingUp,
   Users,
-  Calendar,
-  DollarSign,
-  Target,
-  CheckCircle2,
 } from "lucide-react";
-import Link from "next/link";
-import { LeadCaptureModal } from "@/components/lead-capture-modal";
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
+import {
+  GuideCallout,
+  GuideCards,
+  GuideChecklist,
+  GuideCta,
+  GuideHeader,
+  GuidePage,
+  GuidePrevNext,
+  GuideSection,
+  GuideToc,
+} from "@/components/resources/guide-shell";
+import { buildMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Relatórios e Métricas para Barbearias - Flowo",
+export const metadata = buildMetadata({
+  title: "Relatórios e Métricas para Barbearias",
   description:
-    "Entenda as métricas essenciais para acompanhar o desempenho da sua barbearia e tomar decisões baseadas em dados.",
-};
+    "As métricas essenciais para acompanhar o desempenho da sua barbearia: ocupação, ticket médio, no-show e desempenho por barbeiro.",
+  path: "/recursos/guias/relatorios-metricas",
+});
 
 const tableOfContents = [
   { id: "metricas-essenciais", label: "Métricas essenciais" },
@@ -32,490 +35,268 @@ const tableOfContents = [
   { id: "usando-dados", label: "Usando dados para crescer" },
 ];
 
+const occupancyBands = [
+  { range: "Abaixo de 50%", label: "Precisa de mais clientes", width: "40%" },
+  { range: "50% a 75%", label: "Bom, mas tem espaço", width: "65%" },
+  { range: "Acima de 75%", label: "Excelente demanda", width: "90%" },
+];
+
+const peakPattern = [
+  { period: "Segunda a quarta", label: "Menor movimento", width: "40%" },
+  { period: "Quinta e sexta", label: "Movimento médio", width: "70%" },
+  { period: "Sábado", label: "Pico máximo", width: "95%" },
+];
+
 export default function MetricsGuidePage() {
   return (
     <>
       <Navbar />
-      <main>
-        <Section background="white" className="pt-32 pb-16">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto">
-              <Breadcrumb
+      <main className="min-h-screen">
+        <GuidePage>
+          <GuideHeader
+            crumbs={[
+              { label: "Início", href: "/" },
+              { label: "Recursos", href: "/recursos" },
+              { label: "Guias", href: "/recursos/guias" },
+              { label: "Relatórios e Métricas", href: "#" },
+            ]}
+            readTime="10 min"
+            title="Relatórios e métricas para barbearias"
+            lead="Entenda quais números realmente importam e como usá-los para tomar decisões melhores no seu negócio."
+          />
+
+          <GuideToc items={tableOfContents} />
+
+          <article>
+            <GuideSection
+              id="metricas-essenciais"
+              icon={BarChart3}
+              title="Métricas essenciais para acompanhar"
+            >
+              <p>
+                Não precisa acompanhar dezenas de números. Com 5 métricas você
+                já entende a saúde do seu negócio:
+              </p>
+              <GuideCards
                 items={[
-                  { label: "Início", href: "/" },
-                  { label: "Recursos", href: "/recursos" },
-                  { label: "Guias", href: "/recursos/guias" },
-                  { label: "Relatórios e Métricas", href: "#" },
+                  {
+                    title: "Agendamentos do dia, semana e mês",
+                    description:
+                      "Quantos clientes você atendeu? Está crescendo ou estagnado?",
+                  },
+                  {
+                    title: "Faturamento",
+                    description:
+                      "Quanto entrou? Qual o ticket médio por cliente?",
+                  },
+                  {
+                    title: "Taxa de ocupação",
+                    description:
+                      "Quantos horários disponíveis foram ocupados?",
+                  },
+                  {
+                    title: "Clientes atendidos",
+                    description:
+                      "Novos vs recorrentes. Sua base está crescendo?",
+                  },
+                  {
+                    title: "Taxa de no-show (faltas)",
+                    description:
+                      "Quantos não apareceram? Está melhorando?",
+                  },
                 ]}
               />
+              <GuideCallout>
+                O painel do Flowo mostra tudo isso em tempo real. Você
+                acompanha os números do dia, compara com períodos anteriores e
+                vê tendências sem precisar fazer contas.
+              </GuideCallout>
+            </GuideSection>
 
-              <article className="mt-8">
-                {/* Header */}
-                <header className="mb-12">
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="inline-flex items-center gap-1.5 text-sm font-medium text-primary bg-primary/5 px-3 py-1 rounded-full">
-                      <Clock className="w-4 h-4" />
-                      10 min de leitura
-                    </span>
-                    <span className="text-sm text-gray-500">
-                      Atualizado em Janeiro 2025
-                    </span>
+            <GuideSection
+              id="taxa-ocupacao"
+              icon={Target}
+              title="Taxa de ocupação"
+            >
+              <p>
+                A taxa de ocupação mostra quanto da sua capacidade você está
+                usando:
+              </p>
+              <GuideCallout>
+                <strong>
+                  Taxa de ocupação = (horários ocupados ÷ horários disponíveis)
+                  × 100
+                </strong>
+              </GuideCallout>
+              <div className="my-8 space-y-4 rounded-lg border border-line bg-surface p-6">
+                {occupancyBands.map((band) => (
+                  <div key={band.range}>
+                    <div className="mb-1 flex items-baseline justify-between gap-4">
+                      <span className="text-label font-semibold text-ink">
+                        {band.range}
+                      </span>
+                      <span className="text-caption text-muted-ink">
+                        {band.label}
+                      </span>
+                    </div>
+                    <div className="h-2 overflow-hidden rounded-full bg-surface-2">
+                      <div
+                        className="h-full rounded-full bg-ink"
+                        style={{ width: band.width }}
+                      />
+                    </div>
                   </div>
-                  <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-                    Relatórios e Métricas para Barbearias
-                  </h1>
-                  <p className="text-xl text-gray-600 leading-relaxed">
-                    Entenda quais números realmente importam e como usá-los para
-                    tomar decisões melhores no seu negócio.
-                  </p>
-                </header>
-
-                {/* Table of Contents */}
-                <nav className="mb-12 p-6 bg-gray-50 rounded-2xl border border-gray-100">
-                  <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-4">
-                    Neste guia
-                  </h2>
-                  <ul className="space-y-2">
-                    {tableOfContents.map((item) => (
-                      <li key={item.id}>
-                        <a
-                          href={`#${item.id}`}
-                          className="flex items-center gap-2 text-gray-600 hover:text-primary transition-colors py-1"
-                        >
-                          <span className="w-1.5 h-1.5 rounded-full bg-primary/40" />
-                          {item.label}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </nav>
-
-                {/* Content */}
-                <div className="prose prose-lg prose-gray max-w-none">
-                  <section id="metricas-essenciais" className="scroll-mt-24">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="p-2 bg-blue-50 rounded-lg">
-                        <BarChart3 className="w-5 h-5 text-blue-600" />
-                      </div>
-                      <h2 className="text-2xl font-bold text-gray-900 m-0">
-                        Métricas essenciais para acompanhar
-                      </h2>
-                    </div>
-                    <p>
-                      Não precisa acompanhar dezenas de números. Focando em 5
-                      métricas principais você já consegue entender a saúde do
-                      seu negócio:
-                    </p>
-
-                    <div className="not-prose my-8 grid gap-4">
-                      {[
-                        {
-                          icon: Calendar,
-                          color: "blue",
-                          title: "Agendamentos do dia/semana/mês",
-                          description:
-                            "Quantos clientes você atendeu? Está crescendo ou estagnado?",
-                        },
-                        {
-                          icon: DollarSign,
-                          color: "green",
-                          title: "Faturamento",
-                          description:
-                            "Quanto entrou? Qual o ticket médio por cliente?",
-                        },
-                        {
-                          icon: Target,
-                          color: "purple",
-                          title: "Taxa de ocupação",
-                          description:
-                            "Quantos horários disponíveis foram ocupados?",
-                        },
-                        {
-                          icon: Users,
-                          color: "orange",
-                          title: "Clientes atendidos",
-                          description:
-                            "Novos vs recorrentes. Sua base está crescendo?",
-                        },
-                        {
-                          icon: TrendingUp,
-                          color: "red",
-                          title: "Taxa de no-show (faltas)",
-                          description:
-                            "Quantos não apareceram? Está melhorando?",
-                        },
-                      ].map((item, index) => (
-                        <div
-                          key={index}
-                          className="flex items-start gap-4 p-4 bg-white rounded-xl border border-gray-200"
-                        >
-                          <div
-                            className={`p-2 bg-${item.color}-50 rounded-lg flex-shrink-0`}
-                          >
-                            <item.icon
-                              className={`w-5 h-5 text-${item.color}-600`}
-                            />
-                          </div>
-                          <div>
-                            <h3 className="font-semibold text-gray-900">
-                              {item.title}
-                            </h3>
-                            <p className="text-gray-600 text-sm mt-1">
-                              {item.description}
-                            </p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="not-prose my-8 p-6 bg-primary/5 border-l-4 border-primary rounded-r-xl">
-                      <p className="text-gray-900 font-medium mb-2">
-                        O dashboard do Flowo mostra tudo isso em tempo real.
-                      </p>
-                      <p className="text-gray-600 text-sm">
-                        Você acompanha os números do dia atual, compara com dias
-                        anteriores e vê tendências sem precisar fazer contas.
-                      </p>
-                    </div>
-                  </section>
-
-                  <section id="taxa-ocupacao" className="scroll-mt-24 mt-16">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="p-2 bg-purple-50 rounded-lg">
-                        <Target className="w-5 h-5 text-purple-600" />
-                      </div>
-                      <h2 className="text-2xl font-bold text-gray-900 m-0">
-                        Taxa de ocupação
-                      </h2>
-                    </div>
-                    <p>
-                      A taxa de ocupação mostra quanto da sua capacidade você
-                      está usando. É calculada assim:
-                    </p>
-
-                    <div className="not-prose my-8 p-6 bg-gray-100 rounded-xl text-center">
-                      <div className="text-2xl font-bold text-gray-900 mb-2">
-                        Taxa de Ocupação = (Horários ocupados ÷ Horários
-                        disponíveis) × 100
-                      </div>
-                    </div>
-
-                    <div className="not-prose my-8 grid sm:grid-cols-3 gap-4">
-                      <div className="p-5 bg-red-50 rounded-xl border border-red-100 text-center">
-                        <div className="text-2xl font-bold text-red-600 mb-1">
-                          &lt; 50%
-                        </div>
-                        <div className="text-sm text-gray-600">
-                          Precisa de mais clientes
-                        </div>
-                      </div>
-                      <div className="p-5 bg-yellow-50 rounded-xl border border-yellow-100 text-center">
-                        <div className="text-2xl font-bold text-yellow-600 mb-1">
-                          50-75%
-                        </div>
-                        <div className="text-sm text-gray-600">
-                          Bom, mas tem espaço
-                        </div>
-                      </div>
-                      <div className="p-5 bg-green-50 rounded-xl border border-green-100 text-center">
-                        <div className="text-2xl font-bold text-green-600 mb-1">
-                          &gt; 75%
-                        </div>
-                        <div className="text-sm text-gray-600">
-                          Excelente! Boa demanda
-                        </div>
-                      </div>
-                    </div>
-
-                    <p>
-                      Se sua taxa está abaixo de 50%, você pode investir em
-                      marketing, promoções ou ajustar seus horários de
-                      funcionamento. Se está acima de 90%, pode ser hora de
-                      contratar mais um profissional.
-                    </p>
-                  </section>
-
-                  <section
-                    id="desempenho-profissional"
-                    className="scroll-mt-24 mt-16"
-                  >
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="p-2 bg-orange-50 rounded-lg">
-                        <Users className="w-5 h-5 text-orange-600" />
-                      </div>
-                      <h2 className="text-2xl font-bold text-gray-900 m-0">
-                        Desempenho por profissional
-                      </h2>
-                    </div>
-                    <p>
-                      Se você tem mais de um barbeiro, é importante acompanhar
-                      o desempenho individual:
-                    </p>
-
-                    <div className="not-prose my-8">
-                      <div className="overflow-hidden rounded-xl border border-gray-200">
-                        <table className="w-full text-sm">
-                          <thead className="bg-gray-50 border-b border-gray-200">
-                            <tr>
-                              <th className="text-left p-4 font-semibold text-gray-900">
-                                Métrica
-                              </th>
-                              <th className="text-left p-4 font-semibold text-gray-900">
-                                O que mostra
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody className="divide-y divide-gray-100">
-                            <tr>
-                              <td className="p-4 text-gray-700">
-                                Atendimentos
-                              </td>
-                              <td className="p-4 text-gray-600">
-                                Quantos clientes cada um atendeu
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="p-4 text-gray-700">Faturamento</td>
-                              <td className="p-4 text-gray-600">
-                                Quanto cada profissional gerou
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="p-4 text-gray-700">Ticket médio</td>
-                              <td className="p-4 text-gray-600">
-                                Valor médio por atendimento
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="p-4 text-gray-700">
-                                Taxa de ocupação
-                              </td>
-                              <td className="p-4 text-gray-600">
-                                % dos horários que foram preenchidos
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="p-4 text-gray-700">
-                                Clientes novos
-                              </td>
-                              <td className="p-4 text-gray-600">
-                                Quantos primeiros atendimentos fez
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-
-                    <p>
-                      Isso ajuda a entender quem precisa de mais treinamento,
-                      quem está trazendo mais resultado e como distribuir
-                      comissões de forma justa.
-                    </p>
-                  </section>
-
-                  <section id="horarios-pico" className="scroll-mt-24 mt-16">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="p-2 bg-green-50 rounded-lg">
-                        <Clock className="w-5 h-5 text-green-600" />
-                      </div>
-                      <h2 className="text-2xl font-bold text-gray-900 m-0">
-                        Horários de pico
-                      </h2>
-                    </div>
-                    <p>
-                      Saber quando sua barbearia tem mais demanda ajuda a
-                      otimizar escalas e preços:
-                    </p>
-
-                    <div className="not-prose my-8 p-6 bg-white rounded-xl border border-gray-200">
-                      <h3 className="font-semibold text-gray-900 mb-4">
-                        Padrão típico de barbearias:
-                      </h3>
-                      <div className="space-y-4">
-                        <div>
-                          <div className="flex justify-between mb-1">
-                            <span className="text-sm text-gray-600">
-                              Segunda a Quarta
-                            </span>
-                            <span className="text-sm text-gray-500">
-                              Menor movimento
-                            </span>
-                          </div>
-                          <div className="h-3 bg-gray-100 rounded-full overflow-hidden">
-                            <div
-                              className="h-full bg-yellow-400 rounded-full"
-                              style={{ width: "40%" }}
-                            />
-                          </div>
-                        </div>
-                        <div>
-                          <div className="flex justify-between mb-1">
-                            <span className="text-sm text-gray-600">
-                              Quinta e Sexta
-                            </span>
-                            <span className="text-sm text-gray-500">
-                              Movimento médio
-                            </span>
-                          </div>
-                          <div className="h-3 bg-gray-100 rounded-full overflow-hidden">
-                            <div
-                              className="h-full bg-blue-400 rounded-full"
-                              style={{ width: "70%" }}
-                            />
-                          </div>
-                        </div>
-                        <div>
-                          <div className="flex justify-between mb-1">
-                            <span className="text-sm text-gray-600">Sábado</span>
-                            <span className="text-sm text-gray-500">
-                              Pico máximo
-                            </span>
-                          </div>
-                          <div className="h-3 bg-gray-100 rounded-full overflow-hidden">
-                            <div
-                              className="h-full bg-green-500 rounded-full"
-                              style={{ width: "95%" }}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="not-prose my-8 grid gap-4">
-                      {[
-                        "Escale mais profissionais nos dias de pico",
-                        "Considere preços diferenciados para horários nobres",
-                        "Ofereça descontos para dias de baixo movimento",
-                        "Exija PIX antecipado para sábados",
-                      ].map((tip, index) => (
-                        <div
-                          key={index}
-                          className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200"
-                        >
-                          <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0" />
-                          <span className="text-gray-700">{tip}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </section>
-
-                  <section id="usando-dados" className="scroll-mt-24 mt-16">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="p-2 bg-blue-50 rounded-lg">
-                        <TrendingUp className="w-5 h-5 text-blue-600" />
-                      </div>
-                      <h2 className="text-2xl font-bold text-gray-900 m-0">
-                        Usando dados para crescer
-                      </h2>
-                    </div>
-                    <p>
-                      Ter os dados é só o começo. O importante é usar para tomar
-                      decisões. Alguns exemplos:
-                    </p>
-
-                    <div className="not-prose my-8 grid gap-4">
-                      {[
-                        {
-                          situation: "Taxa de ocupação baixa nas segundas",
-                          action:
-                            'Crie promoção "Segunda do Corte" com 10% de desconto',
-                        },
-                        {
-                          situation:
-                            "Um barbeiro tem ticket médio menor que outros",
-                          action:
-                            "Treine ele para oferecer serviços adicionais",
-                        },
-                        {
-                          situation:
-                            "Muitos clientes novos mas poucos recorrentes",
-                          action:
-                            "Foque em fidelização: cartão fidelidade, lembretes",
-                        },
-                        {
-                          situation: "Taxa de no-show alta com certos clientes",
-                          action:
-                            "Exija PIX antecipado para esses clientes específicos",
-                        },
-                        {
-                          situation: "Sábados sempre lotados demais",
-                          action:
-                            "Considere abrir mais cedo ou contratar freelancer",
-                        },
-                      ].map((item, index) => (
-                        <div
-                          key={index}
-                          className="p-4 bg-white rounded-xl border border-gray-200"
-                        >
-                          <div className="text-sm text-gray-500 mb-1">
-                            Se você identificar:
-                          </div>
-                          <div className="font-medium text-gray-900 mb-2">
-                            {item.situation}
-                          </div>
-                          <div className="flex items-start gap-2">
-                            <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
-                            <span className="text-gray-600 text-sm">
-                              {item.action}
-                            </span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="not-prose my-8 p-6 bg-gray-100 rounded-xl">
-                      <h3 className="font-semibold text-gray-900 mb-3">
-                        Dica final
-                      </h3>
-                      <p className="text-gray-600">
-                        Não precisa olhar os relatórios todo dia. Reserve 15
-                        minutos por semana para analisar os números e identificar
-                        oportunidades de melhoria. Com consistência, os
-                        resultados aparecem.
-                      </p>
-                    </div>
-                  </section>
-                </div>
-
-                {/* CTA Box */}
-                <div className="mt-16 p-8 bg-primary text-white rounded-2xl">
-                  <div className="max-w-2xl">
-                    <h3 className="text-2xl font-bold mb-3">
-                      Acompanhe suas métricas no Flowo
-                    </h3>
-                    <p className="text-primary-foreground/80 mb-6">
-                      Dashboard completo com todos os números da sua barbearia
-                      em tempo real.
-                    </p>
-                    <LeadCaptureModal>
-                      <Button
-                        size="lg"
-                        className="bg-white text-primary hover:bg-white/90"
-                      >
-                        Começar teste grátis
-                      </Button>
-                    </LeadCaptureModal>
-                  </div>
-                </div>
-              </article>
-
-              {/* Navigation */}
-              <div className="flex justify-between items-center mt-12 pt-8 border-t">
-                <Button variant="ghost" asChild>
-                  <Link href="/recursos/guias/reduzindo-faltas">
-                    <ArrowLeft className="mr-2 h-4 w-4" /> Reduzindo Faltas
-                  </Link>
-                </Button>
-                <Button variant="outline" asChild>
-                  <Link href="/recursos/guias">
-                    Ver todos os guias
-                  </Link>
-                </Button>
+                ))}
               </div>
-            </div>
-          </div>
-        </Section>
+              <p>
+                Se sua taxa está abaixo de 50%, invista em marketing, promoções
+                ou ajuste seus horários de funcionamento. Se está acima de 90%,
+                pode ser hora de contratar mais um profissional.
+              </p>
+            </GuideSection>
+
+            <GuideSection
+              id="desempenho-profissional"
+              icon={Users}
+              title="Desempenho por profissional"
+            >
+              <p>
+                Se você tem mais de um barbeiro, acompanhe o desempenho
+                individual:
+              </p>
+              <div className="my-8 overflow-x-auto rounded-lg border border-line">
+                <table className="w-full min-w-[28rem] text-label">
+                  <thead className="border-b border-line bg-surface-2">
+                    <tr>
+                      <th className="p-4 text-left font-semibold text-ink">
+                        Métrica
+                      </th>
+                      <th className="p-4 text-left font-semibold text-ink">
+                        O que mostra
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-line bg-surface">
+                    {[
+                      ["Atendimentos", "Quantos clientes cada um atendeu"],
+                      ["Faturamento", "Quanto cada profissional gerou"],
+                      ["Ticket médio", "Valor médio por atendimento"],
+                      ["Taxa de ocupação", "% dos horários que foram preenchidos"],
+                      ["Clientes novos", "Quantos primeiros atendimentos fez"],
+                    ].map(([metric, meaning]) => (
+                      <tr key={metric}>
+                        <td className="p-4 font-medium text-ink">{metric}</td>
+                        <td className="p-4 text-muted-ink">{meaning}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <p>
+                Isso ajuda a entender quem precisa de mais treinamento, quem
+                está trazendo mais resultado e como distribuir comissões de
+                forma justa.
+              </p>
+            </GuideSection>
+
+            <GuideSection
+              id="horarios-pico"
+              icon={Clock}
+              title="Horários de pico"
+            >
+              <p>
+                Saber quando sua barbearia tem mais demanda ajuda a otimizar
+                escalas e preços. Um padrão comum em barbearias:
+              </p>
+              <div className="my-8 space-y-4 rounded-lg border border-line bg-surface p-6">
+                {peakPattern.map((row) => (
+                  <div key={row.period}>
+                    <div className="mb-1 flex items-baseline justify-between gap-4">
+                      <span className="text-label font-semibold text-ink">
+                        {row.period}
+                      </span>
+                      <span className="text-caption text-muted-ink">
+                        {row.label}
+                      </span>
+                    </div>
+                    <div className="h-2 overflow-hidden rounded-full bg-surface-2">
+                      <div
+                        className="h-full rounded-full bg-ink"
+                        style={{ width: row.width }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <GuideChecklist
+                items={[
+                  "Escale mais profissionais nos dias de pico",
+                  "Considere preços diferenciados para horários nobres",
+                  "Ofereça condições especiais para dias de baixo movimento",
+                  "Aperte a confirmação automática nos horários mais disputados",
+                ]}
+              />
+            </GuideSection>
+
+            <GuideSection
+              id="usando-dados"
+              icon={TrendingUp}
+              title="Usando dados para crescer"
+            >
+              <p>
+                Ter os dados é só o começo. O importante é usá-los para tomar
+                decisões:
+              </p>
+              <GuideCards
+                items={[
+                  {
+                    title: "Ocupação baixa nas segundas",
+                    description:
+                      'Crie uma promoção "Segunda do Corte" para preencher a agenda.',
+                  },
+                  {
+                    title: "Um barbeiro com ticket médio menor",
+                    description:
+                      "Treine a oferta de serviços adicionais no atendimento.",
+                  },
+                  {
+                    title: "Muitos clientes novos, poucos recorrentes",
+                    description:
+                      "Foque em fidelização: pós-atendimento e reativação pelo WhatsApp.",
+                  },
+                  {
+                    title: "No-show alto com certos clientes",
+                    description:
+                      "Peça confirmação com mais antecedência e libere o horário mais cedo para esses casos.",
+                  },
+                  {
+                    title: "Sábados sempre lotados",
+                    description:
+                      "Considere abrir mais cedo ou trazer um reforço para o fim de semana.",
+                  },
+                ]}
+              />
+              <GuideCallout title="Dica final">
+                Não precisa olhar os relatórios todo dia. Reserve 15 minutos
+                por semana para analisar os números e identificar
+                oportunidades. Com consistência, os resultados aparecem.
+              </GuideCallout>
+            </GuideSection>
+          </article>
+
+          <GuideCta
+            title="Acompanhe suas métricas no Flowo"
+            description="Painel completo com os números da sua barbearia em tempo real, sem planilha manual."
+          />
+
+          <GuidePrevNext
+            prev={{
+              href: "/recursos/guias/reduzindo-faltas",
+              label: "Reduzindo Faltas",
+            }}
+            next={{ href: "/recursos/guias", label: "Ver todos os guias" }}
+          />
+        </GuidePage>
       </main>
       <Footer />
     </>

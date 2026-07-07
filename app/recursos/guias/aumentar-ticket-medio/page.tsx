@@ -1,129 +1,108 @@
-import { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, DollarSign } from "lucide-react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
-import { Section } from "@/components/section";
-import { Breadcrumb } from "@/components/breadcrumb";
-import { Button } from "@/components/ui/button";
-import { LeadCaptureModal } from "@/components/lead-capture-modal";
+import {
+  GuideCta,
+  GuideHeader,
+  GuidePage,
+  GuidePrevNext,
+} from "@/components/resources/guide-shell";
+import { buildMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Como Aumentar Ticket Médio na Barbearia | Guia Prático Flowo",
+export const metadata = buildMetadata({
+  title: "Como Aumentar o Ticket Médio na Barbearia",
   description:
-    "Guia prático para aumentar ticket médio com combos, upgrades e confirmação inteligente de serviços.",
-};
+    "Guia prático para aumentar o ticket médio da barbearia com combos, upgrades no momento certo e acompanhamento semanal.",
+  path: "/recursos/guias/aumentar-ticket-medio",
+});
+
+const steps = [
+  {
+    title: "1. Crie pacotes com lógica de rotina",
+    body: "Monte combos que fazem sentido para a frequência real dos clientes: corte + barba, corte + hidratação, manutenção mensal.",
+  },
+  {
+    title: "2. Use upgrades no momento certo",
+    body: "A sugestão deve acontecer no agendamento e na confirmação. Ex.: “Quer incluir alinhamento de sobrancelha hoje?”.",
+  },
+  {
+    title: "3. Padronize a oferta por perfil",
+    body: "Cliente novo, recorrente e premium pedem abordagens diferentes. Automatize esse fluxo no WhatsApp para consistência.",
+  },
+  {
+    title: "4. Acompanhe a métrica semanal",
+    body: "Sem medir ticket médio por barbeiro e serviço, você melhora no escuro. Defina meta semanal e revise a proposta comercial.",
+  },
+];
+
+const related = [
+  {
+    href: "/software-barbearia-com-pix",
+    label: "Pagamentos PIX no atendimento pelo WhatsApp",
+  },
+  {
+    href: "/flowo-vs-planilha",
+    label: "Flowo vs planilha: o custo oculto do manual",
+  },
+];
 
 export default function TicketMedioGuidePage() {
   return (
     <>
       <Navbar />
-      <main>
-        <Section background="white" className="pt-32 pb-16">
-          <div className="mx-auto max-w-4xl">
-            <Breadcrumb
-              items={[
-                { label: "Início", href: "/" },
-                { label: "Recursos", href: "/recursos" },
-                { label: "Guias", href: "/recursos/guias" },
-                { label: "Aumentar Ticket Médio", href: "#" },
-              ]}
-            />
+      <main className="min-h-screen">
+        <GuidePage>
+          <GuideHeader
+            crumbs={[
+              { label: "Início", href: "/" },
+              { label: "Recursos", href: "/recursos" },
+              { label: "Guias", href: "/recursos/guias" },
+              { label: "Aumentar Ticket Médio", href: "#" },
+            ]}
+            readTime="9 min"
+            title="Como aumentar o ticket médio na barbearia sem perder clientes"
+            lead="Ticket médio cresce quando oferta e contexto estão alinhados. O segredo não é empurrar serviço, e sim estruturar a jornada com proposta de valor clara."
+          />
 
-            <article className="mt-8">
-              <header>
-                <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
-                  <DollarSign className="h-4 w-4" />
-                  9 min de leitura
-                </span>
-                <h1 className="mt-4 text-4xl font-bold leading-tight text-gray-900">
-                  Como aumentar ticket médio na barbearia sem perder clientes
-                </h1>
-                <p className="mt-4 text-lg text-gray-600">
-                  Ticket médio cresce quando oferta e contexto estão alinhados. O
-                  segredo não é empurrar serviço, e sim estruturar jornada com
-                  proposta de valor clara.
+          <article className="space-y-10">
+            {steps.map((step) => (
+              <section key={step.title}>
+                <h2 className="text-h3 font-bold text-ink">{step.title}</h2>
+                <p className="mt-3 max-w-measure text-body leading-relaxed text-muted-ink">
+                  {step.body}
                 </p>
-              </header>
+              </section>
+            ))}
+          </article>
 
-              <div className="prose prose-lg mt-10 max-w-none">
-                <h2>1. Crie pacotes com lógica de rotina</h2>
-                <p>
-                  Monte combos que fazem sentido para frequência real dos clientes:
-                  corte + barba, corte + hidratação, manutenção mensal.
-                </p>
-                <h2>2. Use upgrades no momento certo</h2>
-                <p>
-                  A sugestão deve acontecer no agendamento e na confirmação. Ex.:
-                  “Quer incluir alinhamento de sobrancelha hoje?”.
-                </p>
-                <h2>3. Padronize oferta por perfil</h2>
-                <p>
-                  Cliente novo, recorrente e premium pedem abordagens diferentes.
-                  Automatize esse fluxo no WhatsApp para consistência.
-                </p>
-                <h2>4. Acompanhe métrica semanal</h2>
-                <p>
-                  Sem medir ticket médio por barbeiro/serviço, você melhora no
-                  escuro. Defina meta semanal e revise proposta comercial.
-                </p>
-              </div>
-
-              <div className="mt-10 rounded-xl border border-gray-200 bg-gray-50 p-5">
-                <p className="text-sm font-semibold text-gray-900">
-                  Leitura relacionada
-                </p>
-                <div className="mt-3 grid gap-2 text-sm">
+          <aside className="mt-12 rounded-lg border border-line bg-surface p-6">
+            <p className="text-label font-semibold text-ink">Leitura relacionada</p>
+            <ul className="mt-3 grid gap-2">
+              {related.map((item) => (
+                <li key={item.href}>
                   <Link
-                    href="/software-barbearia-com-pix"
-                    className="text-primary hover:underline"
+                    href={item.href}
+                    className="text-label font-medium text-ink underline-offset-4 hover:underline"
                   >
-                    Software para barbearia com PIX antecipado
+                    {item.label}
                   </Link>
-                  <Link
-                    href="/flowo-vs-planilha"
-                    className="text-primary hover:underline"
-                  >
-                    Flowo vs planilha: custo oculto do manual
-                  </Link>
-                </div>
-              </div>
+                </li>
+              ))}
+            </ul>
+          </aside>
 
-              <div className="mt-12 rounded-2xl bg-primary p-8 text-white">
-                <h3 className="text-2xl font-bold">
-                  Quer aumentar ticket médio com automação de agenda?
-                </h3>
-                <p className="mt-2 text-primary-foreground/85">
-                  Teste o Flowo por 14 dias e aplique essa estratégia no WhatsApp.
-                </p>
-                <div className="mt-5">
-                  <LeadCaptureModal>
-                    <Button className="bg-white text-primary hover:bg-white/90">
-                      Começar teste grátis
-                    </Button>
-                  </LeadCaptureModal>
-                </div>
-              </div>
+          <GuideCta
+            title="Quer aumentar o ticket médio com automação de agenda?"
+            description="Use o Flowo para ofertar combos e upgrades no momento certo, direto no WhatsApp."
+          />
 
-              <div className="mt-10 flex items-center justify-between">
-                <Link
-                  href="/recursos/guias"
-                  className="inline-flex items-center gap-2 text-primary hover:underline"
-                >
-                  <ArrowLeft className="h-4 w-4" />
-                  Voltar para guias
-                </Link>
-                <Link
-                  href="/recursos/guias/fidelizacao-clientes"
-                  className="inline-flex items-center gap-2 text-primary hover:underline"
-                >
-                  Próximo guia
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-              </div>
-            </article>
-          </div>
-        </Section>
+          <GuidePrevNext
+            next={{
+              href: "/recursos/guias/fidelizacao-clientes",
+              label: "Fidelização de Clientes",
+            }}
+          />
+        </GuidePage>
       </main>
       <Footer />
     </>

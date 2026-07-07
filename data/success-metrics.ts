@@ -1,160 +1,143 @@
+import type { LucideIcon } from "lucide-react"
+import { CalendarCheck2, CreditCard, MessageCircle, Users } from "lucide-react"
+
 /**
- * Success Metrics - Dados quantificáveis reais de barbershops usando Flowo
+ * Social-proof content, HONESTY-LOCKED.
  *
- * Estes números são baseados em casos reais e devem ser atualizados
- * conforme novos dados ficam disponíveis.
+ * Flowo não publica métricas agregadas de clientes. Nada neste módulo pode
+ * afirmar um resultado medido (percentuais, R$, contagem de clientes, notas).
+ * Dois tipos de conteúdo são permitidos:
+ *   1. productFacts / noShowMechanism / beforeAfterFlowo: capacidades
+ *      verificáveis, espelhadas do product spec e de data/pricing-data.ts.
+ *   2. illustrativeScenarios: exemplos de uso claramente rotulados, sem
+ *      números e sem nomes fictícios de clientes.
+ * Quando existirem dados auditáveis de casos reais, adicione aqui com fonte.
  */
 
-export const globalMetrics = {
-  totalBarbers: 1200,
-  totalBarbershops: 340,
-  avgRevenueIncrease: 42, // porcentagem
-  avgTimeSaved: 3, // horas por dia
-  avgNoShowReduction: 78, // porcentagem
-  avgCustomerSatisfaction: 4.7, // de 5 estrelas
-  firstMonthResults: 90, // dias para ver resultados
+export const ILLUSTRATIVE_LABEL = "Cenários ilustrativos"
+
+export const ILLUSTRATIVE_NOTE =
+  "Exemplos de uso do produto. Não são casos reais de clientes nem promessa de resultado."
+
+export interface ProductFact {
+  icon: LucideIcon
+  title: string
+  detail: string
 }
 
-export const specificMetrics = {
-  // Economia de tempo
-  callsEliminated: {
-    avg: 35,
-    range: [25, 50],
-    unit: 'ligações/dia'
+/** O que o Flowo faz, sem número inventado. Espelha data/pricing-data.ts. */
+export const productFacts: readonly ProductFact[] = [
+  {
+    icon: MessageCircle,
+    title: "A IA atende no WhatsApp",
+    detail:
+      "Responde na hora, entende o pedido e agenda sozinha, mesmo com a barbearia cheia.",
   },
-
-  // Redução de faltas
-  noShowReduction: {
-    avg: 78,
-    range: [65, 89],
-    unit: '% redução'
+  {
+    icon: CalendarCheck2,
+    title: "Confirmação automática",
+    detail:
+      "Lembrete antes do horário. O cliente confirma, remarca ou cancela respondendo a mensagem.",
   },
-
-  // Aumento de faturamento
-  revenueIncrease: {
-    solo: {
-      percentage: 45,
-      absolute: 6800, // R$ por mês
-    },
-    team: {
-      percentage: 63,
-      absolute: 14200,
-    },
-    franchise: {
-      percentage: 127,
-      absolute: 42000,
-    }
+  {
+    icon: CreditCard,
+    title: "Pagamento no atendimento",
+    detail:
+      "PIX e cartão para cobrar o atendimento, direto pelo chat ou na comanda. Nunca como condição para agendar.",
   },
-
-  // Gestão de fila
-  queueOptimization: {
-    waitTimeReduction: 73, // % de redução
-    before: 45, // minutos
-    after: 8, // minutos
+  {
+    icon: Users,
+    title: "Agenda da equipe em um lugar",
+    detail:
+      "Cada barbeiro vê a própria agenda, sincronizada com Google, Apple e Outlook.",
   },
+]
 
-  // Cliente satisfação
-  googleRating: {
-    before: 3.8,
-    after: 4.7,
-    improvement: 24, // % melhoria
-  },
-
-  // Ocupação/Eficiência
-  chairOccupancy: {
-    before: 62,
-    after: 89,
-    unit: '% ocupação'
-  },
-
-  // Ticket médio
-  ticketIncrease: {
-    before: 45,
-    after: 72,
-    increase: 60, // %
-    absolute: 27, // R$
-  },
-
-  // Fidelização
-  customerRetention: {
-    increase: 67, // %
-    repeatCustomers: 82, // %
-  }
+export interface MechanismStep {
+  title: string
+  detail: string
 }
 
-export const industryBenchmarks = {
-  traditional: {
-    avgClientsPerDay: 10,
-    avgTicket: 40,
-    avgWorkHours: 10,
-    typicalRevenue: 12000, // mensal
+/** Como o Flowo combate a cadeira vazia: confirmação, nunca sinal. */
+export const noShowMechanism: readonly MechanismStep[] = [
+  {
+    title: "Lembrete automático",
+    detail:
+      "Antes do horário, o Flowo manda a mensagem de confirmação pelo WhatsApp.",
   },
-  modern: {
-    avgClientsPerDay: 35,
-    avgTicket: 55,
-    avgBarbers: 4,
-    typicalRevenue: 35000,
+  {
+    title: "O cliente responde no chat",
+    detail:
+      "Confirma, remarca ou cancela sem ligar e sem interromper a equipe.",
   },
-  premium: {
-    avgClientsPerDay: 18,
-    avgTicket: 95,
-    avgBarbers: 3,
-    typicalRevenue: 42000,
-  }
+  {
+    title: "A agenda se ajusta sozinha",
+    detail:
+      "Cancelou? O horário volta a ficar disponível para outro cliente na hora.",
+  },
+]
+
+export interface IllustrativeScenario {
+  id: "solo" | "equipe" | "rede"
+  name: string
+  story: string
+  image: string
+  imageAlt: string
 }
 
-export const painPointsData = {
-  // Top problemas ANTES do Flowo (% de barbershops que reportaram)
-  topChallenges: [
-    { problem: 'Atender telefone durante corte', percentage: 94 },
-    { problem: 'Clientes que não aparecem', percentage: 87 },
-    { problem: 'Fila desorganizada/reclamações', percentage: 76 },
-    { problem: 'Não saber quanto tempo cliente vai esperar', percentage: 71 },
-    { problem: 'Perder controle com múltiplos barbeiros', percentage: 68 },
-    { problem: 'Esquecer preferências dos clientes', percentage: 62 },
-  ],
-
-  // Tempo perdido com tarefas administrativas
-  timeWasted: {
-    calls: 3.2, // horas/dia
-    scheduling: 1.5,
-    noShows: 0.8,
-    queueManagement: 1.1,
-    total: 6.6,
-  }
-}
-
-export const roi = {
-  // Return on Investment típico
-  breakEvenDays: 12, // dias para o sistema se pagar
-
-  firstMonth: {
-    additionalRevenue: 2800, // R$ média
-    timeSaved: 90, // horas
-    newClients: 23, // clientes a mais
+/** Cenários de uso claramente rotulados. Sem números, sem clientes fictícios. */
+export const illustrativeScenarios: readonly IllustrativeScenario[] = [
+  {
+    id: "solo",
+    name: "O barbeiro que trabalha sozinho",
+    story:
+      "Cada mensagem era um corte interrompido. Com a IA respondendo e agendando no WhatsApp, o celular fica no bolso e a agenda se preenche sem parar a tesoura.",
+    image:
+      "https://images.unsplash.com/photo-1493256338651-d82f7acb2b38?auto=format&fit=crop&w=1000&q=80",
+    imageAlt: "Máquina de cortar cabelo em close sobre a bancada",
   },
-
-  threeMonths: {
-    additionalRevenue: 11200,
-    clientBase: 38, // % aumento base de clientes
-    retention: 67, // % melhoria retenção
+  {
+    id: "equipe",
+    name: "A barbearia com equipe",
+    story:
+      "O cliente escolhe o profissional no chat e cada barbeiro vê a própria agenda, sincronizada no celular. Ninguém marca em cima de ninguém.",
+    image:
+      "https://images.unsplash.com/photo-1536520002442-39764a41e987?auto=format&fit=crop&w=1400&q=80",
+    imageAlt:
+      "Fileira de cadeiras clássicas sob luminárias industriais numa barbearia de piso de madeira",
   },
+  {
+    id: "rede",
+    name: "A rede com várias unidades",
+    story:
+      "Unidades no mesmo padrão de atendimento, com relatórios de faturamento para acompanhar o todo sem depender de planilha.",
+    image:
+      "https://images.unsplash.com/photo-1621645582931-d1d3e6564943?auto=format&fit=crop&w=1000&q=80",
+    imageAlt: "Cadeira de barbeiro preta e cromada, retrato de objeto",
+  },
+]
 
-  oneYear: {
-    additionalRevenue: 52000,
-    timeRecovered: 1095, // horas economizadas
-    newReviews: 47, // reviews 5 estrelas a mais
-  }
+export interface ComparisonPair {
+  before: string
+  after: string
 }
 
-export const conversionDrivers = {
-  // Fatores que mais impactam decisão de compra
-  topFeatures: [
-    { feature: 'Lembretes automáticos (reduz faltas)', impact: 'Alto', votes: 89 },
-    { feature: 'WhatsApp com IA (economiza tempo)', impact: 'Alto', votes: 86 },
-    { feature: 'Gestão de fila em tempo real', impact: 'Médio-Alto', votes: 73 },
-    { feature: 'Agenda unificada múltiplos barbeiros', impact: 'Alto', votes: 71 },
-    { feature: 'Histórico e preferências do cliente', impact: 'Médio', votes: 64 },
-    { feature: 'Upsell automático de serviços', impact: 'Médio', votes: 58 },
-  ]
-}
+/** Antes e depois qualitativo, capacidade verificável, sem métricas. */
+export const beforeAfterFlowo: readonly ComparisonPair[] = [
+  {
+    before: "O WhatsApp toca enquanto você corta e o cliente fica sem resposta.",
+    after: "A IA responde na hora e agenda sem interromper o corte.",
+  },
+  {
+    before: "Cliente esquece o horário e a cadeira fica vazia.",
+    after: "Confirmação automática pelo WhatsApp antes de cada horário.",
+  },
+  {
+    before: "Agenda no caderno e cada barbeiro com um controle diferente.",
+    after: "Agenda da equipe em um lugar só, sincronizada no celular.",
+  },
+  {
+    before: "Cobrança no dinheiro trocado ou no fiado.",
+    after: "PIX e cartão no atendimento, registrado na comanda.",
+  },
+]

@@ -1,30 +1,23 @@
-import { useState, useEffect } from 'react'
+"use client";
 
 export default function SkipToContent() {
-  const [isVisible, setIsVisible] = useState(false)
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Tab') {
-        setIsVisible(true)
-      }
-    }
-
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [])
-
   return (
     <a
       href="#main-content"
-      className={`
-        fixed top-4 left-4 z-50 bg-primary text-white px-4 py-2 rounded
-        transition-opacity duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary
-        ${isVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'}
-      `}
+      onClick={(event) => {
+        const target =
+          document.getElementById("main-content") ??
+          document.querySelector("main");
+        if (target instanceof HTMLElement) {
+          event.preventDefault();
+          target.setAttribute("tabindex", "-1");
+          target.focus();
+          target.scrollIntoView();
+        }
+      }}
+      className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-ink focus:px-5 focus:py-2.5 focus:text-label focus:font-medium focus:text-cream"
     >
       Pular para o conteúdo principal
     </a>
-  )
+  );
 }
-

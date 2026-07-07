@@ -1,0 +1,148 @@
+- generic [active] [ref=e1]:
+  - link "Pular para o conteúdo principal" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - alert [ref=e3]
+  - banner [ref=e4]:
+    - navigation "Principal" [ref=e5]:
+      - generic [ref=e6]:
+        - link "Flowo, página inicial" [ref=e7] [cursor=pointer]:
+          - /url: /
+          - img "Flowo" [ref=e8]
+        - button "Abrir menu" [ref=e9] [cursor=pointer]:
+          - img [ref=e10]
+  - main [ref=e11]:
+    - generic [ref=e14]:
+      - navigation "Breadcrumb" [ref=e15]:
+        - list [ref=e16]:
+          - listitem [ref=e17]:
+            - link "Início" [ref=e18] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=e19]:
+            - img [ref=e20]
+            - link "Casos de Uso" [ref=e22] [cursor=pointer]:
+              - /url: /casos-de-sucesso
+          - listitem [ref=e23]:
+            - img [ref=e24]
+            - generic [ref=e26]: Estúdio de Beleza
+      - generic [ref=e27]:
+        - generic [ref=e28]:
+          - generic [ref=e29]: Beleza e Estética
+          - generic [ref=e30]: Exemplo ilustrativo
+        - heading "Estúdio Beleza Radiante" [level=1] [ref=e31]
+        - paragraph [ref=e32]: "Um cenário ilustrativo: como um estúdio com várias profissionais usaria o Flowo para preencher horários ociosos e manter as clientes voltando."
+      - complementary [ref=e33]:
+        - img [ref=e34]
+        - paragraph [ref=e36]: Este é um cenário ilustrativo, criado para mostrar como o Flowo funciona neste tipo de negócio. Não descreve um cliente real nem resultados medidos.
+      - generic [ref=e37]:
+        - heading "O desafio típico" [level=2] [ref=e38]
+        - paragraph [ref=e40]: "Estúdios de beleza vivem de recorrência: a cliente que volta todo mês vale mais que a novidade da semana. Mas sem sistema, os horários vagos entre atendimentos se acumulam, o telefone não para e ninguém tem tempo de chamar quem sumiu."
+      - generic [ref=e41]:
+        - heading "Como o Flowo entraria" [level=2] [ref=e42]
+        - list [ref=e44]:
+          - listitem [ref=e45]: Cada profissional tem a própria agenda, com serviços e tempos diferentes
+          - listitem [ref=e47]: A cliente agenda pelo WhatsApp e escolhe com quem quer ser atendida
+          - listitem [ref=e49]: Lembretes 24h e 2h antes reduzem esquecimento, com confirmação automática
+          - listitem [ref=e51]: Clientes sem retorno há mais de 45 dias entram num fluxo de reativação com contexto
+          - listitem [ref=e53]: O pagamento do atendimento pode ser feito por PIX ou cartão na própria conversa
+      - generic [ref=e55]:
+        - heading "Antes e depois, no dia a dia" [level=2] [ref=e56]
+        - generic [ref=e57]:
+          - list [ref=e59]:
+            - listitem [ref=e60]:
+              - paragraph [ref=e61]: Antes:Horários ociosos entre um atendimento e outro
+              - paragraph [ref=e62]: Depois:Agenda visível por profissional, com encaixes oferecidos pela IA
+            - listitem [ref=e63]:
+              - paragraph [ref=e64]: Antes:Agendamento manual pelo telefone e por mensagem
+              - paragraph [ref=e65]: Depois:Cliente agenda sozinho pelo WhatsApp, a qualquer hora
+            - listitem [ref=e66]:
+              - paragraph [ref=e67]: Antes:Cliente some e ninguém percebe
+              - paragraph [ref=e68]: Depois:Reativação segmentada para quem está sumido há mais de 45 dias
+            - listitem [ref=e69]:
+              - paragraph [ref=e70]: Antes:Cobrança na correria da recepção
+              - paragraph [ref=e71]: Depois:Pagamento do atendimento por PIX ou cartão, pela conversa
+          - paragraph [ref=e72]:
+            - text: "A lógica é a mesma da barbearia:"
+            - strong [ref=e73]: agenda organizada, confirmação automática e relacionamento contínuo
+            - text: pelo canal onde a cliente já está.
+      - generic [ref=e74]:
+        - heading "Quer ver como fica no seu negócio?" [level=2] [ref=e75]
+        - paragraph [ref=e76]: Configure seus serviços e horários em poucos minutos e deixe a IA atender no WhatsApp.
+        - generic [ref=e77]:
+          - button "Começar agora" [ref=e79] [cursor=pointer]
+          - link "Ver planos e preços" [ref=e80] [cursor=pointer]:
+            - /url: /precos
+      - link "Ver todos os casos de uso" [ref=e82] [cursor=pointer]:
+        - /url: /casos-de-sucesso
+        - img [ref=e83]
+        - text: Ver todos os casos de uso
+  - contentinfo [ref=e85]:
+    - generic [ref=e86]:
+      - generic [ref=e87]:
+        - generic [ref=e88]:
+          - img "Flowo" [ref=e89]
+          - paragraph [ref=e90]: "A recepção da sua barbearia no WhatsApp: a IA atende, agenda e confirma. Você cuida do corte."
+          - list [ref=e91]:
+            - listitem [ref=e92]:
+              - img [ref=e93]
+              - text: São Paulo, SP, Brasil
+            - listitem [ref=e96]:
+              - img [ref=e97]
+              - link "contato@flowo.com.br" [ref=e100] [cursor=pointer]:
+                - /url: mailto:contato@flowo.com.br
+        - navigation "Produto" [ref=e101]:
+          - heading "Produto" [level=3] [ref=e102]
+          - list [ref=e103]:
+            - listitem [ref=e104]:
+              - link "Recursos" [ref=e105] [cursor=pointer]:
+                - /url: /recursos
+            - listitem [ref=e106]:
+              - link "Preços" [ref=e107] [cursor=pointer]:
+                - /url: /precos
+            - listitem [ref=e108]:
+              - link "Sobre nós" [ref=e109] [cursor=pointer]:
+                - /url: /sobre
+            - listitem [ref=e110]:
+              - link "Casos de sucesso" [ref=e111] [cursor=pointer]:
+                - /url: /casos-de-sucesso
+        - navigation "Para barbearias" [ref=e112]:
+          - heading "Para barbearias" [level=3] [ref=e113]
+          - list [ref=e114]:
+            - listitem [ref=e115]:
+              - link "Sistema de agendamento" [ref=e116] [cursor=pointer]:
+                - /url: /sistema-agendamento-barbearia
+            - listitem [ref=e117]:
+              - link "Agenda no WhatsApp" [ref=e118] [cursor=pointer]:
+                - /url: /agenda-barbearia-whatsapp
+            - listitem [ref=e119]:
+              - link "Pagamentos PIX no atendimento" [ref=e120] [cursor=pointer]:
+                - /url: /software-barbearia-com-pix
+            - listitem [ref=e121]:
+              - link "Flowo vs planilha" [ref=e122] [cursor=pointer]:
+                - /url: /flowo-vs-planilha
+            - listitem [ref=e123]:
+              - link "Flowo vs agenda manual" [ref=e124] [cursor=pointer]:
+                - /url: /flowo-vs-agenda-manual
+        - navigation "Conta e aprendizado" [ref=e125]:
+          - heading "Aprenda" [level=3] [ref=e126]
+          - list [ref=e127]:
+            - listitem [ref=e128]:
+              - link "Guias" [ref=e129] [cursor=pointer]:
+                - /url: /recursos/guias
+            - listitem [ref=e130]:
+              - link "Materiais gratuitos" [ref=e131] [cursor=pointer]:
+                - /url: /recursos/materiais
+          - heading "Conta" [level=3] [ref=e132]
+          - list [ref=e133]:
+            - listitem [ref=e134]:
+              - link "Entrar" [ref=e135] [cursor=pointer]:
+                - /url: https://barber.flowo.com.br
+            - listitem [ref=e136]:
+              - link "Começar agora" [ref=e137] [cursor=pointer]:
+                - /url: https://barber.flowo.com.br/sign-up
+      - generic [ref=e138]:
+        - paragraph [ref=e139]: © 2026 Flowo. Todos os direitos reservados.
+        - generic [ref=e140]:
+          - link "Política de Privacidade" [ref=e141] [cursor=pointer]:
+            - /url: /privacidade
+          - link "Termos de Uso" [ref=e142] [cursor=pointer]:
+            - /url: /termos

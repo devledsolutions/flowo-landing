@@ -1,0 +1,24 @@
+/* Entrance for the three pricing cards: CSS-only so content renders visible
+   without JS (the animation is pure enhancement) and the global
+   prefers-reduced-motion override neutralizes it. */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rise {
+  animation: rise 0.7s var(--ease-out-expo) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise {
+    animation: none;
+  }
+}

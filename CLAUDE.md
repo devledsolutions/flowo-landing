@@ -12,16 +12,16 @@ Flowo is a Portuguese-language landing page for an AI-powered scheduling platfor
 
 ```bash
 # Start development server (with Turbopack)
-npm run dev
+pnpm dev
 
 # Build for production
-npm run build
+pnpm build
 
 # Start production server
-npm start
+pnpm start
 
 # Run linter
-npm run lint
+pnpm lint
 ```
 
 The dev server runs on http://localhost:3000

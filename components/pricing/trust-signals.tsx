@@ -1,24 +1,26 @@
-import { Shield, Clock, ThumbsUp } from "lucide-react";
+import { CreditCard, Shield, ThumbsUp, type LucideIcon } from "lucide-react";
+import { trustSignals } from "@/data/pricing-data";
+import { cn } from "@/lib/utils";
+import { TrustSignal } from "./trust-signal";
 
-export function TrustSignals() {
+/** Explicit map so we only bundle the icons the data actually uses. */
+const ICONS: Record<string, LucideIcon> = {
+  Shield,
+  ThumbsUp,
+  CreditCard,
+};
+
+export function TrustSignals({ className }: { className?: string }) {
   return (
-    <div className="flex flex-wrap justify-center gap-8 mb-16">
-      <div className="flex flex-col items-center gap-2">
-        <Shield className="w-8 h-8 text-primary" />
-        <span className="text-sm text-center">Dados Protegidos</span>
-      </div>
-      <div className="flex flex-col items-center gap-2">
-        <ThumbsUp className="w-8 h-8 text-primary" />
-        <span className="text-sm text-center">30 Dias de Garantia</span>
-      </div>
-      <div className="flex flex-col items-center gap-2">
-        <Clock className="w-8 h-8 text-primary" />
-        <span className="text-sm text-center">Suporte 24/7</span>
-      </div>
-      {/* <div className="flex flex-col items-center gap-2">
-        <Award className="w-8 h-8 text-primary" />
-        <span className="text-sm text-center">Premiado em 2023</span>
-      </div> */}
+    <div className={cn("grid gap-6 sm:grid-cols-3", className)}>
+      {trustSignals.map((signal) => (
+        <TrustSignal
+          key={signal.title}
+          icon={ICONS[signal.icon] ?? Shield}
+          title={signal.title}
+          description={signal.description}
+        />
+      ))}
     </div>
   );
 }
