@@ -11,6 +11,9 @@ comercial de 2026. Ele não é uma lista de sites para copiar. Cada referência
 tem um papel delimitado, e as verdades do produto Flowo prevalecem sobre
 qualquer padrão visual ou mensagem externa.
 
+Para a direção específica dos comparativos, consulte
+[`comparison-storytelling-reference-lock-2026-07-29.md`](./comparison-storytelling-reference-lock-2026-07-29.md).
+
 ## Design brief
 
 Projetar um site mobile-first para donos e gestores de barbearias brasileiras.
@@ -100,6 +103,11 @@ publicar afirmações comparativas sem nova verificação:
 - [Avec para negócios](https://negocios.avec.app/sistema-para-barbearia-gestao-e-clientes)
 - [Graces para barbearias](https://graces.com.br/barbearia/)
 - [AppBarber](https://www.appbarber.com.br/)
+- [Barbeiro.app](https://www.barbeiro.app/funcionalidades)
+
+A pesquisa nominal para as comparações publicadas em 29 de julho de 2026 está
+registrada em
+[`docs/research/competitor-comparisons-2026-07-29.md`](../research/competitor-comparisons-2026-07-29.md).
 
 Regra: qualquer comparação nominal deve registrar data da captura, URL, frase
 observada e escopo. A Flowo não deve afirmar ser “melhor” sem critério
@@ -192,6 +200,8 @@ Repositório: `flowo-app-v2/flowo-app`.
 | Recursos organizados por problema | Understory + biblioteca atual | Intenção do usuário primeiro | Reduz navegação por taxonomia interna |
 | Recupera como beta em preparação | Specs internas | Sem promessa de GA | Preserva verdade do produto |
 | Potencial, agendamento, atendimento e receita separados | Contrato Recupera | Receita apenas com comanda fechada | Evita ROI inventado |
+| Filme institucional em 16:9 e 9:16 | Frame.io + Attio + Glide | Produto, condições e logo Flowo como narrativa principal | Atende site e mídia social sem criar uma segunda identidade |
+| Player sem autoplay, com VTT e transcrição | Acessibilidade + performance | Usuário controla som e reprodução | Preserva Core Web Vitals e consumo mobile |
 
 ## Processo para usar esta biblioteca
 

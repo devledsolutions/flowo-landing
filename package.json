@@ -7,7 +7,10 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "video:studio": "remotion studio remotion/index.ts",
+    "video:render": "remotion render remotion/index.ts FlowoInstitucional public/videos/flowo-institucional.mp4 --codec=h264 --crf=20 --audio-codec=aac --audio-bitrate=192k && remotion render remotion/index.ts FlowoInstitucionalVertical public/videos/flowo-institucional-vertical.mp4 --codec=h264 --crf=21 --audio-codec=aac --audio-bitrate=192k",
+    "video:posters": "remotion still remotion/index.ts FlowoInstitucional public/videos/flowo-institucional-poster.jpg --frame=1320 --image-format=jpeg --jpeg-quality=92 && remotion still remotion/index.ts FlowoInstitucionalVertical public/videos/flowo-institucional-vertical-poster.jpg --frame=1320 --image-format=jpeg --jpeg-quality=92"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.2",
@@ -43,10 +46,14 @@
     "recharts": "^2.15.0",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^4.3.6"
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@fontsource/lora": "^5.3.0",
+    "@fontsource/poppins": "^5.3.0",
+    "@remotion/cli": "^4.0.500",
+    "@remotion/media": "^4.0.500",
     "@tailwindcss/typography": "^0.5.19",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
@@ -57,6 +64,7 @@
     "eslint-config-next": "15.1.0",
     "pdfkit": "^0.17.2",
     "postcss": "^8",
+    "remotion": "^4.0.500",
     "tailwindcss": "^3.4.1",
     "typescript": "^5",
     "xlsx": "^0.18.5"
