@@ -30,7 +30,7 @@ export function PricingToggle({ cycle, onCycleChange }: PricingToggleProps) {
               aria-pressed={active}
               onClick={() => onCycleChange(option.value)}
               className={cn(
-                "rounded-full px-5 py-2 text-sm font-medium transition-colors duration-200 ease-out-quint",
+                "inline-flex min-h-11 items-center rounded-full px-5 py-2 text-sm font-medium transition-colors duration-200 ease-out-quint",
                 active ? "bg-ink text-cream" : "text-muted-ink hover:text-ink"
               )}
             >

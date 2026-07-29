@@ -1,5 +1,5 @@
-import { PRICING, formatBRL } from "@/data/pricing-data";
-import { faqItems } from "@/data/faq-items";
+import { PRICING } from "@/data/pricing-data";
+import { homeFaqItems } from "@/data/faq-items";
 import { LEGAL_ENTITY } from "@/lib/legal-identity";
 import { SITE_URL, absoluteUrl } from "@/lib/seo";
 
@@ -8,7 +8,7 @@ import { SITE_URL, absoluteUrl } from "@/lib/seo";
  * - Prices come ONLY from data/pricing-data.ts (mirrored, never hardcoded).
  * - No aggregateRating anywhere (we have no verified review corpus).
  * - ONE Organization node for the whole page (layout.tsx must not add another).
- * - FAQ is generated from data/faq-items.ts so page copy and schema never drift.
+ * - FAQ is generated from the exact home-page subset so visible copy and schema never drift.
  */
 export default function SchemaMarkup() {
   const offers = PRICING.plans.map((plan) => ({
@@ -81,23 +81,10 @@ export default function SchemaMarkup() {
     inLanguage: "pt-BR",
   };
 
-  const pricingFaq = {
-    "@type": "Question",
-    name: "Quanto custa o Flowo?",
-    acceptedAnswer: {
-      "@type": "Answer",
-      text: `Temos 3 planos: ${PRICING.plans
-        .map((plan) => `${plan.name} (${formatBRL(plan.monthly)}/mês)`)
-        .join(", ")}. No plano anual você leva 2 meses grátis. Sem fidelidade: cancele quando quiser.`,
-    },
-  };
-
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: [
-      pricingFaq,
-      ...faqItems.map((item) => ({
+    mainEntity: homeFaqItems.map((item) => ({
         "@type": "Question",
         name: item.question,
         acceptedAnswer: {
@@ -105,7 +92,6 @@ export default function SchemaMarkup() {
           text: item.answer,
         },
       })),
-    ],
   };
 
   return (

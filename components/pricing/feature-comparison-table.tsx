@@ -94,7 +94,7 @@ export function FeatureComparisonTable() {
                     </span>
                     {highlight && (
                       <span className="mt-1.5 inline-block rounded-full border border-line px-2 py-0.5 text-caption font-medium text-ink">
-                        Mais escolhido
+                        Para equipes
                       </span>
                     )}
                   </th>

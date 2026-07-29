@@ -154,6 +154,18 @@
   .img-duotone {
     filter: grayscale(1) contrast(1.06) brightness(0.96) sepia(0.14);
   }
+  /* Product screenshots keep a light app canvas even inside an ink story band. */
+  .preview-light {
+    --bg: oklch(0.972 0.004 95);
+    --surface: oklch(0.988 0.003 95);
+    --surface-2: oklch(0.955 0.005 98);
+    --ink: oklch(0.205 0.012 110);
+    --ink-strong: oklch(0.17 0.012 110);
+    --muted-ink: oklch(0.46 0.01 106);
+    --faint-ink: oklch(0.54 0.009 104);
+    --line: oklch(0.205 0.012 110 / 0.12);
+    color: var(--ink);
+  }
 }
 
 /* Reduced motion: keep the global kill-switch. whileInView elements must

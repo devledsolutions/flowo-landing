@@ -40,7 +40,7 @@ export default function CallToAction() {
         >
           Enquanto você corta, a{" "}
           <em className="font-serif font-medium italic tracking-[-0.008em]">
-            Bia
+            IA
           </em>{" "}
           atende.
         </h2>
