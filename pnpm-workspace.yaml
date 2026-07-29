@@ -6,6 +6,10 @@ allowBuilds:
   esbuild: true
   sharp: true
   unrs-resolver: true
+minimumReleaseAgeExclude:
+  - '@ai-sdk/gateway@4.0.32'
+  - '@ai-sdk/provider-utils@5.0.15'
+  - ai@7.0.42
 onlyBuiltDependencies:
   - "@sentry/cli"
   - sharp
