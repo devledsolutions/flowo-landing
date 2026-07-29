@@ -7,7 +7,8 @@
    The only non-neutral hues allowed anywhere on the page:
    (a) WhatsApp green / blue-tick INSIDE the phone mock,
    (b) low-chroma semantic states (--success / --danger) for the
-       mock's confirm tick and form validation.
+       mock's confirm tick and form validation,
+   (c) the three standard window controls inside product previews.
    Everything else is ink or cream. No blue, no pink, no charts.
    ============================================================ */
 

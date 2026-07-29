@@ -4,8 +4,10 @@ import {
   ArrowRight,
   CalendarDays,
   Check,
+  CheckCircle2,
   ChevronRight,
   CreditCard,
+  LockKeyhole,
   MessageCircle,
   Scissors,
 } from "lucide-react";
@@ -93,29 +95,108 @@ function ProductPreview({ kind }: { kind: PreviewKind }) {
     <div
       role="img"
       aria-label={previewLabels[kind]}
-      className="relative overflow-hidden rounded-xl border border-line bg-surface"
+      className="relative isolate px-1 pb-1 pt-5 sm:px-5 sm:pb-3 sm:pt-8"
     >
-      <div aria-hidden="true">
-        <div className="flex items-center justify-between border-b border-line bg-surface-2 px-4 py-3">
-          <div className="flex items-center gap-2">
-            <span className="h-2.5 w-2.5 rounded-full bg-line" />
-            <span className="h-2.5 w-2.5 rounded-full bg-line" />
-            <span className="h-2.5 w-2.5 rounded-full bg-line" />
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-[9%] top-[12%] -z-10 h-[72%] rounded-full bg-ink/[0.065] blur-3xl"
+      />
+      <div aria-hidden="true" className="relative">
+        <div className="overflow-hidden rounded-[14px] border border-ink/[0.12] bg-surface [box-shadow:0_2px_3px_-2px_rgb(23_24_16_/_0.14),0_18px_44px_-24px_rgb(23_24_16_/_0.32)]">
+          <div className="grid min-h-11 grid-cols-[auto_1fr_auto] items-center gap-3 border-b border-line bg-surface-2 px-3 sm:px-4">
+            <div className="flex items-center gap-1.5" aria-hidden="true">
+              <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
+              <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
+              <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
+            </div>
+            <div className="mx-auto flex min-h-7 w-full max-w-52 items-center justify-center gap-1.5 rounded-md border border-ink/[0.08] bg-surface px-3 text-[10px] text-muted-ink sm:max-w-60">
+              <LockKeyhole className="h-2.5 w-2.5" />
+              <span className="truncate">barber.flowo.com.br</span>
+            </div>
+            <span className="hidden text-[10px] font-semibold tracking-[0.16em] text-ink sm:inline">
+              FLOWO
+            </span>
           </div>
-          <span className="text-[11px] font-medium text-muted-ink">
-            Exemplo no Flowo
-          </span>
+          <div className="flex items-center justify-between border-b border-line px-4 py-3 sm:px-5">
+            <div className="flex items-center gap-2.5">
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-ink text-cream">
+                <Scissors className="h-3.5 w-3.5" />
+              </span>
+              <span>
+                <span className="block text-[11px] font-semibold leading-none text-ink">
+                  Flowo
+                </span>
+                <span className="mt-1 block text-[9px] leading-none text-muted-ink">
+                  Gestão da barbearia
+                </span>
+              </span>
+            </div>
+            <span className="rounded-full border border-line px-2 py-1 text-[9px] font-medium text-muted-ink">
+              Ambiente seguro
+            </span>
+          </div>
+          <div className="p-4 pb-8 sm:p-6 sm:pb-10">
+            {kind === "agenda" && <AgendaPreview />}
+            {kind === "whatsapp" && <WhatsappPreview />}
+            {kind === "pagamento" && <PaymentPreview />}
+            {kind === "comparacao" && <ComparisonPreview />}
+          </div>
         </div>
-        <div className="p-5 sm:p-6">
-          {kind === "agenda" && <AgendaPreview />}
-          {kind === "whatsapp" && <WhatsappPreview />}
-          {kind === "pagamento" && <PaymentPreview />}
-          {kind === "comparacao" && <ComparisonPreview />}
-        </div>
+        <PreviewSignal kind={kind} />
       </div>
-      <p className="border-t border-line px-5 py-3 text-center text-caption text-muted-ink">
-        Dados ilustrativos da interface
+      <p className="mt-4 text-center text-[11px] text-muted-ink">
+        Demonstração ilustrativa do produto
       </p>
+    </div>
+  );
+}
+
+const previewSignals: Record<
+  PreviewKind,
+  { eyebrow: string; title: string; meta: string }
+> = {
+  agenda: {
+    eyebrow: "Novo horário",
+    title: "Agendamento confirmado",
+    meta: "Rafa · amanhã, 11h30",
+  },
+  whatsapp: {
+    eyebrow: "WhatsApp",
+    title: "Agendamento concluído",
+    meta: "Corte · amanhã, 11h30",
+  },
+  pagamento: {
+    eyebrow: "Caixa atualizado",
+    title: "Pagamento aprovado",
+    meta: "PIX · R$ 75,00",
+  },
+  comparacao: {
+    eyebrow: "Rotina organizada",
+    title: "3 etapas automatizadas",
+    meta: "Do atendimento à confirmação",
+  },
+};
+
+function PreviewSignal({ kind }: { kind: PreviewKind }) {
+  const signal = previewSignals[kind];
+
+  return (
+    <div className="relative -mt-6 ml-auto mr-3 flex w-[min(17rem,82%)] items-center gap-3 rounded-xl border border-ink/[0.1] bg-surface px-3.5 py-3 [box-shadow:0_16px_38px_-22px_rgb(23_24_16_/_0.4)] sm:-mt-7 sm:mr-5 sm:w-72">
+      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-ink text-cream">
+        <CheckCircle2 className="h-4 w-4" />
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="block text-[9px] font-semibold uppercase tracking-[0.12em] text-faint-ink">
+          {signal.eyebrow}
+        </span>
+        <span className="mt-0.5 block truncate text-xs font-semibold text-ink">
+          {signal.title}
+        </span>
+        <span className="block truncate text-[10px] text-muted-ink">
+          {signal.meta}
+        </span>
+      </span>
+      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--success)]" />
     </div>
   );
 }
