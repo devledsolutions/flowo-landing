@@ -20,7 +20,7 @@ const PATH = "/sistema-agendamento-barbearia";
 export const metadata = buildMetadata({
   title: "Sistema de Agendamento para Barbearia",
   description:
-    "Sistema de agendamento para barbearia com IA no WhatsApp: agenda por barbeiro, confirmação automática contra faltas e pagamento do atendimento por PIX ou cartão.",
+    "Sistema de agendamento para barbearia com IA no WhatsApp: agenda por profissional, confirmação, comandas e pagamentos integrados opcionais.",
   path: PATH,
 });
 
@@ -162,9 +162,9 @@ export default function SchedulingSystemPage() {
             },
             {
               href: "/software-barbearia-com-pix",
-              label: "Pagamento no atendimento",
+              label: "Recebimento no atendimento",
               description:
-                "Feche a comanda por PIX ou cartão e registre no caixa.",
+                "Registre dinheiro ou maquininha própria e, se quiser, ative PIX e cartão Flowo.",
             },
           ]}
         />

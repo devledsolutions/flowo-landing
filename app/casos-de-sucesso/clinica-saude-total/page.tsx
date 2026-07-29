@@ -22,7 +22,7 @@ const beforeAfterItems = [
   },
   {
     before: "Horário de quem cancelou fica vazio",
-    after: "O sistema libera o horário e oferece para a fila de espera",
+    after: "O cancelamento devolve o horário à agenda e registra a fila de espera",
   },
   {
     before: "Cada profissional com uma agenda diferente",
@@ -59,7 +59,7 @@ export default function ClinicaSaudeTotalPage() {
               items={[
                 "O paciente agenda, remarca e cancela pela conversa no WhatsApp",
                 "Confirmação automática na véspera, sem ninguém ao telefone",
-                "Consulta não confirmada pode ser liberada e reoferecida",
+                "Quando o paciente cancela, o horário volta para a agenda e a equipe pode consultar a fila de espera",
                 "Agenda de todos os profissionais em um painel central",
                 "Histórico de faltas por paciente, para a equipe agir com contexto",
               ]}

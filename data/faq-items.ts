@@ -13,7 +13,7 @@ export const faqItems: FAQItem[] = [
   },
   {
     question: "Como funciona o pagamento via PIX?",
-    answer: "O Flowo cobra o atendimento por PIX ou cartão: o cliente recebe o link e paga sem precisar de dinheiro na mão. O pagamento é do atendimento, não uma condição para agendar. Contra faltas, o que trabalha é a confirmação automática pelo WhatsApp antes do horário.",
+    answer: "PIX e cartão integrados são opcionais e usados somente depois do serviço. A barbearia também pode receber em dinheiro ou na própria maquininha e registrar a forma de pagamento na comanda. O Flowo nunca exige sinal ou pagamento para reservar.",
     category: "Pagamento"
   },
   {
@@ -43,7 +43,7 @@ export const faqItems: FAQItem[] = [
   },
   {
     question: "Como os lembretes reduzem as faltas?",
-    answer: "O sistema manda lembrete automático 24h antes e 2h antes do horário marcado, direto no WhatsApp do cliente. O cliente pode confirmar, remarcar ou cancelar respondendo a mensagem. Se não responder, o sistema pode liberar o horário automaticamente.",
+    answer: "O sistema envia lembretes antes do horário, direto no WhatsApp do cliente. Ele pode confirmar, pedir remarcação ou cancelar respondendo à mensagem. A falta de resposta não cancela nem libera o horário automaticamente.",
     category: "Lembretes"
   },
   {
@@ -58,7 +58,7 @@ export const faqItems: FAQItem[] = [
   },
   {
     question: "Posso integrar o Flowo com outros sistemas?",
-    answer: "O Flowo sincroniza a agenda com Google Calendar, Apple Calendar e Microsoft Outlook em tempo real, e os pagamentos por PIX e cartão já são integrados ao sistema. Precisa de outra integração? Fale com a gente e contamos o que já está no plano da sua barbearia.",
+    answer: "O Flowo sincroniza a agenda com Google Calendar, Apple Calendar e Microsoft Outlook. PIX e cartão integrados podem ser ativados separadamente; dinheiro e maquininha própria continuam válidos. Precisa de outra integração? Fale com a gente e confirmamos o que está disponível para a sua barbearia.",
     category: "Integrações"
   },
   {

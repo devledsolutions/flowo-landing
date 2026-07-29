@@ -17,7 +17,7 @@ const planFit = [
 const paymentSteps = [
   { icon: CalendarDays, label: "Agendado" },
   { icon: Check, label: "Atendido" },
-  { icon: CreditCard, label: "Pago" },
+  { icon: CreditCard, label: "Registrado" },
 ] as const;
 
 export default function ProductStory() {
@@ -113,8 +113,8 @@ export default function ProductStory() {
               <em className="font-serif font-medium italic">atualizado.</em>
             </h2>
             <p className="mt-5 text-lead text-muted-ink">
-              O pagamento acontece depois do serviço — nunca para reservar o
-              horário.
+              Depois do serviço, registre dinheiro, maquininha própria ou um
+              pagamento Flowo opcional — nunca para reservar o horário.
             </p>
 
             <ol className="mt-9 flex items-center gap-3" aria-label="Etapas do atendimento">

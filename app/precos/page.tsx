@@ -5,6 +5,7 @@ import { PricingSection } from "@/components/pricing/pricing-section";
 import { FeatureComparisonTable } from "@/components/pricing/feature-comparison-table";
 import { FeaturedResource } from "@/components/pricing/featured-resource";
 import { PricingCTA } from "@/components/pricing/pricing-cta";
+import { OptionalCapabilities } from "@/components/pricing/optional-capabilities";
 import { featuredResources, formatBRL, PLANS, PRICING } from "@/data/pricing-data";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
 
@@ -12,7 +13,7 @@ const [solo, equipe, empresarial] = PLANS;
 
 export const metadata = buildMetadata({
   title: "Preços e planos",
-  description: `Planos para barbearias: Solo por ${formatBRL(solo.monthly)}/mês, Equipe por ${formatBRL(equipe.monthly)}/mês e Empresarial por ${formatBRL(empresarial.monthly)}/mês. IA no WhatsApp, lembretes automáticos e pagamento no atendimento. Sem fidelidade.`,
+  description: `Planos para barbearias: Solo por ${formatBRL(solo.monthly)}/mês, Equipe por ${formatBRL(equipe.monthly)}/mês e Empresarial por ${formatBRL(empresarial.monthly)}/mês. IA no WhatsApp, lembretes e pagamentos integrados opcionais. Sem fidelidade.`,
   path: "/precos",
 });
 
@@ -55,14 +56,17 @@ export default function PricingPage() {
           </div>
         </section>
 
-        <section aria-labelledby="recursos-title" className="section-normal">
+        <OptionalCapabilities />
+
+        <section aria-labelledby="recursos-title" className="section-normal border-t border-line bg-surface">
           <div className="container-page">
             <div className="mx-auto max-w-2xl text-center">
               <h2 id="recursos-title" className="text-h2 font-semibold text-ink-strong">
                 O que o Flowo faz pela sua barbearia
               </h2>
               <p className="mt-3 text-lead text-muted-ink">
-                Tudo o que vem com a assinatura, do atendimento ao pagamento.
+                O núcleo da assinatura organiza atendimento, agenda e operação.
+                Recursos adicionais mostram suas condições separadamente.
               </p>
             </div>
             <div className="mx-auto mt-10 grid max-w-5xl gap-5 sm:grid-cols-2 lg:grid-cols-3">

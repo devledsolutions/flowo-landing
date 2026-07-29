@@ -15,7 +15,7 @@ export function GET() {
   ).join("\n");
 
   const content = `# Flowo
-> Plataforma de agendamento para barbearias: a IA atende no WhatsApp, agenda e confirma clientes. Lembretes automáticos contra faltas e pagamento do atendimento por PIX ou cartão.
+> Plataforma de agendamento para barbearias: a IA atende no WhatsApp, agenda e confirma clientes. A operação reúne agenda, comandas e recebimento; pagamentos integrados são opcionais e acontecem somente depois do serviço.
 
 ## Canonical website
 - ${SITE_URL}
@@ -32,9 +32,13 @@ ${planLines}
 ## Money pages
 - [Sistema de agendamento para barbearia](${SITE_URL}/sistema-agendamento-barbearia)
 - [Agenda de barbearia no WhatsApp](${SITE_URL}/agenda-barbearia-whatsapp)
-- [Pagamentos PIX no atendimento](${SITE_URL}/software-barbearia-com-pix)
+- [Pagamentos opcionais no atendimento](${SITE_URL}/software-barbearia-com-pix)
+- [Comissões de barbeiros](${SITE_URL}/recursos/comissoes-barbeiros)
+- [Cashback para barbearias](${SITE_URL}/recursos/cashback-barbearia)
+- [Nota fiscal com ativação assistida](${SITE_URL}/recursos/nota-fiscal-barbearia)
 
 ## Comparative pages
+- [Hub de comparações](${SITE_URL}/comparar)
 - [Flowo vs planilha](${SITE_URL}/flowo-vs-planilha)
 - [Flowo vs agenda manual](${SITE_URL}/flowo-vs-agenda-manual)
 

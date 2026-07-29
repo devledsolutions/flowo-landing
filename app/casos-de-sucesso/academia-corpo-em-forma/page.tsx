@@ -11,7 +11,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "Caso de Uso: Academia (Exemplo Ilustrativo)",
   description:
-    "Cenário ilustrativo de como uma academia usaria o Flowo: confirmação de presença nas aulas pelo WhatsApp, vagas liberadas automaticamente e histórico de frequência.",
+    "Cenário ilustrativo de como uma academia usaria o Flowo: confirmação de presença pelo WhatsApp, registro de cancelamentos e histórico de frequência.",
   path: "/casos-de-sucesso/academia-corpo-em-forma",
 });
 
@@ -22,7 +22,7 @@ const beforeAfterItems = [
   },
   {
     before: "Vaga de quem desistiu se perde",
-    after: "Sem confirmação, a vaga é liberada para a lista de espera",
+    after: "Quando o aluno cancela, a vaga volta para a agenda",
   },
   {
     before: "Recepção presa ao telefone remarcando horários",
@@ -59,7 +59,7 @@ export default function AcademiaCorpoEmFormaPage() {
               items={[
                 "O aluno agenda e remarca a aula direto pelo WhatsApp, conversando com a IA",
                 "Lembrete automático na véspera e no dia, com pedido de confirmação",
-                "Sem confirmação dentro do prazo, a vaga é liberada para a lista de espera",
+                "Quando o aluno cancela, a vaga volta para a agenda e pode atender a lista de espera",
                 "O painel mostra a frequência de cada aluno, para o time agir com contexto",
               ]}
             />
@@ -69,7 +69,7 @@ export default function AcademiaCorpoEmFormaPage() {
             <BeforeAfter items={beforeAfterItems} />
             <p>
               O mecanismo contra faltas é sempre o mesmo:{" "}
-              <strong>lembrete + confirmação + liberação da vaga</strong>.
+              <strong>lembrete + confirmação + cancelamento explícito</strong>.
               Nenhum pagamento antecipado, nenhuma fricção para o aluno.
             </p>
           </CaseSection>

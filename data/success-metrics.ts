@@ -41,9 +41,9 @@ export const productFacts: readonly ProductFact[] = [
   },
   {
     icon: CreditCard,
-    title: "Pagamento no atendimento",
+    title: "Recebimento no atendimento",
     detail:
-      "PIX e cartão para cobrar o atendimento, direto pelo chat ou na comanda. Nunca como condição para agendar.",
+      "Registre dinheiro ou maquininha própria e, se quiser, ative PIX e cartão Flowo. Nunca como condição para agendar.",
   },
   {
     icon: Users,
@@ -138,6 +138,6 @@ export const beforeAfterFlowo: readonly ComparisonPair[] = [
   },
   {
     before: "Cobrança no dinheiro trocado ou no fiado.",
-    after: "PIX e cartão no atendimento, registrado na comanda.",
+    after: "Forma de recebimento registrada na comanda, com pagamentos integrados opcionais.",
   },
 ]

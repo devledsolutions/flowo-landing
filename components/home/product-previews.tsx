@@ -218,10 +218,17 @@ export function ConfirmationPreview({ className }: { className?: string }) {
 }
 
 export function PaymentPreview({ className }: { className?: string }) {
+  const methods = [
+    ["Dinheiro", "Registrar"],
+    ["Maquininha própria", "Registrar"],
+    ["PIX Flowo", "Opcional"],
+    ["Cartão Flowo", "Opcional"],
+  ] as const;
+
   return (
     <div
       role="img"
-      aria-label="Comanda do corte de Marcos no valor de quarenta e cinco reais. O atendimento está concluído e, só então, o pagamento por PIX ou cartão é liberado."
+      aria-label="Comanda do corte de Marcos no valor de quarenta e cinco reais. Depois do atendimento, a equipe pode registrar dinheiro, maquininha própria, PIX Flowo ou cartão Flowo."
       className={cn(
         "preview-light overflow-hidden rounded-xl border border-ink/20 bg-surface shadow-[0_28px_70px_-45px_oklch(0.17_0.012_110/0.7)]",
         className
@@ -250,13 +257,16 @@ export function PaymentPreview({ className }: { className?: string }) {
             </p>
           </div>
         </div>
-        <div className="mt-4 grid grid-cols-2 gap-2">
-          <div className="flex items-center justify-between rounded-lg border border-line px-3 py-3 text-xs font-medium text-ink">
-            PIX <span aria-hidden="true">→</span>
-          </div>
-          <div className="flex items-center justify-between rounded-lg border border-line px-3 py-3 text-xs font-medium text-ink">
-            Cartão <span aria-hidden="true">→</span>
-          </div>
+        <p className="mt-4 text-[9px] font-semibold uppercase tracking-[0.1em] text-faint-ink">
+          Como o cliente pagou?
+        </p>
+        <div className="mt-2 grid grid-cols-2 gap-2">
+          {methods.map(([method, status]) => (
+            <div key={method} className="rounded-lg border border-line px-3 py-2.5">
+              <p className="text-[10px] font-medium text-ink">{method}</p>
+              <p className="mt-0.5 text-[8px] text-muted-ink">{status}</p>
+            </div>
+          ))}
         </div>
       </div>
     </div>

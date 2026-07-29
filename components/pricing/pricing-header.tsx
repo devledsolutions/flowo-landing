@@ -11,8 +11,8 @@ export function PricingHeader() {
       </h1>
       <p className="mx-auto mt-5 max-w-measure text-lead text-muted-ink">
         Todos os planos vêm com a IA atendendo no WhatsApp, lembretes com
-        confirmação automática e pagamento do atendimento por PIX ou cartão.
-        Sem fidelidade.
+        confirmação automática e comandas. PIX e cartão integrados são
+        opcionais. Sem fidelidade.
       </p>
     </header>
   );
