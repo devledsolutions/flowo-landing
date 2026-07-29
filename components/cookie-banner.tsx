@@ -78,7 +78,7 @@ export function CookieBanner() {
               </div>
               <button
                 onClick={handleRejectAll}
-                className="flex-shrink-0 rounded-full p-1 transition-colors duration-200 ease-out-quint hover:bg-secondary"
+                className="inline-flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full transition-colors duration-200 ease-out-quint hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2"
                 aria-label="Fechar e rejeitar cookies opcionais"
               >
                 <X aria-hidden="true" className="h-4 w-4 text-muted-ink" />
@@ -89,7 +89,7 @@ export function CookieBanner() {
               <Button
                 variant="ghost"
                 size="sm"
-                className="h-8 rounded-full px-3 text-xs text-muted-ink hover:text-ink"
+                className="h-11 rounded-full px-3 text-xs text-muted-ink hover:text-ink"
                 onClick={() => setShowPreferences(true)}
               >
                 <Settings aria-hidden="true" className="mr-1.5 h-3.5 w-3.5" />
@@ -98,14 +98,14 @@ export function CookieBanner() {
               <Button
                 variant="outline"
                 size="sm"
-                className="h-8 rounded-full px-3 text-xs"
+                className="h-11 rounded-full px-3 text-xs"
                 onClick={handleRejectAll}
               >
                 Rejeitar
               </Button>
               <Button
                 size="sm"
-                className="h-8 rounded-full px-3 text-xs"
+                className="h-11 rounded-full px-3 text-xs"
                 onClick={handleAcceptAll}
               >
                 Aceitar
@@ -123,7 +123,7 @@ export function CookieBanner() {
               </div>
               <button
                 onClick={() => setShowPreferences(false)}
-                className="rounded-full p-1 transition-colors duration-200 ease-out-quint hover:bg-secondary"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full transition-colors duration-200 ease-out-quint hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2"
                 aria-label="Voltar"
               >
                 <X aria-hidden="true" className="h-4 w-4 text-muted-ink" />
@@ -175,14 +175,14 @@ export function CookieBanner() {
               <Button
                 variant="outline"
                 size="sm"
-                className="h-8 flex-1 rounded-full text-xs"
+                className="h-11 flex-1 rounded-full text-xs"
                 onClick={() => setShowPreferences(false)}
               >
                 Voltar
               </Button>
               <Button
                 size="sm"
-                className="h-8 flex-1 rounded-full text-xs"
+                className="h-11 flex-1 rounded-full text-xs"
                 onClick={handleSavePreferences}
               >
                 Salvar

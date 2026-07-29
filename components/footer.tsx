@@ -28,13 +28,13 @@ const aprendaLinks = [
 
 function FooterLinkList({ links }: { links: { href: string; label: string }[] }) {
   return (
-    <ul className="mt-5 space-y-3">
+    <ul className="mt-3">
       {links.map((link) => (
         <li key={link.href}>
           <Link
             href={link.href}
             prefetch={false}
-            className="text-sm text-muted-ink transition-colors duration-200 ease-out-quint hover:text-ink"
+            className="flex min-h-11 items-center rounded-sm text-sm text-muted-ink outline-none transition-colors duration-200 ease-out-quint hover:text-ink focus-visible:ring-2 focus-visible:ring-cream focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
           >
             {link.label}
           </Link>
@@ -70,7 +70,7 @@ export default function Footer() {
                 <Mail aria-hidden="true" className="h-4 w-4 shrink-0 text-muted-ink" />
                 <a
                   href="mailto:contato@flowo.com.br"
-                  className="text-muted-ink transition-colors duration-200 ease-out-quint hover:text-ink"
+                  className="flex min-h-11 items-center rounded-sm text-muted-ink outline-none transition-colors duration-200 ease-out-quint hover:text-ink focus-visible:ring-2 focus-visible:ring-cream focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
                 >
                   contato@flowo.com.br
                 </a>
@@ -97,11 +97,11 @@ export default function Footer() {
             <h3 className="text-label font-medium text-ink">Aprenda</h3>
             <FooterLinkList links={aprendaLinks} />
             <h3 className="mt-8 text-label font-medium text-ink">Conta</h3>
-            <ul className="mt-5 space-y-3">
+            <ul className="mt-3">
               <li>
                 <a
                   href={APP_URL}
-                  className="text-sm text-muted-ink transition-colors duration-200 ease-out-quint hover:text-ink"
+                  className="flex min-h-11 items-center rounded-sm text-sm text-muted-ink outline-none transition-colors duration-200 ease-out-quint hover:text-ink focus-visible:ring-2 focus-visible:ring-cream focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
                 >
                   Entrar
                 </a>
@@ -109,7 +109,7 @@ export default function Footer() {
               <li>
                 <a
                   href={SIGNUP_URL}
-                  className="text-sm font-medium text-ink underline-offset-4 hover:underline"
+                  className="flex min-h-11 items-center rounded-sm text-sm font-medium text-ink underline-offset-4 outline-none hover:underline focus-visible:ring-2 focus-visible:ring-cream focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
                 >
                   Começar agora
                 </a>
@@ -122,25 +122,25 @@ export default function Footer() {
           <p className="text-caption text-muted-ink">
             © {new Date().getFullYear()} Flowo. Todos os direitos reservados.
           </p>
-          <div className="flex gap-6 text-caption">
+          <div className="flex flex-wrap gap-x-6 text-caption">
             <Link
               href="/privacidade"
               prefetch={false}
-              className="text-muted-ink transition-colors duration-200 ease-out-quint hover:text-ink"
+              className="flex min-h-11 items-center rounded-sm text-muted-ink outline-none transition-colors duration-200 ease-out-quint hover:text-ink focus-visible:ring-2 focus-visible:ring-cream focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
             >
               Política de Privacidade
             </Link>
             <Link
               href="/termos"
               prefetch={false}
-              className="text-muted-ink transition-colors duration-200 ease-out-quint hover:text-ink"
+              className="flex min-h-11 items-center rounded-sm text-muted-ink outline-none transition-colors duration-200 ease-out-quint hover:text-ink focus-visible:ring-2 focus-visible:ring-cream focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
             >
               Termos de Uso
             </Link>
             <Link
               href="/exclusao-de-dados"
               prefetch={false}
-              className="text-muted-ink transition-colors duration-200 ease-out-quint hover:text-ink"
+              className="flex min-h-11 items-center rounded-sm text-muted-ink outline-none transition-colors duration-200 ease-out-quint hover:text-ink focus-visible:ring-2 focus-visible:ring-cream focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
             >
               Exclusão de Dados
             </Link>
