@@ -50,7 +50,7 @@ export default function Navbar() {
           <Link
             href="/"
             prefetch={false}
-            className="flex shrink-0 items-center"
+            className="flex h-11 shrink-0 items-center rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2"
             aria-label="Flowo, página inicial"
             onClick={closeMenu}
           >

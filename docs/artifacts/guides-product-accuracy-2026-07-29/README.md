@@ -66,7 +66,7 @@ genéricas de funcionalidades.
 | Mobile | 10/10 guias, 390 × 844 |
 | Estrutura | Um H1 por página, sem links visíveis vazios |
 | Responsividade | Sem rolagem horizontal |
-| Acessibilidade móvel | Sem alvos interativos menores que 44 px |
+| Acessibilidade móvel | Ações e controles principais com alvo mínimo de 44 px |
 | Sumário | Visível no desktop e recolhido por padrão no celular |
 
 Esta pasta contém vinte capturas em página inteira: uma versão desktop e uma
