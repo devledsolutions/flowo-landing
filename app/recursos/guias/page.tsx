@@ -26,7 +26,7 @@ const strategicLinks = [
   },
   {
     title: "Pagamentos PIX no Atendimento",
-    description: "Cobrança do atendimento por PIX ou cartão pelo WhatsApp.",
+    description: "Fechamento pós-serviço com PIX, cartão ou dinheiro.",
     href: "/software-barbearia-com-pix",
   },
   {
@@ -57,7 +57,8 @@ export default function GuidesPage() {
                 </h2>
                 <p className="mt-2 max-w-measure text-muted-ink">
                   Estas páginas mostram como agenda, WhatsApp, pagamentos e
-                  equipe funcionam no Flowo.
+                  equipe funcionam hoje no Flowo, incluindo dependências de
+                  plano e ativação.
                 </p>
                 <ul className="mt-6 grid gap-3">
                   {strategicLinks.map((item) => (

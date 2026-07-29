@@ -22,8 +22,9 @@ export function GuidesHero() {
               Um processo claro para cada parte da operação
             </h1>
             <p className="mt-4 max-w-measure text-lead leading-relaxed text-muted-ink">
-              Aprenda a organizar horários por barbeiro, confirmar clientes no
-              WhatsApp, acompanhar o caixa e decidir o próximo ajuste da equipe.
+              Aprenda a organizar horários por profissional, confirmar clientes,
+              fechar o atendimento e interpretar os relatórios. Cada guia explica
+              o que depende de plano, canal ou ativação.
             </p>
           </div>
         </div>

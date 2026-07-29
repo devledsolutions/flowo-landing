@@ -1,21 +1,17 @@
-import {
-  CalendarCheck,
-  CreditCard,
-  MessageCircle,
-  Shield,
-  Wallet,
-} from "lucide-react";
+import { CreditCard, ReceiptText, Shield, Wallet } from "lucide-react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import {
+  GuideAvailability,
   GuideCallout,
   GuideCards,
-  GuideChatSample,
   GuideChecklist,
   GuideCta,
   GuideHeader,
   GuidePage,
   GuidePrevNext,
+  GuideProductPath,
+  GuideScopeNote,
   GuideSection,
   GuideSteps,
   GuideToc,
@@ -25,16 +21,16 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "Pagamentos com PIX no Atendimento",
   description:
-    "Receba o pagamento do atendimento por PIX ou cartão direto pelo WhatsApp, com conta digital integrada e política de cancelamento clara.",
+    "Ative a conta de recebimento e feche comandas com dinheiro, PIX ou cartão depois do serviço no Flowo.",
   path: "/recursos/guias/pagamentos-pix",
 });
 
 const tableOfContents = [
-  { id: "como-funciona", label: "Como funciona o pagamento no atendimento" },
-  { id: "configurando-conta", label: "Configurando sua conta" },
-  { id: "cobranca-whatsapp", label: "Cobrança pelo WhatsApp" },
-  { id: "politica-cancelamento", label: "Política de cancelamento" },
-  { id: "comunicando-clientes", label: "Comunicando aos clientes" },
+  { id: "regra", label: "A regra: pagamento depois do serviço" },
+  { id: "ativacao", label: "Ative a conta de recebimento" },
+  { id: "comanda", label: "Feche a comanda com o valor correto" },
+  { id: "checkout", label: "PIX e cartão pelo checkout" },
+  { id: "caixa", label: "Acompanhe saldo e histórico" },
 ];
 
 export default function PixPaymentsGuidePage() {
@@ -50,157 +46,214 @@ export default function PixPaymentsGuidePage() {
               { label: "Guias", href: "/recursos/guias" },
               { label: "Pagamentos PIX", href: "#" },
             ]}
-            readTime="12 min"
+            readTime="10 min"
             title="Pagamentos com PIX na barbearia"
-            lead="Receba o pagamento do atendimento por PIX ou cartão direto pelo WhatsApp. Sem maquininha na frente do espelho, sem conta pendente no fim do dia."
+            lead="Receba depois de concluir o atendimento. O Flowo liga a forma de pagamento à comanda e mantém agenda, cliente e financeiro no mesmo fluxo."
+          />
+
+          <GuideAvailability
+            items={[
+              {
+                label: "Formas de pagamento",
+                value: "Dinheiro, PIX e cartão",
+                description:
+                  "O fechamento pode registrar dinheiro ou gerar uma cobrança digital vinculada ao atendimento.",
+              },
+              {
+                label: "Momento da cobrança",
+                value: "Depois do serviço",
+                description:
+                  "Não existe sinal, depósito ou pagamento obrigatório para reservar horário.",
+              },
+              {
+                label: "Onde operar",
+                value: "Painel web e app móvel",
+                description:
+                  "Comandas, checkout, histórico, chaves PIX e saldo têm superfícies operacionais nas duas experiências.",
+              },
+              {
+                label: "Ativação",
+                value: "Conta aprovada e dados válidos",
+                description:
+                  "Cobranças digitais dependem da conta de pagamento ativa e dos dados exigidos para o cliente.",
+              },
+            ]}
           />
 
           <GuideToc items={tableOfContents} />
 
           <article>
             <GuideSection
-              id="como-funciona"
-              icon={CreditCard}
-              title="Como funciona o pagamento no atendimento"
+              id="regra"
+              icon={Shield}
+              title="A regra: pagamento depois do serviço"
             >
               <p>
-                No Flowo, o pagamento é uma comodidade do atendimento: depois
-                que o horário está combinado, o cliente pode pagar por PIX ou
-                cartão pelo próprio WhatsApp, ou na hora, como preferir. Agendar
-                nunca depende de pagar. Contra faltas, o que trabalha é a{" "}
-                <strong>confirmação automática pelo WhatsApp</strong>, não
-                cobrança antecipada.
+                No Flowo, agendamento e pagamento são etapas separadas. O cliente
+                reserva sem pagar e a barbearia cobra quando o serviço foi
+                realizado, pelo fechamento da comanda.
               </p>
-              <GuideCards
-                items={[
-                  {
-                    title: "Menos fricção no caixa",
-                    description:
-                      "O cliente paga pelo celular e sai da cadeira com tudo resolvido.",
-                  },
-                  {
-                    title: "Tudo registrado",
-                    description:
-                      "Cada pagamento fica ligado ao atendimento e aparece no seu painel financeiro.",
-                  },
-                  {
-                    title: "Sem constrangimento",
-                    description:
-                      "Nada de lembrar cliente de conta pendente: a cobrança chega no WhatsApp com o valor certo.",
-                  },
-                ]}
-              />
-            </GuideSection>
-
-            <GuideSection
-              id="configurando-conta"
-              icon={Wallet}
-              title="Configurando sua conta de recebimento"
-            >
-              <p>
-                O Flowo usa uma conta digital integrada para processar seus
-                pagamentos. Na configuração inicial, você cadastra:
-              </p>
-              <GuideSteps
-                items={[
-                  {
-                    title: "Dados pessoais ou da empresa",
-                    description: "CPF ou CNPJ, nome completo, data de nascimento.",
-                  },
-                  {
-                    title: "Endereço comercial",
-                    description: "Para fins de cadastro e segurança.",
-                  },
-                  {
-                    title: "Telefone para verificação",
-                    description: "Um SMS de confirmação será enviado.",
-                  },
-                ]}
-              />
-              <GuideCallout>
-                Seus recebimentos caem na conta digital integrada e você
-                transfere para sua conta bancária quando quiser.
+              <GuideScopeNote title="Sem sinal e sem pagamento antecipado">
+                PIX e cartão são opções para quitar o atendimento já prestado.
+                Não use o checkout como condição para confirmar um horário.
+              </GuideScopeNote>
+              <GuideCallout title="Por que isso importa">
+                Os relatórios de receita consideram atendimentos concluídos e
+                comandas fechadas. Uma cobrança gerada antes da execução
+                distorceria a operação e contraria a regra comercial do produto.
               </GuideCallout>
             </GuideSection>
 
             <GuideSection
-              id="cobranca-whatsapp"
-              icon={MessageCircle}
-              title="Cobrança pelo WhatsApp"
+              id="ativacao"
+              icon={Wallet}
+              title="Ative a conta de recebimento"
             >
               <p>
-                Você escolhe como oferecer o pagamento em cada atendimento:
+                Para gerar PIX ou cartão, a barbearia precisa concluir o cadastro
+                da conta de pagamento. Informe dados verdadeiros do titular ou da
+                empresa e acompanhe o estado até aparecer como ativo.
+              </p>
+              <GuideSteps
+                items={[
+                  {
+                    title: "Abra as configurações de pagamentos",
+                    description:
+                      "Use Configurações no painel web ou a área equivalente no app móvel.",
+                  },
+                  {
+                    title: "Preencha o cadastro",
+                    description:
+                      "Informe CPF/CNPJ, responsável, telefone e endereço solicitados pelo fluxo.",
+                  },
+                  {
+                    title: "Acompanhe a análise",
+                    description:
+                      "Cadastro pendente ou rejeitado ainda não permite uma cobrança digital real.",
+                  },
+                  {
+                    title: "Cadastre a chave de retirada",
+                    description:
+                      "Depois da ativação, use uma chave PIX da própria barbearia para retirar saldo disponível.",
+                  },
+                ]}
+              />
+              <GuideScopeNote
+                status="conditional"
+                title="Saldo disponível não é igual a saldo futuro"
+              >
+                Valores de cartão podem levar tempo para liquidar. Saques e
+                repasses só usam o saldo realmente disponível, não cobranças
+                ainda pendentes.
+              </GuideScopeNote>
+            </GuideSection>
+
+            <GuideSection
+              id="comanda"
+              icon={ReceiptText}
+              title="Feche a comanda com o valor correto"
+            >
+              <p>
+                A comanda reúne serviços, produtos, descontos e o profissional
+                responsável. Revise os itens antes de escolher a forma de
+                pagamento.
+              </p>
+              <GuideChecklist
+                items={[
+                  "Confirme serviço, produto, quantidade e desconto",
+                  "Vincule o profissional correto quando o item gerar comissão",
+                  "Use dinheiro quando o valor já foi recebido presencialmente",
+                  "Gere PIX ou cartão apenas para o total final da comanda",
+                  "Não crie uma segunda cobrança se já existir uma pendente válida",
+                ]}
+              />
+              <GuideProductPath
+                items={[
+                  {
+                    surface: "Painel web",
+                    path: "Comandas",
+                    action:
+                      "abra o atendimento, revise os itens e escolha como fechar.",
+                  },
+                  {
+                    surface: "App móvel",
+                    path: "Comandas",
+                    action:
+                      "faça o mesmo fluxo e compartilhe o checkout quando necessário.",
+                  },
+                ]}
+              />
+            </GuideSection>
+
+            <GuideSection
+              id="checkout"
+              icon={CreditCard}
+              title="PIX e cartão pelo checkout"
+            >
+              <p>
+                Para PIX, o Flowo gera QR Code e código copia e cola. Para
+                cartão, abre um checkout protegido. O link pode ser compartilhado
+                com o cliente depois do atendimento, inclusive pelo WhatsApp
+                quando o canal estiver conectado.
               </p>
               <GuideCards
                 columns={2}
                 items={[
                   {
-                    title: "Pelo WhatsApp",
+                    title: "PIX",
                     description:
-                      "A IA envia o link de pagamento com o valor do serviço. O cliente paga por PIX ou cartão em segundos.",
+                      "A cobrança pendente válida é reaproveitada; uma expirada pode ser regenerada sem duplicar o pagamento.",
                   },
                   {
-                    title: "Na barbearia",
+                    title: "Cartão",
                     description:
-                      "Prefere cobrar presencialmente? Sem problema: registre o pagamento na comanda e o financeiro continua fechando certinho.",
+                      "O checkout valida os dados e acompanha aprovação, pendência ou recusa antes de fechar a comanda.",
                   },
                 ]}
               />
-              <p>
-                Nos dois caminhos o valor fica vinculado ao atendimento, então
-                o relatório do dia bate sem contas manuais.
-              </p>
+              <GuideScopeNote
+                status="conditional"
+                title="Há requisitos mínimos do provedor"
+              >
+                Cobranças digitais exigem valor mínimo de R$ 5,00 e CPF/CNPJ
+                válido do cliente. Se esses dados faltarem, use uma forma
+                presencial ou corrija o cadastro.
+              </GuideScopeNote>
             </GuideSection>
 
             <GuideSection
-              id="politica-cancelamento"
-              icon={Shield}
-              title="Política de cancelamento clara"
+              id="caixa"
+              icon={Wallet}
+              title="Acompanhe saldo e histórico"
             >
               <p>
-                Uma política clara evita atrito e educa o cliente a avisar com
-                antecedência. Exemplo simples que funciona:
+                Em Financeiro, acompanhe pagamentos, saldo disponível, valores
+                pendentes e retiradas. Esse controle é operacional; ele não
+                substitui contabilidade, conciliação fiscal ou demonstrativo de
+                lucro.
               </p>
-              <GuideChecklist
+              <GuideProductPath
                 items={[
-                  "Cancelou com mais de 24h? Remarca sem burocracia.",
-                  "Cancelou em cima da hora? O horário é liberado para a fila de espera.",
-                  "Não apareceu? O histórico do cliente registra a falta.",
-                ]}
-              />
-              <p>
-                O Flowo comunica a política automaticamente quando o cliente
-                agenda e registra o histórico de faltas de cada um. Sem
-                surpresas para ninguém.
-              </p>
-            </GuideSection>
-
-            <GuideSection
-              id="comunicando-clientes"
-              icon={CalendarCheck}
-              title="Comunicando aos clientes"
-            >
-              <p>
-                A chave é a transparência desde o início. Com o horário já
-                confirmado, a IA do Flowo oferece o pagamento como opção:
-              </p>
-              <GuideChatSample
-                customer="Fechou, sábado às 15h então!"
-                reply="Confirmado, sábado às 15h com o João. Se quiser, já dá pra deixar pago por aqui via PIX ou cartão. Senão, paga na hora, sem problema."
-              />
-              <GuideChecklist
-                items={[
-                  "Ofereça o pagamento depois de confirmar o horário, nunca como condição",
-                  "Seja claro sobre a política de cancelamento",
-                  "Deixe o cliente escolher entre pagar online ou na barbearia",
+                  {
+                    surface: "Painel web",
+                    path: "Financeiro → Histórico / Chaves PIX",
+                    action:
+                      "consulte transações e gerencie os destinos de retirada.",
+                  },
+                  {
+                    surface: "App móvel",
+                    path: "Mais → Financeiro",
+                    action:
+                      "acompanhe saldo, pagamentos, histórico e retirada.",
+                  },
                 ]}
               />
             </GuideSection>
           </article>
 
           <GuideCta
-            title="Ative pagamentos PIX no seu Flowo"
-            description="Cobre o atendimento pelo WhatsApp e feche o caixa do dia sem contas manuais."
+            title="Quer fechar o atendimento sem separar agenda e caixa?"
+            description="Use comandas para registrar o serviço e receber por dinheiro, PIX ou cartão depois da execução."
           />
 
           <GuidePrevNext

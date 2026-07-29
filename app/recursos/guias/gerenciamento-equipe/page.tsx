@@ -1,18 +1,16 @@
-import {
-  BarChart3,
-  UserCheck,
-  Users,
-  Wallet,
-} from "lucide-react";
+import { BarChart3, CalendarClock, UserCheck, Users, Wallet } from "lucide-react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import {
+  GuideAvailability,
   GuideCallout,
   GuideCards,
   GuideCta,
   GuideHeader,
   GuidePage,
   GuidePrevNext,
+  GuideProductPath,
+  GuideScopeNote,
   GuideSection,
   GuideToc,
 } from "@/components/resources/guide-shell";
@@ -21,16 +19,16 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "Gerenciamento de Equipe para Barbearias",
   description:
-    "Organize a agenda de cada barbeiro, acompanhe desempenho individual e calcule comissões automaticamente com o Flowo.",
+    "Cadastre profissionais, defina serviços e horários individuais e acompanhe a operação da equipe no Flowo.",
   path: "/recursos/guias/gerenciamento-equipe",
 });
 
 const tableOfContents = [
-  { id: "por-que-organizar", label: "Por que organizar a equipe importa" },
-  { id: "cadastrando-barbeiros", label: "Cadastrando barbeiros" },
-  { id: "cliente-escolhe", label: "Cliente escolhe o barbeiro" },
-  { id: "acompanhando-desempenho", label: "Acompanhando desempenho" },
-  { id: "comissoes-pagamentos", label: "Comissões e pagamentos" },
+  { id: "estrutura", label: "O que cadastrar para cada profissional" },
+  { id: "horarios", label: "Horários individuais e folgas" },
+  { id: "distribuicao", label: "Como a agenda escolhe o profissional" },
+  { id: "desempenho", label: "Métricas que realmente estão disponíveis" },
+  { id: "comissoes", label: "Comissões: plano e limites atuais" },
 ];
 
 export default function TeamManagementGuidePage() {
@@ -46,155 +44,224 @@ export default function TeamManagementGuidePage() {
               { label: "Guias", href: "/recursos/guias" },
               { label: "Equipe", href: "#" },
             ]}
-            readTime="15 min"
+            readTime="11 min"
             title="Gerenciamento de equipe para barbearias"
-            lead="Organize a agenda de cada barbeiro e acompanhe o desempenho da equipe. Dados que ajudam você a tomar decisões."
+            lead="Configure cada profissional como ele trabalha de verdade: serviços, dias, horários e folgas. Depois use a agenda e os relatórios sem confundir capacidade com promessa."
+          />
+
+          <GuideAvailability
+            items={[
+              {
+                label: "Planos",
+                value: "Equipe e Empresarial",
+                description:
+                  "O Solo mantém um profissional ativo. Equipes com mais de um profissional usam os planos próprios para essa capacidade.",
+              },
+              {
+                label: "Onde usar",
+                value: "Painel web e app móvel",
+                description:
+                  "Cadastros, horários individuais, folgas, agenda e operação têm rotas equivalentes nas duas experiências.",
+              },
+              {
+                label: "Comissões",
+                value: "Empresarial, com ativação",
+                description:
+                  "O saldo é calculado após o pagamento. O repasse PIX é iniciado por um responsável; não há repasse automático por agenda semanal.",
+              },
+              {
+                label: "Distribuição",
+                value: "Por elegibilidade e disponibilidade",
+                description:
+                  "“Qualquer profissional” usa alguém apto e livre. O Flowo não promete rodízio equilibrado ou distribuição automática por meta.",
+              },
+            ]}
           />
 
           <GuideToc items={tableOfContents} />
 
           <article>
             <GuideSection
-              id="por-que-organizar"
+              id="estrutura"
+              icon={UserCheck}
+              title="O que cadastrar para cada profissional"
+            >
+              <p>
+                Em <strong>Equipe</strong>, cada pessoa recebe um cadastro próprio.
+                Marque se ela atende clientes, quais serviços realiza e se está
+                ativa. Isso evita oferecer um serviço a quem não o executa.
+              </p>
+              <GuideCards
+                columns={2}
+                items={[
+                  {
+                    title: "Serviços permitidos",
+                    description:
+                      "A lista é individual. A agenda só considera o profissional para os serviços atribuídos a ele.",
+                  },
+                  {
+                    title: "Duração do serviço",
+                    description:
+                      "Hoje a duração pertence ao serviço, não ao profissional. Um mesmo serviço usa o mesmo tempo para toda a equipe.",
+                  },
+                  {
+                    title: "Profissional agendável",
+                    description:
+                      "Quem não atende clientes pode permanecer na equipe sem aparecer como opção de agenda.",
+                  },
+                  {
+                    title: "Dados de contato",
+                    description:
+                      "Nome, apelido e dados operacionais ajudam a identificar a pessoa no painel e no atendimento.",
+                  },
+                ]}
+              />
+              <GuideProductPath
+                items={[
+                  {
+                    surface: "Painel web",
+                    path: "Equipe",
+                    action:
+                      "adicione ou edite o profissional e escolha os serviços que ele realiza.",
+                  },
+                  {
+                    surface: "App móvel",
+                    path: "Mais → Equipe",
+                    action:
+                      "faça o mesmo cadastro e abra o detalhe do profissional.",
+                  },
+                ]}
+              />
+            </GuideSection>
+
+            <GuideSection
+              id="horarios"
+              icon={CalendarClock}
+              title="Horários individuais e folgas"
+            >
+              <p>
+                O horário geral da barbearia funciona como padrão. Cada
+                profissional pode herdar esse horário ou ter uma agenda própria,
+                com dias de trabalho e faixas diferentes.
+              </p>
+              <GuideCards
+                columns={2}
+                items={[
+                  {
+                    title: "Horário geral",
+                    description:
+                      "Define quando a barbearia abre. Ninguém recebe horário fora dessa janela.",
+                  },
+                  {
+                    title: "Horário do profissional",
+                    description:
+                      "Restringe os dias e períodos em que aquela pessoa pode receber agendamentos.",
+                  },
+                  {
+                    title: "Folgas e ausências",
+                    description:
+                      "Bloqueiam intervalos específicos sem alterar a escala normal.",
+                  },
+                  {
+                    title: "Conflitos",
+                    description:
+                      "A disponibilidade considera horário, serviço, folga e agendamentos já existentes.",
+                  },
+                ]}
+              />
+              <GuideScopeNote title="A configuração individual já está ligada à disponibilidade">
+                Os horários salvos no cadastro do profissional são os mesmos
+                consultados pela agenda, pela página pública e pela IA de
+                agendamento.
+              </GuideScopeNote>
+            </GuideSection>
+
+            <GuideSection
+              id="distribuicao"
               icon={Users}
-              title="Por que organizar a equipe importa"
+              title="Como a agenda escolhe o profissional"
             >
               <p>
-                Quando cada barbeiro tem sua própria agenda no sistema, os
-                clientes podem escolher com quem querem cortar. Isso aumenta a
-                fidelização e facilita sua vida.
+                O cliente pode escolher uma pessoa específica ou selecionar
+                <strong> qualquer profissional</strong>. Nesse segundo caso, o
+                Flowo procura alguém ativo, habilitado para o serviço, dentro do
+                horário e sem conflito.
               </p>
-              <GuideCallout>
-                Sem um sistema, você fica no telefone o dia todo coordenando
-                horários. Com o Flowo, o cliente agenda direto pelo WhatsApp e
-                escolhe o barbeiro preferido.
+              <GuideCallout title="O que o sistema não faz">
+                A escolha automática não é um rodízio por quantidade de clientes,
+                comissão, meta ou faturamento. Se sua equipe precisa de uma regra
+                comercial de distribuição, acompanhe os dados e ajuste a escala;
+                não anuncie um balanceamento que o produto ainda não executa.
               </GuideCallout>
             </GuideSection>
 
             <GuideSection
-              id="cadastrando-barbeiros"
-              icon={UserCheck}
-              title="Cadastrando barbeiros"
-            >
-              <p>Para cada barbeiro da equipe, você configura:</p>
-              <GuideCards
-                columns={2}
-                items={[
-                  {
-                    title: "Horários de trabalho",
-                    description: "Cada barbeiro pode ter horários diferentes.",
-                  },
-                  {
-                    title: "Dias de folga",
-                    description: "O sistema bloqueia automaticamente.",
-                  },
-                  {
-                    title: "Serviços",
-                    description: "Quais serviços cada barbeiro realiza.",
-                  },
-                  {
-                    title: "Tempo por serviço",
-                    description:
-                      "Alguns são mais rápidos, outros mais detalhistas.",
-                  },
-                ]}
-              />
-              <p>
-                Essas configurações garantem que a agenda de cada barbeiro
-                reflita a realidade do trabalho dele.
-              </p>
-            </GuideSection>
-
-            <GuideSection
-              id="cliente-escolhe"
-              icon={UserCheck}
-              title="Cliente escolhe o barbeiro"
-            >
-              <p>
-                Quando o cliente manda mensagem no WhatsApp, a IA do Flowo
-                pergunta com qual barbeiro ele quer agendar. Se não tiver
-                preferência, mostra os horários disponíveis de todos.
-              </p>
-              <GuideCards
-                columns={2}
-                items={[
-                  {
-                    title: "Clientes fiéis",
-                    description:
-                      "Sempre agendam com o barbeiro de preferência.",
-                  },
-                  {
-                    title: "Novos clientes",
-                    description:
-                      "São distribuídos entre a equipe conforme disponibilidade.",
-                  },
-                ]}
-              />
-              <p>
-                O Flowo lembra das preferências do cliente. Na próxima vez, já
-                sugere o mesmo barbeiro automaticamente.
-              </p>
-            </GuideSection>
-
-            <GuideSection
-              id="acompanhando-desempenho"
+              id="desempenho"
               icon={BarChart3}
-              title="Acompanhando desempenho"
+              title="Métricas que realmente estão disponíveis"
             >
-              <p>No painel do Flowo, você vê métricas de cada barbeiro:</p>
-              <GuideCards
+              <p>
+                Em <strong>Métricas</strong>, os planos superiores mostram
+                indicadores operacionais como faturamento concluído, agendamentos,
+                faltas, clientes em risco, receita por serviço e horários de pico.
+                Parte do detalhamento varia conforme o plano.
+              </p>
+              <GuideScopeNote
+                status="practice"
+                title="Nem toda decisão de equipe vem pronta em um ranking"
+              >
+                Use agenda, receita por serviço e horários de pico para revisar a
+                escala. Não trate “quem precisa de treinamento” ou “quem está
+                sobrecarregado” como conclusões automáticas do painel.
+              </GuideScopeNote>
+              <GuideProductPath
                 items={[
                   {
-                    title: "Atendimentos no mês",
-                    description: "Quantos clientes cada barbeiro atendeu.",
+                    surface: "Painel web",
+                    path: "Métricas",
+                    action:
+                      "compare períodos e consulte os blocos liberados pelo seu plano.",
                   },
                   {
-                    title: "Faturamento por barbeiro",
-                    description: "Quanto cada um gerou de receita.",
-                  },
-                  {
-                    title: "Taxa de confirmação",
-                    description: "Quem tem mais faltas de clientes.",
-                  },
-                  {
-                    title: "Serviços mais realizados",
-                    description:
-                      "O que cada barbeiro mais faz (corte, barba, etc).",
+                    surface: "Operação",
+                    path: "Agenda",
+                    action:
+                      "filtre o dia e confira a carga real de cada profissional.",
                   },
                 ]}
               />
-              <GuideCallout title="Decisões baseadas em dados">
-                Com essas métricas, você identifica quem precisa de mais
-                clientes e quem está sobrecarregado. Ajuste a distribuição
-                conforme necessário.
-              </GuideCallout>
             </GuideSection>
 
             <GuideSection
-              id="comissoes-pagamentos"
+              id="comissoes"
               icon={Wallet}
-              title="Comissões e pagamentos"
+              title="Comissões: plano e limites atuais"
             >
               <p>
-                Se você trabalha com comissão, o Flowo calcula automaticamente
-                quanto cada barbeiro deve receber com base nos atendimentos
-                realizados.
+                No plano Empresarial, com o módulo ativado, o Flowo pode creditar
+                a comissão do profissional quando uma comanda ou atendimento é
+                pago. O responsável define a porcentagem e a chave PIX.
               </p>
-              <GuideCallout title="Relatório de comissões">
-                No final do mês, você exporta um relatório com todos os
-                atendimentos e valores de comissão de cada barbeiro. Sem contas
-                manuais, sem erros.
+              <GuideScopeNote
+                status="conditional"
+                title="Crédito automático não significa repasse automático"
+              >
+                O saldo de comissão é formado automaticamente após o pagamento,
+                mas o repasse PIX disponível hoje é iniciado manualmente por um
+                responsável autorizado e depende de saldo liquidado na conta da
+                barbearia.
+              </GuideScopeNote>
+              <GuideCallout title="Resumo honesto">
+                Equipe organiza profissionais, serviços e horários. Empresarial
+                adiciona o fluxo de comissão quando habilitado. Nenhum plano deve
+                ser vendido com a promessa de repasse semanal automático.
               </GuideCallout>
-              <p>
-                Configure a porcentagem de comissão por serviço ou um valor
-                fixo por atendimento. O sistema faz as contas.
-              </p>
             </GuideSection>
           </article>
 
           <GuideCta
-            title="Tem equipe? Conheça o plano Equipe."
-            description="Agenda individual por barbeiro, métricas de desempenho e comissões calculadas automaticamente."
+            title="Sua equipe trabalha em horários diferentes?"
+            description="Conheça os planos com múltiplos profissionais e configure a disponibilidade real de cada pessoa."
           />
 
           <GuidePrevNext

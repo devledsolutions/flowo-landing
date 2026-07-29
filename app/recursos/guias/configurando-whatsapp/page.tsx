@@ -9,6 +9,7 @@ import {
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import {
+  GuideAvailability,
   GuideCallout,
   GuideCards,
   GuideChatSample,
@@ -17,6 +18,8 @@ import {
   GuideHeader,
   GuidePage,
   GuidePrevNext,
+  GuideProductPath,
+  GuideScopeNote,
   GuideSection,
   GuideSteps,
   GuideToc,
@@ -26,16 +29,16 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "Configurando o WhatsApp com IA",
   description:
-    "Conecte seu número ao Flowo e deixe a IA responder clientes, verificar horários e agendar pelo WhatsApp, a qualquer hora do dia.",
+    "Entenda a ativação oficial do WhatsApp no Flowo, o nome público, os estados de conexão e o que a IA faz depois da aprovação.",
   path: "/recursos/guias/configurando-whatsapp",
 });
 
 const tableOfContents = [
-  { id: "por-que-whatsapp", label: "Por que integrar com WhatsApp" },
-  { id: "conectando", label: "Conectando seu número" },
-  { id: "o-que-ia-faz", label: "O que a IA faz automaticamente" },
-  { id: "personalizando", label: "Personalizando respostas" },
-  { id: "dicas-sucesso", label: "Dicas para melhor resultado" },
+  { id: "antes", label: "O que preparar antes da ativação" },
+  { id: "ativacao", label: "Como funciona a ativação" },
+  { id: "nome-publico", label: "Nome público e aprovação" },
+  { id: "ia", label: "O que a IA faz quando o canal está ativo" },
+  { id: "controle", label: "Personalização e controle humano" },
 ];
 
 export default function WhatsAppSetupGuidePage() {
@@ -51,56 +54,59 @@ export default function WhatsAppSetupGuidePage() {
               { label: "Guias", href: "/recursos/guias" },
               { label: "Configurando WhatsApp", href: "#" },
             ]}
-            readTime="8 min"
+            readTime="9 min"
             title="Configurando o WhatsApp com IA"
-            lead="Transforme seu WhatsApp em um assistente que responde clientes, agenda e confirma, mesmo quando você está de tesoura na mão."
+            lead="A integração usa o canal oficial do WhatsApp Business. A IA só começa a atender depois que o número aparece como conectado e pronto no Flowo."
+          />
+
+          <GuideAvailability
+            items={[
+              {
+                label: "Configuração",
+                value: "Painel web e app móvel",
+                description:
+                  "O app inicia os handoffs seguros e reflete o estado; etapas hospedadas pelo WhatsApp podem abrir fora do app.",
+              },
+              {
+                label: "Ativação",
+                value: "Sujeita à aprovação do WhatsApp",
+                description:
+                  "Número, conta e nome público podem permanecer em análise antes de receber mensagens reais.",
+              },
+              {
+                label: "IA",
+                value: "Somente com canal conectado",
+                description:
+                  "Agenda, remarcação, cancelamento e respostas usam os dados do negócio já cadastrados.",
+              },
+              {
+                label: "Controle",
+                value: "Pausa e atendimento humano",
+                description:
+                  "A equipe pode assumir uma conversa; enquanto a IA estiver pausada, ela não responde.",
+              },
+            ]}
           />
 
           <GuideToc items={tableOfContents} />
 
           <article>
             <GuideSection
-              id="por-que-whatsapp"
-              icon={MessageCircle}
-              title="Por que integrar com WhatsApp"
-            >
-              <p>
-                Seus clientes já estão no WhatsApp. É onde eles se sentem
-                confortáveis para conversar, pedir informações e agendar. O
-                problema? Você não pode ficar respondendo mensagem o dia todo.
-              </p>
-              <p>
-                Com a IA do Flowo, as mensagens são respondidas na hora, de dia
-                ou de madrugada, enquanto você atende o cliente da cadeira. A
-                barbearia para de perder agendamento por demora na resposta.
-              </p>
-            </GuideSection>
-
-            <GuideSection
-              id="conectando"
+              id="antes"
               icon={Smartphone}
-              title="Conectando seu número"
+              title="O que preparar antes da ativação"
             >
               <p>
-                A conexão usa a API oficial do WhatsApp Business e é guiada
-                dentro do Flowo:
+                A integração precisa representar uma empresa real. Separe o
+                número que será usado no atendimento e confirme que o nome
+                público pode ser comprovado fora do Flowo.
               </p>
-              <GuideSteps
+              <GuideChecklist
                 items={[
-                  {
-                    title: "Acesse Configurações no Flowo",
-                    description: "Vá em Integrações e escolha WhatsApp.",
-                  },
-                  {
-                    title: "Siga a ativação guiada",
-                    description:
-                      "Você conecta o número da barbearia pela integração oficial do WhatsApp Business, passo a passo.",
-                  },
-                  {
-                    title: "Pronto! IA conectada",
-                    description:
-                      "A IA começa a responder e agendar pelos seus horários cadastrados.",
-                  },
+                  "Número sob controle da barbearia e apto a receber a verificação",
+                  "Nome comercial visível em site, perfil social, fachada ou documento",
+                  "Serviços, preços, profissionais e horários revisados no Flowo",
+                  "Responsável autorizado para concluir as etapas da conta comercial",
                 ]}
               />
               <GuideCallout>
@@ -110,100 +116,167 @@ export default function WhatsAppSetupGuidePage() {
                     aria-hidden="true"
                   />
                   <span>
-                    <strong>Use um número dedicado para a barbearia.</strong>{" "}
-                    Recomendamos um número exclusivo do negócio, não o seu
-                    número pessoal.
+                    <strong>Nome interno não é nome público.</strong> O nome do
+                    tenant ou de um ambiente de teste não deve ser enviado
+                    automaticamente para revisão no WhatsApp.
                   </span>
                 </span>
               </GuideCallout>
             </GuideSection>
 
             <GuideSection
-              id="o-que-ia-faz"
-              icon={Bot}
-              title="O que a IA faz automaticamente"
+              id="ativacao"
+              icon={MessageCircle}
+              title="Como funciona a ativação"
             >
-              <p>
-                A IA do Flowo foi treinada para barbearias e sabe lidar com as
-                situações mais comuns:
-              </p>
-              <GuideCards
+              <GuideSteps
                 items={[
                   {
-                    title: "Responde perguntas sobre serviços e preços",
+                    title: "Abra WhatsApp no Flowo",
                     description:
-                      "Quanto custa o corte? Tem barboterapia? A IA responde com base nos seus serviços cadastrados.",
+                      "No painel web, use a área WhatsApp. No app móvel, acesse Mais → WhatsApp.",
                   },
                   {
-                    title: "Verifica disponibilidade de horários",
+                    title: "Conclua as etapas oficiais",
                     description:
-                      "Consulta a agenda em tempo real e mostra os horários livres para o cliente.",
+                      "Autorize a conta comercial, escolha o número e confirme as informações solicitadas no fluxo seguro.",
                   },
                   {
-                    title: "Agenda automaticamente",
+                    title: "Aguarde o estado conectado",
                     description:
-                      "Quando o cliente escolhe um horário, a IA reserva e confirma.",
+                      "“Em análise” ou “pendente” ainda não significa que a IA pode receber e enviar mensagens reais.",
                   },
                   {
-                    title: "Envia lembretes automáticos",
+                    title: "Faça um teste controlado",
                     description:
-                      "Lembra o cliente 24h e 2h antes do horário marcado.",
-                  },
-                  {
-                    title: "Processa cancelamentos e reagendamentos",
-                    description:
-                      "O cliente pode cancelar ou remarcar direto pelo WhatsApp.",
+                      "Quando estiver conectado, envie uma mensagem de um telefone autorizado e confira a conversa no Flowo.",
                   },
                 ]}
               />
-              <GuideChatSample
-                customer="Opa, quero marcar um corte pra amanhã"
-                reply="Opa! Vou ver os horários de amanhã pra você. Qual barbeiro você prefere: João, Pedro ou qualquer um que tiver disponível?"
+              <GuideProductPath
+                items={[
+                  {
+                    surface: "Painel web",
+                    path: "WhatsApp",
+                    action:
+                      "veja conexão, qualidade, automação e controles de lembrete.",
+                  },
+                  {
+                    surface: "App móvel",
+                    path: "Mais → WhatsApp",
+                    action:
+                      "acompanhe o estado e use o handoff seguro de ativação.",
+                  },
+                ]}
               />
             </GuideSection>
 
             <GuideSection
-              id="personalizando"
+              id="nome-publico"
               icon={Settings}
-              title="Personalizando as respostas"
+              title="Nome público e aprovação"
             >
-              <p>A IA se adapta ao estilo da sua barbearia. Você configura:</p>
+              <p>
+                O nome exibido no WhatsApp é revisado separadamente. Ele deve
+                identificar a empresa que o cliente reconhece e ser coerente com
+                a presença pública da marca.
+              </p>
               <GuideCards
                 columns={2}
                 items={[
                   {
-                    title: "Tom da conversa",
+                    title: "Bom exemplo",
                     description:
-                      "Mais formal ou descontraído, com o jeito de falar da sua região.",
+                      "O nome comercial usado no site, Instagram, fachada e atendimento.",
                   },
                   {
-                    title: "Informações da casa",
+                    title: "Evite",
                     description:
-                      "Promoções, novidades e regras específicas da sua barbearia.",
+                      "“Teste”, “validação”, nomes de fornecedores, descrições do ambiente ou termos que não aparecem publicamente.",
                   },
                 ]}
               />
+              <GuideScopeNote
+                status="conditional"
+                title="Rejeição de nome não derruba o restante do cadastro"
+              >
+                Corrija o nome com evidência pública e reenvie. Não altere o nome
+                interno da barbearia apenas para tentar contornar a revisão.
+              </GuideScopeNote>
             </GuideSection>
 
             <GuideSection
-              id="dicas-sucesso"
-              icon={Zap}
-              title="Dicas para melhor resultado"
+              id="ia"
+              icon={Bot}
+              title="O que a IA faz quando o canal está ativo"
             >
-              <GuideChecklist
+              <GuideCards
                 items={[
-                  "Mantenha seus serviços e preços sempre atualizados no Flowo",
-                  "Configure os horários de funcionamento corretos",
-                  "Responda manualmente só os casos complexos: a IA avisa quando não consegue resolver",
-                  "Avise seus clientes que agora eles podem agendar pelo WhatsApp a qualquer hora",
+                  {
+                    title: "Responde serviços, preços e horários",
+                    description:
+                      "Usa o catálogo, a equipe e a disponibilidade cadastrados no Flowo.",
+                  },
+                  {
+                    title: "Agenda, remarca e cancela",
+                    description:
+                      "Executa a ação no sistema e só confirma sucesso quando a gravação realmente ocorreu.",
+                  },
+                  {
+                    title: "Entende confirmações",
+                    description:
+                      "Uma resposta curta à mensagem de confirmação pode atualizar o agendamento sem depender da IA.",
+                  },
+                  {
+                    title: "Encaminha para a equipe",
+                    description:
+                      "Casos que pedem intervenção humana podem ser assumidos na caixa de conversas.",
+                  },
                 ]}
               />
+              <GuideChatSample
+                customer="Quero corte amanhã depois das 15h, pode ser com qualquer profissional"
+                reply="Tenho estes horários disponíveis amanhã: 15h30, 16h e 17h. Qual fica melhor para você?"
+              />
+              <GuideScopeNote
+                status="conditional"
+                title="Lembretes e mensagens também dependem da conexão"
+              >
+                A lógica pode estar configurada, mas nenhum envio pelo WhatsApp
+                ocorre se o canal estiver desconectado, o cliente não tiver
+                telefone válido ou tiver optado por não receber mensagens.
+              </GuideScopeNote>
+            </GuideSection>
+
+            <GuideSection
+              id="controle"
+              icon={Zap}
+              title="Personalização e controle humano"
+            >
+              <p>
+                Em Configurações, ajuste o tom de voz e mantenha os dados do
+                negócio atualizados. A personalização não substitui catálogo,
+                agenda ou políticas: a IA responde com base nessas fontes.
+              </p>
+              <GuideChecklist
+                items={[
+                  "Escolha um tom coerente com a barbearia",
+                  "Revise preços e duração sempre que o catálogo mudar",
+                  "Mantenha horários individuais e folgas atualizados",
+                  "Assuma a conversa quando o caso exigir decisão humana",
+                  "Retome a IA somente depois de concluir o atendimento manual",
+                ]}
+              />
+              <GuideScopeNote title="A pausa humana é respeitada">
+                Quando a equipe assume uma conversa, a IA não deve competir com
+                a resposta humana. O retorno à automação é uma decisão explícita.
+              </GuideScopeNote>
             </GuideSection>
           </article>
 
           <GuideCta
-            title="Experimente a IA do Flowo no WhatsApp"
-            description="Configure em poucos minutos e deixe a IA cuidar das mensagens enquanto você cuida do corte."
+            title="Prepare seu WhatsApp para operar com dados reais"
+            description="Cadastre a barbearia, conecte o número oficial e só então valide a IA com uma conversa controlada."
           />
 
           <GuidePrevNext

@@ -1,6 +1,14 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Clock, type LucideIcon } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Check,
+  Clock,
+  Info,
+  MapPin,
+  type LucideIcon,
+} from "lucide-react";
 import { Breadcrumb } from "@/components/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { SIGNUP_URL } from "@/components/cta-links";
@@ -32,19 +40,24 @@ export function GuideHeader({
   readTime,
   title,
   lead,
+  updatedAt = "29 de julho de 2026",
 }: {
   crumbs: Crumb[];
   readTime: string;
   title: ReactNode;
   lead: string;
+  updatedAt?: string;
 }) {
   return (
-    <header className="mb-12">
+    <header className="mb-10 sm:mb-12">
       <Breadcrumb items={crumbs} />
       <div className="mt-8 flex flex-wrap items-center gap-3">
         <span className="inline-flex items-center gap-1.5 rounded-full border border-line px-3 py-1 text-label text-muted-ink">
           <Clock className="h-3.5 w-3.5" aria-hidden="true" />
           {readTime} de leitura
+        </span>
+        <span className="text-caption text-faint-ink">
+          Revisado em {updatedAt}
         </span>
       </div>
       <h1 className="mt-5 text-h2 font-bold leading-tight text-ink">{title}</h1>
@@ -56,28 +69,145 @@ export function GuideHeader({
 }
 
 export function GuideToc({ items }: { items: { id: string; label: string }[] }) {
+  const links = (
+    <ol className="space-y-1">
+      {items.map((item, index) => (
+        <li key={item.id}>
+          <a
+            href={`#${item.id}`}
+            className="flex min-h-11 items-center gap-3 rounded px-1 py-2 text-muted-ink outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2"
+          >
+            <span className="text-caption tabular-nums text-faint-ink">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <span>{item.label}</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  );
+
   return (
-    <nav
-      aria-label="Neste guia"
-      className="mb-12 rounded-lg border border-line bg-surface p-6"
+    <>
+      <details className="group mb-10 rounded-lg border border-line bg-surface sm:hidden">
+        <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-4 px-5 py-3 font-semibold text-ink outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ink">
+          Neste guia
+          <span className="text-caption font-normal text-muted-ink group-open:hidden">
+            {items.length} tópicos
+          </span>
+          <span className="hidden text-caption font-normal text-muted-ink group-open:inline">
+            Fechar
+          </span>
+        </summary>
+        <nav aria-label="Neste guia" className="border-t border-line px-4 py-3">
+          {links}
+        </nav>
+      </details>
+      <nav
+        aria-label="Neste guia"
+        className="mb-12 hidden rounded-lg border border-line bg-surface p-6 sm:block"
+      >
+        <h2 className="mb-3 text-label font-semibold text-ink">Neste guia</h2>
+        {links}
+      </nav>
+    </>
+  );
+}
+
+export function GuideAvailability({
+  items,
+}: {
+  items: { label: string; value: string; description?: string }[];
+}) {
+  return (
+    <aside
+      aria-label="Disponibilidade no Flowo"
+      className="mb-10 rounded-lg border border-line bg-surface p-5 sm:mb-12 sm:p-6"
     >
-      <h2 className="mb-4 text-label font-semibold text-ink">Neste guia</h2>
-      <ol className="space-y-1">
-        {items.map((item, index) => (
-          <li key={item.id}>
-            <a
-              href={`#${item.id}`}
-              className="flex items-baseline gap-3 rounded py-1 text-muted-ink transition-colors hover:text-ink"
-            >
-              <span className="text-caption tabular-nums text-faint-ink">
-                {String(index + 1).padStart(2, "0")}
-              </span>
+      <p className="text-label font-semibold text-ink">Como isso existe no Flowo</p>
+      <dl className="mt-4 grid gap-4 sm:grid-cols-2">
+        {items.map((item) => (
+          <div key={`${item.label}-${item.value}`}>
+            <dt className="text-caption font-medium uppercase tracking-[0.08em] text-faint-ink">
               {item.label}
-            </a>
+            </dt>
+            <dd className="mt-1 font-semibold text-ink">{item.value}</dd>
+            {item.description ? (
+              <dd className="mt-1 text-label leading-relaxed text-muted-ink">
+                {item.description}
+              </dd>
+            ) : null}
+          </div>
+        ))}
+      </dl>
+    </aside>
+  );
+}
+
+export function GuideProductPath({
+  items,
+}: {
+  items: { surface: string; path: string; action: string }[];
+}) {
+  return (
+    <aside className="my-8 rounded-lg border border-line bg-surface p-5 sm:p-6">
+      <div className="flex items-center gap-2">
+        <MapPin className="h-4 w-4 text-ink" aria-hidden="true" />
+        <p className="font-semibold text-ink">Onde fazer no Flowo</p>
+      </div>
+      <ul className="mt-4 space-y-4">
+        {items.map((item) => (
+          <li
+            key={`${item.surface}-${item.path}`}
+            className="grid gap-1 border-t border-line pt-4 first:border-0 first:pt-0 sm:grid-cols-[8rem_1fr]"
+          >
+            <span className="text-label font-semibold text-ink">{item.surface}</span>
+            <span className="text-label leading-relaxed text-muted-ink">
+              <span className="font-medium text-ink">{item.path}</span>
+              {" — "}
+              {item.action}
+            </span>
           </li>
         ))}
-      </ol>
-    </nav>
+      </ul>
+    </aside>
+  );
+}
+
+export function GuideScopeNote({
+  title,
+  children,
+  status = "available",
+}: {
+  title: string;
+  children: ReactNode;
+  status?: "available" | "conditional" | "practice";
+}) {
+  const Icon = status === "available" ? Check : Info;
+  const label =
+    status === "available"
+      ? "Disponível no produto"
+      : status === "conditional"
+        ? "Depende de ativação ou plano"
+        : "Boa prática de gestão";
+
+  return (
+    <aside className="my-8 rounded-lg border border-line bg-background p-5 sm:p-6">
+      <div className="flex items-start gap-3">
+        <span className="mt-0.5 rounded-full border border-line bg-surface p-1.5">
+          <Icon className="h-4 w-4 text-ink" aria-hidden="true" />
+        </span>
+        <div>
+          <p className="text-caption font-medium uppercase tracking-[0.08em] text-faint-ink">
+            {label}
+          </p>
+          <p className="mt-1 font-semibold text-ink">{title}</p>
+          <div className="mt-2 text-label leading-relaxed text-muted-ink">
+            {children}
+          </div>
+        </div>
+      </div>
+    </aside>
   );
 }
 
@@ -228,11 +358,16 @@ export function GuideCta({
       <p className="mt-3 max-w-measure text-muted-ink">{description}</p>
       <div className="mt-6 flex flex-wrap items-center gap-4">
         <Button size="lg" className="rounded-full px-7" asChild>
-          <a href={SIGNUP_URL}>Criar minha conta</a>
+          <a
+            href={SIGNUP_URL}
+            className="outline-none focus-visible:ring-2 focus-visible:ring-background focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+          >
+            Criar minha conta
+          </a>
         </Button>
         <Link
           href="/precos"
-          className="text-label font-medium underline-offset-4 hover:underline"
+          className="inline-flex min-h-11 items-center rounded text-label font-medium underline-offset-4 outline-none hover:underline focus-visible:ring-2 focus-visible:ring-background focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
         >
           Ver planos e preços
         </Link>
@@ -252,7 +387,7 @@ export function GuidePrevNext({
     <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-8">
       <Link
         href={prev?.href ?? "/recursos/guias"}
-        className="inline-flex items-center gap-2 rounded-full text-label font-medium text-muted-ink transition-colors hover:text-ink"
+        className="inline-flex min-h-11 items-center gap-2 rounded-full text-label font-medium text-muted-ink outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2"
       >
         <ArrowLeft className="h-4 w-4" aria-hidden="true" />
         {prev?.label ?? "Voltar aos guias"}
@@ -260,7 +395,7 @@ export function GuidePrevNext({
       {next ? (
         <Link
           href={next.href}
-          className="inline-flex items-center gap-2 rounded-full text-label font-medium text-ink transition-colors hover:text-muted-ink"
+          className="inline-flex min-h-11 items-center gap-2 rounded-full text-label font-medium text-ink outline-none transition-colors hover:text-muted-ink focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2"
         >
           {next.label}
           <ArrowRight className="h-4 w-4" aria-hidden="true" />

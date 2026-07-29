@@ -1,49 +1,34 @@
-import Link from "next/link";
+import { BarChart3, PackageCheck, ReceiptText, Sparkles } from "lucide-react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import {
+  GuideAvailability,
+  GuideCallout,
+  GuideCards,
+  GuideChecklist,
   GuideCta,
   GuideHeader,
   GuidePage,
   GuidePrevNext,
+  GuideProductPath,
+  GuideScopeNote,
+  GuideSection,
+  GuideToc,
 } from "@/components/resources/guide-shell";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
   title: "Como Aumentar o Ticket Médio na Barbearia",
   description:
-    "Guia prático para aumentar o ticket médio da barbearia com combos, upgrades no momento certo e acompanhamento semanal.",
+    "Organize combos, produtos e comandas no Flowo e meça o ticket médio sem prometer upsell automático.",
   path: "/recursos/guias/aumentar-ticket-medio",
 });
 
-const steps = [
-  {
-    title: "1. Crie pacotes com lógica de rotina",
-    body: "Monte combos que fazem sentido para a frequência real dos clientes: corte + barba, corte + hidratação, manutenção mensal.",
-  },
-  {
-    title: "2. Use upgrades no momento certo",
-    body: "A sugestão deve acontecer no agendamento e na confirmação. Ex.: “Quer incluir alinhamento de sobrancelha hoje?”.",
-  },
-  {
-    title: "3. Padronize a oferta por perfil",
-    body: "Cliente novo, recorrente e premium pedem abordagens diferentes. Automatize esse fluxo no WhatsApp para consistência.",
-  },
-  {
-    title: "4. Acompanhe a métrica semanal",
-    body: "Sem medir ticket médio por barbeiro e serviço, você melhora no escuro. Defina meta semanal e revise a proposta comercial.",
-  },
-];
-
-const related = [
-  {
-    href: "/software-barbearia-com-pix",
-    label: "Pagamentos PIX no atendimento pelo WhatsApp",
-  },
-  {
-    href: "/flowo-vs-planilha",
-    label: "Flowo vs planilha: o custo oculto do manual",
-  },
+const tableOfContents = [
+  { id: "medir", label: "Calcule a linha de base" },
+  { id: "catalogo", label: "Organize serviços, combos e produtos" },
+  { id: "oferta", label: "Ofereça no contexto certo" },
+  { id: "fechamento", label: "Registre tudo na comanda" },
 ];
 
 export default function TicketMedioGuidePage() {
@@ -59,41 +44,142 @@ export default function TicketMedioGuidePage() {
               { label: "Guias", href: "/recursos/guias" },
               { label: "Aumentar Ticket Médio", href: "#" },
             ]}
-            readTime="9 min"
-            title="Como aumentar o ticket médio na barbearia sem perder clientes"
-            lead="Ticket médio cresce quando oferta e contexto estão alinhados. O objetivo não é empurrar serviço, e sim apresentar uma opção útil no momento certo."
+            readTime="8 min"
+            title="Como aumentar o ticket médio sem empurrar serviço"
+            lead="Melhore catálogo, oferta e registro da comanda. O Flowo organiza o processo; a recomendação comercial ainda precisa respeitar o cliente e o contexto."
           />
 
-          <article className="space-y-10">
-            {steps.map((step) => (
-              <section key={step.title}>
-                <h2 className="text-h3 font-bold text-ink">{step.title}</h2>
-                <p className="mt-3 max-w-measure text-body leading-relaxed text-muted-ink">
-                  {step.body}
-                </p>
-              </section>
-            ))}
+          <GuideAvailability
+            items={[
+              {
+                label: "Catálogo",
+                value: "Serviços, combos e produtos",
+                description:
+                  "Cadastre itens ativos com preço correto antes de oferecer qualquer adicional.",
+              },
+              {
+                label: "Venda",
+                value: "Comanda pós-serviço",
+                description:
+                  "Serviços e produtos entram no atendimento e formam o total final.",
+              },
+              {
+                label: "Análise",
+                value: "Receita por serviço",
+                description:
+                  "Planos superiores detalham serviços no relatório. Ticket médio pode exigir cálculo complementar.",
+              },
+              {
+                label: "Limite atual",
+                value: "Sem upsell automático garantido",
+                description:
+                  "Não trate cada conversa ou confirmação como uma oferta automática configurável.",
+              },
+            ]}
+          />
+
+          <GuideToc items={tableOfContents} />
+
+          <article>
+            <GuideSection id="medir" icon={BarChart3} title="Calcule a linha de base">
+              <p>
+                Use apenas atendimentos concluídos: some a receita do período e
+                divida pela quantidade de comandas fechadas. Compare intervalos
+                equivalentes e não misture agendamentos futuros.
+              </p>
+              <GuideCallout>
+                <strong>Ticket médio = receita concluída ÷ atendimentos pagos.</strong>{" "}
+                Registre a data e o período. Uma semana de sábado cheio não
+                substitui uma comparação mensal consistente.
+              </GuideCallout>
+            </GuideSection>
+
+            <GuideSection
+              id="catalogo"
+              icon={PackageCheck}
+              title="Organize serviços, combos e produtos"
+            >
+              <GuideCards
+                items={[
+                  {
+                    title: "Combo de serviços",
+                    description:
+                      "Agrupe serviços que já fazem sentido juntos, como corte e barba, com preço e duração coerentes.",
+                  },
+                  {
+                    title: "Produtos",
+                    description:
+                      "Cadastre finalizadores e itens vendidos na barbearia para incluí-los na comanda.",
+                  },
+                  {
+                    title: "Pacotes",
+                    description:
+                      "Quando usar pacotes, acompanhe o saldo de usos e consuma somente depois de prestar o serviço.",
+                  },
+                ]}
+              />
+              <GuideProductPath
+                items={[
+                  {
+                    surface: "Painel web",
+                    path: "Serviços / Pacotes",
+                    action:
+                      "cadastre catálogo, combos, produtos e saldos de uso.",
+                  },
+                  {
+                    surface: "App móvel",
+                    path: "Mais → Serviços / Produtos",
+                    action:
+                      "mantenha os itens da operação atualizados.",
+                  },
+                ]}
+              />
+            </GuideSection>
+
+            <GuideSection
+              id="oferta"
+              icon={Sparkles}
+              title="Ofereça no contexto certo"
+            >
+              <p>
+                Sugira algo relacionado ao serviço e ao histórico conhecido, sem
+                transformar lembrete ou confirmação em campanha. O cliente deve
+                entender o que muda no atendimento e no preço.
+              </p>
+              <GuideScopeNote
+                status="practice"
+                title="A estratégia é da barbearia"
+              >
+                O Flowo disponibiliza catálogo, histórico, conversas e campanhas,
+                mas não garante um fluxo automático de upsell por perfil. Defina
+                quando a equipe oferece um adicional e treine uma frase simples.
+              </GuideScopeNote>
+            </GuideSection>
+
+            <GuideSection
+              id="fechamento"
+              icon={ReceiptText}
+              title="Registre tudo na comanda"
+            >
+              <GuideChecklist
+                items={[
+                  "Inclua cada serviço e produto realmente entregue",
+                  "Aplique desconto de forma explícita",
+                  "Vincule o profissional correto",
+                  "Feche com a forma de pagamento recebida",
+                  "Revise receita por serviço antes de mudar preço ou combo",
+                ]}
+              />
+              <GuideScopeNote title="O relatório depende da comanda correta">
+                Itens oferecidos, mas não vendidos, não entram na receita. Itens
+                vendidos fora do Flowo também não aparecem automaticamente.
+              </GuideScopeNote>
+            </GuideSection>
           </article>
 
-          <aside className="mt-12 rounded-lg border border-line bg-surface p-6">
-            <p className="text-label font-semibold text-ink">Leitura relacionada</p>
-            <ul className="mt-3 grid gap-2">
-              {related.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="text-label font-medium text-ink underline-offset-4 hover:underline"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </aside>
-
           <GuideCta
-            title="Quer aumentar o ticket médio com automação de agenda?"
-            description="Use o Flowo para ofertar combos e upgrades no momento certo, direto no WhatsApp."
+            title="Quer ligar catálogo, atendimento e receita?"
+            description="Cadastre os itens que sua barbearia realmente vende e feche cada atendimento na comanda."
           />
 
           <GuidePrevNext

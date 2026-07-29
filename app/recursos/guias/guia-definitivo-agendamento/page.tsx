@@ -2,6 +2,7 @@ import { Bell, Calendar, CalendarCheck, Clock, CreditCard } from "lucide-react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import {
+  GuideAvailability,
   GuideCallout,
   GuideCards,
   GuideChecklist,
@@ -9,24 +10,26 @@ import {
   GuideHeader,
   GuidePage,
   GuidePrevNext,
+  GuideProductPath,
+  GuideScopeNote,
   GuideSection,
   GuideToc,
 } from "@/components/resources/guide-shell";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Guia Definitivo de Agendamento para Barbearias",
+  title: "Guia de Agendamento para Barbearias",
   description:
-    "Configure horários, lembretes e confirmação automática pelo WhatsApp para organizar a agenda da sua barbearia e reduzir faltas.",
+    "Configure horários gerais e individuais, agenda, confirmação e pagamento pós-atendimento no Flowo.",
   path: "/recursos/guias/guia-definitivo-agendamento",
 });
 
 const tableOfContents = [
-  { id: "por-que-faltas", label: "Por que faltas são um problema" },
-  { id: "configurando-horarios", label: "Configurando seus horários" },
-  { id: "lembretes-automaticos", label: "Lembretes automáticos" },
-  { id: "confirmacao-automatica", label: "Confirmação automática" },
-  { id: "pagamento-atendimento", label: "Pagamento do atendimento" },
+  { id: "base", label: "Monte a base da agenda" },
+  { id: "horarios", label: "Configure barbearia e profissionais" },
+  { id: "lembretes", label: "Entenda lembretes e confirmação" },
+  { id: "nao-confirmou", label: "O que acontece quando não há resposta" },
+  { id: "pagamento", label: "Feche e receba depois do serviço" },
 ];
 
 export default function SchedulingGuidePage() {
@@ -43,144 +46,206 @@ export default function SchedulingGuidePage() {
               { label: "Agendamento", href: "#" },
             ]}
             readTime="10 min"
-            title="Guia definitivo de agendamento para barbearias"
-            lead="Aprenda a configurar o Flowo para organizar sua agenda e reduzir faltas. Menos telefone, mais clientes na cadeira."
+            title="Guia de agendamento para barbearias"
+            lead="Cadastre a capacidade real da barbearia, evite conflitos e use confirmações sem prometer cancelamentos automáticos que o produto não faz."
+          />
+
+          <GuideAvailability
+            items={[
+              {
+                label: "Agenda",
+                value: "Painel web e app móvel",
+                description:
+                  "Criação, remarcação, status, presença e no-show têm fluxos equivalentes para a operação.",
+              },
+              {
+                label: "Horários",
+                value: "Geral + individual",
+                description:
+                  "O horário da barbearia é o limite; cada profissional pode ter dias e faixas próprias.",
+              },
+              {
+                label: "Mensagens",
+                value: "Após conectar o WhatsApp",
+                description:
+                  "Lembretes, confirmação e respostas dependem de um canal ativo e de um telefone válido do cliente.",
+              },
+              {
+                label: "Pagamento",
+                value: "Somente pós-serviço",
+                description:
+                  "O Flowo não cobra sinal nem exige pagamento para reservar um horário.",
+              },
+            ]}
           />
 
           <GuideToc items={tableOfContents} />
 
           <article>
-            <GuideSection
-              id="por-que-faltas"
-              icon={Calendar}
-              title="Por que faltas são um problema"
-            >
+            <GuideSection id="base" icon={Calendar} title="Monte a base da agenda">
               <p>
-                Faltas custam caro. Cada horário vago é dinheiro perdido que
-                não volta. Pior: você recusou outros clientes para reservar
-                aquele horário.
+                Antes de abrir horários, cadastre os serviços com duração e
+                preço, os profissionais que realmente atendem e quais serviços
+                cada um realiza. A disponibilidade nasce dessa combinação.
               </p>
-              <GuideCallout>
-                A arma contra faltas não é cobrar sinal, é{" "}
-                <strong>confirmação automática pelo WhatsApp</strong>: lembrete
-                na véspera, confirmação perto do horário e liberação do slot
-                quando o cliente não confirma.
-              </GuideCallout>
-              <p>
-                Sem um sistema, você fica no telefone o dia todo coordenando
-                horários, lembrando clientes e lidando com cancelamentos de
-                última hora. O Flowo automatiza tudo isso.
-              </p>
-            </GuideSection>
-
-            <GuideSection
-              id="configurando-horarios"
-              icon={Clock}
-              title="Configurando seus horários"
-            >
-              <p>
-                No Flowo, você define os horários de funcionamento da barbearia
-                e de cada barbeiro individualmente. Isso permite:
-              </p>
-              <GuideCards
+              <GuideChecklist
+                items={[
+                  "Serviço ativo, com duração compatível com o atendimento real",
+                  "Profissional ativo e marcado como agendável",
+                  "Serviço atribuído ao profissional correto",
+                  "Horário geral e horário individual revisados",
+                  "Folgas e ausências registradas antes de abrir a agenda",
+                ]}
+              />
+              <GuideProductPath
                 items={[
                   {
-                    title: "Agendas individuais",
-                    description:
-                      "Cada barbeiro tem sua própria agenda, com folgas e horários diferentes.",
+                    surface: "Painel web",
+                    path: "Serviços → Equipe → Horários",
+                    action:
+                      "cadastre catálogo, profissionais e funcionamento nessa ordem.",
                   },
                   {
-                    title: "Escolha do cliente",
-                    description:
-                      "Clientes escolhem o barbeiro preferido ao agendar pelo WhatsApp.",
-                  },
-                  {
-                    title: "Sem conflitos",
-                    description:
-                      "O sistema evita conflitos de horário automaticamente.",
+                    surface: "App móvel",
+                    path: "Mais → Serviços / Equipe / Horários",
+                    action:
+                      "acesse as rotas equivalentes para configurar e revisar.",
                   },
                 ]}
               />
             </GuideSection>
 
             <GuideSection
-              id="lembretes-automaticos"
-              icon={Bell}
-              title="Lembretes automáticos"
+              id="horarios"
+              icon={Clock}
+              title="Configure barbearia e profissionais"
             >
               <p>
-                O Flowo envia lembretes automáticos via WhatsApp em dois
-                momentos estratégicos:
+                O horário geral define quando o negócio está aberto. Se um
+                profissional não tiver uma configuração própria, ele herda esse
+                padrão. Quando a rotina for diferente, salve dias e faixas
+                individuais.
+              </p>
+              <GuideCards
+                items={[
+                  {
+                    title: "Exemplo: barbearia",
+                    description:
+                      "Terça a sábado, das 9h às 19h. Essa é a janela máxima de atendimento.",
+                  },
+                  {
+                    title: "Exemplo: profissional A",
+                    description:
+                      "Terça a sexta, das 9h às 18h. A agenda não oferece 18h30 para essa pessoa.",
+                  },
+                  {
+                    title: "Exemplo: profissional B",
+                    description:
+                      "Quinta a sábado, das 11h às 19h, com uma folga registrada no próximo sábado.",
+                  },
+                ]}
+              />
+              <GuideScopeNote title="Conflitos são verificados no momento da reserva">
+                A agenda consulta duração, profissional, horário, folga e
+                compromissos existentes. Se duas pessoas tentarem o mesmo slot,
+                a segunda recebe a informação de que ele não está mais
+                disponível.
+              </GuideScopeNote>
+            </GuideSection>
+
+            <GuideSection
+              id="lembretes"
+              icon={Bell}
+              title="Entenda lembretes e confirmação"
+            >
+              <p>
+                Com o WhatsApp conectado, o Flowo agenda uma mensagem de
+                confirmação antes do atendimento e um lembrete próximo ao
+                horário. Quando a confirmação está ativada, ela substitui o
+                lembrete simples de 24 horas; o lembrete de 2 horas continua.
               </p>
               <GuideCards
                 columns={2}
                 items={[
                   {
-                    title: "24h antes",
+                    title: "Confirmação antecipada",
                     description:
-                      "Tempo suficiente para o cliente remarcar se precisar, liberando o horário para outra pessoa.",
+                      "O prazo é configurável. O padrão é 24 horas antes do agendamento.",
                   },
                   {
-                    title: "2h antes",
+                    title: "Lembrete final",
                     description:
-                      "Lembrete final para garantir que o cliente não esqueça.",
+                      "É programado para 2 horas antes, se o horário ainda estiver válido e a opção estiver habilitada.",
                   },
                 ]}
               />
-              <p>
-                O cliente pode confirmar, remarcar ou cancelar direto pelo
-                WhatsApp, sem precisar ligar. A IA do Flowo entende e processa
-                tudo automaticamente.
-              </p>
+              <GuideScopeNote
+                status="conditional"
+                title="O envio depende do canal e do cliente"
+              >
+                Sem WhatsApp conectado, sem telefone válido, com opt-out ou em
+                dados de teste, a mensagem não é enviada. A agenda continua
+                funcionando no painel.
+              </GuideScopeNote>
             </GuideSection>
 
             <GuideSection
-              id="confirmacao-automatica"
+              id="nao-confirmou"
               icon={CalendarCheck}
-              title="Confirmação automática e liberação de horários"
+              title="O que acontece quando não há resposta"
             >
               <p>
-                Junto com o lembrete, o Flowo pede a confirmação do cliente. Se
-                ele não confirmar em tempo hábil, o sistema pode liberar o
-                horário automaticamente para outros clientes. Assim você não
-                perde o slot.
+                Uma resposta curta como “sim” pode marcar o agendamento como
+                confirmado. Porém, <strong>o silêncio não cancela nem libera o
+                horário automaticamente</strong>. O compromisso permanece na
+                agenda até uma ação válida de cancelamento, remarcação ou mudança
+                de status.
               </p>
+              <GuideCallout title="Não prometa liberação automática por falta de resposta">
+                O Flowo pode acionar a lista de espera quando um horário é
+                efetivamente liberado por cancelamento ou no-show. Isso é
+                diferente de cancelar um cliente apenas porque ele não respondeu
+                à confirmação.
+              </GuideCallout>
+            </GuideSection>
+
+            <GuideSection
+              id="pagamento"
+              icon={CreditCard}
+              title="Feche e receba depois do serviço"
+            >
               <p>
-                Essa funcionalidade é opcional e você define as regras: quantas
-                horas de antecedência, quantas tentativas de contato, e o que
-                fazer com o horário liberado.
+                Depois do atendimento, abra ou feche a comanda e registre dinheiro,
+                PIX, cartão ou uma combinação permitida. Para PIX e cartão, o
+                cliente pode receber um checkout vinculado à comanda já realizada.
               </p>
-              <GuideChecklist
+              <GuideScopeNote title="Agendar nunca depende de pagar">
+                Não há sinal, depósito ou cobrança antecipada no Flowo. O
+                pagamento pertence ao fechamento do serviço, não à reserva do
+                horário.
+              </GuideScopeNote>
+              <GuideProductPath
                 items={[
-                  "Peça a confirmação junto do lembrete de véspera",
-                  "Defina o prazo limite para o cliente responder",
-                  "Deixe o sistema reoferecer o horário liberado",
-                  "Comunique a política de cancelamento com clareza desde o agendamento",
+                  {
+                    surface: "Painel web",
+                    path: "Comandas",
+                    action:
+                      "confira os itens, feche o atendimento e escolha a forma de pagamento.",
+                  },
+                  {
+                    surface: "App móvel",
+                    path: "Comandas",
+                    action:
+                      "faça o fechamento, gere PIX/cartão ou registre dinheiro.",
+                  },
                 ]}
               />
-            </GuideSection>
-
-            <GuideSection
-              id="pagamento-atendimento"
-              icon={CreditCard}
-              title="Pagamento do atendimento (PIX ou cartão)"
-            >
-              <p>
-                Depois que o horário está combinado, o cliente pode pagar o
-                atendimento por PIX ou cartão direto pelo WhatsApp, ou na hora,
-                como preferir. O pagamento é uma comodidade do atendimento,
-                nunca uma condição para agendar.
-              </p>
-              <p>
-                Isso agiliza o caixa no fim do dia e evita fila na frente do
-                espelho. Você acompanha tudo no painel do Flowo.
-              </p>
             </GuideSection>
           </article>
 
           <GuideCta
-            title="Pronto para organizar sua agenda?"
-            description="Configure sua barbearia em poucos minutos e deixe a confirmação automática trabalhar por você."
+            title="Quer uma agenda que respeite a rotina da equipe?"
+            description="Configure serviços, profissionais e horários reais antes de abrir o agendamento aos clientes."
           />
 
           <GuidePrevNext
