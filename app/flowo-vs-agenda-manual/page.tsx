@@ -10,6 +10,7 @@ import {
 } from "@/components/marketing/commercial-page";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
 import { PLANS } from "@/data/pricing-data";
+import { FlowoProductProof } from "@/components/marketing/flowo-product-proof";
 
 const PATH = "/flowo-vs-agenda-manual";
 
@@ -93,6 +94,8 @@ export default function FlowoVsAgendaManualPage() {
           description="Agenda de papel funciona até certo ponto. Quando o volume cresce, aparecem conflitos, faltas sem aviso e retrabalho. Veja o que muda quando confirmação e disponibilidade deixam de depender da memória."
           preview="comparacao"
         />
+
+        <FlowoProductProof competitorName="agenda manual" />
 
         <section className="section-tight">
           <div className="container-page">

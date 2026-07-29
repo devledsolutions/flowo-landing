@@ -34,6 +34,16 @@ const nextConfig: NextConfig = {
         ],
       },
       {
+        // Rendered films are versioned with the release and support byte ranges.
+        source: "/videos/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=604800, stale-while-revalidate=2592000",
+          },
+        ],
+      },
+      {
         // Brand assets are stable most of the time.
         source: "/flowo-logo.svg",
         headers: [

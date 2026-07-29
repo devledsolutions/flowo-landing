@@ -8,6 +8,10 @@ import HomePricingSection from "@/components/home-pricing-section";
 import FAQ from "@/components/faq";
 import OnboardingClose from "@/components/home/onboarding-close";
 import Footer from "@/components/footer";
+import {
+  InstitutionalFilm,
+  InstitutionalFilmSchema,
+} from "@/components/marketing/institutional-film";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
@@ -22,10 +26,12 @@ export default function Home() {
   return (
     <>
       <SchemaMarkup />
+      <InstitutionalFilmSchema pagePath="/" />
       <Navbar />
       <main id="main-content">
         <Hero />
         <ProductStory />
+        <InstitutionalFilm />
         <OptionalOperations />
         <RecoveryHomeSection />
         <section id="precos" className="section-normal scroll-mt-24">

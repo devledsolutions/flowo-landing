@@ -14,6 +14,10 @@ import {
 } from "@/components/marketing/commercial-page";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
 import { PLANS } from "@/data/pricing-data";
+import {
+  InstitutionalFilm,
+  InstitutionalFilmSchema,
+} from "@/components/marketing/institutional-film";
 
 const PATH = "/sistema-agendamento-barbearia";
 
@@ -68,6 +72,7 @@ const fitCases = [
 export default function SchedulingSystemPage() {
   return (
     <>
+      <InstitutionalFilmSchema pagePath={PATH} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
@@ -81,6 +86,8 @@ export default function SchedulingSystemPage() {
           description="O Flowo centraliza os horários da equipe e coloca uma IA para atender, agendar e confirmar seus clientes pelo WhatsApp. Menos conversa repetitiva, mais clareza para quem está na cadeira."
           preview="agenda"
         />
+
+        <InstitutionalFilm compact />
 
         <section className="section-normal border-t border-line">
           <div className="container-page">

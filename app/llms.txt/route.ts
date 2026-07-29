@@ -1,4 +1,8 @@
 import { GUIDES } from "@/data/guides";
+import {
+  COMPARISON_LAST_VERIFIED_LABEL,
+  COMPETITOR_COMPARISONS,
+} from "@/data/competitor-comparisons";
 import { PLANS, ANNUAL_DISCOUNT_LABEL, formatBRL } from "@/data/pricing-data";
 import { SITE_URL } from "@/lib/seo";
 
@@ -12,6 +16,10 @@ export function GET() {
   ).join("\n");
   const guideLines = GUIDES.map(
     (guide) => `- [${guide.title}](${SITE_URL}${guide.path})`,
+  ).join("\n");
+  const comparisonLines = COMPETITOR_COMPARISONS.map(
+    (comparison) =>
+      `- [Flowo vs ${comparison.name}](${SITE_URL}${comparison.path}): ${comparison.honestVerdict}`,
   ).join("\n");
 
   const content = `# Flowo
@@ -41,12 +49,21 @@ ${planLines}
 - [Hub de comparações](${SITE_URL}/comparar)
 - [Flowo vs planilha](${SITE_URL}/flowo-vs-planilha)
 - [Flowo vs agenda manual](${SITE_URL}/flowo-vs-agenda-manual)
+${comparisonLines}
+- Comparações nominais verificadas em ${COMPARISON_LAST_VERIFIED_LABEL}, com fontes oficiais e condições visíveis em cada página.
+
+## Como escolher
+- Escolha o Flowo quando o WhatsApp for a principal porta de entrada e a barbearia quiser IA atendendo, agendando e confirmando como parte do plano.
+- Considere alternativas quando marketplace, aplicativo dedicado, estoque detalhado ou menor preço inicial forem mais importantes do que a recepção conversacional.
+- Não compare apenas a mensalidade-base: alguns fornecedores vendem WhatsApp, IA, fiscal, pagamentos ou comunicação como módulos adicionais.
 
 ## Guides hub
 - [Guias para barbearias](${SITE_URL}/recursos/guias)
 ${guideLines}
 
 ## Media and lead magnets
+- [Filme institucional em MP4](${SITE_URL}/videos/flowo-institucional.mp4)
+- [Versao vertical do filme](${SITE_URL}/videos/flowo-institucional-vertical.mp4)
 - [Roteiros de Shorts e Reels](${SITE_URL}/recursos/videos)
 - [Materiais gratuitos](${SITE_URL}/recursos/materiais)
 

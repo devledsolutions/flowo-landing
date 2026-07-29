@@ -1,8 +1,12 @@
 import type { MetadataRoute } from "next";
+import { COMPETITOR_COMPARISONS } from "@/data/competitor-comparisons";
 import { GUIDES } from "@/data/guides";
 import { SITE_URL } from "@/lib/seo";
 
 const LAST_MODIFIED = new Date("2026-07-29T00:00:00.000Z");
+const COMPETITOR_ROUTES = COMPETITOR_COMPARISONS.map(
+  (comparison) => comparison.path,
+);
 
 const CORE_ROUTES = [
   "/",
@@ -16,6 +20,7 @@ const CORE_ROUTES = [
   "/comparar",
   "/flowo-vs-planilha",
   "/flowo-vs-agenda-manual",
+  ...COMPETITOR_ROUTES,
   "/recursos",
   "/recursos/videos",
   "/recursos/materiais",
@@ -47,7 +52,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
           ? 0.9
           : route === "/comparar" ||
               route === "/flowo-vs-planilha" ||
-              route === "/flowo-vs-agenda-manual"
+              route === "/flowo-vs-agenda-manual" ||
+              COMPETITOR_ROUTES.includes(route)
             ? 0.85
             : 0.7,
   }));

@@ -10,6 +10,7 @@ import {
 } from "@/components/marketing/commercial-page";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
 import { PLANS } from "@/data/pricing-data";
+import { FlowoProductProof } from "@/components/marketing/flowo-product-proof";
 
 const PATH = "/flowo-vs-planilha";
 
@@ -93,6 +94,8 @@ export default function FlowoVsPlanilhaPage() {
           description="Planilha resolve no começo, mas vira gargalo quando a operação cresce: alguém ainda precisa responder, anotar e confirmar cada horário. Compare o trabalho que continua manual."
           preview="comparacao"
         />
+
+        <FlowoProductProof competitorName="planilha" />
 
         <section className="section-tight">
           <div className="container-page">
