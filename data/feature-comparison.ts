@@ -73,11 +73,18 @@ export const featureComparison: Record<string, FeatureComparisonItem[]> = {
   ],
   Pagamentos: [
     {
-      name: "Pagamento no atendimento",
+      name: "Registro da forma de recebimento",
       solo: true,
       equipe: true,
       empresarial: true,
-      note: "O cliente paga o atendimento por PIX ou cartão",
+      note: "Dinheiro, maquininha própria ou uma opção integrada quando ativada",
+    },
+    {
+      name: "PIX e cartão Flowo",
+      solo: "Opcional",
+      equipe: "Opcional",
+      empresarial: "Opcional",
+      note: "Ativação separada; nunca é condição para usar a agenda ou reservar",
     },
   ],
   Calendários: [

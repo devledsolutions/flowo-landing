@@ -29,13 +29,14 @@ export default function SchemaMarkup() {
     operatingSystem: "Web",
     offers,
     description:
-      "Sistema de agendamento para barbearias: a IA atende no WhatsApp, agenda e confirma clientes. Lembretes automáticos e pagamento do atendimento por PIX ou cartão.",
+      "Sistema de agendamento para barbearias: a IA atende no WhatsApp, agenda e confirma clientes. Lembretes, comandas e pagamentos integrados opcionais no pós-atendimento.",
     featureList: [
       "Agendamento pelo WhatsApp com IA",
       "Lembretes e confirmação automática",
       "Gestão de múltiplos barbeiros",
       "Sincronização com Google, Apple e Outlook",
       "Histórico de clientes",
+      "Comandas com registro da forma de recebimento",
       "Relatórios de faturamento",
     ],
     inLanguage: "pt-BR",

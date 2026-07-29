@@ -9,6 +9,7 @@ const APP_URL = "https://barber.flowo.com.br";
 const produtoLinks = [
   { href: "/recursos", label: "Recursos" },
   { href: "/precos", label: "Preços" },
+  { href: "/comparar", label: "Comparar" },
   { href: "/sobre", label: "Sobre nós" },
   { href: "/casos-de-sucesso", label: "Casos de sucesso" },
 ];
@@ -16,7 +17,10 @@ const produtoLinks = [
 const barbeariasLinks = [
   { href: "/sistema-agendamento-barbearia", label: "Sistema de agendamento" },
   { href: "/agenda-barbearia-whatsapp", label: "Agenda no WhatsApp" },
-  { href: "/software-barbearia-com-pix", label: "Pagamentos PIX no atendimento" },
+  { href: "/software-barbearia-com-pix", label: "Pagamentos opcionais" },
+  { href: "/recursos/comissoes-barbeiros", label: "Comissões de barbeiros" },
+  { href: "/recursos/cashback-barbearia", label: "Cashback para barbearias" },
+  { href: "/recursos/nota-fiscal-barbearia", label: "Nota fiscal assistida" },
   { href: "/flowo-vs-planilha", label: "Flowo vs planilha" },
   { href: "/flowo-vs-agenda-manual", label: "Flowo vs agenda manual" },
 ];

@@ -60,9 +60,9 @@ const comparison: {
     spreadsheet: "alto",
   },
   {
-    criteria: "Pagamento do atendimento por PIX ou cartão",
-    flowo: true,
-    spreadsheet: false,
+    criteria: "Comanda ligada à forma de recebimento",
+    flowo: "sim; pagamento integrado é opcional",
+    spreadsheet: "depende de registro manual",
   },
 ];
 
@@ -159,8 +159,9 @@ export default function FlowoVsPlanilhaPage() {
                 Na planilha, cada agendamento depende de alguém parar para
                 anotar. No Flowo, a IA atende o cliente no WhatsApp, marca no
                 horário livre e confirma presença antes do corte. A agenda da
-                equipe fica atualizada em tempo real, e o pagamento do
-                atendimento sai por PIX ou cartão na própria conversa.
+                equipe fica atualizada em tempo real. Depois do serviço, a
+                comanda registra dinheiro, maquininha própria ou, quando
+                ativados, PIX e cartão Flowo.
               </p>
               <p className="mt-4 max-w-measure text-body text-muted-ink">
                 Para organizar também o caixa, veja os guias de{" "}
@@ -224,7 +225,7 @@ export default function FlowoVsPlanilhaPage() {
         />
         <CommercialCta
           title="Troque anotação por execução."
-          description="Centralize agenda, confirmação e pagamento em uma rotina que não depende de atualizar cada célula."
+          description="Centralize agenda, confirmação, comanda e recebimento em uma rotina que não depende de atualizar cada célula."
           price={PLANS[0].monthly}
         />
       </main>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import {
   ArrowRight,
+  BadgePercent,
   BarChart3,
   Bell,
   BookOpen,
@@ -11,6 +12,8 @@ import {
   Download,
   FileSpreadsheet,
   MessageCircle,
+  ReceiptText,
+  RotateCcw,
   Users,
 } from "lucide-react";
 import Navbar from "@/components/navbar";
@@ -28,7 +31,7 @@ import { buildMetadata } from "@/lib/seo";
 
 const PAGE_TITLE = "Recursos e Guias para Barbearias";
 const PAGE_DESCRIPTION =
-  "Guias práticos, planilhas e roteiros gratuitos para organizar a agenda, confirmar clientes pelo WhatsApp e cuidar do financeiro da sua barbearia.";
+  "Guias e páginas de produto para organizar agenda, equipe, WhatsApp, pagamentos, comissões, cashback e financeiro da sua barbearia.";
 
 export const metadata = buildMetadata({
   title: PAGE_TITLE,
@@ -95,6 +98,49 @@ const startingPoints = [
   },
 ] as const;
 
+const productResources = [
+  {
+    icon: CreditCard,
+    label: "Opcional",
+    title: "Pagamentos no atendimento",
+    description:
+      "Dinheiro, maquininha própria ou pagamentos Flowo ativados pela barbearia.",
+    href: "/software-barbearia-com-pix",
+  },
+  {
+    icon: Users,
+    label: "Empresarial",
+    title: "Comissões",
+    description:
+      "Cálculo depois da comanda paga e repasse iniciado pelo gestor.",
+    href: "/recursos/comissoes-barbeiros",
+  },
+  {
+    icon: BadgePercent,
+    label: "Configurável",
+    title: "Cashback",
+    description:
+      "Percentual, validade e limites definidos antes de ativar o benefício.",
+    href: "/recursos/cashback-barbearia",
+  },
+  {
+    icon: ReceiptText,
+    label: "Piloto",
+    title: "Nota fiscal",
+    description:
+      "Ativação assistida, sujeita a município, dados fiscais e homologação.",
+    href: "/recursos/nota-fiscal-barbearia",
+  },
+  {
+    icon: RotateCcw,
+    label: "Add-on · beta",
+    title: "Flowo Recupera",
+    description:
+      "Módulo separado, com oportunidades revisadas por pessoas e resultado ligado à comanda.",
+    href: "/flowo-recupera",
+  },
+] as const;
+
 export default function ResourcesPage() {
   return (
     <>
@@ -118,6 +164,21 @@ export default function ResourcesPage() {
             name: "Roteiros de Shorts e Reels para Barbearias",
             path: "/recursos/videos",
             description: "Roteiros curtos baseados nas práticas publicadas nas guias.",
+          },
+          {
+            name: "Comissões de Barbeiros",
+            path: "/recursos/comissoes-barbeiros",
+            description: "Cálculo de comissão e repasse sob controle do gestor.",
+          },
+          {
+            name: "Cashback para Barbearias",
+            path: "/recursos/cashback-barbearia",
+            description: "Cashback configurável com limites definidos pela barbearia.",
+          },
+          {
+            name: "Nota Fiscal para Barbearias",
+            path: "/recursos/nota-fiscal-barbearia",
+            description: "Fluxo fiscal com ativação assistida e disponibilidade verificada.",
           },
         ]}
       />
@@ -196,6 +257,43 @@ export default function ResourcesPage() {
                     </li>
                   ))}
                 </ol>
+              </section>
+
+              <section aria-labelledby="product-resources-title" className="mb-16">
+                <div className="mb-8">
+                  <p className="text-caption font-semibold uppercase tracking-[0.14em] text-faint-ink">
+                    Conheça o produto
+                  </p>
+                  <h2 id="product-resources-title" className="mt-2 text-h3 font-bold text-ink">
+                    Recursos com condições explicadas
+                  </h2>
+                  <p className="mt-2 max-w-2xl text-label text-muted-ink">
+                    O que é opcional, configurável, exclusivo de plano ou ainda
+                    está em piloto aparece antes de qualquer chamada para ação.
+                  </p>
+                </div>
+                <div className="grid gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2">
+                  {productResources.map(({ icon: Icon, ...item }) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="group flex min-h-56 flex-col bg-surface p-6 transition-colors hover:bg-surface-2 sm:last:col-span-2 sm:last:min-h-44"
+                    >
+                      <div className="flex items-center justify-between gap-3">
+                        <Icon className="h-5 w-5 text-ink" aria-hidden="true" />
+                        <span className="rounded-full border border-line px-2.5 py-1 text-[10px] font-medium text-muted-ink">
+                          {item.label}
+                        </span>
+                      </div>
+                      <h3 className="mt-7 font-semibold text-ink">{item.title}</h3>
+                      <p className="mt-2 text-label text-muted-ink">{item.description}</p>
+                      <ArrowRight
+                        className="mt-auto h-4 w-4 pt-6 box-content text-faint-ink transition-transform group-hover:translate-x-1 group-hover:text-ink"
+                        aria-hidden="true"
+                      />
+                    </Link>
+                  ))}
+                </div>
               </section>
 
               {/* Guides */}

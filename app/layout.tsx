@@ -29,7 +29,7 @@ const lora = Lora({
 const DEFAULT_TITLE =
   "Sistema de Agendamento para Barbearia | WhatsApp + IA - Flowo"
 const DEFAULT_DESCRIPTION =
-  "Software de agendamento para barbearias: a IA atende no WhatsApp, agenda e confirma seus clientes. Lembretes automáticos e pagamento do atendimento por PIX ou cartão."
+  "Software de agendamento para barbearias: a IA atende no WhatsApp, agenda e confirma clientes. Organize comandas e recebimentos, com PIX e cartão integrados opcionais."
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: `${SITE_NAME} | Sistema de Agendamento para Barbearia via WhatsApp`,
     description:
-      "A IA atende no WhatsApp, agenda e confirma seus clientes. Lembretes automáticos contra faltas e pagamento do atendimento por PIX ou cartão.",
+      "A IA atende no WhatsApp, agenda e confirma clientes. Organize comandas e recebimentos, com pagamentos integrados opcionais.",
     url: SITE_URL,
     type: "website",
     locale: "pt_BR",
@@ -70,7 +70,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${SITE_NAME} | Sistema de Agendamento para Barbearia`,
     description:
-      "Agendamento no WhatsApp com IA, lembretes automáticos e pagamento do atendimento por PIX ou cartão.",
+      "Agendamento no WhatsApp com IA, lembretes, comandas e pagamentos integrados opcionais.",
     creator: TWITTER_HANDLE,
     images: [DEFAULT_OG_IMAGE],
   },

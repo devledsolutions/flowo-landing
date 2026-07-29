@@ -26,11 +26,11 @@ const beforeAfterItems = [
   },
   {
     before: "Cliente some e ninguém percebe",
-    after: "Reativação segmentada para quem está sumido há mais de 45 dias",
+    after: "Sugestão de reativação revisada pela equipe antes do envio",
   },
   {
     before: "Cobrança na correria da recepção",
-    after: "Pagamento do atendimento por PIX ou cartão, pela conversa",
+    after: "Recebimento registrado na comanda; PIX e cartão Flowo são opcionais",
   },
 ];
 
@@ -59,9 +59,9 @@ export default function EstudioBelezaRadiantePage() {
               items={[
                 "Cada profissional tem a própria agenda, com serviços e tempos diferentes",
                 "A cliente agenda pelo WhatsApp e escolhe com quem quer ser atendida",
-                "Lembretes 24h e 2h antes reduzem esquecimento, com confirmação automática",
-                "Clientes sem retorno há mais de 45 dias entram num fluxo de reativação com contexto",
-                "O pagamento do atendimento pode ser feito por PIX ou cartão na própria conversa",
+                "Lembretes antes do atendimento reduzem esquecimento, com confirmação pelo WhatsApp",
+                "Clientes inativas podem aparecer como sugestão de reativação para revisão da equipe",
+                "Dinheiro e maquininha própria podem ser registrados; PIX e cartão Flowo são opcionais",
               ]}
             />
           </CaseSection>

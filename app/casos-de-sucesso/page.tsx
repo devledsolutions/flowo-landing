@@ -28,10 +28,10 @@ const useCases = [
     industry: "Fitness e Bem-estar",
     icon: Dumbbell,
     description:
-      "Como uma academia usaria o Flowo para confirmar presença nas aulas, liberar vagas de quem não confirma e acompanhar a frequência dos alunos.",
+      "Como uma academia usaria o Flowo para confirmar presença nas aulas, registrar cancelamentos e acompanhar a frequência dos alunos.",
     highlights: [
       "Confirmação de presença por WhatsApp",
-      "Vagas liberadas automaticamente",
+      "Cancelamentos voltam para a agenda",
       "Histórico de frequência",
     ],
   },
@@ -41,11 +41,11 @@ const useCases = [
     industry: "Beleza e Estética",
     icon: Sparkles,
     description:
-      "Como um estúdio usaria agenda por profissional, lembretes automáticos e reativação de clientes sumidos para manter a agenda cheia.",
+      "Como um estúdio usaria agenda por profissional, lembretes e sugestões revisáveis para retomar clientes inativos.",
     highlights: [
       "Agenda por profissional",
-      "Lembretes 24h e 2h antes",
-      "Reativação pelo WhatsApp",
+      "Lembretes antes do atendimento",
+      "Reativação com revisão humana",
     ],
   },
   {

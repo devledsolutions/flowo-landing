@@ -10,6 +10,10 @@ const CORE_ROUTES = [
   "/sistema-agendamento-barbearia",
   "/agenda-barbearia-whatsapp",
   "/software-barbearia-com-pix",
+  "/recursos/comissoes-barbeiros",
+  "/recursos/cashback-barbearia",
+  "/recursos/nota-fiscal-barbearia",
+  "/comparar",
   "/flowo-vs-planilha",
   "/flowo-vs-agenda-manual",
   "/recursos",
@@ -36,9 +40,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
         ? 1
         : route === "/sistema-agendamento-barbearia" ||
             route === "/agenda-barbearia-whatsapp" ||
-            route === "/software-barbearia-com-pix"
+            route === "/software-barbearia-com-pix" ||
+            route === "/recursos/comissoes-barbeiros" ||
+            route === "/recursos/cashback-barbearia" ||
+            route === "/recursos/nota-fiscal-barbearia"
           ? 0.9
-          : route === "/flowo-vs-planilha" || route === "/flowo-vs-agenda-manual"
+          : route === "/comparar" ||
+              route === "/flowo-vs-planilha" ||
+              route === "/flowo-vs-agenda-manual"
             ? 0.85
             : 0.7,
   }));
