@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Mail, MapPin } from "lucide-react";
+import { LEGAL_ENTITY } from "@/lib/legal-identity";
 
 const SIGNUP_URL = "https://barber.flowo.com.br/sign-up";
 const APP_URL = "https://barber.flowo.com.br";
@@ -63,7 +64,7 @@ export default function Footer() {
             <ul className="mt-6 space-y-3">
               <li className="flex items-center gap-3 text-sm text-muted-ink">
                 <MapPin aria-hidden="true" className="h-4 w-4 shrink-0" />
-                São Paulo, SP, Brasil
+                Curitiba, PR, Brasil
               </li>
               <li className="flex items-center gap-3 text-sm">
                 <Mail aria-hidden="true" className="h-4 w-4 shrink-0 text-muted-ink" />
@@ -75,6 +76,11 @@ export default function Footer() {
                 </a>
               </li>
             </ul>
+            <p className="mt-5 max-w-xs text-xs leading-relaxed text-muted-ink">
+              Flowo é um produto da {LEGAL_ENTITY.name}
+              <br />
+              CNPJ {LEGAL_ENTITY.taxId}
+            </p>
           </div>
 
           <nav aria-label="Produto">
@@ -130,6 +136,13 @@ export default function Footer() {
               className="text-muted-ink transition-colors duration-200 ease-out-quint hover:text-ink"
             >
               Termos de Uso
+            </Link>
+            <Link
+              href="/exclusao-de-dados"
+              prefetch={false}
+              className="text-muted-ink transition-colors duration-200 ease-out-quint hover:text-ink"
+            >
+              Exclusão de Dados
             </Link>
           </div>
         </div>

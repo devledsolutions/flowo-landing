@@ -1,5 +1,6 @@
 import { PRICING, formatBRL } from "@/data/pricing-data";
 import { faqItems } from "@/data/faq-items";
+import { LEGAL_ENTITY } from "@/lib/legal-identity";
 import { SITE_URL, absoluteUrl } from "@/lib/seo";
 
 /**
@@ -48,19 +49,25 @@ export default function SchemaMarkup() {
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "Flowo",
+    name: LEGAL_ENTITY.name,
+    alternateName: "Flowo",
+    taxID: LEGAL_ENTITY.taxId,
     url: SITE_URL,
     logo: absoluteUrl("/flowo-logo.svg"),
     description:
       "Software de agendamento para barbearias via WhatsApp com inteligência artificial",
     address: {
       "@type": "PostalAddress",
+      streetAddress: "Rua Carlos Augusto Cornelsen, 203, Loja 01",
+      addressLocality: "Curitiba",
+      addressRegion: "PR",
+      postalCode: "80520-560",
       addressCountry: "BR",
     },
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "Customer Support",
-      email: "contato@flowo.com.br",
+      email: LEGAL_ENTITY.supportEmail,
       availableLanguage: ["Portuguese"],
     },
   };
