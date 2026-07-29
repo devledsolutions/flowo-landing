@@ -44,7 +44,7 @@ export default function Demo() {
       <div className="container-page">
         <div className="mx-auto max-w-3xl text-center">
           <h2 id="demo-title" className="text-h2 font-semibold text-ink">
-            Veja a Bia atendendo
+            Veja a IA atendendo
           </h2>
           <p className="mx-auto mt-4 max-w-measure text-lead text-muted-ink">
             Assim uma conversa vira um horário confirmado na sua agenda.

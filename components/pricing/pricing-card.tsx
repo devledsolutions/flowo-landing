@@ -34,7 +34,7 @@ export function PricingCard({ plan, cycle }: PricingCardProps) {
         <h3 className="text-xl font-semibold text-ink">{plan.name}</h3>
         {isPopular && (
           <p className="whitespace-nowrap rounded-full border border-line px-2.5 py-1 text-caption font-medium text-ink">
-            Mais escolhido
+            Para equipes
           </p>
         )}
       </div>

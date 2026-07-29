@@ -77,3 +77,19 @@ export const faqItems: FAQItem[] = [
     category: "Suporte"
   }
 ]
+
+const homeFaqQuestions = new Set([
+  "Como funciona o agendamento pelo WhatsApp?",
+  "Como funciona o pagamento via PIX?",
+  "Quanto tempo leva para configurar o Flowo na minha barbearia?",
+  "Serve para barbeiro solo ou só para barbearias grandes?",
+  "Quanto custa o Flowo?",
+  "Tem período de teste grátis?",
+  "Consigo gerenciar vários barbeiros na mesma agenda?",
+  "E se eu precisar de ajuda? Tem suporte?",
+])
+
+/** Questions shown on the home page and mirrored in its FAQ structured data. */
+export const homeFaqItems = faqItems.filter((item) =>
+  homeFaqQuestions.has(item.question)
+)
