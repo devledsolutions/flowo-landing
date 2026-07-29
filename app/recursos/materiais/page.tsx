@@ -14,7 +14,8 @@ import Footer from "@/components/footer";
 import { Breadcrumb } from "@/components/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { DownloadGateModal } from "@/components/download-gate-modal";
-import { LeadCaptureModal } from "@/components/lead-capture-modal";
+import { ResourceNav } from "@/components/resources/resource-nav";
+import { SIGNUP_URL } from "@/components/cta-links";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
@@ -145,7 +146,7 @@ const groups: { heading: string; description: string; items: Downloadable[] }[] 
         id: "script-confirmacao-whatsapp",
         title: "Scripts de Confirmação no WhatsApp",
         description:
-          "Mensagens prontas para confirmar horários, remarcar e recuperar no-show.",
+          "Mensagens prontas para confirmar horários, remarcar e recuperar quem faltou.",
         icon: MessageCircle,
         downloadUrl: "/downloads/lead-magnets/script-confirmacao-whatsapp.csv",
         resourceType: "spreadsheet",
@@ -248,15 +249,19 @@ export default function MaterialsPage() {
                   { label: "Materiais", href: "/recursos/materiais" },
                 ]}
               />
+              <ResourceNav current="/recursos/materiais" />
 
               {/* Hero */}
               <div className="mt-10 mb-14">
-                <h1 className="text-h2 font-bold leading-tight text-ink">
-                  Materiais para sua barbearia
+                <p className="text-label font-semibold uppercase tracking-[0.14em] text-faint-ink">
+                  17 arquivos para baixar
+                </p>
+                <h1 className="mt-3 text-h2 font-bold leading-tight text-ink">
+                  Modelos prontos para tirar tarefas do improviso
                 </h1>
                 <p className="mt-4 max-w-measure text-lead leading-relaxed text-muted-ink">
-                  Planilhas, checklists e guias gratuitos para organizar seu
-                  negócio, atrair mais clientes e acompanhar o faturamento.
+                  Baixe planilhas, checklists e mensagens que você pode adaptar
+                  hoje para agenda, equipe, divulgação e financeiro.
                 </p>
               </div>
 
@@ -348,11 +353,13 @@ export default function MaterialsPage() {
                     </p>
                   </div>
                   <div className="flex-shrink-0">
-                    <LeadCaptureModal>
-                      <Button size="lg" className="w-full rounded-full px-7 md:w-auto">
-                        Começar agora
-                      </Button>
-                    </LeadCaptureModal>
+                    <Button
+                      size="lg"
+                      className="w-full rounded-full px-7 md:w-auto"
+                      asChild
+                    >
+                      <a href={SIGNUP_URL}>Criar minha conta</a>
+                    </Button>
                   </div>
                 </div>
               </div>

@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { LeadCaptureModal } from "@/components/lead-capture-modal";
+import { SIGNUP_URL } from "@/components/cta-links";
 
 const guides = [
   {
@@ -56,9 +56,9 @@ const guides = [
   {
     title: "Reduzindo Faltas na Barbearia",
     description:
-      "Como usar lembretes e confirmação automática pelo WhatsApp para proteger sua agenda dos no-shows.",
+      "Como usar lembretes e confirmação automática pelo WhatsApp para proteger sua agenda das faltas.",
     readTime: "10 min",
-    category: "No-shows",
+    category: "Faltas",
     href: "/recursos/guias/reduzindo-faltas",
     icon: Bell,
     topics: ["Lembretes 24h/2h", "Confirmação automática", "Política de cancelamento"],
@@ -179,11 +179,9 @@ export function GuideGrid() {
               nos guias.
             </p>
             <div className="mt-6">
-              <LeadCaptureModal>
-                <Button size="lg" className="rounded-full px-7">
-                  Começar agora
-                </Button>
-              </LeadCaptureModal>
+              <Button size="lg" className="rounded-full px-7" asChild>
+                <a href={SIGNUP_URL}>Criar minha conta</a>
+              </Button>
             </div>
           </div>
 

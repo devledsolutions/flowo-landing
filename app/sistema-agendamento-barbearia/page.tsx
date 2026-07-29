@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import ProductDemo from "@/components/product-demo";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
 import { PLANS } from "@/data/pricing-data";
 
@@ -48,7 +49,7 @@ const benefits = [
     icon: CalendarCheck2,
     title: "Agenda centralizada",
     description:
-      "Horários por barbeiro e por serviço em um único painel, sincronizados com o que a IA marca no WhatsApp.",
+      "Nos planos com equipe, cada barbeiro pode ter seus próprios dias e horários. Tudo fica no mesmo painel e sincronizado com o que a IA marca no WhatsApp.",
   },
   {
     icon: Clock3,
@@ -60,7 +61,7 @@ const benefits = [
 
 const fitCases = [
   "Barbeiro solo que perde tempo respondendo mensagem o dia todo.",
-  "Equipe de 2 a 10 barbeiros que precisa organizar agenda e escala.",
+  "Equipe com mais de um barbeiro que precisa organizar horários e disponibilidade.",
   "Barbearia em crescimento que quer padronizar o atendimento no WhatsApp.",
 ];
 
@@ -78,8 +79,7 @@ export default function SchedulingSystemPage() {
             <Crumbs current="Sistema de Agendamento para Barbearia" />
             <div className="mt-10 max-w-3xl">
               <h1 className="text-h2 font-semibold text-ink-strong">
-                Sistema de agendamento para barbearia que{" "}
-                <em className="font-serif italic">atende sozinho</em> no
+                Sistema de agendamento para barbearia com atendimento no
                 WhatsApp
               </h1>
               <p className="mt-6 max-w-measure text-lead text-muted-ink">
@@ -105,6 +105,11 @@ export default function SchedulingSystemPage() {
             </div>
           </div>
         </section>
+
+        <ProductDemo
+          title="Veja a agenda antes de abrir a barbearia"
+          description="Horários, profissional responsável e confirmação aparecem juntos. Os nomes e números abaixo são apenas exemplos da interface."
+        />
 
         <section className="section-normal border-t border-line">
           <div className="container-page">
@@ -133,8 +138,8 @@ export default function SchedulingSystemPage() {
         </section>
 
         <section className="section-normal border-t border-line">
-          <div className="container-page grid items-center gap-12 lg:grid-cols-[1.15fr_1fr]">
-            <div>
+          <div className="container-page">
+            <div className="max-w-3xl">
               <h2 className="text-h3 font-semibold text-ink">
                 Para quem é este sistema de agendamento
               </h2>
@@ -166,15 +171,6 @@ export default function SchedulingSystemPage() {
                 </Link>
                 .
               </p>
-            </div>
-            <div className="relative aspect-[4/5] overflow-hidden rounded-lg lg:aspect-[3/4]">
-              <Image
-                src="https://images.unsplash.com/photo-1536520002442-39764a41e987?auto=format&fit=crop&w=1400&q=80"
-                alt="Fileira de cadeiras clássicas sob luminárias industriais numa barbearia de piso de madeira"
-                fill
-                sizes="(min-width: 1024px) 42vw, 100vw"
-                className="img-duotone object-cover"
-              />
             </div>
           </div>
         </section>
@@ -227,7 +223,7 @@ function CtaBand() {
       />
       <div className="container-page section-normal relative">
         <div className="max-w-2xl">
-          <h2 className="font-serif text-h2 font-medium text-ink-strong">
+          <h2 className="text-h2 font-semibold text-ink-strong">
             Agenda organizada é atendimento que rende.
           </h2>
           <p className="mt-4 max-w-measure text-lead text-muted-ink">
