@@ -53,11 +53,11 @@ export default function GuidesPage() {
             <div className="mx-auto max-w-3xl">
               <div className="rounded-lg border border-line bg-surface p-6 sm:p-8">
                 <h2 className="text-h3 font-bold text-ink">
-                  Para continuar sua jornada
+                  Veja o produto aplicado ao problema
                 </h2>
                 <p className="mt-2 max-w-measure text-muted-ink">
-                  Estas páginas conectam o conteúdo dos guias com a decisão
-                  comercial, sem dispersão.
+                  Estas páginas mostram como agenda, WhatsApp, pagamentos e
+                  equipe funcionam no Flowo.
                 </p>
                 <ul className="mt-6 grid gap-3">
                   {strategicLinks.map((item) => (

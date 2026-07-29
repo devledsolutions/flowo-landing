@@ -13,17 +13,22 @@ const summarySample = [
   { icon: Users, label: "Clientes novos na semana", value: "4" },
 ];
 
-export default function ProductDemo() {
+export default function ProductDemo({
+  title = "O dia inteiro em um painel só",
+  description = "Enquanto a IA atende no WhatsApp, você acompanha agenda, conversas e clientes em barber.flowo.com.br.",
+}: {
+  title?: string;
+  description?: string;
+}) {
   return (
     <section aria-labelledby="product-demo-title" className="section-normal bg-cream">
       <div className="container-page">
         <div className="mx-auto max-w-3xl text-center">
           <h2 id="product-demo-title" className="text-h2 font-semibold text-ink">
-            O dia inteiro em um painel só
+            {title}
           </h2>
           <p className="mx-auto mt-4 max-w-measure text-lead text-muted-ink">
-            Enquanto a IA atende no WhatsApp, você acompanha agenda, conversas e
-            clientes em barber.flowo.com.br.
+            {description}
           </p>
         </div>
 

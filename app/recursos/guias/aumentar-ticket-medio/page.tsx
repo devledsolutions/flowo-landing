@@ -61,7 +61,7 @@ export default function TicketMedioGuidePage() {
             ]}
             readTime="9 min"
             title="Como aumentar o ticket médio na barbearia sem perder clientes"
-            lead="Ticket médio cresce quando oferta e contexto estão alinhados. O segredo não é empurrar serviço, e sim estruturar a jornada com proposta de valor clara."
+            lead="Ticket médio cresce quando oferta e contexto estão alinhados. O objetivo não é empurrar serviço, e sim apresentar uma opção útil no momento certo."
           />
 
           <article className="space-y-10">

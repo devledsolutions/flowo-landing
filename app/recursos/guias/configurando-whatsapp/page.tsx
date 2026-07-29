@@ -52,12 +52,7 @@ export default function WhatsAppSetupGuidePage() {
               { label: "Configurando WhatsApp", href: "#" },
             ]}
             readTime="8 min"
-            title={
-              <>
-                Configurando o WhatsApp com{" "}
-                <em className="font-serif font-medium italic">IA</em>
-              </>
-            }
+            title="Configurando o WhatsApp com IA"
             lead="Transforme seu WhatsApp em um assistente que responde clientes, agenda e confirma, mesmo quando você está de tesoura na mão."
           />
 

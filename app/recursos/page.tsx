@@ -1,8 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
   Bell,
+  BookOpen,
   Calendar,
   Clapperboard,
   Clock,
@@ -15,7 +15,8 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { Breadcrumb } from "@/components/breadcrumb";
 import { Button } from "@/components/ui/button";
-import { LeadCaptureModal } from "@/components/lead-capture-modal";
+import { ResourceNav } from "@/components/resources/resource-nav";
+import { SIGNUP_URL } from "@/components/cta-links";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
@@ -80,6 +81,29 @@ const downloads = [
 
 const TOTAL_GUIDES = 10;
 
+const startingPoints = [
+  {
+    title: "Organizar a agenda",
+    description: "Horários, lembretes e confirmações em um fluxo único.",
+    href: "/recursos/guias/guia-definitivo-agendamento",
+  },
+  {
+    title: "Dividir horários da equipe",
+    description: "Agenda e disponibilidade diferentes para cada barbeiro.",
+    href: "/recursos/guias/gerenciamento-equipe",
+  },
+  {
+    title: "Reduzir faltas",
+    description: "Confirmação no WhatsApp antes do cliente ocupar a cadeira.",
+    href: "/recursos/guias/reduzindo-faltas",
+  },
+  {
+    title: "Entender o caixa",
+    description: "Fluxo de caixa, margem, ticket médio e metas semanais.",
+    href: "/recursos/guias/controle-financeiro-barbearia",
+  },
+] as const;
+
 export default function ResourcesPage() {
   return (
     <>
@@ -94,31 +118,71 @@ export default function ResourcesPage() {
                   { label: "Recursos", href: "/recursos" },
                 ]}
               />
+              <ResourceNav current="/recursos" />
 
               {/* Hero */}
-              <div className="mt-10 mb-16 grid items-center gap-10 md:grid-cols-[1fr_260px]">
-                <div>
-                  <h1 className="text-h2 font-bold leading-tight text-ink">
-                    Aprenda a cuidar da sua barbearia como quem cuida do{" "}
-                    <em className="font-serif font-medium italic">corte</em>
+              <div className="mt-12 mb-16 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(20rem,0.72fr)] lg:items-end">
+                <div className="max-w-2xl">
+                  <p className="text-label font-semibold uppercase tracking-[0.14em] text-faint-ink">
+                    Biblioteca Flowo
+                  </p>
+                  <h1 className="mt-3 text-h2 font-bold leading-tight text-ink">
+                    Guias, planilhas e roteiros para operar sua barbearia
                   </h1>
                   <p className="mt-4 max-w-measure text-lead leading-relaxed text-muted-ink">
-                    Guias práticos e materiais gratuitos para organizar a
-                    agenda, confirmar clientes pelo WhatsApp e acompanhar o
-                    financeiro.
+                    Escolha um problema da rotina e vá direto ao material que
+                    ajuda a resolvê-lo: agenda, equipe, WhatsApp ou financeiro.
                   </p>
                 </div>
-                <div className="hidden overflow-hidden rounded-lg md:block">
-                  <Image
-                    src="https://images.unsplash.com/photo-1493256338651-d82f7acb2b38?auto=format&fit=crop&w=1000&q=80"
-                    alt="Máquina de cortar cabelo em close sobre a bancada"
-                    width={520}
-                    height={640}
-                    className="img-duotone h-auto w-full object-cover"
-                    sizes="260px"
-                  />
+                <div className="border-l border-line pl-6">
+                  <p className="text-label font-semibold text-ink">
+                    Tudo aqui é feito para usar
+                  </p>
+                  <p className="mt-2 text-label text-muted-ink">
+                    Sem teoria solta: cada guia termina com um processo,
+                    checklist ou próxima ação para a sua operação.
+                  </p>
                 </div>
               </div>
+
+              <section aria-labelledby="starting-points-title" className="mb-16">
+                <div className="mb-8 flex items-end justify-between gap-4">
+                  <div>
+                    <p className="text-caption font-semibold uppercase tracking-[0.14em] text-faint-ink">
+                      Comece pelo problema
+                    </p>
+                    <h2 id="starting-points-title" className="mt-2 text-h3 font-bold text-ink">
+                      O que precisa melhorar primeiro?
+                    </h2>
+                  </div>
+                  <BookOpen
+                    className="hidden h-6 w-6 text-faint-ink sm:block"
+                    aria-hidden="true"
+                  />
+                </div>
+                <ol className="divide-y divide-line border-y border-line">
+                  {startingPoints.map((item, index) => (
+                    <li key={item.href}>
+                      <Link
+                        href={item.href}
+                        className="group grid gap-2 py-5 sm:grid-cols-[3rem_1fr_1.25fr_auto] sm:items-center sm:gap-5"
+                      >
+                        <span className="text-caption tabular-nums text-faint-ink">
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+                        <span className="font-semibold text-ink">{item.title}</span>
+                        <span className="text-label text-muted-ink">
+                          {item.description}
+                        </span>
+                        <ArrowRight
+                          className="hidden h-4 w-4 text-faint-ink transition-transform duration-200 ease-out-quint group-hover:translate-x-1 group-hover:text-ink sm:block"
+                          aria-hidden="true"
+                        />
+                      </Link>
+                    </li>
+                  ))}
+                </ol>
+              </section>
 
               {/* Guides */}
               <div className="mb-16">
@@ -250,11 +314,9 @@ export default function ResourcesPage() {
                     você leu nos guias.
                   </p>
                   <div className="mt-6 flex flex-wrap items-center gap-4">
-                    <LeadCaptureModal>
-                      <Button size="lg" className="rounded-full px-7">
-                        Começar agora
-                      </Button>
-                    </LeadCaptureModal>
+                    <Button size="lg" className="rounded-full px-7" asChild>
+                      <a href={SIGNUP_URL}>Criar minha conta</a>
+                    </Button>
                     <Link
                       href="/precos"
                       className="text-label font-medium underline-offset-4 hover:underline"

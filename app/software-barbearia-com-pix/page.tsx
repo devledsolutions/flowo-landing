@@ -72,8 +72,7 @@ export default function PixSoftwarePage() {
             <Crumbs current="Software para Barbearia com PIX" />
             <div className="mt-10 max-w-3xl">
               <h1 className="text-h2 font-semibold text-ink-strong">
-                Software para barbearia com PIX:{" "}
-                <em className="font-serif italic">fechou o corte, fechou a conta</em>
+                PIX e cartão no atendimento, com o caixa registrado no Flowo
               </h1>
               <p className="mt-6 max-w-measure text-lead text-muted-ink">
                 No Flowo, o pagamento acontece no atendimento: a barbearia
@@ -126,17 +125,8 @@ export default function PixSoftwarePage() {
         </section>
 
         <section className="section-normal border-t border-line">
-          <div className="container-page grid items-center gap-12 lg:grid-cols-[1fr_1.2fr]">
-            <div className="relative aspect-square overflow-hidden rounded-lg">
-              <Image
-                src="https://images.unsplash.com/photo-1493256338651-d82f7acb2b38?auto=format&fit=crop&w=1000&q=80"
-                alt="Máquina de cortar cabelo em close sobre a bancada"
-                fill
-                sizes="(min-width: 1024px) 40vw, 100vw"
-                className="img-duotone object-cover"
-              />
-            </div>
-            <div>
+          <div className="container-page">
+            <div className="max-w-3xl">
               <h2 className="text-h3 font-semibold text-ink">
                 Sem sinal, sem pagamento antecipado
               </h2>
@@ -229,7 +219,7 @@ function CtaBand() {
       />
       <div className="container-page section-normal relative">
         <div className="max-w-2xl">
-          <h2 className="font-serif text-h2 font-medium text-ink-strong">
+          <h2 className="text-h2 font-semibold text-ink-strong">
             Agenda no WhatsApp, pagamento no WhatsApp.
           </h2>
           <p className="mt-4 max-w-measure text-lead text-muted-ink">

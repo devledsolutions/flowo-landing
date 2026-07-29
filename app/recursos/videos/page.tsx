@@ -9,7 +9,8 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { Breadcrumb } from "@/components/breadcrumb";
 import { Button } from "@/components/ui/button";
-import { LeadCaptureModal } from "@/components/lead-capture-modal";
+import { ResourceNav } from "@/components/resources/resource-nav";
+import { SIGNUP_URL } from "@/components/cta-links";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
@@ -33,7 +34,7 @@ const shortsPlan = [
     sourceUrl: "/recursos/guias/aumentar-ticket-medio",
   },
   {
-    title: "Fluxo de confirmação no WhatsApp que reduz no-show",
+    title: "Fluxo de confirmação no WhatsApp que reduz faltas",
     duration: "45-60s",
     hook: "Você ainda confirma no braço? Esse fluxo de 3 mensagens resolve.",
     steps: [
@@ -87,15 +88,15 @@ const shortsPlan = [
     steps: [
       "Mostre o tempo perdido em retrabalho.",
       "Mostre os erros de conflito de horários.",
-      "Mostre o impacto no no-show e no faturamento.",
+      "Mostre o impacto das faltas no faturamento.",
     ],
     cta: "Veja o comparativo completo e decida com dados.",
     sourceUrl: "/flowo-vs-planilha",
   },
   {
-    title: "No-show: confirmação automática pelo WhatsApp",
+    title: "Faltas: confirmação automática pelo WhatsApp",
     duration: "45-60s",
-    hook: "Quer reduzir no-show sem constranger cliente? Confirmação automática.",
+    hook: "Quer reduzir faltas sem constranger o cliente? Use confirmação automática.",
     steps: [
       "Lembrete 24h antes com pedido de confirmação.",
       "Sem resposta? O horário pode ser liberado para outro cliente.",
@@ -133,16 +134,19 @@ export default function VideosPage() {
                   { label: "Vídeos", href: "/recursos/videos" },
                 ]}
               />
+              <ResourceNav current="/recursos/videos" />
 
               {/* Hero */}
               <div className="mt-10 mb-14">
-                <h1 className="text-h2 font-bold leading-tight text-ink">
-                  8 roteiros de vídeos curtos prontos para publicar
+                <p className="text-label font-semibold uppercase tracking-[0.14em] text-faint-ink">
+                  8 roteiros de 45–60 segundos
+                </p>
+                <h1 className="mt-3 text-h2 font-bold leading-tight text-ink">
+                  Roteiros para gravar sem começar pela tela em branco
                 </h1>
                 <p className="mt-4 max-w-measure text-lead leading-relaxed text-muted-ink">
-                  Cada roteiro está conectado a um guia ou comparativo do site.
-                  Use os scripts para transformar conteúdo em alcance e gerar
-                  mais agendamentos.
+                  Cada roteiro traz abertura, sequência e chamada para ação.
+                  Escolha um tema, adapte à sua voz e grave.
                 </p>
               </div>
 
@@ -221,11 +225,9 @@ export default function VideosPage() {
                     receba os agendamentos que o conteúdo gerar.
                   </p>
                   <div className="mt-6 flex flex-wrap items-center gap-4">
-                    <LeadCaptureModal>
-                      <Button size="lg" className="rounded-full px-7">
-                        Começar agora
-                      </Button>
-                    </LeadCaptureModal>
+                    <Button size="lg" className="rounded-full px-7" asChild>
+                      <a href={SIGNUP_URL}>Criar minha conta</a>
+                    </Button>
                     <Link
                       href="/precos"
                       className="text-label font-medium underline-offset-4 hover:underline"

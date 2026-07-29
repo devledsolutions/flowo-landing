@@ -1,4 +1,5 @@
 import { Breadcrumb } from "@/components/breadcrumb";
+import { ResourceNav } from "@/components/resources/resource-nav";
 
 export function GuidesHero() {
   return (
@@ -12,14 +13,17 @@ export function GuidesHero() {
               { label: "Guias", href: "/recursos/guias" },
             ]}
           />
+          <ResourceNav current="/recursos/guias" />
           <div className="mt-8">
-            <h1 className="text-h2 font-bold leading-tight text-ink">
-              Guias para barbearias que levam a{" "}
-              <em className="font-serif font-medium italic">agenda</em> a sério
+            <p className="text-label font-semibold uppercase tracking-[0.14em] text-faint-ink">
+              10 guias práticos
+            </p>
+            <h1 className="mt-3 text-h2 font-bold leading-tight text-ink">
+              Um processo claro para cada parte da operação
             </h1>
             <p className="mt-4 max-w-measure text-lead leading-relaxed text-muted-ink">
-              Como usar o Flowo para organizar horários, confirmar clientes pelo
-              WhatsApp e acompanhar o que importa. Prático, direto ao ponto.
+              Aprenda a organizar horários por barbeiro, confirmar clientes no
+              WhatsApp, acompanhar o caixa e decidir o próximo ajuste da equipe.
             </p>
           </div>
         </div>

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowLeft, ArrowRight, Clock, type LucideIcon } from "lucide-react";
 import { Breadcrumb } from "@/components/breadcrumb";
 import { Button } from "@/components/ui/button";
-import { LeadCaptureModal } from "@/components/lead-capture-modal";
+import { SIGNUP_URL } from "@/components/cta-links";
 
 /**
  * Shared shell for every guia em /recursos/guias/*.
@@ -227,11 +227,9 @@ export function GuideCta({
       <h2 className="text-h3 font-bold">{title}</h2>
       <p className="mt-3 max-w-measure text-muted-ink">{description}</p>
       <div className="mt-6 flex flex-wrap items-center gap-4">
-        <LeadCaptureModal>
-          <Button size="lg" className="rounded-full px-7">
-            Começar agora
-          </Button>
-        </LeadCaptureModal>
+        <Button size="lg" className="rounded-full px-7" asChild>
+          <a href={SIGNUP_URL}>Criar minha conta</a>
+        </Button>
         <Link
           href="/precos"
           className="text-label font-medium underline-offset-4 hover:underline"

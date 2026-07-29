@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import ProductDemo from "@/components/product-demo";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
 import { PLANS } from "@/data/pricing-data";
 
@@ -66,7 +67,7 @@ const teamBenefits = [
     icon: CalendarCheck2,
     title: "Agenda por barbeiro",
     description:
-      "Cada profissional tem a própria agenda, e a IA marca no horário livre do barbeiro certo.",
+      "Nos planos com equipe, cada profissional pode ter seus próprios dias e horários. A IA oferece apenas o que estiver disponível para o barbeiro escolhido.",
   },
   {
     icon: Clock3,
@@ -90,8 +91,7 @@ export default function WhatsappAgendaPage() {
             <Crumbs current="Agenda de Barbearia no WhatsApp" />
             <div className="mt-10 max-w-3xl">
               <h1 className="text-h2 font-semibold text-ink-strong">
-                A agenda da sua barbearia no WhatsApp, atendida por uma IA que
-                conversa <em className="font-serif italic">como gente</em>
+                Atenda, agende e confirme clientes no WhatsApp da barbearia
               </h1>
               <p className="mt-6 max-w-measure text-lead text-muted-ink">
                 Com o Flowo, o cliente marca, remarca e confirma pelo WhatsApp
@@ -116,6 +116,11 @@ export default function WhatsappAgendaPage() {
             </div>
           </div>
         </section>
+
+        <ProductDemo
+          title="A conversa vira horário na agenda"
+          description="Depois de confirmar com o cliente, o compromisso aparece no painel com serviço, profissional e status. Os dados abaixo são exemplos da interface."
+        />
 
         <section className="section-normal border-t border-line">
           <div className="container-page">
@@ -144,17 +149,8 @@ export default function WhatsappAgendaPage() {
         </section>
 
         <section className="section-normal border-t border-line">
-          <div className="container-page grid items-center gap-12 lg:grid-cols-[1fr_1.15fr]">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-lg lg:aspect-[3/4]">
-              <Image
-                src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1400&q=80"
-                alt="Close do barbeiro aparando a barba na tesoura, luz baixa e quente"
-                fill
-                sizes="(min-width: 1024px) 45vw, 100vw"
-                className="img-duotone object-cover"
-              />
-            </div>
-            <div>
+          <div className="container-page">
+            <div className="max-w-3xl">
               <h2 className="text-h3 font-semibold text-ink">
                 O barbeiro corta. A IA atende.
               </h2>
@@ -242,7 +238,7 @@ function CtaBand() {
       />
       <div className="container-page section-normal relative">
         <div className="max-w-2xl">
-          <h2 className="font-serif text-h2 font-medium text-ink-strong">
+          <h2 className="text-h2 font-semibold text-ink-strong">
             Enquanto você corta, a Flowo atende.
           </h2>
           <p className="mt-4 max-w-measure text-lead text-muted-ink">
