@@ -23,7 +23,7 @@ export const metadata = buildMetadata({
  * Home composition. Each section component owns its own <section>, background
  * band and vertical cadence (no double-wrapping, no duplicated ids: the
  * `como-funciona` anchor lives inside HowItWorks). Order follows the
- * Barbearia Noir art direction: hero, proof band, how it works, features,
+ * Barbearia Noir art direction: hero, real-use situations, how it works, features,
  * pricing, support, FAQ, closing ink CTA band above the footer.
  */
 export default function Home() {

@@ -1,13 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Check, ChevronRight, Minus } from "lucide-react";
+import { Check, Minus } from "lucide-react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import {
+  CommercialCta,
+  CommercialHero,
+  RelatedSolutions,
+} from "@/components/marketing/commercial-page";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
 import { PLANS } from "@/data/pricing-data";
 
 const PATH = "/flowo-vs-agenda-manual";
-const SIGNUP_URL = "https://barber.flowo.com.br/sign-up";
 
 export const metadata = buildMetadata({
   title: "Flowo vs Agenda Manual para Barbearias",
@@ -82,22 +86,13 @@ export default function FlowoVsAgendaManualPage() {
       />
       <Navbar />
       <main>
-        <section className="pt-32 pb-section-tight md:pt-40">
-          <div className="container-page">
-            <Crumbs current="Flowo vs Agenda Manual" />
-            <div className="mt-10 max-w-3xl">
-              <h1 className="text-h2 font-semibold text-ink-strong">
-                Flowo vs agenda manual: o caderno não confirma cliente.{" "}
-                <em className="font-serif italic">A Flowo confirma.</em>
-              </h1>
-              <p className="mt-6 max-w-measure text-lead text-muted-ink">
-                Agenda de papel funciona até certo ponto. Quando o volume
-                cresce, aparecem conflitos de horário, faltas sem aviso e
-                retrabalho. Veja lado a lado o que muda.
-              </p>
-            </div>
-          </div>
-        </section>
+        <CommercialHero
+          current="Flowo vs Agenda Manual"
+          eyebrow="O custo escondido do caderno"
+          title="O caderno guarda horários. O Flowo cuida deles."
+          description="Agenda de papel funciona até certo ponto. Quando o volume cresce, aparecem conflitos, faltas sem aviso e retrabalho. Veja o que muda quando confirmação e disponibilidade deixam de depender da memória."
+          preview="comparacao"
+        />
 
         <section className="section-tight">
           <div className="container-page">
@@ -203,81 +198,36 @@ export default function FlowoVsAgendaManualPage() {
           </div>
         </section>
 
-        <CtaBand />
+        <RelatedSolutions
+          title="Decida com mais contexto"
+          items={[
+            {
+              href: "/flowo-vs-planilha",
+              label: "Flowo vs planilha",
+              description:
+                "Compare com uma rotina digital que ainda exige atualização manual.",
+            },
+            {
+              href: "/agenda-barbearia-whatsapp",
+              label: "Agenda no WhatsApp",
+              description:
+                "Veja como o cliente agenda e confirma na própria conversa.",
+            },
+            {
+              href: "/recursos/guias/reduzindo-faltas",
+              label: "Guia para reduzir faltas",
+              description:
+                "Estruture lembretes e confirmação sem depender de promessa de resultado.",
+            },
+          ]}
+        />
+        <CommercialCta
+          title="Pare de apagar incêndio na agenda."
+          description="Automatize agendamento, confirmação e lembrete pelo WhatsApp e deixe a equipe trabalhar com a mesma informação."
+          price={PLANS[0].monthly}
+        />
       </main>
       <Footer />
     </>
-  );
-}
-
-function Crumbs({ current }: { current: string }) {
-  return (
-    <nav aria-label="Breadcrumb" className="text-caption text-muted-ink">
-      <ol className="flex flex-wrap items-center gap-1.5">
-        <li>
-          <Link
-            href="/"
-            className="transition-colors duration-200 hover:text-ink"
-          >
-            Início
-          </Link>
-        </li>
-        <li aria-hidden="true">
-          <ChevronRight className="h-3.5 w-3.5" />
-        </li>
-        <li>
-          <span aria-current="page" className="text-ink">
-            {current}
-          </span>
-        </li>
-      </ol>
-    </nav>
-  );
-}
-
-function CtaBand() {
-  return (
-    <section className="on-ink relative isolate overflow-hidden">
-      <Image
-        src="https://images.unsplash.com/photo-1517832606299-7ae9b720a186?auto=format&fit=crop&w=1600&q=80"
-        alt=""
-        fill
-        sizes="100vw"
-        className="object-cover opacity-30"
-      />
-      <div
-        aria-hidden
-        className="absolute inset-0 bg-gradient-to-b from-[oklch(0.185_0.01_110/0.75)] via-[oklch(0.185_0.01_110/0.62)] to-[oklch(0.185_0.01_110/0.85)]"
-      />
-      <div className="container-page section-normal relative">
-        <div className="max-w-2xl">
-          <h2 className="font-serif text-h2 font-medium text-ink-strong">
-            Pare de apagar incêndio na agenda.
-          </h2>
-          <p className="mt-4 max-w-measure text-lead text-muted-ink">
-            Automatize agendamento, confirmação e lembrete pelo WhatsApp e
-            ganhe tranquilidade operacional.
-          </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <Link
-              href={SIGNUP_URL}
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-ink px-7 py-3.5 text-label font-medium text-cream transition-opacity duration-200 ease-out-quint hover:opacity-90"
-            >
-              Começar agora
-              <ArrowRight aria-hidden className="h-4 w-4" />
-            </Link>
-            <Link
-              href="/precos"
-              className="inline-flex items-center justify-center rounded-full border border-line px-7 py-3.5 text-label font-medium text-ink transition-colors duration-200 ease-out-quint hover:bg-surface"
-            >
-              Ver planos
-            </Link>
-          </div>
-          <p className="mt-5 text-caption text-muted-ink">
-            A partir de R$ {PLANS[0].monthly}/mês no plano Solo.
-          </p>
-        </div>
-      </div>
-    </section>
   );
 }

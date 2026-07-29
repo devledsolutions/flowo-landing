@@ -1,20 +1,21 @@
-import Image from "next/image";
 import Link from "next/link";
 import {
-  ArrowRight,
   BellRing,
-  ChevronRight,
   MessageCircle,
   QrCode,
   ReceiptText,
 } from "lucide-react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import {
+  CommercialCta,
+  CommercialHero,
+  RelatedSolutions,
+} from "@/components/marketing/commercial-page";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
 import { PLANS } from "@/data/pricing-data";
 
 const PATH = "/software-barbearia-com-pix";
-const SIGNUP_URL = "https://barber.flowo.com.br/sign-up";
 
 export const metadata = buildMetadata({
   title: "Software para Barbearia com Pagamento por PIX",
@@ -67,36 +68,13 @@ export default function PixSoftwarePage() {
       />
       <Navbar />
       <main>
-        <section className="pt-32 pb-section-tight md:pt-40">
-          <div className="container-page">
-            <Crumbs current="Software para Barbearia com PIX" />
-            <div className="mt-10 max-w-3xl">
-              <h1 className="text-h2 font-semibold text-ink-strong">
-                PIX e cartão no atendimento, com o caixa registrado no Flowo
-              </h1>
-              <p className="mt-6 max-w-measure text-lead text-muted-ink">
-                No Flowo, o pagamento acontece no atendimento: a barbearia
-                envia a cobrança pelo WhatsApp e o cliente paga por PIX ou
-                cartão na mesma conversa em que agendou.
-              </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-                <Link
-                  href={SIGNUP_URL}
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-ink px-7 py-3.5 text-label font-medium text-cream transition-opacity duration-200 ease-out-quint hover:opacity-90"
-                >
-                  Começar agora
-                  <ArrowRight aria-hidden className="h-4 w-4" />
-                </Link>
-                <Link
-                  href="/precos"
-                  className="inline-flex items-center justify-center rounded-full border border-line px-7 py-3.5 text-label font-medium text-ink transition-colors duration-200 ease-out-quint hover:bg-surface-2"
-                >
-                  Ver planos
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
+        <CommercialHero
+          current="Software para Barbearia com PIX"
+          eyebrow="Comanda e caixa no mesmo atendimento"
+          title="PIX e cartão no atendimento, com o caixa registrado no Flowo"
+          description="No Flowo, o pagamento acontece no atendimento: a barbearia envia a cobrança pelo WhatsApp e o cliente paga por PIX ou cartão. A baixa entra no financeiro sem pedir sinal para reservar."
+          preview="pagamento"
+        />
 
         <section className="section-normal border-t border-line">
           <div className="container-page">
@@ -171,81 +149,35 @@ export default function PixSoftwarePage() {
           </div>
         </section>
 
-        <CtaBand />
+        <RelatedSolutions
+          items={[
+            {
+              href: "/recursos/guias/pagamentos-pix",
+              label: "Guia de pagamentos",
+              description:
+                "Entenda taxas, conciliação e o fluxo ideal para o atendimento.",
+            },
+            {
+              href: "/recursos/guias/controle-financeiro-barbearia",
+              label: "Controle financeiro",
+              description:
+                "Organize entradas, saídas e fechamento sem depender da memória.",
+            },
+            {
+              href: "/flowo-vs-planilha",
+              label: "Comparar com planilha",
+              description:
+                "Veja a diferença entre registrar e executar a rotina.",
+            },
+          ]}
+        />
+        <CommercialCta
+          title="Agenda no WhatsApp, pagamento no atendimento."
+          description="A mesma operação que marca o corte fecha a comanda e registra o caixa."
+          price={PLANS[0].monthly}
+        />
       </main>
       <Footer />
     </>
-  );
-}
-
-function Crumbs({ current }: { current: string }) {
-  return (
-    <nav aria-label="Breadcrumb" className="text-caption text-muted-ink">
-      <ol className="flex flex-wrap items-center gap-1.5">
-        <li>
-          <Link
-            href="/"
-            className="transition-colors duration-200 hover:text-ink"
-          >
-            Início
-          </Link>
-        </li>
-        <li aria-hidden="true">
-          <ChevronRight className="h-3.5 w-3.5" />
-        </li>
-        <li>
-          <span aria-current="page" className="text-ink">
-            {current}
-          </span>
-        </li>
-      </ol>
-    </nav>
-  );
-}
-
-function CtaBand() {
-  return (
-    <section className="on-ink relative isolate overflow-hidden">
-      <Image
-        src="https://images.unsplash.com/photo-1517832606299-7ae9b720a186?auto=format&fit=crop&w=1600&q=80"
-        alt=""
-        fill
-        sizes="100vw"
-        className="object-cover opacity-30"
-      />
-      <div
-        aria-hidden
-        className="absolute inset-0 bg-gradient-to-b from-[oklch(0.185_0.01_110/0.75)] via-[oklch(0.185_0.01_110/0.62)] to-[oklch(0.185_0.01_110/0.85)]"
-      />
-      <div className="container-page section-normal relative">
-        <div className="max-w-2xl">
-          <h2 className="text-h2 font-semibold text-ink-strong">
-            Agenda no WhatsApp, pagamento no WhatsApp.
-          </h2>
-          <p className="mt-4 max-w-measure text-lead text-muted-ink">
-            A mesma conversa que marca o corte fecha a conta. PIX ou cartão,
-            sem maquininha na fila.
-          </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <Link
-              href={SIGNUP_URL}
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-ink px-7 py-3.5 text-label font-medium text-cream transition-opacity duration-200 ease-out-quint hover:opacity-90"
-            >
-              Começar agora
-              <ArrowRight aria-hidden className="h-4 w-4" />
-            </Link>
-            <Link
-              href="/precos"
-              className="inline-flex items-center justify-center rounded-full border border-line px-7 py-3.5 text-label font-medium text-ink transition-colors duration-200 ease-out-quint hover:bg-surface"
-            >
-              Ver planos
-            </Link>
-          </div>
-          <p className="mt-5 text-caption text-muted-ink">
-            A partir de R$ {PLANS[0].monthly}/mês no plano Solo.
-          </p>
-        </div>
-      </div>
-    </section>
   );
 }

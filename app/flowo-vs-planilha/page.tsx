@@ -1,13 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Check, ChevronRight, Minus } from "lucide-react";
+import { Check, Minus } from "lucide-react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import {
+  CommercialCta,
+  CommercialHero,
+  RelatedSolutions,
+} from "@/components/marketing/commercial-page";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
 import { PLANS } from "@/data/pricing-data";
 
 const PATH = "/flowo-vs-planilha";
-const SIGNUP_URL = "https://barber.flowo.com.br/sign-up";
 
 export const metadata = buildMetadata({
   title: "Flowo vs Planilha para Barbearia",
@@ -82,22 +86,13 @@ export default function FlowoVsPlanilhaPage() {
       />
       <Navbar />
       <main>
-        <section className="pt-32 pb-section-tight md:pt-40">
-          <div className="container-page">
-            <Crumbs current="Flowo vs Planilha" />
-            <div className="mt-10 max-w-3xl">
-              <h1 className="text-h2 font-semibold text-ink-strong">
-                Flowo vs planilha: a planilha não responde WhatsApp.{" "}
-                <em className="font-serif italic">A Flowo responde.</em>
-              </h1>
-              <p className="mt-6 max-w-measure text-lead text-muted-ink">
-                Planilha resolve no começo, mas vira gargalo quando a operação
-                cresce: alguém precisa digitar cada horário, e ninguém confirma
-                o cliente. Compare lado a lado.
-              </p>
-            </div>
-          </div>
-        </section>
+        <CommercialHero
+          current="Flowo vs Planilha"
+          eyebrow="Comparação de rotina, não só de ferramenta"
+          title="A planilha registra. O Flowo executa a rotina."
+          description="Planilha resolve no começo, mas vira gargalo quando a operação cresce: alguém ainda precisa responder, anotar e confirmar cada horário. Compare o trabalho que continua manual."
+          preview="comparacao"
+        />
 
         <section className="section-tight">
           <div className="container-page">
@@ -204,81 +199,36 @@ export default function FlowoVsPlanilhaPage() {
           </div>
         </section>
 
-        <CtaBand />
+        <RelatedSolutions
+          title="Decida com mais contexto"
+          items={[
+            {
+              href: "/flowo-vs-agenda-manual",
+              label: "Flowo vs agenda manual",
+              description:
+                "Compare a operação com caderno, papel ou agenda física.",
+            },
+            {
+              href: "/sistema-agendamento-barbearia",
+              label: "Ver o sistema de agenda",
+              description:
+                "Entenda como horários e profissionais aparecem no produto.",
+            },
+            {
+              href: "/recursos/guias/controle-financeiro-barbearia",
+              label: "Guia de controle financeiro",
+              description:
+                "Aplique um processo semanal antes ou depois de trocar de ferramenta.",
+            },
+          ]}
+        />
+        <CommercialCta
+          title="Troque anotação por execução."
+          description="Centralize agenda, confirmação e pagamento em uma rotina que não depende de atualizar cada célula."
+          price={PLANS[0].monthly}
+        />
       </main>
       <Footer />
     </>
-  );
-}
-
-function Crumbs({ current }: { current: string }) {
-  return (
-    <nav aria-label="Breadcrumb" className="text-caption text-muted-ink">
-      <ol className="flex flex-wrap items-center gap-1.5">
-        <li>
-          <Link
-            href="/"
-            className="transition-colors duration-200 hover:text-ink"
-          >
-            Início
-          </Link>
-        </li>
-        <li aria-hidden="true">
-          <ChevronRight className="h-3.5 w-3.5" />
-        </li>
-        <li>
-          <span aria-current="page" className="text-ink">
-            {current}
-          </span>
-        </li>
-      </ol>
-    </nav>
-  );
-}
-
-function CtaBand() {
-  return (
-    <section className="on-ink relative isolate overflow-hidden">
-      <Image
-        src="https://images.unsplash.com/photo-1517832606299-7ae9b720a186?auto=format&fit=crop&w=1600&q=80"
-        alt=""
-        fill
-        sizes="100vw"
-        className="object-cover opacity-30"
-      />
-      <div
-        aria-hidden
-        className="absolute inset-0 bg-gradient-to-b from-[oklch(0.185_0.01_110/0.75)] via-[oklch(0.185_0.01_110/0.62)] to-[oklch(0.185_0.01_110/0.85)]"
-      />
-      <div className="container-page section-normal relative">
-        <div className="max-w-2xl">
-          <h2 className="font-serif text-h2 font-medium text-ink-strong">
-            Saia do improviso. Profissionalize a agenda.
-          </h2>
-          <p className="mt-4 max-w-measure text-lead text-muted-ink">
-            Troque o controle manual por uma agenda que atende, confirma e
-            cobra pelo WhatsApp.
-          </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <Link
-              href={SIGNUP_URL}
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-ink px-7 py-3.5 text-label font-medium text-cream transition-opacity duration-200 ease-out-quint hover:opacity-90"
-            >
-              Começar agora
-              <ArrowRight aria-hidden className="h-4 w-4" />
-            </Link>
-            <Link
-              href="/precos"
-              className="inline-flex items-center justify-center rounded-full border border-line px-7 py-3.5 text-label font-medium text-ink transition-colors duration-200 ease-out-quint hover:bg-surface"
-            >
-              Ver planos
-            </Link>
-          </div>
-          <p className="mt-5 text-caption text-muted-ink">
-            A partir de R$ {PLANS[0].monthly}/mês no plano Solo.
-          </p>
-        </div>
-      </div>
-    </section>
   );
 }
