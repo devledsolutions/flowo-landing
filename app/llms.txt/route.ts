@@ -4,6 +4,7 @@ import {
   COMPETITOR_COMPARISONS,
 } from "@/data/competitor-comparisons";
 import { PLANS, ANNUAL_DISCOUNT_LABEL, formatBRL } from "@/data/pricing-data";
+import { INSTITUTIONAL_FILM } from "@/lib/institutional-film";
 import { SITE_URL } from "@/lib/seo";
 
 const CACHE_HEADER =
@@ -62,8 +63,8 @@ ${comparisonLines}
 ${guideLines}
 
 ## Media and lead magnets
-- [Filme institucional em MP4](${SITE_URL}/videos/flowo-institucional.mp4)
-- [Versao vertical do filme](${SITE_URL}/videos/flowo-institucional-vertical.mp4)
+- [Filme institucional em MP4](${SITE_URL}${INSTITUTIONAL_FILM.video})
+- [Versao vertical do filme](${SITE_URL}${INSTITUTIONAL_FILM.verticalVideo})
 - [Roteiros de Shorts e Reels](${SITE_URL}/recursos/videos)
 - [Materiais gratuitos](${SITE_URL}/recursos/materiais)
 

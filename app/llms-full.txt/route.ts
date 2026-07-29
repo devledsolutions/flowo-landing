@@ -3,6 +3,7 @@ import {
   COMPETITOR_COMPARISONS,
 } from "@/data/competitor-comparisons";
 import { PLANS, formatBRL } from "@/data/pricing-data";
+import { INSTITUTIONAL_FILM } from "@/lib/institutional-film";
 import { SITE_URL } from "@/lib/seo";
 
 const CACHE_HEADER =
@@ -80,8 +81,8 @@ ${comparisons}
 ## Rotas úteis
 
 - Comparações: ${SITE_URL}/comparar
-- Filme institucional: ${SITE_URL}/videos/flowo-institucional.mp4
-- Filme vertical: ${SITE_URL}/videos/flowo-institucional-vertical.mp4
+- Filme institucional: ${SITE_URL}${INSTITUTIONAL_FILM.video}
+- Filme vertical: ${SITE_URL}${INSTITUTIONAL_FILM.verticalVideo}
 - Recursos: ${SITE_URL}/recursos
 - Planos: ${SITE_URL}/precos
 - Guias: ${SITE_URL}/recursos/guias
