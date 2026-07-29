@@ -1,182 +1,234 @@
+import Link from "next/link";
 import { LegalPage, type LegalSection } from "@/components/legal-page";
+import { LEGAL_ENTITY, LEGAL_UPDATED_AT } from "@/lib/legal-identity";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
   title: "Termos de Uso",
   description:
-    "Termos e condições de uso da plataforma Flowo de agendamento para barbearias.",
+    "Condições de contratação e uso da plataforma Flowo para barbearias e negócios de serviços no Brasil.",
   path: "/termos",
 });
 
 const sections: LegalSection[] = [
   {
-    id: "aceitacao",
-    title: "Aceitação dos Termos",
-    content: (
-      <p>
-        Ao acessar ou usar o Flowo, você concorda em cumprir estes Termos de
-        Uso e nossa Política de Privacidade. Se você não concordar com algum
-        termo, não utilize nossos serviços.
-      </p>
-    ),
-  },
-  {
-    id: "descricao-do-servico",
-    title: "Descrição do Serviço",
-    content: (
-      <p>
-        O Flowo é uma plataforma de agendamento online que permite a barbearias
-        e estabelecimentos similares gerenciar agendamentos via WhatsApp com
-        assistência de inteligência artificial. O serviço inclui: agendamento
-        automatizado, lembretes, gestão de equipe, relatórios e integrações.
-      </p>
-    ),
-  },
-  {
-    id: "cadastro-e-conta",
-    title: "Cadastro e Conta",
+    id: "contratacao-e-aceite",
+    title: "Contratação e aceite",
     content: (
       <>
-        <p>Para usar o Flowo, você deve:</p>
-        <ul>
-          <li>Ter pelo menos 18 anos de idade</li>
-          <li>Fornecer informações verdadeiras e completas</li>
-          <li>Manter suas credenciais de acesso em sigilo</li>
-          <li>Ser responsável por todas as atividades em sua conta</li>
-          <li>Notificar-nos imediatamente sobre uso não autorizado</li>
-        </ul>
+        <p>
+          A Flowo é um produto operado por <strong>{LEGAL_ENTITY.name}</strong>,
+          inscrita no CNPJ sob nº <strong>{LEGAL_ENTITY.taxId}</strong>, com sede
+          em {LEGAL_ENTITY.address}.
+        </p>
+        <p>
+          Ao criar uma conta, aceitar uma proposta ou usar o serviço em nome de
+          uma empresa, você declara ter capacidade e autorização para vinculá-la
+          a estes termos. A criação da conta exige aceite expresso destes Termos
+          de Uso e reconhecimento da{" "}
+          <Link className="underline underline-offset-4" href="/privacidade">
+            Política de Privacidade
+          </Link>
+          .
+        </p>
+        <p>
+          A candidatura para implantação não cria assinatura nem cobrança. A
+          contratação ocorre somente pelo fluxo comercial ou checkout que
+          apresente plano, preço, ciclo e condições aplicáveis.
+        </p>
       </>
     ),
   },
   {
-    id: "planos-e-pagamentos",
-    title: "Planos e Pagamentos",
+    id: "servico",
+    title: "O que a Flowo fornece",
     content: (
       <>
-        <h3 className="text-body font-semibold text-ink">4.1 Contratação</h3>
         <p>
-          O Flowo é um serviço por assinatura. O acesso à plataforma é
-          liberado após a confirmação do pagamento do plano escolhido, na
-          modalidade mensal ou anual. Os planos disponíveis e seus preços
-          estão descritos na página de preços.
+          A Flowo reúne agenda, cadastro, atendimento por canais conectados,
+          clientes, comandas, pagamentos, relatórios e outros módulos
+          contratados. Certas funções dependem de configuração, aprovação,
+          credencial ou cobertura de fornecedores externos.
         </p>
-        <h3 className="text-body font-semibold text-ink">4.2 Cobrança</h3>
         <p>
-          Os planos são cobrados mensalmente ou anualmente, conforme sua
-          escolha. O pagamento pode ser feito via PIX, cartão de crédito ou
-          boleto. A cobrança é realizada no início de cada ciclo de
-          faturamento.
+          Materiais de demonstração são identificados como exemplos.
+          Indicadores, calculadoras e projeções não garantem receita, economia,
+          disponibilidade de agenda ou resultado comercial.
         </p>
-        <h3 className="text-body font-semibold text-ink">
-          4.3 Cancelamento e Reembolso
-        </h3>
+      </>
+    ),
+  },
+  {
+    id: "conta-e-equipe",
+    title: "Conta, acesso e equipe",
+    content: (
+      <ul>
+        <li>mantenha dados de cadastro, funções e permissões corretos;</li>
+        <li>proteja credenciais e informe suspeita de acesso indevido;</li>
+        <li>não compartilhe contas pessoais nem contorne limites de acesso;</li>
+        <li>responda pelas ações dos usuários autorizados da organização.</li>
+      </ul>
+    ),
+  },
+  {
+    id: "responsabilidade",
+    title: "Responsabilidade da barbearia",
+    content: (
+      <>
         <p>
-          Você pode cancelar sua assinatura a qualquer momento. O acesso
-          continua até o final do período já pago. Não oferecemos reembolso
-          proporcional para cancelamentos no meio do ciclo, exceto em casos
-          previstos pelo Código de Defesa do Consumidor.
+          A barbearia decide quais dados cadastra, quais mensagens envia, quais
+          integrações ativa e quais serviços oferece. Ela deve cumprir regras de
+          consumo, privacidade, trabalho, tributação, publicidade, opt-out e
+          relacionamento com seus clientes, além de manter preços, agenda,
+          equipe e políticas atualizados.
+        </p>
+        <p>
+          A Flowo não substitui aconselhamento jurídico, contábil, fiscal,
+          trabalhista ou financeiro. A emissão de documentos e o processamento
+          de pagamentos dependem de dados e credenciais corretos e das regras do
+          fornecedor aplicável.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "ia-e-mensagens",
+    title: "IA, mensagens e confirmação humana",
+    content: (
+      <>
+        <p>
+          A automação pode interpretar linguagem natural e executar funções
+          autorizadas. Respostas podem ser incompletas ou exigir correção. O
+          negócio deve acompanhar exceções, handoffs e ações sensíveis e não
+          deve instruir a IA a enganar, discriminar, assediar, violar direitos
+          ou realizar atividade ilícita.
+        </p>
+        <p>
+          WhatsApp, e-mail, SMS, calendário, pagamentos e fiscal dependem de
+          terceiros e podem ter políticas, limites, aprovações,
+          indisponibilidades e tarifas próprias.
+        </p>
+        <p>
+          Para disponibilizar o WhatsApp, a Flowo pode utilizar a Meta,
+          responsável pela WhatsApp Business Platform, e a YCloud, atualmente
+          contratada como provedora técnica e suboperadora de mensageria. Esses
+          fornecedores podem processar identificadores da conta, números de
+          telefone, modelos, mensagens, mídias e estados de entrega estritamente
+          para operar, proteger e dar suporte ao canal.
+        </p>
+        <p>
+          A relação comercial, o suporte e a cobrança do cliente permanecem com
+          a Flowo, salvo acordo escrito em contrário. O cliente não precisa
+          contratar ou receber uma fatura separada da YCloud.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "planos-e-cobranca",
+    title: "Planos, cobrança e taxas",
+    content: (
+      <>
+        <p>
+          O preço público inicial exibido no site é R$ 249 por mês para o plano
+          Solo, salvo atualização, oferta ou contrato específico. Não há período
+          grátis. A proposta ou checkout informa preço aceito, ciclo, limites e
+          eventual data de renovação.
+        </p>
+        <p>
+          Custos de processadores, mensageria, emissão fiscal, excedentes ou
+          add-ons são incorporados ou discriminados pela Flowo conforme o plano
+          ou contrato. O cliente recebe a cobrança da Flowo e não uma cobrança
+          separada dos suboperadores técnicos, salvo contratação específica
+          apresentada e aceita previamente.
         </p>
       </>
     ),
   },
   {
     id: "uso-aceitavel",
-    title: "Uso Aceitável",
+    title: "Uso aceitável",
+    content: (
+      <p>
+        É proibido usar o serviço para fraude, spam, invasão, engenharia reversa
+        ilícita, malware, violação de privacidade, conteúdo ilegal, abuso de
+        APIs, tentativa de acessar outra organização ou contorno de cobrança e
+        segurança. Podemos limitar ou suspender o acesso necessário para
+        proteger pessoas, dados, fornecedores e a plataforma.
+      </p>
+    ),
+  },
+  {
+    id: "dados-e-propriedade",
+    title: "Dados, propriedade e exportação",
     content: (
       <>
-        <p>Você concorda em não:</p>
-        <ul>
-          <li>Usar o serviço para atividades ilegais</li>
-          <li>Enviar spam ou mensagens não solicitadas</li>
-          <li>Tentar acessar sistemas ou dados sem autorização</li>
-          <li>Interferir no funcionamento do serviço</li>
-          <li>Revender ou redistribuir o serviço sem autorização</li>
-          <li>Violar direitos de propriedade intelectual</li>
-        </ul>
+        <p>
+          A barbearia mantém seus direitos sobre os dados que insere e concede
+          as permissões necessárias para a Flowo processá-los e prestar o
+          serviço. A Flowo mantém direitos sobre software, marca, documentação,
+          modelos, design e melhorias que não incorporem dados identificáveis do
+          cliente.
+        </p>
+        <p>
+          Exportações e retenção seguem o produto, o contrato e a{" "}
+          <Link className="underline underline-offset-4" href="/privacidade">
+            Política de Privacidade
+          </Link>
+          . Solicitações de desconexão e exclusão seguem a página de{" "}
+          <Link
+            className="underline underline-offset-4"
+            href="/exclusao-de-dados"
+          >
+            Exclusão de Conta e Dados
+          </Link>
+          .
+        </p>
       </>
     ),
   },
   {
-    id: "dados-dos-clientes",
-    title: "Dados dos Clientes",
-    content: (
-      <p>
-        Você é responsável por obter consentimento dos seus clientes para
-        armazenar seus dados e enviar comunicações via WhatsApp. O Flowo atua
-        como operador de dados, e você como controlador. Você deve cumprir a
-        LGPD em relação aos dados dos seus clientes.
-      </p>
-    ),
-  },
-  {
-    id: "propriedade-intelectual",
-    title: "Propriedade Intelectual",
-    content: (
-      <p>
-        O Flowo e todo seu conteúdo, funcionalidades e tecnologia são de
-        propriedade exclusiva da Flowo ou seus licenciadores. Você recebe uma
-        licença limitada, não exclusiva e não transferível para usar o serviço
-        conforme estes termos.
-      </p>
-    ),
-  },
-  {
-    id: "limitacao-de-responsabilidade",
-    title: "Limitação de Responsabilidade",
-    content: (
-      <p>
-        O Flowo é fornecido &quot;como está&quot;. Não garantimos que o
-        serviço será ininterrupto ou livre de erros. Nossa responsabilidade é
-        limitada ao valor pago pelo serviço nos últimos 12 meses. Não nos
-        responsabilizamos por danos indiretos, lucros cessantes ou perda de
-        dados.
-      </p>
-    ),
-  },
-  {
     id: "disponibilidade",
-    title: "Disponibilidade do Serviço",
+    title: "Disponibilidade, suporte e mudanças",
+    content: (
+      <>
+        <p>
+          Buscamos operação confiável, mas não prometemos serviço sem
+          interrupção. Manutenção, internet, dispositivo, loja de aplicativos e
+          fornecedores podem afetar o acesso. Metas formais de serviço só se
+          aplicam quando constarem no contrato.
+        </p>
+        <p>
+          Mudanças materiais de preço ou termos serão comunicadas conforme o
+          contrato e a legislação aplicável.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "cancelamento",
+    title: "Cancelamento, suspensão e encerramento",
     content: (
       <p>
-        Nos esforçamos para manter o serviço disponível 24/7, mas podem
-        ocorrer interrupções para manutenção ou por fatores fora do nosso
-        controle. Notificaremos sobre manutenções programadas com antecedência
-        quando possível.
+        O cliente pode solicitar cancelamento pelo fluxo disponível ou pelo
+        suporte, observando ciclo, aviso e obrigações da contratação. Podemos
+        suspender acesso por inadimplência, risco, uso proibido ou exigência
+        legal. Após o encerramento, exportação, retenção e eliminação seguem o
+        contrato, a Política de Privacidade e os prazos obrigatórios.
       </p>
     ),
   },
   {
-    id: "suspensao-e-encerramento",
-    title: "Suspensão e Encerramento",
+    id: "legislacao",
+    title: "Responsabilidade e legislação",
     content: (
       <p>
-        Podemos suspender ou encerrar sua conta se você violar estes termos,
-        não realizar pagamentos ou por determinação legal. Você pode encerrar
-        sua conta a qualquer momento através das configurações ou entrando em
-        contato conosco.
-      </p>
-    ),
-  },
-  {
-    id: "alteracoes-nos-termos",
-    title: "Alterações nos Termos",
-    content: (
-      <p>
-        Podemos modificar estes termos a qualquer momento. Alterações
-        significativas serão comunicadas por e-mail ou aviso no serviço com
-        pelo menos 30 dias de antecedência. O uso continuado após alterações
-        constitui aceitação dos novos termos.
-      </p>
-    ),
-  },
-  {
-    id: "lei-aplicavel",
-    title: "Lei Aplicável e Foro",
-    content: (
-      <p>
-        Estes termos são regidos pelas leis brasileiras. Qualquer disputa será
-        resolvida no foro da comarca de São Paulo, SP, com exceção de casos
-        onde o Código de Defesa do Consumidor determinar foro diferente.
+        Cada parte responde por seus atos e pelas obrigações que a lei não
+        permite excluir. A alocação específica de responsabilidade, limites
+        indenizatórios e solução de conflitos consta no contrato comercial
+        quando aplicável. Estes termos são regidos pelas leis brasileiras,
+        preservados os direitos irrenunciáveis do consumidor e demais normas
+        obrigatórias.
       </p>
     ),
   },
@@ -184,17 +236,20 @@ const sections: LegalSection[] = [
     id: "contato",
     title: "Contato",
     content: (
-      <>
-        <p>Para dúvidas sobre estes termos, entre em contato:</p>
-        <ul className="!list-none !pl-0">
-          <li>
-            <strong>E-mail:</strong> contato@flowo.com.br
-          </li>
-          <li>
-            <strong>Site:</strong> flowo.com.br
-          </li>
-        </ul>
-      </>
+      <p>
+        {LEGAL_ENTITY.name} — CNPJ {LEGAL_ENTITY.taxId}
+        <br />
+        {LEGAL_ENTITY.address}
+        <br />
+        Dúvidas de conta, cancelamento, segurança ou termos:{" "}
+        <a
+          className="underline underline-offset-4"
+          href={`mailto:${LEGAL_ENTITY.supportEmail}`}
+        >
+          {LEGAL_ENTITY.supportEmail}
+        </a>
+        .
+      </p>
     ),
   },
 ];
@@ -205,8 +260,8 @@ export default function TermsOfServicePage() {
       title="Termos de Uso"
       breadcrumbLabel="Termos de Uso"
       path="/termos"
-      updatedAt="6 de julho de 2026"
-      intro="Ao usar o Flowo, você concorda com estes termos. Leia-os atentamente antes de utilizar nossa plataforma."
+      updatedAt={LEGAL_UPDATED_AT}
+      intro="Estas condições regulam o acesso ao site, à plataforma e ao aplicativo Flowo."
       sections={sections}
     />
   );

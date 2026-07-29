@@ -53,6 +53,8 @@ ${planLines}
 - [Sobre](${SITE_URL}/sobre)
 - [Politica de privacidade](${SITE_URL}/privacidade)
 - [Termos de uso](${SITE_URL}/termos)
+- [Exclusao de conta e dados](${SITE_URL}/exclusao-de-dados)
+- Operadora legal: Devled Tecnologia e Consultoria LTDA - CNPJ 49.034.715/0001-54
 - Contato: contato@flowo.com.br
 `;
 

@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/seo";
 
-const LAST_MODIFIED = new Date("2026-07-06T00:00:00.000Z");
+const LAST_MODIFIED = new Date("2026-07-29T00:00:00.000Z");
 
 const ROUTES = [
   "/",
@@ -33,6 +33,7 @@ const ROUTES = [
   "/sobre",
   "/privacidade",
   "/termos",
+  "/exclusao-de-dados",
 ] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {
