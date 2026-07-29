@@ -9,7 +9,6 @@ const APP_URL = "https://barber.flowo.com.br";
 const produtoLinks = [
   { href: "/recursos", label: "Recursos" },
   { href: "/precos", label: "Preços" },
-  { href: "/comparar", label: "Comparar" },
   { href: "/sobre", label: "Sobre nós" },
   { href: "/casos-de-sucesso", label: "Casos de sucesso" },
 ];
@@ -28,6 +27,13 @@ const barbeariasLinks = [
 const aprendaLinks = [
   { href: "/recursos/guias", label: "Guias" },
   { href: "/recursos/materiais", label: "Materiais gratuitos" },
+];
+
+const compararLinks = [
+  { href: "/comparar", label: "Comparar sistemas" },
+  { href: "/flowo-vs-appbarber", label: "Flowo vs AppBarber" },
+  { href: "/flowo-vs-trinks", label: "Flowo vs Trinks" },
+  { href: "/flowo-vs-barbeiro-app", label: "Flowo vs Barbeiro.app" },
 ];
 
 function FooterLinkList({ links }: { links: { href: string; label: string }[] }) {
@@ -52,7 +58,7 @@ export default function Footer() {
   return (
     <footer className="on-ink border-t border-line">
       <div className="container-page section-tight">
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1.2fr_1fr]">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-[1.4fr_0.9fr_1.15fr_1fr_0.9fr] lg:gap-8 xl:gap-12">
           <div>
             <Image
               src="/flowo-logo.svg"
@@ -95,6 +101,11 @@ export default function Footer() {
           <nav aria-label="Para barbearias">
             <h3 className="text-label font-medium text-ink">Para barbearias</h3>
             <FooterLinkList links={barbeariasLinks} />
+          </nav>
+
+          <nav aria-label="Comparar sistemas">
+            <h3 className="text-label font-medium text-ink">Comparar sistemas</h3>
+            <FooterLinkList links={compararLinks} />
           </nav>
 
           <nav aria-label="Conta e aprendizado">

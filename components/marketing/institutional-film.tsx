@@ -3,7 +3,7 @@ import { ArrowRight, Download, Film, Volume2 } from "lucide-react";
 import { absoluteUrl } from "@/lib/seo";
 
 export const INSTITUTIONAL_FILM_TRANSCRIPT =
-  "Enquanto sua equipe cuida de cada cliente, novas mensagens continuam chegando. A inteligência artificial da Flowo atende no WhatsApp, entende o serviço e consulta a disponibilidade real de cada profissional. O cliente escolhe um horário válido. A agenda é atualizada. E a confirmação acontece na mesma conversa. O gestor acompanha tudo em um só lugar, e a equipe pode assumir o atendimento quando quiser. Comandas, histórico e rotina conectados. Pagamentos integrados, cashback e recursos financeiros são opcionais. Você ativa quando fizer sentido. Flowo. Sua barbearia trabalhando. Sua recepção, sempre pronta.";
+  "Sabe aquelas mensagens que chegam bem na hora do corte? A Flowo responde por você. A inteligência artificial conversa com o cliente pelo WhatsApp, entende o serviço e consulta os horários de cada profissional. O cliente escolhe. A agenda atualiza na hora. E a confirmação acontece ali mesmo, sem trocar de aplicativo. Você acompanha tudo pelo painel e, quando quiser, sua equipe assume a conversa. Agenda, comandas e histórico, no mesmo fluxo. E, se fizer sentido para a sua barbearia, você ainda pode ativar pagamentos integrados e cashback. Flowo. Sua barbearia trabalhando. Sua recepção, sempre pronta.";
 
 export function InstitutionalFilmSchema({ pagePath }: { pagePath: string }) {
   const schema = {
@@ -71,7 +71,7 @@ export function InstitutionalFilm({
             {!compact && (
               <p className="mt-4 flex items-center gap-2 text-caption text-faint-ink">
                 <Volume2 className="h-4 w-4" aria-hidden="true" />
-                Narração em pt-BR, trilha original e legendas disponíveis.
+                Voz neural em pt-BR, trilha original e legendas disponíveis.
               </p>
             )}
           </div>

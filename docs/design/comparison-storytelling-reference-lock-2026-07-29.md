@@ -89,6 +89,11 @@ fundo tinta e evidências claras em frames de interface.
 - Vídeo: master de 46 segundos em 16:9 e 9:16, com narração pt-BR, trilha
   original, legendas queimadas, faixa WebVTT e transcrição HTML. A composição
   usa os mesmos fluxos e condições comerciais presentes nas páginas.
+- Voz: síntese neural `ara` do [Grok TTS](https://docs.x.ai/developers/model-capabilities/audio/text-to-speech),
+  gerada em `pt-BR` pelo
+  [Vercel AI Gateway](https://vercel.com/docs/ai-gateway/getting-started/speech).
+  A voz foi escolhida pelo caráter caloroso e conversacional; a interface
+  identifica a locução como voz neural.
 - Player: controles nativos, `playsInline`, poster, carregamento por metadados
   e download explícito da versão vertical. Sem autoplay.
 
@@ -109,21 +114,34 @@ fundo tinta e evidências claras em frames de interface.
 | Mapa núcleo/opcional/assistido | N26 + especificação Flowo | Categorias explícitas | Evita confundir pagamento e fiscal com recursos obrigatórios |
 | Cartões no mobile | Tilda + acessibilidade | Uma decisão por bloco | Evita tabela horizontal ilegível |
 | Filme de 46 s nos pontos de maior intenção | Frame.io + Glide + brief | Player acessível, sem autoplay e com versão vertical | Torna o fluxo concreto sem pesar a primeira pintura |
-| Trilha original e voz pt-BR | Direitos e acessibilidade | Sem mídia licenciada de terceiros; legenda e transcrição completas | Permite distribuição orgânica e reprodução sem áudio |
+| Trilha original e voz neural pt-BR | Direitos e acessibilidade | Sem mídia licenciada de terceiros; geração rastreável, legenda e transcrição completas | Permite distribuição orgânica e reprodução sem áudio |
 
 ## Storyboard e arquivos de produção
 
-1. 0–6 s — a equipe trabalha enquanto novas mensagens chegam.
-2. 6–14 s — a IA atende e entende serviço e profissional.
-3. 14–25 s — o cliente escolhe somente um horário válido.
-4. 25–35 s — gestor e equipe acompanham a agenda individual.
-5. 35–42 s — núcleo e adicionais opcionais ficam separados.
+1. 0–6 s — mensagens chegam durante o corte; a Flowo responde.
+2. 6–14 s — a IA entende o serviço e consulta o horário de cada profissional.
+3. 14–25 s — o cliente escolhe e a confirmação acontece na conversa.
+4. 25–35 s — gestor e equipe acompanham painel, agenda e histórico.
+5. 35–42 s — pagamentos integrados e cashback permanecem opcionais.
 6. 42–46 s — assinatura Flowo e CTA.
 
 Fontes de produção:
 
 - `remotion/FlowoFilm.tsx`: composição responsiva horizontal e vertical.
-- `public/videos/source/`: voz e trilha originais.
+- `scripts/generate-flowo-voiceover.mjs`: roteiro e geração reproduzível da voz.
+- `public/videos/source/flowo-institucional-voz-ara.wav`: fonte neural em
+  24 kHz antes da masterização.
+- `public/videos/source/flowo-institucional-voz.mp3`: voz normalizada para
+  −16 LUFS e usada pelo Remotion.
+- `public/videos/source/flowo-institucional-trilha.mp3`: trilha original.
 - `public/videos/flowo-institucional.vtt`: legendas para o player.
 - `components/marketing/institutional-film.tsx`: player, transcrição e
   `VideoObject`.
+
+Controle técnico do master:
+
+- voz: 42,24 s;
+- vídeo: 46,06 s;
+- mix final: −13,4 LUFS integrados e −1,3 dBTP;
+- horizontal: 1920×1080;
+- vertical: 1080×1920.

@@ -180,7 +180,7 @@ function Intro({ vertical }: FilmProps) {
         </h1>
       </div>
       <Caption>
-        Enquanto sua equipe cuida de cada cliente, novas mensagens continuam chegando.
+        Sabe aquelas mensagens que chegam bem na hora do corte? A Flowo responde por você.
       </Caption>
     </AbsoluteFill>
   );
@@ -262,7 +262,7 @@ function Pressure({ vertical }: FilmProps) {
           ))}
         </div>
       </div>
-      <Caption>A IA da Flowo atende, entende o serviço e consulta a agenda.</Caption>
+      <Caption>A IA conversa com o cliente e consulta os horários de cada profissional.</Caption>
     </AbsoluteFill>
   );
 }
@@ -381,7 +381,7 @@ function WhatsAppScene({ vertical }: FilmProps) {
           </BrowserFrame>
         </div>
       </div>
-      <Caption>O cliente escolhe um horário válido e recebe a confirmação na conversa.</Caption>
+      <Caption>O cliente escolhe. A agenda atualiza na hora. E a confirmação acontece ali mesmo.</Caption>
     </AbsoluteFill>
   );
 }
@@ -531,7 +531,7 @@ function AgendaScene({ vertical }: FilmProps) {
           </BrowserFrame>
         </div>
       </div>
-      <Caption>O gestor acompanha tudo e a equipe pode assumir o atendimento.</Caption>
+      <Caption>Você acompanha pelo painel e sua equipe assume a conversa quando quiser.</Caption>
     </AbsoluteFill>
   );
 }
@@ -625,7 +625,7 @@ function Operations({ vertical }: FilmProps) {
           </div>
         ))}
       </div>
-      <Caption>Pagamentos integrados, cashback e recursos financeiros são opcionais.</Caption>
+      <Caption>Pagamentos integrados e cashback são opcionais. Você ativa se fizer sentido.</Caption>
     </AbsoluteFill>
   );
 }
@@ -693,7 +693,7 @@ export function FlowoFilm({ vertical }: FilmProps) {
     <AbsoluteFill style={{ background: ink }}>
       <Audio
         src={staticFile("videos/source/flowo-institucional-trilha.mp3")}
-        volume={0.3}
+        volume={0.7}
       />
       <Audio
         src={staticFile("videos/source/flowo-institucional-voz.mp3")}
