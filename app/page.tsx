@@ -2,6 +2,7 @@ import SchemaMarkup from "@/components/schema-markup";
 import Navbar from "@/components/navbar";
 import Hero from "@/components/hero";
 import ProductStory from "@/components/home/product-story";
+import MobileAppSection from "@/components/mobile-app-section";
 import OptionalOperations from "@/components/home/optional-operations";
 import { RecoveryHomeSection } from "@/components/marketing/recovery-preview";
 import HomePricingSection from "@/components/home-pricing-section";
@@ -31,6 +32,7 @@ export default function Home() {
       <main id="main-content">
         <Hero />
         <ProductStory />
+        <MobileAppSection />
         <InstitutionalFilm />
         <OptionalOperations />
         <RecoveryHomeSection />
