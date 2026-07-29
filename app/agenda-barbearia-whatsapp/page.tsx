@@ -1,21 +1,20 @@
-import Image from "next/image";
 import Link from "next/link";
 import {
-  ArrowRight,
-  BellRing,
   CalendarCheck2,
-  ChevronRight,
   Clock3,
   MessageSquareText,
 } from "lucide-react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
-import ProductDemo from "@/components/product-demo";
+import {
+  CommercialCta,
+  CommercialHero,
+  RelatedSolutions,
+} from "@/components/marketing/commercial-page";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
 import { PLANS } from "@/data/pricing-data";
 
 const PATH = "/agenda-barbearia-whatsapp";
-const SIGNUP_URL = "https://barber.flowo.com.br/sign-up";
 
 export const metadata = buildMetadata({
   title: "Agenda de Barbearia no WhatsApp com IA",
@@ -86,40 +85,12 @@ export default function WhatsappAgendaPage() {
       />
       <Navbar />
       <main>
-        <section className="pt-32 pb-section-tight md:pt-40">
-          <div className="container-page">
-            <Crumbs current="Agenda de Barbearia no WhatsApp" />
-            <div className="mt-10 max-w-3xl">
-              <h1 className="text-h2 font-semibold text-ink-strong">
-                Atenda, agende e confirme clientes no WhatsApp da barbearia
-              </h1>
-              <p className="mt-6 max-w-measure text-lead text-muted-ink">
-                Com o Flowo, o cliente marca, remarca e confirma pelo WhatsApp
-                em uma conversa normal. Sua equipe para de responder mensagem o
-                dia todo e volta a focar no atendimento.
-              </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-                <Link
-                  href={SIGNUP_URL}
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-ink px-7 py-3.5 text-label font-medium text-cream transition-opacity duration-200 ease-out-quint hover:opacity-90"
-                >
-                  Começar agora
-                  <ArrowRight aria-hidden className="h-4 w-4" />
-                </Link>
-                <Link
-                  href="/precos"
-                  className="inline-flex items-center justify-center rounded-full border border-line px-7 py-3.5 text-label font-medium text-ink transition-colors duration-200 ease-out-quint hover:bg-surface-2"
-                >
-                  Ver planos
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <ProductDemo
-          title="A conversa vira horário na agenda"
-          description="Depois de confirmar com o cliente, o compromisso aparece no painel com serviço, profissional e status. Os dados abaixo são exemplos da interface."
+        <CommercialHero
+          current="Agenda de Barbearia no WhatsApp"
+          eyebrow="Atendimento e agenda no mesmo fluxo"
+          title="Atenda, agende e confirme clientes no WhatsApp da barbearia"
+          description="Com o Flowo, o cliente marca, remarca e confirma pelo WhatsApp em uma conversa normal. Sua equipe para de responder mensagem o dia todo e volta a focar no atendimento."
+          preview="whatsapp"
         />
 
         <section className="section-normal border-t border-line">
@@ -190,82 +161,35 @@ export default function WhatsappAgendaPage() {
           </div>
         </section>
 
-        <CtaBand />
+        <RelatedSolutions
+          items={[
+            {
+              href: "/sistema-agendamento-barbearia",
+              label: "Agenda da equipe",
+              description:
+                "Organize dias e horários diferentes para cada profissional.",
+            },
+            {
+              href: "/recursos/guias/configurando-whatsapp",
+              label: "Guia do WhatsApp",
+              description:
+                "Prepare o canal, a equipe e as regras antes de automatizar.",
+            },
+            {
+              href: "/flowo-vs-agenda-manual",
+              label: "Comparar com agenda manual",
+              description:
+                "Veja o que muda quando a rotina deixa de depender do caderno.",
+            },
+          ]}
+        />
+        <CommercialCta
+          title="Enquanto você corta, a Flowo atende."
+          description="Coloque sua agenda para rodar no WhatsApp com confirmação automática e a equipe focada na cadeira."
+          price={PLANS[0].monthly}
+        />
       </main>
       <Footer />
     </>
-  );
-}
-
-function Crumbs({ current }: { current: string }) {
-  return (
-    <nav aria-label="Breadcrumb" className="text-caption text-muted-ink">
-      <ol className="flex flex-wrap items-center gap-1.5">
-        <li>
-          <Link
-            href="/"
-            className="transition-colors duration-200 hover:text-ink"
-          >
-            Início
-          </Link>
-        </li>
-        <li aria-hidden="true">
-          <ChevronRight className="h-3.5 w-3.5" />
-        </li>
-        <li>
-          <span aria-current="page" className="text-ink">
-            {current}
-          </span>
-        </li>
-      </ol>
-    </nav>
-  );
-}
-
-function CtaBand() {
-  return (
-    <section className="on-ink relative isolate overflow-hidden">
-      <Image
-        src="https://images.unsplash.com/photo-1517832606299-7ae9b720a186?auto=format&fit=crop&w=1600&q=80"
-        alt=""
-        fill
-        sizes="100vw"
-        className="object-cover opacity-30"
-      />
-      <div
-        aria-hidden
-        className="absolute inset-0 bg-gradient-to-b from-[oklch(0.185_0.01_110/0.75)] via-[oklch(0.185_0.01_110/0.62)] to-[oklch(0.185_0.01_110/0.85)]"
-      />
-      <div className="container-page section-normal relative">
-        <div className="max-w-2xl">
-          <h2 className="text-h2 font-semibold text-ink-strong">
-            Enquanto você corta, a Flowo atende.
-          </h2>
-          <p className="mt-4 max-w-measure text-lead text-muted-ink">
-            Coloque sua agenda para rodar no WhatsApp com confirmação
-            automática e a equipe focada na cadeira, não no celular.
-          </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <Link
-              href={SIGNUP_URL}
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-ink px-7 py-3.5 text-label font-medium text-cream transition-opacity duration-200 ease-out-quint hover:opacity-90"
-            >
-              Começar agora
-              <ArrowRight aria-hidden className="h-4 w-4" />
-            </Link>
-            <Link
-              href="/precos"
-              className="inline-flex items-center justify-center rounded-full border border-line px-7 py-3.5 text-label font-medium text-ink transition-colors duration-200 ease-out-quint hover:bg-surface"
-            >
-              Ver planos
-            </Link>
-          </div>
-          <p className="mt-5 flex items-center gap-2 text-caption text-muted-ink">
-            <BellRing aria-hidden className="h-4 w-4" />A partir de R${" "}
-            {PLANS[0].monthly}/mês no plano Solo.
-          </p>
-        </div>
-      </div>
-    </section>
   );
 }

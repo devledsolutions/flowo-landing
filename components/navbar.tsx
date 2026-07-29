@@ -9,6 +9,7 @@ import { LOGIN_URL, SIGNUP_URL, WHATSAPP_URL } from "./cta-links";
 
 const navItems = [
   { name: "Como funciona", href: "/#como-funciona" },
+  { name: "Produto", href: "/sistema-agendamento-barbearia" },
   { name: "Recursos", href: "/recursos" },
   { name: "Preços", href: "/precos" },
 ];

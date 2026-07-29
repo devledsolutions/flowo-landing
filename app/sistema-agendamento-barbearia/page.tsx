@@ -1,21 +1,21 @@
-import Image from "next/image";
 import Link from "next/link";
 import {
-  ArrowRight,
   CalendarCheck2,
   Check,
-  ChevronRight,
   Clock3,
   MessageCircle,
 } from "lucide-react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
-import ProductDemo from "@/components/product-demo";
+import {
+  CommercialCta,
+  CommercialHero,
+  RelatedSolutions,
+} from "@/components/marketing/commercial-page";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
 import { PLANS } from "@/data/pricing-data";
 
 const PATH = "/sistema-agendamento-barbearia";
-const SIGNUP_URL = "https://barber.flowo.com.br/sign-up";
 
 export const metadata = buildMetadata({
   title: "Sistema de Agendamento para Barbearia",
@@ -74,41 +74,12 @@ export default function SchedulingSystemPage() {
       />
       <Navbar />
       <main>
-        <section className="pt-32 pb-section-tight md:pt-40">
-          <div className="container-page">
-            <Crumbs current="Sistema de Agendamento para Barbearia" />
-            <div className="mt-10 max-w-3xl">
-              <h1 className="text-h2 font-semibold text-ink-strong">
-                Sistema de agendamento para barbearia com atendimento no
-                WhatsApp
-              </h1>
-              <p className="mt-6 max-w-measure text-lead text-muted-ink">
-                O Flowo centraliza os horários da equipe e coloca uma IA para
-                atender, agendar e confirmar seus clientes pelo WhatsApp. Menos
-                conversa repetitiva, mais gente na cadeira.
-              </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-                <Link
-                  href={SIGNUP_URL}
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-ink px-7 py-3.5 text-label font-medium text-cream transition-opacity duration-200 ease-out-quint hover:opacity-90"
-                >
-                  Começar agora
-                  <ArrowRight aria-hidden className="h-4 w-4" />
-                </Link>
-                <Link
-                  href="/precos"
-                  className="inline-flex items-center justify-center rounded-full border border-line px-7 py-3.5 text-label font-medium text-ink transition-colors duration-200 ease-out-quint hover:bg-surface-2"
-                >
-                  Ver planos
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <ProductDemo
-          title="Veja a agenda antes de abrir a barbearia"
-          description="Horários, profissional responsável e confirmação aparecem juntos. Os nomes e números abaixo são apenas exemplos da interface."
+        <CommercialHero
+          current="Sistema de Agendamento para Barbearia"
+          eyebrow="Agenda por profissional, atendimento pelo WhatsApp"
+          title="Sistema de agendamento para barbearia com a rotina no lugar"
+          description="O Flowo centraliza os horários da equipe e coloca uma IA para atender, agendar e confirmar seus clientes pelo WhatsApp. Menos conversa repetitiva, mais clareza para quem está na cadeira."
+          preview="agenda"
         />
 
         <section className="section-normal border-t border-line">
@@ -175,81 +146,35 @@ export default function SchedulingSystemPage() {
           </div>
         </section>
 
-        <CtaBand />
+        <RelatedSolutions
+          items={[
+            {
+              href: "/agenda-barbearia-whatsapp",
+              label: "Agendamento no WhatsApp",
+              description:
+                "Entenda a conversa do primeiro pedido até a confirmação.",
+            },
+            {
+              href: "/recursos/guias/escala-equipe",
+              label: "Escala da equipe",
+              description:
+                "Monte disponibilidade diferente para cada profissional.",
+            },
+            {
+              href: "/software-barbearia-com-pix",
+              label: "Pagamento no atendimento",
+              description:
+                "Feche a comanda por PIX ou cartão e registre no caixa.",
+            },
+          ]}
+        />
+        <CommercialCta
+          title="Agenda organizada é atendimento que rende."
+          description="Deixe a rotina de marcar, confirmar e lembrar com a Flowo. Sua equipe cuida do corte."
+          price={PLANS[0].monthly}
+        />
       </main>
       <Footer />
     </>
-  );
-}
-
-function Crumbs({ current }: { current: string }) {
-  return (
-    <nav aria-label="Breadcrumb" className="text-caption text-muted-ink">
-      <ol className="flex flex-wrap items-center gap-1.5">
-        <li>
-          <Link
-            href="/"
-            className="transition-colors duration-200 hover:text-ink"
-          >
-            Início
-          </Link>
-        </li>
-        <li aria-hidden="true">
-          <ChevronRight className="h-3.5 w-3.5" />
-        </li>
-        <li>
-          <span aria-current="page" className="text-ink">
-            {current}
-          </span>
-        </li>
-      </ol>
-    </nav>
-  );
-}
-
-function CtaBand() {
-  return (
-    <section className="on-ink relative isolate overflow-hidden">
-      <Image
-        src="https://images.unsplash.com/photo-1517832606299-7ae9b720a186?auto=format&fit=crop&w=1600&q=80"
-        alt=""
-        fill
-        sizes="100vw"
-        className="object-cover opacity-30"
-      />
-      <div
-        aria-hidden
-        className="absolute inset-0 bg-gradient-to-b from-[oklch(0.185_0.01_110/0.75)] via-[oklch(0.185_0.01_110/0.62)] to-[oklch(0.185_0.01_110/0.85)]"
-      />
-      <div className="container-page section-normal relative">
-        <div className="max-w-2xl">
-          <h2 className="text-h2 font-semibold text-ink-strong">
-            Agenda organizada é atendimento que rende.
-          </h2>
-          <p className="mt-4 max-w-measure text-lead text-muted-ink">
-            Deixe a rotina de marcar, confirmar e lembrar com a Flowo. Sua
-            equipe cuida do corte.
-          </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <Link
-              href={SIGNUP_URL}
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-ink px-7 py-3.5 text-label font-medium text-cream transition-opacity duration-200 ease-out-quint hover:opacity-90"
-            >
-              Começar agora
-              <ArrowRight aria-hidden className="h-4 w-4" />
-            </Link>
-            <Link
-              href="/precos"
-              className="inline-flex items-center justify-center rounded-full border border-line px-7 py-3.5 text-label font-medium text-ink transition-colors duration-200 ease-out-quint hover:bg-surface"
-            >
-              Ver planos
-            </Link>
-          </div>
-          <p className="mt-5 text-caption text-muted-ink">
-            A partir de R$ {PLANS[0].monthly}/mês no plano Solo.
-          </p>
-        </div>
-      </div>
-    </section>
   );
 }
