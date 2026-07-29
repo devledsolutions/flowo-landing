@@ -4,12 +4,17 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { GuidesHero } from "@/components/resources/guides-hero";
 import { GuideGrid } from "@/components/resources/guide-grid";
+import { ResourceCollectionStructuredData } from "@/components/resources/resource-structured-data";
+import { GUIDES } from "@/data/guides";
 import { buildMetadata } from "@/lib/seo";
 
+const PAGE_TITLE = "Guias para Barbearias";
+const PAGE_DESCRIPTION =
+  "Guias práticos de agendamento, WhatsApp com IA, equipe, pagamentos e financeiro para organizar sua barbearia com o Flowo.";
+
 export const metadata = buildMetadata({
-  title: "Guias para Barbearias",
-  description:
-    "Guias práticos de agendamento, WhatsApp com IA, equipe, pagamentos e financeiro para organizar sua barbearia com o Flowo.",
+  title: PAGE_TITLE,
+  description: PAGE_DESCRIPTION,
   path: "/recursos/guias",
 });
 
@@ -44,8 +49,19 @@ const strategicLinks = [
 export default function GuidesPage() {
   return (
     <>
+      <ResourceCollectionStructuredData
+        title={PAGE_TITLE}
+        description={PAGE_DESCRIPTION}
+        path="/recursos/guias"
+        breadcrumbLabel="Guias"
+        items={GUIDES.map((guide) => ({
+          name: guide.title,
+          path: guide.path,
+          description: guide.description,
+        }))}
+      />
       <Navbar />
-      <main className="min-h-screen">
+      <main id="main-content" className="min-h-screen">
         <GuidesHero />
         <GuideGrid />
         <section className="pb-section-normal">

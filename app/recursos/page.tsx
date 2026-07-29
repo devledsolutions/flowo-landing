@@ -1,6 +1,7 @@
 import Link from "next/link";
 import {
   ArrowRight,
+  BarChart3,
   Bell,
   BookOpen,
   Calendar,
@@ -10,56 +11,46 @@ import {
   Download,
   FileSpreadsheet,
   MessageCircle,
+  Users,
 } from "lucide-react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { Breadcrumb } from "@/components/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { ResourceNav } from "@/components/resources/resource-nav";
+import { ResourceCollectionStructuredData } from "@/components/resources/resource-structured-data";
 import { SIGNUP_URL } from "@/components/cta-links";
+import {
+  GUIDE_BY_PATH,
+  type GuideIconKey,
+} from "@/data/guides";
 import { buildMetadata } from "@/lib/seo";
 
+const PAGE_TITLE = "Recursos e Guias para Barbearias";
+const PAGE_DESCRIPTION =
+  "Guias práticos, planilhas e roteiros gratuitos para organizar a agenda, confirmar clientes pelo WhatsApp e cuidar do financeiro da sua barbearia.";
+
 export const metadata = buildMetadata({
-  title: "Recursos e Guias para Barbearias",
-  description:
-    "Guias práticos, planilhas e roteiros gratuitos para organizar a agenda, confirmar clientes pelo WhatsApp e cuidar do financeiro da sua barbearia.",
+  title: PAGE_TITLE,
+  description: PAGE_DESCRIPTION,
   path: "/recursos",
 });
 
-const guides = [
-  {
-    title: "Guia Definitivo de Agendamento",
-    description:
-      "Configure horários, lembretes e confirmação automática pelo WhatsApp.",
-    readTime: "10 min",
-    href: "/recursos/guias/guia-definitivo-agendamento",
-    icon: Calendar,
-  },
-  {
-    title: "Pagamentos com PIX",
-    description:
-      "Receba o pagamento do atendimento por PIX ou cartão direto pelo WhatsApp.",
-    readTime: "12 min",
-    href: "/recursos/guias/pagamentos-pix",
-    icon: CreditCard,
-  },
-  {
-    title: "Configurando WhatsApp com IA",
-    description:
-      "Transforme seu WhatsApp em um assistente que responde e agenda a qualquer hora.",
-    readTime: "8 min",
-    href: "/recursos/guias/configurando-whatsapp",
-    icon: MessageCircle,
-  },
-  {
-    title: "Reduzindo Faltas",
-    description:
-      "Lembretes e confirmação automática pelo WhatsApp para proteger sua agenda.",
-    readTime: "10 min",
-    href: "/recursos/guias/reduzindo-faltas",
-    icon: Bell,
-  },
-];
+const guideIcons: Record<GuideIconKey, typeof Calendar> = {
+  calendar: Calendar,
+  users: Users,
+  "credit-card": CreditCard,
+  message: MessageCircle,
+  bell: Bell,
+  chart: BarChart3,
+};
+
+const featuredGuides = [
+  "/recursos/guias/guia-definitivo-agendamento",
+  "/recursos/guias/gerenciamento-equipe",
+  "/recursos/guias/configurando-whatsapp",
+  "/recursos/guias/pagamentos-pix",
+].map((path) => GUIDE_BY_PATH[path]);
 
 const downloads = [
   {
@@ -94,12 +85,12 @@ const startingPoints = [
   },
   {
     title: "Reduzir faltas",
-    description: "Confirmação no WhatsApp antes do cliente ocupar a cadeira.",
+    description: "Confirmação, lembrete, no-show e lista de espera sem cancelar por silêncio.",
     href: "/recursos/guias/reduzindo-faltas",
   },
   {
     title: "Entender o caixa",
-    description: "Fluxo de caixa, margem, ticket médio e metas semanais.",
+    description: "Comandas, pagamentos, saldo e limites do painel financeiro.",
     href: "/recursos/guias/controle-financeiro-barbearia",
   },
 ] as const;
@@ -107,8 +98,31 @@ const startingPoints = [
 export default function ResourcesPage() {
   return (
     <>
+      <ResourceCollectionStructuredData
+        title={PAGE_TITLE}
+        description={PAGE_DESCRIPTION}
+        path="/recursos"
+        breadcrumbLabel="Recursos"
+        items={[
+          {
+            name: "Guias para Barbearias",
+            path: "/recursos/guias",
+            description: "Dez guias agrupados por agenda, relacionamento e gestão.",
+          },
+          {
+            name: "Materiais Gratuitos para Barbearias",
+            path: "/recursos/materiais",
+            description: "Planilhas, checklists, roteiros e guias para baixar.",
+          },
+          {
+            name: "Roteiros de Shorts e Reels para Barbearias",
+            path: "/recursos/videos",
+            description: "Roteiros curtos baseados nas práticas publicadas nas guias.",
+          },
+        ]}
+      />
       <Navbar />
-      <main className="min-h-screen">
+      <main id="main-content" className="min-h-screen">
         <section className="pt-32 pb-section-normal">
           <div className="container-page">
             <div className="mx-auto max-w-4xl">
@@ -198,34 +212,38 @@ export default function ResourcesPage() {
                 </div>
 
                 <div className="grid gap-4 sm:grid-cols-2">
-                  {guides.map((guide) => (
-                    <Link
-                      key={guide.href}
-                      href={guide.href}
-                      className="group block rounded-lg border border-line bg-surface p-5 transition-colors duration-200 ease-out-quint hover:border-ink/40"
-                    >
-                      <div className="flex items-start gap-4">
-                        <div className="rounded-lg bg-surface-2 p-2.5">
-                          <guide.icon
-                            className="h-5 w-5 text-ink"
-                            aria-hidden="true"
-                          />
+                  {featuredGuides.map((guide) => {
+                    const Icon = guideIcons[guide.icon];
+
+                    return (
+                      <Link
+                        key={guide.path}
+                        href={guide.path}
+                        className="group block rounded-lg border border-line bg-surface p-5 transition-colors duration-200 ease-out-quint hover:border-ink/40"
+                      >
+                        <div className="flex items-start gap-4">
+                          <div className="rounded-lg bg-surface-2 p-2.5">
+                            <Icon
+                              className="h-5 w-5 text-ink"
+                              aria-hidden="true"
+                            />
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <span className="flex items-center gap-1 text-caption text-faint-ink">
+                              <Clock className="h-3 w-3" aria-hidden="true" />
+                              {guide.readTime}
+                            </span>
+                            <h3 className="mt-1 font-semibold text-ink">
+                              {guide.title}
+                            </h3>
+                            <p className="mt-1 text-label text-muted-ink">
+                              {guide.description}
+                            </p>
+                          </div>
                         </div>
-                        <div className="min-w-0 flex-1">
-                          <span className="flex items-center gap-1 text-caption text-faint-ink">
-                            <Clock className="h-3 w-3" aria-hidden="true" />
-                            {guide.readTime}
-                          </span>
-                          <h3 className="mt-1 font-semibold text-ink">
-                            {guide.title}
-                          </h3>
-                          <p className="mt-1 text-label text-muted-ink">
-                            {guide.description}
-                          </p>
-                        </div>
-                      </div>
-                    </Link>
-                  ))}
+                      </Link>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -241,8 +259,8 @@ export default function ResourcesPage() {
                         Shorts e Reels prontos
                       </h2>
                       <p className="mt-1 text-muted-ink">
-                        8 roteiros de vídeos curtos conectados aos guias, para
-                        divulgar sua barbearia e gerar agendamentos.
+                        8 roteiros de vídeos curtos conectados aos guias para
+                        divulgar sua barbearia com uma próxima ação clara.
                       </p>
                     </div>
                   </div>
@@ -310,8 +328,8 @@ export default function ResourcesPage() {
                     Quer ver o Flowo na prática?
                   </h2>
                   <p className="mt-3 text-muted-ink">
-                    Configure sua barbearia em poucos minutos e aplique tudo que
-                    você leu nos guias.
+                    Configure sua barbearia e aplique o que você leu nos guias,
+                    respeitando o seu plano e os recursos já ativados.
                   </p>
                   <div className="mt-6 flex flex-wrap items-center gap-4">
                     <Button size="lg" className="rounded-full px-7" asChild>
@@ -331,7 +349,7 @@ export default function ResourcesPage() {
                 Mais guias e materiais em breve. Tem uma dúvida específica?{" "}
                 <a
                   href="mailto:contato@flowo.com.br"
-                  className="font-medium text-ink underline-offset-4 hover:underline"
+                  className="font-medium text-ink underline underline-offset-4"
                 >
                   Fale conosco
                 </a>

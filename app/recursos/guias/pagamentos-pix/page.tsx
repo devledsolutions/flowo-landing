@@ -14,16 +14,15 @@ import {
   GuideScopeNote,
   GuideSection,
   GuideSteps,
-  GuideToc,
+  GuideContent,
 } from "@/components/resources/guide-shell";
-import { buildMetadata } from "@/lib/seo";
+import { GuideStructuredData } from "@/components/resources/resource-structured-data";
+import { getGuide } from "@/data/guides";
+import { buildGuideMetadata } from "@/lib/seo";
 
-export const metadata = buildMetadata({
-  title: "Pagamentos com PIX no Atendimento",
-  description:
-    "Ative a conta de recebimento e feche comandas com dinheiro, PIX ou cartão depois do serviço no Flowo.",
-  path: "/recursos/guias/pagamentos-pix",
-});
+const guide = getGuide("/recursos/guias/pagamentos-pix");
+
+export const metadata = buildGuideMetadata(guide);
 
 const tableOfContents = [
   { id: "regra", label: "A regra: pagamento depois do serviço" },
@@ -36,8 +35,9 @@ const tableOfContents = [
 export default function PixPaymentsGuidePage() {
   return (
     <>
+      <GuideStructuredData guide={guide} />
       <Navbar />
-      <main className="min-h-screen">
+      <main id="main-content" className="min-h-screen">
         <GuidePage>
           <GuideHeader
             crumbs={[
@@ -46,7 +46,7 @@ export default function PixPaymentsGuidePage() {
               { label: "Guias", href: "/recursos/guias" },
               { label: "Pagamentos PIX", href: "#" },
             ]}
-            readTime="10 min"
+            readTime={guide.readTime}
             title="Pagamentos com PIX na barbearia"
             lead="Receba depois de concluir o atendimento. O Flowo liga a forma de pagamento à comanda e mantém agenda, cliente e financeiro no mesmo fluxo."
           />
@@ -80,9 +80,7 @@ export default function PixPaymentsGuidePage() {
             ]}
           />
 
-          <GuideToc items={tableOfContents} />
-
-          <article>
+          <GuideContent items={tableOfContents}>
             <GuideSection
               id="regra"
               icon={Shield}
@@ -249,7 +247,7 @@ export default function PixPaymentsGuidePage() {
                 ]}
               />
             </GuideSection>
-          </article>
+          </GuideContent>
 
           <GuideCta
             title="Quer fechar o atendimento sem separar agenda e caixa?"
@@ -257,6 +255,7 @@ export default function PixPaymentsGuidePage() {
           />
 
           <GuidePrevNext
+            currentPath={guide.path}
             next={{
               href: "/recursos/guias/configurando-whatsapp",
               label: "Configurando WhatsApp",

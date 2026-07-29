@@ -13,16 +13,15 @@ import {
   GuideProductPath,
   GuideScopeNote,
   GuideSection,
-  GuideToc,
+  GuideContent,
 } from "@/components/resources/guide-shell";
-import { buildMetadata } from "@/lib/seo";
+import { GuideStructuredData } from "@/components/resources/resource-structured-data";
+import { getGuide } from "@/data/guides";
+import { buildGuideMetadata } from "@/lib/seo";
 
-export const metadata = buildMetadata({
-  title: "Relatórios e Métricas para Barbearias",
-  description:
-    "Entenda os indicadores reais da área Métricas do Flowo, os bloqueios por plano e o que ainda precisa ser calculado fora do painel.",
-  path: "/recursos/guias/relatorios-metricas",
-});
+const guide = getGuide("/recursos/guias/relatorios-metricas");
+
+export const metadata = buildGuideMetadata(guide);
 
 const tableOfContents = [
   { id: "painel", label: "O que aparece em Métricas" },
@@ -35,8 +34,9 @@ const tableOfContents = [
 export default function MetricsGuidePage() {
   return (
     <>
+      <GuideStructuredData guide={guide} />
       <Navbar />
-      <main className="min-h-screen">
+      <main id="main-content" className="min-h-screen">
         <GuidePage>
           <GuideHeader
             crumbs={[
@@ -45,7 +45,7 @@ export default function MetricsGuidePage() {
               { label: "Guias", href: "/recursos/guias" },
               { label: "Relatórios e Métricas", href: "#" },
             ]}
-            readTime="9 min"
+            readTime={guide.readTime}
             title="Relatórios e métricas para barbearias"
             lead="Use os números que o Flowo realmente calcula e saiba onde o painel termina. Assim, uma recomendação de gestão não vira uma promessa de funcionalidade."
           />
@@ -79,9 +79,7 @@ export default function MetricsGuidePage() {
             ]}
           />
 
-          <GuideToc items={tableOfContents} />
-
-          <article>
+          <GuideContent items={tableOfContents}>
             <GuideSection
               id="painel"
               icon={BarChart3}
@@ -286,7 +284,7 @@ export default function MetricsGuidePage() {
                 a decisão continua com a gestão.
               </GuideCallout>
             </GuideSection>
-          </article>
+          </GuideContent>
 
           <GuideCta
             title="Quer decidir com dados operacionais reais?"
@@ -294,6 +292,7 @@ export default function MetricsGuidePage() {
           />
 
           <GuidePrevNext
+            currentPath={guide.path}
             prev={{
               href: "/recursos/guias/reduzindo-faltas",
               label: "Reduzindo Faltas",

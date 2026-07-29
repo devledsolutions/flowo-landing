@@ -20,7 +20,7 @@
     --ink: oklch(0.205 0.012 110);            /* #171810 headings + primary */
     --ink-strong: oklch(0.17 0.012 110);      /* max-contrast display */
     --muted-ink: oklch(0.46 0.01 106);        /* body-secondary, ~6.5:1 on cream */
-    --faint-ink: oklch(0.56 0.009 104);       /* labels / LARGE text only, ~4.6:1 — never body or placeholder */
+    --faint-ink: oklch(0.54 0.009 104);       /* labels / LARGE text, ≥4.5:1 on cream and warm-white surfaces */
     --line: oklch(0.205 0.012 110 / 0.12);    /* warm hairline; full borders only, never side-stripe */
 
     /* --- semantic states (rare, low-chroma; never brand decoration) --- */

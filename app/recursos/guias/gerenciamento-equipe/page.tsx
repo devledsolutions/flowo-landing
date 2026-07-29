@@ -12,16 +12,15 @@ import {
   GuideProductPath,
   GuideScopeNote,
   GuideSection,
-  GuideToc,
+  GuideContent,
 } from "@/components/resources/guide-shell";
-import { buildMetadata } from "@/lib/seo";
+import { GuideStructuredData } from "@/components/resources/resource-structured-data";
+import { getGuide } from "@/data/guides";
+import { buildGuideMetadata } from "@/lib/seo";
 
-export const metadata = buildMetadata({
-  title: "Gerenciamento de Equipe para Barbearias",
-  description:
-    "Cadastre profissionais, defina serviços e horários individuais e acompanhe a operação da equipe no Flowo.",
-  path: "/recursos/guias/gerenciamento-equipe",
-});
+const guide = getGuide("/recursos/guias/gerenciamento-equipe");
+
+export const metadata = buildGuideMetadata(guide);
 
 const tableOfContents = [
   { id: "estrutura", label: "O que cadastrar para cada profissional" },
@@ -34,8 +33,9 @@ const tableOfContents = [
 export default function TeamManagementGuidePage() {
   return (
     <>
+      <GuideStructuredData guide={guide} />
       <Navbar />
-      <main className="min-h-screen">
+      <main id="main-content" className="min-h-screen">
         <GuidePage>
           <GuideHeader
             crumbs={[
@@ -44,7 +44,7 @@ export default function TeamManagementGuidePage() {
               { label: "Guias", href: "/recursos/guias" },
               { label: "Equipe", href: "#" },
             ]}
-            readTime="11 min"
+            readTime={guide.readTime}
             title="Gerenciamento de equipe para barbearias"
             lead="Configure cada profissional como ele trabalha de verdade: serviços, dias, horários e folgas. Depois use a agenda e os relatórios sem confundir capacidade com promessa."
           />
@@ -78,9 +78,7 @@ export default function TeamManagementGuidePage() {
             ]}
           />
 
-          <GuideToc items={tableOfContents} />
-
-          <article>
+          <GuideContent items={tableOfContents}>
             <GuideSection
               id="estrutura"
               icon={UserCheck}
@@ -257,7 +255,7 @@ export default function TeamManagementGuidePage() {
                 ser vendido com a promessa de repasse semanal automático.
               </GuideCallout>
             </GuideSection>
-          </article>
+          </GuideContent>
 
           <GuideCta
             title="Sua equipe trabalha em horários diferentes?"
@@ -265,6 +263,7 @@ export default function TeamManagementGuidePage() {
           />
 
           <GuidePrevNext
+            currentPath={guide.path}
             next={{
               href: "/recursos/guias/guia-definitivo-agendamento",
               label: "Guia de Agendamento",

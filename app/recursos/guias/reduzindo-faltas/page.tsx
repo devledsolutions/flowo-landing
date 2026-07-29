@@ -15,16 +15,15 @@ import {
   GuideScopeNote,
   GuideSection,
   GuideSteps,
-  GuideToc,
+  GuideContent,
 } from "@/components/resources/guide-shell";
-import { buildMetadata } from "@/lib/seo";
+import { GuideStructuredData } from "@/components/resources/resource-structured-data";
+import { getGuide } from "@/data/guides";
+import { buildGuideMetadata } from "@/lib/seo";
 
-export const metadata = buildMetadata({
-  title: "Reduzindo Faltas na Barbearia",
-  description:
-    "Use confirmação, lembretes, status de no-show e lista de espera no Flowo sem cobrar sinal nem cancelar por silêncio.",
-  path: "/recursos/guias/reduzindo-faltas",
-});
+const guide = getGuide("/recursos/guias/reduzindo-faltas");
+
+export const metadata = buildGuideMetadata(guide);
 
 const tableOfContents = [
   { id: "medir", label: "Meça o custo com os seus dados" },
@@ -37,8 +36,9 @@ const tableOfContents = [
 export default function ReducingNoShowsGuidePage() {
   return (
     <>
+      <GuideStructuredData guide={guide} />
       <Navbar />
-      <main className="min-h-screen">
+      <main id="main-content" className="min-h-screen">
         <GuidePage>
           <GuideHeader
             crumbs={[
@@ -47,7 +47,7 @@ export default function ReducingNoShowsGuidePage() {
               { label: "Guias", href: "/recursos/guias" },
               { label: "Reduzindo Faltas", href: "#" },
             ]}
-            readTime="9 min"
+            readTime={guide.readTime}
             title="Reduzindo faltas na barbearia"
             lead="Combine confirmação, lembrete, registro correto do no-show e lista de espera. O objetivo é proteger a agenda sem cobrar sinal e sem cancelar um cliente apenas porque ele ficou em silêncio."
           />
@@ -81,9 +81,7 @@ export default function ReducingNoShowsGuidePage() {
             ]}
           />
 
-          <GuideToc items={tableOfContents} />
-
-          <article>
+          <GuideContent items={tableOfContents}>
             <GuideSection
               id="medir"
               icon={TrendingDown}
@@ -236,7 +234,7 @@ export default function ReducingNoShowsGuidePage() {
                 cliente. A decisão continua com a barbearia.
               </GuideCallout>
             </GuideSection>
-          </article>
+          </GuideContent>
 
           <GuideCta
             title="Quer enxergar e tratar faltas sem cobrar sinal?"
@@ -244,6 +242,7 @@ export default function ReducingNoShowsGuidePage() {
           />
 
           <GuidePrevNext
+            currentPath={guide.path}
             prev={{
               href: "/recursos/guias/configurando-whatsapp",
               label: "Configurando WhatsApp",

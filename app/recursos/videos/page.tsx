@@ -10,13 +10,17 @@ import Footer from "@/components/footer";
 import { Breadcrumb } from "@/components/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { ResourceNav } from "@/components/resources/resource-nav";
+import { ResourceCollectionStructuredData } from "@/components/resources/resource-structured-data";
 import { SIGNUP_URL } from "@/components/cta-links";
 import { buildMetadata } from "@/lib/seo";
 
+const PAGE_TITLE = "Roteiros de Shorts e Reels para Barbearias";
+const PAGE_DESCRIPTION =
+  "8 roteiros prontos de Shorts e Reels, com abertura, sequência e CTA, para divulgar sua barbearia sem inventar resultados ou recursos.";
+
 export const metadata = buildMetadata({
-  title: "Roteiros de Shorts e Reels para Barbearias",
-  description:
-    "8 roteiros prontos de Shorts e Reels, com hook, estrutura e CTA, para divulgar sua barbearia e gerar agendamentos.",
+  title: PAGE_TITLE,
+  description: PAGE_DESCRIPTION,
   path: "/recursos/videos",
 });
 
@@ -38,12 +42,12 @@ const shortsPlan = [
     duration: "45-60s",
     hook: "Você ainda confirma no braço? Esse fluxo de 3 mensagens resolve.",
     steps: [
-      "Mensagem de lembrete 24h antes.",
-      "Confirmação final 2h antes.",
-      "Remarcação automática para horário liberado.",
+      "Defina quando confirmação e lembrete serão enviados.",
+      "Peça uma resposta clara sem ameaçar cancelamento automático.",
+      "Se o cliente quiser mudar, conduza a remarcação pelo fluxo disponível.",
     ],
-    cta: "Pegue o checklist no link e copie o fluxo.",
-    sourceUrl: "/agenda-barbearia-whatsapp",
+    cta: "Veja a configuração e adapte a mensagem à sua política.",
+    sourceUrl: "/recursos/guias/reduzindo-faltas",
   },
   {
     title: "Escala de equipe sem conflito de horários",
@@ -76,7 +80,7 @@ const shortsPlan = [
     steps: [
       "Separe faturamento de margem.",
       "Defina meta semanal por barbeiro.",
-      "Acompanhe ticket e ocupação juntos.",
+      "Compare receita, ticket, faltas e horários de pico.",
     ],
     cta: "Baixe o fluxo de caixa semanal no material gratuito.",
     sourceUrl: "/recursos/guias/controle-financeiro-barbearia",
@@ -94,16 +98,16 @@ const shortsPlan = [
     sourceUrl: "/flowo-vs-planilha",
   },
   {
-    title: "Faltas: confirmação automática pelo WhatsApp",
+    title: "Faltas: confirmação, lembrete e no-show",
     duration: "45-60s",
-    hook: "Quer reduzir faltas sem constranger o cliente? Use confirmação automática.",
+    hook: "Quer tratar faltas sem cobrar sinal nem cancelar o cliente por silêncio?",
     steps: [
-      "Lembrete 24h antes com pedido de confirmação.",
-      "Sem resposta? O horário pode ser liberado para outro cliente.",
-      "Comunique a política de cancelamento de forma transparente.",
+      "Envie confirmação e lembrete no tempo definido pela barbearia.",
+      "Sem resposta, mantenha o compromisso e decida a ação humana necessária.",
+      "Se houver falta, registre o no-show e acompanhe a recorrência.",
     ],
-    cta: "Confira o guia de confirmação e pagamentos.",
-    sourceUrl: "/software-barbearia-com-pix",
+    cta: "Confira o guia de redução de faltas sem promessas automáticas.",
+    sourceUrl: "/recursos/guias/reduzindo-faltas",
   },
   {
     title: "Flowo vs Agenda Manual: quando migrar",
@@ -112,7 +116,7 @@ const shortsPlan = [
     steps: [
       "Mensagens repetitivas consumindo o dia.",
       "Conflitos de horário recorrentes.",
-      "Falta de visão de desempenho por barbeiro.",
+      "Falta de histórico confiável para decidir a operação.",
     ],
     cta: "Acesse o comparativo e veja o ponto de virada.",
     sourceUrl: "/flowo-vs-agenda-manual",
@@ -122,8 +126,19 @@ const shortsPlan = [
 export default function VideosPage() {
   return (
     <>
+      <ResourceCollectionStructuredData
+        title={PAGE_TITLE}
+        description={PAGE_DESCRIPTION}
+        path="/recursos/videos"
+        breadcrumbLabel="Roteiros"
+        items={shortsPlan.map((item, index) => ({
+          name: item.title,
+          path: `/recursos/videos#roteiro-${index + 1}`,
+          description: item.hook,
+        }))}
+      />
       <Navbar />
-      <main className="min-h-screen">
+      <main id="main-content" className="min-h-screen">
         <section className="pt-32 pb-section-normal">
           <div className="container-page">
             <div className="mx-auto max-w-3xl">
@@ -172,7 +187,10 @@ export default function VideosPage() {
               <ol className="space-y-4">
                 {shortsPlan.map((item, index) => (
                   <li key={item.title}>
-                    <article className="rounded-lg border border-line bg-surface p-6 sm:p-7">
+                    <article
+                      id={`roteiro-${index + 1}`}
+                      className="scroll-mt-28 rounded-lg border border-line bg-surface p-6 sm:p-7"
+                    >
                       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                         <div>
                           <span className="inline-flex items-center gap-2 rounded-full border border-line px-3 py-1 text-caption font-medium text-muted-ink">
@@ -218,11 +236,11 @@ export default function VideosPage() {
               <div className="on-ink mt-16 rounded-lg p-8 sm:p-10">
                 <div className="max-w-2xl">
                   <h2 className="text-h3 font-bold">
-                    Quer transformar esses roteiros em agenda cheia?
+                    Quer preparar a operação para a demanda que o conteúdo gerar?
                   </h2>
                   <p className="mt-3 text-muted-ink">
-                    Estruture sua operação com a IA do Flowo no WhatsApp e
-                    receba os agendamentos que o conteúdo gerar.
+                    Estruture agenda, equipe e atendimento no WhatsApp antes de
+                    ampliar a divulgação da sua barbearia.
                   </p>
                   <div className="mt-6 flex flex-wrap items-center gap-4">
                     <Button size="lg" className="rounded-full px-7" asChild>

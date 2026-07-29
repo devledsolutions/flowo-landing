@@ -13,16 +13,15 @@ import {
   GuideProductPath,
   GuideScopeNote,
   GuideSection,
-  GuideToc,
+  GuideContent,
 } from "@/components/resources/guide-shell";
-import { buildMetadata } from "@/lib/seo";
+import { GuideStructuredData } from "@/components/resources/resource-structured-data";
+import { getGuide } from "@/data/guides";
+import { buildGuideMetadata } from "@/lib/seo";
 
-export const metadata = buildMetadata({
-  title: "Como Aumentar o Ticket Médio na Barbearia",
-  description:
-    "Organize combos, produtos e comandas no Flowo e meça o ticket médio sem prometer upsell automático.",
-  path: "/recursos/guias/aumentar-ticket-medio",
-});
+const guide = getGuide("/recursos/guias/aumentar-ticket-medio");
+
+export const metadata = buildGuideMetadata(guide);
 
 const tableOfContents = [
   { id: "medir", label: "Calcule a linha de base" },
@@ -34,8 +33,9 @@ const tableOfContents = [
 export default function TicketMedioGuidePage() {
   return (
     <>
+      <GuideStructuredData guide={guide} />
       <Navbar />
-      <main className="min-h-screen">
+      <main id="main-content" className="min-h-screen">
         <GuidePage>
           <GuideHeader
             crumbs={[
@@ -44,7 +44,7 @@ export default function TicketMedioGuidePage() {
               { label: "Guias", href: "/recursos/guias" },
               { label: "Aumentar Ticket Médio", href: "#" },
             ]}
-            readTime="8 min"
+            readTime={guide.readTime}
             title="Como aumentar o ticket médio sem empurrar serviço"
             lead="Melhore catálogo, oferta e registro da comanda. O Flowo organiza o processo; a recomendação comercial ainda precisa respeitar o cliente e o contexto."
           />
@@ -78,9 +78,7 @@ export default function TicketMedioGuidePage() {
             ]}
           />
 
-          <GuideToc items={tableOfContents} />
-
-          <article>
+          <GuideContent items={tableOfContents}>
             <GuideSection id="medir" icon={BarChart3} title="Calcule a linha de base">
               <p>
                 Use apenas atendimentos concluídos: some a receita do período e
@@ -175,7 +173,7 @@ export default function TicketMedioGuidePage() {
                 vendidos fora do Flowo também não aparecem automaticamente.
               </GuideScopeNote>
             </GuideSection>
-          </article>
+          </GuideContent>
 
           <GuideCta
             title="Quer ligar catálogo, atendimento e receita?"
@@ -183,6 +181,7 @@ export default function TicketMedioGuidePage() {
           />
 
           <GuidePrevNext
+            currentPath={guide.path}
             next={{
               href: "/recursos/guias/fidelizacao-clientes",
               label: "Fidelização de Clientes",

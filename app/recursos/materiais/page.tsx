@@ -15,13 +15,17 @@ import { Breadcrumb } from "@/components/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { DownloadGateModal } from "@/components/download-gate-modal";
 import { ResourceNav } from "@/components/resources/resource-nav";
+import { ResourceCollectionStructuredData } from "@/components/resources/resource-structured-data";
 import { SIGNUP_URL } from "@/components/cta-links";
 import { buildMetadata } from "@/lib/seo";
 
+const PAGE_TITLE = "Materiais Gratuitos para Barbearias";
+const PAGE_DESCRIPTION =
+  "Planilhas, checklists e guias em PDF gratuitos para organizar a agenda, o financeiro e o marketing da sua barbearia.";
+
 export const metadata = buildMetadata({
-  title: "Materiais Gratuitos para Barbearias",
-  description:
-    "Planilhas, checklists e guias em PDF gratuitos para organizar a agenda, o financeiro e o marketing da sua barbearia.",
+  title: PAGE_TITLE,
+  description: PAGE_DESCRIPTION,
   path: "/recursos/materiais",
 });
 
@@ -237,8 +241,21 @@ const groups: { heading: string; description: string; items: Downloadable[] }[] 
 export default function MaterialsPage() {
   return (
     <>
+      <ResourceCollectionStructuredData
+        title={PAGE_TITLE}
+        description={PAGE_DESCRIPTION}
+        path="/recursos/materiais"
+        breadcrumbLabel="Materiais"
+        items={groups.flatMap((group) =>
+          group.items.map((item) => ({
+            name: item.title,
+            path: item.downloadUrl,
+            description: item.description,
+          })),
+        )}
+      />
       <Navbar />
-      <main className="min-h-screen">
+      <main id="main-content" className="min-h-screen">
         <section className="pt-32 pb-section-normal">
           <div className="container-page">
             <div className="mx-auto max-w-3xl">
@@ -334,7 +351,7 @@ export default function MaterialsPage() {
                 sugestão?{" "}
                 <a
                   href="mailto:contato@flowo.com.br"
-                  className="font-medium text-ink underline-offset-4 hover:underline"
+                  className="font-medium text-ink underline underline-offset-4"
                 >
                   Fale conosco
                 </a>

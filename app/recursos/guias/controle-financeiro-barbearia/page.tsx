@@ -13,16 +13,15 @@ import {
   GuideProductPath,
   GuideScopeNote,
   GuideSection,
-  GuideToc,
+  GuideContent,
 } from "@/components/resources/guide-shell";
-import { buildMetadata } from "@/lib/seo";
+import { GuideStructuredData } from "@/components/resources/resource-structured-data";
+import { getGuide } from "@/data/guides";
+import { buildGuideMetadata } from "@/lib/seo";
 
-export const metadata = buildMetadata({
-  title: "Controle Financeiro de Barbearia",
-  description:
-    "Use comandas, pagamentos, saldo e métricas do Flowo para controle operacional sem confundir o app com contabilidade completa.",
-  path: "/recursos/guias/controle-financeiro-barbearia",
-});
+const guide = getGuide("/recursos/guias/controle-financeiro-barbearia");
+
+export const metadata = buildGuideMetadata(guide);
 
 const tableOfContents = [
   { id: "limite", label: "O que o Flowo controla" },
@@ -34,8 +33,9 @@ const tableOfContents = [
 export default function ControleFinanceiroGuidePage() {
   return (
     <>
+      <GuideStructuredData guide={guide} />
       <Navbar />
-      <main className="min-h-screen">
+      <main id="main-content" className="min-h-screen">
         <GuidePage>
           <GuideHeader
             crumbs={[
@@ -44,7 +44,7 @@ export default function ControleFinanceiroGuidePage() {
               { label: "Guias", href: "/recursos/guias" },
               { label: "Controle Financeiro", href: "#" },
             ]}
-            readTime="9 min"
+            readTime={guide.readTime}
             title="Controle financeiro para barbearia"
             lead="Use o Flowo para controlar a receita operacional dos atendimentos. Custos, lucro contábil, impostos e conciliação completa continuam exigindo gestão financeira própria."
           />
@@ -78,9 +78,7 @@ export default function ControleFinanceiroGuidePage() {
             ]}
           />
 
-          <GuideToc items={tableOfContents} />
-
-          <article>
+          <GuideContent items={tableOfContents}>
             <GuideSection
               id="limite"
               icon={BookOpenCheck}
@@ -230,7 +228,7 @@ export default function ControleFinanceiroGuidePage() {
                 profissional.
               </GuideScopeNote>
             </GuideSection>
-          </article>
+          </GuideContent>
 
           <GuideCta
             title="Quer fechar agenda e receita no mesmo fluxo?"
@@ -238,6 +236,7 @@ export default function ControleFinanceiroGuidePage() {
           />
 
           <GuidePrevNext
+            currentPath={guide.path}
             next={{
               href: "/recursos/guias/escala-equipe",
               label: "Escala de Equipe",
