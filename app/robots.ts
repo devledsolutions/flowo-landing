@@ -2,7 +2,8 @@ import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/seo";
 
 export default function robots(): MetadataRoute.Robots {
-  const restrictedPaths = ["/api/", "/monitoring", "/_next/"];
+  // Search engines need the Next.js assets to render and evaluate the pages.
+  const restrictedPaths = ["/api/", "/monitoring"];
 
   return {
     rules: [

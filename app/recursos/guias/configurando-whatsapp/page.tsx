@@ -22,16 +22,15 @@ import {
   GuideScopeNote,
   GuideSection,
   GuideSteps,
-  GuideToc,
+  GuideContent,
 } from "@/components/resources/guide-shell";
-import { buildMetadata } from "@/lib/seo";
+import { GuideStructuredData } from "@/components/resources/resource-structured-data";
+import { getGuide } from "@/data/guides";
+import { buildGuideMetadata } from "@/lib/seo";
 
-export const metadata = buildMetadata({
-  title: "Configurando o WhatsApp com IA",
-  description:
-    "Entenda a ativação oficial do WhatsApp no Flowo, o nome público, os estados de conexão e o que a IA faz depois da aprovação.",
-  path: "/recursos/guias/configurando-whatsapp",
-});
+const guide = getGuide("/recursos/guias/configurando-whatsapp");
+
+export const metadata = buildGuideMetadata(guide);
 
 const tableOfContents = [
   { id: "antes", label: "O que preparar antes da ativação" },
@@ -44,8 +43,9 @@ const tableOfContents = [
 export default function WhatsAppSetupGuidePage() {
   return (
     <>
+      <GuideStructuredData guide={guide} />
       <Navbar />
-      <main className="min-h-screen">
+      <main id="main-content" className="min-h-screen">
         <GuidePage>
           <GuideHeader
             crumbs={[
@@ -54,7 +54,7 @@ export default function WhatsAppSetupGuidePage() {
               { label: "Guias", href: "/recursos/guias" },
               { label: "Configurando WhatsApp", href: "#" },
             ]}
-            readTime="9 min"
+            readTime={guide.readTime}
             title="Configurando o WhatsApp com IA"
             lead="A integração usa o canal oficial do WhatsApp Business. A IA só começa a atender depois que o número aparece como conectado e pronto no Flowo."
           />
@@ -88,9 +88,7 @@ export default function WhatsAppSetupGuidePage() {
             ]}
           />
 
-          <GuideToc items={tableOfContents} />
-
-          <article>
+          <GuideContent items={tableOfContents}>
             <GuideSection
               id="antes"
               icon={Smartphone}
@@ -272,7 +270,7 @@ export default function WhatsAppSetupGuidePage() {
                 a resposta humana. O retorno à automação é uma decisão explícita.
               </GuideScopeNote>
             </GuideSection>
-          </article>
+          </GuideContent>
 
           <GuideCta
             title="Prepare seu WhatsApp para operar com dados reais"
@@ -280,6 +278,7 @@ export default function WhatsAppSetupGuidePage() {
           />
 
           <GuidePrevNext
+            currentPath={guide.path}
             prev={{
               href: "/recursos/guias/pagamentos-pix",
               label: "Pagamentos PIX",

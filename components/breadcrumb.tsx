@@ -13,7 +13,7 @@ interface BreadcrumbProps {
 export function Breadcrumb({ items }: BreadcrumbProps) {
   return (
     <nav aria-label="Navegação estrutural">
-      <ol className="flex flex-wrap items-center gap-x-1 text-sm text-gray-500">
+      <ol className="flex flex-wrap items-center gap-x-1 text-sm text-muted-ink">
         {items.map((item, index) => (
           <li key={`${item.href}-${item.label}`} className="flex items-center">
             {index > 0 ? (

@@ -13,16 +13,15 @@ import {
   GuideProductPath,
   GuideScopeNote,
   GuideSection,
-  GuideToc,
+  GuideContent,
 } from "@/components/resources/guide-shell";
-import { buildMetadata } from "@/lib/seo";
+import { GuideStructuredData } from "@/components/resources/resource-structured-data";
+import { getGuide } from "@/data/guides";
+import { buildGuideMetadata } from "@/lib/seo";
 
-export const metadata = buildMetadata({
-  title: "Escala de Equipe para Barbearia",
-  description:
-    "Configure horários individuais, serviços e folgas da equipe no Flowo sem prometer distribuição automática de clientes.",
-  path: "/recursos/guias/escala-equipe",
-});
+const guide = getGuide("/recursos/guias/escala-equipe");
+
+export const metadata = buildGuideMetadata(guide);
 
 const tableOfContents = [
   { id: "camadas", label: "Entenda as camadas da disponibilidade" },
@@ -34,8 +33,9 @@ const tableOfContents = [
 export default function EscalaEquipeGuidePage() {
   return (
     <>
+      <GuideStructuredData guide={guide} />
       <Navbar />
-      <main className="min-h-screen">
+      <main id="main-content" className="min-h-screen">
         <GuidePage>
           <GuideHeader
             crumbs={[
@@ -44,7 +44,7 @@ export default function EscalaEquipeGuidePage() {
               { label: "Guias", href: "/recursos/guias" },
               { label: "Escala de Equipe", href: "#" },
             ]}
-            readTime="8 min"
+            readTime={guide.readTime}
             title="Escala de equipe sem conflito de horários"
             lead="Use o horário geral como limite e configure a rotina de cada profissional. O Flowo aplica a escala à disponibilidade, mas não cria sozinho um rodízio comercial entre barbeiros."
           />
@@ -78,9 +78,7 @@ export default function EscalaEquipeGuidePage() {
             ]}
           />
 
-          <GuideToc items={tableOfContents} />
-
-          <article>
+          <GuideContent items={tableOfContents}>
             <GuideSection
               id="camadas"
               icon={ListChecks}
@@ -192,7 +190,7 @@ export default function EscalaEquipeGuidePage() {
                 ]}
               />
             </GuideSection>
-          </article>
+          </GuideContent>
 
           <GuideCta
             title="Cada profissional tem uma rotina diferente?"
@@ -200,6 +198,7 @@ export default function EscalaEquipeGuidePage() {
           />
 
           <GuidePrevNext
+            currentPath={guide.path}
             next={{
               href: "/recursos/guias/controle-financeiro-barbearia",
               label: "Controle Financeiro",

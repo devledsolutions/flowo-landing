@@ -13,16 +13,15 @@ import {
   GuideProductPath,
   GuideScopeNote,
   GuideSection,
-  GuideToc,
+  GuideContent,
 } from "@/components/resources/guide-shell";
-import { buildMetadata } from "@/lib/seo";
+import { GuideStructuredData } from "@/components/resources/resource-structured-data";
+import { getGuide } from "@/data/guides";
+import { buildGuideMetadata } from "@/lib/seo";
 
-export const metadata = buildMetadata({
-  title: "Fidelização de Clientes na Barbearia",
-  description:
-    "Use histórico, clientes em risco, campanhas e fidelidade no Flowo respeitando ativação, plano e opt-out.",
-  path: "/recursos/guias/fidelizacao-clientes",
-});
+const guide = getGuide("/recursos/guias/fidelizacao-clientes");
+
+export const metadata = buildGuideMetadata(guide);
 
 const tableOfContents = [
   { id: "base", label: "Construa a base pelo atendimento" },
@@ -34,8 +33,9 @@ const tableOfContents = [
 export default function FidelizacaoGuidePage() {
   return (
     <>
+      <GuideStructuredData guide={guide} />
       <Navbar />
-      <main className="min-h-screen">
+      <main id="main-content" className="min-h-screen">
         <GuidePage>
           <GuideHeader
             crumbs={[
@@ -44,7 +44,7 @@ export default function FidelizacaoGuidePage() {
               { label: "Guias", href: "/recursos/guias" },
               { label: "Fidelização de Clientes", href: "#" },
             ]}
-            readTime="9 min"
+            readTime={guide.readTime}
             title="Fidelização de clientes sem automação vazia"
             lead="Registre o atendimento, entenda quem parou de voltar e use campanhas com consentimento. Fidelidade começa na operação; o canal só ajuda a manter o relacionamento."
           />
@@ -78,9 +78,7 @@ export default function FidelizacaoGuidePage() {
             ]}
           />
 
-          <GuideToc items={tableOfContents} />
-
-          <article>
+          <GuideContent items={tableOfContents}>
             <GuideSection
               id="base"
               icon={HeartHandshake}
@@ -225,7 +223,7 @@ export default function FidelizacaoGuidePage() {
                 um benefício ao cliente.
               </GuideScopeNote>
             </GuideSection>
-          </article>
+          </GuideContent>
 
           <GuideCta
             title="Quer organizar o relacionamento sem perder o contexto?"
@@ -233,6 +231,7 @@ export default function FidelizacaoGuidePage() {
           />
 
           <GuidePrevNext
+            currentPath={guide.path}
             next={{
               href: "/recursos/guias/aumentar-ticket-medio",
               label: "Aumentar Ticket Médio",

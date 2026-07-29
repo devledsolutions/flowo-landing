@@ -13,16 +13,15 @@ import {
   GuideProductPath,
   GuideScopeNote,
   GuideSection,
-  GuideToc,
+  GuideContent,
 } from "@/components/resources/guide-shell";
-import { buildMetadata } from "@/lib/seo";
+import { GuideStructuredData } from "@/components/resources/resource-structured-data";
+import { getGuide } from "@/data/guides";
+import { buildGuideMetadata } from "@/lib/seo";
 
-export const metadata = buildMetadata({
-  title: "Guia de Agendamento para Barbearias",
-  description:
-    "Configure horários gerais e individuais, agenda, confirmação e pagamento pós-atendimento no Flowo.",
-  path: "/recursos/guias/guia-definitivo-agendamento",
-});
+const guide = getGuide("/recursos/guias/guia-definitivo-agendamento");
+
+export const metadata = buildGuideMetadata(guide);
 
 const tableOfContents = [
   { id: "base", label: "Monte a base da agenda" },
@@ -35,8 +34,9 @@ const tableOfContents = [
 export default function SchedulingGuidePage() {
   return (
     <>
+      <GuideStructuredData guide={guide} />
       <Navbar />
-      <main className="min-h-screen">
+      <main id="main-content" className="min-h-screen">
         <GuidePage>
           <GuideHeader
             crumbs={[
@@ -45,7 +45,7 @@ export default function SchedulingGuidePage() {
               { label: "Guias", href: "/recursos/guias" },
               { label: "Agendamento", href: "#" },
             ]}
-            readTime="10 min"
+            readTime={guide.readTime}
             title="Guia de agendamento para barbearias"
             lead="Cadastre a capacidade real da barbearia, evite conflitos e use confirmações sem prometer cancelamentos automáticos que o produto não faz."
           />
@@ -79,9 +79,7 @@ export default function SchedulingGuidePage() {
             ]}
           />
 
-          <GuideToc items={tableOfContents} />
-
-          <article>
+          <GuideContent items={tableOfContents}>
             <GuideSection id="base" icon={Calendar} title="Monte a base da agenda">
               <p>
                 Antes de abrir horários, cadastre os serviços com duração e
@@ -241,7 +239,7 @@ export default function SchedulingGuidePage() {
                 ]}
               />
             </GuideSection>
-          </article>
+          </GuideContent>
 
           <GuideCta
             title="Quer uma agenda que respeite a rotina da equipe?"
@@ -249,6 +247,7 @@ export default function SchedulingGuidePage() {
           />
 
           <GuidePrevNext
+            currentPath={guide.path}
             next={{
               href: "/recursos/guias/gerenciamento-equipe",
               label: "Gerenciamento de Equipe",

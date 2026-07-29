@@ -1,9 +1,10 @@
 import type { MetadataRoute } from "next";
+import { GUIDES } from "@/data/guides";
 import { SITE_URL } from "@/lib/seo";
 
 const LAST_MODIFIED = new Date("2026-07-29T00:00:00.000Z");
 
-const ROUTES = [
+const CORE_ROUTES = [
   "/",
   "/precos",
   "/sistema-agendamento-barbearia",
@@ -14,18 +15,7 @@ const ROUTES = [
   "/recursos",
   "/recursos/videos",
   "/recursos/materiais",
-  "/llms.txt",
   "/recursos/guias",
-  "/recursos/guias/guia-definitivo-agendamento",
-  "/recursos/guias/gerenciamento-equipe",
-  "/recursos/guias/reduzindo-faltas",
-  "/recursos/guias/pagamentos-pix",
-  "/recursos/guias/relatorios-metricas",
-  "/recursos/guias/configurando-whatsapp",
-  "/recursos/guias/aumentar-ticket-medio",
-  "/recursos/guias/escala-equipe",
-  "/recursos/guias/fidelizacao-clientes",
-  "/recursos/guias/controle-financeiro-barbearia",
   "/casos-de-sucesso",
   "/casos-de-sucesso/academia-corpo-em-forma",
   "/casos-de-sucesso/clinica-saude-total",
@@ -37,7 +27,7 @@ const ROUTES = [
 ] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return ROUTES.map((route) => ({
+  const coreEntries: MetadataRoute.Sitemap = CORE_ROUTES.map((route) => ({
     url: `${SITE_URL}${route}`,
     lastModified: LAST_MODIFIED,
     changeFrequency: route === "/" ? "daily" : "weekly",
@@ -50,10 +40,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
           ? 0.9
           : route === "/flowo-vs-planilha" || route === "/flowo-vs-agenda-manual"
             ? 0.85
-          : route.startsWith("/recursos/guias/")
-            ? 0.8
-            : route === "/llms.txt"
-              ? 0.6
             : 0.7,
   }));
+
+  const guideEntries: MetadataRoute.Sitemap = GUIDES.map((guide) => ({
+    url: `${SITE_URL}${guide.path}`,
+    lastModified: new Date(guide.modifiedTime),
+    changeFrequency: "monthly",
+    priority: 0.8,
+  }));
+
+  return [...coreEntries, ...guideEntries];
 }

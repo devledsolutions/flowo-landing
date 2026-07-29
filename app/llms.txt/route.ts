@@ -1,5 +1,6 @@
-import { SITE_URL } from "@/lib/seo";
+import { GUIDES } from "@/data/guides";
 import { PLANS, ANNUAL_DISCOUNT_LABEL, formatBRL } from "@/data/pricing-data";
+import { SITE_URL } from "@/lib/seo";
 
 const CACHE_HEADER =
   "public, max-age=3600, s-maxage=86400, stale-while-revalidate=86400";
@@ -8,6 +9,9 @@ export function GET() {
   const planLines = PLANS.map(
     (plan) =>
       `- ${plan.name}: ${formatBRL(plan.monthly)}/mês (anual ${formatBRL(plan.annualTotal)}, ${ANNUAL_DISCOUNT_LABEL}). ${plan.description}`,
+  ).join("\n");
+  const guideLines = GUIDES.map(
+    (guide) => `- [${guide.title}](${SITE_URL}${guide.path})`,
   ).join("\n");
 
   const content = `# Flowo
@@ -36,14 +40,7 @@ ${planLines}
 
 ## Guides hub
 - [Guias para barbearias](${SITE_URL}/recursos/guias)
-- [Guia definitivo de agendamento](${SITE_URL}/recursos/guias/guia-definitivo-agendamento)
-- [Configurando WhatsApp com IA](${SITE_URL}/recursos/guias/configurando-whatsapp)
-- [Pagamentos com PIX](${SITE_URL}/recursos/guias/pagamentos-pix)
-- [Reducao de faltas](${SITE_URL}/recursos/guias/reduzindo-faltas)
-- [Aumentar ticket medio](${SITE_URL}/recursos/guias/aumentar-ticket-medio)
-- [Escala de equipe](${SITE_URL}/recursos/guias/escala-equipe)
-- [Fidelizacao de clientes](${SITE_URL}/recursos/guias/fidelizacao-clientes)
-- [Controle financeiro da barbearia](${SITE_URL}/recursos/guias/controle-financeiro-barbearia)
+${guideLines}
 
 ## Media and lead magnets
 - [Roteiros de Shorts e Reels](${SITE_URL}/recursos/videos)

@@ -76,6 +76,7 @@ export default function SchemaMarkup() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: "Flowo",
+    alternateName: "flowo.com.br",
     url: SITE_URL,
     inLanguage: "pt-BR",
   };
