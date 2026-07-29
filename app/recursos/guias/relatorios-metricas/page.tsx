@@ -1,13 +1,8 @@
-import {
-  BarChart3,
-  Clock,
-  Target,
-  TrendingUp,
-  Users,
-} from "lucide-react";
+import { BarChart3, Clock, Target, TrendingUp, Users } from "lucide-react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import {
+  GuideAvailability,
   GuideCallout,
   GuideCards,
   GuideChecklist,
@@ -15,6 +10,8 @@ import {
   GuideHeader,
   GuidePage,
   GuidePrevNext,
+  GuideProductPath,
+  GuideScopeNote,
   GuideSection,
   GuideToc,
 } from "@/components/resources/guide-shell";
@@ -23,28 +20,16 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "Relatórios e Métricas para Barbearias",
   description:
-    "As métricas essenciais para acompanhar o desempenho da sua barbearia: ocupação, ticket médio, no-show e desempenho por barbeiro.",
+    "Entenda os indicadores reais da área Métricas do Flowo, os bloqueios por plano e o que ainda precisa ser calculado fora do painel.",
   path: "/recursos/guias/relatorios-metricas",
 });
 
 const tableOfContents = [
-  { id: "metricas-essenciais", label: "Métricas essenciais" },
-  { id: "taxa-ocupacao", label: "Taxa de ocupação" },
-  { id: "desempenho-profissional", label: "Desempenho por profissional" },
-  { id: "horarios-pico", label: "Horários de pico" },
-  { id: "usando-dados", label: "Usando dados para crescer" },
-];
-
-const occupancyBands = [
-  { range: "Abaixo de 50%", label: "Precisa de mais clientes", width: "40%" },
-  { range: "50% a 75%", label: "Bom, mas tem espaço", width: "65%" },
-  { range: "Acima de 75%", label: "Excelente demanda", width: "90%" },
-];
-
-const peakPattern = [
-  { period: "Segunda a quarta", label: "Menor movimento", width: "40%" },
-  { period: "Quinta e sexta", label: "Movimento médio", width: "70%" },
-  { period: "Sábado", label: "Pico máximo", width: "95%" },
+  { id: "painel", label: "O que aparece em Métricas" },
+  { id: "receita", label: "Como o Flowo calcula receita" },
+  { id: "planos", label: "Indicadores por plano" },
+  { id: "ocupacao", label: "Ocupação: cálculo complementar" },
+  { id: "rotina", label: "Rotina semanal de decisão" },
 ];
 
 export default function MetricsGuidePage() {
@@ -60,233 +45,252 @@ export default function MetricsGuidePage() {
               { label: "Guias", href: "/recursos/guias" },
               { label: "Relatórios e Métricas", href: "#" },
             ]}
-            readTime="10 min"
+            readTime="9 min"
             title="Relatórios e métricas para barbearias"
-            lead="Entenda quais números realmente importam e como usá-los para tomar decisões melhores no seu negócio."
+            lead="Use os números que o Flowo realmente calcula e saiba onde o painel termina. Assim, uma recomendação de gestão não vira uma promessa de funcionalidade."
+          />
+
+          <GuideAvailability
+            items={[
+              {
+                label: "Área principal",
+                value: "Métricas no painel web",
+                description:
+                  "A página compara períodos e consulta dados reais da agenda, clientes e atendimentos concluídos.",
+              },
+              {
+                label: "Planos superiores",
+                value: "Detalhes avançados",
+                description:
+                  "Clientes em risco, receita por serviço, horários de pico e outros blocos variam conforme o plano.",
+              },
+              {
+                label: "Empresarial",
+                value: "Clientes VIP",
+                description:
+                  "A lista de melhores clientes por visitas e receita é reservada ao plano Empresarial.",
+              },
+              {
+                label: "Limite atual",
+                value: "Sem taxa de ocupação pronta",
+                description:
+                  "O painel não deve ser vendido como uma tabela completa de ocupação e desempenho individual por profissional.",
+              },
+            ]}
           />
 
           <GuideToc items={tableOfContents} />
 
           <article>
             <GuideSection
-              id="metricas-essenciais"
+              id="painel"
               icon={BarChart3}
-              title="Métricas essenciais para acompanhar"
+              title="O que aparece em Métricas"
             >
               <p>
-                Não precisa acompanhar dezenas de números. Com 5 métricas você
-                já entende a saúde do seu negócio:
+                A página reúne indicadores do período atual e comparação com o
+                período anterior. Os blocos liberados dependem das permissões do
+                usuário e do plano da barbearia.
               </p>
               <GuideCards
                 items={[
                   {
-                    title: "Agendamentos do dia, semana e mês",
+                    title: "Receita e agendamentos",
                     description:
-                      "Quantos clientes você atendeu? Está crescendo ou estagnado?",
+                      "Receita de atendimentos concluídos, quantidade de agendamentos e evolução no período.",
                   },
                   {
-                    title: "Faturamento",
+                    title: "Conclusão e faltas",
                     description:
-                      "Quanto entrou? Qual o ticket médio por cliente?",
+                      "Taxas derivadas dos estados da agenda, quando o plano libera o detalhamento.",
                   },
                   {
-                    title: "Taxa de ocupação",
+                    title: "Clientes em risco",
                     description:
-                      "Quantos horários disponíveis foram ocupados?",
+                      "Clientes com histórico e tempo sem retorno; planos inferiores podem ver apenas o total.",
                   },
                   {
-                    title: "Clientes atendidos",
+                    title: "Receita por serviço",
                     description:
-                      "Novos vs recorrentes. Sua base está crescendo?",
+                      "Distribuição e tendência dos serviços concluídos no período.",
                   },
                   {
-                    title: "Taxa de no-show (faltas)",
+                    title: "Horários de pico",
                     description:
-                      "Quantos não apareceram? Está melhorando?",
+                      "Dia e hora de maior movimento, com sugestão adicional nos planos superiores.",
+                  },
+                  {
+                    title: "Clientes VIP",
+                    description:
+                      "Ranking por visitas e receita no plano Empresarial.",
                   },
                 ]}
               />
-              <GuideCallout>
-                O painel do Flowo mostra tudo isso em tempo real. Você
-                acompanha os números do dia, compara com períodos anteriores e
-                vê tendências sem precisar fazer contas.
-              </GuideCallout>
+              <GuideProductPath
+                items={[
+                  {
+                    surface: "Painel web",
+                    path: "Métricas",
+                    action:
+                      "escolha o período e consulte os blocos liberados para o seu plano.",
+                  },
+                  {
+                    surface: "App móvel",
+                    path: "Mais → Financeiro / operação",
+                    action:
+                      "acompanhe os indicadores móveis disponíveis; o relatório completo permanece no painel web.",
+                  },
+                ]}
+              />
             </GuideSection>
 
             <GuideSection
-              id="taxa-ocupacao"
-              icon={Target}
-              title="Taxa de ocupação"
+              id="receita"
+              icon={TrendingUp}
+              title="Como o Flowo calcula receita"
             >
               <p>
-                A taxa de ocupação mostra quanto da sua capacidade você está
-                usando:
+                A receita do relatório considera atendimentos concluídos. Ela
+                representa o serviço realizado e não uma previsão baseada em
+                horários apenas reservados.
               </p>
-              <GuideCallout>
-                <strong>
-                  Taxa de ocupação = (horários ocupados ÷ horários disponíveis)
-                  × 100
-                </strong>
+              <GuideScopeNote title="Pagamento é pós-serviço">
+                O Flowo não usa sinal ou depósito. Valores previstos e valores
+                concluídos não devem ser misturados ao interpretar o caixa.
+              </GuideScopeNote>
+              <GuideCallout title="Mantenha o status da agenda correto">
+                Se um atendimento concluído continuar como agendado, ou uma falta
+                não for registrada como no-show, as taxas e tendências perdem
+                qualidade. O relatório depende da operação bem fechada.
               </GuideCallout>
-              <div className="my-8 space-y-4 rounded-lg border border-line bg-surface p-6">
-                {occupancyBands.map((band) => (
-                  <div key={band.range}>
-                    <div className="mb-1 flex items-baseline justify-between gap-4">
-                      <span className="text-label font-semibold text-ink">
-                        {band.range}
-                      </span>
-                      <span className="text-caption text-muted-ink">
-                        {band.label}
-                      </span>
-                    </div>
-                    <div className="h-2 overflow-hidden rounded-full bg-surface-2">
-                      <div
-                        className="h-full rounded-full bg-ink"
-                        style={{ width: band.width }}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <p>
-                Se sua taxa está abaixo de 50%, invista em marketing, promoções
-                ou ajuste seus horários de funcionamento. Se está acima de 90%,
-                pode ser hora de contratar mais um profissional.
-              </p>
             </GuideSection>
 
             <GuideSection
-              id="desempenho-profissional"
+              id="planos"
               icon={Users}
-              title="Desempenho por profissional"
+              title="Indicadores por plano"
             >
               <p>
-                Se você tem mais de um barbeiro, acompanhe o desempenho
-                individual:
+                O bloqueio por plano é parte da experiência. Um cartão bloqueado
+                não significa ausência de dados; significa que aquele
+                detalhamento não está incluído na assinatura atual.
               </p>
               <div className="my-8 overflow-x-auto rounded-lg border border-line">
-                <table className="w-full min-w-[28rem] text-label">
+                <table className="w-full min-w-[36rem] text-label">
                   <thead className="border-b border-line bg-surface-2">
                     <tr>
                       <th className="p-4 text-left font-semibold text-ink">
-                        Métrica
+                        Indicador
                       </th>
                       <th className="p-4 text-left font-semibold text-ink">
-                        O que mostra
+                        Disponibilidade
+                      </th>
+                      <th className="p-4 text-left font-semibold text-ink">
+                        Uso prático
                       </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-line bg-surface">
                     {[
-                      ["Atendimentos", "Quantos clientes cada um atendeu"],
-                      ["Faturamento", "Quanto cada profissional gerou"],
-                      ["Ticket médio", "Valor médio por atendimento"],
-                      ["Taxa de ocupação", "% dos horários que foram preenchidos"],
-                      ["Clientes novos", "Quantos primeiros atendimentos fez"],
-                    ].map(([metric, meaning]) => (
+                      [
+                        "KPIs de agenda e receita",
+                        "Base",
+                        "Acompanhar evolução do período",
+                      ],
+                      [
+                        "Clientes em risco",
+                        "Detalhe nos planos superiores",
+                        "Priorizar reativação",
+                      ],
+                      [
+                        "Receita por serviço",
+                        "Detalhe nos planos superiores",
+                        "Rever catálogo e oferta",
+                      ],
+                      [
+                        "Horários de pico",
+                        "Base + sugestões nos superiores",
+                        "Ajustar escala e disponibilidade",
+                      ],
+                      [
+                        "Clientes VIP",
+                        "Empresarial",
+                        "Reconhecer os melhores relacionamentos",
+                      ],
+                    ].map(([metric, availability, use]) => (
                       <tr key={metric}>
                         <td className="p-4 font-medium text-ink">{metric}</td>
-                        <td className="p-4 text-muted-ink">{meaning}</td>
+                        <td className="p-4 text-muted-ink">{availability}</td>
+                        <td className="p-4 text-muted-ink">{use}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
-              <p>
-                Isso ajuda a entender quem precisa de mais treinamento, quem
-                está trazendo mais resultado e como distribuir comissões de
-                forma justa.
-              </p>
+              <GuideScopeNote
+                status="conditional"
+                title="Permissão também interfere"
+              >
+                Proprietário, administrador e gerente podem acessar a análise
+                conforme suas permissões. O perfil de profissional não recebe o
+                relatório completo.
+              </GuideScopeNote>
             </GuideSection>
 
             <GuideSection
-              id="horarios-pico"
-              icon={Clock}
-              title="Horários de pico"
+              id="ocupacao"
+              icon={Target}
+              title="Ocupação: cálculo complementar"
             >
               <p>
-                Saber quando sua barbearia tem mais demanda ajuda a otimizar
-                escalas e preços. Um padrão comum em barbearias:
+                A página atual não apresenta uma taxa de ocupação completa por
+                profissional. Se essa métrica for importante para sua rotina,
+                calcule-a com a capacidade planejada e deixe claro que é uma
+                análise complementar.
               </p>
-              <div className="my-8 space-y-4 rounded-lg border border-line bg-surface p-6">
-                {peakPattern.map((row) => (
-                  <div key={row.period}>
-                    <div className="mb-1 flex items-baseline justify-between gap-4">
-                      <span className="text-label font-semibold text-ink">
-                        {row.period}
-                      </span>
-                      <span className="text-caption text-muted-ink">
-                        {row.label}
-                      </span>
-                    </div>
-                    <div className="h-2 overflow-hidden rounded-full bg-surface-2">
-                      <div
-                        className="h-full rounded-full bg-ink"
-                        style={{ width: row.width }}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <GuideCallout>
+                <strong>
+                  Ocupação = tempo reservado ÷ tempo disponível para atendimento
+                </strong>
+                . Use duração dos serviços, horário individual e folgas; contar
+                apenas “quantidade de horários” pode distorcer serviços de
+                durações diferentes.
+              </GuideCallout>
+              <GuideScopeNote
+                status="practice"
+                title="Não use faixas universais como regra"
+              >
+                “75% é excelente” ou “abaixo de 50% é ruim” depende de margem,
+                duração, demanda, horário e estratégia. Compare cada barbearia
+                com a própria linha de base.
+              </GuideScopeNote>
+            </GuideSection>
+
+            <GuideSection
+              id="rotina"
+              icon={Clock}
+              title="Rotina semanal de decisão"
+            >
               <GuideChecklist
                 items={[
-                  "Escale mais profissionais nos dias de pico",
-                  "Considere preços diferenciados para horários nobres",
-                  "Ofereça condições especiais para dias de baixo movimento",
-                  "Aperte a confirmação automática nos horários mais disputados",
+                  "Feche comandas e atualize status antes de abrir o relatório",
+                  "Compare o mesmo intervalo com o período anterior",
+                  "Escolha um problema: faltas, serviço em queda ou clientes em risco",
+                  "Faça uma mudança pequena e registre a data",
+                  "Revise o resultado na semana seguinte antes de trocar outra variável",
                 ]}
               />
-            </GuideSection>
-
-            <GuideSection
-              id="usando-dados"
-              icon={TrendingUp}
-              title="Usando dados para crescer"
-            >
-              <p>
-                Ter os dados é só o começo. O importante é usá-los para tomar
-                decisões:
-              </p>
-              <GuideCards
-                items={[
-                  {
-                    title: "Ocupação baixa nas segundas",
-                    description:
-                      'Crie uma promoção "Segunda do Corte" para preencher a agenda.',
-                  },
-                  {
-                    title: "Um barbeiro com ticket médio menor",
-                    description:
-                      "Treine a oferta de serviços adicionais no atendimento.",
-                  },
-                  {
-                    title: "Muitos clientes novos, poucos recorrentes",
-                    description:
-                      "Foque em fidelização: pós-atendimento e reativação pelo WhatsApp.",
-                  },
-                  {
-                    title: "No-show alto com certos clientes",
-                    description:
-                      "Peça confirmação com mais antecedência e libere o horário mais cedo para esses casos.",
-                  },
-                  {
-                    title: "Sábados sempre lotados",
-                    description:
-                      "Considere abrir mais cedo ou trazer um reforço para o fim de semana.",
-                  },
-                ]}
-              />
-              <GuideCallout title="Dica final">
-                Não precisa olhar os relatórios todo dia. Reserve 15 minutos
-                por semana para analisar os números e identificar
-                oportunidades. Com consistência, os resultados aparecem.
+              <GuideCallout title="O relatório orienta; não decide sozinho">
+                Horário de pico pode sugerir reforço, mas contratação e preço
+                dependem de custo, margem e contexto. O Flowo mostra o sinal;
+                a decisão continua com a gestão.
               </GuideCallout>
             </GuideSection>
           </article>
 
           <GuideCta
-            title="Acompanhe suas métricas no Flowo"
-            description="Painel completo com os números da sua barbearia em tempo real, sem planilha manual."
+            title="Quer decidir com dados operacionais reais?"
+            description="Feche a agenda corretamente e use Métricas para comparar períodos sem confundir recomendação com automação."
           />
 
           <GuidePrevNext

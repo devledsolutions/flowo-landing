@@ -1,13 +1,8 @@
-import {
-  Ban,
-  Bell,
-  CalendarCheck,
-  TrendingDown,
-  Users,
-} from "lucide-react";
+import { Ban, Bell, CalendarCheck, TrendingDown, Users } from "lucide-react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import {
+  GuideAvailability,
   GuideCallout,
   GuideCards,
   GuideChatSample,
@@ -16,6 +11,8 @@ import {
   GuideHeader,
   GuidePage,
   GuidePrevNext,
+  GuideProductPath,
+  GuideScopeNote,
   GuideSection,
   GuideSteps,
   GuideToc,
@@ -25,16 +22,16 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "Reduzindo Faltas na Barbearia",
   description:
-    "Como usar lembretes e confirmação automática pelo WhatsApp para reduzir no-shows, liberar horários e proteger a agenda da sua barbearia.",
+    "Use confirmação, lembretes, status de no-show e lista de espera no Flowo sem cobrar sinal nem cancelar por silêncio.",
   path: "/recursos/guias/reduzindo-faltas",
 });
 
 const tableOfContents = [
-  { id: "custo-falta", label: "O custo real de uma falta" },
-  { id: "lembretes", label: "Sistema de lembretes que funciona" },
-  { id: "confirmacao", label: "Confirmação automática: a arma contra faltas" },
-  { id: "politica-cancelamento", label: "Política de cancelamento" },
-  { id: "clientes-reincidentes", label: "Lidando com clientes que faltam" },
+  { id: "medir", label: "Meça o custo com os seus dados" },
+  { id: "lembretes", label: "Ative confirmação e lembrete" },
+  { id: "silencio", label: "Não cancele por silêncio" },
+  { id: "no-show", label: "Registre a falta e libere o horário" },
+  { id: "politica", label: "Use política clara sem inventar punições" },
 ];
 
 export default function ReducingNoShowsGuidePage() {
@@ -50,164 +47,200 @@ export default function ReducingNoShowsGuidePage() {
               { label: "Guias", href: "/recursos/guias" },
               { label: "Reduzindo Faltas", href: "#" },
             ]}
-            readTime="10 min"
+            readTime="9 min"
             title="Reduzindo faltas na barbearia"
-            lead="Lembretes no momento certo, confirmação automática pelo WhatsApp e uma política clara. É assim que se protege a agenda, sem cobrar sinal de ninguém."
+            lead="Combine confirmação, lembrete, registro correto do no-show e lista de espera. O objetivo é proteger a agenda sem cobrar sinal e sem cancelar um cliente apenas porque ele ficou em silêncio."
+          />
+
+          <GuideAvailability
+            items={[
+              {
+                label: "Confirmação",
+                value: "Configurável",
+                description:
+                  "O prazo padrão é 24 horas. A resposta válida atualiza o compromisso na agenda.",
+              },
+              {
+                label: "Lembrete",
+                value: "2 horas antes",
+                description:
+                  "É programado quando a opção está habilitada e o horário ainda é válido.",
+              },
+              {
+                label: "Canal",
+                value: "WhatsApp conectado",
+                description:
+                  "Sem canal ativo, telefone válido e consentimento, nenhuma mensagem é enviada.",
+              },
+              {
+                label: "Pagamento",
+                value: "Sem sinal",
+                description:
+                  "PIX e cartão só entram no fechamento pós-serviço.",
+              },
+            ]}
           />
 
           <GuideToc items={tableOfContents} />
 
           <article>
             <GuideSection
-              id="custo-falta"
+              id="medir"
               icon={TrendingDown}
-              title="O custo real de uma falta"
+              title="Meça o custo com os seus dados"
             >
               <p>
-                Uma falta não é só um horário vago. É dinheiro perdido, outro
-                cliente que você poderia ter atendido e tempo desperdiçado.
-                Faça a conta com os seus números:
+                Multiplique o número de faltas pelo valor médio dos atendimentos
+                que deixaram de acontecer. Separe cancelamento avisado de no-show:
+                os dois liberam a cadeira, mas pedem ações diferentes.
               </p>
-              <GuideCallout title="Exemplo hipotético, para você adaptar">
-                Se cada barbeiro da sua equipe perde 1 horário por dia com
-                falta e o seu ticket é de R$ 50, uma equipe de 3 deixa de
-                faturar R$ 150 por dia. No mês, isso passa de R$ 3.000 em
-                horários que ninguém ocupou. Troque pelos seus valores e veja o
-                tamanho do problema na sua barbearia.
+              <GuideCallout title="Exemplo hipotético">
+                Se três profissionais perderem um horário de R$ 50 no mesmo dia,
+                a capacidade não utilizada foi de R$ 150. Use seus próprios
+                valores; isso não é uma promessa de receita recuperada pelo
+                Flowo.
               </GuideCallout>
-              <p>
-                Por isso, reduzir faltas deveria ser prioridade. A boa notícia:
-                a maior parte das faltas é esquecimento, e esquecimento se
-                resolve com lembrete e confirmação.
-              </p>
+              <GuideScopeNote
+                status="practice"
+                title="Defina uma linha de base antes de mudar o processo"
+              >
+                Compare a taxa de faltas por período em Métricas. Sem um ponto de
+                partida, você não consegue separar melhora real de uma semana
+                naturalmente mais cheia.
+              </GuideScopeNote>
             </GuideSection>
 
             <GuideSection
               id="lembretes"
               icon={Bell}
-              title="Sistema de lembretes que funciona"
+              title="Ative confirmação e lembrete"
             >
               <p>
-                O Flowo envia lembretes automáticos em dois momentos
-                estratégicos:
+                Quando a confirmação está ativa, o pedido substitui o lembrete
+                simples de 24 horas. O lembrete final de 2 horas continua sendo
+                programado.
               </p>
               <GuideCards
                 columns={2}
                 items={[
                   {
-                    title: "24h antes: lembrete de véspera",
+                    title: "Confirmação antecipada",
                     description:
-                      "Dá tempo do cliente cancelar se tiver problema, liberando o horário para outro.",
+                      "O cliente responde “sim” e o Flowo marca o agendamento como confirmado.",
                   },
                   {
-                    title: "2h antes: lembrete final",
+                    title: "Lembrete final",
                     description:
-                      "Pega quem esqueceu e dá o empurrão final para não deixar pra lá.",
+                      "Reforça data, hora, serviço e profissional próximo do atendimento.",
                   },
                 ]}
               />
               <GuideChatSample
-                customer="Beleza, tô confirmado sim!"
-                reply="Fechado! Amanhã às 15h com o João. Qualquer coisa é só chamar aqui."
+                customer="Sim, confirmado"
+                reply="Fechado! Seu horário está confirmado. Se precisar mudar, me avise por aqui."
               />
-            </GuideSection>
-
-            <GuideSection
-              id="confirmacao"
-              icon={CalendarCheck}
-              title="Confirmação automática: a arma contra faltas"
-            >
-              <p>
-                O lembrete avisa; a confirmação protege. Junto com o lembrete
-                de véspera, o Flowo pede que o cliente confirme o horário. Quem
-                confirma, aparece. Quem não responde, você trata antes de
-                perder o slot:
-              </p>
-              <GuideSteps
+              <GuideProductPath
                 items={[
                   {
-                    title: "O cliente confirma no WhatsApp",
-                    description:
-                      "Um toque no botão e o compromisso está firmado. A agenda mostra quem confirmou.",
+                    surface: "Painel web",
+                    path: "WhatsApp / Configurações → Notificações",
+                    action:
+                      "revise a conexão e ajuste confirmação e lembretes.",
                   },
                   {
-                    title: "Sem resposta? O horário pode ser liberado",
-                    description:
-                      "Você define o prazo. Passou, o Flowo libera o slot e pode reoferecer para outros clientes.",
-                  },
-                  {
-                    title: "Cancelou? Outro cliente entra",
-                    description:
-                      "O cancelamento pelo WhatsApp libera o horário na hora, sem você tocar no telefone.",
+                    surface: "App móvel",
+                    path: "Mais → WhatsApp",
+                    action:
+                      "confira o estado do canal e os controles operacionais.",
                   },
                 ]}
               />
-              <p>
-                O pagamento não entra nessa equação: PIX e cartão são opções
-                para pagar o atendimento, nunca uma condição para agendar.
-              </p>
             </GuideSection>
 
             <GuideSection
-              id="politica-cancelamento"
-              icon={Ban}
-              title="Política de cancelamento clara"
+              id="silencio"
+              icon={CalendarCheck}
+              title="Não cancele por silêncio"
             >
               <p>
-                Ter uma política clara e comunicá-la desde o início evita
-                atritos e educa o cliente sobre a importância de avisar:
+                Se o cliente não responder, o agendamento continua válido. O
+                Flowo não cancela nem libera o horário automaticamente só por
+                ausência de confirmação.
+              </p>
+              <GuideScopeNote
+                status="practice"
+                title="Use a agenda para decidir o próximo contato"
+              >
+                A equipe pode entrar em contato ou manter o compromisso conforme
+                a política da barbearia. Não anuncie uma regra automática que o
+                sistema não executa.
+              </GuideScopeNote>
+            </GuideSection>
+
+            <GuideSection
+              id="no-show"
+              icon={Users}
+              title="Registre a falta e libere o horário"
+            >
+              <GuideSteps
+                items={[
+                  {
+                    title: "Marque o status correto",
+                    description:
+                      "Na agenda ou na revisão de presença, registre “não compareceu” quando o atendimento realmente não ocorreu.",
+                  },
+                  {
+                    title: "Atualize o histórico",
+                    description:
+                      "O Flowo incrementa a contagem de faltas do cliente e preserva o contexto para atendimentos futuros.",
+                  },
+                  {
+                    title: "Acione a recuperação",
+                    description:
+                      "O horário liberado pode buscar uma entrada compatível na lista de espera e oferecer a vaga pelo WhatsApp conectado.",
+                  },
+                ]}
+              />
+              <GuideScopeNote
+                status="conditional"
+                title="A oferta da lista de espera depende de correspondência"
+              >
+                Serviço, profissional, data, telefone, opt-out e conexão do
+                WhatsApp são verificados. Nem toda falta gera uma mensagem e uma
+                oferta não significa reserva concluída.
+              </GuideScopeNote>
+            </GuideSection>
+
+            <GuideSection
+              id="politica"
+              icon={Ban}
+              title="Use política clara sem inventar punições"
+            >
+              <p>
+                Cadastre e comunique regras simples de cancelamento, remarcação e
+                atraso. Os prazos de cancelamento e remarcação podem limitar ações
+                no portal do cliente.
               </p>
               <GuideChecklist
                 items={[
-                  "Cancelamento com mais de 24h: remarca sem burocracia",
-                  "Cancelamento em cima da hora: o horário vai para a fila de espera",
-                  "Falta sem aviso: fica registrada no histórico do cliente",
+                  "Explique até quando o cliente pode cancelar ou remarcar",
+                  "Peça aviso assim que ele souber que não poderá comparecer",
+                  "Registre no-show apenas quando o atendimento realmente não ocorreu",
+                  "Revise casos repetidos antes de bloquear ou restringir atendimento",
+                  "Nunca apresente sinal como recurso do Flowo",
                 ]}
               />
-              <p>
-                O Flowo deixa você configurar isso e comunica automaticamente
-                para o cliente quando ele agenda. Sem surpresas para ninguém.
-              </p>
-            </GuideSection>
-
-            <GuideSection
-              id="clientes-reincidentes"
-              icon={Users}
-              title="Lidando com clientes que faltam"
-            >
-              <p>
-                Alguns clientes têm padrão de faltar. Com o Flowo, você
-                identifica e trata de forma diferente:
-              </p>
-              <GuideSteps
-                items={[
-                  {
-                    title: "Identifique os reincidentes",
-                    description:
-                      "O Flowo mostra o histórico de cada cliente: faltas, cancelamentos em cima da hora, frequência.",
-                  },
-                  {
-                    title: "Aperte a confirmação para esses clientes",
-                    description:
-                      "Peça confirmação com mais antecedência e libere o horário mais cedo se não houver resposta.",
-                  },
-                  {
-                    title: "Considere limitar os piores casos",
-                    description:
-                      "Cliente que já faltou 3 vezes sem avisar? Ofereça só os horários de menor procura.",
-                  },
-                ]}
-              />
-              <GuideCallout title="Resumo: combinação vencedora">
-                Lembretes 24h + 2h, confirmação automática com liberação de
-                horário e política de cancelamento comunicada no agendamento.
+              <GuideCallout title="Limite atual">
+                Alguns campos avançados de política, como número máximo de
+                faltas, podem ser armazenados sem bloquear automaticamente um
+                cliente. A decisão continua com a barbearia.
               </GuideCallout>
             </GuideSection>
           </article>
 
           <GuideCta
-            title="Pronto para proteger sua agenda?"
-            description="Ative lembretes e confirmação automática no Flowo e pare de perder horário com no-show."
+            title="Quer enxergar e tratar faltas sem cobrar sinal?"
+            description="Conecte o WhatsApp, configure a confirmação e use os estados da agenda com precisão."
           />
 
           <GuidePrevNext
