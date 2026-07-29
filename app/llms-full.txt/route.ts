@@ -65,6 +65,12 @@ ${plans}
 
 Não há período de teste. Não há pagamento antecipado ou sinal para reservar. Dinheiro e maquininha própria continuam válidos; PIX e cartão Flowo dependem de ativação opcional.
 
+## Flowo Recupera
+
+O Flowo Recupera é um add-on em beta acompanhada, separado dos planos principais. Ele organiza oportunidades de retorno com revisão humana e consentimento verificado. Receita recuperada só pode ser reconhecida depois que a comanda correspondente for realmente fechada.
+
+URL canônica: ${SITE_URL}/flowo-recupera
+
 ## Comparações verificadas
 
 ${comparisons}

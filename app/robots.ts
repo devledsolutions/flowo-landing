@@ -24,7 +24,6 @@ export default function robots(): MetadataRoute.Robots {
         ],
         allow: "/",
         disallow: restrictedPaths,
-        crawlDelay: 2,
       },
       {
         userAgent: "*",

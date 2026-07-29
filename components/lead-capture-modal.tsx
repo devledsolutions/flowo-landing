@@ -38,8 +38,14 @@ const formatPhoneNumber = (phone: string, dialCode: string) => {
   return phone;
 };
 
-export function LeadCaptureModal({ children }: { children: React.ReactNode }) {
-  const [isOpen, setIsOpen] = useState(false);
+export function LeadCaptureModal({
+  children,
+  initiallyOpen = false,
+}: {
+  children: React.ReactNode;
+  initiallyOpen?: boolean;
+}) {
+  const [isOpen, setIsOpen] = useState(initiallyOpen);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [whatsapp, setWhatsapp] = useState("");

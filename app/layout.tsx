@@ -3,7 +3,6 @@ import { Suspense } from "react"
 import { Poppins, Lora } from "next/font/google"
 import "./globals.css"
 import { SegmentProvider } from "@/providers/segment-provider"
-import { MotionProvider } from "@/providers/motion-provider"
 import { CookieBanner } from "@/components/cookie-banner"
 import { ConsentInitializer } from "@/components/consent-initializer"
 import {
@@ -17,6 +16,7 @@ const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-poppins",
+  display: "optional",
 })
 
 const lora = Lora({
@@ -24,6 +24,7 @@ const lora = Lora({
   weight: ["500", "600"],
   style: ["normal", "italic"],
   variable: "--font-lora",
+  display: "optional",
 })
 
 const DEFAULT_TITLE =
@@ -85,6 +86,18 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  verification: {
+    ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+      ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
+      : {}),
+    ...(process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
+      ? {
+          other: {
+            "msvalidate.01": process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION,
+          },
+        }
+      : {}),
+  },
 }
 
 export const viewport: Viewport = {
@@ -129,13 +142,11 @@ export default function RootLayout({
           Pular para o conteúdo principal
         </a>
         <ConsentInitializer />
-        <MotionProvider>
-          <Suspense fallback={null}>
-            <SegmentProvider writeKey={process.env.NEXT_PUBLIC_SEGMENT_WRITE_KEY}>
-              {children}
-            </SegmentProvider>
-          </Suspense>
-        </MotionProvider>
+        <Suspense fallback={null}>
+          <SegmentProvider writeKey={process.env.NEXT_PUBLIC_SEGMENT_WRITE_KEY}>
+            {children}
+          </SegmentProvider>
+        </Suspense>
         <CookieBanner />
       </body>
     </html>

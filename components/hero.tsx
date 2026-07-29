@@ -1,4 +1,3 @@
-import type { CSSProperties } from "react";
 import { ArrowDown, ArrowRight } from "lucide-react";
 import {
   AgendaPreview,
@@ -6,23 +5,9 @@ import {
   ProductDisclaimer,
 } from "@/components/home/product-previews";
 
-const stagger = (index: number) =>
-  ({ "--hero-delay": `${index * 80}ms` }) as CSSProperties;
-
 export default function Hero() {
   return (
     <section className="relative isolate overflow-hidden bg-cream">
-      <style>{`
-        @keyframes hero-enter {
-          from { opacity: 0; transform: translateY(16px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .hero-enter {
-          animation: hero-enter 720ms var(--ease-out-expo) both;
-          animation-delay: var(--hero-delay, 0ms);
-        }
-      `}</style>
-
       <div
         aria-hidden="true"
         className="absolute inset-x-0 top-0 -z-10 h-[48rem] bg-[radial-gradient(circle_at_50%_20%,oklch(0.995_0.002_95),transparent_58%)]"
@@ -31,8 +16,7 @@ export default function Hero() {
       <div className="container-page pb-14 pt-28 sm:pt-32 lg:pb-20 lg:pt-36">
         <div className="mx-auto max-w-5xl text-center">
           <h1
-            className="hero-enter text-[clamp(2.35rem,1.45rem+4vw,4.9rem)] font-semibold leading-[1.04] tracking-[-0.04em] text-ink-strong"
-            style={stagger(0)}
+            className="text-[clamp(2.35rem,1.45rem+4vw,4.9rem)] font-semibold leading-[1.04] tracking-[-0.04em] text-ink-strong"
           >
             Sua barbearia atende mesmo{" "}
             <em className="block font-serif font-medium italic tracking-[-0.025em]">
@@ -40,15 +24,13 @@ export default function Hero() {
             </em>
           </h1>
           <p
-            className="hero-enter mx-auto mt-5 max-w-2xl text-lead text-muted-ink"
-            style={stagger(1)}
+            className="mx-auto mt-5 max-w-2xl text-lead text-muted-ink"
           >
             A IA da Flowo responde no WhatsApp. Você acompanha cada agendamento
             no Flowo.
           </p>
           <div
-            className="hero-enter mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row"
-            style={stagger(2)}
+            className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row"
           >
             <a
               href="#produto-em-acao"
@@ -68,8 +50,7 @@ export default function Hero() {
         </div>
 
         <div
-          className="hero-enter relative mx-auto mt-11 h-[22rem] max-w-5xl sm:mt-14 sm:h-[31rem] lg:h-[35rem]"
-          style={stagger(3)}
+          className="relative mx-auto mt-11 h-[22rem] max-w-5xl sm:mt-14 sm:h-[31rem] lg:h-[35rem]"
         >
           <AgendaPreview className="absolute inset-x-0 top-0 sm:inset-x-10 lg:inset-x-16" />
           <div

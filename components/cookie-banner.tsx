@@ -2,8 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { X, Settings, Shield, BarChart3, Megaphone, Check, Cookie } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
 import { getSavedConsent, saveConsent, type ConsentPreferences } from "@/lib/consent";
 import Link from "next/link";
 
@@ -86,30 +84,28 @@ export function CookieBanner() {
             </div>
 
             <div className="flex gap-2">
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-11 rounded-full px-3 text-xs text-muted-ink hover:text-ink"
+              <button
+                type="button"
+                className="inline-flex h-11 items-center rounded-full px-3 text-xs text-muted-ink hover:text-ink"
                 onClick={() => setShowPreferences(true)}
               >
                 <Settings aria-hidden="true" className="mr-1.5 h-3.5 w-3.5" />
                 Preferências
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                className="h-11 rounded-full px-3 text-xs"
+              </button>
+              <button
+                type="button"
+                className="inline-flex h-11 items-center rounded-full border border-line px-3 text-xs text-ink"
                 onClick={handleRejectAll}
               >
                 Rejeitar
-              </Button>
-              <Button
-                size="sm"
-                className="h-11 rounded-full px-3 text-xs"
+              </button>
+              <button
+                type="button"
+                className="inline-flex h-11 items-center rounded-full bg-ink px-3 text-xs font-medium text-cream"
                 onClick={handleAcceptAll}
               >
                 Aceitar
-              </Button>
+              </button>
             </div>
           </div>
         ) : (
@@ -147,13 +143,26 @@ export function CookieBanner() {
                   <BarChart3 aria-hidden="true" className="h-4 w-4 text-muted-ink" />
                   <span className="text-sm text-ink">Analíticos</span>
                 </div>
-                <Switch
+                <button
+                  type="button"
+                  role="switch"
                   aria-label="Cookies analíticos"
-                  checked={preferences.analytics}
-                  onCheckedChange={(checked) =>
-                    setPreferences((prev) => ({ ...prev, analytics: checked }))
+                  aria-checked={preferences.analytics}
+                  onClick={() =>
+                    setPreferences((prev) => ({
+                      ...prev,
+                      analytics: !prev.analytics,
+                    }))
                   }
-                />
+                  className="relative h-11 w-11 rounded-full before:absolute before:left-0 before:top-2.5 before:h-6 before:w-11 before:rounded-full before:border-2 before:border-line before:bg-white before:content-[''] aria-checked:before:border-ink aria-checked:before:bg-ink"
+                >
+                  <span
+                    aria-hidden="true"
+                    className={`absolute left-0.5 top-3 block h-5 w-5 rounded-full bg-background shadow transition-transform ${
+                      preferences.analytics ? "translate-x-5" : ""
+                    }`}
+                  />
+                </button>
               </div>
 
               <div className="flex items-center justify-between rounded-lg bg-secondary px-2.5 py-2">
@@ -161,32 +170,44 @@ export function CookieBanner() {
                   <Megaphone aria-hidden="true" className="h-4 w-4 text-muted-ink" />
                   <span className="text-sm text-ink">Marketing</span>
                 </div>
-                <Switch
+                <button
+                  type="button"
+                  role="switch"
                   aria-label="Cookies de marketing"
-                  checked={preferences.marketing}
-                  onCheckedChange={(checked) =>
-                    setPreferences((prev) => ({ ...prev, marketing: checked }))
+                  aria-checked={preferences.marketing}
+                  onClick={() =>
+                    setPreferences((prev) => ({
+                      ...prev,
+                      marketing: !prev.marketing,
+                    }))
                   }
-                />
+                  className="relative h-11 w-11 rounded-full before:absolute before:left-0 before:top-2.5 before:h-6 before:w-11 before:rounded-full before:border-2 before:border-line before:bg-white before:content-[''] aria-checked:before:border-ink aria-checked:before:bg-ink"
+                >
+                  <span
+                    aria-hidden="true"
+                    className={`absolute left-0.5 top-3 block h-5 w-5 rounded-full bg-background shadow transition-transform ${
+                      preferences.marketing ? "translate-x-5" : ""
+                    }`}
+                  />
+                </button>
               </div>
             </div>
 
             <div className="flex gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                className="h-11 flex-1 rounded-full text-xs"
+              <button
+                type="button"
+                className="h-11 flex-1 rounded-full border border-line text-xs text-ink"
                 onClick={() => setShowPreferences(false)}
               >
                 Voltar
-              </Button>
-              <Button
-                size="sm"
-                className="h-11 flex-1 rounded-full text-xs"
+              </button>
+              <button
+                type="button"
+                className="h-11 flex-1 rounded-full bg-ink text-xs font-medium text-cream"
                 onClick={handleSavePreferences}
               >
                 Salvar
-              </Button>
+              </button>
             </div>
           </div>
         )}

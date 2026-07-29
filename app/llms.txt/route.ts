@@ -46,6 +46,9 @@ ${planLines}
 - [Cashback para barbearias](${SITE_URL}/recursos/cashback-barbearia)
 - [Nota fiscal com ativação assistida](${SITE_URL}/recursos/nota-fiscal-barbearia)
 
+## Add-ons e acesso acompanhado
+- [Flowo Recupera](${SITE_URL}/flowo-recupera): add-on em beta acompanhada para identificar oportunidades de retorno; resultados passam por revisão humana, consentimento e fechamento real da comanda.
+
 ## Comparative pages
 - [Hub de comparações](${SITE_URL}/comparar)
 - [Flowo vs planilha](${SITE_URL}/flowo-vs-planilha)

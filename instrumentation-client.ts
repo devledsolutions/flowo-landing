@@ -1,36 +1,45 @@
-import * as Sentry from "@sentry/nextjs";
+type SentryModule = typeof import("@sentry/nextjs");
+type RouterTransitionArgs = Parameters<
+  SentryModule["captureRouterTransitionStart"]
+>;
 
-Sentry.init({
-  dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+let sentryPromise: Promise<SentryModule> | undefined;
 
-  // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
-  // We recommend adjusting this value in production
-  tracesSampleRate: 1.0,
+async function initializeClientMonitoring() {
+  const Sentry = await import("@sentry/nextjs");
 
-  // Setting this option to true will print useful information to the console while you're setting up Sentry.
-  debug: false,
+  Sentry.init({
+    dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+    tracesSampleRate: 0.1,
+    debug: false,
+    enabled: process.env.NODE_ENV === "production",
+    environment: process.env.NODE_ENV || "development",
+  });
 
-  replaysOnErrorSampleRate: 1.0,
+  return Sentry;
+}
 
-  // This sets the sample rate to be 10%. You may want this to be 100% while
-  // in development and sample at a lower rate in production
-  replaysSessionSampleRate: 0.1,
+function getSentry() {
+  sentryPromise ??= initializeClientMonitoring();
+  return sentryPromise;
+}
 
-  // You can remove this option if you're not planning to use the Sentry Session Replay feature:
-  integrations: [
-    Sentry.replayIntegration({
-      // Additional Replay configuration goes in here, for example:
-      maskAllText: true,
-      blockAllMedia: true,
-    }),
-  ],
+if (typeof window !== "undefined") {
+  window.addEventListener(
+    "load",
+    () => {
+      window.setTimeout(() => {
+        void getSentry();
+      }, 5000);
+    },
+    { once: true },
+  );
+}
 
-  // Enable performance monitoring
-  enabled: process.env.NODE_ENV === "production",
-
-  // Environment
-  environment: process.env.NODE_ENV || "development",
-});
-
-// Export the hook for navigation instrumentation
-export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;
+// Route transitions happen after the initial paint and can initialize the SDK
+// without putting the monitoring bundle on the critical rendering path.
+export const onRouterTransitionStart = (...args: RouterTransitionArgs) => {
+  void getSentry().then((Sentry) => {
+    Sentry.captureRouterTransitionStart(...args);
+  });
+};
