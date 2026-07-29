@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowRight } from "lucide-react";
+import { ArrowDown, ArrowRight, Smartphone } from "lucide-react";
 import {
   AgendaPreview,
   ConversationPreview,
@@ -47,6 +47,15 @@ export default function Hero() {
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </a>
           </div>
+          <a
+            href="#app-da-equipe"
+            className="mt-5 inline-flex items-center gap-2 border-y border-line py-2.5 text-caption font-medium text-muted-ink transition-colors duration-200 ease-out-quint hover:text-ink"
+          >
+            <Smartphone className="h-4 w-4" aria-hidden="true" />
+            App Flowo para a equipe
+            <span className="font-semibold text-ink">em breve</span>
+            <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+          </a>
         </div>
 
         <div
