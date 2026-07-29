@@ -5,6 +5,7 @@ import {
   INSTITUTIONAL_FILM_TRANSCRIPT,
 } from "@/lib/institutional-film";
 import { absoluteUrl } from "@/lib/seo";
+import { InstitutionalFilmPlayer } from "@/components/marketing/institutional-film-player";
 
 export function InstitutionalFilmSchema({ pagePath }: { pagePath: string }) {
   const schema = {
@@ -83,26 +84,11 @@ export function InstitutionalFilm({
             compact ? "border-line bg-ink" : "border-white/15 bg-black"
           } shadow-[0_28px_90px_rgba(0,0,0,0.28)]`}
         >
-          <video
-            className="aspect-video w-full bg-black object-cover"
-            controls
-            playsInline
-            preload="metadata"
+          <InstitutionalFilmPlayer
+            video={INSTITUTIONAL_FILM.video}
+            captions={INSTITUTIONAL_FILM.captions}
             poster={INSTITUTIONAL_FILM.poster}
-            aria-label="Filme institucional da Flowo mostrando atendimento por inteligência artificial no WhatsApp e agenda por profissional"
-          >
-            <source src={INSTITUTIONAL_FILM.video} type="video/mp4" />
-            <track
-              kind="captions"
-              src={INSTITUTIONAL_FILM.captions}
-              srcLang="pt-BR"
-              label="Português"
-            />
-            Seu navegador não consegue reproduzir este vídeo.{" "}
-            <Link href={INSTITUTIONAL_FILM.video}>
-              Baixe o arquivo em MP4.
-            </Link>
-          </video>
+          />
         </div>
 
         <div className="mt-5 flex flex-col gap-3 text-caption text-faint-ink sm:flex-row sm:items-center sm:justify-between">

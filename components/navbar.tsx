@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { LOGIN_URL, SIGNUP_URL, WHATSAPP_URL } from "./cta-links";
 
 const navItems = [
@@ -16,7 +15,6 @@ const navItems = [
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const prefersReducedMotion = useReducedMotion();
   const toggleRef = useRef<HTMLButtonElement>(null);
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
 
@@ -61,6 +59,7 @@ export default function Navbar() {
               width={88}
               height={24}
               priority
+              fetchPriority="high"
             />
           </Link>
 
@@ -117,32 +116,14 @@ export default function Navbar() {
       </nav>
 
       {/* Mobile full-height cream sheet */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
+      {isMenuOpen && (
+          <div
             id="mobile-menu"
-            className="fixed inset-0 -z-10 flex h-[100dvh] flex-col overflow-y-auto bg-cream px-6 pb-8 pt-24 md:hidden"
-            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-0 -z-10 flex h-[100dvh] animate-in flex-col overflow-y-auto bg-cream px-6 pb-8 pt-24 fade-in duration-200 md:hidden"
           >
             <ul className="flex flex-col divide-y divide-line border-y border-line">
               {navItems.map((item, index) => (
-                <motion.li
-                  key={item.name}
-                  initial={
-                    prefersReducedMotion
-                      ? { opacity: 1, y: 0 }
-                      : { opacity: 0, y: 14 }
-                  }
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.35,
-                    delay: prefersReducedMotion ? 0 : 0.05 + index * 0.055,
-                    ease: [0.16, 1, 0.3, 1],
-                  }}
-                >
+                <li key={item.name}>
                   <Link
                     ref={index === 0 ? firstLinkRef : undefined}
                     href={item.href}
@@ -152,21 +133,9 @@ export default function Navbar() {
                   >
                     {item.name}
                   </Link>
-                </motion.li>
+                </li>
               ))}
-              <motion.li
-                initial={
-                  prefersReducedMotion
-                    ? { opacity: 1, y: 0 }
-                    : { opacity: 0, y: 14 }
-                }
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: 0.35,
-                  delay: prefersReducedMotion ? 0 : 0.05 + navItems.length * 0.055,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
-              >
+              <li>
                 <a
                   href={LOGIN_URL}
                   className="block py-5 text-h3 font-semibold text-ink"
@@ -174,21 +143,10 @@ export default function Navbar() {
                 >
                   Entrar
                 </a>
-              </motion.li>
+              </li>
             </ul>
 
-            <motion.div
-              className="flex flex-col gap-3 pt-10"
-              initial={
-                prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }
-              }
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.35,
-                delay: prefersReducedMotion ? 0 : 0.3,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-            >
+            <div className="flex flex-col gap-3 pt-10">
               <a
                 href={SIGNUP_URL}
                 className="inline-flex h-12 items-center justify-center rounded-full bg-ink px-6 text-label font-semibold text-cream transition-colors duration-200 hover:bg-ink/90"
@@ -205,10 +163,9 @@ export default function Navbar() {
               >
                 Tirar dúvidas no WhatsApp
               </a>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            </div>
+          </div>
+      )}
     </header>
   );
 }

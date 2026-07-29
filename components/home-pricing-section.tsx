@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import { ArrowRight } from "lucide-react";
-import { LeadCaptureModal } from "@/components/lead-capture-modal";
 import { PricingToggle } from "@/components/pricing/pricing-toggle";
 import {
   ANNUAL_DISCOUNT_LABEL,
@@ -14,6 +14,25 @@ import {
 import { cn } from "@/lib/utils";
 import { SIGNUP_URL } from "@/components/cta-links";
 
+const LeadCaptureModal = dynamic(
+  () =>
+    import("@/components/lead-capture-modal").then(
+      (module) => module.LeadCaptureModal,
+    ),
+  {
+    ssr: false,
+    loading: () => (
+      <button
+        type="button"
+        className="inline-flex h-12 w-full items-center justify-center rounded-full bg-ink px-5 text-label font-semibold text-cream opacity-75"
+        disabled
+      >
+        Abrindo…
+      </button>
+    ),
+  },
+);
+
 const summaryFeatures = {
   solo: ["1 profissional", "Até 200 agendamentos por mês", "50 mensagens de campanha por mês"],
   equipe: ["Até 5 profissionais", "Agendamentos ilimitados", "150 mensagens de campanha por mês"],
@@ -22,6 +41,7 @@ const summaryFeatures = {
 
 export default function HomePricingSection() {
   const [cycle, setCycle] = useState<BillingCycle>("monthly");
+  const [showEnterpriseForm, setShowEnterpriseForm] = useState(false);
 
   return (
     <div>
@@ -84,15 +104,26 @@ export default function HomePricingSection() {
 
               <div className="mt-auto pt-7">
                 {plan.salesLed ? (
-                  <LeadCaptureModal>
+                  showEnterpriseForm ? (
+                    <LeadCaptureModal initiallyOpen>
+                      <button
+                        type="button"
+                        className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-ink px-5 text-label font-semibold text-cream transition-colors hover:bg-ink/90"
+                      >
+                        Falar com a gente
+                        <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                      </button>
+                    </LeadCaptureModal>
+                  ) : (
                     <button
                       type="button"
                       className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-ink px-5 text-label font-semibold text-cream transition-colors hover:bg-ink/90"
+                      onClick={() => setShowEnterpriseForm(true)}
                     >
                       Falar com a gente
                       <ArrowRight className="h-4 w-4" aria-hidden="true" />
                     </button>
-                  </LeadCaptureModal>
+                  )
                 ) : (
                   <a
                     href={SIGNUP_URL}

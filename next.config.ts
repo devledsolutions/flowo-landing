@@ -14,6 +14,35 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
+        source: "/robots.txt",
+        headers: [
+          {
+            key: "Cache-Control",
+            value:
+              "public, max-age=3600, s-maxage=86400, stale-while-revalidate=86400",
+          },
+        ],
+      },
+      {
+        source: "/sitemap.xml",
+        headers: [
+          {
+            key: "Cache-Control",
+            value:
+              "public, max-age=3600, s-maxage=86400, stale-while-revalidate=86400",
+          },
+        ],
+      },
+      {
+        source: "/84ee248de45965560524181d9e815895.txt",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
         // Marketing downloads rarely change and can be cached aggressively.
         source: "/downloads/:path*",
         headers: [
@@ -29,17 +58,40 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: "Cache-Control",
-            value: "public, max-age=604800, stale-while-revalidate=2592000",
+            value:
+              "public, max-age=86400, s-maxage=604800, stale-while-revalidate=2592000",
           },
         ],
       },
       {
-        // Rendered films are versioned with the release and support byte ranges.
+        // Non-versioned posters and captions must not stay stale for a full week.
         source: "/videos/:path*",
         headers: [
           {
             key: "Cache-Control",
-            value: "public, max-age=604800, stale-while-revalidate=2592000",
+            value:
+              "public, max-age=86400, s-maxage=604800, stale-while-revalidate=2592000",
+          },
+        ],
+      },
+      {
+        // The filename changes whenever this render changes, so it is immutable.
+        source: "/videos/flowo-institucional-voz-natural-2026-07.mp4",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
+        // Keep the vertical render on the same content-addressing policy.
+        source:
+          "/videos/flowo-institucional-voz-natural-2026-07-vertical.mp4",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
           },
         ],
       },
@@ -49,7 +101,8 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: "Cache-Control",
-            value: "public, max-age=604800, stale-while-revalidate=2592000",
+            value:
+              "public, max-age=86400, s-maxage=604800, stale-while-revalidate=2592000",
           },
         ],
       },
@@ -58,7 +111,8 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: "Cache-Control",
-            value: "public, max-age=604800, stale-while-revalidate=2592000",
+            value:
+              "public, max-age=86400, s-maxage=604800, stale-while-revalidate=2592000",
           },
         ],
       },
@@ -67,7 +121,8 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: "Cache-Control",
-            value: "public, max-age=604800, stale-while-revalidate=2592000",
+            value:
+              "public, max-age=86400, s-maxage=604800, stale-while-revalidate=2592000",
           },
         ],
       },
@@ -97,12 +152,12 @@ export default withSentryConfig(nextConfig, {
     ? { tunnelRoute: "/monitoring" }
     : {}),
 
-  // Automatically tree-shake Sentry logger statements to reduce bundle size
-  disableLogger: true,
-
-  // Enables automatic instrumentation of Vercel Cron Monitors. (Does not yet work with App Router route handlers.)
-  // See the following for more information:
-  // https://docs.sentry.io/product/crons/
-  // https://vercel.com/docs/cron-jobs
-  automaticVercelMonitors: true
+  webpack: {
+    // Automatically tree-shake Sentry logger statements to reduce bundle size.
+    treeshake: {
+      removeDebugLogging: true,
+    },
+    // Enables automatic instrumentation of Vercel Cron Monitors.
+    automaticVercelMonitors: true,
+  },
 });

@@ -14,6 +14,7 @@ const CORE_ROUTES = [
   "/sistema-agendamento-barbearia",
   "/agenda-barbearia-whatsapp",
   "/software-barbearia-com-pix",
+  "/flowo-recupera",
   "/recursos/comissoes-barbeiros",
   "/recursos/cashback-barbearia",
   "/recursos/nota-fiscal-barbearia",
@@ -46,6 +47,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         : route === "/sistema-agendamento-barbearia" ||
             route === "/agenda-barbearia-whatsapp" ||
             route === "/software-barbearia-com-pix" ||
+            route === "/flowo-recupera" ||
             route === "/recursos/comissoes-barbeiros" ||
             route === "/recursos/cashback-barbearia" ||
             route === "/recursos/nota-fiscal-barbearia"
