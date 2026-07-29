@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "video:studio": "remotion studio remotion/index.ts",
-    "video:render": "remotion render remotion/index.ts FlowoInstitucional public/videos/flowo-institucional.mp4 --codec=h264 --crf=20 --audio-codec=aac --audio-bitrate=192k && remotion render remotion/index.ts FlowoInstitucionalVertical public/videos/flowo-institucional-vertical.mp4 --codec=h264 --crf=21 --audio-codec=aac --audio-bitrate=192k",
+    "video:render": "remotion render remotion/index.ts FlowoInstitucional public/videos/flowo-institucional-voz-natural-2026-07.mp4 --codec=h264 --crf=20 --audio-codec=aac --audio-bitrate=192k && remotion render remotion/index.ts FlowoInstitucionalVertical public/videos/flowo-institucional-voz-natural-2026-07-vertical.mp4 --codec=h264 --crf=21 --audio-codec=aac --audio-bitrate=192k",
     "video:posters": "remotion still remotion/index.ts FlowoInstitucional public/videos/flowo-institucional-poster.jpg --frame=1320 --image-format=jpeg --jpeg-quality=92 && remotion still remotion/index.ts FlowoInstitucionalVertical public/videos/flowo-institucional-vertical-poster.jpg --frame=1320 --image-format=jpeg --jpeg-quality=92"
   },
   "dependencies": {

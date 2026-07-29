@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { ArrowRight, Download, Film, Volume2 } from "lucide-react";
+import {
+  INSTITUTIONAL_FILM,
+  INSTITUTIONAL_FILM_TRANSCRIPT,
+} from "@/lib/institutional-film";
 import { absoluteUrl } from "@/lib/seo";
-
-export const INSTITUTIONAL_FILM_TRANSCRIPT =
-  "Sabe aquelas mensagens que chegam bem na hora do corte? A Flowo responde por você. A inteligência artificial conversa com o cliente pelo WhatsApp, entende o serviço e consulta os horários de cada profissional. O cliente escolhe. A agenda atualiza na hora. E a confirmação acontece ali mesmo, sem trocar de aplicativo. Você acompanha tudo pelo painel e, quando quiser, sua equipe assume a conversa. Agenda, comandas e histórico, no mesmo fluxo. E, se fizer sentido para a sua barbearia, você ainda pode ativar pagamentos integrados e cashback. Flowo. Sua barbearia trabalhando. Sua recepção, sempre pronta.";
 
 export function InstitutionalFilmSchema({ pagePath }: { pagePath: string }) {
   const schema = {
@@ -12,10 +13,10 @@ export function InstitutionalFilmSchema({ pagePath }: { pagePath: string }) {
     name: "Flowo: sua recepção sempre pronta",
     description:
       "Veja como a inteligência artificial da Flowo atende no WhatsApp, consulta a agenda individual da equipe e confirma horários.",
-    thumbnailUrl: absoluteUrl("/videos/flowo-institucional-poster.jpg"),
+    thumbnailUrl: absoluteUrl(INSTITUTIONAL_FILM.poster),
     uploadDate: "2026-07-29",
     duration: "PT46S",
-    contentUrl: absoluteUrl("/videos/flowo-institucional.mp4"),
+    contentUrl: absoluteUrl(INSTITUTIONAL_FILM.video),
     embedUrl: `${absoluteUrl(pagePath)}#video-flowo`,
     inLanguage: "pt-BR",
     transcript: INSTITUTIONAL_FILM_TRANSCRIPT,
@@ -71,7 +72,7 @@ export function InstitutionalFilm({
             {!compact && (
               <p className="mt-4 flex items-center gap-2 text-caption text-faint-ink">
                 <Volume2 className="h-4 w-4" aria-hidden="true" />
-                Voz neural em pt-BR, trilha original e legendas disponíveis.
+                Narração em pt-BR, trilha original e legendas disponíveis.
               </p>
             )}
           </div>
@@ -87,18 +88,18 @@ export function InstitutionalFilm({
             controls
             playsInline
             preload="metadata"
-            poster="/videos/flowo-institucional-poster.jpg"
+            poster={INSTITUTIONAL_FILM.poster}
             aria-label="Filme institucional da Flowo mostrando atendimento por inteligência artificial no WhatsApp e agenda por profissional"
           >
-            <source src="/videos/flowo-institucional.mp4" type="video/mp4" />
+            <source src={INSTITUTIONAL_FILM.video} type="video/mp4" />
             <track
               kind="captions"
-              src="/videos/flowo-institucional.vtt"
+              src={INSTITUTIONAL_FILM.captions}
               srcLang="pt-BR"
               label="Português"
             />
             Seu navegador não consegue reproduzir este vídeo.{" "}
-            <Link href="/videos/flowo-institucional.mp4">
+            <Link href={INSTITUTIONAL_FILM.video}>
               Baixe o arquivo em MP4.
             </Link>
           </video>
@@ -106,7 +107,7 @@ export function InstitutionalFilm({
 
         <div className="mt-5 flex flex-col gap-3 text-caption text-faint-ink sm:flex-row sm:items-center sm:justify-between">
           <Link
-            href="/videos/flowo-institucional-vertical.mp4"
+            href={INSTITUTIONAL_FILM.verticalVideo}
             className="inline-flex items-center gap-2 font-semibold text-ink transition-opacity hover:opacity-70"
           >
             <Download className="h-4 w-4" aria-hidden="true" />

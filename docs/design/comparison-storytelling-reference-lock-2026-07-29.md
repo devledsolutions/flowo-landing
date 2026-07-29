@@ -134,7 +134,8 @@ Fontes de produção:
 - `public/videos/source/flowo-institucional-voz.mp3`: voz normalizada para
   −16 LUFS e usada pelo Remotion.
 - `public/videos/source/flowo-institucional-trilha.mp3`: trilha original.
-- `public/videos/flowo-institucional.vtt`: legendas para o player.
+- `public/videos/flowo-institucional-voz-natural-2026-07.vtt`: legendas
+  versionadas para o player.
 - `components/marketing/institutional-film.tsx`: player, transcrição e
   `VideoObject`.
 
