@@ -27,6 +27,8 @@ export interface ConsentMetadata {
   userAgent: string;
 }
 
+export const COOKIE_PREFERENCES_EVENT = "flowo:open-cookie-preferences";
+
 const CONSENT_STORAGE_KEY = 'cookieConsent';
 const CONSENT_DATE_KEY = 'cookieConsentDate';
 const CONSENT_VERSION = '1.0';

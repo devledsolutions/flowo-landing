@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Mail, MapPin } from "lucide-react";
+import { CookiePreferencesButton } from "@/components/cookie-preferences-button";
 import { LEGAL_ENTITY } from "@/lib/legal-identity";
 
 const SIGNUP_URL = "https://barber.flowo.com.br/sign-up";
@@ -160,6 +161,7 @@ export default function Footer() {
             >
               Exclusão de Dados
             </Link>
+            <CookiePreferencesButton />
           </div>
         </div>
       </div>

@@ -2,7 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { X, Settings, Shield, BarChart3, Megaphone, Check, Cookie } from "lucide-react";
-import { getSavedConsent, saveConsent, type ConsentPreferences } from "@/lib/consent";
+import {
+  COOKIE_PREFERENCES_EVENT,
+  getSavedConsent,
+  saveConsent,
+  type ConsentPreferences,
+} from "@/lib/consent";
 import Link from "next/link";
 
 export function CookieBanner() {
@@ -15,13 +20,27 @@ export function CookieBanner() {
   });
 
   useEffect(() => {
+    const handleOpenPreferences = () => {
+      setShowPreferences(true);
+      setIsVisible(true);
+    };
+    window.addEventListener(COOKIE_PREFERENCES_EVENT, handleOpenPreferences);
+
     const savedConsent = getSavedConsent();
+    let timer: ReturnType<typeof setTimeout> | undefined;
     if (savedConsent) {
       setPreferences(savedConsent);
     } else {
-      const timer = setTimeout(() => setIsVisible(true), 1000);
-      return () => clearTimeout(timer);
+      timer = setTimeout(() => setIsVisible(true), 1000);
     }
+
+    return () => {
+      if (timer) clearTimeout(timer);
+      window.removeEventListener(
+        COOKIE_PREFERENCES_EVENT,
+        handleOpenPreferences
+      );
+    };
   }, []);
 
   const handleAcceptAll = () => {
