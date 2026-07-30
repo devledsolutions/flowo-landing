@@ -1,33 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Flowo Landing
 
-## Getting Started
+Site institucional e de aquisição da Flowo para barbearias brasileiras. O
+projeto usa Next.js App Router, conteúdo em pt-BR e publicação pela Vercel.
 
-This repo uses pnpm (`packageManager` is pinned in `package.json`).
+## URLs oficiais
 
-First, install dependencies and run the development server:
+| Superfície | URL |
+| --- | --- |
+| Site institucional | <https://www.flowo.com.br> |
+| Aplicação para barbearias | <https://barber.flowo.com.br> |
+| Webhook público de pagamentos | <https://barber.flowo.com.br/api/webhooks/asaas> |
+
+O site institucional e a aplicação são projetos diferentes. A landing apresenta
+o produto e capta demanda; autenticação, onboarding, operação, pagamentos e
+webhooks ficam no monorepo da aplicação.
+
+## Desenvolvimento
+
+Este repositório usa `pnpm`.
 
 ```bash
 pnpm install
 pnpm dev
+pnpm lint
+pnpm build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+O servidor local abre em <http://localhost:3000>. Use `.env.local` somente para
+valores locais e nunca versione credenciais.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Publicação
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+A Vercel está vinculada ao projeto `flowo-landing`. A `main` é a fonte de
+produção; previews são efêmeros e não devem ser usados em documentação,
+webhooks ou integrações.
 
-## Learn More
+Uma publicação manual só deve ser executada com autorização explícita:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+vercel --prod
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Depois do deploy, valide pelo menos:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+curl -I https://www.flowo.com.br
+curl -I https://www.flowo.com.br/robots.txt
+curl -I https://www.flowo.com.br/sitemap.xml
+```
 
-## Deploy on Vercel
+## Operação integrada
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+A arquitetura de produção, as responsabilidades entre os repositórios e o
+estado atual das integrações estão em
+[`docs/operations/production-runtime.md`](docs/operations/production-runtime.md).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Pontos importantes:
+
+- produção não usa túnel para webhooks;
+- o endpoint da Asaas é HTTPS público e estável na aplicação;
+- Vercel e Convex devem ser publicados a partir da mesma revisão do app;
+- o código financeiro está em produção, mas a Asaas permanece em sandbox até
+  uma ativação financeira real ser autorizada e validada.
+
+## Estrutura
+
+- `app/`: rotas, layouts, metadados e handlers;
+- `components/`: seções e componentes reutilizáveis;
+- `data/`: conteúdo estático de FAQ, preços e comparações;
+- `docs/`: decisões, pesquisas, evidências e runbooks;
+- `public/`: imagens, vídeos e materiais públicos;
+- `scripts/`: geradores e utilitários operacionais.
+
+Leia também [`AGENTS.md`](AGENTS.md) antes de alterar o projeto.
