@@ -207,12 +207,12 @@ export function ConfirmationPreview({ className }: { className?: string }) {
           <li>09:42 · Horário confirmado</li>
         </ol>
       </div>
-      <button
-        type="button"
+      <div
+        aria-hidden="true"
         className="mt-4 inline-flex h-10 w-full items-center justify-center rounded-full bg-ink px-4 text-[10px] font-semibold text-cream"
       >
         Assumir conversa
-      </button>
+      </div>
     </div>
   );
 }

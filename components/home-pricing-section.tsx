@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { ArrowRight } from "lucide-react";
 import { PricingToggle } from "@/components/pricing/pricing-toggle";
@@ -14,6 +14,7 @@ import {
 import { cn } from "@/lib/utils";
 import { SIGNUP_URL } from "@/components/cta-links";
 import { TrackedLink } from "@/components/analytics/tracked-link";
+import { useSegment } from "@/providers/segment-provider";
 
 const LeadCaptureModal = dynamic(
   () =>
@@ -41,12 +42,30 @@ const summaryFeatures = {
 } as const;
 
 export default function HomePricingSection() {
+  const { track } = useSegment();
   const [cycle, setCycle] = useState<BillingCycle>("monthly");
   const [showEnterpriseForm, setShowEnterpriseForm] = useState(false);
 
+  useEffect(() => {
+    track("Pricing Viewed", {
+      page: "/",
+      billing_cycle: cycle,
+      plan_count: PLANS.length,
+    });
+  }, [cycle, track]);
+
   return (
     <div>
-      <PricingToggle cycle={cycle} onCycleChange={setCycle} />
+      <PricingToggle
+        cycle={cycle}
+        onCycleChange={(nextCycle) => {
+          setCycle(nextCycle);
+          track("Pricing Cycle Changed", {
+            page: "/",
+            billing_cycle: nextCycle,
+          });
+        }}
+      />
       <header className="mx-auto mt-8 max-w-4xl text-center">
         <h2 className="text-h2 font-semibold tracking-[-0.025em] text-ink-strong">
           Um plano para cada tamanho de operação.

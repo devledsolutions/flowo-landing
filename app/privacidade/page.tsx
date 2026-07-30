@@ -173,6 +173,22 @@ const sections: LegalSection[] = [
             </a>
             .
           </li>
+          <li>
+            <strong>Twilio Segment e PostHog:</strong> usados, após autorização
+            de cookies analíticos, para medir páginas, origem de campanha,
+            interações, cadastro e onboarding. Podem processar identificadores
+            técnicos, dados de dispositivo e eventos de uso. Nome e contato só
+            são associados quando a pessoa envia voluntariamente um formulário
+            ou cria uma conta.
+          </li>
+          <li>
+            <strong>Resend:</strong> usado para e-mails operacionais e,
+            separadamente, para comunicações de marketing quando a pessoa
+            fornece um e-mail e marca o opt-in opcional. O aceite necessário
+            para responder a um pedido de contato ou entregar um material não
+            inscreve automaticamente a pessoa em marketing. O descadastro e as
+            preferências podem ser alterados pelos links presentes nos e-mails.
+          </li>
         </ul>
         <p>
           A Flowo pode substituir ou adicionar suboperadores equivalentes,
@@ -255,13 +271,21 @@ const sections: LegalSection[] = [
     id: "cookies",
     title: "Cookies, métricas e comunicações",
     content: (
-      <p>
-        O site e os aplicativos podem usar armazenamento essencial para sessão,
-        segurança e preferências, além de métricas de produto para entender
-        desempenho e uso. Comunicações promocionais devem respeitar preferências
-        e permitir oposição ou descadastro; mensagens transacionais podem
-        continuar quando necessárias ao serviço.
-      </p>
+      <>
+        <p>
+          O site e os aplicativos usam armazenamento essencial para sessão,
+          segurança e preferências. Métricas não essenciais só são ativadas
+          depois da sua escolha no aviso de cookies e podem ser recusadas ou
+          retiradas nas preferências.
+        </p>
+        <p>
+          Podemos manter a primeira origem de campanha por período limitado para
+          entender conversão entre o site e a criação da conta. Comunicações
+          promocionais devem respeitar preferências e permitir oposição ou
+          descadastro; mensagens transacionais podem continuar quando
+          necessárias ao serviço.
+        </p>
+      </>
     ),
   },
   {

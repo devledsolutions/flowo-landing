@@ -22,8 +22,18 @@ export const leadCaptureSchema = z.object({
     .optional()
     .or(z.literal("")),
   whatsapp: whatsappSchema,
-  source: z.string().trim().max(120).optional().or(z.literal("")),
+  source: z.string().trim().min(1).max(120),
   company: z.string().trim().max(200).optional().or(z.literal("")),
+  consent: z.literal(true),
+  marketingConsent: z.boolean().optional().default(false),
+  landingPath: z.string().trim().max(300).optional().or(z.literal("")),
+  referrer: z.string().trim().max(500).optional().or(z.literal("")),
+  utmSource: z.string().trim().max(100).optional().or(z.literal("")),
+  utmMedium: z.string().trim().max(100).optional().or(z.literal("")),
+  utmCampaign: z.string().trim().max(150).optional().or(z.literal("")),
+  utmContent: z.string().trim().max(150).optional().or(z.literal("")),
+  utmTerm: z.string().trim().max(150).optional().or(z.literal("")),
+  segmentAnonymousId: z.string().trim().max(200).optional().or(z.literal("")),
   turnstileToken: z
     .string()
     .trim()

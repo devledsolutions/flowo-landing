@@ -23,6 +23,8 @@ import countries from "@/lib/countries";
 import { FlagIcon, FlagIconCode } from "react-flag-kit";
 import { CheckCircle2, XCircle, Download, FileText } from "lucide-react";
 import { TurnstileWidget } from "@/components/turnstile-widget";
+import { useSegment } from "@/providers/segment-provider";
+import Link from "next/link";
 
 const formatPhoneNumber = (phone: string, dialCode: string) => {
   const cleaned = phone.replace(/\D/g, "");
@@ -60,22 +62,36 @@ export function DownloadGateModal({
   downloadUrl,
   resourceType = "pdf",
 }: DownloadGateModalProps) {
+  const {
+    track,
+    identify,
+    getAnonymousId,
+    getAcquisitionContext,
+  } = useSegment();
   const [isOpen, setIsOpen] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
   const [company, setCompany] = useState("");
   const [turnstileToken, setTurnstileToken] = useState("");
+  const [marketingConsent, setMarketingConsent] = useState(false);
   const [countryCode, setCountryCode] = useState<FlagIconCode>("BR");
   const [dialCode, setDialCode] = useState("+55");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setIsError(false);
+    setErrorMessage("");
+    track("Lead Form Submitted", {
+      form: "resource_download",
+      resource_title: resourceTitle,
+      resource_type: resourceType,
+    });
 
     Sentry.addBreadcrumb({
       category: "download-gate-modal",
@@ -102,6 +118,10 @@ export function DownloadGateModal({
           whatsapp: `${dialCode}${whatsapp}`,
           source: `download:${resourceTitle}`,
           company,
+          consent: true,
+          marketingConsent,
+          ...getAcquisitionContext(),
+          segmentAnonymousId: getAnonymousId(),
           turnstileToken,
         }),
       });
@@ -111,6 +131,12 @@ export function DownloadGateModal({
       if (!response.ok) {
         const errorMessage = data.message || "Ocorreu um erro. Tente novamente.";
         setIsError(true);
+        setErrorMessage(errorMessage);
+        track("Lead Form Failed", {
+          form: "resource_download",
+          resource_title: resourceTitle,
+          status_code: response.status,
+        });
 
         Sentry.captureMessage("Download gate form submission failed", {
           level: "warning",
@@ -131,6 +157,24 @@ export function DownloadGateModal({
       }
 
       setIsSuccess(true);
+      identify(undefined, {
+        email,
+        name,
+        phone: `${dialCode}${whatsapp}`,
+        lead_source: `download:${resourceTitle}`,
+        email_marketing_opt_in: marketingConsent,
+      });
+      track("Lead Form Succeeded", {
+        form: "resource_download",
+        resource_title: resourceTitle,
+        resource_type: resourceType,
+        marketing_opt_in: marketingConsent,
+      });
+      track("Resource Downloaded", {
+        resource_name: resourceTitle,
+        resource_type: resourceType,
+        resource_url: downloadUrl,
+      });
 
       Sentry.addBreadcrumb({
         category: "download-gate-modal",
@@ -144,6 +188,12 @@ export function DownloadGateModal({
       }, 1500);
     } catch (err) {
       setIsError(true);
+      setErrorMessage("Não foi possível conectar. Verifique sua internet e tente novamente.");
+      track("Lead Form Failed", {
+        form: "resource_download",
+        resource_title: resourceTitle,
+        status_code: 0,
+      });
 
       Sentry.captureException(err, {
         level: "error",
@@ -179,10 +229,12 @@ export function DownloadGateModal({
     setWhatsapp("");
     setCompany("");
     setTurnstileToken("");
+    setMarketingConsent(false);
     setCountryCode("BR");
     setDialCode("+55");
     setIsSuccess(false);
     setIsError(false);
+    setErrorMessage("");
   };
 
   const handleOpenChange = (open: boolean) => {
@@ -205,7 +257,17 @@ export function DownloadGateModal({
 
   return (
     <>
-      <div onClick={() => setIsOpen(true)} className="cursor-pointer">
+      <div
+        onClick={() => {
+          setIsOpen(true);
+          track("Lead Form Opened", {
+            form: "resource_download",
+            resource_title: resourceTitle,
+            resource_type: resourceType,
+          });
+        }}
+        className="cursor-pointer"
+      >
         {children}
       </div>
       <Dialog open={isOpen} onOpenChange={handleOpenChange}>
@@ -251,8 +313,8 @@ export function DownloadGateModal({
                   Algo deu errado
                 </DialogTitle>
                 <DialogDescription className="text-body text-muted-ink sm:text-center">
-                  Não conseguimos processar sua solicitação no momento. Por
-                  favor, tente novamente.
+                  {errorMessage ||
+                    "Não conseguimos processar sua solicitação no momento."}
                 </DialogDescription>
               </DialogHeader>
               <div className="mt-6 space-y-3">
@@ -386,6 +448,37 @@ export function DownloadGateModal({
                     onTokenChange={setTurnstileToken}
                     className="mx-auto"
                   />
+                  <label className="flex items-start gap-2 text-xs leading-5 text-muted-ink">
+                    <input
+                      type="checkbox"
+                      required
+                      className="mt-0.5 h-4 w-4 shrink-0 accent-ink"
+                    />
+                    <span>
+                      Autorizo o envio deste material e o contato necessário
+                      para atender esta solicitação, conforme a{" "}
+                      <Link className="underline underline-offset-2" href="/privacidade">
+                        Política de Privacidade
+                      </Link>{" "}
+                      e os{" "}
+                      <Link className="underline underline-offset-2" href="/termos">
+                        Termos de Uso
+                      </Link>
+                      .
+                    </span>
+                  </label>
+                  <label className="flex items-start gap-2 text-xs leading-5 text-muted-ink">
+                    <input
+                      type="checkbox"
+                      checked={marketingConsent}
+                      onChange={(event) => setMarketingConsent(event.target.checked)}
+                      className="mt-0.5 h-4 w-4 shrink-0 accent-ink"
+                    />
+                    <span>
+                      Quero receber por e-mail conteúdos, novidades e ofertas da
+                      Flowo. Posso cancelar quando quiser.
+                    </span>
+                  </label>
                   <Button
                     type="submit"
                     className="w-full rounded-full font-semibold"
@@ -405,7 +498,7 @@ export function DownloadGateModal({
                     )}
                   </Button>
                   <p className="text-center text-caption text-muted-ink">
-                    Seus dados estão seguros. Não compartilhamos com terceiros.
+                    Sem spam. Você pode cancelar comunicações a qualquer momento.
                   </p>
                 </form>
               </div>

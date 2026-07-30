@@ -3,6 +3,7 @@ import { withSentryConfig } from "@sentry/nextjs";
 
 const nextConfig: NextConfig = {
   reactStrictMode: false, // This is causing double rendering in development
+  outputFileTracingRoot: process.cwd(),
   images: {
     remotePatterns: [
       {
