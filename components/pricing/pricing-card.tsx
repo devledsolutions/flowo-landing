@@ -9,6 +9,7 @@ import {
   type Plan,
 } from "@/data/pricing-data";
 import { SIGNUP_URL } from "./links";
+import { TrackedLink } from "@/components/analytics/tracked-link";
 
 interface PricingCardProps {
   plan: Plan;
@@ -67,13 +68,21 @@ export function PricingCard({ plan, cycle }: PricingCardProps) {
             </button>
           </LeadCaptureModal>
         ) : (
-          <a
+          <TrackedLink
             href={SIGNUP_URL}
+            event="CTA Clicked"
+            properties={{
+              page: "/precos",
+              placement: `pricing_card_${plan.id}`,
+              destination: "dashboard_signup",
+              intent: "start_plan",
+              billing_cycle: cycle,
+            }}
             aria-label={`Começar agora no plano ${plan.name}`}
             className={cn(CTA_BASE, "bg-ink text-cream hover:bg-ink-strong")}
           >
             Começar agora
-          </a>
+          </TrackedLink>
         )}
         <p className="mt-3 text-center text-caption text-muted-ink">
           {plan.salesLed

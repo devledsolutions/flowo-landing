@@ -1,0 +1,324 @@
+- generic [active] [ref=e1] [box=0,0,1440,4381]:
+  - link "Pular para o conteúdo principal" [ref=e2] [cursor=pointer] [box=-1,-1,1,1]:
+    - /url: "#main-content"
+  - banner [ref=e3] [box=0,0,1440,72]:
+    - navigation "Principal" [ref=e4] [box=272,16,896,56]:
+      - generic [ref=e5] [box=272,16,896,56]:
+        - link "Flowo, página inicial" [ref=e6] [cursor=pointer] [box=293,22,88,44]:
+          - /url: /
+          - img "Flowo" [ref=e7] [box=293,22,88,43]
+        - generic [ref=e8] [box=389,34,426,20]:
+          - link "Como funciona" [ref=e9] [cursor=pointer] [box=389,34,112,20]:
+            - /url: /#como-funciona
+          - link "Produto" [ref=e10] [cursor=pointer] [box=530,34,57,20]:
+            - /url: /sistema-agendamento-barbearia
+          - link "App" [ref=e11] [cursor=pointer] [box=615,34,30,20]:
+            - /url: /aplicativo-para-barbeiros
+          - link "Recursos" [ref=e12] [cursor=pointer] [box=672,34,66,20]:
+            - /url: /recursos
+          - link "Preços" [ref=e13] [cursor=pointer] [box=766,34,49,20]:
+            - /url: /precos
+        - generic [ref=e14] [box=823,24,334,40]:
+          - link "Tirar dúvidas" [ref=e15] [cursor=pointer] [box=823,34,95,20]:
+            - /url: https://wa.me/551150265112?text=Oi!%20Quero%20saber%20mais%20sobre%20o%20Flowo.
+          - link "Entrar" [ref=e16] [cursor=pointer] [box=938,34,43,20]:
+            - /url: https://barber.flowo.com.br
+          - link "Começar agora" [ref=e17] [cursor=pointer] [box=1001,24,156,40]:
+            - /url: https://barber.flowo.com.br/sign-up
+  - main [ref=e18] [box=0,0,1440,3718]:
+    - generic [ref=e21] [box=120,144,1200,672]:
+      - generic [ref=e22] [box=160,144,468,672]:
+        - generic [ref=e23] [box=160,144,337,38]:
+          - img [ref=e24] [box=160,155,16,16]
+          - text: iPhone e Android
+          - text: em preparação
+        - heading "O Flowo no bolso de quem atende." [level=1] [ref=e27] [box=160,210,468,310]
+        - paragraph [ref=e28] [box=160,544,468,132]: O painel web organiza a gestão. O aplicativo leva agenda, presenças, clientes e comandas para a rotina móvel de barbeiros e gestores.
+        - generic [ref=e29] [box=160,708,468,48]:
+          - link "Entrar na lista" [ref=e30] [cursor=pointer] [box=160,708,182,48]:
+            - /url: "#lista-de-interesse"
+            - text: Entrar na lista
+            - img [ref=e31] [box=298,724,16,16]
+          - link "Usar o painel agora" [ref=e33] [cursor=pointer] [box=354,708,225,48]:
+            - /url: https://barber.flowo.com.br/sign-up
+            - text: Usar o painel agora
+            - img [ref=e34] [box=534,724,16,16]
+        - paragraph [ref=e36] [box=160,776,468,40]: Sem data pública de lançamento. A prévia abaixo representa o produto em desenvolvimento.
+      - generic [ref=e37] [box=708,153,572,653]:
+        - generic [ref=e39] [box=708,201,210,109]:
+          - paragraph [ref=e40] [box=708,218,210,20]: Dia da equipe
+          - paragraph [ref=e41] [box=708,246,210,27]: Agenda por profissional
+          - paragraph [ref=e42] [box=708,274,210,20]: Horários e serviços reais
+        - generic [ref=e43] [box=1070,642,210,109]:
+          - paragraph [ref=e44] [box=1070,659,210,20]: Operação móvel
+          - paragraph [ref=e45] [box=1070,687,210,27]: Presença e comanda
+          - paragraph [ref=e46] [box=1070,714,210,20]: Conforme cada acesso
+        - img "Prévia do aplicativo Flowo em desenvolvimento com agenda diária, horários de clientes e navegação para início, agenda, comandas e perfil" [ref=e47] [box=831,169,326,581]:
+          - generic [ref=e49] [box=840,178,308,563]:
+            - generic [ref=e50] [box=840,178,308,36]:
+              - generic [ref=e51] [box=864,190,19,16]: 9:41
+              - generic [ref=e52] [box=1089,190,35,16]: ● ᴡɪꜰɪ ▰
+            - generic [ref=e53] [box=840,214,308,462]:
+              - paragraph [ref=e54] [box=860,246,268,18]: Bom dia, Rafael
+              - generic [ref=e55] [box=860,268,268,62]:
+                - generic [ref=e56] [box=860,268,162,62]:
+                  - paragraph [ref=e57] [box=860,268,162,45]: Sua agenda
+                  - paragraph [ref=e58] [box=860,313,162,18]: Quarta, 29 de julho
+                - generic [ref=e59] [box=1058,304,70,26]: 4 horários
+              - generic [ref=e60] [box=860,354,268,86]:
+                - generic [ref=e61] [box=860,371,50,52]:
+                  - paragraph [ref=e62] [box=860,371,50,14]: Seg
+                  - generic [ref=e63] [box=869,392,32,32]: "27"
+                - generic [ref=e64] [box=914,371,50,52]:
+                  - paragraph [ref=e65] [box=914,371,50,14]: Ter
+                  - generic [ref=e66] [box=924,392,32,32]: "28"
+                - generic [ref=e67] [box=969,371,50,52]:
+                  - paragraph [ref=e68] [box=969,371,50,14]: Qua
+                  - generic [ref=e69] [box=978,392,32,32]: "29"
+                - generic [ref=e70] [box=1023,371,50,52]:
+                  - paragraph [ref=e71] [box=1023,371,50,14]: Qui
+                  - generic [ref=e72] [box=1032,392,32,32]: "30"
+                - generic [ref=e73] [box=1078,371,50,52]:
+                  - paragraph [ref=e74] [box=1078,371,50,14]: Sex
+                  - generic [ref=e75] [box=1087,392,32,32]: "31"
+              - generic [ref=e76] [box=860,461,268,195]:
+                - generic [ref=e77] [box=860,461,268,58]:
+                  - paragraph [ref=e78] [box=873,474,42,32]: 09:00
+                  - generic [ref=e79] [box=927,474,188,32]:
+                    - paragraph [ref=e81] [box=927,474,76,16]: Lucas Almeida
+                    - paragraph [ref=e83] [box=927,492,188,14]: Corte · Confirmado
+                - generic [ref=e84] [box=860,529,268,58]:
+                  - paragraph [ref=e85] [box=873,542,42,32]: 10:30
+                  - generic [ref=e86] [box=927,542,188,32]:
+                    - paragraph [ref=e88] [box=927,542,72,16]: Pedro Martins
+                    - paragraph [ref=e90] [box=927,560,188,14]: Corte + barba · Aguardando
+                - generic [ref=e91] [box=860,598,268,58]:
+                  - paragraph [ref=e92] [box=873,611,42,32]: 13:00
+                  - generic [ref=e93] [box=927,611,188,32]:
+                    - paragraph [ref=e95] [box=927,611,64,16]: André Souza
+                    - paragraph [ref=e97] [box=927,629,188,14]: Barba · Confirmado
+            - generic [ref=e98] [box=840,676,308,66]:
+              - generic [ref=e99] [box=856,689,69,33]:
+                - img [ref=e100] [box=883,689,16,16]
+                - generic [ref=e103] [box=880,709,21,13]: Início
+              - generic [ref=e104] [box=925,689,69,33]:
+                - img [ref=e105] [box=952,689,16,16]
+                - generic [ref=e107] [box=943,709,32,13]: Agenda
+              - generic [ref=e108] [box=994,689,69,33]:
+                - img [ref=e109] [box=1021,689,16,16]
+                - generic [ref=e115] [box=1006,709,45,13]: Comandas
+              - generic [ref=e116] [box=1063,689,69,33]:
+                - img [ref=e117] [box=1090,689,16,16]
+                - generic [ref=e121] [box=1088,709,18,13]: Mais
+        - paragraph [ref=e122] [box=849,771,290,20]: Prévia do produto em desenvolvimento.
+    - region "Seja avisado quando o app avançar." [ref=e123] [box=0,912,1440,510]:
+      - generic [ref=e124] [box=120,913,1200,508]:
+        - generic [ref=e125] [box=160,977,380,204]:
+          - paragraph [ref=e126] [box=160,977,380,20]: Lista de interesse
+          - heading "Seja avisado quando o app avançar." [level=2] [ref=e127] [box=160,1013,380,70]
+          - paragraph [ref=e128] [box=160,1099,380,82]: Um cadastro curto, uma confirmação imediata e nenhuma promessa de data que ainda não existe.
+        - generic [ref=e129] [box=604,977,676,380]:
+          - generic [ref=e130] [box=637,1010,610,186]:
+            - generic [ref=e131] [box=637,1010,610,83]:
+              - text: Seu nome
+              - textbox "Seu nome" [ref=e132] [box=637,1045,610,48]
+            - generic [ref=e133] [box=637,1113,295,83]:
+              - text: E-mail
+              - textbox "E-mail" [ref=e134] [box=637,1148,295,48]
+            - generic [ref=e135] [box=952,1113,295,83]:
+              - text: WhatsApp
+              - generic [ref=e136] [box=952,1148,295,48]:
+                - generic [ref=e137] [box=953,1149,54,46]: "+55"
+                - textbox "WhatsApp" [ref=e138] [box=1007,1149,239,46]:
+                  - /placeholder: (11) 98765-4321
+          - button "Avise-me no lançamento" [ref=e139] [cursor=pointer] [box=637,1220,260,48]:
+            - text: Avise-me no lançamento
+            - img [ref=e140] [box=857,1236,16,16]
+          - paragraph [ref=e142] [box=637,1284,610,40]:
+            - text: Usaremos seus dados para avisar sobre o aplicativo e a Flowo. Consulte a
+            - link "Política de Privacidade" [ref=e143] [cursor=pointer] [box=637,1284,567,39]:
+              - /url: /privacidade
+            - text: e os
+            - link "Termos de Uso" [ref=e144] [cursor=pointer] [box=751,1304,98,19]:
+              - /url: /termos
+            - text: .
+    - generic [ref=e146] [box=120,1542,1200,701]:
+      - generic [ref=e147] [box=160,1542,768,231]:
+        - paragraph [ref=e148] [box=160,1542,768,20]: Rotina da equipe
+        - heading "O que está previsto no aplicativo." [level=2] [ref=e149] [box=160,1579,768,109]
+        - paragraph [ref=e150] [box=160,1708,768,66]: A proposta segue as áreas que já fazem parte da operação Flowo, adaptadas para decisões rápidas no celular.
+      - generic [ref=e151] [box=160,1822,1120,422]:
+        - article [ref=e152] [box=160,1823,560,210]:
+          - img [ref=e153] [box=192,1855,24,24]
+          - heading "Agenda individual" [level=3] [ref=e155] [box=192,1899,495,35]
+          - paragraph [ref=e156] [box=192,1946,495,54]: Cada profissional acompanha os próprios horários, serviços e intervalos sem misturar a agenda da equipe.
+        - article [ref=e157] [box=720,1823,560,210]:
+          - img [ref=e158] [box=752,1855,24,24]
+          - heading "Presenças e atendimento" [level=3] [ref=e162] [box=752,1899,496,35]
+          - paragraph [ref=e163] [box=752,1946,496,54]: O status do cliente e a rotina da cadeira ficam acessíveis no celular durante o dia.
+        - article [ref=e164] [box=160,2033,560,209]:
+          - img [ref=e165] [box=192,2065,24,24]
+          - heading "Clientes e comandas" [level=3] [ref=e169] [box=192,2109,495,35]
+          - paragraph [ref=e170] [box=192,2156,495,54]: Informações necessárias para atender e registrar a operação sem depender do computador.
+        - article [ref=e171] [box=720,2033,560,209]:
+          - img [ref=e172] [box=752,2065,24,24]
+          - heading "Acesso por função" [level=3] [ref=e175] [box=752,2109,496,35]
+          - paragraph [ref=e176] [box=752,2156,496,54]: Barbeiro, gestor e dono veem o que precisam conforme as permissões configuradas.
+    - generic [ref=e179] [box=160,2483,1120,302]:
+      - generic [ref=e180] [box=160,2483,426,302]:
+        - paragraph [ref=e181] [box=160,2483,426,20]: Um produto, duas superfícies
+        - heading "Gestão no painel. Execução no celular." [level=2] [ref=e182] [box=160,2520,426,164]
+        - paragraph [ref=e183] [box=160,2704,426,82]: O app não substitui a central da operação. Ele aproxima do barbeiro as tarefas que fazem sentido durante o atendimento.
+      - generic [ref=e184] [box=666,2483,614,302]:
+        - generic [ref=e185] [box=666,2484,614,110]:
+          - generic [ref=e186] [box=666,2512,160,54]:
+            - img [ref=e188] [box=676,2530,20,20]
+            - text: Painel web
+          - paragraph [ref=e192] [box=838,2512,442,54]: Configuração, equipe, disponibilidade, supervisão, relatórios e decisões de gestão.
+        - generic [ref=e193] [box=666,2595,614,111]:
+          - generic [ref=e194] [box=666,2624,160,54]:
+            - img [ref=e196] [box=676,2641,20,20]
+            - text: Aplicativo
+          - paragraph [ref=e198] [box=838,2624,442,54]: Agenda do dia, presença, cliente e comanda no contexto de quem está atendendo.
+    - generic [ref=e200] [box=120,3025,1200,373]:
+      - generic [ref=e201] [box=160,3025,406,373]:
+        - paragraph [ref=e202] [box=160,3025,406,20]: Perguntas frequentes
+        - heading "O que já dá para afirmar." [level=2] [ref=e203] [box=160,3061,406,109]
+      - generic [ref=e204] [box=646,3025,634,373]:
+        - group [ref=e205] [box=646,3026,634,92]:
+          - generic "O aplicativo Flowo já está disponível?" [ref=e206] [cursor=pointer] [box=646,3050,634,44]:
+            - text: O aplicativo Flowo já está disponível?
+            - generic [ref=e207] [box=1266,3058,14,28]: +
+        - group [ref=e208] [box=646,3118,634,93]:
+          - generic "O painel web vai deixar de existir?" [ref=e209] [cursor=pointer] [box=646,3143,634,44]:
+            - text: O painel web vai deixar de existir?
+            - generic [ref=e210] [box=1266,3151,14,28]: +
+        - group [ref=e211] [box=646,3211,634,93]:
+          - generic "O que a equipe poderá fazer pelo aplicativo?" [ref=e212] [cursor=pointer] [box=646,3236,634,44]:
+            - text: O que a equipe poderá fazer pelo aplicativo?
+            - generic [ref=e213] [box=1266,3244,14,28]: +
+        - group [ref=e214] [box=646,3304,634,93]:
+          - generic "Preciso esperar o aplicativo para usar a Flowo?" [ref=e215] [cursor=pointer] [box=646,3329,634,44]:
+            - text: Preciso esperar o aplicativo para usar a Flowo?
+            - generic [ref=e216] [box=1266,3337,14,28]: +
+    - generic [ref=e218] [box=120,3519,1200,199]:
+      - generic [ref=e219] [box=160,3591,539,55]:
+        - paragraph [ref=e220] [box=160,3591,539,20]:
+          - img [ref=e221] [box=160,3593,16,16]
+          - text: Não precisa esperar o aplicativo.
+        - paragraph [ref=e223] [box=160,3619,539,27]: O painel web e a IA no WhatsApp são a entrada atual da Flowo.
+      - link "Começar pelo painel web" [ref=e224] [cursor=pointer] [box=1013,3595,267,48]:
+        - /url: https://barber.flowo.com.br/sign-up
+        - text: Começar pelo painel web
+        - img [ref=e225] [box=1236,3611,16,16]
+  - contentinfo [ref=e227] [box=0,3718,1440,662]:
+    - generic [ref=e228] [box=120,3719,1200,661]:
+      - generic [ref=e229] [box=160,3791,1120,384]:
+        - generic [ref=e230] [box=160,3791,243,384]:
+          - img "Flowo" [ref=e231] [box=160,3791,104,51]
+          - paragraph [ref=e232] [box=160,3863,243,68]: "A recepção da sua barbearia no WhatsApp: a IA atende, agenda e confirma. Você cuida do corte."
+          - list [ref=e233] [box=160,3955,243,76]:
+            - listitem [ref=e234] [box=160,3955,243,20]:
+              - img [ref=e235] [box=160,3957,16,16]
+              - text: Curitiba, PR, Brasil
+            - listitem [ref=e238] [box=160,3987,243,44]:
+              - img [ref=e239] [box=160,4001,16,16]
+              - link "contato@flowo.com.br" [ref=e242] [cursor=pointer] [box=188,3987,159,44]:
+                - /url: mailto:contato@flowo.com.br
+          - paragraph [ref=e243] [box=160,4051,243,59]:
+            - text: Flowo é um produto da Devled Tecnologia e Consultoria LTDA
+            - text: CNPJ 49.034.715/0001-54
+        - navigation "Produto" [ref=e244] [box=451,3791,156,384]:
+          - heading "Produto" [level=3] [ref=e245] [box=451,3791,156,20]
+          - list [ref=e246] [box=451,3824,156,220]:
+            - listitem [ref=e247] [box=451,3824,156,44]:
+              - link "Recursos" [ref=e248] [cursor=pointer] [box=451,3824,156,44]:
+                - /url: /recursos
+            - listitem [ref=e249] [box=451,3868,156,44]:
+              - link "Aplicativo para a equipe" [ref=e250] [cursor=pointer] [box=451,3868,156,44]:
+                - /url: /aplicativo-para-barbeiros
+            - listitem [ref=e251] [box=451,3912,156,44]:
+              - link "Preços" [ref=e252] [cursor=pointer] [box=451,3912,156,44]:
+                - /url: /precos
+            - listitem [ref=e253] [box=451,3956,156,44]:
+              - link "Sobre nós" [ref=e254] [cursor=pointer] [box=451,3956,156,44]:
+                - /url: /sobre
+            - listitem [ref=e255] [box=451,4000,156,44]:
+              - link "Casos de sucesso" [ref=e256] [cursor=pointer] [box=451,4000,156,44]:
+                - /url: /casos-de-sucesso
+        - navigation "Para barbearias" [ref=e257] [box=655,3791,199,384]:
+          - heading "Para barbearias" [level=3] [ref=e258] [box=655,3791,199,20]
+          - list [ref=e259] [box=655,3824,199,352]:
+            - listitem [ref=e260] [box=655,3824,199,44]:
+              - link "Sistema de agendamento" [ref=e261] [cursor=pointer] [box=655,3824,199,44]:
+                - /url: /sistema-agendamento-barbearia
+            - listitem [ref=e262] [box=655,3868,199,44]:
+              - link "Agenda no WhatsApp" [ref=e263] [cursor=pointer] [box=655,3868,199,44]:
+                - /url: /agenda-barbearia-whatsapp
+            - listitem [ref=e264] [box=655,3912,199,44]:
+              - link "Pagamentos opcionais" [ref=e265] [cursor=pointer] [box=655,3912,199,44]:
+                - /url: /software-barbearia-com-pix
+            - listitem [ref=e266] [box=655,3956,199,44]:
+              - link "Comissões de barbeiros" [ref=e267] [cursor=pointer] [box=655,3956,199,44]:
+                - /url: /recursos/comissoes-barbeiros
+            - listitem [ref=e268] [box=655,4000,199,44]:
+              - link "Cashback para barbearias" [ref=e269] [cursor=pointer] [box=655,4000,199,44]:
+                - /url: /recursos/cashback-barbearia
+            - listitem [ref=e270] [box=655,4044,199,44]:
+              - link "Nota fiscal assistida" [ref=e271] [cursor=pointer] [box=655,4044,199,44]:
+                - /url: /recursos/nota-fiscal-barbearia
+            - listitem [ref=e272] [box=655,4088,199,44]:
+              - link "Flowo vs planilha" [ref=e273] [cursor=pointer] [box=655,4088,199,44]:
+                - /url: /flowo-vs-planilha
+            - listitem [ref=e274] [box=655,4132,199,44]:
+              - link "Flowo vs agenda manual" [ref=e275] [cursor=pointer] [box=655,4132,199,44]:
+                - /url: /flowo-vs-agenda-manual
+        - navigation "Comparar sistemas" [ref=e276] [box=902,3791,173,384]:
+          - heading "Comparar sistemas" [level=3] [ref=e277] [box=902,3791,173,20]
+          - list [ref=e278] [box=902,3824,173,176]:
+            - listitem [ref=e279] [box=902,3824,173,44]:
+              - link "Comparar sistemas" [ref=e280] [cursor=pointer] [box=902,3824,173,44]:
+                - /url: /comparar
+            - listitem [ref=e281] [box=902,3868,173,44]:
+              - link "Flowo vs AppBarber" [ref=e282] [cursor=pointer] [box=902,3868,173,44]:
+                - /url: /flowo-vs-appbarber
+            - listitem [ref=e283] [box=902,3912,173,44]:
+              - link "Flowo vs Trinks" [ref=e284] [cursor=pointer] [box=902,3912,173,44]:
+                - /url: /flowo-vs-trinks
+            - listitem [ref=e285] [box=902,3956,173,44]:
+              - link "Flowo vs Barbeiro.app" [ref=e286] [cursor=pointer] [box=902,3956,173,44]:
+                - /url: /flowo-vs-barbeiro-app
+        - navigation "Conta e aprendizado" [ref=e287] [box=1124,3791,156,384]:
+          - heading "Aprenda" [level=3] [ref=e288] [box=1124,3791,156,20]
+          - list [ref=e289] [box=1124,3824,156,88]:
+            - listitem [ref=e290] [box=1124,3824,156,44]:
+              - link "Guias" [ref=e291] [cursor=pointer] [box=1124,3824,156,44]:
+                - /url: /recursos/guias
+            - listitem [ref=e292] [box=1124,3868,156,44]:
+              - link "Materiais gratuitos" [ref=e293] [cursor=pointer] [box=1124,3868,156,44]:
+                - /url: /recursos/materiais
+          - heading "Conta" [level=3] [ref=e294] [box=1124,3944,156,20]
+          - list [ref=e295] [box=1124,3976,156,88]:
+            - listitem [ref=e296] [box=1124,3976,156,44]:
+              - link "Entrar" [ref=e297] [cursor=pointer] [box=1124,3976,156,44]:
+                - /url: https://barber.flowo.com.br
+            - listitem [ref=e298] [box=1124,4020,156,44]:
+              - link "Começar agora" [ref=e299] [cursor=pointer] [box=1124,4020,156,44]:
+                - /url: https://barber.flowo.com.br/sign-up
+      - generic [ref=e300] [box=160,4232,1120,77]:
+        - paragraph [ref=e301] [box=160,4277,287,20]: © 2026 Flowo. Todos os direitos reservados.
+        - generic [ref=e302] [box=857,4265,423,44]:
+          - link "Política de Privacidade" [ref=e303] [cursor=pointer] [box=857,4265,151,44]:
+            - /url: /privacidade
+          - link "Termos de Uso" [ref=e304] [cursor=pointer] [box=1033,4265,98,44]:
+            - /url: /termos
+          - link "Exclusão de Dados" [ref=e305] [cursor=pointer] [box=1155,4265,125,44]:
+            - /url: /exclusao-de-dados
+  - status [ref=e306] [box=16,954,30,30]:
+    - generic [ref=e307] [box=16,954,30,30]:
+      - img [ref=e309] [box=23,961,16,16]
+      - generic [ref=e311] [box=46,954,97,30]:
+        - text: Static route
+        - button "Hide static indicator" [ref=e312] [cursor=pointer] [box=127,953,16,30]:
+          - img [ref=e313] [box=127,961,16,16]
+  - alert [ref=e316] [box=-1,4380,1,1]

@@ -48,6 +48,7 @@ ${planLines}
 
 ## Add-ons e acesso acompanhado
 - [Flowo Recupera](${SITE_URL}/flowo-recupera): add-on em beta acompanhada para identificar oportunidades de retorno; resultados passam por revisão humana, consentimento e fechamento real da comanda.
+- [Aplicativo para barbeiros](${SITE_URL}/aplicativo-para-barbeiros): aplicativo em preparação para iPhone e Android, pensado para agenda, presenças, clientes e comandas da equipe. Ainda não está disponível nas lojas.
 
 ## Comparative pages
 - [Hub de comparações](${SITE_URL}/comparar)

@@ -71,6 +71,15 @@ O Flowo Recupera é um add-on em beta acompanhada, separado dos planos principai
 
 URL canônica: ${SITE_URL}/flowo-recupera
 
+## Aplicativo para barbeiros
+
+O aplicativo Flowo está em preparação para iPhone e Android. A proposta é
+complementar o painel web com agenda individual, presenças, clientes e comandas
+na rotina móvel da equipe. Ele ainda não está disponível nas lojas e não há
+data pública de lançamento.
+
+URL canônica: ${SITE_URL}/aplicativo-para-barbeiros
+
 ## Comparações verificadas
 
 ${comparisons}
@@ -90,6 +99,7 @@ ${comparisons}
 - Filme institucional: ${SITE_URL}${INSTITUTIONAL_FILM.video}
 - Filme vertical: ${SITE_URL}${INSTITUTIONAL_FILM.verticalVideo}
 - Recursos: ${SITE_URL}/recursos
+- Aplicativo para barbeiros: ${SITE_URL}/aplicativo-para-barbeiros
 - Planos: ${SITE_URL}/precos
 - Guias: ${SITE_URL}/recursos/guias
 - Termos: ${SITE_URL}/termos

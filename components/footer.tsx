@@ -8,6 +8,7 @@ const APP_URL = "https://barber.flowo.com.br";
 
 const produtoLinks = [
   { href: "/recursos", label: "Recursos" },
+  { href: "/aplicativo-para-barbeiros", label: "Aplicativo para a equipe" },
   { href: "/precos", label: "Preços" },
   { href: "/sobre", label: "Sobre nós" },
   { href: "/casos-de-sucesso", label: "Casos de sucesso" },
