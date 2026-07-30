@@ -42,8 +42,10 @@ Fontes internas consultadas:
    risco de canibalização.
 3. Não há página de download do app, badge de loja ou QR code até existirem URLs
    públicas verificáveis.
-4. O aplicativo é descrito a partir das rotas reais de agenda, presenças,
-   clientes e comandas. O estado de lançamento vem de `apps/mobile/OUTSTANDING.md`.
+4. O aplicativo é descrito a partir do manifesto completo de rotas móveis:
+   atendimento, relacionamento, cadastros, equipe, gestão e configurações. O
+   estado de lançamento vem de `apps/mobile/OUTSTANDING.md`; o site separa
+   escopo implementado de distribuição pública nas lojas.
 5. Claims de pagamento, fiscal, cashback, comissão e Recupera mantêm sua
    condição comercial ao lado do benefício.
 
@@ -58,4 +60,3 @@ Revisar esta matriz quando qualquer uma destas condições mudar:
   comissões;
 - dados próprios de busca mostrarem demanda suficiente para uma nova página sem
   canibalização.
-

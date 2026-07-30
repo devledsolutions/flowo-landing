@@ -74,9 +74,16 @@ URL canônica: ${SITE_URL}/flowo-recupera
 ## Aplicativo para barbeiros
 
 O aplicativo Flowo está em preparação para iPhone e Android. A proposta é
-complementar o painel web com agenda individual, presenças, clientes e comandas
-na rotina móvel da equipe. Ele ainda não está disponível nas lojas e não há
-data pública de lançamento.
+complementar o painel web na rotina móvel de barbeiros, gestores e donos. O
+escopo operacional implementado inclui onboarding, agenda, presenças, lista de
+espera, comandas, clientes, conversas, notificações, serviços, produtos,
+estoque, pacotes, equipe, horários individuais, comissões, perfil do negócio,
+financeiro, métricas, campanhas, assinatura e configurações.
+
+Nem toda pessoa vê todas as áreas: o acesso depende do plano, do papel, das
+permissões e da ativação de recursos opcionais. Recebimentos integrados não são
+obrigatórios. O aplicativo ainda não está disponível nas lojas e não há data
+pública de lançamento.
 
 URL canônica: ${SITE_URL}/aplicativo-para-barbeiros
 
