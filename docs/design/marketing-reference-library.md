@@ -113,18 +113,44 @@ Pesquisa realizada no Refero em 29 de julho de 2026:
 - Fresha waitlist, screen `8526b814-25e9-4708-8b72-622bac2d2611`;
 - Copperx Savings Interest Signup, flow `8902`.
 
+Pesquisa complementar realizada no Refero em 30 de julho de 2026 para ampliar
+a página do aplicativo:
+
+- Square, style `498eab31-2815-4b0a-a4be-d2bd82d49240`;
+- Flighty, style `21386b79-b498-4cdc-b291-1c85cc86071b`;
+- Mangomint mobile apps, screen `b7e7677d-fb92-4c97-9068-76b41221d527`;
+- Shopify Orders iOS, screen `ce43cc1f-30c8-42cf-8992-e966feb8c62e`;
+- Fresha Sales help navigation, flow `4977`.
+
 Reference lock do aplicativo:
 
 1. GlossGenius orienta a confiança vertical e o produto como prova.
-2. Attio e Cal.com orientam a moldura, os divisores e a hierarquia.
-3. Krea contribui somente com profundidade e enquadramento do dispositivo.
-4. Amie orienta a leitura diária da agenda, sem copiar cores ou navegação.
-5. Copperx orienta o cadastro de interesse em dois estados: ação e confirmação.
-6. Fresha reforça que condição e expectativa devem aparecer antes do envio.
+2. Square orienta a organização de muitas capacidades em grupos operacionais,
+   sem transformar a página em uma grade repetitiva de cards.
+3. Flighty e Krea contribuem somente com profundidade e enquadramento dos
+   dispositivos; a interface dentro deles segue o app real.
+4. Attio e Cal.com orientam divisores, hierarquia e superfícies.
+5. Mangomint orienta a alternância entre narrativa, tela do produto e inventário
+   completo de recursos.
+6. Amie, Shopify e as evidências móveis da Flowo orientam a leitura funcional
+   de agenda, listas e indicadores, sem copiar tokens de terceiros.
+7. Copperx orienta o cadastro de interesse em dois estados: ação e confirmação.
+8. Fresha reforça que condição e expectativa devem aparecer antes do envio.
 
 Rejeições: badges de loja sem URL real, QR code sem destino útil, data de
 lançamento inventada, screenshots de aplicativo genérico e um novo sistema de
 cores fora da identidade Flowo.
+
+### Decision ledger da página completa do aplicativo
+
+| Decisão | Fonte | Regra preservada | Motivo |
+| --- | --- | --- | --- |
+| Hero com três telas operacionais | Flighty + Krea + evidências Flowo | Dispositivo como objeto; profundidade restrita ao mockup | Comunica amplitude antes da primeira rolagem |
+| Quatro grupos de capacidades em linhas | Square + manifesto móvel | Hierarquia utilitária, sem cards repetidos | Permite cobrir o produto sem perder leitura |
+| Três capítulos com pares de telas | Mangomint + GlossGenius | Produto acompanha cada argumento | Mostra agenda/comanda, cliente/conversa e financeiro/operação |
+| Jornada em cinco passos | Manifesto móvel + produto Flowo | Números apenas onde a ordem é real | Explica continuidade do onboarding ao pós-atendimento |
+| Faixa de condições antes do FAQ | Produto Flowo + Fresha | Condição junto do benefício | Evita prometer plano, permissão, pagamento, fiscal ou loja |
+| Previews code-native com dados ilustrativos | Evidências Flowo | Estrutura e UI reais; nenhum dado é claim | Evita screenshot obsoleto e preserva performance |
 
 ## Referências competitivas
 
@@ -234,7 +260,7 @@ Repositório: `flowo-app-v2/flowo-app`.
 | Potencial, agendamento, atendimento e receita separados | Contrato Recupera | Receita apenas com comanda fechada | Evita ROI inventado |
 | Filme institucional em 16:9 e 9:16 | Frame.io + Attio + Glide | Produto, condições e logo Flowo como narrativa principal | Atende site e mídia social sem criar uma segunda identidade |
 | Player sem autoplay, com VTT e transcrição | Acessibilidade + performance | Usuário controla som e reprodução | Preserva Core Web Vitals e consumo mobile |
-| Página própria `/aplicativo-para-barbeiros` | GlossGenius + Attio + fonte móvel real | Produto em preparação, sem selo de loja | Cria intenção de busca e interesse sem fingir lançamento |
+| Página própria `/aplicativo-para-barbeiros` | GlossGenius + Square + Flighty + Mangomint + fonte móvel real | Escopo implementado separado da distribuição pública | Cria intenção de busca, mostra profundidade e não finge lançamento |
 | Lista de interesse inline em dois estados | Copperx flow 8902 | Sem data pública e sem modal | Reduz atrito e confirma o resultado no contexto |
 | Segment como camada de eventos | Arquitetura existente do site | Consentimento e zero PII nos eventos | Evita segundo SDK, peso e custo de instrumentação |
 
