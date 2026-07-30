@@ -12,6 +12,7 @@ import {
   UsersRound,
 } from "lucide-react";
 import { SIGNUP_URL } from "./cta-links";
+import { TrackedLink } from "@/components/analytics/tracked-link";
 
 const appBenefits = [
   {
@@ -107,19 +108,33 @@ export default function MobileAppSection() {
           </ul>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <a
-              href={SIGNUP_URL}
+            <TrackedLink
+              href="/aplicativo-para-barbeiros"
+              event="CTA Clicked"
+              properties={{
+                page: "/",
+                placement: "mobile_app_section",
+                destination: "mobile_app_landing",
+                intent: "learn_about_app",
+              }}
               className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-ink px-7 text-label font-semibold text-cream transition-colors duration-200 ease-out-quint hover:bg-ink/90"
             >
-              Começar pelo painel web
+              Conhecer o aplicativo
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </a>
-            <a
-              href="#recursos"
+            </TrackedLink>
+            <TrackedLink
+              href={SIGNUP_URL}
+              event="CTA Clicked"
+              properties={{
+                page: "/",
+                placement: "mobile_app_section",
+                destination: "dashboard_signup",
+                intent: "start_now",
+              }}
               className="inline-flex h-12 items-center justify-center px-5 text-label font-medium text-ink transition-colors duration-200 ease-out-quint hover:text-ink-strong"
             >
-              Ver todos os recursos
-            </a>
+              Começar pelo painel web
+            </TrackedLink>
           </div>
 
           <p className="mt-5 flex items-center gap-2 text-caption text-faint-ink">
@@ -192,7 +207,7 @@ export default function MobileAppSection() {
                           className={`text-[10px] ${
                             index === 2
                               ? "font-semibold text-[#20231c]"
-                              : "text-[#7c8278]"
+                              : "text-[#62675f]"
                           }`}
                         >
                           {day}
@@ -214,7 +229,7 @@ export default function MobileAppSection() {
                 <div className="mt-5 flex items-center justify-between">
                   <div>
                     <p className="text-base font-bold">Hoje</p>
-                    <p className="text-[10px] text-[#7c8278]">
+                    <p className="text-[10px] text-[#62675f]">
                       Em ordem de horário
                     </p>
                   </div>
@@ -231,7 +246,7 @@ export default function MobileAppSection() {
                     >
                       <div>
                         <p className="text-xs font-bold">{appointment.time}</p>
-                        <p className="text-[9px] text-[#7c8278]">
+                        <p className="text-[9px] text-[#62675f]">
                           {index === 0 ? "09:40" : "11:30"}
                         </p>
                       </div>
@@ -254,7 +269,7 @@ export default function MobileAppSection() {
                         </span>
                       </div>
                       <ChevronRight
-                        className="mt-4 h-3.5 w-3.5 text-[#7c8278]"
+                        className="mt-4 h-3.5 w-3.5 text-[#62675f]"
                         aria-hidden="true"
                       />
                     </div>

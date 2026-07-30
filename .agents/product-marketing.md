@@ -9,6 +9,9 @@
 **What it does:** A IA atende, consulta a agenda, marca e confirma horários no
 WhatsApp. O painel reúne agenda, profissionais, clientes, comandas, campanhas e
 formas de recebimento; pagamentos integrados são opcionais e pós-atendimento.  
+O aplicativo para barbeiros e gestores está em preparação para iPhone e
+Android; ele complementa o painel com agenda, presenças, clientes e comandas no
+celular, sem data pública de lançamento.  
 **Product category:** Sistema de agendamento e gestão para barbearias; recepção
 com IA no WhatsApp.  
 **Product type:** SaaS B2B multi-tenant.  
@@ -160,8 +163,10 @@ auditável.
 **Business goal:** Gerar demanda qualificada de barbearias que valorizam
 automação no WhatsApp.  
 **Conversion action:** Criar conta ou conversar com a Flowo no WhatsApp.  
+**Secondary launch action:** Entrar na lista de interesse do aplicativo.  
 **Current metrics:** Não documentadas neste repositório.
 
 ## Changelog
 
 - v1 (2026-07-29) — Contexto inicial criado a partir do produto, do site e da pesquisa competitiva oficial.
+- v1.1 (2026-07-29) — Estado e proposta do aplicativo adicionados, com lista de interesse como conversão secundária.

@@ -124,7 +124,12 @@ function PhoneMockup() {
 
             {/* App header */}
             <div className="flex items-center justify-between px-5 pb-1 pt-2">
-              <Image src="/flowo-logo.svg" alt="" width={56} height={14} />
+              <Image
+                src="/flowo-logo.svg"
+                alt=""
+                width={56}
+                height={28}
+              />
               <span className="relative inline-flex">
                 <Bell className="h-4 w-4 text-muted-ink" />
                 <span className="absolute -right-1 -top-1 flex h-3 w-3 items-center justify-center rounded-full bg-ink text-[7px] font-semibold text-cream">

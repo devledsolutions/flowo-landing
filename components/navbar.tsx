@@ -5,10 +5,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import { LOGIN_URL, SIGNUP_URL, WHATSAPP_URL } from "./cta-links";
+import { TrackedLink } from "@/components/analytics/tracked-link";
 
 const navItems = [
   { name: "Como funciona", href: "/#como-funciona" },
   { name: "Produto", href: "/sistema-agendamento-barbearia" },
+  { name: "App", href: "/aplicativo-para-barbeiros" },
   { name: "Recursos", href: "/recursos" },
   { name: "Preços", href: "/precos" },
 ];
@@ -56,15 +58,15 @@ export default function Navbar() {
             <Image
               src="/flowo-logo.svg"
               alt="Flowo"
-              width={88}
-              height={24}
+              width={82}
+              height={40}
               priority
               fetchPriority="high"
             />
           </Link>
 
           {/* Desktop links */}
-          <div className="hidden items-center gap-7 md:flex">
+          <div className="hidden items-center gap-5 lg:flex lg:gap-7">
             {navItems.map((item) => (
               <Link
                 key={item.name}
@@ -77,34 +79,48 @@ export default function Navbar() {
             ))}
           </div>
 
-          <div className="hidden items-center gap-5 md:flex">
-            <a
+          <div className="hidden items-center gap-5 lg:flex">
+            <TrackedLink
               href={WHATSAPP_URL}
+              event="CTA Clicked"
+              properties={{
+                page: "navigation",
+                placement: "navbar_desktop",
+                destination: "whatsapp_sales",
+                intent: "ask_question",
+              }}
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden text-label font-medium text-muted-ink transition-colors duration-200 ease-out-quint hover:text-ink lg:inline"
+              className="hidden text-label font-medium text-muted-ink transition-colors duration-200 ease-out-quint hover:text-ink xl:inline"
             >
               Tirar dúvidas
-            </a>
+            </TrackedLink>
             <a
               href={LOGIN_URL}
               className="text-label font-medium text-muted-ink transition-colors duration-200 ease-out-quint hover:text-ink"
             >
               Entrar
             </a>
-            <a
+            <TrackedLink
               href={SIGNUP_URL}
+              event="CTA Clicked"
+              properties={{
+                page: "navigation",
+                placement: "navbar_desktop",
+                destination: "dashboard_signup",
+                intent: "start_now",
+              }}
               className="inline-flex h-10 items-center rounded-full bg-ink px-5 text-label font-semibold text-cream transition-colors duration-200 ease-out-quint hover:bg-ink/90"
             >
               Começar agora
-            </a>
+            </TrackedLink>
           </div>
 
           {/* Mobile toggle */}
           <button
             ref={toggleRef}
             type="button"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full text-ink transition-colors duration-200 hover:bg-surface-2 md:hidden"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full text-ink transition-colors duration-200 hover:bg-surface-2 lg:hidden"
             onClick={() => setIsMenuOpen((open) => !open)}
             aria-expanded={isMenuOpen}
             aria-controls="mobile-menu"
@@ -119,7 +135,7 @@ export default function Navbar() {
       {isMenuOpen && (
           <div
             id="mobile-menu"
-            className="fixed inset-0 -z-10 flex h-[100dvh] animate-in flex-col overflow-y-auto bg-cream px-6 pb-8 pt-24 fade-in duration-200 md:hidden"
+            className="fixed inset-0 -z-10 flex h-[100dvh] animate-in flex-col overflow-y-auto bg-cream px-6 pb-8 pt-24 fade-in duration-200 lg:hidden"
           >
             <ul className="flex flex-col divide-y divide-line border-y border-line">
               {navItems.map((item, index) => (
@@ -147,22 +163,36 @@ export default function Navbar() {
             </ul>
 
             <div className="flex flex-col gap-3 pt-10">
-              <a
+              <TrackedLink
                 href={SIGNUP_URL}
+                event="CTA Clicked"
+                properties={{
+                  page: "navigation",
+                  placement: "navbar_mobile",
+                  destination: "dashboard_signup",
+                  intent: "start_now",
+                }}
                 className="inline-flex h-12 items-center justify-center rounded-full bg-ink px-6 text-label font-semibold text-cream transition-colors duration-200 hover:bg-ink/90"
                 onClick={closeMenu}
               >
                 Começar agora
-              </a>
-              <a
+              </TrackedLink>
+              <TrackedLink
                 href={WHATSAPP_URL}
+                event="CTA Clicked"
+                properties={{
+                  page: "navigation",
+                  placement: "navbar_mobile",
+                  destination: "whatsapp_sales",
+                  intent: "ask_question",
+                }}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex h-12 items-center justify-center rounded-full border border-line px-6 text-label font-medium text-ink transition-colors duration-200 hover:bg-surface"
                 onClick={closeMenu}
               >
                 Tirar dúvidas no WhatsApp
-              </a>
+              </TrackedLink>
             </div>
           </div>
       )}

@@ -14,6 +14,7 @@ import {
   MessageCircle,
   ReceiptText,
   RotateCcw,
+  Smartphone,
   Users,
 } from "lucide-react";
 import Navbar from "@/components/navbar";
@@ -31,7 +32,7 @@ import { buildMetadata } from "@/lib/seo";
 
 const PAGE_TITLE = "Recursos e Guias para Barbearias";
 const PAGE_DESCRIPTION =
-  "Guias e páginas de produto para organizar agenda, equipe, WhatsApp, pagamentos, comissões, cashback e financeiro da sua barbearia.";
+  "Guias e páginas de produto para organizar agenda, equipe, WhatsApp, aplicativo, pagamentos, comissões, cashback e financeiro da sua barbearia.";
 
 export const metadata = buildMetadata({
   title: PAGE_TITLE,
@@ -132,6 +133,14 @@ const productResources = [
     href: "/recursos/nota-fiscal-barbearia",
   },
   {
+    icon: Smartphone,
+    label: "Em preparação",
+    title: "Aplicativo para a equipe",
+    description:
+      "Agenda, presenças, clientes e comandas no celular de barbeiros e gestores.",
+    href: "/aplicativo-para-barbeiros",
+  },
+  {
     icon: RotateCcw,
     label: "Add-on · beta",
     title: "Flowo Recupera",
@@ -174,6 +183,12 @@ export default function ResourcesPage() {
             name: "Cashback para Barbearias",
             path: "/recursos/cashback-barbearia",
             description: "Cashback configurável com limites definidos pela barbearia.",
+          },
+          {
+            name: "Aplicativo para Barbeiros",
+            path: "/aplicativo-para-barbeiros",
+            description:
+              "Aplicativo em preparação para agenda, presenças, clientes e comandas da equipe.",
           },
           {
             name: "Nota Fiscal para Barbearias",
@@ -277,7 +292,7 @@ export default function ResourcesPage() {
                     <Link
                       key={item.href}
                       href={item.href}
-                      className="group flex min-h-56 flex-col bg-surface p-6 transition-colors hover:bg-surface-2 sm:last:col-span-2 sm:last:min-h-44"
+                      className="group flex min-h-56 flex-col bg-surface p-6 transition-colors hover:bg-surface-2"
                     >
                       <div className="flex items-center justify-between gap-3">
                         <Icon className="h-5 w-5 text-ink" aria-hidden="true" />

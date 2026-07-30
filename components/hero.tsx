@@ -4,6 +4,7 @@ import {
   ConversationPreview,
   ProductDisclaimer,
 } from "@/components/home/product-previews";
+import { TrackedLink } from "@/components/analytics/tracked-link";
 
 export default function Hero() {
   return (
@@ -32,30 +33,51 @@ export default function Hero() {
           <div
             className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row"
           >
-            <a
+            <TrackedLink
               href="#produto-em-acao"
+              event="CTA Clicked"
+              properties={{
+                page: "/",
+                placement: "hero",
+                destination: "product_story",
+                intent: "see_product",
+              }}
               className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-ink px-7 text-label font-semibold text-cream transition-colors duration-200 hover:bg-ink/90 sm:w-auto"
             >
               Ver o Flowo em ação
               <ArrowDown className="h-4 w-4" aria-hidden="true" />
-            </a>
-            <a
+            </TrackedLink>
+            <TrackedLink
               href="#precos"
+              event="CTA Clicked"
+              properties={{
+                page: "/",
+                placement: "hero",
+                destination: "pricing",
+                intent: "compare_plans",
+              }}
               className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full border border-line bg-surface/70 px-7 text-label font-semibold text-ink transition-colors duration-200 hover:bg-surface sm:w-auto"
             >
               Ver planos
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </a>
+            </TrackedLink>
           </div>
-          <a
+          <TrackedLink
             href="#app-da-equipe"
+            event="CTA Clicked"
+            properties={{
+              page: "/",
+              placement: "hero",
+              destination: "mobile_app_section",
+              intent: "learn_about_app",
+            }}
             className="mt-5 inline-flex items-center gap-2 border-y border-line py-2.5 text-caption font-medium text-muted-ink transition-colors duration-200 ease-out-quint hover:text-ink"
           >
             <Smartphone className="h-4 w-4" aria-hidden="true" />
             App Flowo para a equipe
             <span className="font-semibold text-ink">em breve</span>
             <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
-          </a>
+          </TrackedLink>
         </div>
 
         <div

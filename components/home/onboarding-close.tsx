@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { ArrowRight, Check } from "lucide-react";
 import { SIGNUP_URL, WHATSAPP_URL } from "@/components/cta-links";
+import { TrackedLink } from "@/components/analytics/tracked-link";
 
 const steps = [
   "Crie sua conta",
@@ -33,21 +34,35 @@ export default function OnboardingClose() {
               agenda com a nossa equipe.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a
+              <TrackedLink
                 href={SIGNUP_URL}
+                event="CTA Clicked"
+                properties={{
+                  page: "/",
+                  placement: "closing",
+                  destination: "dashboard_signup",
+                  intent: "start_now",
+                }}
                 className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-ink px-7 text-label font-semibold text-cream transition-colors hover:bg-ink/90"
               >
                 Começar agora
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </a>
-              <a
+              </TrackedLink>
+              <TrackedLink
                 href={WHATSAPP_URL}
+                event="CTA Clicked"
+                properties={{
+                  page: "/",
+                  placement: "closing",
+                  destination: "whatsapp_sales",
+                  intent: "ask_question",
+                }}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex h-12 items-center justify-center rounded-full border border-line px-7 text-label font-semibold text-ink transition-colors hover:bg-surface"
               >
                 Tirar dúvidas
-              </a>
+              </TrackedLink>
             </div>
             <p className="mt-5 text-caption text-muted-ink">
               Assinatura paga desde o início · sem fidelidade · suporte em português

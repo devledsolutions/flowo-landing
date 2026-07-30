@@ -23,6 +23,7 @@ import countries from "@/lib/countries";
 import { FlagIcon, FlagIconCode } from "react-flag-kit";
 import { CheckCircle2, XCircle } from "lucide-react";
 import { TurnstileWidget } from "@/components/turnstile-widget";
+import { useSegment } from "@/providers/segment-provider";
 
 const formatPhoneNumber = (phone: string, dialCode: string) => {
   const cleaned = phone.replace(/\D/g, "");
@@ -41,10 +42,13 @@ const formatPhoneNumber = (phone: string, dialCode: string) => {
 export function LeadCaptureModal({
   children,
   initiallyOpen = false,
+  source = "lead-capture-modal",
 }: {
   children: React.ReactNode;
   initiallyOpen?: boolean;
+  source?: string;
 }) {
+  const { track } = useSegment();
   const [isOpen, setIsOpen] = useState(initiallyOpen);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -61,6 +65,10 @@ export function LeadCaptureModal({
     e.preventDefault();
     setIsSubmitting(true);
     setIsError(false);
+    track("Lead Form Submitted", {
+      form: "sales_contact",
+      source,
+    });
 
     Sentry.addBreadcrumb({
       category: "lead-capture-modal",
@@ -85,6 +93,7 @@ export function LeadCaptureModal({
           email,
           whatsapp: `${dialCode}${whatsapp}`,
           company,
+          source,
           turnstileToken,
         }),
       });
@@ -94,6 +103,11 @@ export function LeadCaptureModal({
       if (!response.ok) {
         const errorMessage = data.message || "Ocorreu um erro. Tente novamente.";
         setIsError(true);
+        track("Lead Form Failed", {
+          form: "sales_contact",
+          source,
+          status_code: response.status,
+        });
 
         Sentry.captureMessage("Lead capture form submission failed", {
           level: "warning",
@@ -113,6 +127,10 @@ export function LeadCaptureModal({
       }
 
       setIsSuccess(true);
+      track("Lead Form Succeeded", {
+        form: "sales_contact",
+        source,
+      });
 
       Sentry.addBreadcrumb({
         category: "lead-capture-modal",
@@ -121,6 +139,11 @@ export function LeadCaptureModal({
       });
     } catch (err) {
       setIsError(true);
+      track("Lead Form Failed", {
+        form: "sales_contact",
+        source,
+        status_code: 0,
+      });
 
       Sentry.captureException(err, {
         level: "error",
@@ -181,7 +204,17 @@ export function LeadCaptureModal({
 
   return (
     <>
-      <div onClick={() => setIsOpen(true)}>{children}</div>
+      <div
+        onClick={() => {
+          setIsOpen(true);
+          track("Lead Form Opened", {
+            form: "sales_contact",
+            source,
+          });
+        }}
+      >
+        {children}
+      </div>
       <Dialog open={isOpen} onOpenChange={handleOpenChange}>
         <DialogContent className="rounded-xl">
           {isSuccess ? (

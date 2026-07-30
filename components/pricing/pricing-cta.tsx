@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { LeadCaptureModal } from "../lead-capture-modal";
 import { SIGNUP_URL } from "./links";
+import { TrackedLink } from "@/components/analytics/tracked-link";
 
 const CTA_BASE =
   "inline-flex h-12 items-center justify-center rounded-full px-8 text-sm font-medium transition-colors duration-200 ease-out-quint";
@@ -38,12 +39,19 @@ export function PricingCTA() {
           você largar a tesoura.
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <a
+          <TrackedLink
             href={SIGNUP_URL}
+            event="CTA Clicked"
+            properties={{
+              page: "/precos",
+              placement: "closing",
+              destination: "dashboard_signup",
+              intent: "start_now",
+            }}
             className={`${CTA_BASE} bg-ink text-cream hover:bg-ink-strong`}
           >
             Começar agora
-          </a>
+          </TrackedLink>
           <LeadCaptureModal>
             <button
               type="button"

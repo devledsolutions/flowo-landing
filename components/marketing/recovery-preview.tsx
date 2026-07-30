@@ -133,7 +133,7 @@ export function RecoveryProductPreview() {
             ))}
           </ul>
           <div className="mt-6 border-t border-line pt-5">
-            <p className="text-[9px] font-semibold uppercase tracking-[0.1em] text-faint-ink">
+            <p className="text-[9px] font-semibold uppercase tracking-[0.1em] text-muted-ink">
               Evidência
             </p>
             <p className="mt-2 text-xs font-semibold text-ink">Contato → agenda → atendimento</p>

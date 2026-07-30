@@ -13,6 +13,7 @@ import {
 } from "@/data/pricing-data";
 import { cn } from "@/lib/utils";
 import { SIGNUP_URL } from "@/components/cta-links";
+import { TrackedLink } from "@/components/analytics/tracked-link";
 
 const LeadCaptureModal = dynamic(
   () =>
@@ -125,8 +126,16 @@ export default function HomePricingSection() {
                     </button>
                   )
                 ) : (
-                  <a
+                  <TrackedLink
                     href={SIGNUP_URL}
+                    event="CTA Clicked"
+                    properties={{
+                      page: "/",
+                      placement: `pricing_card_${plan.id}`,
+                      destination: "dashboard_signup",
+                      intent: "start_plan",
+                      billing_cycle: cycle,
+                    }}
                     className={cn(
                       "inline-flex h-12 w-full items-center justify-center gap-2 rounded-full px-5 text-label font-semibold transition-colors",
                       highlighted
@@ -136,7 +145,7 @@ export default function HomePricingSection() {
                   >
                     Começar agora
                     <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                  </a>
+                  </TrackedLink>
                 )}
               </div>
             </article>

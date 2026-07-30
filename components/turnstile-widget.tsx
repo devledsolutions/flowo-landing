@@ -12,6 +12,7 @@ declare global {
           sitekey: string;
           action?: string;
           theme?: "light" | "dark" | "auto";
+          size?: "normal" | "flexible" | "compact";
           callback?: (token: string) => void;
           "expired-callback"?: () => void;
           "error-callback"?: () => void;
@@ -36,12 +37,24 @@ export function TurnstileWidget({
 }: TurnstileWidgetProps) {
   const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
   const [scriptLoaded, setScriptLoaded] = useState(false);
+  const [widgetSize, setWidgetSize] = useState<"flexible" | "compact">("flexible");
   const containerRef = useRef<HTMLDivElement | null>(null);
   const widgetIdRef = useRef<string | null>(null);
 
   useEffect(() => {
     onTokenChange("");
   }, [onTokenChange]);
+
+  useEffect(() => {
+    const updateSize = () => {
+      const width = containerRef.current?.clientWidth ?? window.innerWidth;
+      setWidgetSize(width < 300 ? "compact" : "flexible");
+    };
+
+    updateSize();
+    window.addEventListener("resize", updateSize);
+    return () => window.removeEventListener("resize", updateSize);
+  }, []);
 
   useEffect(() => {
     if (!siteKey || !scriptLoaded || !containerRef.current || !window.turnstile) {
@@ -57,6 +70,7 @@ export function TurnstileWidget({
       sitekey: siteKey,
       action,
       theme: "auto",
+      size: widgetSize,
       callback: (token) => onTokenChange(token),
       "expired-callback": () => onTokenChange(""),
       "error-callback": () => onTokenChange(""),
@@ -70,7 +84,7 @@ export function TurnstileWidget({
       }
       widgetIdRef.current = null;
     };
-  }, [action, onTokenChange, scriptLoaded, siteKey]);
+  }, [action, onTokenChange, scriptLoaded, siteKey, widgetSize]);
 
   if (!siteKey) {
     return null;

@@ -70,6 +70,10 @@ Rejeitar:
 | N26 | Clareza financeira | Condições visíveis, linguagem simples e escolha antes da ação |
 | Mews | Operação confiável | Densidade, títulos objetivos e informação transacional |
 | Operate | Listas e ledger | Divisores, baixa elevação e leitura rápida |
+| GlossGenius | Marketing vertical para beleza | Produto visível, linguagem premium e condição comercial clara |
+| Attio | Precisão editorial de SaaS | Molduras de interface, hierarquia tipográfica e cor funcional rara |
+| Cal.com | Utilidade monocromática | Cards discretos, CTAs binários e agenda como prova |
+| Krea | Profundidade do produto | Luz e profundidade reservadas ao mockup, sem importar um segundo tema |
 
 ### Páginas e componentes
 
@@ -89,10 +93,38 @@ Rejeitar:
 | GlossGenius commission setup | Regra de comissão antes do saldo e da ação financeira |
 | Apple Invites | Revisão explícita, decisão humana e atualização imediata do estado |
 | Cron Calendar / Attio | Selo compacto de anúncio e hierarquia entre marca principal e produto adicional |
+| Copperx Savings Interest Signup | Interesse em um clique e confirmação no mesmo lugar |
+| Amie Calendar — iOS | Agenda diária escaneável, data fixa e blocos de atendimento |
+| Fresha waitlist | Condição e revisão antes da confirmação |
 
 As pesquisas foram feitas no Refero em 29 de julho de 2026. Os nomes acima são
 mantidos para permitir uma nova busca e atualização futura, sem transformar
 tokens de um produto em tokens globais da Flowo.
+
+### Referências específicas do aplicativo
+
+Pesquisa realizada no Refero em 29 de julho de 2026:
+
+- GlossGenius, style `4d3d9817-68f9-4f33-adb8-f347b4eb5bd6`;
+- Attio, style `9f0c028b-6b11-415e-ab92-f32e4597cbe2`;
+- Cal.com, style `23fd2b9b-b9ea-45e3-8370-7451ea05cee6`;
+- Krea, style `3a63b3fa-dc79-4dc3-935e-3f8f4ab447a7`;
+- Amie Calendar iOS, screen `0806337f-6596-46ef-b042-a407652f8411`;
+- Fresha waitlist, screen `8526b814-25e9-4708-8b72-622bac2d2611`;
+- Copperx Savings Interest Signup, flow `8902`.
+
+Reference lock do aplicativo:
+
+1. GlossGenius orienta a confiança vertical e o produto como prova.
+2. Attio e Cal.com orientam a moldura, os divisores e a hierarquia.
+3. Krea contribui somente com profundidade e enquadramento do dispositivo.
+4. Amie orienta a leitura diária da agenda, sem copiar cores ou navegação.
+5. Copperx orienta o cadastro de interesse em dois estados: ação e confirmação.
+6. Fresha reforça que condição e expectativa devem aparecer antes do envio.
+
+Rejeições: badges de loja sem URL real, QR code sem destino útil, data de
+lançamento inventada, screenshots de aplicativo genérico e um novo sistema de
+cores fora da identidade Flowo.
 
 ## Referências competitivas
 
@@ -202,6 +234,9 @@ Repositório: `flowo-app-v2/flowo-app`.
 | Potencial, agendamento, atendimento e receita separados | Contrato Recupera | Receita apenas com comanda fechada | Evita ROI inventado |
 | Filme institucional em 16:9 e 9:16 | Frame.io + Attio + Glide | Produto, condições e logo Flowo como narrativa principal | Atende site e mídia social sem criar uma segunda identidade |
 | Player sem autoplay, com VTT e transcrição | Acessibilidade + performance | Usuário controla som e reprodução | Preserva Core Web Vitals e consumo mobile |
+| Página própria `/aplicativo-para-barbeiros` | GlossGenius + Attio + fonte móvel real | Produto em preparação, sem selo de loja | Cria intenção de busca e interesse sem fingir lançamento |
+| Lista de interesse inline em dois estados | Copperx flow 8902 | Sem data pública e sem modal | Reduz atrito e confirma o resultado no contexto |
+| Segment como camada de eventos | Arquitetura existente do site | Consentimento e zero PII nos eventos | Evita segundo SDK, peso e custo de instrumentação |
 
 ## Processo para usar esta biblioteca
 
