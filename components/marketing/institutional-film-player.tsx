@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import { Play } from "lucide-react";
+import { useSegment } from "@/providers/segment-provider";
 
 interface InstitutionalFilmPlayerProps {
   video: string;
@@ -15,7 +16,18 @@ export function InstitutionalFilmPlayer({
   captions,
   poster,
 }: InstitutionalFilmPlayerProps) {
+  const { track } = useSegment();
   const [isPlaying, setIsPlaying] = useState(false);
+  const milestonesRef = useRef(new Set<number>());
+
+  const trackVideo = (action: string, extra?: Record<string, number>) => {
+    track("Video Engagement", {
+      video_id: "flowo_institutional",
+      video_title: "Filme institucional Flowo",
+      action,
+      ...extra,
+    });
+  };
 
   if (isPlaying) {
     return (
@@ -26,6 +38,20 @@ export function InstitutionalFilmPlayer({
         playsInline
         preload="metadata"
         poster={poster}
+        onPlay={() => trackVideo("play")}
+        onPause={() => trackVideo("pause")}
+        onEnded={() => trackVideo("complete")}
+        onTimeUpdate={(event) => {
+          const videoElement = event.currentTarget;
+          if (!videoElement.duration) return;
+          const progress = (videoElement.currentTime / videoElement.duration) * 100;
+          for (const milestone of [25, 50, 75]) {
+            if (progress >= milestone && !milestonesRef.current.has(milestone)) {
+              milestonesRef.current.add(milestone);
+              trackVideo(`${milestone}%`, { progress_percent: milestone });
+            }
+          }
+        }}
         aria-label="Filme institucional da Flowo mostrando atendimento por inteligência artificial no WhatsApp e agenda por profissional"
       >
         <source src={video} type="video/mp4" />

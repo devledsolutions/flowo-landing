@@ -18,18 +18,20 @@ export function TrackedLink({
   onClick,
   ...props
 }: TrackedLinkProps) {
-  const { track } = useSegment();
+  const { track, decorateDestination } = useSegment();
 
   return (
     <Link
       {...props}
       onClick={(clickEvent) => {
+        const href = clickEvent.currentTarget.href;
+        clickEvent.currentTarget.href = decorateDestination(href);
         track(event, properties);
         onClick?.(clickEvent);
       }}
+      data-segment-tracked="true"
     >
       {children}
     </Link>
   );
 }
-

@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import * as Sentry from "@sentry/nextjs";
+import { ConvexHttpClient } from "convex/browser";
+import { makeFunctionReference } from "convex/server";
 import { getClientIp } from "@/lib/request-ip";
 import { applyRateLimit } from "@/lib/rate-limit";
 import { leadCaptureSchema, getValidationMessage } from "@/lib/validation";
@@ -10,6 +12,34 @@ export const preferredRegion = ["gru1"];
 
 const LEAD_CAPTURE_WINDOW_MS = 60_000;
 const LEAD_CAPTURE_LIMIT = 15;
+
+type CaptureWebsiteLeadArgs = {
+  name: string;
+  email?: string;
+  phone: string;
+  source: string;
+  landingPath: string;
+  referrer?: string;
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
+  utmContent?: string;
+  utmTerm?: string;
+  segmentAnonymousId?: string;
+  consent: true;
+  marketingConsent?: boolean;
+  website?: string;
+};
+
+const captureWebsiteLead = makeFunctionReference<
+  "mutation",
+  CaptureWebsiteLeadArgs,
+  { accepted: true }
+>("growth:captureWebsiteLead");
+
+function optional(value: string | undefined): string | undefined {
+  return value || undefined;
+}
 
 function tooManyRequestsResponse(retryAfterSeconds: number) {
   return NextResponse.json(
@@ -42,9 +72,6 @@ export async function POST(request: Request) {
         component: "lead-capture",
         error_type: "rate_limit",
       },
-      extra: {
-        ip,
-      },
     });
 
     return tooManyRequestsResponse(rateLimit.retryAfterSeconds);
@@ -67,6 +94,16 @@ export async function POST(request: Request) {
       whatsapp,
       source = "",
       company = "",
+      consent,
+      marketingConsent,
+      landingPath = "",
+      referrer = "",
+      utmSource = "",
+      utmMedium = "",
+      utmCampaign = "",
+      utmContent = "",
+      utmTerm = "",
+      segmentAnonymousId = "",
       turnstileToken = "",
     } = parsed.data;
 
@@ -91,166 +128,51 @@ export async function POST(request: Request) {
       );
     }
 
-    console.log("Lead capture request:", {
-      name,
-      email: email || "(not provided)",
-      whatsapp,
-      source: source || "(not provided)",
-      ip,
-    });
-
-    // Set user context for Sentry
-    Sentry.setUser({
-      email: email || undefined,
-      username: name,
-    });
-
-    // Add breadcrumb for lead capture attempt
-    Sentry.addBreadcrumb({
-      category: "lead-capture",
-      message: "Lead capture attempt",
-      level: "info",
-      data: {
-        name,
-        hasEmail: !!email,
-        source,
-        ip,
-      },
-    });
-
-    // If no email provided, just log and return success
-    // (Mailchimp requires email, so we skip it)
-    if (!email) {
-      console.log("Lead captured (no email, skipping Mailchimp):", {
-        name,
-        whatsapp,
-        source,
-        ip,
-      });
-
-      return NextResponse.json({
-        success: true,
-        message: "Lead captured successfully",
-      });
-    }
-
-    // Mailchimp configuration
-    const apiKey = process.env.MAILCHIMP_API_KEY;
-    const audienceId = process.env.MAILCHIMP_AUDIENCE_ID;
-    const serverPrefix = process.env.MAILCHIMP_SERVER_PREFIX;
-
-    if (!apiKey || !audienceId || !serverPrefix) {
-      console.error("Mailchimp configuration missing");
-
-      Sentry.captureException(new Error("Mailchimp configuration missing"), {
+    const convexUrl =
+      process.env.CONVEX_URL || process.env.NEXT_PUBLIC_CONVEX_URL;
+    if (!convexUrl) {
+      Sentry.captureMessage("Convex configuration missing for lead capture", {
         level: "error",
         tags: {
           component: "lead-capture",
           error_type: "configuration",
         },
-        extra: {
-          hasApiKey: !!apiKey,
-          hasAudienceId: !!audienceId,
-          hasServerPrefix: !!serverPrefix,
-        },
       });
-
       return NextResponse.json(
-        { success: false, message: "Server configuration error" },
-        { status: 500 }
+        { success: false, message: "Não foi possível registrar o contato agora." },
+        { status: 503 }
       );
     }
 
-    const tags = ["flowo"];
-    if (source) {
-      tags.push(source.slice(0, 50));
-    }
+    const refererHeader = request.headers.get("referer") || "";
+    const convex = new ConvexHttpClient(convexUrl);
+    await convex.mutation(captureWebsiteLead, {
+      name,
+      email: optional(email),
+      phone: whatsapp,
+      source,
+      landingPath: landingPath || refererHeader || "/",
+      referrer: optional(referrer),
+      utmSource: optional(utmSource),
+      utmMedium: optional(utmMedium),
+      utmCampaign: optional(utmCampaign),
+      utmContent: optional(utmContent),
+      utmTerm: optional(utmTerm),
+      segmentAnonymousId: optional(segmentAnonymousId),
+      consent,
+      marketingConsent,
+      website: optional(company),
+    });
 
-    const mailchimpResponse = await fetch(
-      `https://${serverPrefix}.api.mailchimp.com/3.0/lists/${audienceId}/members`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`,
-        },
-        body: JSON.stringify({
-          email_address: email,
-          status: "subscribed",
-          merge_fields: {
-            FNAME: name.split(" ")[0] || name,
-            LNAME: name.split(" ").slice(1).join(" ") || "",
-            PHONE: whatsapp,
-          },
-          tags,
-        }),
-      }
-    );
-
-    if (!mailchimpResponse.ok) {
-      const errorData = await mailchimpResponse.json();
-      console.error("Mailchimp error:", errorData);
-
-      if (errorData.title === "Member Exists") {
-        Sentry.captureMessage("Duplicate lead submission", {
-          level: "info",
-          tags: {
-            component: "lead-capture",
-            error_type: "duplicate",
-          },
-          extra: {
-            email,
-            name,
-            ip,
-          },
-        });
-
-        return NextResponse.json({
-          success: true,
-          message: "Lead captured successfully",
-        });
-      }
-
-      if (
-        errorData.title === "Invalid Resource" &&
-        errorData.detail?.includes("looks fake or invalid")
-      ) {
-        Sentry.captureMessage("Invalid email provided", {
-          level: "warning",
-          tags: {
-            component: "lead-capture",
-            error_type: "validation",
-          },
-          extra: {
-            email,
-            name,
-            errorDetail: errorData.detail,
-          },
-        });
-
-        return NextResponse.json(
-          { success: false, message: "Por favor, use um e-mail válido." },
-          { status: 400 }
-        );
-      }
-
-      Sentry.captureException(errorData, {
-        level: "error",
-        tags: {
-          component: "lead-capture",
-          error_type: "mailchimp_api",
-        },
-        extra: {
-          mailchimpError: errorData,
-          name,
-          email,
-          source,
-          ip,
-        },
-      });
-
-      throw errorData;
-    }
+    Sentry.addBreadcrumb({
+      category: "lead-capture",
+      message: "Lead persisted",
+      level: "info",
+      data: {
+        hasEmail: Boolean(email),
+        source,
+      },
+    });
 
     return NextResponse.json({
       success: true,
@@ -269,14 +191,14 @@ export async function POST(request: Request) {
         lead: {
           name: "Lead Information",
           data: {
-            ip,
+            source: "website",
           },
         },
       },
     });
 
     return NextResponse.json(
-      { success: false, message: "Error capturing lead" },
+      { success: false, message: "Não foi possível registrar o contato agora." },
       { status: 500 }
     );
   }

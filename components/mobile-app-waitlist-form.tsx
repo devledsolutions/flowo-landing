@@ -17,13 +17,19 @@ function formatBrazilianPhone(value: string) {
 }
 
 export function MobileAppWaitlistForm() {
-  const { track } = useSegment();
+  const {
+    track,
+    identify,
+    getAnonymousId,
+    getAcquisitionContext,
+  } = useSegment();
   const startedRef = useRef(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
   const [company, setCompany] = useState("");
   const [turnstileToken, setTurnstileToken] = useState("");
+  const [marketingConsent, setMarketingConsent] = useState(false);
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">(
     "idle",
   );
@@ -64,6 +70,10 @@ export function MobileAppWaitlistForm() {
           whatsapp: `+55${whatsapp.replace(/\D/g, "")}`,
           company,
           source: "app-mobile-waitlist",
+          consent: true,
+          marketingConsent,
+          ...getAcquisitionContext(),
+          segmentAnonymousId: getAnonymousId(),
           turnstileToken,
         }),
       });
@@ -80,9 +90,17 @@ export function MobileAppWaitlistForm() {
       }
 
       setStatus("success");
+      identify(undefined, {
+        email,
+        name,
+        phone: `+55${whatsapp.replace(/\D/g, "")}`,
+        lead_source: "app-mobile-waitlist",
+        email_marketing_opt_in: marketingConsent,
+      });
       track("App Waitlist Submitted", {
         page: "/aplicativo-para-barbeiros",
         surface: "launch_interest_form",
+        marketing_opt_in: marketingConsent,
       });
     } catch {
       setStatus("error");
@@ -211,6 +229,38 @@ export function MobileAppWaitlistForm() {
         className="mt-5"
       />
 
+      <label className="mt-5 flex max-w-2xl items-start gap-2 text-caption leading-5 text-muted-ink">
+        <input
+          type="checkbox"
+          required
+          className="mt-0.5 h-4 w-4 shrink-0 accent-ink"
+        />
+        <span>
+          Autorizo a Flowo a usar estes dados para registrar meu interesse e
+          avisar sobre a disponibilidade do aplicativo, conforme a{" "}
+          <Link href="/privacidade" className="underline underline-offset-4 hover:text-ink">
+            Política de Privacidade
+          </Link>{" "}
+          e os{" "}
+          <Link href="/termos" className="underline underline-offset-4 hover:text-ink">
+            Termos de Uso
+          </Link>
+          .
+        </span>
+      </label>
+      <label className="mt-3 flex max-w-2xl items-start gap-2 text-caption leading-5 text-muted-ink">
+        <input
+          type="checkbox"
+          checked={marketingConsent}
+          onChange={(event) => setMarketingConsent(event.target.checked)}
+          className="mt-0.5 h-4 w-4 shrink-0 accent-ink"
+        />
+        <span>
+          Quero receber por e-mail conteúdos, novidades e ofertas da Flowo.
+          Posso cancelar quando quiser.
+        </span>
+      </label>
+
       {status === "error" && (
         <p className="mt-5 text-sm font-medium text-danger" role="alert">
           {message}
@@ -232,15 +282,8 @@ export function MobileAppWaitlistForm() {
       </button>
 
       <p id="app-waitlist-help" className="mt-4 max-w-2xl text-caption text-muted-ink">
-        Usaremos seus dados para avisar sobre o aplicativo e a Flowo. Consulte a{" "}
-        <Link href="/privacidade" className="underline underline-offset-4 hover:text-ink">
-          Política de Privacidade
-        </Link>{" "}
-        e os{" "}
-        <Link href="/termos" className="underline underline-offset-4 hover:text-ink">
-          Termos de Uso
-        </Link>
-        .
+        Sem spam. Você pode cancelar as comunicações ou pedir a exclusão dos
+        dados a qualquer momento.
       </p>
     </form>
   );

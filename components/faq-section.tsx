@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import {
@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
 import { FAQSectionProps } from "@/types/faq";
+import { useSegment } from "@/providers/segment-provider";
 
 export function FAQSection({
   title = "Perguntas frequentes",
@@ -19,7 +20,9 @@ export function FAQSection({
   className,
   showSearch = true,
 }: FAQSectionProps) {
+  const { track } = useSegment();
   const [searchTerm, setSearchTerm] = useState("");
+  const [activeQuestion, setActiveQuestion] = useState("");
   const searchId = useId();
 
   const query = searchTerm.trim().toLowerCase();
@@ -30,6 +33,18 @@ export function FAQSection({
           item.answer.toLowerCase().includes(query)
       )
     : items;
+
+  useEffect(() => {
+    if (query.length < 2) return;
+    const timeout = window.setTimeout(() => {
+      track("Search Performed", {
+        surface: "faq",
+        query,
+        results_count: filteredItems.length,
+      });
+    }, 600);
+    return () => window.clearTimeout(timeout);
+  }, [filteredItems.length, query, track]);
 
   return (
     <div className={cn("w-full", className)}>
@@ -62,7 +77,27 @@ export function FAQSection({
 
       <div className="mx-auto mt-10 max-w-3xl">
         {filteredItems.length > 0 ? (
-          <Accordion type="single" collapsible className="w-full">
+          <Accordion
+            type="single"
+            collapsible
+            value={activeQuestion}
+            onValueChange={(question) => {
+              if (activeQuestion) {
+                track("FAQ Interaction", {
+                  question: activeQuestion,
+                  action: "closed",
+                });
+              }
+              if (question) {
+                track("FAQ Interaction", {
+                  question,
+                  action: "opened",
+                });
+              }
+              setActiveQuestion(question);
+            }}
+            className="w-full"
+          >
             {filteredItems.map((item) => (
               <AccordionItem
                 key={item.question}

@@ -4,18 +4,134 @@ import { createContext, useContext, useEffect, useState, useCallback, ReactNode 
 import { usePathname, useSearchParams } from "next/navigation";
 import { getSavedConsent, type ConsentPreferences } from "@/lib/consent";
 
+const ATTRIBUTION_STORAGE_KEY = "flowo:first-touch-attribution";
+const ATTRIBUTION_TTL_MS = 90 * 24 * 60 * 60 * 1000;
+
+type AnalyticsProperties = Record<
+  string,
+  string | number | boolean | null | undefined
+>;
+
+interface SegmentAnalytics {
+  track: (event: string, properties?: object) => void;
+  page: (category?: string, name?: string, properties?: object) => void;
+  identify: (userId?: string, traits?: object) => void;
+  group: (groupId: string, traits?: object) => void;
+  alias: (userId: string) => void;
+  reset: () => void;
+  ready: (callback: () => void) => void;
+  user?: () => { anonymousId?: () => string };
+  invoked?: boolean;
+  initialized?: boolean;
+}
+
+interface StoredAttribution {
+  capturedAt: number;
+  landingPath: string;
+  referrer: string;
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
+  utmContent?: string;
+  utmTerm?: string;
+}
+
+export interface AcquisitionContext {
+  landingPath: string;
+  referrer?: string;
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
+  utmContent?: string;
+  utmTerm?: string;
+}
+
+function getCurrentAttribution(): StoredAttribution {
+  const params = new URLSearchParams(window.location.search);
+
+  return {
+    capturedAt: Date.now(),
+    landingPath: `${window.location.pathname}${window.location.search}`,
+    referrer: document.referrer || "direct",
+    utmSource: params.get("utm_source") || undefined,
+    utmMedium: params.get("utm_medium") || undefined,
+    utmCampaign: params.get("utm_campaign") || undefined,
+    utmContent: params.get("utm_content") || undefined,
+    utmTerm: params.get("utm_term") || undefined,
+  };
+}
+
+function getFirstTouchAttribution(): StoredAttribution {
+  const current = getCurrentAttribution();
+
+  try {
+    const saved = window.localStorage.getItem(ATTRIBUTION_STORAGE_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved) as StoredAttribution;
+      if (
+        typeof parsed.capturedAt === "number" &&
+        Date.now() - parsed.capturedAt < ATTRIBUTION_TTL_MS
+      ) {
+        return parsed;
+      }
+    }
+
+    window.localStorage.setItem(
+      ATTRIBUTION_STORAGE_KEY,
+      JSON.stringify(current)
+    );
+  } catch {
+    // Analytics still works when storage is unavailable or blocked.
+  }
+
+  return current;
+}
+
+function getAnalyticsContext(): AnalyticsProperties {
+  const consent = getSavedConsent();
+  const firstTouch = getFirstTouchAttribution();
+  const current = getCurrentAttribution();
+
+  return {
+    page_path: window.location.pathname,
+    first_landing_path: firstTouch.landingPath,
+    first_referrer: firstTouch.referrer,
+    first_utm_source: firstTouch.utmSource,
+    first_utm_medium: firstTouch.utmMedium,
+    first_utm_campaign: firstTouch.utmCampaign,
+    first_utm_content: firstTouch.utmContent,
+    first_utm_term: firstTouch.utmTerm,
+    utm_source: current.utmSource,
+    utm_medium: current.utmMedium,
+    utm_campaign: current.utmCampaign,
+    utm_content: current.utmContent,
+    utm_term: current.utmTerm,
+    consent_analytics: consent?.analytics ?? false,
+    consent_marketing: consent?.marketing ?? false,
+  };
+}
+
+function getAcquisitionContext(): AcquisitionContext {
+  if (typeof window === "undefined") {
+    return { landingPath: "/" };
+  }
+
+  const firstTouch = getFirstTouchAttribution();
+  return {
+    landingPath: firstTouch.landingPath,
+    referrer: firstTouch.referrer,
+    utmSource: firstTouch.utmSource,
+    utmMedium: firstTouch.utmMedium,
+    utmCampaign: firstTouch.utmCampaign,
+    utmContent: firstTouch.utmContent,
+    utmTerm: firstTouch.utmTerm,
+  };
+}
+
 // Extend Window interface for Segment
 declare global {
   interface Window {
-    analytics?: {
-      track: (event: string, properties?: object) => void;
-      page: (category?: string, name?: string, properties?: object) => void;
-      identify: (userId?: string, traits?: object) => void;
-      group: (groupId: string, traits?: object) => void;
-      alias: (userId: string) => void;
-      reset: () => void;
-      ready: (callback: () => void) => void;
-    };
+    analytics?: SegmentAnalytics;
   }
 }
 
@@ -25,6 +141,9 @@ interface SegmentContextType {
   track: (event: string, properties?: object) => void;
   page: (category?: string, name?: string, properties?: object) => void;
   identify: (userId?: string, traits?: object) => void;
+  getAnonymousId: () => string | undefined;
+  getAcquisitionContext: () => AcquisitionContext;
+  decorateDestination: (href: string) => string;
 }
 
 const SegmentContext = createContext<SegmentContextType>({
@@ -33,6 +152,9 @@ const SegmentContext = createContext<SegmentContextType>({
   track: () => {},
   page: () => {},
   identify: () => {},
+  getAnonymousId: () => undefined,
+  getAcquisitionContext: () => ({ landingPath: "/" }),
+  decorateDestination: (href) => href,
 });
 
 export const useSegment = () => useContext(SegmentContext);
@@ -47,6 +169,7 @@ export function SegmentProvider({ children, writeKey }: SegmentProviderProps) {
   const [hasConsent, setHasConsent] = useState(false);
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const search = searchParams?.toString() ?? "";
 
   // Initialize Segment when consent is granted
   const initializeSegment = useCallback((): void => {
@@ -60,27 +183,24 @@ export function SegmentProvider({ children, writeKey }: SegmentProviderProps) {
 
     setHasConsent(true);
 
-    // If already initialized, just mark as ready
+    const markReady = () => setIsReady(true);
+
     if (window.analytics) {
-      setIsReady(true);
+      window.analytics.ready(markReady);
       return;
     }
 
-    // Load Segment analytics.js
+    // Official Analytics.js snippet, loaded only after analytics consent.
     const script = document.createElement("script");
+    script.id = "segment-analytics-loader";
     script.innerHTML = `
       !function(){var i="analytics",analytics=window[i]=window[i]||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","screen","once","off","on","addSourceMiddleware","addIntegrationMiddleware","setAnonymousId","addDestinationMiddleware","register"];analytics.factory=function(e){return function(){if(window[i].initialized)return window[i][e].apply(window[i],arguments);var n=Array.prototype.slice.call(arguments);if(["track","screen","alias","group","page","identify"].indexOf(e)>-1){var c=document.querySelector("link[rel=canonical]");n.push({__t:"bpc",c:c&&c.getAttribute("href")||void 0,p:location.pathname,u:location.href,s:location.search,t:document.title,r:document.referrer})}n.unshift(e);analytics.push(n);return analytics}};for(var n=0;n<analytics.methods.length;n++){var key=analytics.methods[n];analytics[key]=analytics.factory(key)}analytics.load=function(key,n){var t=document.createElement("script");t.type="text/javascript";t.async=!0;t.setAttribute("data-global-segment-analytics-key",i);t.src="https://cdn.segment.com/analytics.js/v1/" + key + "/analytics.min.js";var r=document.getElementsByTagName("script")[0];r.parentNode.insertBefore(t,r);analytics._loadOptions=n};analytics._writeKey="${writeKey}";;analytics.SNIPPET_VERSION="5.2.1";
         analytics.load("${writeKey}");
-        analytics.page();
       }}();
     `;
     document.head.appendChild(script);
-
-    // Mark as ready after script loads
-    setTimeout(() => {
-      setIsReady(true);
-      console.info("[Segment] Analytics initialized with consent");
-    }, 2000);
+    const loadedAnalytics = window.analytics as SegmentAnalytics | undefined;
+    loadedAnalytics?.ready(markReady);
   }, [writeKey]);
 
   // Listen for consent changes
@@ -90,10 +210,12 @@ export function SegmentProvider({ children, writeKey }: SegmentProviderProps) {
         initializeSegment();
       } else {
         setHasConsent(false);
+        setIsReady(false);
         // Reset Segment if consent is withdrawn
         if (window.analytics?.reset) {
           window.analytics.reset();
         }
+        window.localStorage.removeItem(ATTRIBUTION_STORAGE_KEY);
       }
     };
 
@@ -111,15 +233,16 @@ export function SegmentProvider({ children, writeKey }: SegmentProviderProps) {
   useEffect(() => {
     if (!isReady || !hasConsent || !window.analytics) return;
 
-    const url = pathname + (searchParams?.toString() ? `?${searchParams.toString()}` : "");
+    const url = pathname + (search ? `?${search}` : "");
 
     window.analytics.page(undefined, undefined, {
       path: pathname,
       url,
-      search: searchParams?.toString() || "",
+      search,
       title: document.title,
+      ...getAnalyticsContext(),
     });
-  }, [pathname, searchParams, isReady, hasConsent]);
+  }, [pathname, search, isReady, hasConsent]);
 
   // Context methods
   const track = useCallback((event: string, properties?: object) => {
@@ -128,7 +251,10 @@ export function SegmentProvider({ children, writeKey }: SegmentProviderProps) {
       return;
     }
     if (window.analytics) {
-      window.analytics.track(event, properties);
+      window.analytics.track(event, {
+        ...properties,
+        ...getAnalyticsContext(),
+      });
     }
   }, [hasConsent]);
 
@@ -152,8 +278,115 @@ export function SegmentProvider({ children, writeKey }: SegmentProviderProps) {
     }
   }, [hasConsent]);
 
+  const getAnonymousId = useCallback((): string | undefined => {
+    if (!hasConsent || !window.analytics?.user) return undefined;
+    return window.analytics.user().anonymousId?.();
+  }, [hasConsent]);
+
+  const decorateDestination = useCallback(
+    (href: string): string => {
+      if (typeof window === "undefined") return href;
+
+      try {
+        const destination = new URL(href, window.location.origin);
+        if (destination.hostname !== "barber.flowo.com.br") return href;
+
+        const anonymousId = getAnonymousId();
+        const attribution = getAcquisitionContext();
+        if (anonymousId) destination.searchParams.set("flowo_aid", anonymousId);
+        if (attribution.utmSource) {
+          destination.searchParams.set("utm_source", attribution.utmSource);
+        }
+        if (attribution.utmMedium) {
+          destination.searchParams.set("utm_medium", attribution.utmMedium);
+        }
+        if (attribution.utmCampaign) {
+          destination.searchParams.set("utm_campaign", attribution.utmCampaign);
+        }
+        return destination.toString();
+      } catch {
+        return href;
+      }
+    },
+    [getAnonymousId]
+  );
+
+  // Cover legacy and content-page CTAs that do not yet use TrackedLink. The
+  // listener also decorates dashboard handoffs before the browser navigates.
+  useEffect(() => {
+    const handleDocumentClick = (event: MouseEvent) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      const anchor = target.closest("a");
+      if (!anchor || anchor.dataset.segmentTracked === "true") return;
+
+      const rawHref = anchor.getAttribute("href");
+      if (!rawHref) return;
+
+      let destination: URL;
+      try {
+        destination = new URL(rawHref, window.location.origin);
+      } catch {
+        return;
+      }
+
+      const label = (anchor.textContent || anchor.getAttribute("aria-label") || "link")
+        .trim()
+        .replace(/\s+/g, " ")
+        .slice(0, 100);
+      const sectionId = anchor.closest("section")?.id;
+      const placement =
+        sectionId ||
+        (anchor.closest("footer")
+          ? "footer"
+          : anchor.closest("nav")
+            ? "navigation"
+            : "content");
+
+      if (destination.hostname === "barber.flowo.com.br") {
+        anchor.href = decorateDestination(destination.toString());
+        track("CTA Clicked", {
+          button_text: label,
+          placement,
+          destination: destination.pathname.includes("sign-up")
+            ? "dashboard_signup"
+            : "dashboard_login",
+        });
+        return;
+      }
+
+      if (
+        destination.hostname === "wa.me" ||
+        destination.hostname === "api.whatsapp.com" ||
+        destination.hostname === "apps.apple.com" ||
+        destination.hostname === "play.google.com"
+      ) {
+        track("External Link Clicked", {
+          link_text: label,
+          placement,
+          destination_host: destination.hostname,
+          destination_path: destination.pathname,
+        });
+      }
+    };
+
+    document.addEventListener("click", handleDocumentClick, true);
+    return () => document.removeEventListener("click", handleDocumentClick, true);
+  }, [decorateDestination, track]);
+
   return (
-    <SegmentContext.Provider value={{ isReady, hasConsent, track, page, identify }}>
+    <SegmentContext.Provider
+      value={{
+        isReady,
+        hasConsent,
+        track,
+        page,
+        identify,
+        getAnonymousId,
+        getAcquisitionContext,
+        decorateDestination,
+      }}
+    >
       {children}
     </SegmentContext.Provider>
   );

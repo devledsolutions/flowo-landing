@@ -7,8 +7,8 @@ export const SIGNUP_URL = "https://barber.flowo.com.br/sign-up";
 export const LOGIN_URL = "https://barber.flowo.com.br";
 
 const WHATSAPP_NUMBER =
-  process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "551150265112";
+  process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "5519998053595";
 
 export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-  "Oi! Quero saber mais sobre o Flowo."
+  "Olá! Vim pelo site da Flowo e gostaria de tirar algumas dúvidas."
 )}`;

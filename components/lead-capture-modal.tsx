@@ -24,6 +24,7 @@ import { FlagIcon, FlagIconCode } from "react-flag-kit";
 import { CheckCircle2, XCircle } from "lucide-react";
 import { TurnstileWidget } from "@/components/turnstile-widget";
 import { useSegment } from "@/providers/segment-provider";
+import Link from "next/link";
 
 const formatPhoneNumber = (phone: string, dialCode: string) => {
   const cleaned = phone.replace(/\D/g, "");
@@ -48,23 +49,31 @@ export function LeadCaptureModal({
   initiallyOpen?: boolean;
   source?: string;
 }) {
-  const { track } = useSegment();
+  const {
+    track,
+    identify,
+    getAnonymousId,
+    getAcquisitionContext,
+  } = useSegment();
   const [isOpen, setIsOpen] = useState(initiallyOpen);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
   const [company, setCompany] = useState("");
   const [turnstileToken, setTurnstileToken] = useState("");
+  const [marketingConsent, setMarketingConsent] = useState(false);
   const [countryCode, setCountryCode] = useState<FlagIconCode>("BR");
   const [dialCode, setDialCode] = useState("+55");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setIsError(false);
+    setErrorMessage("");
     track("Lead Form Submitted", {
       form: "sales_contact",
       source,
@@ -94,6 +103,10 @@ export function LeadCaptureModal({
           whatsapp: `${dialCode}${whatsapp}`,
           company,
           source,
+          consent: true,
+          marketingConsent,
+          ...getAcquisitionContext(),
+          segmentAnonymousId: getAnonymousId(),
           turnstileToken,
         }),
       });
@@ -103,6 +116,7 @@ export function LeadCaptureModal({
       if (!response.ok) {
         const errorMessage = data.message || "Ocorreu um erro. Tente novamente.";
         setIsError(true);
+        setErrorMessage(errorMessage);
         track("Lead Form Failed", {
           form: "sales_contact",
           source,
@@ -127,9 +141,17 @@ export function LeadCaptureModal({
       }
 
       setIsSuccess(true);
+      identify(undefined, {
+        email: email || undefined,
+        name,
+        phone: `${dialCode}${whatsapp}`,
+        lead_source: source,
+        email_marketing_opt_in: marketingConsent,
+      });
       track("Lead Form Succeeded", {
         form: "sales_contact",
         source,
+        marketing_opt_in: marketingConsent,
       });
 
       Sentry.addBreadcrumb({
@@ -139,6 +161,7 @@ export function LeadCaptureModal({
       });
     } catch (err) {
       setIsError(true);
+      setErrorMessage("Não foi possível conectar. Verifique sua internet e tente novamente.");
       track("Lead Form Failed", {
         form: "sales_contact",
         source,
@@ -178,10 +201,12 @@ export function LeadCaptureModal({
     setWhatsapp("");
     setCompany("");
     setTurnstileToken("");
+    setMarketingConsent(false);
     setCountryCode("BR");
     setDialCode("+55");
     setIsSuccess(false);
     setIsError(false);
+    setErrorMessage("");
   };
 
   const handleOpenChange = (open: boolean) => {
@@ -256,9 +281,8 @@ export function LeadCaptureModal({
                   Algo deu errado
                 </DialogTitle>
                 <DialogDescription className="text-body text-muted-ink sm:text-center">
-                  Não conseguimos processar sua solicitação no momento. Nossa
-                  equipe foi notificada e está trabalhando para resolver o
-                  problema.
+                  {errorMessage ||
+                    "Não conseguimos processar sua solicitação no momento."}
                 </DialogDescription>
               </DialogHeader>
               <div className="mt-6 space-y-3">
@@ -379,6 +403,38 @@ export function LeadCaptureModal({
                   onTokenChange={setTurnstileToken}
                   className="mx-auto"
                 />
+                <label className="flex items-start gap-2 text-xs leading-5 text-muted-ink">
+                  <input
+                    type="checkbox"
+                    required
+                    className="mt-0.5 h-4 w-4 shrink-0 accent-ink"
+                  />
+                  <span>
+                    Autorizo a Flowo a usar estes dados para responder meu
+                    contato, conforme a{" "}
+                    <Link className="underline underline-offset-2" href="/privacidade">
+                      Política de Privacidade
+                    </Link>{" "}
+                    e os{" "}
+                    <Link className="underline underline-offset-2" href="/termos">
+                      Termos de Uso
+                    </Link>
+                    .
+                  </span>
+                </label>
+                <label className="flex items-start gap-2 text-xs leading-5 text-muted-ink">
+                  <input
+                    type="checkbox"
+                    checked={marketingConsent}
+                    disabled={!email}
+                    onChange={(event) => setMarketingConsent(event.target.checked)}
+                    className="mt-0.5 h-4 w-4 shrink-0 accent-ink disabled:opacity-50"
+                  />
+                  <span>
+                    Quero receber por e-mail conteúdos, novidades e ofertas da
+                    Flowo. Posso cancelar quando quiser.
+                  </span>
+                </label>
                 <Button
                   type="submit"
                   className="w-full rounded-full font-semibold"
@@ -391,7 +447,7 @@ export function LeadCaptureModal({
                   {isSubmitting ? "Enviando..." : "Quero receber contato"}
                 </Button>
                 <p className="text-center text-caption text-muted-ink">
-                  Seus dados estão seguros. Não compartilhamos com terceiros.
+                  Sem spam. Você pode pedir a exclusão dos dados a qualquer momento.
                 </p>
               </form>
             </>
