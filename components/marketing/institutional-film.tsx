@@ -15,7 +15,7 @@ export function InstitutionalFilmSchema({ pagePath }: { pagePath: string }) {
     description:
       "Veja como a inteligência artificial da Flowo atende no WhatsApp, consulta a agenda individual da equipe e confirma horários.",
     thumbnailUrl: absoluteUrl(INSTITUTIONAL_FILM.poster),
-    uploadDate: "2026-07-29",
+    uploadDate: "2026-07-29T12:00:00-03:00",
     duration: "PT46S",
     contentUrl: absoluteUrl(INSTITUTIONAL_FILM.video),
     embedUrl: `${absoluteUrl(pagePath)}#video-flowo`,
