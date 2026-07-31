@@ -1,3 +1,4 @@
+import Image from "next/image";
 import {
   ArrowDown,
   ArrowRight,
@@ -12,7 +13,9 @@ import {
 } from "lucide-react";
 import {
   AgendaPreview,
+  ConfirmationPreview,
   ConversationPreview,
+  ProductDisclaimer,
 } from "@/components/home/product-previews";
 import { InstitutionalFilm } from "@/components/marketing/institutional-film";
 
@@ -131,12 +134,84 @@ function OperatingFlow() {
   );
 }
 
+function ComparisonProductStage() {
+  return (
+    <div className="preview-light mt-6 overflow-hidden rounded-xl bg-surface">
+      <div className="grid lg:min-h-[34rem] lg:grid-cols-[0.72fr_1.28fr]">
+        <div className="relative isolate flex flex-col justify-between overflow-hidden bg-[oklch(0.22_0.018_112)] p-6 text-cream sm:p-8 lg:p-10">
+          <div
+            className="absolute -right-24 -top-24 h-64 w-64 rounded-full border border-cream/10"
+            aria-hidden="true"
+          />
+          <div
+            className="absolute -bottom-36 -left-24 h-80 w-80 rounded-full border border-cream/10"
+            aria-hidden="true"
+          />
+
+          <div className="relative">
+            <Image
+              src="/flowo-logo.svg"
+              alt="Flowo"
+              width={124}
+              height={61}
+              className="h-auto w-24 brightness-0 invert sm:w-28"
+            />
+            <p className="mt-8 text-caption font-semibold uppercase tracking-[0.12em] text-cream/55">
+              Uma operação conectada
+            </p>
+            <h3 className="mt-3 max-w-[12ch] text-3xl font-semibold leading-[1.08] tracking-[-0.03em] text-cream sm:text-4xl">
+              A conversa já nasce dentro da agenda.
+            </h3>
+            <p className="mt-5 max-w-[38ch] text-sm leading-relaxed text-cream/70 sm:text-base">
+              O cliente pede um horário, a IA consulta as regras de cada
+              profissional e a equipe enxerga a confirmação no painel.
+            </p>
+          </div>
+
+          <div className="relative mt-10 border-t border-cream/15 pt-5">
+            <div className="flex items-center gap-3">
+              <span className="flex h-9 w-9 items-center justify-center rounded-full border border-cream/25 text-xs font-semibold text-cream">
+                01
+              </span>
+              <p className="text-sm font-medium text-cream">
+                WhatsApp → disponibilidade → agenda
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="relative min-h-[39rem] overflow-hidden bg-[oklch(0.94_0.014_90)] p-5 sm:min-h-[43rem] sm:p-8 lg:min-h-0 lg:p-10">
+          <div
+            className="absolute inset-x-0 top-0 h-28 bg-[linear-gradient(180deg,oklch(0.98_0.008_90),transparent)]"
+            aria-hidden="true"
+          />
+          <p className="relative text-caption font-semibold uppercase tracking-[0.12em] text-muted-ink">
+            Demonstração do fluxo · dados ilustrativos
+          </p>
+
+          <AgendaPreview className="absolute left-5 right-[-9rem] top-20 rotate-[1.2deg] sm:left-10 sm:right-[-3rem] sm:top-24 lg:left-12 lg:right-[-5rem]" />
+          <ConversationPreview className="absolute bottom-7 left-5 w-[68%] max-w-[20rem] rotate-[-2deg] sm:bottom-10 sm:left-10 sm:w-[48%] lg:left-8 lg:w-[44%]" />
+          <ConfirmationPreview className="absolute bottom-6 right-4 w-[48%] max-w-[16rem] rotate-[1.5deg] sm:bottom-12 sm:right-8 sm:w-[38%] lg:right-6" />
+        </div>
+      </div>
+      <div className="flex flex-col gap-3 border-t border-line px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-7">
+        <ProductDisclaimer />
+        <p className="text-caption font-medium text-ink">
+          Uma confirmação visível para o cliente e para a equipe.
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export function FlowoProductProof({
   competitorName,
   includeFilm = true,
+  compact = false,
 }: {
   competitorName?: string;
   includeFilm?: boolean;
+  compact?: boolean;
 }) {
   return (
     <>
@@ -168,11 +243,14 @@ export function FlowoProductProof({
           <OperatingFlow />
         </div>
 
+        {compact ? (
+          <ComparisonProductStage />
+        ) : (
         <div className="preview-light mt-6 grid gap-6 lg:grid-cols-[0.78fr_1.22fr]">
           <div className="relative min-h-[25rem] overflow-hidden rounded-xl border border-line bg-surface-2 p-5 sm:p-7">
             <div className="max-w-[78%]">
               <p className="text-caption font-semibold uppercase tracking-[0.12em] text-muted-ink">
-                Conversa real
+                Demonstração do fluxo · dados ilustrativos
               </p>
               <h3 className="mt-2 text-xl font-semibold text-ink">
                 O cliente pede. A IA oferece apenas horários válidos.
@@ -193,6 +271,7 @@ export function FlowoProductProof({
             <AgendaPreview className="absolute -bottom-6 left-5 right-[-3rem] rotate-[1deg] sm:left-9 sm:right-[-1.5rem]" />
           </div>
         </div>
+        )}
         </div>
       </section>
       {includeFilm && <InstitutionalFilm compact showTranscript={false} />}
