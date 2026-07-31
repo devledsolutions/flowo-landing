@@ -18,6 +18,12 @@ export interface ComparisonFaq {
   answer: string;
 }
 
+export interface ComparisonSnapshotRow {
+  criterion: string;
+  flowo: string;
+  competitor: string;
+}
+
 export interface CompetitorComparison {
   id:
     | "appbarber"
@@ -30,14 +36,18 @@ export interface CompetitorComparison {
     | "opero";
   name: string;
   path: string;
+  publishedAt: string;
   seoTitle: string;
   seoDescription: string;
   eyebrow: string;
   headline: string;
+  heroSummary: string;
   summary: string;
   flowoFit: string;
   competitorFit: string;
   honestVerdict: string;
+  snapshotQuestion: string;
+  snapshotRows: ReadonlyArray<ComparisonSnapshotRow>;
   priceSummary: string;
   keyDifferences: ReadonlyArray<string>;
   rows: ReadonlyArray<ComparisonRow>;
@@ -50,11 +60,14 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
     id: "appbarber",
     name: "AppBarber",
     path: "/flowo-vs-appbarber",
+    publishedAt: "2026-07-29",
     seoTitle: "Flowo vs AppBarber: Comparativo para Barbearias",
     seoDescription:
       "Compare Flowo e AppBarber em agendamento, WhatsApp, aplicativo, gestão e preço. Veja qual abordagem combina com a rotina da sua barbearia.",
     eyebrow: "WhatsApp com IA ou aplicativo para agendar",
-    headline: "Flowo vs AppBarber: qual rotina você quer entregar ao cliente?",
+    headline: "Flowo vs AppBarber: WhatsApp ou aplicativo?",
+    heroSummary:
+      "O Flowo atende no WhatsApp; o AppBarber conduz clientes e profissionais para um aplicativo dedicado.",
     summary:
       "O AppBarber organiza a experiência em um aplicativo para clientes e profissionais, apoiado por um módulo administrativo. O Flowo coloca a recepção com IA dentro do WhatsApp e usa o painel como central de supervisão da operação.",
     flowoFit:
@@ -63,6 +76,12 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
       "Operações que preferem um aplicativo dedicado para cliente e profissional e valorizam recursos como estoque, programa de fidelidade, pacotes e clube de clientes.",
     honestVerdict:
       "A escolha não é entre uma agenda boa e uma ruim. É entre colocar a conversa no centro da operação ou conduzir o cliente para uma experiência própria de aplicativo.",
+    snapshotQuestion: "WhatsApp ou aplicativo: qual hábito você quer pedir ao cliente?",
+    snapshotRows: [
+      { criterion: "Canal do cliente", flowo: "WhatsApp", competitor: "Aplicativo próprio" },
+      { criterion: "IA no WhatsApp", flowo: "Incluída", competitor: "Não é o canal central" },
+      { criterion: "Entrada publicada", flowo: "R$ 249/mês", competitor: "R$ 79,90/mês" },
+    ],
     priceSummary:
       "O Flowo começa em R$ 249/mês, sem período de teste. Em sua tabela pública, o AppBarber mostra plano mensal a partir de R$ 79,90 para um profissional e teste grátis de 30 dias. Recursos e condições podem mudar; confirme no site oficial.",
     keyDifferences: [
@@ -111,12 +130,12 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
       {
         question: "Qual é a principal diferença entre Flowo e AppBarber?",
         answer:
-          "O Flowo usa o WhatsApp com IA como recepção principal. O AppBarber apresenta uma experiência baseada em aplicativo para clientes e profissionais, além do módulo WebAdmin.",
+          "O Flowo usa o WhatsApp com IA como recepção principal. O AppBarber apresenta uma experiência baseada em aplicativo para clientes e profissionais, além do painel administrativo web.",
       },
       {
         question: "Flowo ou AppBarber: qual é mais barato?",
         answer:
-          "Na verificação de 29 de julho de 2026, o AppBarber publicava mensalidade a partir de R$ 79,90 para um profissional, enquanto o Flowo começava em R$ 249/mês. Os escopos são diferentes: no Flowo, a recepção com IA no WhatsApp faz parte do produto principal.",
+          "Na verificação de 31 de julho de 2026, o AppBarber publicava mensalidade a partir de R$ 79,90 para um profissional, enquanto o Flowo começava em R$ 249/mês. Os escopos são diferentes: no Flowo, a recepção com IA no WhatsApp faz parte do produto principal.",
       },
       {
         question: "Qual deles reduz mais etapas para o cliente agendar?",
@@ -142,11 +161,14 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
     id: "trinks",
     name: "Trinks",
     path: "/flowo-vs-trinks",
+    publishedAt: "2026-07-29",
     seoTitle: "Flowo vs Trinks: Comparativo para Barbearias",
     seoDescription:
       "Compare Flowo e Trinks em WhatsApp com IA, agenda, marketplace, pagamentos, comissões, preço e implantação para escolher com clareza.",
     eyebrow: "Recepção no WhatsApp ou ecossistema de beleza",
-    headline: "Flowo vs Trinks: profundidade no WhatsApp ou amplitude de ecossistema?",
+    headline: "Flowo vs Trinks: WhatsApp ou ecossistema?",
+    heroSummary:
+      "O Flowo aprofunda a recepção no WhatsApp; a Trinks oferece um ecossistema mais amplo de beleza e bem-estar.",
     summary:
       "A Trinks oferece um ecossistema amplo para beleza e bem-estar, com agenda online, marketplace, estoque, clube de assinaturas, soluções fiscais e pagamentos. O Flowo concentra sua proposta na recepção com IA pelo WhatsApp conectada à agenda e à operação da barbearia.",
     flowoFit:
@@ -155,6 +177,12 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
       "Negócios que valorizam marketplace, fila de espera, estoque, clube de assinaturas, autoatendimento e um ecossistema maduro para beleza e bem-estar.",
     honestVerdict:
       "A Trinks é mais ampla como ecossistema. O Flowo é mais específico na tese de transformar o WhatsApp em recepção operacional. A melhor opção depende de onde hoje nasce a maior parte dos seus agendamentos.",
+    snapshotQuestion: "Você precisa de uma recepção focada ou de um ecossistema mais amplo?",
+    snapshotRows: [
+      { criterion: "Canal central", flowo: "WhatsApp", competitor: "Agenda online e ecossistema" },
+      { criterion: "IA no WhatsApp", flowo: "Incluída", competitor: "Solução adicional" },
+      { criterion: "Entrada publicada", flowo: "R$ 249/mês", competitor: "R$ 76/mês no anual" },
+    ],
     priceSummary:
       "O Flowo começa em R$ 249/mês e não oferece teste grátis. A Trinks publica valor anual a partir de R$ 76/mês para 1 a 2 profissionais e teste de 5 dias; chatbot, comunicação e outras soluções aparecem como adicionais. Confirme a composição final com a Trinks.",
     keyDifferences: [
@@ -240,11 +268,14 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
     id: "bestbarbers",
     name: "BestBarbers",
     path: "/flowo-vs-bestbarbers",
+    publishedAt: "2026-07-31",
     seoTitle: "Flowo vs BestBarbers: Comparativo para Barbearias",
     seoDescription:
       "Compare Flowo e BestBarbers em WhatsApp com IA, app próprio, clube de assinaturas, agenda, gestão, preço e implantação.",
     eyebrow: "Recepção no WhatsApp ou aplicativo com a sua marca",
-    headline: "Flowo vs BestBarbers: conversa com IA ou app próprio para o cliente?",
+    headline: "Flowo vs BestBarbers: WhatsApp ou app próprio?",
+    heroSummary:
+      "O Flowo atende no WhatsApp; o BestBarbers transforma o aplicativo com a marca da barbearia em parte central da experiência.",
     summary:
       "O BestBarbers vende um aplicativo próprio com a marca da barbearia, clube de assinaturas e uma operação ampla. O Flowo coloca a recepção com IA no WhatsApp no centro da experiência e conecta a conversa à agenda e ao painel da equipe.",
     flowoFit:
@@ -253,6 +284,12 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
       "Operações que priorizam um aplicativo publicado com a própria marca, clube de assinaturas, notificações push, totem e gestão de várias unidades.",
     honestVerdict:
       "O BestBarbers oferece uma proposta mais forte para app próprio, assinatura e autoatendimento. O Flowo reduz a mudança de hábito do cliente ao usar o WhatsApp como recepção e inclui a IA conversacional no fluxo principal.",
+    snapshotQuestion: "A prioridade é atender no WhatsApp ou publicar um app com sua marca?",
+    snapshotRows: [
+      { criterion: "Canal do cliente", flowo: "WhatsApp", competitor: "App próprio e link" },
+      { criterion: "Clube e assinatura", flowo: "Cashback e histórico", competitor: "Clube dentro do app" },
+      { criterion: "Entrada publicada", flowo: "R$ 249/mês", competitor: "Básico grátis; app a R$ 299" },
+    ],
     priceSummary:
       "O Flowo começa em R$ 249/mês, sem teste grátis. O BestBarbers publica um plano básico gratuito e o plano App Exclusivo a partir de R$ 299/mês. Confirme quais recursos, implantação e equipamentos opcionais entram na proposta vigente.",
     keyDifferences: [
@@ -278,7 +315,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
       {
         criterion: "Receita recorrente e fidelização",
         flowo:
-          "Histórico, campanhas e cashback configurável; o Flowo Recupera é um add-on em beta acompanhada.",
+          "Histórico, campanhas e cashback configurável; o Flowo Recupera é um módulo adicional em fase beta, com acompanhamento.",
         competitor:
           "Clube de assinaturas com cobrança automática, gestão de inadimplência e planos dentro do aplicativo.",
       },
@@ -338,24 +375,33 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
     id: "barbeiro-app",
     name: "Barbeiro.app",
     path: "/flowo-vs-barbeiro-app",
+    publishedAt: "2026-07-29",
     seoTitle: "Flowo vs Barbeiro.app: Comparativo Completo",
     seoDescription:
       "Compare Flowo e Barbeiro.app em WhatsApp com IA, página de agendamento, fidelidade, pagamentos, preço e suporte para sua barbearia.",
     eyebrow: "IA incluída ou plataforma modular de baixo custo",
-    headline: "Flowo vs Barbeiro.app: compare o produto completo, não só a mensalidade.",
+    headline: "Flowo vs Barbeiro.app: IA incluída ou pacote modular?",
+    heroSummary:
+      "O Flowo inclui a recepção com IA; o Barbeiro.app permite começar com menor custo e montar o pacote por plano e complementos.",
     summary:
       "As duas plataformas falam diretamente com barbearias. O Barbeiro.app combina página de agendamento, plano gratuito e módulos opcionais de WhatsApp e IA. O Flowo parte da recepção com IA no WhatsApp como recurso central de todos os planos.",
     flowoFit:
-      "Barbearias dispostas a investir em uma implantação acompanhada e querem o atendimento conversacional no WhatsApp já incluído no produto.",
+      "Barbearias dispostas a investir em uma implantação acompanhada e que querem o atendimento conversacional no WhatsApp já incluído no produto.",
     competitorFit:
       "Quem prioriza começar com baixo custo, configurar sozinho e adicionar WhatsApp oficial, IA, fiscal ou loja conforme a necessidade.",
     honestVerdict:
       "O Barbeiro.app tem uma entrada comercial mais acessível e mais módulos de autosserviço. O Flowo custa mais porque vende a recepção com IA no WhatsApp como parte do pacote principal, não como uma extensão opcional.",
+    snapshotQuestion: "Você quer a IA incluída ou prefere montar um pacote modular?",
+    snapshotRows: [
+      { criterion: "Canal principal", flowo: "WhatsApp com IA", competitor: "Página e complementos" },
+      { criterion: "IA", flowo: "Incluída", competitor: "Complemento ou Enterprise" },
+      { criterion: "Entrada publicada", flowo: "R$ 249/mês", competitor: "Grátis; Pro R$ 59,90" },
+    ],
     priceSummary:
-      "O Flowo começa em R$ 249/mês. O Barbeiro.app publica plano gratuito, Pro a partir de R$ 59,90/mês e complementos como Assistente de IA por R$ 29,90/mês e WhatsApp Pro por R$ 39,90/mês. Compare o conjunto necessário, não apenas o plano-base.",
+      "O Flowo começa em R$ 249/mês. O Barbeiro.app publica plano gratuito, Pro a partir de R$ 59,90/mês e Enterprise a partir de R$ 139,90/mês para 1 a 2 profissionais. Assistente de IA e WhatsApp Pro aparecem como complementos nos planos aplicáveis; a IA é incluída no Enterprise. Compare o pacote completo e os limites vigentes.",
     keyDifferences: [
       "Flowo inclui a recepção com IA no WhatsApp em todos os planos.",
-      "Barbeiro.app oferece plano gratuito e vende IA, WhatsApp inbound, fiscal e loja como complementos em parte dos planos.",
+      "Barbeiro.app oferece plano gratuito e vende atendimento recebido pelo WhatsApp, fiscal e loja como complementos em parte dos planos; a IA está incluída no Enterprise.",
       "Barbeiro.app enfatiza página pública, fidelidade, indicação e assinaturas; Flowo enfatiza conversa, agenda e supervisão operacional.",
     ],
     rows: [
@@ -364,7 +410,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
         flowo:
           "O cliente conversa com a IA no WhatsApp da barbearia e agenda sem sair da conversa.",
         competitor:
-          "Página própria de agendamento é o canal-base; WhatsApp Pro permite atendimento inbound como complemento.",
+          "Página própria de agendamento é o canal-base; WhatsApp Pro permite receber atendimentos pelo canal como complemento.",
       },
       {
         criterion: "IA",
@@ -392,7 +438,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
         flowo:
           "R$ 249, R$ 549 e R$ 1.049/mês, sem teste grátis; IA no WhatsApp incluída.",
         competitor:
-          "Plano gratuito, Pro a partir de R$ 59,90/mês e complementos opcionais com preços próprios.",
+          "Plano gratuito, Pro a partir de R$ 59,90/mês e Enterprise a partir de R$ 139,90/mês para 1 a 2 profissionais; complementos variam por plano.",
       },
     ],
     faq: [
@@ -404,7 +450,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
       {
         question: "Barbeiro.app é mais barato que o Flowo?",
         answer:
-          "O preço de entrada publicado é menor: o Barbeiro.app oferece plano gratuito e Pro a partir de R$ 59,90/mês. Para comparar corretamente, some os complementos necessários, como WhatsApp Pro e Assistente de IA, e avalie o nível de implantação e suporte desejado.",
+          "O preço de entrada publicado é menor: o Barbeiro.app oferece plano gratuito, Pro a partir de R$ 59,90/mês e Enterprise a partir de R$ 139,90/mês para 1 a 2 profissionais. O Enterprise inclui a IA; nos demais cenários, confirme os complementos necessários e o nível de implantação desejado.",
       },
       {
         question: "Qual oferece mais recursos de fidelidade?",
@@ -436,11 +482,14 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
     id: "avec",
     name: "Avec",
     path: "/flowo-vs-avec",
+    publishedAt: "2026-07-29",
     seoTitle: "Flowo vs Avec: Comparativo para Barbearias",
     seoDescription:
       "Compare Flowo e Avec em IA no WhatsApp, agenda, pagamentos, split, estoque, relatórios, preço e perfil ideal de barbearia.",
     eyebrow: "Recepção conversacional ou plataforma ampla de beleza",
-    headline: "Flowo vs Avec: onde a automação precisa começar na sua barbearia?",
+    headline: "Flowo vs Avec: recepção ou gestão financeira?",
+    heroSummary:
+      "O Flowo começa pela recepção no WhatsApp; a Avec amplia pagamentos, split, estoque e dados para negócios de beleza.",
     summary:
       "A Avec conecta agenda, pagamentos, split, estoque, fiscal, clube e dados para vários segmentos de beleza. O Flowo começa pelo gargalo mais visível da barbearia: o cliente esperando resposta no WhatsApp enquanto a equipe está atendendo.",
     flowoFit:
@@ -448,12 +497,18 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
     competitorFit:
       "Operações que priorizam pagamentos e split no ato, estoque, clube de assinaturas, BI ou uma plataforma ampla para diferentes negócios de beleza.",
     honestVerdict:
-      "A Avec apresenta maior amplitude de backoffice e serviços financeiros. O Flowo é mais focado na experiência conversacional da barbearia e torna essa IA parte do plano, não um add-on.",
+      "A Avec apresenta maior amplitude de gestão administrativa e serviços financeiros. O Flowo é mais focado na experiência conversacional da barbearia e torna essa IA parte do plano, não um complemento.",
+    snapshotQuestion: "O gargalo está na recepção ou no ecossistema financeiro?",
+    snapshotRows: [
+      { criterion: "Foco principal", flowo: "Recepção no WhatsApp", competitor: "Gestão e finanças" },
+      { criterion: "IA no WhatsApp", flowo: "Incluída", competitor: "Solução adicional" },
+      { criterion: "Entrada publicada", flowo: "R$ 249/mês", competitor: "R$ 88,90/mês no anual" },
+    ],
     priceSummary:
-      "O Flowo publica três planos a partir de R$ 249/mês. A Avec mostra R$ 88,90/mês para 1 a 2 profissionais na opção anual e valores sob consulta nas faixas seguintes; WhatsApp integrado, Avec IA, pagamentos e outros itens aparecem como add-ons na tabela pública.",
+      "O Flowo publica três planos a partir de R$ 249/mês. A Avec mostra R$ 88,90/mês para 1 a 2 profissionais na opção anual e valores sob consulta nas faixas seguintes; WhatsApp integrado, Avec IA, pagamentos e outros itens aparecem como recursos adicionais na tabela pública.",
     keyDifferences: [
       "A IA de recepção no WhatsApp está incluída nos planos Flowo.",
-      "A Avec apresenta IA, WhatsApp e várias capacidades financeiras como add-ons.",
+      "A Avec apresenta IA, WhatsApp e várias capacidades financeiras como recursos adicionais.",
       "Avec é uma plataforma horizontal para beleza e bem-estar; Flowo fala diretamente com a rotina de barbearias.",
     ],
     rows: [
@@ -469,7 +524,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
         flowo:
           "Recepção com IA incluída; atende, agenda e confirma em todos os planos.",
         competitor:
-          "A tabela pública identifica WhatsApp integrado/marketing e Avec IA como add-ons.",
+          "A tabela pública identifica WhatsApp integrado, marketing e Avec IA como recursos adicionais.",
       },
       {
         criterion: "Pagamentos e comissões",
@@ -490,7 +545,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
         flowo:
           "R$ 249, R$ 549 e R$ 1.049/mês; sem teste e sem fidelidade.",
         competitor:
-          "R$ 88,90/mês para 1 a 2 profissionais na opção anual; outras faixas sob consulta e diversos add-ons.",
+          "R$ 88,90/mês para 1 a 2 profissionais na opção anual; outras faixas sob consulta e diversos recursos adicionais.",
       },
     ],
     faq: [
@@ -502,7 +557,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
       {
         question: "A IA no WhatsApp está incluída nos dois sistemas?",
         answer:
-          "No Flowo, a IA que atende, agenda e confirma está incluída nos planos. Na tabela pública da Avec, WhatsApp integrado e Avec IA aparecem como add-ons. Confirme os valores e o pacote vigente diretamente com a Avec.",
+          "No Flowo, a IA que atende, agenda e confirma está incluída nos planos. Na tabela pública da Avec, WhatsApp integrado e Avec IA aparecem como recursos adicionais. Confirme os valores e o pacote vigente diretamente com a Avec.",
       },
       {
         question: "Quando a Avec pode ser a melhor escolha?",
@@ -526,7 +581,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
         label: "Planos oficiais da Avec",
         url: "https://negocios.avec.app/avec-planos",
         scope:
-          "Preço publicado, faixas por profissionais e identificação de add-ons.",
+          "Preço publicado, faixas por profissionais e identificação de recursos adicionais.",
       },
     ],
   },
@@ -534,11 +589,14 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
     id: "graces",
     name: "Graces",
     path: "/flowo-vs-graces",
+    publishedAt: "2026-07-29",
     seoTitle: "Flowo vs Graces: Comparativo para Barbearias",
     seoDescription:
       "Compare Flowo e Graces em agenda, WhatsApp com IA, estoque, fiscal, marketing, preço e implantação para sua barbearia.",
     eyebrow: "WhatsApp como recepção ou gestão robusta de backoffice",
-    headline: "Flowo vs Graces: compare a conversa do cliente e o controle da gestão.",
+    headline: "Flowo vs Graces: WhatsApp ou gestão administrativa?",
+    heroSummary:
+      "O Flowo começa pela recepção com IA; a Graces aprofunda controles administrativos, financeiros e de estoque.",
     summary:
       "A Graces apresenta uma gestão detalhada de agenda, caixa, comissão, estoque, fiscal e marketing, com módulos adicionais. O Flowo organiza a operação em torno da IA que recebe o cliente no WhatsApp e consulta a agenda em tempo real.",
     flowoFit:
@@ -547,6 +605,12 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
       "Negócios que priorizam estoque detalhado, fiscal, conciliação, pacotes, convênios e controles administrativos mais extensos.",
     honestVerdict:
       "A Graces descreve um backoffice mais profundo em estoque e financeiro. O Flowo é mais direto para quem quer transformar o WhatsApp em recepção com IA sem montar esse recurso como módulo separado.",
+    snapshotQuestion: "Você precisa primeiro de recepção automática ou de gestão administrativa profunda?",
+    snapshotRows: [
+      { criterion: "Foco principal", flowo: "Recepção no WhatsApp", competitor: "Gestão administrativa" },
+      { criterion: "IA no WhatsApp", flowo: "Incluída", competitor: "Módulo a confirmar" },
+      { criterion: "Entrada publicada", flowo: "R$ 249/mês", competitor: "R$ 94,90/mês" },
+    ],
     priceSummary:
       "O Flowo começa em R$ 249/mês. A Graces publica plano mensal a partir de R$ 94,90 para até três profissionais e anual a partir de R$ 79,90/mês; automação de WhatsApp, IA e fiscal são apresentados na área de módulos. Confirme o pacote aplicável.",
     keyDifferences: [
@@ -600,7 +664,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
       {
         question: "Flowo ou Graces: qual é mais barato?",
         answer:
-          "Na verificação de 29 de julho de 2026, a Graces publicava preço mensal a partir de R$ 94,90 e o Flowo a partir de R$ 249. Compare também quais módulos são necessários e se a IA no WhatsApp está incluída na configuração escolhida.",
+          "Na verificação de 31 de julho de 2026, a Graces publicava preço mensal a partir de R$ 94,90 e o Flowo a partir de R$ 249. Compare também quais módulos são necessários e se a IA no WhatsApp está incluída na configuração escolhida.",
       },
       {
         question: "Quando a Graces pode fazer mais sentido?",
@@ -632,11 +696,14 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
     id: "barva",
     name: "Barva",
     path: "/flowo-vs-barva",
+    publishedAt: "2026-07-31",
     seoTitle: "Flowo vs Barva: IA no WhatsApp e Gestão",
     seoDescription:
       "Compare Flowo e Barva em IA no WhatsApp, agenda, financeiro, estoque, preço, implantação e perfil ideal para sua barbearia.",
     eyebrow: "IA incluída ou gestão-base com módulos opcionais",
-    headline: "Flowo vs Barva: onde a inteligência artificial entra na operação?",
+    headline: "Flowo vs Barva: IA incluída ou módulos?",
+    heroSummary:
+      "O Flowo inclui a IA no produto; o Barva combina uma base obrigatória de gestão com módulos opcionais.",
     summary:
       "O Barva combina uma base obrigatória de gestão com módulos opcionais de IA para atendimento e recuperação de clientes. O Flowo inclui a recepção com IA no WhatsApp em todos os planos e conecta a conversa à agenda e à comanda.",
     flowoFit:
@@ -645,6 +712,12 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
       "Operações que preferem começar por uma gestão ampla, com estoque, fornecedores, compras, clube e dashboards, ativando módulos de IA quando fizer sentido.",
     honestVerdict:
       "O Barva apresenta uma base administrativa mais ampla e permite contratar a gestão sem IA. O Flowo é mais específico para a barbearia que já decidiu transformar o WhatsApp em recepção e quer essa capacidade incluída desde o primeiro plano.",
+    snapshotQuestion: "Você quer começar pela IA ou montar a gestão com módulos opcionais?",
+    snapshotRows: [
+      { criterion: "Arquitetura", flowo: "IA incluída", competitor: "Gestão-base + módulos" },
+      { criterion: "Como avaliar", flowo: "Demonstração guiada", competitor: "Teste de 7 dias" },
+      { criterion: "Preço", flowo: "Público, desde R$ 249", competitor: "Sob proposta" },
+    ],
     priceSummary:
       "O Flowo publica planos de R$ 249, R$ 549 e R$ 1.049 por mês, sem teste grátis. O Barva oferece sete dias de teste e monta uma proposta conforme número de profissionais e módulos; não publica um preço final único na página consultada.",
     keyDifferences: [
@@ -724,11 +797,14 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
     id: "opero",
     name: "Opero",
     path: "/flowo-vs-opero",
+    publishedAt: "2026-07-31",
     seoTitle: "Flowo vs Opero: WhatsApp com IA para Barbearia",
     seoDescription:
       "Compare Flowo e Opero em bot com IA no WhatsApp, agenda por barbeiro, comissão, pagamentos, preço e implantação.",
     eyebrow: "Duas propostas centradas no WhatsApp",
-    headline: "Flowo vs Opero: compare o fluxo completo, não só o bot.",
+    headline: "Flowo vs Opero: onde o fluxo muda?",
+    heroSummary:
+      "Os dois divulgam agendamento pelo WhatsApp; preço, implantação e cobrança de sinal separam as propostas.",
     summary:
       "Flowo e Opero colocam o WhatsApp no centro do agendamento e conectam a conversa à agenda por profissional. A diferença aparece no modelo comercial, no escopo administrativo e na escolha sobre cobrança antecipada e implantação.",
     flowoFit:
@@ -737,6 +813,12 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
       "Quem prioriza menor preço inicial, sete dias de teste, estoque, clube, pacotes e a possibilidade de cobrar sinal ou vender serviços antecipadamente.",
     honestVerdict:
       "A Opero publica uma entrada de preço menor e um backoffice mais amplo em estoque, clube e pacotes. A Flowo se diferencia pela implantação acompanhada, pela recepção com IA incluída e por manter reserva sem sinal e recebimento integrado como escolha pós-atendimento.",
+    snapshotQuestion: "Se os dois usam WhatsApp, onde está a diferença prática?",
+    snapshotRows: [
+      { criterion: "IA no WhatsApp", flowo: "Incluída", competitor: "Incluída conforme plano" },
+      { criterion: "Para reservar", flowo: "Sem sinal", competitor: "Pode cobrar sinal" },
+      { criterion: "Entrada publicada", flowo: "R$ 249/mês", competitor: "R$ 59/mês" },
+    ],
     priceSummary:
       "O Flowo começa em R$ 249/mês, sem teste grátis. A Opero publica quatro planos de R$ 59 a R$ 299/mês, teste de sete dias e capacidades extras com preços próprios. Confirme limites de profissionais, números e notificações na proposta vigente.",
     keyDifferences: [
