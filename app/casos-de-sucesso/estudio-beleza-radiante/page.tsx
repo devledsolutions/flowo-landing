@@ -13,6 +13,7 @@ export const metadata = buildMetadata({
   description:
     "Cenário ilustrativo de como um estúdio de beleza usaria o Flowo: agenda por profissional, lembretes automáticos e reativação de clientes pelo WhatsApp.",
   path: "/casos-de-sucesso/estudio-beleza-radiante",
+  noIndex: true,
 });
 
 const beforeAfterItems = [
@@ -38,7 +39,7 @@ export default function EstudioBelezaRadiantePage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen">
+      <main id="main-content" className="min-h-screen">
         <CaseStudyPage
           crumbLabel="Estúdio de Beleza"
           industry="Beleza e Estética"

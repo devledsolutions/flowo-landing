@@ -61,6 +61,19 @@ O WhatsApp é a recepção do Flowo; o painel é a central de supervisão. A pro
 
 Página comercial canônica: ${SITE_URL}/recepcionista-ia-barbearia
 
+## Prova técnica do fluxo
+
+Em 26 de julho de 2026, a Flowo concluiu em produção, com números e
+estabelecimentos de teste controlados, o fluxo de mensagem recebida, resposta da
+IA, consulta de disponibilidade e criação, consulta, remarcação, cancelamento e
+confirmação de agendamento. O teste também cobriu a pausa da IA para atendimento
+humano e a retomada posterior.
+
+Essa evidência comprova o funcionamento técnico do fluxo. Ela não representa um
+depoimento de cliente nem sustenta uma promessa de aumento de faturamento.
+
+Escopo e demonstração: ${SITE_URL}/demonstracao-agendamento-whatsapp
+
 ## Planos oficiais
 
 ${plans}
@@ -150,6 +163,8 @@ ${comparisons}
 - Calculadora de comissão: ${SITE_URL}/calculadora-comissao-barbeiro
 - Planejador de retorno: ${SITE_URL}/mensagens-retorno-clientes-barbearia
 - Aplicativo para barbeiros: ${SITE_URL}/aplicativo-para-barbeiros
+- Demonstração validada: ${SITE_URL}/demonstracao-agendamento-whatsapp
+- Parcerias e imprensa: ${SITE_URL}/parcerias
 - Planos: ${SITE_URL}/precos
 - Guias: ${SITE_URL}/recursos/guias
 - Termos: ${SITE_URL}/termos

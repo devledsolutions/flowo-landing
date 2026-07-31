@@ -19,6 +19,7 @@ export const metadata = buildMetadata({
   description:
     "Exemplos ilustrativos de como o agendamento com confirmação automática pelo WhatsApp funciona em academias, clínicas e estúdios de beleza.",
   path: "/casos-de-sucesso",
+  noIndex: true,
 });
 
 const useCases = [
@@ -67,7 +68,7 @@ export default function UseCasesPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen">
+      <main id="main-content" className="min-h-screen">
         <section className="pt-32 pb-section-normal">
           <div className="container-page">
             <div className="mx-auto max-w-4xl">

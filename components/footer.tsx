@@ -13,7 +13,10 @@ const produtoLinks = [
   { href: "/aplicativo-para-barbeiros", label: "Aplicativo para a equipe" },
   { href: "/precos", label: "Preços" },
   { href: "/sobre", label: "Sobre nós" },
-  { href: "/casos-de-sucesso", label: "Casos de sucesso" },
+  {
+    href: "/demonstracao-agendamento-whatsapp",
+    label: "Demonstração validada",
+  },
 ];
 
 const barbeariasLinks = [
@@ -46,12 +49,16 @@ const aprendaLinks = [
     href: "/recursos/diagnostico-agenda-barbearia",
     label: "Diagnóstico de agenda",
   },
+  { href: "/parcerias", label: "Parcerias e imprensa" },
 ];
 
 const compararLinks = [
   { href: "/comparar", label: "Comparar sistemas" },
+  { href: "/flowo-vs-opero", label: "Flowo vs Opero" },
+  { href: "/flowo-vs-barva", label: "Flowo vs Barva" },
   { href: "/flowo-vs-appbarber", label: "Flowo vs AppBarber" },
   { href: "/flowo-vs-trinks", label: "Flowo vs Trinks" },
+  { href: "/flowo-vs-bestbarbers", label: "Flowo vs BestBarbers" },
   { href: "/flowo-vs-barbeiro-app", label: "Flowo vs Barbeiro.app" },
 ];
 

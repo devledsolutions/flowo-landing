@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next"
-import { Suspense } from "react"
 import { Poppins, Lora } from "next/font/google"
 import "./globals.css"
 import { SegmentProvider } from "@/providers/segment-provider"
@@ -28,7 +27,7 @@ const lora = Lora({
 })
 
 const DEFAULT_TITLE =
-  "Sistema de Agendamento para Barbearia | WhatsApp + IA - Flowo"
+  "Flowo | IA no WhatsApp e Gestão para Barbearias"
 const DEFAULT_DESCRIPTION =
   "Software de agendamento para barbearias: a IA atende no WhatsApp, agenda e confirma clientes. Organize comandas e recebimentos, com PIX e cartão integrados opcionais."
 
@@ -47,6 +46,8 @@ export const metadata: Metadata = {
     "agenda barbearia",
     "gestão barbearia",
     "software barbearia",
+    "recepcionista ia barbearia",
+    "sistema de gestão para barbearia",
     "lembrete agendamento",
     "reduzir faltas barbearia",
   ],
@@ -142,11 +143,9 @@ export default function RootLayout({
           Pular para o conteúdo principal
         </a>
         <ConsentInitializer />
-        <Suspense fallback={null}>
-          <SegmentProvider writeKey={process.env.NEXT_PUBLIC_SEGMENT_WRITE_KEY}>
-            {children}
-          </SegmentProvider>
-        </Suspense>
+        <SegmentProvider writeKey={process.env.NEXT_PUBLIC_SEGMENT_WRITE_KEY}>
+          {children}
+        </SegmentProvider>
         <CookieBanner />
       </body>
     </html>

@@ -13,6 +13,7 @@ export const metadata = buildMetadata({
   description:
     "Cenário ilustrativo de como uma clínica usaria o Flowo: confirmação automática de consultas pelo WhatsApp e agenda centralizada de vários profissionais.",
   path: "/casos-de-sucesso/clinica-saude-total",
+  noIndex: true,
 });
 
 const beforeAfterItems = [
@@ -38,7 +39,7 @@ export default function ClinicaSaudeTotalPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen">
+      <main id="main-content" className="min-h-screen">
         <CaseStudyPage
           crumbLabel="Clínica"
           industry="Saúde e Bem-estar"

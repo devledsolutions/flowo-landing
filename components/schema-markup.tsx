@@ -42,6 +42,7 @@ export default function SchemaMarkup() {
     inLanguage: "pt-BR",
     author: {
       "@type": "Organization",
+      "@id": `${SITE_URL}/#organization`,
       name: "Flowo",
       url: SITE_URL,
     },
@@ -50,8 +51,10 @@ export default function SchemaMarkup() {
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: LEGAL_ENTITY.name,
-    alternateName: "Flowo",
+    "@id": `${SITE_URL}/#organization`,
+    name: "Flowo",
+    legalName: LEGAL_ENTITY.name,
+    alternateName: "Flowo para Barbearias",
     taxID: LEGAL_ENTITY.taxId,
     url: SITE_URL,
     logo: absoluteUrl("/flowo-logo.svg"),
@@ -65,12 +68,26 @@ export default function SchemaMarkup() {
       postalCode: "80520-560",
       addressCountry: "BR",
     },
-    contactPoint: {
-      "@type": "ContactPoint",
-      contactType: "Customer Support",
-      email: LEGAL_ENTITY.supportEmail,
-      availableLanguage: ["Portuguese"],
+    areaServed: {
+      "@type": "Country",
+      name: "Brasil",
     },
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        contactType: "Sales",
+        telephone: "+55 19 99805-3595",
+        availableLanguage: ["Portuguese"],
+        areaServed: "BR",
+      },
+      {
+        "@type": "ContactPoint",
+        contactType: "Customer Support",
+        email: LEGAL_ENTITY.supportEmail,
+        availableLanguage: ["Portuguese"],
+        areaServed: "BR",
+      },
+    ],
   };
 
   const webSiteSchema = {
@@ -80,6 +97,9 @@ export default function SchemaMarkup() {
     alternateName: "flowo.com.br",
     url: SITE_URL,
     inLanguage: "pt-BR",
+    publisher: {
+      "@id": `${SITE_URL}/#organization`,
+    },
   };
 
   const faqSchema = {

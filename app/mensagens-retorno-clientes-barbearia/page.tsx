@@ -5,7 +5,7 @@ import { ReturnPlanner } from "@/components/marketing/growth-tools/return-planne
 import { buildMetadata } from "@/lib/seo";
 
 const PATH = "/mensagens-retorno-clientes-barbearia";
-const TITLE = "Mensagens de Retorno para Clientes de Barbearia | Planejador Flowo";
+const TITLE = "Planejador de Retorno de Clientes para Barbearia | Flowo";
 const DESCRIPTION =
   "Planeje a data de retorno do cliente e crie uma mensagem responsável de WhatsApp, com lembrete de consentimento e saída.";
 

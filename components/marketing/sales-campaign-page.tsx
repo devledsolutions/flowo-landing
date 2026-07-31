@@ -174,6 +174,27 @@ const objections = [
   },
 ] as const;
 
+const decisionLinks = [
+  {
+    href: "/demonstracao-agendamento-whatsapp",
+    label: "Ver a demonstração validada",
+    description:
+      "Entenda o que já foi testado do WhatsApp até a agenda, sem confundir prova técnica com caso de cliente.",
+  },
+  {
+    href: "/sistema-agendamento-barbearia",
+    label: "Conhecer o sistema para barbearia",
+    description:
+      "Veja agenda, equipe, clientes, comandas e recebimentos dentro da mesma operação.",
+  },
+  {
+    href: "/comparar",
+    label: "Comparar com outras alternativas",
+    description:
+      "Consulte comparações datadas, fontes oficiais e situações em que cada escolha pode fazer mais sentido.",
+  },
+] as const;
+
 export function SalesCampaignPage() {
   return (
     <div className="min-h-screen bg-cream pb-20 md:pb-0">
@@ -596,6 +617,44 @@ export function SalesCampaignPage() {
                 </AccordionItem>
               ))}
             </Accordion>
+          </div>
+        </section>
+
+        <section className="section-tight bg-cream" aria-labelledby="continue-decidindo">
+          <div className="container-page grid gap-10 lg:grid-cols-[0.58fr_1fr] lg:gap-20">
+            <div>
+              <h2
+                id="continue-decidindo"
+                className="max-w-[15ch] text-h3 font-semibold text-ink-strong"
+              >
+                Continue decidindo com o produto e os fatos à vista.
+              </h2>
+            </div>
+            <nav aria-label="Próximas páginas para conhecer a Flowo">
+              <ul className="divide-y divide-line border-y border-line">
+                {decisionLinks.map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className="group grid min-h-24 gap-2 py-5 outline-none sm:grid-cols-[minmax(0,1fr)_2rem] sm:items-center focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-4"
+                    >
+                      <span>
+                        <span className="font-semibold text-ink group-hover:underline group-hover:underline-offset-4">
+                          {item.label}
+                        </span>
+                        <span className="mt-1 block max-w-2xl text-sm leading-relaxed text-muted-ink">
+                          {item.description}
+                        </span>
+                      </span>
+                      <ChevronRight
+                        className="hidden h-5 w-5 text-faint-ink transition-transform duration-200 ease-out-quint group-hover:translate-x-1 sm:block"
+                        aria-hidden="true"
+                      />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           </div>
         </section>
 

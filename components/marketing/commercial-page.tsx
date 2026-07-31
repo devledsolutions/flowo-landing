@@ -43,13 +43,13 @@ export function CommercialHero({
               {description}
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <a
-                href={SIGNUP_URL}
+              <Link
+                href="/demonstracao-agendamento-whatsapp"
                 className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-ink px-7 py-3 text-label font-semibold text-cream transition-opacity duration-200 ease-out-quint hover:opacity-90"
               >
-                Começar agora
+                Ver demonstração
                 <ArrowRight aria-hidden className="h-4 w-4" />
-              </a>
+              </Link>
               <Link
                 href="/precos"
                 className="inline-flex min-h-12 items-center justify-center rounded-full border border-line px-7 py-3 text-label font-medium text-ink transition-colors duration-200 ease-out-quint hover:bg-surface-2"
@@ -57,6 +57,16 @@ export function CommercialHero({
                 Comparar planos
               </Link>
             </div>
+            <p className="mt-4 text-caption text-muted-ink">
+              Já decidiu?{" "}
+              <a
+                href={SIGNUP_URL}
+                className="font-semibold text-ink underline underline-offset-4"
+              >
+                Começar agora
+              </a>
+              .
+            </p>
           </div>
           <ProductPreview kind={preview} />
         </div>

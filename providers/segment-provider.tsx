@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState, useCallback, ReactNode } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { getSavedConsent, type ConsentPreferences } from "@/lib/consent";
 
 const ATTRIBUTION_STORAGE_KEY = "flowo:first-touch-attribution";
@@ -168,8 +168,6 @@ export function SegmentProvider({ children, writeKey }: SegmentProviderProps) {
   const [isReady, setIsReady] = useState(false);
   const [hasConsent, setHasConsent] = useState(false);
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const search = searchParams?.toString() ?? "";
 
   // Initialize Segment when consent is granted
   const initializeSegment = useCallback((): void => {
@@ -233,7 +231,12 @@ export function SegmentProvider({ children, writeKey }: SegmentProviderProps) {
   useEffect(() => {
     if (!isReady || !hasConsent || !window.analytics) return;
 
-    const url = pathname + (search ? `?${search}` : "");
+    // Read the query string inside the effect so the analytics provider does
+    // not suspend the entire document during static rendering. UTM values are
+    // still captured on first load and on every pathname transition, while
+    // the page content remains present in the initial HTML for crawlers.
+    const search = window.location.search.slice(1);
+    const url = pathname + window.location.search;
 
     window.analytics.page(undefined, undefined, {
       path: pathname,
@@ -242,7 +245,7 @@ export function SegmentProvider({ children, writeKey }: SegmentProviderProps) {
       title: document.title,
       ...getAnalyticsContext(),
     });
-  }, [pathname, search, isReady, hasConsent]);
+  }, [pathname, isReady, hasConsent]);
 
   // Context methods
   const track = useCallback((event: string, properties?: object) => {

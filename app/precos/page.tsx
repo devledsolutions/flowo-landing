@@ -12,7 +12,7 @@ import { absoluteUrl, buildMetadata } from "@/lib/seo";
 const [solo, equipe, empresarial] = PLANS;
 
 export const metadata = buildMetadata({
-  title: "Preços e planos",
+  title: "Planos e Preços para Barbearias",
   description: `Planos para barbearias: Solo por ${formatBRL(solo.monthly)}/mês, Equipe por ${formatBRL(equipe.monthly)}/mês e Empresarial por ${formatBRL(empresarial.monthly)}/mês. IA no WhatsApp, lembretes e pagamentos integrados opcionais. Sem fidelidade.`,
   path: "/precos",
 });

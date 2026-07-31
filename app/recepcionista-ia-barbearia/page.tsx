@@ -50,6 +50,23 @@ export default function RecepcionistaIaBarbeariaPage() {
         },
       },
       {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Início",
+            item: absoluteUrl("/"),
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Recepcionista com IA para barbearia",
+            item: absoluteUrl(PAGE_PATH),
+          },
+        ],
+      },
+      {
         "@type": "SoftwareApplication",
         name: "Flowo",
         applicationCategory: "BusinessApplication",

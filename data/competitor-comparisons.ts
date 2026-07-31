@@ -1,5 +1,5 @@
-export const COMPARISON_LAST_VERIFIED = "2026-07-29";
-export const COMPARISON_LAST_VERIFIED_LABEL = "29 de julho de 2026";
+export const COMPARISON_LAST_VERIFIED = "2026-07-31";
+export const COMPARISON_LAST_VERIFIED_LABEL = "31 de julho de 2026";
 
 export interface ComparisonSource {
   label: string;
@@ -19,7 +19,15 @@ export interface ComparisonFaq {
 }
 
 export interface CompetitorComparison {
-  id: "appbarber" | "trinks" | "barbeiro-app" | "avec" | "graces";
+  id:
+    | "appbarber"
+    | "trinks"
+    | "bestbarbers"
+    | "barbeiro-app"
+    | "avec"
+    | "graces"
+    | "barva"
+    | "opero";
   name: string;
   path: string;
   seoTitle: string;
@@ -225,6 +233,104 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
         url: "https://negocios.trinks.com/planos/",
         scope:
           "Preço publicado, teste, adicionais, integrações e condições comerciais.",
+      },
+    ],
+  },
+  {
+    id: "bestbarbers",
+    name: "BestBarbers",
+    path: "/flowo-vs-bestbarbers",
+    seoTitle: "Flowo vs BestBarbers: Comparativo para Barbearias",
+    seoDescription:
+      "Compare Flowo e BestBarbers em WhatsApp com IA, app próprio, clube de assinaturas, agenda, gestão, preço e implantação.",
+    eyebrow: "Recepção no WhatsApp ou aplicativo com a sua marca",
+    headline: "Flowo vs BestBarbers: conversa com IA ou app próprio para o cliente?",
+    summary:
+      "O BestBarbers vende um aplicativo próprio com a marca da barbearia, clube de assinaturas e uma operação ampla. O Flowo coloca a recepção com IA no WhatsApp no centro da experiência e conecta a conversa à agenda e ao painel da equipe.",
+    flowoFit:
+      "Barbearias em que a maior parte dos pedidos já chega pelo WhatsApp e que querem atender e agendar sem exigir download ou login do cliente.",
+    competitorFit:
+      "Operações que priorizam um aplicativo publicado com a própria marca, clube de assinaturas, notificações push, totem e gestão de várias unidades.",
+    honestVerdict:
+      "O BestBarbers oferece uma proposta mais forte para app próprio, assinatura e autoatendimento. O Flowo reduz a mudança de hábito do cliente ao usar o WhatsApp como recepção e inclui a IA conversacional no fluxo principal.",
+    priceSummary:
+      "O Flowo começa em R$ 249/mês, sem teste grátis. O BestBarbers publica um plano básico gratuito e o plano App Exclusivo a partir de R$ 299/mês. Confirme quais recursos, implantação e equipamentos opcionais entram na proposta vigente.",
+    keyDifferences: [
+      "No Flowo, o cliente pode conversar e agendar no WhatsApp sem baixar um aplicativo.",
+      "O BestBarbers diferencia sua oferta com app próprio, clube de assinaturas, notificações push e totem opcional.",
+      "As duas propostas cobrem agenda, clientes, financeiro e comissões, mas partem de canais de aquisição e relacionamento diferentes.",
+    ],
+    rows: [
+      {
+        criterion: "Caminho principal do agendamento",
+        flowo:
+          "A IA conversa no WhatsApp, consulta serviços, profissionais e disponibilidade e registra o horário.",
+        competitor:
+          "O cliente usa o app próprio ou o link de agendamento para escolher profissional, serviço e horário.",
+      },
+      {
+        criterion: "Relacionamento com o cliente",
+        flowo:
+          "Atendimento, confirmação e retomada acontecem no WhatsApp, com supervisão humana no mesmo histórico.",
+        competitor:
+          "O app próprio concentra agenda, pagamento e assinatura; notificações push são usadas para lembretes e campanhas.",
+      },
+      {
+        criterion: "Receita recorrente e fidelização",
+        flowo:
+          "Histórico, campanhas e cashback configurável; o Flowo Recupera é um add-on em beta acompanhada.",
+        competitor:
+          "Clube de assinaturas com cobrança automática, gestão de inadimplência e planos dentro do aplicativo.",
+      },
+      {
+        criterion: "Operação e equipe",
+        flowo:
+          "Agenda por profissional, comandas, clientes, comissões, pagamentos opcionais e fiscal assistido conforme o plano e a ativação.",
+        competitor:
+          "Agenda, financeiro, comissões, estoque, multi-unidades, relatórios, nota fiscal e totem opcional são divulgados no site oficial.",
+      },
+      {
+        criterion: "Modelo comercial publicado",
+        flowo:
+          "R$ 249, R$ 549 e R$ 1.049/mês, sem teste grátis e sem fidelidade; IA no WhatsApp incluída.",
+        competitor:
+          "Plano básico gratuito e App Exclusivo a partir de R$ 299/mês; app personalizado leva prazo de publicação nas lojas.",
+      },
+    ],
+    faq: [
+      {
+        question: "Qual é a principal diferença entre Flowo e BestBarbers?",
+        answer:
+          "O Flowo usa o WhatsApp com IA como recepção principal. O BestBarbers usa um aplicativo próprio com a marca da barbearia como um dos centros da experiência do cliente.",
+      },
+      {
+        question: "Qual deles exige que o cliente baixe um aplicativo?",
+        answer:
+          "O cliente não precisa baixar aplicativo para conversar e agendar com o Flowo pelo WhatsApp. No BestBarbers, o app próprio é um diferencial central, embora a plataforma também divulgue link de agendamento.",
+      },
+      {
+        question: "Flowo ou BestBarbers: qual é mais barato?",
+        answer:
+          "O BestBarbers publica um plano básico gratuito e App Exclusivo a partir de R$ 299/mês. O Flowo começa em R$ 249/mês e inclui a recepção com IA no WhatsApp. Compare o pacote completo e o canal que sua barbearia quer priorizar.",
+      },
+      {
+        question: "Quando o BestBarbers pode ser a melhor escolha?",
+        answer:
+          "Quando app próprio, clube de assinaturas, notificações push, totem ou gestão multi-unidades pesam mais do que manter o WhatsApp como porta principal do agendamento.",
+      },
+    ],
+    sources: [
+      {
+        label: "BestBarbers para barbearias",
+        url: "https://www.bestbarbers.app/sistema-para-barbearia",
+        scope:
+          "Funcionalidades, plano básico, preço do App Exclusivo, implantação, FAQ e escopo comercial.",
+      },
+      {
+        label: "Site oficial do BestBarbers",
+        url: "https://www.bestbarbers.app/",
+        scope:
+          "App próprio, assinaturas, fiscal, notificações, gestão, processo de entrega e contato.",
       },
     ],
   },
@@ -519,6 +625,190 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
         url: "https://graces.com.br/planos/",
         scope:
           "Preços publicados, faixas, funcionalidades e módulos adicionais.",
+      },
+    ],
+  },
+  {
+    id: "barva",
+    name: "Barva",
+    path: "/flowo-vs-barva",
+    seoTitle: "Flowo vs Barva: IA no WhatsApp e Gestão",
+    seoDescription:
+      "Compare Flowo e Barva em IA no WhatsApp, agenda, financeiro, estoque, preço, implantação e perfil ideal para sua barbearia.",
+    eyebrow: "IA incluída ou gestão-base com módulos opcionais",
+    headline: "Flowo vs Barva: onde a inteligência artificial entra na operação?",
+    summary:
+      "O Barva combina uma base obrigatória de gestão com módulos opcionais de IA para atendimento e recuperação de clientes. O Flowo inclui a recepção com IA no WhatsApp em todos os planos e conecta a conversa à agenda e à comanda.",
+    flowoFit:
+      "Barbearias que querem começar com a IA no WhatsApp como parte do produto, preços públicos e implantação acompanhada da conversa à agenda.",
+    competitorFit:
+      "Operações que preferem começar por uma gestão ampla, com estoque, fornecedores, compras, clube e dashboards, ativando módulos de IA quando fizer sentido.",
+    honestVerdict:
+      "O Barva apresenta uma base administrativa mais ampla e permite contratar a gestão sem IA. O Flowo é mais específico para a barbearia que já decidiu transformar o WhatsApp em recepção e quer essa capacidade incluída desde o primeiro plano.",
+    priceSummary:
+      "O Flowo publica planos de R$ 249, R$ 549 e R$ 1.049 por mês, sem teste grátis. O Barva oferece sete dias de teste e monta uma proposta conforme número de profissionais e módulos; não publica um preço final único na página consultada.",
+    keyDifferences: [
+      "A recepção com IA no WhatsApp está incluída nos três planos Flowo.",
+      "No Barva, a gestão completa é obrigatória e as IAs de atendimento e recuperação são módulos opcionais.",
+      "O Barva divulga estoque, fornecedores, compras e clube; o Flowo concentra a proposta na recepção, agenda, equipe e fechamento do atendimento.",
+    ],
+    rows: [
+      {
+        criterion: "IA no WhatsApp",
+        flowo:
+          "A IA atende, consulta disponibilidade e agenda no WhatsApp como parte dos planos publicados.",
+        competitor:
+          "A IA para atendimento no WhatsApp é um módulo opcional integrado ao sistema de gestão obrigatório.",
+      },
+      {
+        criterion: "Agenda e equipe",
+        flowo:
+          "Dias, turnos, folgas, serviços e duração podem variar por profissional nos planos com equipe.",
+        competitor:
+          "A página oficial apresenta agenda, profissionais, serviços, disponibilidade e encaixes na base de gestão.",
+      },
+      {
+        criterion: "Gestão além da agenda",
+        flowo:
+          "Comandas, histórico, campanhas, cashback e recebimentos opcionais ficam conectados ao atendimento.",
+        competitor:
+          "A base divulgada inclui estoque, produtos, fornecedores, compras, financeiro, fidelidade, clube e dashboards.",
+      },
+      {
+        criterion: "Como avaliar antes de contratar",
+        flowo:
+          "Demonstração pública do fluxo validado e conversa acompanhada; não há período de teste.",
+        competitor:
+          "Telas, vídeo, demonstração guiada, proposta personalizada e teste grátis de sete dias.",
+      },
+      {
+        criterion: "Modelo comercial publicado",
+        flowo:
+          "R$ 249, R$ 549 e R$ 1.049/mês; IA incluída, sem fidelidade e sem teste grátis.",
+        competitor:
+          "Preço sob proposta conforme profissionais e módulos; gestão-base obrigatória e IAs opcionais.",
+      },
+    ],
+    faq: [
+      {
+        question: "Qual é a principal diferença entre Flowo e Barva?",
+        answer:
+          "No Flowo, a IA no WhatsApp é parte central de todos os planos. No Barva, o sistema de gestão é a base obrigatória e as IAs de atendimento e recuperação aparecem como módulos opcionais.",
+      },
+      {
+        question: "O Barva tem mais recursos de gestão que o Flowo?",
+        answer:
+          "A página pública do Barva descreve maior profundidade em estoque, fornecedores, compras e clube de assinaturas. O Flowo apresenta agenda, equipe, comandas, clientes, campanhas e recebimentos, com foco mais específico na recepção pelo WhatsApp.",
+      },
+      {
+        question: "Qual deles permite testar antes?",
+        answer:
+          "O Barva divulga sete dias de teste grátis. O Flowo não oferece período de teste; disponibiliza demonstração e configuração acompanhada.",
+      },
+      {
+        question: "Como comparar o preço de Flowo e Barva?",
+        answer:
+          "O Flowo publica três preços mensais. O Barva solicita número de profissionais e módulos para montar a proposta. Compare o valor final com a IA e os módulos necessários, não apenas a base de gestão.",
+      },
+    ],
+    sources: [
+      {
+        label: "Site oficial do Barva",
+        url: "https://www.barva.com.br/",
+        scope:
+          "Gestão obrigatória, módulos opcionais de IA, funcionalidades, demonstração, teste e proposta comercial.",
+      },
+    ],
+  },
+  {
+    id: "opero",
+    name: "Opero",
+    path: "/flowo-vs-opero",
+    seoTitle: "Flowo vs Opero: WhatsApp com IA para Barbearia",
+    seoDescription:
+      "Compare Flowo e Opero em bot com IA no WhatsApp, agenda por barbeiro, comissão, pagamentos, preço e implantação.",
+    eyebrow: "Duas propostas centradas no WhatsApp",
+    headline: "Flowo vs Opero: compare o fluxo completo, não só o bot.",
+    summary:
+      "Flowo e Opero colocam o WhatsApp no centro do agendamento e conectam a conversa à agenda por profissional. A diferença aparece no modelo comercial, no escopo administrativo e na escolha sobre cobrança antecipada e implantação.",
+    flowoFit:
+      "Barbearias que preferem implantação acompanhada, pagamentos opcionais somente depois do serviço e uma proposta que não exige sinal para reservar.",
+    competitorFit:
+      "Quem prioriza menor preço inicial, sete dias de teste, estoque, clube, pacotes e a possibilidade de cobrar sinal ou vender serviços antecipadamente.",
+    honestVerdict:
+      "A Opero publica uma entrada de preço menor e um backoffice mais amplo em estoque, clube e pacotes. A Flowo se diferencia pela implantação acompanhada, pela recepção com IA incluída e por manter reserva sem sinal e recebimento integrado como escolha pós-atendimento.",
+    priceSummary:
+      "O Flowo começa em R$ 249/mês, sem teste grátis. A Opero publica quatro planos de R$ 59 a R$ 299/mês, teste de sete dias e capacidades extras com preços próprios. Confirme limites de profissionais, números e notificações na proposta vigente.",
+    keyDifferences: [
+      "As duas plataformas divulgam IA no WhatsApp conectada à agenda por profissional.",
+      "O Flowo não cobra sinal para reservar e deixa o pagamento integrado como opção depois do atendimento.",
+      "A Opero publica entrada mais barata, teste grátis e recursos como estoque, clube, pacotes e cobrança antecipada.",
+    ],
+    rows: [
+      {
+        criterion: "WhatsApp e agendamento",
+        flowo:
+          "A IA conversa, consulta horários e registra o agendamento; a equipe pode pausar e retomar a automação.",
+        competitor:
+          "O site apresenta bot no WhatsApp que entende serviços, consulta disponibilidade por barbeiro e agenda.",
+      },
+      {
+        criterion: "Horários da equipe",
+        flowo:
+          "Cada profissional pode ter dias, turnos, folgas, serviços e duração próprios nos planos com equipe.",
+        competitor:
+          "Cada barbeiro tem agenda, horários, serviços e bloqueios próprios, segundo a página oficial.",
+      },
+      {
+        criterion: "Pagamento e reserva",
+        flowo:
+          "Não há sinal ou pagamento para reservar; PIX e cartão integrados são opcionais depois do atendimento.",
+        competitor:
+          "A página divulga cobrança de sinal por PIX, clube com cobrança recorrente e pacotes vendidos antecipadamente.",
+      },
+      {
+        criterion: "Operação ampliada",
+        flowo:
+          "Agenda, comandas, clientes, campanhas, cashback, fiscal assistido e recebimentos opcionais.",
+        competitor:
+          "Agenda, caixa, comissão, CRM, estoque, clube, fidelidade, pacotes, cupons e relatórios em PDF.",
+      },
+      {
+        criterion: "Modelo comercial publicado",
+        flowo:
+          "R$ 249, R$ 549 e R$ 1.049/mês, sem teste grátis e sem fidelidade.",
+        competitor:
+          "Planos de R$ 59, R$ 99, R$ 179 e R$ 299/mês, teste de sete dias e extras de capacidade publicados.",
+      },
+    ],
+    faq: [
+      {
+        question: "Flowo e Opero agendam pelo WhatsApp?",
+        answer:
+          "Sim. As duas plataformas apresentam uma automação que consulta disponibilidade por profissional e registra o horário a partir da conversa no WhatsApp.",
+      },
+      {
+        question: "Qual é mais barato, Flowo ou Opero?",
+        answer:
+          "A Opero publica entrada de R$ 59/mês e o Flowo começa em R$ 249/mês. Compare os limites de profissionais, números, notificações, implantação e recursos necessários em cada plano.",
+      },
+      {
+        question: "Qual cobra sinal para agendar?",
+        answer:
+          "O Flowo não oferece sinal ou pagamento antecipado para reservar. A Opero divulga cobrança de sinal por PIX como uma das ferramentas para horários de pico.",
+      },
+      {
+        question: "Quando o Flowo pode fazer mais sentido?",
+        answer:
+          "Quando a barbearia quer configuração acompanhada, atendimento humano no mesmo fluxo e liberdade para receber fora da plataforma sem exigir pagamento antes do serviço.",
+      },
+    ],
+    sources: [
+      {
+        label: "Opero para barbearias",
+        url: "https://operosistemas.com.br/sistema-para-barbearia",
+        scope:
+          "WhatsApp, agenda, equipe, pagamentos, comissão, CRM, funcionalidades, preços, teste e extras.",
       },
     ],
   },
