@@ -58,19 +58,22 @@ const featuredGuides = [
 
 const downloads = [
   {
-    title: "Planilha de Precificação",
-    description: "Calcule o preço ideal dos seus serviços",
-    icon: FileSpreadsheet,
+    title: "Raio-X da Agenda",
+    description: "Diagnóstico para WhatsApp, horários e equipe",
+    icon: BookOpen,
+    href: "/recursos/diagnostico-agenda-barbearia",
   },
   {
     title: "Calendário de Conteúdo",
     description: "30 dias de ideias para Instagram",
     icon: Calendar,
+    href: "/recursos/materiais",
   },
   {
     title: "Planilha de Comissões",
     description: "Controle pagamentos da equipe",
     icon: FileSpreadsheet,
+    href: "/recursos/materiais",
   },
 ];
 
@@ -411,7 +414,7 @@ export default function ResourcesPage() {
                   {downloads.map((item) => (
                     <Link
                       key={item.title}
-                      href="/recursos/materiais"
+                      href={item.href}
                       className="group block rounded-lg border border-line bg-surface p-5 transition-colors duration-200 ease-out-quint hover:border-ink/40"
                     >
                       <div className="mb-3 flex items-center justify-between">

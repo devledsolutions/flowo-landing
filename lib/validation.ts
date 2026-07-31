@@ -21,11 +21,15 @@ export const leadCaptureSchema = z.object({
     .email()
     .optional()
     .or(z.literal("")),
-  whatsapp: whatsappSchema,
+  whatsapp: whatsappSchema.optional().or(z.literal("")),
   source: z.string().trim().min(1).max(120),
+  requestedResource: z.string().trim().max(120).optional().or(z.literal("")),
   company: z.string().trim().max(200).optional().or(z.literal("")),
   consent: z.literal(true),
-  marketingConsent: z.boolean().optional().default(false),
+  emailMarketingConsent: z.boolean().optional(),
+  smsMarketingConsent: z.boolean().optional(),
+  // Backward-compatible while older cached clients finish rolling over.
+  marketingConsent: z.boolean().optional(),
   landingPath: z.string().trim().max(300).optional().or(z.literal("")),
   referrer: z.string().trim().max(500).optional().or(z.literal("")),
   utmSource: z.string().trim().max(100).optional().or(z.literal("")),

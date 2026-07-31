@@ -127,9 +127,7 @@ const sections: LegalSection[] = [
           configuração da conta. Também podemos compartilhar dados para cumprir
           lei, ordem válida, defender direitos ou lidar com incidente.
         </p>
-        <p>
-          Quando o canal WhatsApp é ativado, utilizamos atualmente:
-        </p>
+        <p>Entre os principais operadores utilizados atualmente estão:</p>
         <ul>
           <li>
             <strong>Meta Platforms / WhatsApp:</strong> responsável pela
@@ -188,6 +186,13 @@ const sections: LegalSection[] = [
             para responder a um pedido de contato ou entregar um material não
             inscreve automaticamente a pessoa em marketing. O descadastro e as
             preferências podem ser alterados pelos links presentes nos e-mails.
+          </li>
+          <li>
+            <strong>SMSDev:</strong> usado para transportar SMS no Brasil. SMS
+            de novidades e convites da própria Flowo só é enviado quando a
+            pessoa marca o opt-in específico para esse canal. O consentimento
+            para e-mail não autoriza SMS. A pessoa pode revogar a autorização
+            respondendo SAIR ou solicitando o cancelamento à Flowo.
           </li>
         </ul>
         <p>

@@ -19,10 +19,10 @@ consentimento, o site faz um `identify` separado com os dados declarados. Esses
 dados ficam em traits de pessoa e nunca são copiados para propriedades de
 eventos.
 
-O aceite necessário para responder a uma solicitação é separado do opt-in
-opcional de e-mail marketing. Somente o segundo pode inscrever o contato no
-Resend. Downloads e pedidos de contato continuam funcionando sem opt-in de
-marketing.
+O aceite necessário para responder a uma solicitação é separado dos opt-ins
+opcionais de e-mail e SMS marketing. Os dois canais têm consentimentos
+independentes: aceitar e-mail não autoriza SMS, e vice-versa. Downloads e
+pedidos de contato continuam funcionando sem qualquer opt-in de marketing.
 
 O plano gratuito do Segment inclui até 1.000 visitantes mensais, duas fontes e
 distribuição para destinos, mas não substitui uma ferramenta de campanhas nem
@@ -92,8 +92,37 @@ formulário for aceito ou quando uma mensagem realmente chegar ao WhatsApp.
 
 Os mesmos quatro eventos usam `form=resource_download` nos materiais. Depois
 da confirmação da API, também é emitido `Resource Downloaded`.
-As conversões confirmadas incluem apenas o booleano `marketing_opt_in`, sem
-copiar o e-mail para propriedades do evento, permitindo medir a taxa de opt-in.
+As conversões confirmadas incluem apenas os booleanos
+`email_marketing_opt_in` e `sms_marketing_opt_in`, sem copiar e-mail ou telefone
+para propriedades do evento. O trait legado `marketing_opt_in` representa
+somente e-mail e existe apenas para preservar a série histórica.
+
+### Diagnóstico de agenda
+
+A rota `/recursos/diagnostico-agenda-barbearia` possui uma sequência própria
+para separar intenção, entrega e interesse no produto:
+
+| Evento | Momento |
+| --- | --- |
+| `Lead Magnet Viewed` | landing montada no navegador |
+| `Lead Magnet CTA Clicked` | clique em um atalho para o formulário |
+| `Lead Magnet Form Started` | primeiro foco em um campo |
+| `Lead Magnet Form Submitted` | tentativa enviada à API |
+| `Lead Magnet Form Failed` | erro HTTP ou de rede |
+| `Lead Magnet Delivered` | API confirmou o lead e liberou o material |
+| `Lead Magnet Downloaded` | pessoa acionou o link do PDF |
+| `Lead Magnet Nurture Started` | pelo menos um opt-in opcional foi autorizado |
+| `Lead Magnet Product CTA Clicked` | clique da confirmação para a página comercial |
+
+`track` recebe apenas `resource_id`, estado de opt-in, presença de telefone,
+posição e código HTTP. Nome, e-mail e telefone aparecem somente no `identify`
+separado. O PDF estático é liberado na própria página; a cópia por e-mail é
+transacional e não depende de consentimento de marketing.
+
+A rota `/recepcionista-ia-barbearia` usa a origem
+`sales-campaign:<placement>` em todos os pontos de conversão. Os placements
+distinguem hero, cabeçalho, vídeo, plano, fechamento e CTA fixo de celular sem
+criar nomes de evento novos.
 
 ### Intenção e consumo
 
@@ -121,17 +150,34 @@ pessoa que chegou pelo Segment:
 ## Registro durável dos leads
 
 `/api/lead-capture` grava primeiro em `websiteLeads` no Convex. A chave de
-deduplicação é o WhatsApp normalizado; reenvios atualizam origem e consentimento
-sem criar linhas ilimitadas. A função pública possui limite global e por contato.
+deduplicação é o WhatsApp normalizado quando informado e o e-mail normalizado
+quando o telefone é opcional; reenvios atualizam origem e consentimento sem
+criar linhas ilimitadas. A função pública possui limite global e por contato.
 O workspace comercial super-admin fica em `/plataforma/aquisicao`, com
 responsável, etapa, próxima ação, atrasos e histórico.
 
-O Convex é a fonte de verdade. O Segment coleta e distribui sinais de aquisição;
-ele não dispara campanhas. Quando existe opt-in explícito, uma ação interna
-assíncrona sincroniza o contato com um segmento e um tópico do Resend Marketing.
-Broadcasts e Automations continuam no Resend, que centraliza descadastro,
-preferências e métricas. Falha de sincronização nunca pode fazer a Flowo perder
-o lead nem impedir download/entrada na lista.
+O Convex é a fonte de verdade de lead, consentimento, estágio comercial e
+supressão. O Segment coleta e distribui sinais de aquisição; ele não dispara
+campanhas e não decide quem pode recebê-las.
+
+Com opt-in explícito de e-mail, uma ação assíncrona sincroniza o contato e emite
+o evento de entrada para uma Automation do Resend. O Resend centraliza os
+templates, atrasos, métricas e o descadastro nativo do canal. O webhook
+`contact.updated` devolve o descadastro ao Convex.
+
+Quando a captura contém `requestedResource`, uma ação transacional separada
+envia o link solicitado pelo Resend operacional. Ela não inscreve o contato em
+Automation, não altera opt-in e não utiliza o remetente de marketing.
+
+Com opt-in explícito de SMS e telefone brasileiro válido, o Convex controla uma
+fila separada para leads e envia pelo adaptador neutro de SMS configurado para
+SMSDev. Essa fila não usa campanhas, franquias ou cobrança de mensagens dos
+tenants. Ela respeita janela de envio, limite diário, resposta `SAIR`,
+supressão, DLR e pausa comercial.
+
+Falha de sincronização ou de entrega nunca pode fazer a Flowo perder o lead,
+impedir download/entrada na lista ou transformar consentimento de um canal em
+consentimento do outro.
 Turnstile é uma camada adicional quando
 `NEXT_PUBLIC_TURNSTILE_SITE_KEY` e `TURNSTILE_SECRET_KEY` estiverem configuradas;
 honeypot e limites distribuídos permanecem ativos no caminho principal.

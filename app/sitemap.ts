@@ -3,7 +3,7 @@ import { COMPETITOR_COMPARISONS } from "@/data/competitor-comparisons";
 import { GUIDES } from "@/data/guides";
 import { SITE_URL } from "@/lib/seo";
 
-const LAST_MODIFIED = new Date("2026-07-29T00:00:00.000Z");
+const LAST_MODIFIED = new Date("2026-07-30T00:00:00.000Z");
 const COMPETITOR_ROUTES = COMPETITOR_COMPARISONS.map(
   (comparison) => comparison.path,
 );
@@ -11,6 +11,7 @@ const COMPETITOR_ROUTES = COMPETITOR_COMPARISONS.map(
 const CORE_ROUTES = [
   "/",
   "/precos",
+  "/recepcionista-ia-barbearia",
   "/sistema-agendamento-barbearia",
   "/agenda-barbearia-whatsapp",
   "/software-barbearia-com-pix",
@@ -26,6 +27,7 @@ const CORE_ROUTES = [
   "/recursos",
   "/recursos/videos",
   "/recursos/materiais",
+  "/recursos/diagnostico-agenda-barbearia",
   "/recursos/guias",
   "/casos-de-sucesso",
   "/casos-de-sucesso/academia-corpo-em-forma",
@@ -45,7 +47,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority:
       route === "/"
         ? 1
-        : route === "/sistema-agendamento-barbearia" ||
+        : route === "/recepcionista-ia-barbearia" ||
+            route === "/sistema-agendamento-barbearia" ||
             route === "/agenda-barbearia-whatsapp" ||
             route === "/software-barbearia-com-pix" ||
             route === "/aplicativo-para-barbeiros" ||
@@ -53,6 +56,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
             route === "/recursos/comissoes-barbeiros" ||
             route === "/recursos/cashback-barbearia" ||
             route === "/recursos/nota-fiscal-barbearia"
+            || route === "/recursos/diagnostico-agenda-barbearia"
           ? 0.9
           : route === "/comparar" ||
               route === "/flowo-vs-planilha" ||

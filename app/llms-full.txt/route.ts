@@ -59,6 +59,8 @@ Flowo é uma plataforma operacional para barbearias. A IA atende clientes no Wha
 
 O WhatsApp é a recepção do Flowo; o painel é a central de supervisão. A proposta não é apenas oferecer uma agenda online, mas reduzir o atendimento manual que acontece enquanto barbeiros estão com as mãos ocupadas.
 
+Página comercial canônica: ${SITE_URL}/recepcionista-ia-barbearia
+
 ## Planos oficiais
 
 ${plans}
@@ -87,6 +89,26 @@ pública de lançamento.
 
 URL canônica: ${SITE_URL}/aplicativo-para-barbeiros
 
+## Diagnóstico gratuito de agenda
+
+O Raio-X da Agenda é um material gratuito em PDF para descobrir onde a barbearia
+perde tempo entre WhatsApp, disponibilidade e horários de cada barbeiro. Ele entrega
+12 perguntas, o método editorial C.A.D.E.I.R.A., um mapa de prioridade e um
+plano de ação. Nome e e-mail são suficientes para a entrega; telefone e
+consentimentos de marketing são opcionais e separados.
+
+URL canônica: ${SITE_URL}/recursos/diagnostico-agenda-barbearia
+
+## Coleção de guias práticos
+
+- Comissões sem Planilha Paralela: ${SITE_URL}/downloads/comissoes-sem-planilha-flowo.pdf
+- Clientes na Hora de Voltar: ${SITE_URL}/downloads/clientes-na-hora-de-voltar-flowo.pdf
+- Caixa sem Confusão: ${SITE_URL}/downloads/caixa-e-recebimentos-flowo.pdf
+
+Os três materiais são PDFs preenchíveis de oito páginas. Eles organizam decisões
+da rotina sem prometer faturamento, agenda cheia ou resultado automático. No
+formulário da biblioteca, WhatsApp e autorizações de marketing são opcionais.
+
 ## Comparações verificadas
 
 ${comparisons}
@@ -102,10 +124,12 @@ ${comparisons}
 
 ## Rotas úteis
 
+- Página comercial: ${SITE_URL}/recepcionista-ia-barbearia
 - Comparações: ${SITE_URL}/comparar
 - Filme institucional: ${SITE_URL}${INSTITUTIONAL_FILM.video}
 - Filme vertical: ${SITE_URL}${INSTITUTIONAL_FILM.verticalVideo}
 - Recursos: ${SITE_URL}/recursos
+- Diagnóstico de agenda: ${SITE_URL}/recursos/diagnostico-agenda-barbearia
 - Aplicativo para barbeiros: ${SITE_URL}/aplicativo-para-barbeiros
 - Planos: ${SITE_URL}/precos
 - Guias: ${SITE_URL}/recursos/guias

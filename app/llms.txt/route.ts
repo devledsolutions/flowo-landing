@@ -39,6 +39,7 @@ ${planLines}
 - [Casos de sucesso](${SITE_URL}/casos-de-sucesso)
 
 ## Money pages
+- [Recepcionista com IA para barbearia](${SITE_URL}/recepcionista-ia-barbearia)
 - [Sistema de agendamento para barbearia](${SITE_URL}/sistema-agendamento-barbearia)
 - [Agenda de barbearia no WhatsApp](${SITE_URL}/agenda-barbearia-whatsapp)
 - [Pagamentos opcionais no atendimento](${SITE_URL}/software-barbearia-com-pix)
@@ -71,6 +72,10 @@ ${guideLines}
 - [Versao vertical do filme](${SITE_URL}${INSTITUTIONAL_FILM.verticalVideo})
 - [Roteiros de Shorts e Reels](${SITE_URL}/recursos/videos)
 - [Materiais gratuitos](${SITE_URL}/recursos/materiais)
+- [Raio-X da Agenda](${SITE_URL}/recursos/diagnostico-agenda-barbearia): diagnóstico gratuito em PDF com 12 perguntas, escala de cada barbeiro e plano de ação. Nome e e-mail liberam o material; telefone e marketing são opcionais.
+- [Comissões sem Planilha Paralela](${SITE_URL}/downloads/comissoes-sem-planilha-flowo.pdf): guia preenchível para combinar regras e conferir o acerto de cada barbeiro.
+- [Clientes na Hora de Voltar](${SITE_URL}/downloads/clientes-na-hora-de-voltar-flowo.pdf): plano de contato responsável, sem spam ou promessa de agenda cheia.
+- [Caixa sem Confusão](${SITE_URL}/downloads/caixa-e-recebimentos-flowo.pdf): guia para separar venda, recebimento, comissão e resultado, com pagamentos integrados opcionais.
 
 ## Support
 - [Sobre](${SITE_URL}/sobre)
