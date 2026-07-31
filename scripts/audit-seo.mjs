@@ -151,6 +151,10 @@ for (const canonicalUrl of canonicalUrls) {
     if (!href || href.startsWith("#") || /^(mailto:|tel:|javascript:)/.test(href)) continue;
     const url = new URL(href, canonicalUrl);
     if (url.origin === CANONICAL_ORIGIN) {
+      // Cloudflare Email Address Obfuscation rewrites mailto links after the
+      // application response. The managed route only works with its hash and
+      // is not an internal page that should be crawled or checked with HEAD.
+      if (url.pathname === "/cdn-cgi/l/email-protection") continue;
       url.hash = "";
       internalLinks.add(url.toString());
     }
