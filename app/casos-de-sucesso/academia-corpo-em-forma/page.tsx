@@ -13,6 +13,7 @@ export const metadata = buildMetadata({
   description:
     "Cenário ilustrativo de como uma academia usaria o Flowo: confirmação de presença pelo WhatsApp, registro de cancelamentos e histórico de frequência.",
   path: "/casos-de-sucesso/academia-corpo-em-forma",
+  noIndex: true,
 });
 
 const beforeAfterItems = [
@@ -38,7 +39,7 @@ export default function AcademiaCorpoEmFormaPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen">
+      <main id="main-content" className="min-h-screen">
         <CaseStudyPage
           crumbLabel="Academia"
           industry="Fitness e Bem-estar"

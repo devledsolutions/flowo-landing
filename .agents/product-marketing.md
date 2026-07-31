@@ -1,7 +1,7 @@
 # Product Marketing Context
 
-**Document version:** v2  
-**Last updated:** 2026-07-30
+**Document version:** v4
+**Last updated:** 2026-07-31
 
 ## Product Overview
 
@@ -152,12 +152,41 @@ termos internos por situações reconhecíveis, como parar o corte para responde
 conferir a escala, fazer um encaixe ou fechar a comanda.  
 **Personality:** Confiante, honesta, prática, cuidadosa e brasileira.
 
+## Visual Identity
+
+**Sistema:** Barbearia Noir — composição limpa, premium e funcional, com
+contraste alto e ritmo editorial controlado. A interface do produto é a imagem
+principal; fotografias e imagens geradas mostram a rotina real da barbearia.
+
+**Logo canônico:** `/flowo-logo.svg`, em tinta monocromática. Os arquivos
+`/logo.png`, `/logo.svg` e `/logo-2.svg` são legados e não podem ser usados em
+novas páginas, metadados, materiais ou prompts de geração.
+
+**Paleta:** tinta quente `#171810`, creme `#f8f6f2`/`#f4f0e5` e superfícies
+neutras do `app/globals.css`. Cores de WhatsApp, estados semânticos, controles
+de janela e telas do aplicativo ficam restritas ao objeto que representam;
+elas não se tornam cor da marca do site.
+
+**Tipografia:** Poppins para interface e comunicação; Lora apenas nos momentos
+editoriais já definidos pelo sistema. Preservar essa combinação em páginas
+existentes em vez de escolher uma nova fonte por campanha.
+
+**Imagem e mockup:** partir das páginas e mockups aprovados da Home, Raio-X,
+produto e recursos. ChatGPT Image pode criar fotografia editorial e cenas de
+contexto; telas da Flowo devem ser capturas ou composições fiéis do produto,
+nunca uma interface inventada pelo gerador.
+
 ## Proof Points
 
 **Metrics:** Não publicar ganhos ou reduções percentuais sem evidência própria
 auditável.  
 **Customers:** Não usar logos sem autorização.  
 **Testimonials:** Não inventar depoimentos.  
+**Technical validation:** Em 26 de julho de 2026, a Flowo validou em produção,
+com ativos próprios de teste, a resposta pelo WhatsApp, a consulta de
+disponibilidade, a criação, consulta, remarcação, cancelamento e confirmação de
+agendamento, além da pausa e retomada da IA durante atendimento humano. Isso é
+prova técnica, não caso de cliente nem promessa de resultado econômico.
 **Value themes:**
 
 | Theme | Proof |
@@ -177,6 +206,8 @@ automação no WhatsApp.
 
 ## Changelog
 
+- v4 (2026-07-31) — Fixou a identidade visual canônica das landing pages, o uso exclusivo de `flowo-logo.svg` e a separação entre imagens geradas e telas reais do produto.
+- v3 (2026-07-31) — Registrou a validação técnica em produção e delimitou seu uso: prova de funcionamento, sem apresentá-la como caso de cliente ou resultado financeiro.
 - v2 (2026-07-30) — Ampliou a linguagem do cliente e a voz da marca com termos da rotina de barbeiros; removeu jargão operacional das diretrizes.
 - v1 (2026-07-29) — Contexto inicial criado a partir do produto, do site e da pesquisa competitiva oficial.
 - v1.1 (2026-07-29) — Estado e proposta do aplicativo adicionados, com lista de interesse como conversão secundária.

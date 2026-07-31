@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "seo:audit": "node scripts/audit-seo.mjs",
     "seo:indexnow": "node scripts/submit-indexnow.mjs",
     "video:studio": "remotion studio remotion/index.ts",
     "video:render": "remotion render remotion/index.ts FlowoInstitucional public/videos/flowo-institucional-voz-natural-2026-07.mp4 --codec=h264 --crf=20 --audio-codec=aac --audio-bitrate=192k && remotion render remotion/index.ts FlowoInstitucionalVertical public/videos/flowo-institucional-voz-natural-2026-07-vertical.mp4 --codec=h264 --crf=21 --audio-codec=aac --audio-bitrate=192k",

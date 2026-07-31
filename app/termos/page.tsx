@@ -4,7 +4,7 @@ import { LEGAL_ENTITY, LEGAL_UPDATED_AT } from "@/lib/legal-identity";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Termos de Uso",
+  title: "Termos de Uso da Plataforma",
   description:
     "Condições de contratação e uso da plataforma Flowo para barbearias e negócios de serviços no Brasil.",
   path: "/termos",

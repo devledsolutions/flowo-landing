@@ -25,9 +25,9 @@ import {
 import { absoluteUrl, buildMetadata, SITE_URL } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Flowo vs Trinks, AppBarber, Barbeiro.app e Outros",
+  title: "Flowo vs Trinks, BestBarbers e Outros Sistemas",
   description:
-    "Compare Flowo com Trinks, AppBarber, Barbeiro.app, Avec e Graces. Veja WhatsApp com IA, agenda, gestão, preços e o perfil ideal de cada sistema.",
+    "Compare Flowo com Trinks, BestBarbers, AppBarber, Barbeiro.app, Opero, Barva, Avec e Graces em IA, agenda, gestão, preço e perfil ideal.",
   path: "/comparar",
 });
 
@@ -184,9 +184,10 @@ export default function ComparePage() {
                 </h1>
               </div>
               <p className="max-w-measure text-lead text-muted-ink">
-                Compare Flowo com Trinks, AppBarber, Barbeiro.app, Avec e
-                Graces. Mostramos onde cada plataforma é forte, o que aparece
-                como adicional e quando outra opção pode fazer mais sentido.
+                Compare Flowo com AppBarber, Trinks, BestBarbers, Opero, Barva,
+                Barbeiro.app, Avec e Graces. Mostramos onde cada plataforma é
+                forte, o que aparece como adicional e quando outra opção pode
+                fazer mais sentido.
               </p>
             </div>
             <p className="mt-8 flex items-start gap-2 text-caption text-muted-ink">

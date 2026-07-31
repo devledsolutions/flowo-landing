@@ -86,7 +86,7 @@ export default function FlowoVsAgendaManualPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
       <Navbar />
-      <main>
+      <main id="main-content">
         <CommercialHero
           current="Flowo vs Agenda Manual"
           eyebrow="O custo escondido do caderno"

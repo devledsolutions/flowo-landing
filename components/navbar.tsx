@@ -8,8 +8,8 @@ import { LOGIN_URL, SIGNUP_URL, WHATSAPP_URL } from "./cta-links";
 import { TrackedLink } from "@/components/analytics/tracked-link";
 
 const navItems = [
-  { name: "Como funciona", href: "/#como-funciona" },
   { name: "Produto", href: "/sistema-agendamento-barbearia" },
+  { name: "Demonstração", href: "/demonstracao-agendamento-whatsapp" },
   { name: "App", href: "/aplicativo-para-barbeiros" },
   { name: "Recursos", href: "/recursos" },
   { name: "Preços", href: "/precos" },

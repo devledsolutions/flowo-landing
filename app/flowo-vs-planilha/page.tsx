@@ -86,7 +86,7 @@ export default function FlowoVsPlanilhaPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
       <Navbar />
-      <main>
+      <main id="main-content">
         <CommercialHero
           current="Flowo vs Planilha"
           eyebrow="Comparação de rotina, não só de ferramenta"

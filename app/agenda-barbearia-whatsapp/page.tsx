@@ -84,7 +84,7 @@ export default function WhatsappAgendaPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
       <Navbar />
-      <main>
+      <main id="main-content">
         <CommercialHero
           current="Agenda de Barbearia no WhatsApp"
           eyebrow="Atendimento e agenda no mesmo fluxo"

@@ -36,7 +36,8 @@ ${planLines}
 - [Home](${SITE_URL}/)
 - [Precos](${SITE_URL}/precos)
 - [Recursos](${SITE_URL}/recursos)
-- [Casos de sucesso](${SITE_URL}/casos-de-sucesso)
+- [Demonstração validada do agendamento no WhatsApp](${SITE_URL}/demonstracao-agendamento-whatsapp)
+- [Parcerias e imprensa](${SITE_URL}/parcerias)
 
 ## Money pages
 - [Recepcionista com IA para barbearia](${SITE_URL}/recepcionista-ia-barbearia)
@@ -46,6 +47,12 @@ ${planLines}
 - [Comissões de barbeiros](${SITE_URL}/recursos/comissoes-barbeiros)
 - [Cashback para barbearias](${SITE_URL}/recursos/cashback-barbearia)
 - [Nota fiscal com ativação assistida](${SITE_URL}/recursos/nota-fiscal-barbearia)
+
+## Prova técnica pública
+- Em 26 de julho de 2026, a Flowo concluiu em produção, com números e estabelecimentos de teste controlados, o fluxo de mensagem recebida, resposta da IA, consulta de disponibilidade, criação, consulta, remarcação, cancelamento e confirmação de agendamento.
+- O teste também validou a pausa da IA para atendimento humano e a retomada posterior.
+- Essa evidência comprova o funcionamento técnico do fluxo; não é um depoimento de cliente nem uma promessa de resultado financeiro.
+- [Ver escopo, limites e demonstração](${SITE_URL}/demonstracao-agendamento-whatsapp)
 
 ## Add-ons e acesso acompanhado
 - [Flowo Recupera](${SITE_URL}/flowo-recupera): add-on em beta acompanhada para identificar oportunidades de retorno; resultados passam por revisão humana, consentimento e fechamento real da comanda.

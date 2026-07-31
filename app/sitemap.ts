@@ -14,9 +14,9 @@ const CORE_ROUTES = [
   "/recepcionista-ia-barbearia",
   "/sistema-agendamento-barbearia",
   "/agenda-barbearia-whatsapp",
+  "/demonstracao-agendamento-whatsapp",
   "/software-barbearia-com-pix",
   "/aplicativo-para-barbeiros",
-  "/flowo-recupera",
   "/recursos/comissoes-barbeiros",
   "/recursos/cashback-barbearia",
   "/recursos/nota-fiscal-barbearia",
@@ -32,10 +32,7 @@ const CORE_ROUTES = [
   "/calculadora-comissao-barbeiro",
   "/mensagens-retorno-clientes-barbearia",
   "/recursos/guias",
-  "/casos-de-sucesso",
-  "/casos-de-sucesso/academia-corpo-em-forma",
-  "/casos-de-sucesso/clinica-saude-total",
-  "/casos-de-sucesso/estudio-beleza-radiante",
+  "/parcerias",
   "/sobre",
   "/privacidade",
   "/termos",
@@ -53,9 +50,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
         : route === "/recepcionista-ia-barbearia" ||
             route === "/sistema-agendamento-barbearia" ||
             route === "/agenda-barbearia-whatsapp" ||
+            route === "/demonstracao-agendamento-whatsapp" ||
             route === "/software-barbearia-com-pix" ||
             route === "/aplicativo-para-barbeiros" ||
-            route === "/flowo-recupera" ||
             route === "/recursos/comissoes-barbeiros" ||
             route === "/recursos/cashback-barbearia" ||
             route === "/recursos/nota-fiscal-barbearia"

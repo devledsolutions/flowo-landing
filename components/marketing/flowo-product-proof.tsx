@@ -171,7 +171,7 @@ export function FlowoProductProof({
         <div className="preview-light mt-6 grid gap-6 lg:grid-cols-[0.78fr_1.22fr]">
           <div className="relative min-h-[25rem] overflow-hidden rounded-xl border border-line bg-surface-2 p-5 sm:p-7">
             <div className="max-w-[78%]">
-              <p className="text-caption font-semibold uppercase tracking-[0.12em] text-faint-ink">
+              <p className="text-caption font-semibold uppercase tracking-[0.12em] text-muted-ink">
                 Conversa real
               </p>
               <h3 className="mt-2 text-xl font-semibold text-ink">
@@ -183,7 +183,7 @@ export function FlowoProductProof({
 
           <div className="relative min-h-[25rem] overflow-hidden rounded-xl border border-line bg-surface-2 p-5 sm:p-7">
             <div className="max-w-xl">
-              <p className="text-caption font-semibold uppercase tracking-[0.12em] text-faint-ink">
+              <p className="text-caption font-semibold uppercase tracking-[0.12em] text-muted-ink">
                 Supervisão da equipe
               </p>
               <h3 className="mt-2 text-xl font-semibold text-ink">
