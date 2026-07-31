@@ -73,6 +73,12 @@ ${guideLines}
 - [Roteiros de Shorts e Reels](${SITE_URL}/recursos/videos)
 - [Materiais gratuitos](${SITE_URL}/recursos/materiais)
 - [Raio-X da Agenda](${SITE_URL}/recursos/diagnostico-agenda-barbearia): diagnóstico gratuito em PDF com 12 perguntas, escala de cada barbeiro e plano de ação. Nome e e-mail liberam o material; telefone e marketing são opcionais.
+- [Calculadora de tempo no WhatsApp](${SITE_URL}/calculadora-tempo-whatsapp-barbearia): estima horas dedicadas a conversas de disponibilidade com valores informados pela própria barbearia; não estima faturamento.
+- [Calculadora de comissão de barbeiro](${SITE_URL}/calculadora-comissao-barbeiro): separa serviços, produtos e ajustes numa simulação operacional; não substitui orientação contábil ou trabalhista.
+- [Planejador de retorno de clientes](${SITE_URL}/mensagens-retorno-clientes-barbearia): sugere uma janela de revisão e mensagem com contexto e saída, sempre sujeita a consentimento e conferência humana.
+- [Agenda sem Interrupção](${SITE_URL}/downloads/agenda-sem-interrupcao-flowo.pdf): escala, regras de confirmação e plano de sete dias.
+- [Fechamento da Equipe](${SITE_URL}/downloads/fechamento-equipe-flowo.pdf): política, memória de cálculo e checklist de conferência.
+- [Retorno sem Spam](${SITE_URL}/downloads/retorno-sem-spam-flowo.pdf): calendário, critérios de consentimento e mensagens responsáveis.
 - [Comissões sem Planilha Paralela](${SITE_URL}/downloads/comissoes-sem-planilha-flowo.pdf): guia preenchível para combinar regras e conferir o acerto de cada barbeiro.
 - [Clientes na Hora de Voltar](${SITE_URL}/downloads/clientes-na-hora-de-voltar-flowo.pdf): plano de contato responsável, sem spam ou promessa de agenda cheia.
 - [Caixa sem Confusão](${SITE_URL}/downloads/caixa-e-recebimentos-flowo.pdf): guia para separar venda, recebimento, comissão e resultado, com pagamentos integrados opcionais.

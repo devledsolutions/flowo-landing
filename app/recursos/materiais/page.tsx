@@ -1,11 +1,14 @@
 import Link from "next/link";
 import {
   Calendar,
+  Calculator,
+  Clock3,
   DollarSign,
   Download,
   FileSpreadsheet,
   FileText,
   MessageCircle,
+  RotateCcw,
   Users,
   type LucideIcon,
 } from "lucide-react";
@@ -45,6 +48,39 @@ const groups: { heading: string; description: string; items: Downloadable[] }[] 
     heading: "Guias práticos em PDF",
     description: "Materiais para preencher com a rotina real da barbearia",
     items: [
+      {
+        id: "agenda-sem-interrupcao",
+        title: "Agenda sem Interrupção",
+        description:
+          "Mapeie perguntas repetidas, escala da equipe e regras de confirmação em um teste de sete dias.",
+        icon: Clock3,
+        downloadUrl: "/downloads/agenda-sem-interrupcao-flowo.pdf",
+        resourceType: "pdf",
+        requestedResource: "agenda_sem_interrupcao",
+        tags: ["WhatsApp", "Agenda"],
+      },
+      {
+        id: "fechamento-equipe",
+        title: "Fechamento da Equipe",
+        description:
+          "Escreva regras, confira bases e registre ajustes antes de pagar as comissões.",
+        icon: DollarSign,
+        downloadUrl: "/downloads/fechamento-equipe-flowo.pdf",
+        resourceType: "pdf",
+        requestedResource: "fechamento_equipe",
+        tags: ["Comissões", "Equipe"],
+      },
+      {
+        id: "retorno-sem-spam",
+        title: "Retorno sem Spam",
+        description:
+          "Organize consentimento, janela de contato e mensagens sem pressão ou urgência falsa.",
+        icon: RotateCcw,
+        downloadUrl: "/downloads/retorno-sem-spam-flowo.pdf",
+        resourceType: "pdf",
+        requestedResource: "retorno_sem_spam",
+        tags: ["Clientes", "Retorno"],
+      },
       {
         id: "comissoes-sem-planilha",
         title: "Comissões sem Planilha Paralela",
@@ -245,6 +281,30 @@ const groups: { heading: string; description: string; items: Downloadable[] }[] 
 const TOTAL_MATERIALS =
   groups.reduce((total, group) => total + group.items.length, 0) + 1;
 
+const freeTools = [
+  {
+    title: "Tempo no WhatsApp",
+    description:
+      "Estime quantas horas do mês vão para conversas sobre disponibilidade.",
+    href: "/calculadora-tempo-whatsapp-barbearia",
+    icon: Clock3,
+  },
+  {
+    title: "Comissão de barbeiro",
+    description:
+      "Separe serviço, produto e ajuste numa memória fácil de conferir.",
+    href: "/calculadora-comissao-barbeiro",
+    icon: Calculator,
+  },
+  {
+    title: "Retorno de clientes",
+    description:
+      "Escolha uma janela de retorno e adapte uma mensagem responsável.",
+    href: "/mensagens-retorno-clientes-barbearia",
+    icon: RotateCcw,
+  },
+] as const;
+
 export default function MaterialsPage() {
   return (
     <>
@@ -260,6 +320,11 @@ export default function MaterialsPage() {
             description:
               "Diagnóstico prático para organizar WhatsApp, agenda e horários individuais da equipe.",
           },
+          ...freeTools.map((tool) => ({
+            name: tool.title,
+            path: tool.href,
+            description: tool.description,
+          })),
           ...groups.flatMap((group) =>
             group.items.map((item) => ({
               name: item.title,
@@ -286,7 +351,7 @@ export default function MaterialsPage() {
               {/* Hero */}
               <div className="mt-10 mb-14">
                 <p className="text-label font-semibold uppercase tracking-[0.14em] text-faint-ink">
-                  {TOTAL_MATERIALS} materiais para usar
+                  3 ferramentas e {TOTAL_MATERIALS} materiais para usar
                 </p>
                 <h1 className="mt-3 text-h2 font-bold leading-tight text-ink">
                   Modelos prontos para tirar tarefas do improviso
@@ -296,6 +361,40 @@ export default function MaterialsPage() {
                   hoje para agenda, equipe, divulgação e financeiro.
                 </p>
               </div>
+
+              <section className="mb-14" aria-labelledby="free-tools-title">
+                <div className="mb-6 border-b border-line pb-3">
+                  <h2 id="free-tools-title" className="text-h3 font-bold text-ink">
+                    Ferramentas gratuitas
+                  </h2>
+                  <p className="mt-1 text-label text-muted-ink">
+                    Faça a conta na tela antes de baixar qualquer material
+                  </p>
+                </div>
+                <div className="grid gap-4 md:grid-cols-3">
+                  {freeTools.map((tool) => (
+                    <Link
+                      key={tool.href}
+                      href={tool.href}
+                      className="group flex min-h-64 flex-col border border-line bg-surface p-6 outline-none transition-colors duration-200 ease-out-quint hover:border-ink focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-4"
+                    >
+                      <tool.icon
+                        aria-hidden="true"
+                        className="h-6 w-6 text-ink"
+                      />
+                      <h3 className="mt-8 text-lg font-semibold leading-tight text-ink">
+                        {tool.title}
+                      </h3>
+                      <p className="mt-3 text-label leading-relaxed text-muted-ink">
+                        {tool.description}
+                      </p>
+                      <span className="mt-auto pt-6 text-label font-semibold text-ink underline-offset-4 group-hover:underline">
+                        Usar agora
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </section>
 
               <Link
                 href="/recursos/diagnostico-agenda-barbearia"

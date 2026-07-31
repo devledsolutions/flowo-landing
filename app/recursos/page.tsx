@@ -58,22 +58,22 @@ const featuredGuides = [
 
 const downloads = [
   {
-    title: "Raio-X da Agenda",
-    description: "Diagnóstico para WhatsApp, horários e equipe",
-    icon: BookOpen,
-    href: "/recursos/diagnostico-agenda-barbearia",
+    title: "Tempo no WhatsApp",
+    description: "Calcule as horas usadas em conversas sobre horário",
+    icon: Clock,
+    href: "/calculadora-tempo-whatsapp-barbearia",
   },
   {
-    title: "Calendário de Conteúdo",
-    description: "30 dias de ideias para Instagram",
-    icon: Calendar,
-    href: "/recursos/materiais",
-  },
-  {
-    title: "Planilha de Comissões",
-    description: "Controle pagamentos da equipe",
+    title: "Comissão de barbeiro",
+    description: "Simule o acerto com serviço e produto separados",
     icon: FileSpreadsheet,
-    href: "/recursos/materiais",
+    href: "/calculadora-comissao-barbeiro",
+  },
+  {
+    title: "Retorno de clientes",
+    description: "Planeje a data e adapte uma mensagem responsável",
+    icon: RotateCcw,
+    href: "/mensagens-retorno-clientes-barbearia",
   },
 ];
 
@@ -176,6 +176,24 @@ export default function ResourcesPage() {
             name: "Roteiros de Shorts e Reels para Barbearias",
             path: "/recursos/videos",
             description: "Roteiros curtos baseados nas práticas publicadas nas guias.",
+          },
+          {
+            name: "Calculadora de Tempo no WhatsApp",
+            path: "/calculadora-tempo-whatsapp-barbearia",
+            description:
+              "Estimativa gratuita de horas usadas em conversas sobre disponibilidade.",
+          },
+          {
+            name: "Calculadora de Comissão de Barbeiro",
+            path: "/calculadora-comissao-barbeiro",
+            description:
+              "Simulação de comissão com serviços, produtos e ajustes separados.",
+          },
+          {
+            name: "Planejador de Retorno de Clientes",
+            path: "/mensagens-retorno-clientes-barbearia",
+            description:
+              "Janela de revisão e mensagem responsável para retorno de clientes.",
           },
           {
             name: "Comissões de Barbeiros",

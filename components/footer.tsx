@@ -31,6 +31,18 @@ const aprendaLinks = [
   { href: "/recursos/guias", label: "Guias" },
   { href: "/recursos/materiais", label: "Materiais gratuitos" },
   {
+    href: "/calculadora-tempo-whatsapp-barbearia",
+    label: "Calculadora de tempo no WhatsApp",
+  },
+  {
+    href: "/calculadora-comissao-barbeiro",
+    label: "Calculadora de comissão",
+  },
+  {
+    href: "/mensagens-retorno-clientes-barbearia",
+    label: "Planejador de retorno",
+  },
+  {
     href: "/recursos/diagnostico-agenda-barbearia",
     label: "Diagnóstico de agenda",
   },
