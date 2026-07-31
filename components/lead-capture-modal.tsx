@@ -61,7 +61,8 @@ export function LeadCaptureModal({
   const [whatsapp, setWhatsapp] = useState("");
   const [company, setCompany] = useState("");
   const [turnstileToken, setTurnstileToken] = useState("");
-  const [marketingConsent, setMarketingConsent] = useState(false);
+  const [emailMarketingConsent, setEmailMarketingConsent] = useState(false);
+  const [smsMarketingConsent, setSmsMarketingConsent] = useState(false);
   const [countryCode, setCountryCode] = useState<FlagIconCode>("BR");
   const [dialCode, setDialCode] = useState("+55");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -104,7 +105,8 @@ export function LeadCaptureModal({
           company,
           source,
           consent: true,
-          marketingConsent,
+          emailMarketingConsent: Boolean(email) && emailMarketingConsent,
+          smsMarketingConsent: countryCode === "BR" && smsMarketingConsent,
           ...getAcquisitionContext(),
           segmentAnonymousId: getAnonymousId(),
           turnstileToken,
@@ -146,12 +148,14 @@ export function LeadCaptureModal({
         name,
         phone: `${dialCode}${whatsapp}`,
         lead_source: source,
-        email_marketing_opt_in: marketingConsent,
+        email_marketing_opt_in: Boolean(email) && emailMarketingConsent,
+        sms_marketing_opt_in: countryCode === "BR" && smsMarketingConsent,
       });
       track("Lead Form Succeeded", {
         form: "sales_contact",
         source,
-        marketing_opt_in: marketingConsent,
+        email_marketing_opt_in: Boolean(email) && emailMarketingConsent,
+        sms_marketing_opt_in: countryCode === "BR" && smsMarketingConsent,
       });
 
       Sentry.addBreadcrumb({
@@ -201,7 +205,8 @@ export function LeadCaptureModal({
     setWhatsapp("");
     setCompany("");
     setTurnstileToken("");
-    setMarketingConsent(false);
+    setEmailMarketingConsent(false);
+    setSmsMarketingConsent(false);
     setCountryCode("BR");
     setDialCode("+55");
     setIsSuccess(false);
@@ -220,6 +225,7 @@ export function LeadCaptureModal({
     const [code, dial] = value.split(":");
     setCountryCode(code as FlagIconCode);
     setDialCode(dial);
+    if (code !== "BR") setSmsMarketingConsent(false);
   };
 
   const handleWhatsAppChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -425,9 +431,11 @@ export function LeadCaptureModal({
                 <label className="flex items-start gap-2 text-xs leading-5 text-muted-ink">
                   <input
                     type="checkbox"
-                    checked={marketingConsent}
+                    checked={emailMarketingConsent}
                     disabled={!email}
-                    onChange={(event) => setMarketingConsent(event.target.checked)}
+                    onChange={(event) =>
+                      setEmailMarketingConsent(event.target.checked)
+                    }
                     className="mt-0.5 h-4 w-4 shrink-0 accent-ink disabled:opacity-50"
                   />
                   <span>
@@ -435,6 +443,23 @@ export function LeadCaptureModal({
                     Flowo. Posso cancelar quando quiser.
                   </span>
                 </label>
+                {countryCode === "BR" && (
+                  <label className="flex items-start gap-2 text-xs leading-5 text-muted-ink">
+                    <input
+                      type="checkbox"
+                      checked={smsMarketingConsent}
+                      onChange={(event) =>
+                        setSmsMarketingConsent(event.target.checked)
+                      }
+                      className="mt-0.5 h-4 w-4 shrink-0 accent-ink"
+                    />
+                    <span>
+                      Quero receber por SMS novidades e convites da Flowo. A
+                      frequência é limitada e posso responder SAIR a qualquer
+                      momento.
+                    </span>
+                  </label>
+                )}
                 <Button
                   type="submit"
                   className="w-full rounded-full font-semibold"

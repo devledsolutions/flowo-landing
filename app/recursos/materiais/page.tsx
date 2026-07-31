@@ -1,10 +1,10 @@
+import Link from "next/link";
 import {
   Calendar,
   DollarSign,
   Download,
   FileSpreadsheet,
   FileText,
-  Instagram,
   MessageCircle,
   Users,
   type LucideIcon,
@@ -36,43 +36,47 @@ interface Downloadable {
   icon: LucideIcon;
   downloadUrl: string;
   resourceType: "pdf" | "spreadsheet";
+  requestedResource?: string;
   tags: string[];
 }
 
 const groups: { heading: string; description: string; items: Downloadable[] }[] = [
   {
-    heading: "Guias em PDF",
-    description: "Leitura de referência para imprimir ou guardar",
+    heading: "Guias práticos em PDF",
+    description: "Materiais para preencher com a rotina real da barbearia",
     items: [
       {
-        id: "guia-completo",
-        title: "Guia Completo para Barbearias",
+        id: "comissoes-sem-planilha",
+        title: "Comissões sem Planilha Paralela",
         description:
-          "Checklist de abertura, precificação, fidelização e como automatizar sua barbearia.",
-        icon: FileText,
-        downloadUrl: "/downloads/guia-completo-barbearia.pdf",
+          "Combine regras, confira comandas e feche o acerto de cada barbeiro sem depender da memória.",
+        icon: DollarSign,
+        downloadUrl: "/downloads/comissoes-sem-planilha-flowo.pdf",
         resourceType: "pdf",
-        tags: ["Guia", "Completo"],
+        requestedResource: "comissoes_sem_planilha",
+        tags: ["Comissões", "Equipe"],
       },
       {
-        id: "templates-stories",
-        title: "Templates de Stories para Instagram",
+        id: "clientes-na-hora-de-voltar",
+        title: "Clientes na Hora de Voltar",
         description:
-          "10 ideias de Stories prontas para usar na sua barbearia, com CTAs que convertem.",
-        icon: Instagram,
-        downloadUrl: "/downloads/templates-stories-barbearia.pdf",
+          "Plano de 30 dias para organizar contatos de retorno sem spam ou desconto automático.",
+        icon: Users,
+        downloadUrl: "/downloads/clientes-na-hora-de-voltar-flowo.pdf",
         resourceType: "pdf",
-        tags: ["Marketing", "Instagram"],
+        requestedResource: "clientes_hora_voltar",
+        tags: ["Clientes", "Retorno"],
       },
       {
-        id: "referencia-rapida",
-        title: "Cartão de Referência Rápida",
+        id: "caixa-e-recebimentos",
+        title: "Caixa sem Confusão",
         description:
-          "Métricas essenciais, checklist diário e metas para ter sempre à mão.",
-        icon: FileText,
-        downloadUrl: "/downloads/referencia-rapida-barbearia.pdf",
+          "Separe venda, recebimento, comissão e resultado sem trocar sua maquininha.",
+        icon: DollarSign,
+        downloadUrl: "/downloads/caixa-e-recebimentos-flowo.pdf",
         resourceType: "pdf",
-        tags: ["Gestão", "Métricas"],
+        requestedResource: "caixa_recebimentos",
+        tags: ["Caixa", "Recebimentos"],
       },
     ],
   },
@@ -238,6 +242,9 @@ const groups: { heading: string; description: string; items: Downloadable[] }[] 
   },
 ];
 
+const TOTAL_MATERIALS =
+  groups.reduce((total, group) => total + group.items.length, 0) + 1;
+
 export default function MaterialsPage() {
   return (
     <>
@@ -246,13 +253,21 @@ export default function MaterialsPage() {
         description={PAGE_DESCRIPTION}
         path="/recursos/materiais"
         breadcrumbLabel="Materiais"
-        items={groups.flatMap((group) =>
-          group.items.map((item) => ({
-            name: item.title,
-            path: item.downloadUrl,
-            description: item.description,
-          })),
-        )}
+        items={[
+          {
+            name: "Raio-X da Agenda + Kit Operação sem Interrupção",
+            path: "/recursos/diagnostico-agenda-barbearia",
+            description:
+              "Diagnóstico prático para organizar WhatsApp, agenda e horários individuais da equipe.",
+          },
+          ...groups.flatMap((group) =>
+            group.items.map((item) => ({
+              name: item.title,
+              path: item.downloadUrl,
+              description: item.description,
+            })),
+          ),
+        ]}
       />
       <Navbar />
       <main id="main-content" className="min-h-screen">
@@ -271,7 +286,7 @@ export default function MaterialsPage() {
               {/* Hero */}
               <div className="mt-10 mb-14">
                 <p className="text-label font-semibold uppercase tracking-[0.14em] text-faint-ink">
-                  17 arquivos para baixar
+                  {TOTAL_MATERIALS} materiais para usar
                 </p>
                 <h1 className="mt-3 text-h2 font-bold leading-tight text-ink">
                   Modelos prontos para tirar tarefas do improviso
@@ -281,6 +296,43 @@ export default function MaterialsPage() {
                   hoje para agenda, equipe, divulgação e financeiro.
                 </p>
               </div>
+
+              <Link
+                href="/recursos/diagnostico-agenda-barbearia"
+                className="group mb-14 grid overflow-hidden rounded-xl border border-ink bg-cream transition-transform duration-200 ease-out-quint hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-4 sm:grid-cols-[1fr_0.72fr]"
+              >
+                <span className="p-7 sm:p-9">
+                  <span className="text-caption font-semibold uppercase tracking-[0.14em] text-faint-ink">
+                    Diagnóstico em PDF · destaque
+                  </span>
+                  <span className="mt-4 block text-h3 font-bold text-ink">
+                    Raio-X da Agenda
+                  </span>
+                  <span className="mt-3 block text-label leading-relaxed text-muted-ink">
+                    12 perguntas, escala de cada barbeiro e plano de ação para
+                    organizar WhatsApp, agenda e equipe.
+                  </span>
+                  <span className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-full bg-ink px-5 text-label font-semibold text-background">
+                    Fazer o diagnóstico
+                    <Download className="h-4 w-4" aria-hidden="true" />
+                  </span>
+                </span>
+                <span
+                  aria-hidden="true"
+                  className="relative min-h-56 border-t border-ink bg-surface p-7 sm:border-l sm:border-t-0"
+                >
+                  <span className="absolute left-10 top-11 h-36 w-28 rotate-[-6deg] rounded-md border border-ink bg-cream shadow-[8px_10px_0_rgba(23,24,16,0.08)]" />
+                  <span className="absolute right-8 top-7 flex h-40 w-32 rotate-[4deg] flex-col rounded-md border border-ink bg-surface p-4 shadow-[8px_10px_0_rgba(23,24,16,0.08)]">
+                    <span className="text-[0.55rem] font-semibold uppercase tracking-wider text-faint-ink">
+                      Flowo · diagnóstico
+                    </span>
+                    <span className="mt-8 font-serif text-xl leading-tight text-ink">
+                      Raio-X da Agenda
+                    </span>
+                    <span className="mt-auto h-px bg-ink" />
+                  </span>
+                </span>
+              </Link>
 
               {/* Grouped downloads */}
               <div className="space-y-14">
@@ -302,6 +354,7 @@ export default function MaterialsPage() {
                           resourceDescription={item.description}
                           downloadUrl={item.downloadUrl}
                           resourceType={item.resourceType}
+                          requestedResource={item.requestedResource}
                         >
                           <button
                             type="button"

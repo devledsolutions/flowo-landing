@@ -1,7 +1,7 @@
 # Product Marketing Context
 
-**Document version:** v1  
-**Last updated:** 2026-07-29
+**Document version:** v2  
+**Last updated:** 2026-07-30
 
 ## Product Overview
 
@@ -118,16 +118,23 @@ errado.
 - “Não consigo responder enquanto estou cortando.”
 - “Cada barbeiro trabalha num horário diferente.”
 - “O cliente chama no WhatsApp e eu preciso parar para olhar a agenda.”
+- “O cliente marcou e não apareceu.”
+- “Ficou um buraco na agenda.”
+- “O horário ficou no WhatsApp e ninguém passou para a agenda.”
+- “Preciso fazer um encaixe.”
+- “No fim do mês ainda tenho que conferir o acerto de cada barbeiro.”
 
 **How they describe us:**
 
 - “Uma recepcionista no WhatsApp.”
 - “A IA agenda enquanto eu trabalho.”
 
-**Words to use:** WhatsApp, agenda, horário, barbeiro, cliente, comanda,
-recepção, confirmar, escolher.  
+**Words to use:** WhatsApp, agenda, horário, barbeiro, cliente, corte, cadeira,
+comanda, confirmar, remarcar, encaixe, folga, turno, comissão, acerto, cliente
+sumido, agenda furada.  
 **Words to avoid:** revolucionário, completo sem condição, automático quando há
-revisão humana, grátis, teste, pagamento obrigatório.  
+revisão humana, grátis, teste, pagamento obrigatório, jornada, handoff, atrito,
+operação conectada sem explicar o que foi conectado.  
 **Glossary:**
 
 | Term | Meaning |
@@ -140,7 +147,9 @@ revisão humana, grátis, teste, pagamento obrigatório.
 ## Brand Voice
 
 **Tone:** Profissional, direto e próximo.  
-**Style:** Frases claras, critérios verificáveis e condições visíveis.  
+**Style:** Frases curtas e concretas, com cenas da rotina da barbearia. Trocar
+termos internos por situações reconhecíveis, como parar o corte para responder,
+conferir a escala, fazer um encaixe ou fechar a comanda.  
 **Personality:** Confiante, honesta, prática, cuidadosa e brasileira.
 
 ## Proof Points
@@ -168,5 +177,6 @@ automação no WhatsApp.
 
 ## Changelog
 
+- v2 (2026-07-30) — Ampliou a linguagem do cliente e a voz da marca com termos da rotina de barbeiros; removeu jargão operacional das diretrizes.
 - v1 (2026-07-29) — Contexto inicial criado a partir do produto, do site e da pesquisa competitiva oficial.
 - v1.1 (2026-07-29) — Estado e proposta do aplicativo adicionados, com lista de interesse como conversão secundária.

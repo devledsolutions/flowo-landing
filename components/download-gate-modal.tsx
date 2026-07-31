@@ -53,6 +53,7 @@ interface DownloadGateModalProps {
   resourceDescription: string;
   downloadUrl: string;
   resourceType?: "pdf" | "spreadsheet" | "template";
+  requestedResource?: string;
 }
 
 export function DownloadGateModal({
@@ -61,6 +62,7 @@ export function DownloadGateModal({
   resourceDescription,
   downloadUrl,
   resourceType = "pdf",
+  requestedResource,
 }: DownloadGateModalProps) {
   const {
     track,
@@ -74,7 +76,8 @@ export function DownloadGateModal({
   const [whatsapp, setWhatsapp] = useState("");
   const [company, setCompany] = useState("");
   const [turnstileToken, setTurnstileToken] = useState("");
-  const [marketingConsent, setMarketingConsent] = useState(false);
+  const [emailMarketingConsent, setEmailMarketingConsent] = useState(false);
+  const [smsMarketingConsent, setSmsMarketingConsent] = useState(false);
   const [countryCode, setCountryCode] = useState<FlagIconCode>("BR");
   const [dialCode, setDialCode] = useState("+55");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -91,6 +94,7 @@ export function DownloadGateModal({
       form: "resource_download",
       resource_title: resourceTitle,
       resource_type: resourceType,
+      requested_resource: requestedResource,
     });
 
     Sentry.addBreadcrumb({
@@ -115,11 +119,14 @@ export function DownloadGateModal({
         body: JSON.stringify({
           name,
           email,
-          whatsapp: `${dialCode}${whatsapp}`,
+          whatsapp: whatsapp ? `${dialCode}${whatsapp}` : "",
           source: `download:${resourceTitle}`,
+          requestedResource,
           company,
           consent: true,
-          marketingConsent,
+          emailMarketingConsent,
+          smsMarketingConsent:
+            Boolean(whatsapp) && countryCode === "BR" && smsMarketingConsent,
           ...getAcquisitionContext(),
           segmentAnonymousId: getAnonymousId(),
           turnstileToken,
@@ -147,7 +154,7 @@ export function DownloadGateModal({
           extra: {
             statusCode: response.status,
             errorMessage,
-            name,
+            hasName: !!name,
             hasEmail: !!email,
             resourceTitle,
           },
@@ -160,15 +167,21 @@ export function DownloadGateModal({
       identify(undefined, {
         email,
         name,
-        phone: `${dialCode}${whatsapp}`,
+        ...(whatsapp ? { phone: `${dialCode}${whatsapp}` } : {}),
         lead_source: `download:${resourceTitle}`,
-        email_marketing_opt_in: marketingConsent,
+        ...(requestedResource ? { requested_resource: requestedResource } : {}),
+        email_marketing_opt_in: emailMarketingConsent,
+        sms_marketing_opt_in:
+          Boolean(whatsapp) && countryCode === "BR" && smsMarketingConsent,
       });
       track("Lead Form Succeeded", {
         form: "resource_download",
         resource_title: resourceTitle,
         resource_type: resourceType,
-        marketing_opt_in: marketingConsent,
+        requested_resource: requestedResource,
+        email_marketing_opt_in: emailMarketingConsent,
+        sms_marketing_opt_in:
+          Boolean(whatsapp) && countryCode === "BR" && smsMarketingConsent,
       });
       track("Resource Downloaded", {
         resource_name: resourceTitle,
@@ -229,7 +242,8 @@ export function DownloadGateModal({
     setWhatsapp("");
     setCompany("");
     setTurnstileToken("");
-    setMarketingConsent(false);
+    setEmailMarketingConsent(false);
+    setSmsMarketingConsent(false);
     setCountryCode("BR");
     setDialCode("+55");
     setIsSuccess(false);
@@ -248,6 +262,7 @@ export function DownloadGateModal({
     const [code, dial] = value.split(":");
     setCountryCode(code as FlagIconCode);
     setDialCode(dial);
+    if (code !== "BR") setSmsMarketingConsent(false);
   };
 
   const handleWhatsAppChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -392,7 +407,9 @@ export function DownloadGateModal({
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <Label htmlFor="download-whatsapp">WhatsApp</Label>
+                    <Label htmlFor="download-whatsapp">
+                      WhatsApp <span className="font-normal text-muted-ink">(opcional)</span>
+                    </Label>
                     <div className="flex">
                       <Select
                         onValueChange={handleCountryChange}
@@ -439,7 +456,6 @@ export function DownloadGateModal({
                         onChange={handleWhatsAppChange}
                         placeholder="(11) 98765-4321"
                         className="ml-2 flex-1"
-                        required
                       />
                     </div>
                   </div>
@@ -470,8 +486,10 @@ export function DownloadGateModal({
                   <label className="flex items-start gap-2 text-xs leading-5 text-muted-ink">
                     <input
                       type="checkbox"
-                      checked={marketingConsent}
-                      onChange={(event) => setMarketingConsent(event.target.checked)}
+                      checked={emailMarketingConsent}
+                      onChange={(event) =>
+                        setEmailMarketingConsent(event.target.checked)
+                      }
                       className="mt-0.5 h-4 w-4 shrink-0 accent-ink"
                     />
                     <span>
@@ -479,6 +497,23 @@ export function DownloadGateModal({
                       Flowo. Posso cancelar quando quiser.
                     </span>
                   </label>
+                  {countryCode === "BR" && whatsapp && (
+                    <label className="flex items-start gap-2 text-xs leading-5 text-muted-ink">
+                      <input
+                        type="checkbox"
+                        checked={smsMarketingConsent}
+                        onChange={(event) =>
+                          setSmsMarketingConsent(event.target.checked)
+                        }
+                        className="mt-0.5 h-4 w-4 shrink-0 accent-ink"
+                      />
+                      <span>
+                        Quero receber por SMS novidades e convites da Flowo. A
+                        frequência é limitada e posso responder SAIR a qualquer
+                        momento.
+                      </span>
+                    </label>
+                  )}
                   <Button
                     type="submit"
                     className="w-full rounded-full font-semibold"
@@ -498,7 +533,8 @@ export function DownloadGateModal({
                     )}
                   </Button>
                   <p className="text-center text-caption text-muted-ink">
-                    Sem spam. Você pode cancelar comunicações a qualquer momento.
+                    O WhatsApp é opcional. Você recebe o material mesmo sem
+                    aceitar comunicações de marketing.
                   </p>
                 </form>
               </div>

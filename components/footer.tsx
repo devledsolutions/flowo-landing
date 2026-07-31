@@ -8,6 +8,7 @@ const SIGNUP_URL = "https://barber.flowo.com.br/sign-up";
 const APP_URL = "https://barber.flowo.com.br";
 
 const produtoLinks = [
+  { href: "/recepcionista-ia-barbearia", label: "Recepcionista com IA" },
   { href: "/recursos", label: "Recursos" },
   { href: "/aplicativo-para-barbeiros", label: "Aplicativo para a equipe" },
   { href: "/precos", label: "Preços" },
@@ -29,6 +30,10 @@ const barbeariasLinks = [
 const aprendaLinks = [
   { href: "/recursos/guias", label: "Guias" },
   { href: "/recursos/materiais", label: "Materiais gratuitos" },
+  {
+    href: "/recursos/diagnostico-agenda-barbearia",
+    label: "Diagnóstico de agenda",
+  },
 ];
 
 const compararLinks = [

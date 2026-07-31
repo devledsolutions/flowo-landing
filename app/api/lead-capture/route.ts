@@ -16,8 +16,9 @@ const LEAD_CAPTURE_LIMIT = 15;
 type CaptureWebsiteLeadArgs = {
   name: string;
   email?: string;
-  phone: string;
+  phone?: string;
   source: string;
+  requestedResource?: string;
   landingPath: string;
   referrer?: string;
   utmSource?: string;
@@ -27,6 +28,8 @@ type CaptureWebsiteLeadArgs = {
   utmTerm?: string;
   segmentAnonymousId?: string;
   consent: true;
+  emailMarketingConsent?: boolean;
+  smsMarketingConsent?: boolean;
   marketingConsent?: boolean;
   website?: string;
 };
@@ -93,8 +96,11 @@ export async function POST(request: Request) {
       email,
       whatsapp,
       source = "",
+      requestedResource = "",
       company = "",
       consent,
+      emailMarketingConsent,
+      smsMarketingConsent,
       marketingConsent,
       landingPath = "",
       referrer = "",
@@ -149,8 +155,9 @@ export async function POST(request: Request) {
     await convex.mutation(captureWebsiteLead, {
       name,
       email: optional(email),
-      phone: whatsapp,
+      phone: optional(whatsapp),
       source,
+      requestedResource: optional(requestedResource),
       landingPath: landingPath || refererHeader || "/",
       referrer: optional(referrer),
       utmSource: optional(utmSource),
@@ -160,7 +167,9 @@ export async function POST(request: Request) {
       utmTerm: optional(utmTerm),
       segmentAnonymousId: optional(segmentAnonymousId),
       consent,
-      marketingConsent,
+      emailMarketingConsent:
+        emailMarketingConsent ?? marketingConsent ?? false,
+      smsMarketingConsent,
       website: optional(company),
     });
 
