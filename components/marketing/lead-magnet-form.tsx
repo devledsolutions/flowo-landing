@@ -7,9 +7,28 @@ import { TurnstileWidget } from "@/components/turnstile-widget";
 import { useSegment } from "@/providers/segment-provider";
 import styles from "@/components/design-review/lead-offer-landing.module.css";
 
-const RESOURCE_ID = "raio_x_agenda";
-const RESOURCE_URL = "/downloads/raio-x-da-agenda-flowo.pdf";
-const SOURCE = "download:raio-x-agenda";
+export type LeadMagnetConfig = {
+  resourceId: string;
+  resourceUrl: string;
+  source: string;
+  submitLabel: string;
+  successTitle: string;
+  successDescription?: string;
+  productCtaLabel?: string;
+  productCtaHref?: string;
+};
+
+const DEFAULT_CONFIG: LeadMagnetConfig = {
+  resourceId: "raio_x_agenda",
+  resourceUrl: "/downloads/raio-x-da-agenda-flowo.pdf",
+  source: "download:raio-x-agenda",
+  submitLabel: "Baixar meu Raio-X da Agenda",
+  successTitle: "Seu Raio-X da Agenda está pronto.",
+  successDescription:
+    "O download está disponível agora. Também enviamos uma cópia do link para o e-mail informado.",
+  productCtaLabel: "Conhecer a IA que responde “tem horário?”",
+  productCtaHref: "/recepcionista-ia-barbearia",
+};
 
 function normalizeBrazilianPhone(value: string): string {
   const digits = value.replace(/\D/g, "").slice(0, 11);
@@ -27,7 +46,22 @@ function formatBrazilianPhone(value: string): string {
   return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
 }
 
-export function LeadMagnetForm() {
+export function LeadMagnetForm({
+  config = DEFAULT_CONFIG,
+}: {
+  config?: LeadMagnetConfig;
+}) {
+  const {
+    resourceId,
+    resourceUrl,
+    source,
+    submitLabel,
+    successTitle,
+    successDescription = DEFAULT_CONFIG.successDescription,
+    productCtaLabel = DEFAULT_CONFIG.productCtaLabel,
+    productCtaHref = DEFAULT_CONFIG.productCtaHref,
+  } = config;
+  const fieldPrefix = `lead-magnet-${resourceId.replaceAll("_", "-")}`;
   const {
     track,
     identify,
@@ -50,7 +84,7 @@ export function LeadMagnetForm() {
 
   useEffect(() => {
     track("Lead Magnet Viewed", {
-      resource_id: RESOURCE_ID,
+      resource_id: resourceId,
       resource_type: "pdf",
     });
 
@@ -59,19 +93,19 @@ export function LeadMagnetForm() {
       if (!(target instanceof Element)) return;
       if (!target.closest("[data-lead-magnet-cta='true']")) return;
       track("Lead Magnet CTA Clicked", {
-        resource_id: RESOURCE_ID,
+        resource_id: resourceId,
       });
     };
 
     document.addEventListener("click", handleCtaClick, true);
     return () => document.removeEventListener("click", handleCtaClick, true);
-  }, [track]);
+  }, [resourceId, track]);
 
   const markStarted = () => {
     if (startedRef.current) return;
     startedRef.current = true;
     track("Lead Magnet Form Started", {
-      resource_id: RESOURCE_ID,
+      resource_id: resourceId,
     });
   };
 
@@ -82,7 +116,7 @@ export function LeadMagnetForm() {
 
     const normalizedPhone = normalizeBrazilianPhone(phone);
     track("Lead Magnet Form Submitted", {
-      resource_id: RESOURCE_ID,
+      resource_id: resourceId,
       has_phone: Boolean(normalizedPhone),
       email_marketing_opt_in: emailMarketingConsent,
       sms_marketing_opt_in: Boolean(normalizedPhone) && smsMarketingConsent,
@@ -96,8 +130,8 @@ export function LeadMagnetForm() {
           name,
           email,
           whatsapp: normalizedPhone,
-          source: SOURCE,
-          requestedResource: RESOURCE_ID,
+          source,
+          requestedResource: resourceId,
           company,
           consent: deliveryConsent,
           emailMarketingConsent,
@@ -118,7 +152,7 @@ export function LeadMagnetForm() {
           data.message || "Não foi possível liberar o material agora."
         );
         track("Lead Magnet Form Failed", {
-          resource_id: RESOURCE_ID,
+          resource_id: resourceId,
           status_code: response.status,
         });
         return;
@@ -128,18 +162,18 @@ export function LeadMagnetForm() {
         name,
         email,
         ...(normalizedPhone ? { phone: normalizedPhone } : {}),
-        lead_source: SOURCE,
-        requested_resource: RESOURCE_ID,
+        lead_source: source,
+        requested_resource: resourceId,
         email_marketing_opt_in: emailMarketingConsent,
         sms_marketing_opt_in: Boolean(normalizedPhone) && smsMarketingConsent,
       });
       track("Lead Magnet Delivered", {
-        resource_id: RESOURCE_ID,
+        resource_id: resourceId,
         delivery_method: "page_and_email",
       });
       if (emailMarketingConsent || (normalizedPhone && smsMarketingConsent)) {
         track("Lead Magnet Nurture Started", {
-          resource_id: RESOURCE_ID,
+          resource_id: resourceId,
           email_opt_in: emailMarketingConsent,
           sms_opt_in: Boolean(normalizedPhone) && smsMarketingConsent,
         });
@@ -151,7 +185,7 @@ export function LeadMagnetForm() {
         "Não foi possível conectar. Verifique sua internet e tente novamente."
       );
       track("Lead Magnet Form Failed", {
-        resource_id: RESOURCE_ID,
+        resource_id: resourceId,
         status_code: 0,
       });
     }
@@ -163,20 +197,17 @@ export function LeadMagnetForm() {
         <CheckCircle2 aria-hidden="true" />
         <div>
           <p className={styles.successEyebrow}>Material liberado</p>
-          <h3>Seu Raio-X da Agenda está pronto.</h3>
-          <p>
-            O download está disponível agora. Também enviamos uma cópia do link
-            para o e-mail informado.
-          </p>
+          <h3>{successTitle}</h3>
+          <p>{successDescription}</p>
         </div>
         <a
           className={styles.downloadButton}
-          href={RESOURCE_URL}
+          href={resourceUrl}
           target="_blank"
           rel="noreferrer"
           onClick={() =>
             track("Lead Magnet Downloaded", {
-              resource_id: RESOURCE_ID,
+              resource_id: resourceId,
               placement: "success",
             })
           }
@@ -184,18 +215,20 @@ export function LeadMagnetForm() {
           <Download aria-hidden="true" />
           Abrir o material
         </a>
-        <Link
-          className={styles.productLink}
-          href="/recepcionista-ia-barbearia"
-          onClick={() =>
-            track("Lead Magnet Product CTA Clicked", {
-              resource_id: RESOURCE_ID,
-              placement: "success",
-            })
-          }
-        >
-          Conhecer a IA que responde “tem horário?”
-        </Link>
+        {productCtaHref && productCtaLabel ? (
+          <Link
+            className={styles.productLink}
+            href={productCtaHref}
+            onClick={() =>
+              track("Lead Magnet Product CTA Clicked", {
+                resource_id: resourceId,
+                placement: "success",
+              })
+            }
+          >
+            {productCtaLabel}
+          </Link>
+        ) : null}
       </div>
     );
   }
@@ -216,10 +249,10 @@ export function LeadMagnetForm() {
         autoComplete="off"
         aria-hidden="true"
       />
-      <label htmlFor="lead-magnet-name">
+      <label htmlFor={`${fieldPrefix}-name`}>
         Seu nome
         <input
-          id="lead-magnet-name"
+          id={`${fieldPrefix}-name`}
           name="name"
           value={name}
           onChange={(event) => setName(event.target.value)}
@@ -229,10 +262,10 @@ export function LeadMagnetForm() {
           required
         />
       </label>
-      <label htmlFor="lead-magnet-email">
+      <label htmlFor={`${fieldPrefix}-email`}>
         E-mail para receber o PDF
         <input
-          id="lead-magnet-email"
+          id={`${fieldPrefix}-email`}
           name="email"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
@@ -242,10 +275,10 @@ export function LeadMagnetForm() {
           required
         />
       </label>
-      <label htmlFor="lead-magnet-phone">
+      <label htmlFor={`${fieldPrefix}-phone`}>
         WhatsApp <span>opcional</span>
         <input
-          id="lead-magnet-phone"
+          id={`${fieldPrefix}-phone`}
           name="phone"
           value={formatBrazilianPhone(phone)}
           onChange={(event) =>
@@ -322,7 +355,7 @@ export function LeadMagnetForm() {
             Liberando material...
           </>
         ) : (
-          "Baixar meu Raio-X da Agenda"
+          submitLabel
         )}
       </button>
       <p>

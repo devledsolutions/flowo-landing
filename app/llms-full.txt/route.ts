@@ -99,8 +99,24 @@ consentimentos de marketing são opcionais e separados.
 
 URL canônica: ${SITE_URL}/recursos/diagnostico-agenda-barbearia
 
+## Ferramentas gratuitas para barbearias
+
+- Calculadora de tempo no WhatsApp: ${SITE_URL}/calculadora-tempo-whatsapp-barbearia
+  Estima horas usadas em conversas de disponibilidade a partir dos valores informados pela barbearia. Não calcula faturamento perdido.
+- Calculadora de comissão de barbeiro: ${SITE_URL}/calculadora-comissao-barbeiro
+  Simula bases separadas para serviços, produtos e ajustes. É uma ferramenta operacional e não substitui orientação contábil, trabalhista ou contrato.
+- Planejador de retorno de clientes: ${SITE_URL}/mensagens-retorno-clientes-barbearia
+  Sugere uma janela de revisão e uma mensagem curta. O envio depende de consentimento, conferência de agenda, histórico recente e opção de saída.
+
+Os resultados aparecem sem cadastro. Nome e e-mail são solicitados apenas para
+entregar os PDFs complementares; telefone e consentimentos de marketing são
+opcionais e separados.
+
 ## Coleção de guias práticos
 
+- Agenda sem Interrupção: ${SITE_URL}/downloads/agenda-sem-interrupcao-flowo.pdf
+- Fechamento da Equipe: ${SITE_URL}/downloads/fechamento-equipe-flowo.pdf
+- Retorno sem Spam: ${SITE_URL}/downloads/retorno-sem-spam-flowo.pdf
 - Comissões sem Planilha Paralela: ${SITE_URL}/downloads/comissoes-sem-planilha-flowo.pdf
 - Clientes na Hora de Voltar: ${SITE_URL}/downloads/clientes-na-hora-de-voltar-flowo.pdf
 - Caixa sem Confusão: ${SITE_URL}/downloads/caixa-e-recebimentos-flowo.pdf
@@ -130,6 +146,9 @@ ${comparisons}
 - Filme vertical: ${SITE_URL}${INSTITUTIONAL_FILM.verticalVideo}
 - Recursos: ${SITE_URL}/recursos
 - Diagnóstico de agenda: ${SITE_URL}/recursos/diagnostico-agenda-barbearia
+- Calculadora de tempo no WhatsApp: ${SITE_URL}/calculadora-tempo-whatsapp-barbearia
+- Calculadora de comissão: ${SITE_URL}/calculadora-comissao-barbeiro
+- Planejador de retorno: ${SITE_URL}/mensagens-retorno-clientes-barbearia
 - Aplicativo para barbeiros: ${SITE_URL}/aplicativo-para-barbeiros
 - Planos: ${SITE_URL}/precos
 - Guias: ${SITE_URL}/recursos/guias

@@ -3,7 +3,7 @@ import { COMPETITOR_COMPARISONS } from "@/data/competitor-comparisons";
 import { GUIDES } from "@/data/guides";
 import { SITE_URL } from "@/lib/seo";
 
-const LAST_MODIFIED = new Date("2026-07-30T00:00:00.000Z");
+const LAST_MODIFIED = new Date("2026-07-31T00:00:00.000Z");
 const COMPETITOR_ROUTES = COMPETITOR_COMPARISONS.map(
   (comparison) => comparison.path,
 );
@@ -28,6 +28,9 @@ const CORE_ROUTES = [
   "/recursos/videos",
   "/recursos/materiais",
   "/recursos/diagnostico-agenda-barbearia",
+  "/calculadora-tempo-whatsapp-barbearia",
+  "/calculadora-comissao-barbeiro",
+  "/mensagens-retorno-clientes-barbearia",
   "/recursos/guias",
   "/casos-de-sucesso",
   "/casos-de-sucesso/academia-corpo-em-forma",
@@ -57,6 +60,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
             route === "/recursos/cashback-barbearia" ||
             route === "/recursos/nota-fiscal-barbearia"
             || route === "/recursos/diagnostico-agenda-barbearia"
+            || route === "/calculadora-tempo-whatsapp-barbearia"
+            || route === "/calculadora-comissao-barbeiro"
+            || route === "/mensagens-retorno-clientes-barbearia"
           ? 0.9
           : route === "/comparar" ||
               route === "/flowo-vs-planilha" ||
