@@ -9,11 +9,6 @@ import { TrackedLink } from "@/components/analytics/tracked-link";
 export default function Hero() {
   return (
     <section className="relative isolate overflow-hidden bg-cream">
-      <div
-        aria-hidden="true"
-        className="absolute inset-x-0 top-0 -z-10 h-[48rem] bg-[radial-gradient(circle_at_50%_20%,oklch(0.995_0.002_95),transparent_58%)]"
-      />
-
       <div className="container-page pb-14 pt-28 sm:pt-32 lg:pb-20 lg:pt-36">
         <div className="mx-auto max-w-5xl text-center">
           <h1
@@ -27,8 +22,7 @@ export default function Hero() {
           <p
             className="mx-auto mt-5 max-w-2xl text-lead text-muted-ink"
           >
-            A IA da Flowo responde no WhatsApp. Você acompanha cada agendamento
-            no Flowo.
+            A IA da Flowo responde no WhatsApp. Você acompanha tudo no painel.
           </p>
           <div
             className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row"
@@ -63,15 +57,15 @@ export default function Hero() {
             </TrackedLink>
           </div>
           <TrackedLink
-            href="#app-da-equipe"
+            href="/aplicativo-para-barbeiros"
             event="CTA Clicked"
             properties={{
               page: "/",
               placement: "hero",
-              destination: "mobile_app_section",
+              destination: "mobile_app_page",
               intent: "learn_about_app",
             }}
-            className="mt-5 inline-flex items-center gap-2 border-y border-line py-2.5 text-caption font-medium text-muted-ink transition-colors duration-200 ease-out-quint hover:text-ink"
+            className="mt-5 inline-flex min-h-11 items-center gap-2 border-y border-line px-3 py-2.5 text-caption font-medium text-muted-ink transition-colors duration-200 ease-out-quint hover:text-ink"
           >
             <Smartphone className="h-4 w-4" aria-hidden="true" />
             App Flowo para a equipe

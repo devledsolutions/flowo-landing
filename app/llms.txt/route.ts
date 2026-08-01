@@ -37,6 +37,7 @@ ${planLines}
 - [Precos](${SITE_URL}/precos)
 - [Recursos](${SITE_URL}/recursos)
 - [Demonstração validada do agendamento no WhatsApp](${SITE_URL}/demonstracao-agendamento-whatsapp)
+- [Casos de validação por perfil de barbearia](${SITE_URL}/casos-de-validacao)
 - [Parcerias e imprensa](${SITE_URL}/parcerias)
 
 ## Money pages
@@ -53,6 +54,9 @@ ${planLines}
 - O teste também validou a pausa da IA para atendimento humano e a retomada posterior.
 - Essa evidência comprova o funcionamento técnico do fluxo; não é um depoimento de cliente nem uma promessa de resultado financeiro.
 - [Ver escopo, limites e demonstração](${SITE_URL}/demonstracao-agendamento-whatsapp)
+- [Perfil solo: Linha Onze Barbearia](${SITE_URL}/casos-de-validacao/linha-onze-sao-paulo)
+- [Perfil com equipe: Quatro Tempos Barbearia](${SITE_URL}/casos-de-validacao/quatro-tempos-curitiba)
+- Os nomes e logos desses perfis são fictícios; as capacidades descritas vêm da validação técnica controlada.
 
 ## Add-ons e acesso acompanhado
 - [Flowo Recupera](${SITE_URL}/flowo-recupera): add-on em beta acompanhada para identificar oportunidades de retorno; resultados passam por revisão humana, consentimento e fechamento real da comanda.

@@ -74,6 +74,15 @@ depoimento de cliente nem sustenta uma promessa de aumento de faturamento.
 
 Escopo e demonstração: ${SITE_URL}/demonstracao-agendamento-whatsapp
 
+## Casos de validação por perfil
+
+- Linha Onze Barbearia, perfil solo: ${SITE_URL}/casos-de-validacao/linha-onze-sao-paulo
+- Quatro Tempos Barbearia, perfil com equipe: ${SITE_URL}/casos-de-validacao/quatro-tempos-curitiba
+
+Os nomes e logos são fictícios e servem para representar os perfis. As ações
+atribuídas à Flowo vêm da validação técnica controlada descrita acima; não são
+depoimentos ou resultados econômicos de clientes.
+
 ## Planos oficiais
 
 ${plans}
@@ -164,6 +173,7 @@ ${comparisons}
 - Planejador de retorno: ${SITE_URL}/mensagens-retorno-clientes-barbearia
 - Aplicativo para barbeiros: ${SITE_URL}/aplicativo-para-barbeiros
 - Demonstração validada: ${SITE_URL}/demonstracao-agendamento-whatsapp
+- Casos de validação: ${SITE_URL}/casos-de-validacao
 - Parcerias e imprensa: ${SITE_URL}/parcerias
 - Planos: ${SITE_URL}/precos
 - Guias: ${SITE_URL}/recursos/guias
