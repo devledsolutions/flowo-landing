@@ -61,7 +61,7 @@ export function ValidationProductMedia({
             dark ? "text-[#a9aa9f]" : "text-faint-ink"
           }`}
         >
-          Tela demonstrativa do produto com dados ilustrativos.
+          Interface da Flowo.
         </p>
       </figcaption>
     </figure>

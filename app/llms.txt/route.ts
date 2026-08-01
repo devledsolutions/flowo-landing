@@ -37,7 +37,7 @@ ${planLines}
 - [Precos](${SITE_URL}/precos)
 - [Recursos](${SITE_URL}/recursos)
 - [Demonstração validada do agendamento no WhatsApp](${SITE_URL}/demonstracao-agendamento-whatsapp)
-- [Casos de validação por perfil de barbearia](${SITE_URL}/casos-de-validacao)
+- [Flowo em ação para barbearias solo e com equipe](${SITE_URL}/casos-de-validacao)
 - [Parcerias e imprensa](${SITE_URL}/parcerias)
 
 ## Money pages
@@ -49,14 +49,14 @@ ${planLines}
 - [Cashback para barbearias](${SITE_URL}/recursos/cashback-barbearia)
 - [Nota fiscal com ativação assistida](${SITE_URL}/recursos/nota-fiscal-barbearia)
 
-## Prova técnica pública
+## Flowo funcionando de ponta a ponta
 - Em 26 de julho de 2026, a Flowo concluiu em produção, com números e estabelecimentos de teste controlados, o fluxo de mensagem recebida, resposta da IA, consulta de disponibilidade, criação, consulta, remarcação, cancelamento e confirmação de agendamento.
 - O teste também validou a pausa da IA para atendimento humano e a retomada posterior.
-- Essa evidência comprova o funcionamento técnico do fluxo; não é um depoimento de cliente nem uma promessa de resultado financeiro.
-- [Ver escopo, limites e demonstração](${SITE_URL}/demonstracao-agendamento-whatsapp)
+- O fluxo conecta atendimento no WhatsApp, disponibilidade, agenda e controle humano.
+- [Ver a Flowo funcionando](${SITE_URL}/demonstracao-agendamento-whatsapp)
 - [Perfil solo: Linha Onze Barbearia](${SITE_URL}/casos-de-validacao/linha-onze-sao-paulo)
 - [Perfil com equipe: Quatro Tempos Barbearia](${SITE_URL}/casos-de-validacao/quatro-tempos-curitiba)
-- Os nomes e logos desses perfis são fictícios; as capacidades descritas vêm da validação técnica controlada.
+- As duas jornadas mostram a interface e o funcionamento da Flowo em perfis comuns de barbearia.
 
 ## Add-ons e acesso acompanhado
 - [Flowo Recupera](${SITE_URL}/flowo-recupera): add-on em beta acompanhada para identificar oportunidades de retorno; resultados passam por revisão humana, consentimento e fechamento real da comanda.

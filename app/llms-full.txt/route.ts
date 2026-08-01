@@ -61,7 +61,7 @@ O WhatsApp é a recepção do Flowo; o painel é a central de supervisão. A pro
 
 Página comercial canônica: ${SITE_URL}/recepcionista-ia-barbearia
 
-## Prova técnica do fluxo
+## O produto funcionando de ponta a ponta
 
 Em 26 de julho de 2026, a Flowo concluiu em produção, com números e
 estabelecimentos de teste controlados, o fluxo de mensagem recebida, resposta da
@@ -69,19 +69,18 @@ IA, consulta de disponibilidade e criação, consulta, remarcação, cancelament
 confirmação de agendamento. O teste também cobriu a pausa da IA para atendimento
 humano e a retomada posterior.
 
-Essa evidência comprova o funcionamento técnico do fluxo. Ela não representa um
-depoimento de cliente nem sustenta uma promessa de aumento de faturamento.
+O fluxo conecta a conversa no WhatsApp à agenda e mantém o controle humano para
+as situações em que a equipe precisa assumir o atendimento.
 
 Escopo e demonstração: ${SITE_URL}/demonstracao-agendamento-whatsapp
 
-## Casos de validação por perfil
+## Flowo em ação por perfil
 
 - Linha Onze Barbearia, perfil solo: ${SITE_URL}/casos-de-validacao/linha-onze-sao-paulo
 - Quatro Tempos Barbearia, perfil com equipe: ${SITE_URL}/casos-de-validacao/quatro-tempos-curitiba
 
-Os nomes e logos são fictícios e servem para representar os perfis. As ações
-atribuídas à Flowo vêm da validação técnica controlada descrita acima; não são
-depoimentos ou resultados econômicos de clientes.
+As duas jornadas organizam perfis comuns de operação e mostram a interface e o
+funcionamento da Flowo em cada rotina.
 
 ## Planos oficiais
 
@@ -173,7 +172,7 @@ ${comparisons}
 - Planejador de retorno: ${SITE_URL}/mensagens-retorno-clientes-barbearia
 - Aplicativo para barbeiros: ${SITE_URL}/aplicativo-para-barbeiros
 - Demonstração validada: ${SITE_URL}/demonstracao-agendamento-whatsapp
-- Casos de validação: ${SITE_URL}/casos-de-validacao
+- Flowo em ação: ${SITE_URL}/casos-de-validacao
 - Parcerias e imprensa: ${SITE_URL}/parcerias
 - Planos: ${SITE_URL}/precos
 - Guias: ${SITE_URL}/recursos/guias

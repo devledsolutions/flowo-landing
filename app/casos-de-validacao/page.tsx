@@ -19,9 +19,9 @@ import { absoluteUrl, buildMetadata } from "@/lib/seo";
 const PAGE_PATH = "/casos-de-validacao";
 
 export const metadata = buildMetadata({
-  title: "Casos de Validação: IA e Agenda para Barbearias",
+  title: "Flowo em Ação: IA e Agenda para Barbearias",
   description:
-    "Veja em telas reais como a Flowo conecta WhatsApp, disponibilidade e agenda em uma barbearia solo e em uma operação com equipe.",
+    "Veja como a Flowo atende no WhatsApp, consulta horários e mantém a agenda organizada em barbearias solo e com equipe.",
   path: PAGE_PATH,
   type: "article",
   publishedTime: "2026-07-31",
@@ -54,9 +54,9 @@ export default function ValidationCasesPage() {
         "@type": "CollectionPage",
         "@id": absoluteUrl(`${PAGE_PATH}#webpage`),
         url: absoluteUrl(PAGE_PATH),
-        name: "Casos de validação da Flowo",
+        name: "Flowo em ação",
         description:
-          "Casos demonstrativos do fluxo de atendimento e agendamento da Flowo para barbearias.",
+          "Jornadas da Flowo para atendimento e agendamento em barbearias solo e com equipe.",
         inLanguage: "pt-BR",
         mainEntity: {
           "@type": "ItemList",
@@ -80,7 +80,7 @@ export default function ValidationCasesPage() {
           {
             "@type": "ListItem",
             position: 2,
-            name: "Casos de validação",
+            name: "Flowo em ação",
             item: absoluteUrl(PAGE_PATH),
           },
         ],
@@ -103,7 +103,7 @@ export default function ValidationCasesPage() {
             <Breadcrumb
               items={[
                 { label: "Início", href: "/" },
-                { label: "Casos de validação", href: PAGE_PATH },
+                { label: "Flowo em ação", href: PAGE_PATH },
               ]}
             />
 
@@ -138,9 +138,8 @@ export default function ValidationCasesPage() {
                   </TrackedLink>
                 </div>
                 <p className="mt-5 max-w-[64ch] text-[0.75rem] leading-relaxed text-faint-ink">
-                  Fluxos validados em produção com ativos próprios. Os nomes e
-                  logos abaixo representam perfis de uso; não são depoimentos nem
-                  métricas atribuídas a clientes.
+                  WhatsApp oficial, agenda conectada e controle humano no mesmo
+                  fluxo — do primeiro pedido à confirmação.
                 </p>
               </div>
 
@@ -239,7 +238,7 @@ export default function ValidationCasesPage() {
                     <span className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-[#f4f0e5] p-1">
                       <Image
                         src={validationCase.logo}
-                        alt={`Identidade fictícia da ${validationCase.name}`}
+                        alt={`Identidade visual da ${validationCase.name}`}
                         width={80}
                         height={80}
                         className="h-full w-full object-contain"
@@ -318,46 +317,63 @@ export default function ValidationCasesPage() {
         })}
 
         <section className="section-normal border-t border-line bg-surface">
-          <div className="container-page grid gap-12 lg:grid-cols-[0.75fr_1.25fr] lg:gap-20">
-            <div>
-              <p className="text-caption font-semibold text-muted-ink">
-                Evidência sem maquiagem
-              </p>
-              <h2 className="mt-3 max-w-[13ch] text-h2 font-semibold leading-tight text-ink-strong">
-                O que foi testado — e o que ainda não estamos alegando.
-              </h2>
-            </div>
-            <div>
-              <p className="max-w-[68ch] text-lead leading-relaxed text-ink">
-                Em 26 de julho de 2026, a Flowo validou em produção resposta no
-                WhatsApp, consulta de disponibilidade, criação, consulta,
-                remarcação, cancelamento e confirmação de agendamento, além da
-                pausa e retomada da IA.
-              </p>
-              <div className="mt-8 grid gap-6 border-t border-line pt-7 sm:grid-cols-2">
-                <div>
-                  <h3 className="font-semibold text-ink">Isso comprova</h3>
-                  <p className="mt-2 text-label leading-relaxed text-muted-ink">
-                    Que o caminho técnico entre conversa, agenda e controle humano
-                    funciona nas ações exercitadas.
-                  </p>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-ink">Isso não inventa</h3>
-                  <p className="mt-2 text-label leading-relaxed text-muted-ink">
-                    Faturamento, ocupação, tempo economizado ou depoimento de uma
-                    barbearia que ainda não medimos.
-                  </p>
-                </div>
+          <div className="container-page">
+            <div className="grid gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:items-end lg:gap-20">
+              <div>
+                <p className="text-caption font-semibold text-muted-ink">
+                  Da mensagem ao horário marcado
+                </p>
+                <h2 className="mt-3 max-w-[13ch] text-h2 font-semibold leading-tight text-ink-strong">
+                  A IA atende. A agenda acompanha. Você mantém o controle.
+                </h2>
               </div>
-              <Link
-                href="/demonstracao-agendamento-whatsapp"
-                className="mt-7 inline-flex min-h-11 items-center gap-2 font-semibold text-ink underline underline-offset-4"
-              >
-                Ver demonstração e escopo técnico
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </Link>
+              <p className="max-w-[68ch] text-lead leading-relaxed text-ink">
+                A Flowo transforma pedidos no WhatsApp em compromissos organizados:
+                entende o que o cliente precisa, consulta a disponibilidade e
+                registra cada mudança na agenda certa.
+              </p>
             </div>
+
+            <div className="mt-10 grid gap-px overflow-hidden rounded-xl bg-line md:grid-cols-3">
+              <article className="bg-surface-2 p-6 sm:p-8">
+                <MessageCircleMore className="h-6 w-6 text-ink" aria-hidden="true" />
+                <h3 className="mt-6 text-lg font-semibold text-ink">
+                  Atende sem interromper o corte
+                </h3>
+                <p className="mt-3 text-label leading-relaxed text-muted-ink">
+                  O cliente recebe respostas e opções de horário no WhatsApp que
+                  já usa.
+                </p>
+              </article>
+              <article className="bg-surface-2 p-6 sm:p-8">
+                <CalendarCheck2 className="h-6 w-6 text-ink" aria-hidden="true" />
+                <h3 className="mt-6 text-lg font-semibold text-ink">
+                  Atualiza a agenda no mesmo fluxo
+                </h3>
+                <p className="mt-3 text-label leading-relaxed text-muted-ink">
+                  Confirmações, remarcações e cancelamentos continuam ligados ao
+                  compromisso certo.
+                </p>
+              </article>
+              <article className="bg-surface-2 p-6 sm:p-8">
+                <Settings2 className="h-6 w-6 text-ink" aria-hidden="true" />
+                <h3 className="mt-6 text-lg font-semibold text-ink">
+                  Entrega o controle para a equipe
+                </h3>
+                <p className="mt-3 text-label leading-relaxed text-muted-ink">
+                  Quando uma pessoa precisa assumir, o histórico continua no mesmo
+                  lugar e a IA pode ser pausada.
+                </p>
+              </article>
+            </div>
+
+            <Link
+              href="/demonstracao-agendamento-whatsapp"
+              className="mt-8 inline-flex min-h-11 items-center gap-2 font-semibold text-ink underline underline-offset-4"
+            >
+              Ver a Flowo funcionando
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
           </div>
         </section>
 

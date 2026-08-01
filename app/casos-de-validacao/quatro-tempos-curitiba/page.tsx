@@ -5,9 +5,9 @@ import { buildMetadata } from "@/lib/seo";
 const validationCase = getValidationCase("quatro-tempos-curitiba");
 
 export const metadata = buildMetadata({
-  title: "Caso de Validação: Agenda de Barbearia com Equipe",
+  title: "Agenda de Barbearia com Equipe e IA",
   description:
-    "Veja como o fluxo validado da Flowo trata consulta, remarcação, cancelamento e controle humano em uma barbearia com equipe.",
+    "Veja como a Flowo organiza horários por profissional, atende no WhatsApp e mantém a recepção no controle da agenda.",
   path: `/casos-de-validacao/${validationCase.slug}`,
   type: "article",
   publishedTime: "2026-07-31",

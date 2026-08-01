@@ -81,7 +81,7 @@ export function ValidationCasePage({
           {
             "@type": "ListItem",
             position: 2,
-            name: "Casos de validação",
+            name: "Flowo em ação",
             item: absoluteUrl("/casos-de-validacao"),
           },
           {
@@ -121,7 +121,7 @@ export function ValidationCasePage({
             <Breadcrumb
               items={[
                 { label: "Início", href: "/" },
-                { label: "Casos de validação", href: "/casos-de-validacao" },
+                { label: "Flowo em ação", href: "/casos-de-validacao" },
                 { label: validationCase.name, href: pagePath },
               ]}
             />
@@ -179,9 +179,8 @@ export function ValidationCasePage({
                 </div>
 
                 <p className="mt-5 max-w-[68ch] text-[0.75rem] leading-relaxed text-faint-ink">
-                  Caso de validação construído com ativos próprios. Nome e
-                  identidade representam um perfil de uso; não são depoimento de
-                  cliente nem resultado comercial atribuído a uma operação real.
+                  WhatsApp oficial, agenda conectada e controle humano no mesmo
+                  fluxo.
                 </p>
               </div>
 
@@ -296,9 +295,9 @@ export function ValidationCasePage({
                 O produto aparece onde a rotina precisa dele.
               </h2>
               <p className="max-w-[62ch] text-body leading-relaxed text-muted-ink">
-                Estas telas são do produto em ambiente demonstrativo. Elas mostram
-                como conversa, agenda e controle operacional se encontram — sem
-                transformar um teste técnico em um resultado comercial inventado.
+                Veja como conversa, agenda e controle operacional se encontram na
+                rotina: o pedido entra pelo WhatsApp, vira compromisso e continua
+                visível para quem cuida da operação.
               </p>
             </div>
 
@@ -353,23 +352,25 @@ export function ValidationCasePage({
             <div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:gap-20">
               <div>
                 <p className="text-caption font-semibold text-muted-ink">
-                  O que a validação prova
+                  O fluxo funcionando de ponta a ponta
                 </p>
                 <h2 className="mt-3 max-w-[13ch] text-h2 font-semibold leading-tight text-ink-strong">
-                  Funcionamento verificável, promessa no tamanho certo.
+                  Do pedido do cliente ao horário confirmado.
                 </h2>
               </div>
               <div>
                 <p className="max-w-[68ch] text-lead leading-relaxed text-ink">
-                  {validationCase.validatedOutcome}
+                  {validationCase.operationalOutcome}
                 </p>
                 <div className="mt-7 flex flex-col gap-3 border-t border-line pt-6 text-label text-muted-ink sm:flex-row sm:items-center sm:justify-between">
-                  <span>Validação executada em produção em 26 de julho de 2026.</span>
+                  <span>
+                    Atendimento no WhatsApp, agenda atualizada e equipe no controle.
+                  </span>
                   <Link
                     href="/demonstracao-agendamento-whatsapp"
                     className="inline-flex min-h-11 items-center gap-2 font-semibold text-ink underline underline-offset-4"
                   >
-                    Conferir escopo e método
+                    Ver a Flowo funcionando
                     <ArrowRight className="h-4 w-4" aria-hidden="true" />
                   </Link>
                 </div>

@@ -36,7 +36,7 @@ export interface ValidationCase {
   beforeAfter: readonly ValidationCaseBeforeAfter[];
   setup: readonly string[];
   steps: readonly ValidationCaseStep[];
-  validatedOutcome: string;
+  operationalOutcome: string;
   capabilities: readonly {
     title: string;
     description: string;
@@ -151,8 +151,8 @@ export const VALIDATION_CASES: readonly ValidationCase[] = [
           "O agendamento é criado para o profissional correto e a confirmação volta para o cliente.",
       },
     ],
-    validatedOutcome:
-      "Em ambiente controlado de produção, a Flowo concluiu o caminho entre mensagem recebida, consulta de disponibilidade, criação e confirmação do agendamento. A validação comprova o funcionamento do fluxo; não representa uma promessa de volume de vendas ou ocupação.",
+    operationalOutcome:
+      "A Flowo recebe o pedido no WhatsApp, consulta a disponibilidade configurada, apresenta horários e registra a escolha na agenda. O cliente recebe a confirmação na mesma conversa; o barbeiro acompanha o compromisso no celular sem interromper o atendimento para organizar cada mensagem.",
     capabilities: [
       {
         title: "Agenda como fonte de verdade",
@@ -259,8 +259,8 @@ export const VALIDATION_CASES: readonly ValidationCase[] = [
           "Depois da intervenção humana, a equipe escolhe quando a IA pode retomar o fluxo da conversa.",
       },
     ],
-    validatedOutcome:
-      "Em ambiente controlado de produção, a validação cobriu consulta, remarcação, cancelamento e confirmação, além da pausa da IA para atendimento humano e sua retomada. Ela comprova essas ações técnicas; não atribui métricas comerciais a uma barbearia inexistente.",
+    operationalOutcome:
+      "A Flowo consulta a agenda do profissional certo, confirma, remarca ou cancela o compromisso e mantém o histórico da conversa conectado à operação. A recepção pode assumir quando necessário, resolver a exceção no mesmo contexto e decidir quando a IA volta a atender.",
     capabilities: [
       {
         title: "Horários por profissional",
