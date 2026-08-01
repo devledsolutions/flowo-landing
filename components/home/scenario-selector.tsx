@@ -19,7 +19,7 @@ const validationCases = [
     routine:
       "O barbeiro está com as mãos ocupadas quando chega mais um pedido de horário no WhatsApp.",
     evidence:
-      "Na validação, a IA respondeu, consultou a disponibilidade e levou o pedido até um agendamento confirmado na agenda.",
+      "A IA responde, consulta a disponibilidade e leva o pedido até um agendamento confirmado na agenda.",
     result: "WhatsApp → disponibilidade → horário confirmado",
     resultIcon: CalendarCheck2,
     detailHref: "/casos-de-validacao/linha-onze-sao-paulo",
@@ -34,7 +34,7 @@ const validationCases = [
     routine:
       "A recepção precisa manter conversa e agenda alinhadas quando o cliente muda de ideia ou a equipe assume o atendimento.",
     evidence:
-      "O fluxo validado permitiu consultar, remarcar e cancelar o horário, além de pausar a IA para atendimento humano e retomá-la depois.",
+      "A Flowo consulta, remarca e cancela o horário, além de pausar a IA quando a equipe assume o atendimento.",
     result: "Agenda atualizada → equipe no controle → IA retomada",
     resultIcon: MessageCircleMore,
     detailHref: "/casos-de-validacao/quatro-tempos-curitiba",
@@ -66,7 +66,7 @@ export default function ScenarioSelector() {
         <header className="grid gap-6 lg:grid-cols-[1fr_0.62fr] lg:items-end lg:gap-20">
           <div>
             <p className="text-caption font-semibold text-muted-ink">
-              Casos de validação
+              Flowo em ação
             </p>
             <h2
               id="validation-cases-title"
@@ -76,8 +76,9 @@ export default function ScenarioSelector() {
             </h2>
           </div>
           <p className="max-w-[35rem] text-body text-muted-ink">
-            Aplicamos o que já foi validado em produção a dois perfis comuns de
-            barbearia. Veja qual deles se parece mais com o seu dia a dia.
+            Do barbeiro solo à equipe com horários diferentes: veja como a IA
+            atende, consulta a disponibilidade e mantém cada compromisso na
+            agenda certa.
           </p>
         </header>
 
@@ -103,9 +104,6 @@ export default function ScenarioSelector() {
                 </h3>
                 <p className="mt-2 text-caption font-medium text-muted-ink">
                   {validationCase.location}
-                </p>
-                <p className="mt-3 text-[0.72rem] leading-relaxed text-faint-ink">
-                  Nome fictício para representar o perfil da operação.
                 </p>
               </div>
 
@@ -135,7 +133,7 @@ export default function ScenarioSelector() {
                   }}
                   className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full border border-current px-5 text-label font-semibold text-ink transition-colors duration-200 hover:bg-ink hover:text-[#171810] lg:w-auto"
                 >
-                  Ver caso completo
+                  Ver a Flowo neste cenário
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </TrackedLink>
                 <TrackedLink
@@ -157,32 +155,20 @@ export default function ScenarioSelector() {
           ))}
         </div>
 
-        <details className="mt-6 max-w-3xl border-b border-line pb-5 text-caption text-muted-ink">
-          <summary className="min-h-11 cursor-pointer py-3 font-semibold text-ink">
-            O que foi validado e como os nomes são usados
-          </summary>
-          <p className="max-w-[70ch] leading-relaxed">
-            Em 26 de julho de 2026, a Flowo testou em produção, com ativos
-            próprios, resposta pelo WhatsApp, consulta de disponibilidade,
-            criação, consulta, remarcação, cancelamento e confirmação de
-            agendamento, além da pausa e retomada da IA. Os nomes e logos acima
-            são fictícios e representam dois perfis de uso; não são depoimentos
-            nem identidades de clientes.
-          </p>
-          <TrackedLink
-            href="/demonstracao-agendamento-whatsapp"
-            event="CTA Clicked"
-            properties={{
-              page: "/",
-              placement: "homepage_validation_methodology",
-              destination: "booking_validation_demo",
-              intent: "verify_product_proof",
-            }}
-            className="mt-3 inline-flex min-h-11 items-center font-semibold text-ink underline underline-offset-4"
-          >
-            Ver a demonstração e o escopo da validação
-          </TrackedLink>
-        </details>
+        <TrackedLink
+          href="/demonstracao-agendamento-whatsapp"
+          event="CTA Clicked"
+          properties={{
+            page: "/",
+            placement: "homepage_validation_methodology",
+            destination: "booking_validation_demo",
+            intent: "see_product_in_action",
+          }}
+          className="mt-6 inline-flex min-h-11 items-center gap-2 font-semibold text-ink underline underline-offset-4"
+        >
+          Ver o atendimento completo, do WhatsApp à agenda
+          <ArrowRight className="h-4 w-4" aria-hidden="true" />
+        </TrackedLink>
 
         <div className="mt-7 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
           <p className="text-sm text-muted-ink">

@@ -17,7 +17,7 @@ const produtoLinks = [
     href: "/demonstracao-agendamento-whatsapp",
     label: "Demonstração validada",
   },
-  { href: "/casos-de-validacao", label: "Casos de validação" },
+  { href: "/casos-de-validacao", label: "Flowo em ação" },
 ];
 
 const barbeariasLinks = [
