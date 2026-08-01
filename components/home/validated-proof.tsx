@@ -17,7 +17,7 @@ export function ValidatedProof() {
         <div className="grid gap-7 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:items-center lg:gap-14">
           <div>
             <p className="text-caption font-medium text-faint-ink">
-              Fluxo validado em produção · ambiente de teste Flowo
+              Fluxo validado ponta a ponta em ambiente controlado
             </p>
             <h2
               id="validated-proof-title"

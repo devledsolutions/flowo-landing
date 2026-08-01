@@ -12,7 +12,7 @@ import {
   type BillingCycle,
 } from "@/data/pricing-data";
 import { cn } from "@/lib/utils";
-import { SIGNUP_URL } from "@/components/cta-links";
+import { buildSignupUrl } from "@/components/cta-links";
 import { TrackedLink } from "@/components/analytics/tracked-link";
 import { useSegment } from "@/providers/segment-provider";
 
@@ -36,10 +36,29 @@ const LeadCaptureModal = dynamic(
 );
 
 const summaryFeatures = {
-  solo: ["1 profissional", "Até 200 agendamentos por mês", "50 mensagens de campanha por mês"],
-  equipe: ["Até 5 profissionais", "Agendamentos ilimitados", "150 mensagens de campanha por mês"],
-  empresarial: ["Profissionais ilimitados", "Múltiplas unidades", "1.000 mensagens de campanha por mês"],
+  solo: [
+    "1 profissional",
+    "IA atende, agenda e confirma no WhatsApp",
+    "Até 200 agendamentos por mês",
+  ],
+  equipe: [
+    "Até 5 profissionais, cada um com seus horários",
+    "IA atende, agenda e confirma no WhatsApp",
+    "Agendamentos ilimitados",
+  ],
+  empresarial: [
+    "Profissionais ilimitados",
+    "Múltiplas unidades",
+    "Implantação acompanhada com o time Flowo",
+  ],
 } as const;
+
+const purchaseFacts = [
+  ["Seu número continua", "Os clientes seguem chamando no WhatsApp que já conhecem."],
+  ["A configuração é acompanhada", "Serviços, equipe, horários e respostas são revisados com você."],
+  ["A cobrança começa na contratação", "A assinatura vale desde o primeiro dia; não há período de teste."],
+  ["Sem fidelidade", "Você pode cancelar sem multa e usar até o fim do período já pago."],
+] as const;
 
 export default function HomePricingSection() {
   const { track } = useSegment();
@@ -73,19 +92,29 @@ export default function HomePricingSection() {
         <p className="mx-auto mt-4 max-w-2xl text-lead text-muted-ink">
           A IA no WhatsApp está em todos. O que muda é a escala da barbearia.
         </p>
+        <p className="mx-auto mt-5 max-w-2xl text-caption font-medium text-ink">
+          Assinatura paga desde o início · sem fidelidade · onboarding acompanhado
+        </p>
       </header>
 
       <div className="mx-auto mt-12 grid max-w-6xl overflow-hidden rounded-xl border border-line bg-surface md:grid-cols-3">
         {PLANS.map((plan) => {
           const highlighted = plan.id === "equipe";
           const price = planPriceForCycle(plan, cycle);
+          const signupUrl = buildSignupUrl({
+            plan: plan.id,
+            cycle,
+            campaign: "homepage_pricing",
+            content: `pricing_card_${plan.id}`,
+          });
 
           return (
             <article
               key={plan.id}
+              id={`plano-${plan.id}`}
               aria-label={`Plano ${plan.name}`}
               className={cn(
-                "flex min-h-[27rem] flex-col border-b border-line p-7 last:border-b-0 md:border-b-0 md:border-r md:last:border-r-0 lg:p-9",
+                "flex min-h-[27rem] scroll-mt-24 flex-col border-b border-line p-7 last:border-b-0 md:border-b-0 md:border-r md:last:border-r-0 lg:p-9",
                 highlighted && "on-ink"
               )}
             >
@@ -146,7 +175,7 @@ export default function HomePricingSection() {
                   )
                 ) : (
                   <TrackedLink
-                    href={SIGNUP_URL}
+                    href={signupUrl}
                     event="CTA Clicked"
                     properties={{
                       page: "/",
@@ -154,6 +183,17 @@ export default function HomePricingSection() {
                       destination: "dashboard_signup",
                       intent: "start_plan",
                       billing_cycle: cycle,
+                      plan_id: plan.id,
+                      displayed_price: price,
+                    }}
+                    onClick={() => {
+                      track("Plan Selected", {
+                        page: "/",
+                        placement: `pricing_card_${plan.id}`,
+                        plan_id: plan.id,
+                        billing_cycle: cycle,
+                        displayed_price: price,
+                      });
                     }}
                     className={cn(
                       "inline-flex h-12 w-full items-center justify-center gap-2 rounded-full px-5 text-label font-semibold transition-colors",
@@ -172,9 +212,21 @@ export default function HomePricingSection() {
         })}
       </div>
 
-      <p className="mt-7 text-center text-caption text-muted-ink">
-        Assinatura paga desde o início · sem fidelidade · onboarding acompanhado
-      </p>
+      <div className="mt-10 border-y border-line bg-surface">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 lg:divide-x lg:divide-line">
+          {purchaseFacts.map(([title, description]) => (
+            <div
+              key={title}
+              className="border-b border-line p-5 last:border-b-0 sm:[&:nth-child(odd)]:border-r sm:[&:nth-last-child(-n+2)]:border-b-0 lg:border-b-0 lg:border-r-0 lg:p-6"
+            >
+              <h3 className="text-sm font-semibold text-ink">{title}</h3>
+              <p className="mt-2 text-caption leading-relaxed text-muted-ink">
+                {description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

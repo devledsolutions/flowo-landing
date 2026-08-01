@@ -130,6 +130,10 @@ criar nomes de evento novos.
 | --- | --- |
 | `Pricing Viewed` | seção de preços exibida e ciclo selecionado |
 | `Pricing Cycle Changed` | alternância mensal/anual |
+| `Plan Selected` | clique num plano da Home, com `plan_id`, ciclo e preço exibido |
+| `Validation Profiles Viewed` | dois perfis de uso baseados na validação técnica controlada exibidos antes dos planos |
+| `Validation Case Opened` | abertura do caso completo a partir da Home, com perfil e origem da prova |
+| `Validation Profile Selected` | clique de um perfil para o plano indicado; inclui `proof_origin=controlled_production_validation` |
 | `FAQ Interaction` | pergunta aberta ou fechada |
 | `Search Performed` | busca na FAQ após pausa de digitação |
 | `Video Engagement` | play, pause, 25%, 50%, 75% e conclusão |
@@ -142,10 +146,16 @@ pessoa que chegou pelo Segment:
 
 | Evento | Momento |
 | --- | --- |
+| `signup_started` | painel recebeu a entrada de cadastro decorada pelo site |
 | `acquisition_identity_linked` | ID anônimo do site unido ao usuário Clerk |
 | `signup_completed` | conta Clerk criada nos últimos dez minutos |
 | `onboarding_completed` | backend confirmou onboarding; inclui `ai_activated` |
 | `onboarding_completion_failed` | tentativa final recusada ou falhou |
+
+Os links de plano carregam `plan`, `cycle` e UTMs até o painel. O painel valida
+esses valores, guarda a preferência somente na sessão da aba e reapresenta a
+escolha no passo de plano. A preferência é orientação de UX: preço, acesso e
+contratação continuam sendo validados novamente pelo checkout e pelo backend.
 
 ## Registro durável dos leads
 

@@ -17,6 +17,7 @@ const produtoLinks = [
     href: "/demonstracao-agendamento-whatsapp",
     label: "Demonstração validada",
   },
+  { href: "/casos-de-validacao", label: "Casos de validação" },
 ];
 
 const barbeariasLinks = [
@@ -62,6 +63,15 @@ const compararLinks = [
   { href: "/flowo-vs-barbeiro-app", label: "Flowo vs Barbeiro.app" },
 ];
 
+const compactLinks = [
+  { href: "/sistema-agendamento-barbearia", label: "Conhecer o produto" },
+  { href: "/precos", label: "Planos e preços" },
+  { href: "/comparar", label: "Comparar sistemas" },
+  { href: "/recursos", label: "Recursos gratuitos" },
+  { href: "/sobre", label: "Sobre a Flowo" },
+  { href: APP_URL, label: "Entrar" },
+] as const;
+
 function FooterLinkList({ links }: { links: { href: string; label: string }[] }) {
   return (
     <ul className="mt-3">
@@ -80,11 +90,17 @@ function FooterLinkList({ links }: { links: { href: string; label: string }[] })
   );
 }
 
-export default function Footer() {
+export default function Footer({ compact = false }: { compact?: boolean }) {
   return (
     <footer className="on-ink border-t border-line">
       <div className="container-page section-tight">
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-[1.4fr_0.9fr_1.15fr_1fr_0.9fr] lg:gap-8 xl:gap-12">
+        <div
+          className={
+            compact
+              ? "grid grid-cols-1 gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20"
+              : "grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-[1.4fr_0.9fr_1.15fr_1fr_0.9fr] lg:gap-8 xl:gap-12"
+          }
+        >
           <div>
             <Image
               src="/flowo-logo.svg"
@@ -119,44 +135,89 @@ export default function Footer() {
             </p>
           </div>
 
-          <nav aria-label="Produto">
-            <h3 className="text-label font-medium text-ink">Produto</h3>
-            <FooterLinkList links={produtoLinks} />
-          </nav>
+          {compact ? (
+            <nav aria-label="Atalhos da Flowo">
+              <h3 className="text-label font-medium text-ink">
+                Continue por onde fizer sentido
+              </h3>
+              <ul className="mt-5 grid border-y border-line sm:grid-cols-2 sm:divide-x sm:divide-line">
+                {compactLinks.map((link, index) => (
+                  <li
+                    key={link.href}
+                    className={`border-b border-line last:border-b-0 sm:px-5 ${
+                      index >= compactLinks.length - 2 ? "sm:border-b-0" : ""
+                    }`}
+                  >
+                    {link.href.startsWith("http") ? (
+                      <a
+                        href={link.href}
+                        className="flex min-h-14 items-center justify-between gap-4 text-sm font-medium text-muted-ink transition-colors hover:text-ink"
+                      >
+                        {link.label}
+                        <span aria-hidden="true">↗</span>
+                      </a>
+                    ) : (
+                      <Link
+                        href={link.href}
+                        prefetch={false}
+                        className="flex min-h-14 items-center justify-between gap-4 text-sm font-medium text-muted-ink transition-colors hover:text-ink"
+                      >
+                        {link.label}
+                        <span aria-hidden="true">→</span>
+                      </Link>
+                    )}
+                  </li>
+                ))}
+              </ul>
+              <a
+                href={SIGNUP_URL}
+                className="mt-7 inline-flex min-h-11 items-center rounded-full bg-surface px-5 text-sm font-semibold text-ink-strong transition-colors hover:bg-cream"
+              >
+                Começar agora
+              </a>
+            </nav>
+          ) : (
+            <>
+              <nav aria-label="Produto">
+                <h3 className="text-label font-medium text-ink">Produto</h3>
+                <FooterLinkList links={produtoLinks} />
+              </nav>
 
-          <nav aria-label="Para barbearias">
-            <h3 className="text-label font-medium text-ink">Para barbearias</h3>
-            <FooterLinkList links={barbeariasLinks} />
-          </nav>
+              <nav aria-label="Para barbearias">
+                <h3 className="text-label font-medium text-ink">Para barbearias</h3>
+                <FooterLinkList links={barbeariasLinks} />
+              </nav>
 
-          <nav aria-label="Comparar sistemas">
-            <h3 className="text-label font-medium text-ink">Comparar sistemas</h3>
-            <FooterLinkList links={compararLinks} />
-          </nav>
+              <nav aria-label="Comparar sistemas">
+                <h3 className="text-label font-medium text-ink">Comparar sistemas</h3>
+                <FooterLinkList links={compararLinks} />
+              </nav>
 
-          <nav aria-label="Conta e aprendizado">
-            <h3 className="text-label font-medium text-ink">Aprenda</h3>
-            <FooterLinkList links={aprendaLinks} />
-            <h3 className="mt-8 text-label font-medium text-ink">Conta</h3>
-            <ul className="mt-3">
-              <li>
-                <a
-                  href={APP_URL}
-                  className="flex min-h-11 items-center rounded-sm text-sm text-muted-ink outline-none transition-colors duration-200 ease-out-quint hover:text-ink focus-visible:ring-2 focus-visible:ring-cream focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
-                >
-                  Entrar
-                </a>
-              </li>
-              <li>
-                <a
-                  href={SIGNUP_URL}
-                  className="flex min-h-11 items-center rounded-sm text-sm font-medium text-ink underline-offset-4 outline-none hover:underline focus-visible:ring-2 focus-visible:ring-cream focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
-                >
-                  Começar agora
-                </a>
-              </li>
-            </ul>
-          </nav>
+              <nav aria-label="Conta e aprendizado">
+                <h3 className="text-label font-medium text-ink">Aprenda</h3>
+                <FooterLinkList links={aprendaLinks} />
+                <h3 className="mt-8 text-label font-medium text-ink">Conta</h3>
+                <ul className="mt-3">
+                  <li>
+                    <a
+                      href={APP_URL}
+                      className="flex min-h-11 items-center rounded-sm text-sm text-muted-ink outline-none transition-colors duration-200 ease-out-quint hover:text-ink focus-visible:ring-2 focus-visible:ring-cream focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+                    >
+                      Entrar
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href={SIGNUP_URL}
+                      className="flex min-h-11 items-center rounded-sm text-sm font-medium text-ink underline-offset-4 outline-none hover:underline focus-visible:ring-2 focus-visible:ring-cream focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+                    >
+                      Começar agora
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </>
+          )}
         </div>
 
         <div className="mt-14 flex flex-col gap-4 border-t border-line pt-8 md:flex-row md:items-center md:justify-between">

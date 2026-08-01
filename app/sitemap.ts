@@ -15,6 +15,9 @@ const CORE_ROUTES = [
   "/sistema-agendamento-barbearia",
   "/agenda-barbearia-whatsapp",
   "/demonstracao-agendamento-whatsapp",
+  "/casos-de-validacao",
+  "/casos-de-validacao/linha-onze-sao-paulo",
+  "/casos-de-validacao/quatro-tempos-curitiba",
   "/software-barbearia-com-pix",
   "/aplicativo-para-barbeiros",
   "/recursos/comissoes-barbeiros",
@@ -51,6 +54,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
             route === "/sistema-agendamento-barbearia" ||
             route === "/agenda-barbearia-whatsapp" ||
             route === "/demonstracao-agendamento-whatsapp" ||
+            route === "/casos-de-validacao" ||
+            route.startsWith("/casos-de-validacao/") ||
             route === "/software-barbearia-com-pix" ||
             route === "/aplicativo-para-barbeiros" ||
             route === "/recursos/comissoes-barbeiros" ||

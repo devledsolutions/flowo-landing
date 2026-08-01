@@ -92,16 +92,17 @@ export function InstitutionalFilm({
         </div>
 
         <div className="mt-5 flex flex-col gap-3 text-caption text-faint-ink sm:flex-row sm:items-center sm:justify-between">
-          <Link
+          <a
             href={INSTITUTIONAL_FILM.verticalVideo}
-            className="inline-flex items-center gap-2 font-semibold text-ink transition-opacity hover:opacity-70"
+            download
+            className="inline-flex min-h-11 items-center gap-2 font-semibold text-ink transition-opacity hover:opacity-70"
           >
             <Download className="h-4 w-4" aria-hidden="true" />
             Baixar versão vertical para celular
-          </Link>
+          </a>
           <Link
             href="/sistema-agendamento-barbearia"
-            className="inline-flex items-center gap-2 font-semibold text-ink transition-opacity hover:opacity-70"
+            className="inline-flex min-h-11 items-center gap-2 font-semibold text-ink transition-opacity hover:opacity-70"
           >
             Explorar o produto
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
