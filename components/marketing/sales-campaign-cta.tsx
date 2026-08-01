@@ -34,7 +34,7 @@ export function SalesCampaignMobileCta() {
     <div className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-cream/95 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur-md md:hidden">
       <SalesCampaignCta
         placement="mobile_sticky"
-        label="Quero ver na minha barbearia"
+        label="Ver a Flowo na minha agenda"
         className="w-full"
       />
     </div>

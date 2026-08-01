@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Footer from "@/components/footer";
-import { DiagnosisLanding } from "@/components/design-review/lead-offer-landing";
-import { LeadMagnetForm } from "@/components/marketing/lead-magnet-form";
+import Navbar from "@/components/navbar";
+import { AgendaReadinessDiagnostic } from "@/components/marketing/agenda-readiness-diagnostic";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
 
 const PAGE_PATH = "/recursos/diagnostico-agenda-barbearia";
-const TITLE = "Diagnóstico de Agenda para Barbearia | PDF Gratuito Flowo";
+const TITLE = "Diagnóstico de Agenda para Barbearia Grátis | Flowo";
 const DESCRIPTION =
-  "Baixe o Raio-X da Agenda: 12 perguntas para descobrir onde sua barbearia perde tempo entre WhatsApp, agenda e horários de cada barbeiro.";
+  "Responda 5 perguntas e descubra na hora se a agenda da sua barbearia depende de improviso. Resultado grátis, sem cadastro, com plano em PDF opcional.";
 
 export const metadata: Metadata = buildMetadata({
   title: TITLE,
@@ -20,12 +20,12 @@ const faq = [
   {
     question: "O diagnóstico de agenda é gratuito?",
     answer:
-      "Não há cobrança pelo material. A assinatura do produto Flowo é paga e apresentada separadamente.",
+      "Sim. As cinco perguntas e o resultado aparecem sem cadastro. O PDF complementar também é gratuito e a assinatura da Flowo é apresentada separadamente.",
   },
   {
-    question: "Preciso informar telefone?",
+    question: "Preciso informar meus dados para ver o resultado?",
     answer:
-      "Não. Nome e e-mail são suficientes para liberar o material. Telefone e consentimento de SMS são opcionais.",
+      "Não. O resultado aparece assim que você termina as cinco perguntas. Nome e e-mail são pedidos apenas para liberar o PDF complementar; telefone e marketing são opcionais.",
   },
   {
     question: "O material serve para quem atende sozinho?",
@@ -48,11 +48,14 @@ export default function DiagnosisAgendaPage() {
         breadcrumb: { "@id": absoluteUrl(`${PAGE_PATH}#breadcrumb`) },
       },
       {
-        "@type": "CreativeWork",
-        name: "Raio-X da Agenda",
+        "@type": "WebApplication",
+        name: "Diagnóstico de Agenda para Barbearia",
         description: DESCRIPTION,
         inLanguage: "pt-BR",
         isAccessibleForFree: true,
+        applicationCategory: "BusinessApplication",
+        operatingSystem: "Web",
+        url: absoluteUrl(PAGE_PATH),
         publisher: {
           "@type": "Organization",
           name: "Flowo",
@@ -105,8 +108,11 @@ export default function DiagnosisAgendaPage() {
           __html: JSON.stringify(schema).replace(/</g, "\\u003c"),
         }}
       />
-      <DiagnosisLanding review={false} form={<LeadMagnetForm />} />
-      <Footer />
+      <Navbar />
+      <main id="main-content">
+        <AgendaReadinessDiagnostic />
+      </main>
+      <Footer compact />
     </>
   );
 }

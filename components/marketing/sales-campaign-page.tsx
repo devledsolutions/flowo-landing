@@ -40,9 +40,9 @@ import { PLANS, formatBRL } from "@/data/pricing-data";
 import { INSTITUTIONAL_FILM } from "@/lib/institutional-film";
 
 const productSignals = [
-  "Cliente agenda pelo WhatsApp",
-  "Cada barbeiro com seu horário",
-  "Equipe pode assumir a conversa",
+  "Atende no WhatsApp que a barbearia já usa",
+  "Respeita horário, folga e duração por barbeiro",
+  "A equipe assume qualquer conversa",
 ] as const;
 
 const operatingSteps = [
@@ -202,33 +202,34 @@ export function SalesCampaignPage() {
 
       <main id="main-content">
         <section className="relative isolate overflow-hidden pt-24 sm:pt-28 lg:pt-32">
-          <div
-            aria-hidden="true"
-            className="absolute inset-x-0 top-0 -z-10 h-[44rem] bg-[radial-gradient(circle_at_72%_28%,oklch(0.995_0.003_95),transparent_52%)]"
-          />
           <div className="container-page pb-16 pt-10 sm:pb-20 lg:pb-28">
             <div className="grid items-center gap-12 lg:grid-cols-[0.86fr_1.14fr] lg:gap-16">
               <div>
                 <p className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1.5 text-caption font-semibold text-muted-ink">
                   <span className="h-1.5 w-1.5 rounded-full bg-[var(--success)]" />
-                  Recepção com IA para barbearias
+                  Para barbearias com 2 a 6 barbeiros
                 </p>
-                <h1 className="mt-6 max-w-[13ch] text-[clamp(2.7rem,1.75rem+4vw,5.35rem)] font-semibold leading-[1.01] tracking-[-0.045em] text-ink-strong">
-                  O cliente chama. A Flowo agenda enquanto você trabalha.
+                <h1 className="mt-6 max-w-[15ch] text-[clamp(2.7rem,1.8rem+3vw,4.55rem)] font-semibold leading-[1.01] tracking-[-0.045em] text-ink-strong">
+                  Pare de responder “tem horário?” no meio do corte.
                 </h1>
                 <p className="mt-6 max-w-xl text-lead text-muted-ink">
-                  A IA atende no WhatsApp, consulta os horários reais da equipe
-                  e registra o agendamento. Você acompanha tudo e assume quando
-                  precisar.
+                  A IA da Flowo atende no WhatsApp da sua barbearia, consulta a
+                  agenda de cada profissional e confirma o horário. Você
+                  acompanha tudo e assume quando precisar.
                 </p>
                 <div className="mt-8">
-                  <SalesCampaignCta placement="hero" />
+                  <SalesCampaignCta
+                    placement="hero"
+                    label="Ver a Flowo na minha agenda"
+                  />
                 </div>
-                <p className="mt-4 max-w-lg text-caption leading-relaxed text-muted-ink">
-                  Planos a partir de {formatBRL(PLANS[0].monthly)}/mês · sem
-                  fidelidade · assinatura desde o primeiro dia · pagamentos
-                  integrados opcionais
-                </p>
+                <div className="mt-4 max-w-lg space-y-1 text-caption leading-relaxed text-muted-ink">
+                  <p>Uma conversa de 20 minutos · sem cartão · sem instalação</p>
+                  <p>
+                    Planos a partir de {formatBRL(PLANS[0].monthly)}/mês · sem
+                    fidelidade · pagamentos integrados opcionais
+                  </p>
+                </div>
               </div>
 
               <CampaignProductHero />
