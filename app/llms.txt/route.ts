@@ -83,7 +83,7 @@ ${guideLines}
 - [Versao vertical do filme](${SITE_URL}${INSTITUTIONAL_FILM.verticalVideo})
 - [Roteiros de Shorts e Reels](${SITE_URL}/recursos/videos)
 - [Materiais gratuitos](${SITE_URL}/recursos/materiais)
-- [Raio-X da Agenda](${SITE_URL}/recursos/diagnostico-agenda-barbearia): diagnóstico gratuito em PDF com 12 perguntas, escala de cada barbeiro e plano de ação. Nome e e-mail liberam o material; telefone e marketing são opcionais.
+- [Diagnóstico de Agenda](${SITE_URL}/recursos/diagnostico-agenda-barbearia): ferramenta interativa gratuita com 5 perguntas, pontuação de 0 a 100, gargalo prioritário e primeira ação. O resultado aparece sem cadastro. Um PDF complementar com 12 perguntas pode ser solicitado com nome e e-mail; telefone e marketing são opcionais.
 - [Calculadora de tempo no WhatsApp](${SITE_URL}/calculadora-tempo-whatsapp-barbearia): estima horas dedicadas a conversas de disponibilidade com valores informados pela própria barbearia; não estima faturamento.
 - [Calculadora de comissão de barbeiro](${SITE_URL}/calculadora-comissao-barbeiro): separa serviços, produtos e ajustes numa simulação operacional; não substitui orientação contábil ou trabalhista.
 - [Planejador de retorno de clientes](${SITE_URL}/mensagens-retorno-clientes-barbearia): sugere uma janela de revisão e mensagem com contexto e saída, sempre sujeita a consentimento e conferência humana.

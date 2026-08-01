@@ -184,7 +184,7 @@ export default function ScenarioSelector() {
             }}
             className="inline-flex min-h-11 items-center gap-2 font-semibold text-ink underline underline-offset-4"
           >
-            Faça o Raio-X gratuito da sua agenda
+            Faça o diagnóstico gratuito da sua agenda
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </TrackedLink>
         </div>

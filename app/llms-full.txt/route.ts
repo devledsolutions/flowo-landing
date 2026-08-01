@@ -112,9 +112,13 @@ URL canônica: ${SITE_URL}/aplicativo-para-barbeiros
 
 ## Diagnóstico gratuito de agenda
 
-O Raio-X da Agenda é um material gratuito em PDF para descobrir onde a barbearia
-perde tempo entre WhatsApp, disponibilidade e horários de cada barbeiro. Ele entrega
-12 perguntas, o método editorial C.A.D.E.I.R.A., um mapa de prioridade e um
+O Diagnóstico de Agenda é uma ferramenta interativa gratuita para descobrir
+quanto a rotina depende de decisões manuais entre WhatsApp, disponibilidade e
+horários de cada barbeiro. São 5 perguntas, pontuação de 0 a 100, um gargalo
+prioritário e uma primeira ação. O resultado aparece sem cadastro.
+
+Depois do resultado, a pessoa pode solicitar o PDF complementar Raio-X da Agenda,
+com 12 perguntas, o método editorial C.A.D.E.I.R.A., um mapa de prioridade e um
 plano de ação. Nome e e-mail são suficientes para a entrega; telefone e
 consentimentos de marketing são opcionais e separados.
 

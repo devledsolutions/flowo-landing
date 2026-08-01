@@ -402,14 +402,14 @@ export default function MaterialsPage() {
               >
                 <span className="p-7 sm:p-9">
                   <span className="text-caption font-semibold uppercase tracking-[0.14em] text-faint-ink">
-                    Diagnóstico em PDF · destaque
+                    Diagnóstico interativo + PDF · destaque
                   </span>
                   <span className="mt-4 block text-h3 font-bold text-ink">
-                    Raio-X da Agenda
+                    Diagnóstico de Agenda
                   </span>
                   <span className="mt-3 block text-label leading-relaxed text-muted-ink">
-                    12 perguntas, escala de cada barbeiro e plano de ação para
-                    organizar WhatsApp, agenda e equipe.
+                    Resultado imediato em 5 perguntas, com Raio-X de 12
+                    perguntas e plano de ação opcionais em PDF.
                   </span>
                   <span className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-full bg-ink px-5 text-label font-semibold text-background">
                     Fazer o diagnóstico
