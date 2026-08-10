@@ -63,6 +63,7 @@ function readCookie(request: Request, name: string): string | undefined {
   const header = request.headers.get("cookie");
   if (!header) return undefined;
 
+  let match: string | undefined;
   for (const entry of header.split(";")) {
     const separator = entry.indexOf("=");
     if (separator < 0) continue;
@@ -70,12 +71,12 @@ function readCookie(request: Request, name: string): string | undefined {
     if (key !== name) continue;
     const value = entry.slice(separator + 1).trim();
     try {
-      return decodeURIComponent(value);
+      match = decodeURIComponent(value);
     } catch {
-      return value;
+      match = value;
     }
   }
-  return undefined;
+  return match;
 }
 
 function readAdvertisingConsent(request: Request): {

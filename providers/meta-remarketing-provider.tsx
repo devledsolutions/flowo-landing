@@ -94,7 +94,10 @@ function installPixelQueue(): MetaPixelFunction {
 function removeMetaCookies(): void {
   for (const name of ["_fbp", "_fbc"]) {
     document.cookie = `${name}=; Max-Age=0; path=/; SameSite=Lax; Secure`;
-    if (window.location.hostname.endsWith(".flowo.com.br")) {
+    if (
+      window.location.hostname === "flowo.com.br" ||
+      window.location.hostname.endsWith(".flowo.com.br")
+    ) {
       document.cookie = `${name}=; Max-Age=0; path=/; domain=.flowo.com.br; SameSite=Lax; Secure`;
     }
   }
