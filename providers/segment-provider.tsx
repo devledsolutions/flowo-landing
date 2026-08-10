@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { getSavedConsent, type ConsentPreferences } from "@/lib/consent";
 
 const ATTRIBUTION_STORAGE_KEY = "flowo:first-touch-attribution";
+const SESSION_ATTRIBUTION_STORAGE_KEY = "flowo:first-touch-attribution:session";
 const ATTRIBUTION_TTL_MS = 90 * 24 * 60 * 60 * 1000;
 
 type AnalyticsProperties = Record<
@@ -34,6 +35,14 @@ interface StoredAttribution {
   utmCampaign?: string;
   utmContent?: string;
   utmTerm?: string;
+  fbclid?: string;
+  fbc?: string;
+  fbp?: string;
+  gclid?: string;
+  gbraid?: string;
+  wbraid?: string;
+  msclkid?: string;
+  ttclid?: string;
 }
 
 export interface AcquisitionContext {
@@ -44,6 +53,24 @@ export interface AcquisitionContext {
   utmCampaign?: string;
   utmContent?: string;
   utmTerm?: string;
+  fbclid?: string;
+  fbc?: string;
+  fbp?: string;
+  gclid?: string;
+  gbraid?: string;
+  wbraid?: string;
+  msclkid?: string;
+  ttclid?: string;
+}
+
+function getCookie(name: string): string | undefined {
+  const prefix = `${encodeURIComponent(name)}=`;
+  const value = document.cookie
+    .split(";")
+    .map((item) => item.trim())
+    .find((item) => item.startsWith(prefix))
+    ?.slice(prefix.length);
+  return value ? decodeURIComponent(value) : undefined;
 }
 
 function getCurrentAttribution(): StoredAttribution {
@@ -58,14 +85,27 @@ function getCurrentAttribution(): StoredAttribution {
     utmCampaign: params.get("utm_campaign") || undefined,
     utmContent: params.get("utm_content") || undefined,
     utmTerm: params.get("utm_term") || undefined,
+    fbclid: params.get("fbclid") || undefined,
+    fbc: getCookie("_fbc"),
+    fbp: getCookie("_fbp"),
+    gclid: params.get("gclid") || undefined,
+    gbraid: params.get("gbraid") || undefined,
+    wbraid: params.get("wbraid") || undefined,
+    msclkid: params.get("msclkid") || undefined,
+    ttclid: params.get("ttclid") || undefined,
   };
 }
 
 function getFirstTouchAttribution(): StoredAttribution {
   const current = getCurrentAttribution();
+  const persistent = Boolean(getSavedConsent()?.analytics);
+  const storage = persistent ? window.localStorage : window.sessionStorage;
+  const storageKey = persistent
+    ? ATTRIBUTION_STORAGE_KEY
+    : SESSION_ATTRIBUTION_STORAGE_KEY;
 
   try {
-    const saved = window.localStorage.getItem(ATTRIBUTION_STORAGE_KEY);
+    const saved = storage.getItem(storageKey);
     if (saved) {
       const parsed = JSON.parse(saved) as StoredAttribution;
       if (
@@ -76,15 +116,29 @@ function getFirstTouchAttribution(): StoredAttribution {
       }
     }
 
-    window.localStorage.setItem(
-      ATTRIBUTION_STORAGE_KEY,
-      JSON.stringify(current)
-    );
+    storage.setItem(storageKey, JSON.stringify(current));
   } catch {
     // Analytics still works when storage is unavailable or blocked.
   }
 
   return current;
+}
+
+function promoteSessionAttribution(): void {
+  try {
+    const saved = window.sessionStorage.getItem(SESSION_ATTRIBUTION_STORAGE_KEY);
+    if (!saved) return;
+    const parsed = JSON.parse(saved) as StoredAttribution;
+    if (
+      typeof parsed.capturedAt === "number" &&
+      Date.now() - parsed.capturedAt < ATTRIBUTION_TTL_MS
+    ) {
+      window.localStorage.setItem(ATTRIBUTION_STORAGE_KEY, saved);
+    }
+    window.sessionStorage.removeItem(SESSION_ATTRIBUTION_STORAGE_KEY);
+  } catch {
+    // Attribution remains best-effort when browser storage is unavailable.
+  }
 }
 
 function getAnalyticsContext(): AnalyticsProperties {
@@ -101,11 +155,19 @@ function getAnalyticsContext(): AnalyticsProperties {
     first_utm_campaign: firstTouch.utmCampaign,
     first_utm_content: firstTouch.utmContent,
     first_utm_term: firstTouch.utmTerm,
+    first_fbclid: firstTouch.fbclid,
+    first_gclid: firstTouch.gclid,
+    first_msclkid: firstTouch.msclkid,
+    first_ttclid: firstTouch.ttclid,
     utm_source: current.utmSource,
     utm_medium: current.utmMedium,
     utm_campaign: current.utmCampaign,
     utm_content: current.utmContent,
     utm_term: current.utmTerm,
+    fbclid: current.fbclid,
+    gclid: current.gclid,
+    msclkid: current.msclkid,
+    ttclid: current.ttclid,
     consent_analytics: consent?.analytics ?? false,
     consent_marketing: consent?.marketing ?? false,
   };
@@ -125,6 +187,14 @@ function getAcquisitionContext(): AcquisitionContext {
     utmCampaign: firstTouch.utmCampaign,
     utmContent: firstTouch.utmContent,
     utmTerm: firstTouch.utmTerm,
+    fbclid: firstTouch.fbclid,
+    fbc: firstTouch.fbc,
+    fbp: firstTouch.fbp,
+    gclid: firstTouch.gclid,
+    gbraid: firstTouch.gbraid,
+    wbraid: firstTouch.wbraid,
+    msclkid: firstTouch.msclkid,
+    ttclid: firstTouch.ttclid,
   };
 }
 
@@ -203,8 +273,11 @@ export function SegmentProvider({ children, writeKey }: SegmentProviderProps) {
 
   // Listen for consent changes
   useEffect(() => {
+    getFirstTouchAttribution();
+
     const handleConsentUpdate = (event: CustomEvent<ConsentPreferences>) => {
       if (event.detail.analytics) {
+        promoteSessionAttribution();
         initializeSegment();
       } else {
         setHasConsent(false);
@@ -214,6 +287,7 @@ export function SegmentProvider({ children, writeKey }: SegmentProviderProps) {
           window.analytics.reset();
         }
         window.localStorage.removeItem(ATTRIBUTION_STORAGE_KEY);
+        window.sessionStorage.removeItem(SESSION_ATTRIBUTION_STORAGE_KEY);
       }
     };
 

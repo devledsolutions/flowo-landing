@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Mail, MapPin } from "lucide-react";
 import { CookiePreferencesButton } from "@/components/cookie-preferences-button";
 import { LEGAL_ENTITY } from "@/lib/legal-identity";
+import { NewsletterSignup } from "@/components/newsletter-signup";
 
 const SIGNUP_URL = "https://barber.flowo.com.br/sign-up";
 const APP_URL = "https://barber.flowo.com.br";
@@ -94,6 +95,9 @@ export default function Footer({ compact = false }: { compact?: boolean }) {
   return (
     <footer className="on-ink border-t border-line">
       <div className="container-page section-tight">
+        <div className="mb-14">
+          <NewsletterSignup />
+        </div>
         <div
           className={
             compact
