@@ -5,9 +5,10 @@
   "packageManager": "pnpm@11.5.0",
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "pnpm brand:check && next build",
     "start": "next start",
     "lint": "next lint",
+    "brand:check": "node scripts/check-brand-assets.mjs",
     "seo:audit": "node scripts/audit-seo.mjs",
     "seo:indexnow": "node scripts/submit-indexnow.mjs",
     "video:studio": "remotion studio remotion/index.ts",
