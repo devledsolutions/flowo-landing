@@ -37,6 +37,14 @@ export const leadCaptureSchema = z.object({
   utmCampaign: z.string().trim().max(150).optional().or(z.literal("")),
   utmContent: z.string().trim().max(150).optional().or(z.literal("")),
   utmTerm: z.string().trim().max(150).optional().or(z.literal("")),
+  fbclid: z.string().trim().max(300).optional().or(z.literal("")),
+  fbc: z.string().trim().max(300).optional().or(z.literal("")),
+  fbp: z.string().trim().max(300).optional().or(z.literal("")),
+  gclid: z.string().trim().max(300).optional().or(z.literal("")),
+  gbraid: z.string().trim().max(300).optional().or(z.literal("")),
+  wbraid: z.string().trim().max(300).optional().or(z.literal("")),
+  msclkid: z.string().trim().max(300).optional().or(z.literal("")),
+  ttclid: z.string().trim().max(300).optional().or(z.literal("")),
   segmentAnonymousId: z.string().trim().max(200).optional().or(z.literal("")),
   turnstileToken: z
     .string()

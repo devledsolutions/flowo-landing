@@ -1,7 +1,9 @@
 # Sistema de materiais ricos e aquisição da Flowo
 
-**Status:** primeira coleção implementada e validada localmente  
-**Data:** 30 de julho de 2026  
+**Status:** coleção publicada; catálogo e automação v2 validados localmente
+
+**Data:** 9 de agosto de 2026
+
 **Escopo:** PDFs, páginas de captura, Segment, Convex, Resend, SMSDev e operação comercial
 
 ## Decisão
@@ -10,19 +12,27 @@ A Flowo deve tratar PDFs como produtos editoriais úteis, não como brindes gen�
 material resolve uma decisão operacional real da barbearia e leva o leitor ao próximo passo
 sem esconder a resposta atrás de uma venda.
 
-O primeiro ativo publicado será o **Raio-X da Agenda**. A versão final reúne diagnóstico,
-escala por barbeiro, regras da recepção, testes e plano de sete dias. Por isso, o antigo
-conceito “Agenda sem interrupção” foi incorporado ao Raio-X em vez de virar um segundo PDF
-com conteúdo repetido.
+O **Raio-X da Agenda** é o diagnóstico completo, com escala por barbeiro,
+regras da recepção, testes e plano de sete dias. **Agenda sem Interrupção** é
+uma folha de aplicação mais curta para quem chegou pelas calculadoras ou pela
+biblioteca. Os dois ativos têm intenção e sequência próprias; não devem ser
+apresentados como versões equivalentes.
 
 ## Portfólio proposto
 
 | Ordem | Material | Formato | Intenção observável |
 | --- | --- | --- | --- |
 | 1 | Raio-X da Agenda | Workbook, 12 páginas | Organização de agenda e atendimento |
-| 2 | Comissões sem Planilha Paralela | Guia preenchível, 8 páginas | Conferência de regras e acerto |
-| 3 | Clientes na Hora de Voltar | Plano preenchível, 8 páginas | Retorno responsável de clientes |
-| 4 | Caixa sem Confusão | Guia preenchível, 8 páginas | Caixa e pagamentos opcionais |
+| 2 | Agenda sem Interrupção | Guia preenchível, 8 páginas | Aplicação rápida em WhatsApp e agenda |
+| 3 | Fechamento da Equipe | Guia preenchível, 8 páginas | Conferência de regras e acerto |
+| 4 | Comissões sem Planilha Paralela | Guia preenchível, 8 páginas | Conferência de comandas e comissão |
+| 5 | Clientes na Hora de Voltar | Plano preenchível, 8 páginas | Retorno responsável de clientes |
+| 6 | Retorno sem Spam | Guia preenchível, 8 páginas | Consentimento e cadência de retorno |
+| 7 | Caixa sem Confusão | Guia preenchível, 8 páginas | Caixa e pagamentos opcionais |
+
+O catálogo também oferece 14 planilhas, checklists e roteiros em XLSX/CSV. Os
+20 itens têm identificador estável no formulário e, com o Raio-X, formam uma
+allowlist de 21 recursos que podem ser entregues novamente por e-mail.
 
 O conteúdo de pagamentos deve deixar explícito que receber pela plataforma é opcional. O
 material de retorno apresenta o Flowo Recupera como adicional em beta, sem prometer
@@ -163,12 +173,13 @@ O e-mail de entrega é transacional e separado da automação de marketing:
 | Momento | Mensagem | Objetivo |
 | --- | --- | --- |
 | Imediato | Seu material da Flowo | Entregar o link e permitir responder |
-| D+1 | Onde sua agenda perde fluidez? | Retomar o diagnóstico |
-| D+3 | Como tratar horários individuais | Demonstrar critério operacional |
-| D+6 | O que muda quando agenda e WhatsApp conversam | Conectar o problema ao produto |
-| D+9 | Quer mapear isso na sua barbearia? | Convidar para conversa com vendas |
+| Imediato após opt-in | Seu material: por onde começar | Orientar o primeiro uso |
+| D+1 | Conseguiu aplicar o material? | Levar o conteúdo para a rotina |
+| D+3 | Descubra onde sua agenda ainda perde tempo | Conectar ao diagnóstico |
+| D+7 | Prefere que o sistema cuide desse fluxo? | Convidar para conversa com vendas |
 
-Somente os quatro últimos e-mails exigem opt-in de marketing. A automação para quando houver
+Somente a entrega transacional independe de opt-in. Os quatro e-mails da
+automação exigem consentimento de marketing. A automação para quando houver
 resposta, contato humano, reunião, oportunidade ganha/perdida, cancelamento ou bounce. O remetente
 continua no subdomínio isolado de marketing; autenticação e OTP nunca compartilham esse fluxo.
 
@@ -262,9 +273,16 @@ como experiência principal, não como adaptação posterior.
 - SMS só sai no ambiente de produção após opt-in e aprovação operacional.
 - O painel comercial explica origem, interesse e próxima ação.
 
-## Materiais atuais a substituir
+## Materiais legados fora do catálogo
 
-Os PDFs existentes não devem ser promovidos antes da revisão. A auditoria encontrou fontes não
-incorporadas e afirmações incompatíveis com o produto atual, incluindo teste grátis, redução de
-faltas sem fonte e pagamento antecipado. Eles devem permanecer fora das campanhas até serem
-substituídos pelos novos ativos.
+Três arquivos antigos continuam acessíveis por URL direta, mas estão fora do
+catálogo e não podem entrar em campanhas:
+
+- `guia-completo-barbearia.pdf`;
+- `referencia-rapida-barbearia.pdf`;
+- `templates-stories-barbearia.pdf`.
+
+Eles devem ganhar redirecionamento para o recurso atual equivalente ou ser
+substituídos por uma nova edição antes de qualquer divulgação. O Raio-X é uma
+landing separada e, por isso, ficar fora da grade de `/recursos/materiais` é
+intencional.

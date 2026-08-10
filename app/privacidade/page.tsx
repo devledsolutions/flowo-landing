@@ -262,9 +262,9 @@ const sections: LegalSection[] = [
           Para exercer um direito, escreva para{" "}
           <a
             className={externalLinkClass}
-            href={`mailto:${LEGAL_ENTITY.supportEmail}?subject=Privacidade%20e%20dados%20pessoais`}
+            href={`mailto:${LEGAL_ENTITY.privacyEmail}?subject=Privacidade%20e%20dados%20pessoais`}
           >
-            {LEGAL_ENTITY.supportEmail}
+            {LEGAL_ENTITY.privacyEmail}
           </a>
           . Podemos pedir informações razoáveis para confirmar sua identidade e
           encaminhar o pedido à barbearia quando ela for a controladora.
@@ -284,11 +284,14 @@ const sections: LegalSection[] = [
           retiradas nas preferências.
         </p>
         <p>
-          Podemos manter a primeira origem de campanha por período limitado para
-          entender conversão entre o site e a criação da conta. Comunicações
-          promocionais devem respeitar preferências e permitir oposição ou
-          descadastro; mensagens transacionais podem continuar quando
-          necessárias ao serviço.
+          Podemos manter a primeira origem de campanha durante a sessão para
+          atribuir um pedido de contato e, com autorização analítica, por
+          período limitado para entender conversão entre o site e a criação da
+          conta. Identificadores de clique recebidos da plataforma do anúncio
+          podem acompanhar essa origem. Comunicações promocionais, incluindo A
+          Semana da Barbearia, exigem opt-in do canal e permitem descadastro;
+          mensagens transacionais podem continuar quando necessárias ao
+          serviço.
         </p>
       </>
     ),
@@ -306,9 +309,9 @@ const sections: LegalSection[] = [
           Contato de privacidade:{" "}
           <a
             className={externalLinkClass}
-            href={`mailto:${LEGAL_ENTITY.supportEmail}`}
+            href={`mailto:${LEGAL_ENTITY.privacyEmail}`}
           >
-            {LEGAL_ENTITY.supportEmail}
+            {LEGAL_ENTITY.privacyEmail}
           </a>
         </p>
         <p>

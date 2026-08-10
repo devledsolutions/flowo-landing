@@ -41,10 +41,16 @@ Cada chamada de página e cada evento recebem:
 - `first_utm_source`, `first_utm_medium`, `first_utm_campaign`,
   `first_utm_content` e `first_utm_term`;
 - os parâmetros `utm_*` presentes na página atual;
+- os identificadores de clique disponíveis (`fbclid`, `gclid`, `gbraid`,
+  `wbraid`, `msclkid` e `ttclid`), sem criar identificadores próprios nem
+  copiar dados pessoais;
 - `consent_analytics` e `consent_marketing`.
 
-A primeira origem é mantida por até 90 dias e removida quando o consentimento
-analítico é retirado.
+Antes da escolha de cookies, a primeira origem fica somente na sessão para que
+uma navegação interna não apague a campanha que trouxe o contato. Com
+consentimento analítico, ela é promovida para armazenamento de até 90 dias. A
+origem persistente e a cópia de sessão são removidas quando o consentimento é
+retirado.
 
 Todo link para `barber.flowo.com.br` recebe, no momento do clique e somente com
 consentimento analítico, o `flowo_aid` do Segment e as UTMs de primeira origem.
@@ -96,6 +102,19 @@ As conversões confirmadas incluem apenas os booleanos
 `email_marketing_opt_in` e `sms_marketing_opt_in`, sem copiar e-mail ou telefone
 para propriedades do evento. O trait legado `marketing_opt_in` representa
 somente e-mail e existe apenas para preservar a série histórica.
+
+### Newsletter
+
+O rodapé de todas as páginas oferece **A Semana da Barbearia** com opt-in de
+e-mail explícito, não pré-marcado. A inscrição usa a origem
+`newsletter:site-footer`, grava a atribuição no lead e inicia a jornada de
+conteúdo prático; ela não entra na sequência comercial de pedido de contato.
+
+| Evento | Momento |
+| --- | --- |
+| `Newsletter Form Submitted` | tentativa de inscrição enviada |
+| `Newsletter Subscribed` | API confirmou lead e opt-in |
+| `Newsletter Subscription Failed` | API ou rede recusou a inscrição |
 
 ### Diagnóstico de agenda
 
@@ -175,6 +194,19 @@ o evento de entrada para uma Automation do Resend. O Resend centraliza os
 templates, atrasos, métricas e o descadastro nativo do canal. O webhook
 `contact.updated` devolve o descadastro ao Convex.
 
+O payload classifica a intenção de aquisição em três jornadas sem copiar PII
+para eventos: `sales`, `resource` e `app_waitlist`. Ele também carrega a
+variante estável do primeiro e-mail, o identificador/título do material e URLs
+permitidas para o próximo passo. O programa completo contém 21 templates em
+cinco automações: aquisição, institucional, conteúdo, newsletter e promoção.
+Todas permanecem desabilitadas até o domínio de marketing, o webhook assinado e
+a coorte controlada passarem nos testes.
+
+O site é a primeira fonte do Segment. O segundo slot do plano gratuito fica
+reservado para o app mobile da Flowo. Twenty não é fonte de eventos: se for
+mantido, recebe somente leads qualificados como destino comercial, sem duplicar
+o histórico bruto que pertence ao Convex.
+
 Quando a captura contém `requestedResource`, uma ação transacional separada
 envia o link solicitado pelo Resend operacional. Ela não inscreve o contato em
 Automation, não altera opt-in e não utiliza o remetente de marketing.
@@ -203,6 +235,9 @@ honeypot e limites distribuídos permanecem ativos no caminho principal.
 4. Aquisição até ativação: `CTA Clicked` com
    `destination=dashboard_signup` → `signup_completed` →
    `onboarding_completed`.
+5. Conteúdo editorial: `Newsletter Form Submitted` →
+   `Newsletter Subscribed` → clique em conteúdo → pedido de diagnóstico ou
+   demonstração.
 
 ## Regras
 

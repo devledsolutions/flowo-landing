@@ -26,6 +26,14 @@ type CaptureWebsiteLeadArgs = {
   utmCampaign?: string;
   utmContent?: string;
   utmTerm?: string;
+  fbclid?: string;
+  fbc?: string;
+  fbp?: string;
+  gclid?: string;
+  gbraid?: string;
+  wbraid?: string;
+  msclkid?: string;
+  ttclid?: string;
   segmentAnonymousId?: string;
   consent: true;
   emailMarketingConsent?: boolean;
@@ -109,6 +117,14 @@ export async function POST(request: Request) {
       utmCampaign = "",
       utmContent = "",
       utmTerm = "",
+      fbclid = "",
+      fbc = "",
+      fbp = "",
+      gclid = "",
+      gbraid = "",
+      wbraid = "",
+      msclkid = "",
+      ttclid = "",
       segmentAnonymousId = "",
       turnstileToken = "",
     } = parsed.data;
@@ -165,6 +181,14 @@ export async function POST(request: Request) {
       utmCampaign: optional(utmCampaign),
       utmContent: optional(utmContent),
       utmTerm: optional(utmTerm),
+      fbclid: optional(fbclid),
+      fbc: optional(fbc),
+      fbp: optional(fbp),
+      gclid: optional(gclid),
+      gbraid: optional(gbraid),
+      wbraid: optional(wbraid),
+      msclkid: optional(msclkid),
+      ttclid: optional(ttclid),
       segmentAnonymousId: optional(segmentAnonymousId),
       consent,
       emailMarketingConsent:
