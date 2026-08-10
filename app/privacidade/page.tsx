@@ -155,6 +155,16 @@ const sections: LegalSection[] = [
             .
           </li>
           <li>
+            <strong>Meta Platforms / ferramentas de publicidade:</strong> com
+            autorização de cookies de marketing, o site pode enviar eventos de
+            visita e conversão pelo Pixel e pela API de Conversões. Para
+            mensurar e evitar eventos duplicados, podem ser processados URL,
+            identificadores de clique e navegador, endereço IP, dados técnicos
+            do dispositivo e versões criptográficas irreversíveis do contato
+            informado voluntariamente. A recusa não impede baixar materiais,
+            pedir contato ou criar uma conta.
+          </li>
+          <li>
             <strong>YCloud:</strong> provedora técnica e suboperadora utilizada
             atualmente para conectar e administrar números, contas, modelos e
             tráfego do WhatsApp em nome da Flowo. Pode processar identificadores
@@ -292,6 +302,12 @@ const sections: LegalSection[] = [
           Semana da Barbearia, exigem opt-in do canal e permitem descadastro;
           mensagens transacionais podem continuar quando necessárias ao
           serviço.
+        </p>
+        <p>
+          Cookies de publicidade são independentes do opt-in de e-mail e SMS.
+          Eles só são ativados quando a categoria de marketing é aceita. A
+          mesma escolha vale entre o site e o painel da Flowo e pode ser
+          alterada a qualquer momento em “Preferências de cookies”.
         </p>
       </>
     ),

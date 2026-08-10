@@ -24,6 +24,7 @@ import { FlagIcon, FlagIconCode } from "react-flag-kit";
 import { CheckCircle2, XCircle } from "lucide-react";
 import { TurnstileWidget } from "@/components/turnstile-widget";
 import { useSegment } from "@/providers/segment-provider";
+import { useLeadRemarketing } from "@/hooks/use-lead-remarketing";
 import Link from "next/link";
 
 const formatPhoneNumber = (phone: string, dialCode: string) => {
@@ -49,6 +50,7 @@ export function LeadCaptureModal({
   initiallyOpen?: boolean;
   source?: string;
 }) {
+  const trackLeadRemarketing = useLeadRemarketing();
   const {
     track,
     identify,
@@ -113,7 +115,10 @@ export function LeadCaptureModal({
         }),
       });
 
-      const data = await response.json();
+      const data = (await response.json()) as {
+        message?: string;
+        metaEventId?: string;
+      };
 
       if (!response.ok) {
         const errorMessage = data.message || "Ocorreu um erro. Tente novamente.";
@@ -143,6 +148,10 @@ export function LeadCaptureModal({
       }
 
       setIsSuccess(true);
+      trackLeadRemarketing({
+        eventId: data.metaEventId,
+        source,
+      });
       identify(undefined, {
         email: email || undefined,
         name,

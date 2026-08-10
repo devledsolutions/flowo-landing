@@ -5,6 +5,7 @@ import Link from "next/link";
 import { CheckCircle2, Download, LoaderCircle } from "lucide-react";
 import { TurnstileWidget } from "@/components/turnstile-widget";
 import { useSegment } from "@/providers/segment-provider";
+import { useLeadRemarketing } from "@/hooks/use-lead-remarketing";
 import styles from "@/components/design-review/lead-offer-landing.module.css";
 
 export type LeadMagnetConfig = {
@@ -51,6 +52,7 @@ export function LeadMagnetForm({
 }: {
   config?: LeadMagnetConfig;
 }) {
+  const trackLeadRemarketing = useLeadRemarketing();
   const {
     resourceId,
     resourceUrl,
@@ -144,6 +146,7 @@ export function LeadMagnetForm({
       const data = (await response.json()) as {
         success?: boolean;
         message?: string;
+        metaEventId?: string;
       };
 
       if (!response.ok || !data.success) {
@@ -166,6 +169,11 @@ export function LeadMagnetForm({
         requested_resource: resourceId,
         email_marketing_opt_in: emailMarketingConsent,
         sms_marketing_opt_in: Boolean(normalizedPhone) && smsMarketingConsent,
+      });
+      trackLeadRemarketing({
+        eventId: data.metaEventId,
+        source,
+        resource: resourceId,
       });
       track("Lead Magnet Delivered", {
         resource_id: resourceId,
