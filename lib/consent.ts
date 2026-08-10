@@ -44,12 +44,19 @@ function setCookie(name: string, value: string, days: number): void {
   date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
   const expires = `expires=${date.toUTCString()}`;
 
+  const attributes = `${expires};path=/;SameSite=Lax;Secure`;
+
+  // Keep a possible legacy host-only cookie aligned before writing the shared
+  // cookie. Otherwise both cookies can coexist with conflicting values and the
+  // browser may return the older choice first after a reload.
+  document.cookie = `${name}=${value};${attributes}`;
+
   // Share the visitor's choice with barber.flowo.com.br so signup and
   // onboarding never start advertising trackers without the same consent.
-  const domain = window.location.hostname.endsWith('.flowo.com.br')
-    ? ';domain=.flowo.com.br'
-    : '';
-  document.cookie = `${name}=${value};${expires};path=/${domain};SameSite=Lax;Secure`;
+  const hostname = window.location.hostname;
+  if (hostname === 'flowo.com.br' || hostname.endsWith('.flowo.com.br')) {
+    document.cookie = `${name}=${value};${attributes};domain=.flowo.com.br`;
+  }
 }
 
 /**
@@ -60,13 +67,18 @@ function getCookie(name: string): string | null {
 
   const nameEQ = name + "=";
   const ca = document.cookie.split(';');
+  let match: string | null = null;
 
   for(let i = 0; i < ca.length; i++) {
     let c = ca[i];
     while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    if (c.indexOf(nameEQ) === 0) {
+      // Prefer the most recently written matching cookie during migration from
+      // the old host-only scope to the shared .flowo.com.br scope.
+      match = c.substring(nameEQ.length, c.length);
+    }
   }
-  return null;
+  return match;
 }
 
 /**
@@ -75,7 +87,10 @@ function getCookie(name: string): string | null {
 function deleteCookie(name: string): void {
   if (typeof document === 'undefined') return;
   document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;SameSite=Lax;Secure`;
-  if (window.location.hostname.endsWith('.flowo.com.br')) {
+  if (
+    window.location.hostname === 'flowo.com.br' ||
+    window.location.hostname.endsWith('.flowo.com.br')
+  ) {
     document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;domain=.flowo.com.br;SameSite=Lax;Secure`;
   }
 }
