@@ -128,6 +128,7 @@ const groups: { heading: string; description: string; items: Downloadable[] }[] 
         icon: FileSpreadsheet,
         downloadUrl: "/downloads/planilha-precificacao-barbearia.xlsx",
         resourceType: "spreadsheet",
+        requestedResource: "planilha_precificacao",
         tags: ["Financeiro", "Preços"],
       },
       {
@@ -138,6 +139,7 @@ const groups: { heading: string; description: string; items: Downloadable[] }[] 
         icon: Calendar,
         downloadUrl: "/downloads/calendario-conteudo-instagram.xlsx",
         resourceType: "spreadsheet",
+        requestedResource: "calendario_conteudo",
         tags: ["Marketing", "Instagram"],
       },
       {
@@ -148,6 +150,7 @@ const groups: { heading: string; description: string; items: Downloadable[] }[] 
         icon: FileText,
         downloadUrl: "/downloads/checklist-abertura-barbearia.xlsx",
         resourceType: "spreadsheet",
+        requestedResource: "checklist_abertura",
         tags: ["Gestão", "Iniciantes"],
       },
       {
@@ -158,6 +161,7 @@ const groups: { heading: string; description: string; items: Downloadable[] }[] 
         icon: DollarSign,
         downloadUrl: "/downloads/planilha-comissoes-barbearia.xlsx",
         resourceType: "spreadsheet",
+        requestedResource: "planilha_comissoes",
         tags: ["Financeiro", "Equipe"],
       },
       {
@@ -168,6 +172,7 @@ const groups: { heading: string; description: string; items: Downloadable[] }[] 
         icon: Users,
         downloadUrl: "/downloads/guia-fidelizacao-clientes.xlsx",
         resourceType: "spreadsheet",
+        requestedResource: "guia_fidelizacao",
         tags: ["Marketing", "Clientes"],
       },
     ],
@@ -184,6 +189,7 @@ const groups: { heading: string; description: string; items: Downloadable[] }[] 
         icon: MessageCircle,
         downloadUrl: "/downloads/lead-magnets/checklist-agendamento-whatsapp.csv",
         resourceType: "spreadsheet",
+        requestedResource: "checklist_agendamento_whatsapp",
         tags: ["WhatsApp", "Agendamento"],
       },
       {
@@ -194,6 +200,7 @@ const groups: { heading: string; description: string; items: Downloadable[] }[] 
         icon: MessageCircle,
         downloadUrl: "/downloads/lead-magnets/script-confirmacao-whatsapp.csv",
         resourceType: "spreadsheet",
+        requestedResource: "script_confirmacao_whatsapp",
         tags: ["WhatsApp", "Confirmação"],
       },
       {
@@ -204,6 +211,7 @@ const groups: { heading: string; description: string; items: Downloadable[] }[] 
         icon: Users,
         downloadUrl: "/downloads/lead-magnets/roteiro-reativacao-clientes.csv",
         resourceType: "spreadsheet",
+        requestedResource: "roteiro_reativacao",
         tags: ["WhatsApp", "Fidelização"],
       },
       {
@@ -213,6 +221,7 @@ const groups: { heading: string; description: string; items: Downloadable[] }[] 
         icon: Users,
         downloadUrl: "/downloads/lead-magnets/checklist-fidelizacao-30-dias.csv",
         resourceType: "spreadsheet",
+        requestedResource: "checklist_fidelizacao_30",
         tags: ["Fidelização", "Plano"],
       },
     ],
@@ -228,6 +237,7 @@ const groups: { heading: string; description: string; items: Downloadable[] }[] 
         icon: DollarSign,
         downloadUrl: "/downloads/lead-magnets/fluxo-caixa-semanal-barbearia.csv",
         resourceType: "spreadsheet",
+        requestedResource: "fluxo_caixa_semanal",
         tags: ["Financeiro", "Caixa"],
       },
       {
@@ -237,6 +247,7 @@ const groups: { heading: string; description: string; items: Downloadable[] }[] 
         icon: FileSpreadsheet,
         downloadUrl: "/downloads/lead-magnets/plano-metas-faturamento.csv",
         resourceType: "spreadsheet",
+        requestedResource: "plano_metas_faturamento",
         tags: ["Financeiro", "Metas"],
       },
       {
@@ -247,6 +258,7 @@ const groups: { heading: string; description: string; items: Downloadable[] }[] 
         icon: DollarSign,
         downloadUrl: "/downloads/lead-magnets/planilha-combos-ticket-medio.csv",
         resourceType: "spreadsheet",
+        requestedResource: "planilha_combos_ticket",
         tags: ["Financeiro", "Ticket médio"],
       },
       {
@@ -256,6 +268,7 @@ const groups: { heading: string; description: string; items: Downloadable[] }[] 
         icon: FileSpreadsheet,
         downloadUrl: "/downloads/lead-magnets/calculadora-ticket-medio.csv",
         resourceType: "spreadsheet",
+        requestedResource: "calculadora_ticket",
         tags: ["Financeiro", "Ticket médio"],
       },
     ],
@@ -272,6 +285,7 @@ const groups: { heading: string; description: string; items: Downloadable[] }[] 
         icon: Calendar,
         downloadUrl: "/downloads/lead-magnets/roteiros-shorts-reels-30-dias.csv",
         resourceType: "spreadsheet",
+        requestedResource: "roteiros_shorts_reels",
         tags: ["Marketing", "Vídeo"],
       },
     ],

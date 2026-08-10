@@ -262,9 +262,9 @@ const sections: LegalSection[] = [
           Para exercer um direito, escreva para{" "}
           <a
             className={externalLinkClass}
-            href={`mailto:${LEGAL_ENTITY.supportEmail}?subject=Privacidade%20e%20dados%20pessoais`}
+            href={`mailto:${LEGAL_ENTITY.privacyEmail}?subject=Privacidade%20e%20dados%20pessoais`}
           >
-            {LEGAL_ENTITY.supportEmail}
+            {LEGAL_ENTITY.privacyEmail}
           </a>
           . Podemos pedir informações razoáveis para confirmar sua identidade e
           encaminhar o pedido à barbearia quando ela for a controladora.
@@ -306,9 +306,9 @@ const sections: LegalSection[] = [
           Contato de privacidade:{" "}
           <a
             className={externalLinkClass}
-            href={`mailto:${LEGAL_ENTITY.supportEmail}`}
+            href={`mailto:${LEGAL_ENTITY.privacyEmail}`}
           >
-            {LEGAL_ENTITY.supportEmail}
+            {LEGAL_ENTITY.privacyEmail}
           </a>
         </p>
         <p>

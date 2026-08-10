@@ -175,6 +175,19 @@ o evento de entrada para uma Automation do Resend. O Resend centraliza os
 templates, atrasos, métricas e o descadastro nativo do canal. O webhook
 `contact.updated` devolve o descadastro ao Convex.
 
+O payload classifica a intenção de aquisição em três jornadas sem copiar PII
+para eventos: `sales`, `resource` e `app_waitlist`. Ele também carrega a
+variante estável do primeiro e-mail, o identificador/título do material e URLs
+permitidas para o próximo passo. O programa completo contém 21 templates em
+cinco automações: aquisição, institucional, conteúdo, newsletter e promoção.
+Todas permanecem desabilitadas até o domínio de marketing, o webhook assinado e
+a coorte controlada passarem nos testes.
+
+O site é a primeira fonte do Segment. O segundo slot do plano gratuito fica
+reservado para o app mobile da Flowo. Twenty não é fonte de eventos: se for
+mantido, recebe somente leads qualificados como destino comercial, sem duplicar
+o histórico bruto que pertence ao Convex.
+
 Quando a captura contém `requestedResource`, uma ação transacional separada
 envia o link solicitado pelo Resend operacional. Ela não inscreve o contato em
 Automation, não altera opt-in e não utiliza o remetente de marketing.
