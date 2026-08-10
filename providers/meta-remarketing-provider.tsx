@@ -35,6 +35,7 @@ declare global {
   interface Window {
     fbq?: MetaPixelFunction;
     _fbq?: MetaPixelFunction;
+    __flowoMetaPixelId?: string;
   }
 }
 
@@ -63,7 +64,6 @@ const MetaRemarketingContext = createContext<MetaRemarketingContextValue>({
 });
 
 const PIXEL_SCRIPT_ID = "flowo-meta-pixel";
-const PIXEL_INITIALIZED_KEY = "flowo-meta-pixel-initialized";
 
 function createEventId(): string {
   if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
@@ -146,9 +146,11 @@ export function MetaRemarketingProvider({
     const fbq = installPixelQueue();
     fbq("consent", "grant");
 
-    if (!window.sessionStorage.getItem(PIXEL_INITIALIZED_KEY)) {
+    // fbq belongs to the current page window. sessionStorage survives a full
+    // navigation, so it cannot be used as the initialization guard.
+    if (window.__flowoMetaPixelId !== pixelId) {
       fbq("init", pixelId);
-      window.sessionStorage.setItem(PIXEL_INITIALIZED_KEY, "true");
+      window.__flowoMetaPixelId = pixelId;
     }
 
     if (!document.getElementById(PIXEL_SCRIPT_ID)) {
