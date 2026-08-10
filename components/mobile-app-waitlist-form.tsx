@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { TurnstileWidget } from "@/components/turnstile-widget";
 import { useSegment } from "@/providers/segment-provider";
+import { useLeadRemarketing } from "@/hooks/use-lead-remarketing";
 
 function formatBrazilianPhone(value: string) {
   const digits = value.replace(/\D/g, "").slice(0, 11);
@@ -17,6 +18,7 @@ function formatBrazilianPhone(value: string) {
 }
 
 export function MobileAppWaitlistForm() {
+  const trackLeadRemarketing = useLeadRemarketing();
   const {
     track,
     identify,
@@ -79,7 +81,10 @@ export function MobileAppWaitlistForm() {
           turnstileToken,
         }),
       });
-      const data = (await response.json()) as { message?: string };
+      const data = (await response.json()) as {
+        message?: string;
+        metaEventId?: string;
+      };
 
       if (!response.ok) {
         setStatus("error");
@@ -92,6 +97,11 @@ export function MobileAppWaitlistForm() {
       }
 
       setStatus("success");
+      trackLeadRemarketing({
+        eventId: data.metaEventId,
+        source: "app-mobile-waitlist",
+        kind: "waitlist",
+      });
       identify(undefined, {
         email,
         name,

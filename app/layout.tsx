@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next"
 import { Poppins, Lora } from "next/font/google"
 import "./globals.css"
 import { SegmentProvider } from "@/providers/segment-provider"
+import { MetaRemarketingProvider } from "@/providers/meta-remarketing-provider"
 import { CookieBanner } from "@/components/cookie-banner"
 import { ConsentInitializer } from "@/components/consent-initializer"
 import {
@@ -143,9 +144,11 @@ export default function RootLayout({
           Pular para o conteúdo principal
         </a>
         <ConsentInitializer />
-        <SegmentProvider writeKey={process.env.NEXT_PUBLIC_SEGMENT_WRITE_KEY}>
-          {children}
-        </SegmentProvider>
+        <MetaRemarketingProvider pixelId={process.env.NEXT_PUBLIC_META_PIXEL_ID}>
+          <SegmentProvider writeKey={process.env.NEXT_PUBLIC_SEGMENT_WRITE_KEY}>
+            {children}
+          </SegmentProvider>
+        </MetaRemarketingProvider>
         <CookieBanner />
       </body>
     </html>

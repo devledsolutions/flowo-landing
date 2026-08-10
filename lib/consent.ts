@@ -44,8 +44,12 @@ function setCookie(name: string, value: string, days: number): void {
   date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
   const expires = `expires=${date.toUTCString()}`;
 
-  // Secure, SameSite=Lax for LGPD compliance
-  document.cookie = `${name}=${value};${expires};path=/;SameSite=Lax;Secure`;
+  // Share the visitor's choice with barber.flowo.com.br so signup and
+  // onboarding never start advertising trackers without the same consent.
+  const domain = window.location.hostname.endsWith('.flowo.com.br')
+    ? ';domain=.flowo.com.br'
+    : '';
+  document.cookie = `${name}=${value};${expires};path=/${domain};SameSite=Lax;Secure`;
 }
 
 /**
@@ -71,6 +75,9 @@ function getCookie(name: string): string | null {
 function deleteCookie(name: string): void {
   if (typeof document === 'undefined') return;
   document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;SameSite=Lax;Secure`;
+  if (window.location.hostname.endsWith('.flowo.com.br')) {
+    document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;domain=.flowo.com.br;SameSite=Lax;Secure`;
+  }
 }
 
 /**

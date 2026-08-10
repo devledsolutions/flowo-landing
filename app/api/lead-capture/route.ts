@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { randomUUID } from "node:crypto";
 import * as Sentry from "@sentry/nextjs";
 import { ConvexHttpClient } from "convex/browser";
 import { makeFunctionReference } from "convex/server";
@@ -39,6 +40,12 @@ type CaptureWebsiteLeadArgs = {
   emailMarketingConsent?: boolean;
   smsMarketingConsent?: boolean;
   marketingConsent?: boolean;
+  advertisingConsent?: boolean;
+  advertisingConsentVersion?: string;
+  metaEventId?: string;
+  clientIpAddress?: string;
+  clientUserAgent?: string;
+  eventSourceUrl?: string;
   website?: string;
 };
 
@@ -50,6 +57,48 @@ const captureWebsiteLead = makeFunctionReference<
 
 function optional(value: string | undefined): string | undefined {
   return value || undefined;
+}
+
+function readCookie(request: Request, name: string): string | undefined {
+  const header = request.headers.get("cookie");
+  if (!header) return undefined;
+
+  for (const entry of header.split(";")) {
+    const separator = entry.indexOf("=");
+    if (separator < 0) continue;
+    const key = entry.slice(0, separator).trim();
+    if (key !== name) continue;
+    const value = entry.slice(separator + 1).trim();
+    try {
+      return decodeURIComponent(value);
+    } catch {
+      return value;
+    }
+  }
+  return undefined;
+}
+
+function readAdvertisingConsent(request: Request): {
+  granted: boolean;
+  version?: string;
+} {
+  try {
+    const preferences = JSON.parse(
+      readCookie(request, "cookieConsent") || "{}"
+    ) as { marketing?: unknown };
+    const metadata = JSON.parse(
+      readCookie(request, "cookieConsentDate") || "{}"
+    ) as { consentVersion?: unknown };
+    return {
+      granted: preferences.marketing === true,
+      version:
+        typeof metadata.consentVersion === "string"
+          ? metadata.consentVersion.slice(0, 40)
+          : undefined,
+    };
+  } catch {
+    return { granted: false };
+  }
 }
 
 function tooManyRequestsResponse(retryAfterSeconds: number) {
@@ -167,6 +216,8 @@ export async function POST(request: Request) {
     }
 
     const refererHeader = request.headers.get("referer") || "";
+    const advertisingConsent = readAdvertisingConsent(request);
+    const metaEventId = advertisingConsent.granted ? randomUUID() : undefined;
     const convex = new ConvexHttpClient(convexUrl);
     await convex.mutation(captureWebsiteLead, {
       name,
@@ -194,6 +245,17 @@ export async function POST(request: Request) {
       emailMarketingConsent:
         emailMarketingConsent ?? marketingConsent ?? false,
       smsMarketingConsent,
+      advertisingConsent: advertisingConsent.granted,
+      advertisingConsentVersion: advertisingConsent.version,
+      metaEventId,
+      clientIpAddress:
+        advertisingConsent.granted && ip !== "unknown" ? ip : undefined,
+      clientUserAgent: advertisingConsent.granted
+        ? optional(request.headers.get("user-agent") || undefined)
+        : undefined,
+      eventSourceUrl: advertisingConsent.granted
+        ? landingPath || refererHeader || "https://www.flowo.com.br/"
+        : undefined,
       website: optional(company),
     });
 
@@ -210,6 +272,7 @@ export async function POST(request: Request) {
     return NextResponse.json({
       success: true,
       message: "Lead captured successfully",
+      metaEventId,
     });
   } catch (error) {
     console.error("Error capturing lead:", error);

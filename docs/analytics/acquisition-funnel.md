@@ -29,8 +29,15 @@ distribuição para destinos, mas não substitui uma ferramenta de campanhas nem
 oferece o produto completo de Consent Management. A
 aplicação é, portanto, responsável por impedir o carregamento do Analytics.js
 até que o visitante autorize cookies analíticos. Destinos de publicidade não
-devem ser ligados à fonte enquanto não houver controle separado pelo
-consentimento de marketing.
+recebem a fonte inteira. A Meta usa uma integração dedicada, carregada somente
+com consentimento de marketing, para impedir que eventos analíticos sem essa
+autorização vazem para publicidade.
+
+O Pixel e a API de Conversões compartilham o mesmo `event_id` no evento `Lead`.
+Isso permite deduplicação entre navegador e servidor. O servidor cria o evento
+somente quando o cookie de marketing está autorizado, registra o consentimento
+e guarda IP e user-agent apenas durante a tentativa de entrega. E-mail e
+telefone são normalizados e convertidos em SHA-256 antes de sair da Flowo.
 
 ## Atribuição automática
 

@@ -5,8 +5,10 @@ import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
 import { TurnstileWidget } from "@/components/turnstile-widget";
 import { useSegment } from "@/providers/segment-provider";
+import { useLeadRemarketing } from "@/hooks/use-lead-remarketing";
 
 export function NewsletterSignup() {
+  const trackLeadRemarketing = useLeadRemarketing();
   const {
     track,
     identify,
@@ -50,7 +52,17 @@ export function NewsletterSignup() {
         }),
       });
 
+      const data = (await response.json()) as {
+        metaEventId?: string;
+      };
       if (!response.ok) throw new Error("newsletter_capture_failed");
+
+      trackLeadRemarketing({
+        eventId: data.metaEventId,
+        source: "newsletter:site-footer",
+        resource: "a_semana_da_barbearia",
+        kind: "newsletter",
+      });
 
       identify(undefined, {
         name: name.trim(),
