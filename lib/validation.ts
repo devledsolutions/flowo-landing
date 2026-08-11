@@ -45,6 +45,7 @@ export const leadCaptureSchema = z.object({
   wbraid: z.string().trim().max(300).optional().or(z.literal("")),
   msclkid: z.string().trim().max(300).optional().or(z.literal("")),
   ttclid: z.string().trim().max(300).optional().or(z.literal("")),
+  ctwaClid: z.string().trim().max(300).optional().or(z.literal("")),
   segmentAnonymousId: z.string().trim().max(200).optional().or(z.literal("")),
   turnstileToken: z
     .string()

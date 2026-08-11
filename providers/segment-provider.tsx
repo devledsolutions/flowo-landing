@@ -6,6 +6,8 @@ import { getSavedConsent, type ConsentPreferences } from "@/lib/consent";
 
 const ATTRIBUTION_STORAGE_KEY = "flowo:first-touch-attribution";
 const SESSION_ATTRIBUTION_STORAGE_KEY = "flowo:first-touch-attribution:session";
+const LAST_ATTRIBUTION_STORAGE_KEY = "flowo:last-touch-attribution";
+const SESSION_LAST_ATTRIBUTION_STORAGE_KEY = "flowo:last-touch-attribution:session";
 const ATTRIBUTION_TTL_MS = 90 * 24 * 60 * 60 * 1000;
 
 type AnalyticsProperties = Record<
@@ -43,6 +45,7 @@ interface StoredAttribution {
   wbraid?: string;
   msclkid?: string;
   ttclid?: string;
+  ctwaClid?: string;
 }
 
 export interface AcquisitionContext {
@@ -61,6 +64,7 @@ export interface AcquisitionContext {
   wbraid?: string;
   msclkid?: string;
   ttclid?: string;
+  ctwaClid?: string;
 }
 
 function getCookie(name: string): string | undefined {
@@ -93,7 +97,52 @@ function getCurrentAttribution(): StoredAttribution {
     wbraid: params.get("wbraid") || undefined,
     msclkid: params.get("msclkid") || undefined,
     ttclid: params.get("ttclid") || undefined,
+    ctwaClid: params.get("ctwa_clid") || undefined,
   };
+}
+
+function hasCampaignTouch(attribution: StoredAttribution): boolean {
+  return Boolean(
+    attribution.utmSource ||
+      attribution.utmCampaign ||
+      attribution.fbclid ||
+      attribution.gclid ||
+      attribution.gbraid ||
+      attribution.wbraid ||
+      attribution.msclkid ||
+      attribution.ttclid ||
+      attribution.ctwaClid
+  );
+}
+
+function getLastTouchAttribution(): StoredAttribution {
+  const current = getCurrentAttribution();
+  const persistent = Boolean(getSavedConsent()?.analytics);
+  const storage = persistent ? window.localStorage : window.sessionStorage;
+  const storageKey = persistent
+    ? LAST_ATTRIBUTION_STORAGE_KEY
+    : SESSION_LAST_ATTRIBUTION_STORAGE_KEY;
+
+  try {
+    const saved = storage.getItem(storageKey);
+    if (hasCampaignTouch(current)) {
+      storage.setItem(storageKey, JSON.stringify(current));
+      return current;
+    }
+    if (saved) {
+      const parsed = JSON.parse(saved) as StoredAttribution;
+      if (
+        typeof parsed.capturedAt === "number" &&
+        Date.now() - parsed.capturedAt < ATTRIBUTION_TTL_MS
+      ) {
+        return parsed;
+      }
+    }
+  } catch {
+    // Attribution remains best-effort when browser storage is unavailable.
+  }
+
+  return getFirstTouchAttribution();
 }
 
 function getFirstTouchAttribution(): StoredAttribution {
@@ -136,6 +185,13 @@ function promoteSessionAttribution(): void {
       window.localStorage.setItem(ATTRIBUTION_STORAGE_KEY, saved);
     }
     window.sessionStorage.removeItem(SESSION_ATTRIBUTION_STORAGE_KEY);
+    const lastTouch = window.sessionStorage.getItem(
+      SESSION_LAST_ATTRIBUTION_STORAGE_KEY
+    );
+    if (lastTouch) {
+      window.localStorage.setItem(LAST_ATTRIBUTION_STORAGE_KEY, lastTouch);
+      window.sessionStorage.removeItem(SESSION_LAST_ATTRIBUTION_STORAGE_KEY);
+    }
   } catch {
     // Attribution remains best-effort when browser storage is unavailable.
   }
@@ -144,6 +200,7 @@ function promoteSessionAttribution(): void {
 function getAnalyticsContext(): AnalyticsProperties {
   const consent = getSavedConsent();
   const firstTouch = getFirstTouchAttribution();
+  const lastTouch = getLastTouchAttribution();
   const current = getCurrentAttribution();
 
   return {
@@ -159,6 +216,19 @@ function getAnalyticsContext(): AnalyticsProperties {
     first_gclid: firstTouch.gclid,
     first_msclkid: firstTouch.msclkid,
     first_ttclid: firstTouch.ttclid,
+    first_ctwa_clid: firstTouch.ctwaClid,
+    last_landing_path: lastTouch.landingPath,
+    last_referrer: lastTouch.referrer,
+    last_utm_source: lastTouch.utmSource,
+    last_utm_medium: lastTouch.utmMedium,
+    last_utm_campaign: lastTouch.utmCampaign,
+    last_utm_content: lastTouch.utmContent,
+    last_utm_term: lastTouch.utmTerm,
+    last_fbclid: lastTouch.fbclid,
+    last_gclid: lastTouch.gclid,
+    last_msclkid: lastTouch.msclkid,
+    last_ttclid: lastTouch.ttclid,
+    last_ctwa_clid: lastTouch.ctwaClid,
     utm_source: current.utmSource,
     utm_medium: current.utmMedium,
     utm_campaign: current.utmCampaign,
@@ -178,23 +248,24 @@ function getAcquisitionContext(): AcquisitionContext {
     return { landingPath: "/" };
   }
 
-  const firstTouch = getFirstTouchAttribution();
+  const lastTouch = getLastTouchAttribution();
   return {
-    landingPath: firstTouch.landingPath,
-    referrer: firstTouch.referrer,
-    utmSource: firstTouch.utmSource,
-    utmMedium: firstTouch.utmMedium,
-    utmCampaign: firstTouch.utmCampaign,
-    utmContent: firstTouch.utmContent,
-    utmTerm: firstTouch.utmTerm,
-    fbclid: firstTouch.fbclid,
-    fbc: firstTouch.fbc,
-    fbp: firstTouch.fbp,
-    gclid: firstTouch.gclid,
-    gbraid: firstTouch.gbraid,
-    wbraid: firstTouch.wbraid,
-    msclkid: firstTouch.msclkid,
-    ttclid: firstTouch.ttclid,
+    landingPath: lastTouch.landingPath,
+    referrer: lastTouch.referrer,
+    utmSource: lastTouch.utmSource,
+    utmMedium: lastTouch.utmMedium,
+    utmCampaign: lastTouch.utmCampaign,
+    utmContent: lastTouch.utmContent,
+    utmTerm: lastTouch.utmTerm,
+    fbclid: lastTouch.fbclid,
+    fbc: lastTouch.fbc,
+    fbp: lastTouch.fbp,
+    gclid: lastTouch.gclid,
+    gbraid: lastTouch.gbraid,
+    wbraid: lastTouch.wbraid,
+    msclkid: lastTouch.msclkid,
+    ttclid: lastTouch.ttclid,
+    ctwaClid: lastTouch.ctwaClid,
   };
 }
 
@@ -274,6 +345,7 @@ export function SegmentProvider({ children, writeKey }: SegmentProviderProps) {
   // Listen for consent changes
   useEffect(() => {
     getFirstTouchAttribution();
+    getLastTouchAttribution();
 
     const handleConsentUpdate = (event: CustomEvent<ConsentPreferences>) => {
       if (event.detail.analytics) {
@@ -288,6 +360,8 @@ export function SegmentProvider({ children, writeKey }: SegmentProviderProps) {
         }
         window.localStorage.removeItem(ATTRIBUTION_STORAGE_KEY);
         window.sessionStorage.removeItem(SESSION_ATTRIBUTION_STORAGE_KEY);
+        window.localStorage.removeItem(LAST_ATTRIBUTION_STORAGE_KEY);
+        window.sessionStorage.removeItem(SESSION_LAST_ATTRIBUTION_STORAGE_KEY);
       }
     };
 
@@ -300,6 +374,37 @@ export function SegmentProvider({ children, writeKey }: SegmentProviderProps) {
       window.removeEventListener("consent-updated", handleConsentUpdate as EventListener);
     };
   }, [initializeSegment]);
+
+  const sendKnownLeadSignal = useCallback(
+    (
+      signal:
+        | "pricing_viewed"
+        | "comparison_viewed"
+        | "case_study_viewed"
+        | "demo_requested"
+        | "signup_started"
+        | "lead_magnet_viewed"
+    ) => {
+      if (!hasConsent || !window.analytics?.user) return;
+      const segmentAnonymousId = window.analytics.user().anonymousId?.();
+      if (!segmentAnonymousId) return;
+      void fetch("/api/growth-signal", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        keepalive: true,
+        body: JSON.stringify({
+          segmentAnonymousId,
+          signal,
+          path: window.location.pathname,
+        }),
+      }).catch(() => {
+        // Convex remains the source of truth; optional intent enrichment must
+        // never interrupt navigation or the lead form.
+      });
+    },
+    [hasConsent]
+  );
 
   // Track page views on route change
   useEffect(() => {
@@ -319,7 +424,16 @@ export function SegmentProvider({ children, writeKey }: SegmentProviderProps) {
       title: document.title,
       ...getAnalyticsContext(),
     });
-  }, [pathname, isReady, hasConsent]);
+    if (pathname === "/precos") sendKnownLeadSignal("pricing_viewed");
+    else if (pathname === "/comparar" || pathname.startsWith("/flowo-vs-")) {
+      sendKnownLeadSignal("comparison_viewed");
+    } else if (
+      pathname.startsWith("/casos-de-sucesso") ||
+      pathname.startsWith("/casos-de-validacao")
+    ) {
+      sendKnownLeadSignal("case_study_viewed");
+    }
+  }, [pathname, isReady, hasConsent, sendKnownLeadSignal]);
 
   // Context methods
   const track = useCallback((event: string, properties?: object) => {
@@ -333,7 +447,20 @@ export function SegmentProvider({ children, writeKey }: SegmentProviderProps) {
         ...getAnalyticsContext(),
       });
     }
-  }, [hasConsent]);
+    const values = (properties ?? {}) as Record<string, unknown>;
+    if (event === "Pricing Viewed") sendKnownLeadSignal("pricing_viewed");
+    else if (event === "Case Study Viewed") sendKnownLeadSignal("case_study_viewed");
+    else if (event === "Lead Magnet Viewed") sendKnownLeadSignal("lead_magnet_viewed");
+    else if (event === "Plan Selected") sendKnownLeadSignal("signup_started");
+    else if (event === "CTA Clicked") {
+      const destination = String(values.destination ?? "");
+      const label = String(values.buttonText ?? values.button_text ?? "").toLowerCase();
+      if (destination === "dashboard_signup") sendKnownLeadSignal("signup_started");
+      else if (destination.includes("demo") || label.includes("demonstra")) {
+        sendKnownLeadSignal("demo_requested");
+      }
+    }
+  }, [hasConsent, sendKnownLeadSignal]);
 
   const page = useCallback((category?: string, name?: string, properties?: object) => {
     if (!hasConsent) {

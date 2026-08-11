@@ -35,6 +35,7 @@ type CaptureWebsiteLeadArgs = {
   wbraid?: string;
   msclkid?: string;
   ttclid?: string;
+  ctwaClid?: string;
   segmentAnonymousId?: string;
   consent: true;
   emailMarketingConsent?: boolean;
@@ -175,6 +176,7 @@ export async function POST(request: Request) {
       wbraid = "",
       msclkid = "",
       ttclid = "",
+      ctwaClid = "",
       segmentAnonymousId = "",
       turnstileToken = "",
     } = parsed.data;
@@ -241,6 +243,7 @@ export async function POST(request: Request) {
       wbraid: optional(wbraid),
       msclkid: optional(msclkid),
       ttclid: optional(ttclid),
+      ctwaClid: optional(ctwaClid),
       segmentAnonymousId: optional(segmentAnonymousId),
       consent,
       emailMarketingConsent:
