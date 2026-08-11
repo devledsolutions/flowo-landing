@@ -2,9 +2,11 @@
 
 import { useCallback } from "react";
 import { useMetaRemarketing } from "@/providers/meta-remarketing-provider";
+import { usePaidMedia } from "@/providers/paid-media-provider";
 
 export function useLeadRemarketing() {
   const { track } = useMetaRemarketing();
+  const { trackLead } = usePaidMedia();
 
   return useCallback(
     ({
@@ -18,17 +20,19 @@ export function useLeadRemarketing() {
       resource?: string;
       kind?: "lead" | "newsletter" | "waitlist";
     }) => {
-      if (!eventId) return;
-      track(
-        "Lead",
-        {
-          content_name: resource || source,
-          content_category: kind,
-          lead_source: source,
-        },
-        eventId
-      );
+      if (eventId) {
+        track(
+          "Lead",
+          {
+            content_name: resource || source,
+            content_category: kind,
+            lead_source: source,
+          },
+          eventId
+        );
+      }
+      trackLead({ source, resource, kind });
     },
-    [track]
+    [track, trackLead]
   );
 }

@@ -3,6 +3,7 @@ import { Poppins, Lora } from "next/font/google"
 import "./globals.css"
 import { SegmentProvider } from "@/providers/segment-provider"
 import { MetaRemarketingProvider } from "@/providers/meta-remarketing-provider"
+import { PaidMediaProvider } from "@/providers/paid-media-provider"
 import { CookieBanner } from "@/components/cookie-banner"
 import { ConsentInitializer } from "@/components/consent-initializer"
 import {
@@ -92,13 +93,14 @@ export const metadata: Metadata = {
     ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
       ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
       : {}),
-    ...(process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
-      ? {
-          other: {
+    other: {
+      "facebook-domain-verification": "llh12wjtj6ysmbmtxeuzlq4xunrnwe",
+      ...(process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
+        ? {
             "msvalidate.01": process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION,
-          },
-        }
-      : {}),
+          }
+        : {}),
+    },
   },
 }
 
@@ -144,11 +146,19 @@ export default function RootLayout({
           Pular para o conteúdo principal
         </a>
         <ConsentInitializer />
-        <MetaRemarketingProvider pixelId={process.env.NEXT_PUBLIC_META_PIXEL_ID}>
-          <SegmentProvider writeKey={process.env.NEXT_PUBLIC_SEGMENT_WRITE_KEY}>
-            {children}
-          </SegmentProvider>
-        </MetaRemarketingProvider>
+        <PaidMediaProvider
+          googleAnalyticsId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}
+          googleAdsId={process.env.NEXT_PUBLIC_GOOGLE_ADS_ID}
+          googleLeadConversionLabel={
+            process.env.NEXT_PUBLIC_GOOGLE_ADS_LEAD_CONVERSION_LABEL
+          }
+        >
+          <MetaRemarketingProvider pixelId={process.env.NEXT_PUBLIC_META_PIXEL_ID}>
+            <SegmentProvider writeKey={process.env.NEXT_PUBLIC_SEGMENT_WRITE_KEY}>
+              {children}
+            </SegmentProvider>
+          </MetaRemarketingProvider>
+        </PaidMediaProvider>
         <CookieBanner />
       </body>
     </html>
