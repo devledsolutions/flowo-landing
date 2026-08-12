@@ -310,6 +310,11 @@ export function SegmentProvider({ children, writeKey }: SegmentProviderProps) {
   const [hasConsent, setHasConsent] = useState(false);
   const pathname = usePathname();
 
+  const analyticsConsentGranted = useCallback((): boolean => {
+    if (hasConsent) return true;
+    return getSavedConsent()?.analytics === true;
+  }, [hasConsent]);
+
   // Initialize Segment when consent is granted
   const initializeSegment = useCallback((): void => {
     if (typeof window === "undefined" || !writeKey) return;
@@ -437,10 +442,16 @@ export function SegmentProvider({ children, writeKey }: SegmentProviderProps) {
 
   // Context methods
   const track = useCallback((event: string, properties?: object) => {
-    if (!hasConsent) {
+    if (!analyticsConsentGranted()) {
       console.debug("[Segment] Track skipped - no consent:", event);
       return;
     }
+
+    // A child page can emit its first-view event before this provider's effect
+    // has restored the saved preference. Bootstrap the consent-gated Segment
+    // queue synchronously so that event is buffered instead of discarded.
+    if (!window.analytics) initializeSegment();
+
     if (window.analytics) {
       window.analytics.track(event, {
         ...properties,
@@ -460,27 +471,33 @@ export function SegmentProvider({ children, writeKey }: SegmentProviderProps) {
         sendKnownLeadSignal("demo_requested");
       }
     }
-  }, [hasConsent, sendKnownLeadSignal]);
+  }, [analyticsConsentGranted, initializeSegment, sendKnownLeadSignal]);
 
   const page = useCallback((category?: string, name?: string, properties?: object) => {
-    if (!hasConsent) {
+    if (!analyticsConsentGranted()) {
       console.debug("[Segment] Page skipped - no consent");
       return;
     }
+
+    if (!window.analytics) initializeSegment();
+
     if (window.analytics) {
       window.analytics.page(category, name, properties);
     }
-  }, [hasConsent]);
+  }, [analyticsConsentGranted, initializeSegment]);
 
   const identify = useCallback((userId?: string, traits?: object) => {
-    if (!hasConsent) {
+    if (!analyticsConsentGranted()) {
       console.debug("[Segment] Identify skipped - no consent");
       return;
     }
+
+    if (!window.analytics) initializeSegment();
+
     if (window.analytics) {
       window.analytics.identify(userId, traits);
     }
-  }, [hasConsent]);
+  }, [analyticsConsentGranted, initializeSegment]);
 
   const getAnonymousId = useCallback((): string | undefined => {
     if (!hasConsent || !window.analytics?.user) return undefined;
