@@ -81,17 +81,24 @@ function readCookie(request: Request, name: string): string | undefined {
 }
 
 function readAdvertisingConsent(request: Request): {
+  value?: boolean;
   granted: boolean;
   version?: string;
 } {
+  const rawPreferences = readCookie(request, "cookieConsent");
+  if (!rawPreferences) {
+    return { granted: false };
+  }
   try {
-    const preferences = JSON.parse(
-      readCookie(request, "cookieConsent") || "{}"
-    ) as { marketing?: unknown };
+    const preferences = JSON.parse(rawPreferences) as { marketing?: unknown };
     const metadata = JSON.parse(
       readCookie(request, "cookieConsentDate") || "{}"
     ) as { consentVersion?: unknown };
+    if (preferences.marketing !== true && preferences.marketing !== false) {
+      return { granted: false };
+    }
     return {
+      value: preferences.marketing,
       granted: preferences.marketing === true,
       version:
         typeof metadata.consentVersion === "string"
@@ -249,7 +256,7 @@ export async function POST(request: Request) {
       emailMarketingConsent:
         emailMarketingConsent ?? marketingConsent ?? false,
       smsMarketingConsent,
-      advertisingConsent: advertisingConsent.granted,
+      advertisingConsent: advertisingConsent.value,
       advertisingConsentVersion: advertisingConsent.version,
       metaEventId,
       clientIpAddress:
