@@ -310,10 +310,13 @@ export function SegmentProvider({ children, writeKey }: SegmentProviderProps) {
   const [hasConsent, setHasConsent] = useState(false);
   const pathname = usePathname();
 
-  const analyticsConsentGranted = useCallback((): boolean => {
-    if (hasConsent) return true;
-    return getSavedConsent()?.analytics === true;
-  }, [hasConsent]);
+  // Read the durable preference instead of closing over React state. Keeping
+  // this callback stable prevents child `useEffect([track])` hooks from firing
+  // a second time when consent hydration flips `hasConsent` to true.
+  const analyticsConsentGranted = useCallback(
+    (): boolean => getSavedConsent()?.analytics === true,
+    []
+  );
 
   // Initialize Segment when consent is granted
   const initializeSegment = useCallback((): void => {
@@ -390,7 +393,7 @@ export function SegmentProvider({ children, writeKey }: SegmentProviderProps) {
         | "signup_started"
         | "lead_magnet_viewed"
     ) => {
-      if (!hasConsent || !window.analytics?.user) return;
+      if (!analyticsConsentGranted() || !window.analytics?.user) return;
       const segmentAnonymousId = window.analytics.user().anonymousId?.();
       if (!segmentAnonymousId) return;
       void fetch("/api/growth-signal", {
@@ -408,7 +411,7 @@ export function SegmentProvider({ children, writeKey }: SegmentProviderProps) {
         // never interrupt navigation or the lead form.
       });
     },
-    [hasConsent]
+    [analyticsConsentGranted]
   );
 
   // Track page views on route change
@@ -500,9 +503,9 @@ export function SegmentProvider({ children, writeKey }: SegmentProviderProps) {
   }, [analyticsConsentGranted, initializeSegment]);
 
   const getAnonymousId = useCallback((): string | undefined => {
-    if (!hasConsent || !window.analytics?.user) return undefined;
+    if (!analyticsConsentGranted() || !window.analytics?.user) return undefined;
     return window.analytics.user().anonymousId?.();
-  }, [hasConsent]);
+  }, [analyticsConsentGranted]);
 
   const decorateDestination = useCallback(
     (href: string): string => {
