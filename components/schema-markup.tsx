@@ -2,6 +2,7 @@ import { PRICING } from "@/data/pricing-data";
 import { homeFaqItems } from "@/data/faq-items";
 import { LEGAL_ENTITY } from "@/lib/legal-identity";
 import { SITE_URL, absoluteUrl } from "@/lib/seo";
+import { WHATSAPP_NUMBER_E164 } from "@/components/cta-links";
 
 /**
  * JSON-LD for the home page. Rules:
@@ -76,7 +77,7 @@ export default function SchemaMarkup() {
       {
         "@type": "ContactPoint",
         contactType: "Sales",
-        telephone: "+55 19 99805-3595",
+        telephone: WHATSAPP_NUMBER_E164,
         availableLanguage: ["Portuguese"],
         areaServed: "BR",
       },

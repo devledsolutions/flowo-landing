@@ -43,8 +43,11 @@ export function buildSignupUrl({
   return url.toString();
 }
 
-const WHATSAPP_NUMBER =
-  process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "5519998053595";
+export const WHATSAPP_NUMBER = (
+  process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "5541936181301"
+).replace(/\D/g, "");
+
+export const WHATSAPP_NUMBER_E164 = `+${WHATSAPP_NUMBER}`;
 
 export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
   "Olá! Vim pelo site da Flowo e gostaria de tirar algumas dúvidas."
