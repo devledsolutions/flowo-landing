@@ -14,13 +14,21 @@ const entries = [...materialsSource.matchAll(entryPattern)].map((match) => ({
     match[2].match(/requestedResource:\s*"([^"]+)"/)?.[1],
 }));
 
-if (entries.length < 20) {
+const standaloneEntries = [
+  {
+    downloadUrl: "/downloads/raio-x-da-agenda-flowo.pdf",
+    requestedResource: "raio_x_agenda",
+    source: "components/marketing/lead-magnet-form.tsx",
+  },
+];
+
+if (entries.length < 23) {
   errors.push(`Catálogo incompleto: somente ${entries.length} downloads encontrados.`);
 }
 
 const ids = new Set();
 const urls = new Set();
-for (const entry of entries) {
+for (const entry of [...entries, ...standaloneEntries]) {
   if (!entry.requestedResource) {
     errors.push(`requestedResource ausente para ${entry.downloadUrl}`);
   } else if (ids.has(entry.requestedResource)) {
@@ -33,6 +41,15 @@ for (const entry of entries) {
     errors.push(`Download duplicado no catálogo: ${entry.downloadUrl}`);
   }
   urls.add(entry.downloadUrl);
+
+  if (entry.source) {
+    const source = fs.readFileSync(path.join(root, entry.source), "utf8");
+    if (!source.includes(entry.downloadUrl)) {
+      errors.push(
+        `Material independente sem referência em ${entry.source}: ${entry.downloadUrl}`,
+      );
+    }
+  }
 
   const filePath = path.join(root, "public", entry.downloadUrl.replace(/^\//, ""));
   if (!fs.existsSync(filePath)) {
@@ -59,7 +76,9 @@ for (const filePath of walk(publicDownloads)) {
 }
 
 const report = {
-  downloads: entries.length,
+  downloads: entries.length + standaloneEntries.length,
+  catalogDownloads: entries.length,
+  standaloneDownloads: standaloneEntries.length,
   identifiedResources: ids.size,
   errors,
   warnings,

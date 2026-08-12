@@ -87,12 +87,15 @@ ${guideLines}
 - [Calculadora de tempo no WhatsApp](${SITE_URL}/calculadora-tempo-whatsapp-barbearia): estima horas dedicadas a conversas de disponibilidade com valores informados pela própria barbearia; não estima faturamento.
 - [Calculadora de comissão de barbeiro](${SITE_URL}/calculadora-comissao-barbeiro): separa serviços, produtos e ajustes numa simulação operacional; não substitui orientação contábil ou trabalhista.
 - [Planejador de retorno de clientes](${SITE_URL}/mensagens-retorno-clientes-barbearia): sugere uma janela de revisão e mensagem com contexto e saída, sempre sujeita a consentimento e conferência humana.
+- [Guia de Gestão da Barbearia](${SITE_URL}/downloads/guia-completo-barbearia.pdf): plano de 30 dias para organizar agenda, equipe, caixa e atendimento.
 - [Agenda sem Interrupção](${SITE_URL}/downloads/agenda-sem-interrupcao-flowo.pdf): escala, regras de confirmação e plano de sete dias.
 - [Fechamento da Equipe](${SITE_URL}/downloads/fechamento-equipe-flowo.pdf): política, memória de cálculo e checklist de conferência.
 - [Retorno sem Spam](${SITE_URL}/downloads/retorno-sem-spam-flowo.pdf): calendário, critérios de consentimento e mensagens responsáveis.
 - [Comissões sem Planilha Paralela](${SITE_URL}/downloads/comissoes-sem-planilha-flowo.pdf): guia preenchível para combinar regras e conferir o acerto de cada barbeiro.
 - [Clientes na Hora de Voltar](${SITE_URL}/downloads/clientes-na-hora-de-voltar-flowo.pdf): plano de contato responsável, sem spam ou promessa de agenda cheia.
 - [Caixa sem Confusão](${SITE_URL}/downloads/caixa-e-recebimentos-flowo.pdf): guia para separar venda, recebimento, comissão e resultado, com pagamentos integrados opcionais.
+- [Painel Semanal da Barbearia](${SITE_URL}/downloads/referencia-rapida-barbearia.pdf): revisão de agenda, faltas, ticket e retorno sem metas universais.
+- [Stories com Cara da sua Barbearia](${SITE_URL}/downloads/templates-stories-barbearia.pdf): sistema de conteúdo com prova, bastidor, informação e disponibilidade real.
 
 ## Support
 - [Sobre](${SITE_URL}/sobre)

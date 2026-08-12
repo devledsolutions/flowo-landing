@@ -139,15 +139,18 @@ opcionais e separados.
 
 ## Coleção de guias práticos
 
+- Guia de Gestão da Barbearia: ${SITE_URL}/downloads/guia-completo-barbearia.pdf
 - Agenda sem Interrupção: ${SITE_URL}/downloads/agenda-sem-interrupcao-flowo.pdf
 - Fechamento da Equipe: ${SITE_URL}/downloads/fechamento-equipe-flowo.pdf
 - Retorno sem Spam: ${SITE_URL}/downloads/retorno-sem-spam-flowo.pdf
 - Comissões sem Planilha Paralela: ${SITE_URL}/downloads/comissoes-sem-planilha-flowo.pdf
 - Clientes na Hora de Voltar: ${SITE_URL}/downloads/clientes-na-hora-de-voltar-flowo.pdf
 - Caixa sem Confusão: ${SITE_URL}/downloads/caixa-e-recebimentos-flowo.pdf
+- Painel Semanal da Barbearia: ${SITE_URL}/downloads/referencia-rapida-barbearia.pdf
+- Stories com Cara da sua Barbearia: ${SITE_URL}/downloads/templates-stories-barbearia.pdf
 
-Os três materiais são PDFs preenchíveis de oito páginas. Eles organizam decisões
-da rotina sem prometer faturamento, agenda cheia ou resultado automático. No
+Os guias são PDFs preenchíveis de oito páginas. Eles organizam decisões da
+rotina sem prometer faturamento, agenda cheia ou resultado automático. No
 formulário da biblioteca, WhatsApp e autorizações de marketing são opcionais.
 
 ## Comparações verificadas
