@@ -273,16 +273,16 @@ como experiência principal, não como adaptação posterior.
 - SMS só sai no ambiente de produção após opt-in e aprovação operacional.
 - O painel comercial explica origem, interesse e próxima ação.
 
-## Materiais legados fora do catálogo
+## Materiais de URL preservada
 
-Três arquivos antigos continuam acessíveis por URL direta, mas estão fora do
-catálogo e não podem entrar em campanhas:
+Três arquivos antigos foram substituídos por edições atuais, sem alterar os URLs
+que já podem ter backlinks:
 
-- `guia-completo-barbearia.pdf`;
-- `referencia-rapida-barbearia.pdf`;
-- `templates-stories-barbearia.pdf`.
+- `guia-completo-barbearia.pdf` agora entrega o Guia de Gestão da Barbearia;
+- `referencia-rapida-barbearia.pdf` agora entrega o Painel Semanal da Barbearia;
+- `templates-stories-barbearia.pdf` agora entrega Stories com Cara da sua Barbearia.
 
-Eles devem ganhar redirecionamento para o recurso atual equivalente ou ser
-substituídos por uma nova edição antes de qualquer divulgação. O Raio-X é uma
-landing separada e, por isso, ficar fora da grade de `/recursos/materiais` é
-intencional.
+As novas edições não exibem preços, teste grátis, metas universais ou promessas
+de resultado. Os três recursos entraram no catálogo e no gate de captura. O
+Raio-X continua em uma landing separada e o auditor valida essa referência como
+material independente.

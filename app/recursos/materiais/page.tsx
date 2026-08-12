@@ -49,6 +49,17 @@ const groups: { heading: string; description: string; items: Downloadable[] }[] 
     description: "Materiais para preencher com a rotina real da barbearia",
     items: [
       {
+        id: "guia-gestao-barbearia",
+        title: "Guia de Gestão da Barbearia",
+        description:
+          "Estruture agenda, equipe, caixa e atendimento em um plano prático de 30 dias.",
+        icon: FileText,
+        downloadUrl: "/downloads/guia-completo-barbearia.pdf",
+        resourceType: "pdf",
+        requestedResource: "guia_gestao_barbearia",
+        tags: ["Gestão", "Operação"],
+      },
+      {
         id: "agenda-sem-interrupcao",
         title: "Agenda sem Interrupção",
         description:
@@ -113,6 +124,28 @@ const groups: { heading: string; description: string; items: Downloadable[] }[] 
         resourceType: "pdf",
         requestedResource: "caixa_recebimentos",
         tags: ["Caixa", "Recebimentos"],
+      },
+      {
+        id: "painel-semanal-barbearia",
+        title: "Painel Semanal da Barbearia",
+        description:
+          "Transforme agenda, faltas, ticket e retorno em uma ação clara para a semana.",
+        icon: FileText,
+        downloadUrl: "/downloads/referencia-rapida-barbearia.pdf",
+        resourceType: "pdf",
+        requestedResource: "painel_semanal_barbearia",
+        tags: ["Indicadores", "Gestão"],
+      },
+      {
+        id: "stories-com-cara-da-barbearia",
+        title: "Stories com Cara da sua Barbearia",
+        description:
+          "Planeje prova, bastidor, informação e horários sem cair em promoção genérica.",
+        icon: FileText,
+        downloadUrl: "/downloads/templates-stories-barbearia.pdf",
+        resourceType: "pdf",
+        requestedResource: "stories_barbearia",
+        tags: ["Marketing", "Stories"],
       },
     ],
   },
