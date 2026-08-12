@@ -1,6 +1,6 @@
 # Funil de aquisição do site Flowo
 
-Última atualização: 30 de julho de 2026.
+Última atualização: 12 de agosto de 2026.
 
 ## Camada de coleta
 
@@ -29,9 +29,11 @@ distribuição para destinos, mas não substitui uma ferramenta de campanhas nem
 oferece o produto completo de Consent Management. A
 aplicação é, portanto, responsável por impedir o carregamento do Analytics.js
 até que o visitante autorize cookies analíticos. Destinos de publicidade não
-recebem a fonte inteira. A Meta usa uma integração dedicada, carregada somente
-com consentimento de marketing, para impedir que eventos analíticos sem essa
-autorização vazem para publicidade.
+recebem a fonte inteira. Meta, Google Ads e TikTok usam loaders dedicados,
+carregados somente com consentimento de marketing. O Segment distribui a fonte
+do site apenas para PostHog e S3; Pixel e Conversions API do TikTok não podem
+ser destinos dessa fonte, pois consentimento analítico não autoriza
+publicidade.
 
 O Pixel e a API de Conversões compartilham o mesmo `event_id` no evento `Lead`.
 Isso permite deduplicação entre navegador e servidor. O servidor cria o evento
