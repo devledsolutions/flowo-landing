@@ -79,6 +79,7 @@ export function DownloadGateModal({
   const [company, setCompany] = useState("");
   const [turnstileToken, setTurnstileToken] = useState("");
   const [emailMarketingConsent, setEmailMarketingConsent] = useState(false);
+  const [whatsappMarketingConsent, setWhatsappMarketingConsent] = useState(false);
   const [smsMarketingConsent, setSmsMarketingConsent] = useState(false);
   const [countryCode, setCountryCode] = useState<FlagIconCode>("BR");
   const [dialCode, setDialCode] = useState("+55");
@@ -127,6 +128,10 @@ export function DownloadGateModal({
           company,
           consent: true,
           emailMarketingConsent,
+          whatsappMarketingConsent:
+            Boolean(whatsapp) &&
+            countryCode === "BR" &&
+            whatsappMarketingConsent,
           smsMarketingConsent:
             Boolean(whatsapp) && countryCode === "BR" && smsMarketingConsent,
           ...getAcquisitionContext(),
@@ -181,6 +186,10 @@ export function DownloadGateModal({
         lead_source: `download:${resourceTitle}`,
         ...(requestedResource ? { requested_resource: requestedResource } : {}),
         email_marketing_opt_in: emailMarketingConsent,
+        whatsapp_marketing_opt_in:
+          Boolean(whatsapp) &&
+          countryCode === "BR" &&
+          whatsappMarketingConsent,
         sms_marketing_opt_in:
           Boolean(whatsapp) && countryCode === "BR" && smsMarketingConsent,
       });
@@ -190,6 +199,10 @@ export function DownloadGateModal({
         resource_type: resourceType,
         requested_resource: requestedResource,
         email_marketing_opt_in: emailMarketingConsent,
+        whatsapp_marketing_opt_in:
+          Boolean(whatsapp) &&
+          countryCode === "BR" &&
+          whatsappMarketingConsent,
         sms_marketing_opt_in:
           Boolean(whatsapp) && countryCode === "BR" && smsMarketingConsent,
       });
@@ -253,6 +266,7 @@ export function DownloadGateModal({
     setCompany("");
     setTurnstileToken("");
     setEmailMarketingConsent(false);
+    setWhatsappMarketingConsent(false);
     setSmsMarketingConsent(false);
     setCountryCode("BR");
     setDialCode("+55");
@@ -272,7 +286,10 @@ export function DownloadGateModal({
     const [code, dial] = value.split(":");
     setCountryCode(code as FlagIconCode);
     setDialCode(dial);
-    if (code !== "BR") setSmsMarketingConsent(false);
+    if (code !== "BR") {
+      setWhatsappMarketingConsent(false);
+      setSmsMarketingConsent(false);
+    }
   };
 
   const handleWhatsAppChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -511,6 +528,22 @@ export function DownloadGateModal({
                     <label className="flex items-start gap-2 text-xs leading-5 text-muted-ink">
                       <input
                         type="checkbox"
+                        checked={whatsappMarketingConsent}
+                        onChange={(event) =>
+                          setWhatsappMarketingConsent(event.target.checked)
+                        }
+                        className="mt-0.5 h-4 w-4 shrink-0 accent-ink"
+                      />
+                      <span>
+                        Quero receber pelo WhatsApp dicas práticas, novidades e
+                        convites da Flowo. Posso responder SAIR quando quiser.
+                      </span>
+                    </label>
+                  )}
+                  {countryCode === "BR" && whatsapp && (
+                    <label className="flex items-start gap-2 text-xs leading-5 text-muted-ink">
+                      <input
+                        type="checkbox"
                         checked={smsMarketingConsent}
                         onChange={(event) =>
                           setSmsMarketingConsent(event.target.checked)
@@ -544,7 +577,7 @@ export function DownloadGateModal({
                   </Button>
                   <p className="text-center text-caption text-muted-ink">
                     O WhatsApp é opcional. Você recebe o material mesmo sem
-                    aceitar comunicações de marketing.
+                    aceitar marketing por e-mail, WhatsApp ou SMS.
                   </p>
                 </form>
               </div>
