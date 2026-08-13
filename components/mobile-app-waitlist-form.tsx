@@ -33,6 +33,7 @@ export function MobileAppWaitlistForm() {
   const [turnstileToken, setTurnstileToken] = useState("");
   const [emailMarketingConsent, setEmailMarketingConsent] = useState(false);
   const [smsMarketingConsent, setSmsMarketingConsent] = useState(false);
+  const [whatsappMarketingConsent, setWhatsappMarketingConsent] = useState(false);
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">(
     "idle",
   );
@@ -76,6 +77,7 @@ export function MobileAppWaitlistForm() {
           consent: true,
           emailMarketingConsent,
           smsMarketingConsent,
+          whatsappMarketingConsent,
           ...getAcquisitionContext(),
           segmentAnonymousId: getAnonymousId(),
           turnstileToken,
@@ -109,12 +111,14 @@ export function MobileAppWaitlistForm() {
         lead_source: "app-mobile-waitlist",
         email_marketing_opt_in: emailMarketingConsent,
         sms_marketing_opt_in: smsMarketingConsent,
+        whatsapp_marketing_opt_in: whatsappMarketingConsent,
       });
       track("App Waitlist Submitted", {
         page: "/aplicativo-para-barbeiros",
         surface: "launch_interest_form",
         email_marketing_opt_in: emailMarketingConsent,
         sms_marketing_opt_in: smsMarketingConsent,
+        whatsapp_marketing_opt_in: whatsappMarketingConsent,
       });
     } catch {
       setStatus("error");
@@ -260,6 +264,20 @@ export function MobileAppWaitlistForm() {
             Termos de Uso
           </Link>
           .
+        </span>
+      </label>
+      <label className="mt-3 flex max-w-2xl items-start gap-2 text-caption leading-5 text-muted-ink">
+        <input
+          type="checkbox"
+          checked={whatsappMarketingConsent}
+          onChange={(event) =>
+            setWhatsappMarketingConsent(event.target.checked)
+          }
+          className="mt-0.5 h-4 w-4 shrink-0 accent-ink"
+        />
+        <span>
+          Quero receber pelo WhatsApp dicas práticas, novidades e convites da
+          Flowo. Posso responder SAIR quando quiser.
         </span>
       </label>
       <label className="mt-3 flex max-w-2xl items-start gap-2 text-caption leading-5 text-muted-ink">

@@ -159,6 +159,7 @@ distribuição; ele não substitui o CRM nem o remetente.
 | Segment | Coleta de eventos, atribuição e roteamento |
 | Convex | Lead, consentimentos, estágio, score e histórico comercial |
 | Resend | Entrega transacional e automação de e-mail |
+| WhatsApp Flowo | Atendimento iniciado pelo lead e jornadas autorizadas de marketing |
 | SMSDev | SMS de marketing somente com consentimento específico |
 | Painel Flowo | Fila de vendas, origem, interesse e próxima ação |
 
@@ -183,7 +184,12 @@ automação exigem consentimento de marketing. A automação para quando houver
 resposta, contato humano, reunião, oportunidade ganha/perdida, cancelamento ou bounce. O remetente
 continua no subdomínio isolado de marketing; autenticação e OTP nunca compartilham esse fluxo.
 
-## SMS
+## WhatsApp e SMS
+
+O WhatsApp tem dois caminhos distintos. Quando a pessoa inicia a conversa, a
+Flowo pode responder dentro da janela de atendimento sem inscrevê-la em uma
+jornada promocional. Para mensagens de marketing iniciadas pela Flowo, o opt-in
+de WhatsApp é específico, opcional e revogável com `SAIR`.
 
 SMS não será atalho para um consentimento ausente. Quando autorizado, a primeira versão deve ter
 no máximo um lembrete útil e um convite curto, respeitando:
@@ -202,7 +208,7 @@ Cada lead deve mostrar:
 - material solicitado e tema de interesse;
 - primeiro e último toque;
 - origem, campanha e landing;
-- consentimento de e-mail e SMS;
+- consentimento de e-mail, WhatsApp e SMS;
 - eventos de download e CTA de produto;
 - estágio, responsável e próxima ação;
 - motivo de pausa ou supressão.
