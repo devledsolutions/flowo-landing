@@ -20,9 +20,9 @@ dados ficam em traits de pessoa e nunca são copiados para propriedades de
 eventos.
 
 O aceite necessário para responder a uma solicitação é separado dos opt-ins
-opcionais de e-mail e SMS marketing. Os dois canais têm consentimentos
-independentes: aceitar e-mail não autoriza SMS, e vice-versa. Downloads e
-pedidos de contato continuam funcionando sem qualquer opt-in de marketing.
+opcionais de e-mail, WhatsApp e SMS marketing. Os três canais têm consentimentos
+independentes: aceitar um canal não autoriza os demais. Downloads e pedidos de
+contato continuam funcionando sem qualquer opt-in de marketing.
 
 O plano gratuito do Segment inclui até 1.000 visitantes mensais, duas fontes e
 distribuição para destinos, mas não substitui uma ferramenta de campanhas nem
@@ -226,9 +226,14 @@ SMSDev. Essa fila não usa campanhas, franquias ou cobrança de mensagens dos
 tenants. Ela respeita janela de envio, limite diário, resposta `SAIR`,
 supressão, DLR e pausa comercial.
 
+Com opt-in explícito de WhatsApp e telefone brasileiro válido, o Convex pode
+inscrever o lead na jornada comercial aprovada para o número oficial da Flowo.
+Esse consentimento não é necessário para responder a uma mensagem iniciada pela
+própria pessoa dentro da janela de atendimento, e não autoriza e-mail ou SMS.
+
 Falha de sincronização ou de entrega nunca pode fazer a Flowo perder o lead,
 impedir download/entrada na lista ou transformar consentimento de um canal em
-consentimento do outro.
+consentimento de outro.
 Turnstile é uma camada adicional quando
 `NEXT_PUBLIC_TURNSTILE_SITE_KEY` e `TURNSTILE_SECRET_KEY` estiverem configuradas;
 honeypot e limites distribuídos permanecem ativos no caminho principal.

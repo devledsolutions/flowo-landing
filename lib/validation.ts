@@ -28,6 +28,7 @@ export const leadCaptureSchema = z.object({
   consent: z.literal(true),
   emailMarketingConsent: z.boolean().optional(),
   smsMarketingConsent: z.boolean().optional(),
+  whatsappMarketingConsent: z.boolean().optional(),
   // Backward-compatible while older cached clients finish rolling over.
   marketingConsent: z.boolean().optional(),
   landingPath: z.string().trim().max(300).optional().or(z.literal("")),

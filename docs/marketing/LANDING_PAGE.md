@@ -64,7 +64,7 @@ O acrônimo é um recurso editorial do material, não uma tecnologia proprietár
 - Plano de ação.
 
 **Preço:** material disponibilizado sem cobrança. E-mail é necessário para a entrega; consentimentos
-de marketing são opcionais.
+de marketing por e-mail, WhatsApp e SMS são opcionais e independentes.
 
 ### 7. Proof Section
 
@@ -101,7 +101,7 @@ Não existe garantia de resultado. A promessa é editorial e verificável:
 ### 11. FAQ
 
 - **É gratuito?** Não há cobrança pelo material. O produto Flowo possui assinatura paga.
-- **Preciso informar telefone?** Não. Telefone e consentimento de SMS são opcionais.
+- **Preciso informar telefone?** Não. Telefone e consentimentos de WhatsApp e SMS são opcionais.
 - **Receberei outros e-mails?** Somente se selecionar o consentimento de marketing.
 - **Serve para barbeiro solo?** Sim. O material possui um caminho para operação individual.
 - **O download chega quando?** A página de obrigado libera o arquivo e o e-mail envia uma cópia

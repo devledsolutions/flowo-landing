@@ -40,6 +40,7 @@ type CaptureWebsiteLeadArgs = {
   consent: true;
   emailMarketingConsent?: boolean;
   smsMarketingConsent?: boolean;
+  whatsappMarketingConsent?: boolean;
   marketingConsent?: boolean;
   advertisingConsent?: boolean;
   advertisingConsentVersion?: string;
@@ -167,6 +168,7 @@ export async function POST(request: Request) {
       consent,
       emailMarketingConsent,
       smsMarketingConsent,
+      whatsappMarketingConsent,
       marketingConsent,
       landingPath = "",
       referrer = "",
@@ -256,6 +258,7 @@ export async function POST(request: Request) {
       emailMarketingConsent:
         emailMarketingConsent ?? marketingConsent ?? false,
       smsMarketingConsent,
+      whatsappMarketingConsent,
       advertisingConsent: advertisingConsent.value,
       advertisingConsentVersion: advertisingConsent.version,
       metaEventId,

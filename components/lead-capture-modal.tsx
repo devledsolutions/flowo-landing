@@ -65,6 +65,7 @@ export function LeadCaptureModal({
   const [turnstileToken, setTurnstileToken] = useState("");
   const [emailMarketingConsent, setEmailMarketingConsent] = useState(false);
   const [smsMarketingConsent, setSmsMarketingConsent] = useState(false);
+  const [whatsappMarketingConsent, setWhatsappMarketingConsent] = useState(false);
   const [countryCode, setCountryCode] = useState<FlagIconCode>("BR");
   const [dialCode, setDialCode] = useState("+55");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -109,6 +110,8 @@ export function LeadCaptureModal({
           consent: true,
           emailMarketingConsent: Boolean(email) && emailMarketingConsent,
           smsMarketingConsent: countryCode === "BR" && smsMarketingConsent,
+          whatsappMarketingConsent:
+            countryCode === "BR" && whatsappMarketingConsent,
           ...getAcquisitionContext(),
           segmentAnonymousId: getAnonymousId(),
           turnstileToken,
@@ -159,12 +162,16 @@ export function LeadCaptureModal({
         lead_source: source,
         email_marketing_opt_in: Boolean(email) && emailMarketingConsent,
         sms_marketing_opt_in: countryCode === "BR" && smsMarketingConsent,
+        whatsapp_marketing_opt_in:
+          countryCode === "BR" && whatsappMarketingConsent,
       });
       track("Lead Form Succeeded", {
         form: "sales_contact",
         source,
         email_marketing_opt_in: Boolean(email) && emailMarketingConsent,
         sms_marketing_opt_in: countryCode === "BR" && smsMarketingConsent,
+        whatsapp_marketing_opt_in:
+          countryCode === "BR" && whatsappMarketingConsent,
       });
 
       Sentry.addBreadcrumb({
@@ -216,6 +223,7 @@ export function LeadCaptureModal({
     setTurnstileToken("");
     setEmailMarketingConsent(false);
     setSmsMarketingConsent(false);
+    setWhatsappMarketingConsent(false);
     setCountryCode("BR");
     setDialCode("+55");
     setIsSuccess(false);
@@ -234,7 +242,10 @@ export function LeadCaptureModal({
     const [code, dial] = value.split(":");
     setCountryCode(code as FlagIconCode);
     setDialCode(dial);
-    if (code !== "BR") setSmsMarketingConsent(false);
+    if (code !== "BR") {
+      setSmsMarketingConsent(false);
+      setWhatsappMarketingConsent(false);
+    }
   };
 
   const handleWhatsAppChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -452,6 +463,22 @@ export function LeadCaptureModal({
                     Flowo. Posso cancelar quando quiser.
                   </span>
                 </label>
+                {countryCode === "BR" && (
+                  <label className="flex items-start gap-2 text-xs leading-5 text-muted-ink">
+                    <input
+                      type="checkbox"
+                      checked={whatsappMarketingConsent}
+                      onChange={(event) =>
+                        setWhatsappMarketingConsent(event.target.checked)
+                      }
+                      className="mt-0.5 h-4 w-4 shrink-0 accent-ink"
+                    />
+                    <span>
+                      Quero receber pelo WhatsApp dicas práticas, novidades e
+                      convites da Flowo. Posso responder SAIR quando quiser.
+                    </span>
+                  </label>
+                )}
                 {countryCode === "BR" && (
                   <label className="flex items-start gap-2 text-xs leading-5 text-muted-ink">
                     <input

@@ -78,6 +78,7 @@ export function LeadMagnetForm({
   const [deliveryConsent, setDeliveryConsent] = useState(false);
   const [emailMarketingConsent, setEmailMarketingConsent] = useState(false);
   const [smsMarketingConsent, setSmsMarketingConsent] = useState(false);
+  const [whatsappMarketingConsent, setWhatsappMarketingConsent] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState("");
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">(
     "idle"
@@ -122,6 +123,8 @@ export function LeadMagnetForm({
       has_phone: Boolean(normalizedPhone),
       email_marketing_opt_in: emailMarketingConsent,
       sms_marketing_opt_in: Boolean(normalizedPhone) && smsMarketingConsent,
+      whatsapp_marketing_opt_in:
+        Boolean(normalizedPhone) && whatsappMarketingConsent,
     });
 
     try {
@@ -138,6 +141,8 @@ export function LeadMagnetForm({
           consent: deliveryConsent,
           emailMarketingConsent,
           smsMarketingConsent: Boolean(normalizedPhone) && smsMarketingConsent,
+          whatsappMarketingConsent:
+            Boolean(normalizedPhone) && whatsappMarketingConsent,
           ...getAcquisitionContext(),
           segmentAnonymousId: getAnonymousId(),
           turnstileToken,
@@ -169,6 +174,8 @@ export function LeadMagnetForm({
         requested_resource: resourceId,
         email_marketing_opt_in: emailMarketingConsent,
         sms_marketing_opt_in: Boolean(normalizedPhone) && smsMarketingConsent,
+        whatsapp_marketing_opt_in:
+          Boolean(normalizedPhone) && whatsappMarketingConsent,
       });
       trackLeadRemarketing({
         eventId: data.metaEventId,
@@ -179,11 +186,17 @@ export function LeadMagnetForm({
         resource_id: resourceId,
         delivery_method: "page_and_email",
       });
-      if (emailMarketingConsent || (normalizedPhone && smsMarketingConsent)) {
+      if (
+        emailMarketingConsent ||
+        (normalizedPhone &&
+          (smsMarketingConsent || whatsappMarketingConsent))
+      ) {
         track("Lead Magnet Nurture Started", {
           resource_id: resourceId,
           email_opt_in: emailMarketingConsent,
           sms_opt_in: Boolean(normalizedPhone) && smsMarketingConsent,
+          whatsapp_opt_in:
+            Boolean(normalizedPhone) && whatsappMarketingConsent,
         });
       }
       setStatus("success");
@@ -331,6 +344,21 @@ export function LeadMagnetForm({
       {phone ? (
         <label className={styles.consent}>
           <input
+            checked={whatsappMarketingConsent}
+            onChange={(event) =>
+              setWhatsappMarketingConsent(event.target.checked)
+            }
+            type="checkbox"
+          />
+          <span>
+            Quero receber pelo WhatsApp dicas práticas, novidades e convites da
+            Flowo. Posso responder SAIR quando quiser.
+          </span>
+        </label>
+      ) : null}
+      {phone ? (
+        <label className={styles.consent}>
+          <input
             checked={smsMarketingConsent}
             onChange={(event) => setSmsMarketingConsent(event.target.checked)}
             type="checkbox"
@@ -367,8 +395,8 @@ export function LeadMagnetForm({
         )}
       </button>
       <p>
-        Você recebe o PDF mesmo sem aceitar e-mail ou SMS de marketing. Se
-        aceitar, pode cancelar quando quiser.
+        Você recebe o PDF mesmo sem aceitar marketing por e-mail, WhatsApp ou
+        SMS. Se aceitar, pode cancelar quando quiser.
       </p>
     </form>
   );
