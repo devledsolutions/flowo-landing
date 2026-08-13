@@ -234,11 +234,12 @@ export function AgendaReadinessDiagnostic() {
               Diagnóstico gratuito · 5 perguntas · resultado imediato
             </p>
             <h1 className="mt-6 max-w-[13ch] text-[clamp(2.7rem,1.9rem+3vw,4.6rem)] font-semibold leading-[1.01] tracking-[-0.045em] text-ink-strong">
-              Sua agenda segue regras — ou ainda depende de você?
+              Você ainda para o corte para responder o WhatsApp?
             </h1>
             <p className="mt-6 max-w-xl text-lead text-muted-ink">
-              Descubra quanto a rotina depende de você e qual mudança vem
-              primeiro. Sem cadastro para ver o resultado.
+              Responda 5 perguntas e descubra qual parte da rotina ainda
+              depende de resposta manual. Veja o resultado na hora, sem
+              cadastro.
             </p>
             <ul className="mt-8 hidden divide-y divide-line border-y border-line sm:block">
               {[
