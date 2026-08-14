@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 const professionals = [
   {
     name: "Rafael",
-    hours: "08:00 — 17:00",
+    hours: "08:00 - 17:00",
     appointments: [
       { time: "09:00", name: "Bruno", service: "Corte" },
       { time: "10:30", name: "Marcos", service: "Corte", highlighted: true },
@@ -13,7 +13,7 @@ const professionals = [
   },
   {
     name: "Pedro",
-    hours: "09:00 — 18:30",
+    hours: "09:00 - 18:30",
     appointments: [
       { time: "09:30", name: "Felipe", service: "Corte + barba" },
       { time: "11:00", name: "Gustavo", service: "Corte" },
@@ -22,7 +22,7 @@ const professionals = [
   },
   {
     name: "Júlia",
-    hours: "10:00 — 19:00",
+    hours: "10:00 - 19:00",
     appointments: [
       { time: "10:00", name: "Camila", service: "Escova" },
       { time: "13:30", name: "Larissa", service: "Corte" },
@@ -40,7 +40,7 @@ function BrowserBar({ path }: { path: string }) {
         <span className="h-2 w-2 rounded-full bg-[#5bbf74]" />
       </div>
       <div className="mx-auto flex h-4 w-[58%] items-center justify-center rounded-md border border-line bg-surface px-2 text-[6px] text-muted-ink sm:h-5 sm:text-[8px]">
-        app.flowo.com.br/{path}
+        barber.flowo.com.br/{path}
       </div>
       <span className="w-7" aria-hidden="true" />
     </div>
@@ -152,7 +152,7 @@ export function ConversationPreview({ className }: { className?: string }) {
             Barbearia Central
           </p>
           <p className="text-[7px] text-green-100 sm:text-[8px]">
-            atendimento automatizado
+            atendimento com IA
           </p>
         </div>
       </div>
