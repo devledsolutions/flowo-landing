@@ -108,6 +108,7 @@ export function LeadCaptureModal({
           company,
           source,
           consent: true,
+          salesContactRequestChannels: ["whatsapp"],
           emailMarketingConsent: Boolean(email) && emailMarketingConsent,
           smsMarketingConsent: countryCode === "BR" && smsMarketingConsent,
           whatsappMarketingConsent:
@@ -168,6 +169,7 @@ export function LeadCaptureModal({
       track("Lead Form Succeeded", {
         form: "sales_contact",
         source,
+        response_channel: "whatsapp",
         email_marketing_opt_in: Boolean(email) && emailMarketingConsent,
         sms_marketing_opt_in: countryCode === "BR" && smsMarketingConsent,
         whatsapp_marketing_opt_in:

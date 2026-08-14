@@ -38,6 +38,8 @@ type CaptureWebsiteLeadArgs = {
   ctwaClid?: string;
   segmentAnonymousId?: string;
   consent: true;
+  salesContactRequestChannels?: Array<"email" | "phone" | "whatsapp">;
+  salesContactRequestMessage?: string;
   emailMarketingConsent?: boolean;
   smsMarketingConsent?: boolean;
   whatsappMarketingConsent?: boolean;
@@ -166,6 +168,8 @@ export async function POST(request: Request) {
       requestedResource = "",
       company = "",
       consent,
+      salesContactRequestChannels,
+      salesContactRequestMessage = "",
       emailMarketingConsent,
       smsMarketingConsent,
       whatsappMarketingConsent,
@@ -255,6 +259,8 @@ export async function POST(request: Request) {
       ctwaClid: optional(ctwaClid),
       segmentAnonymousId: optional(segmentAnonymousId),
       consent,
+      salesContactRequestChannels,
+      salesContactRequestMessage: optional(salesContactRequestMessage),
       emailMarketingConsent:
         emailMarketingConsent ?? marketingConsent ?? false,
       smsMarketingConsent,
