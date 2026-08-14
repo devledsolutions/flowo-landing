@@ -12,7 +12,11 @@ import {
   ShieldCheck,
   Users,
 } from "lucide-react";
-import { AgendaPreview, ProductDisclaimer } from "@/components/home/product-previews";
+import {
+  AgendaPreview,
+  ConversationPreview,
+  ProductDisclaimer,
+} from "@/components/home/product-previews";
 import { LeadMagnetForm } from "@/components/marketing/lead-magnet-form";
 import { useSegment } from "@/providers/segment-provider";
 
@@ -35,7 +39,7 @@ const questions: readonly DiagnosticQuestion[] = [
     question: "Quem responde o WhatsApp enquanto a equipe está atendendo?",
     context: "Pense principalmente nos horários de maior movimento.",
     weakPoint:
-      "Quem responde o WhatsApp — hoje a recepção divide a mão com o corte.",
+      "Quem responde o WhatsApp: hoje a recepção divide a mão com o corte.",
     options: [
       { label: "Ninguém. A gente vê quando sobra tempo.", score: 0 },
       { label: "Um barbeiro responde entre um corte e outro.", score: 1 },
@@ -47,7 +51,7 @@ const questions: readonly DiagnosticQuestion[] = [
     question: "Como o cliente descobre quais horários estão livres?",
     context: "Considere o caminho mais comum, não a exceção.",
     weakPoint:
-      "Como o cliente descobre horário — ele precisa de você para saber o que está livre.",
+      "Como o cliente descobre horário: ele precisa de você para saber o que está livre.",
     options: [
       { label: "Pergunta no WhatsApp e alguém confere.", score: 0 },
       { label: "Parte consulta sozinha; parte ainda pergunta.", score: 1 },
@@ -59,7 +63,7 @@ const questions: readonly DiagnosticQuestion[] = [
     question: "O que acontece antes de um horário que pode virar falta?",
     context: "Escolha o processo que realmente acontece hoje.",
     weakPoint:
-      "O que acontece na falta — sem confirmação, o horário vazio não volta para a grade.",
+      "O que acontece na falta: sem confirmação, o horário vazio não volta para a grade.",
     options: [
       { label: "Nada. Só descobrimos quando o cliente não vem.", score: 0 },
       { label: "A equipe confirma quando lembra ou quando dá tempo.", score: 1 },
@@ -71,7 +75,7 @@ const questions: readonly DiagnosticQuestion[] = [
     question: "Onde ficam folgas, almoço e bloqueios de cada barbeiro?",
     context: "Vale o lugar usado para decidir se um horário pode ser oferecido.",
     weakPoint:
-      "Onde ficam folgas e bloqueios — informação que não está no sistema não pode virar regra.",
+      "Onde ficam folgas e bloqueios: informação que não está no sistema não pode virar regra.",
     options: [
       { label: "Na cabeça da equipe.", score: 0 },
       { label: "Em papel, planilha ou grupo de mensagens.", score: 1 },
@@ -83,7 +87,7 @@ const questions: readonly DiagnosticQuestion[] = [
     question: "Quem decide um encaixe de última hora?",
     context: "Pense no que acontece quando o sábado já está cheio.",
     weakPoint:
-      "Quem decide o encaixe — cada exceção volta para a sua mesa.",
+      "Quem decide o encaixe: cada exceção volta para a sua mesa.",
     options: [
       { label: "Quem vê a mensagem primeiro.", score: 0 },
       { label: "O dono ou gerente precisa aprovar.", score: 1 },
@@ -265,7 +269,7 @@ export function AgendaReadinessDiagnostic() {
                 band={band}
                 weakPoint={
                   score === 100
-                    ? "Próximo ponto de evolução — automatizar uma rotina por vez e acompanhar o resultado."
+                    ? "Próximo ponto de evolução: automatizar uma rotina por vez e acompanhar o resultado."
                     : weakestQuestion.weakPoint
                 }
                 headingRef={resultHeadingRef}
@@ -397,23 +401,40 @@ export function AgendaReadinessDiagnostic() {
               Do diagnóstico para a rotina
             </p>
             <h2 className="mt-5 max-w-[15ch] text-h2 font-semibold tracking-[-0.03em] text-ink-strong">
-              Regra boa é a que a agenda consegue aplicar sem adivinhar.
+              Cada barbeiro tem seus horários.
             </h2>
             <p className="mt-5 max-w-xl text-lead text-muted-ink">
-              Na Flowo, dias, turnos, folgas, serviços e durações ficam
-              separados por profissional. A recepção com IA consulta essa
-              disponibilidade antes de oferecer um horário.
+              Configure dias, turnos, folgas, serviços e duração por
+              profissional. Quando o cliente chama no WhatsApp, a IA confere
+              a disponibilidade antes de responder.
             </p>
             <Link
               href="/recepcionista-ia-barbearia"
               className="mt-8 inline-flex min-h-12 items-center gap-2 rounded-full bg-ink px-6 text-sm font-semibold text-cream transition-colors hover:bg-ink/90"
             >
-              Ver como a Flowo aplica as regras
+              Ver a Flowo no WhatsApp
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
           </div>
           <div>
-            <AgendaPreview detailed />
+            <div className="preview-light overflow-hidden rounded-xl border border-line bg-surface-2 p-4 sm:p-6">
+              <div className="border-b border-line pb-4">
+                <p className="text-caption font-semibold text-muted-ink">
+                  Demonstração do fluxo · dados ilustrativos
+                </p>
+                <p className="mt-2 max-w-[34ch] text-sm font-semibold leading-snug text-ink">
+                  WhatsApp, horários válidos e agenda no mesmo fluxo.
+                </p>
+              </div>
+
+              <div className="mt-5 grid gap-4 sm:relative sm:min-h-[31rem] sm:block">
+                <AgendaPreview
+                  detailed
+                  className="sm:absolute sm:left-16 sm:right-[-3rem] sm:top-0 sm:rotate-[0.7deg]"
+                />
+                <ConversationPreview className="sm:absolute sm:bottom-0 sm:left-0 sm:w-[48%] sm:max-w-[18rem] sm:rotate-[-1.2deg]" />
+              </div>
+            </div>
             <ProductDisclaimer className="mt-4" />
           </div>
         </div>
