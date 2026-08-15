@@ -121,7 +121,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
       {
         criterion: "Modelo comercial publicado",
         flowo:
-          "Planos de R$ 249, R$ 549 e R$ 1.049 por mês; contratação paga desde o primeiro dia e sem fidelidade.",
+          "Planos Solo de R$ 249 e Equipe de R$ 549 por mês; Empresarial sob consulta, com contratação assistida e sem fidelidade.",
         competitor:
           "Preço mensal a partir de R$ 79,90 para um profissional e teste grátis de 30 dias, conforme a página oficial.",
       },
@@ -222,7 +222,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
       {
         criterion: "Modelo comercial publicado",
         flowo:
-          "Planos públicos de R$ 249, R$ 549 e R$ 1.049/mês, sem período de teste e sem fidelidade.",
+          "Planos públicos Solo de R$ 249 e Equipe de R$ 549/mês; Empresarial sob consulta, sem período de teste e sem fidelidade.",
         competitor:
           "Valor anual publicado a partir de R$ 76/mês para 1 a 2 profissionais, teste de 5 dias e recursos adicionais.",
       },
@@ -329,7 +329,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
       {
         criterion: "Modelo comercial publicado",
         flowo:
-          "R$ 249, R$ 549 e R$ 1.049/mês, sem teste grátis e sem fidelidade; IA no WhatsApp incluída.",
+          "Solo por R$ 249 e Equipe por R$ 549/mês; Empresarial sob consulta, sem teste grátis e sem fidelidade; IA no WhatsApp incluída.",
         competitor:
           "Plano básico gratuito e App Exclusivo a partir de R$ 299/mês; app personalizado leva prazo de publicação nas lojas.",
       },
@@ -436,7 +436,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
       {
         criterion: "Modelo comercial publicado",
         flowo:
-          "R$ 249, R$ 549 e R$ 1.049/mês, sem teste grátis; IA no WhatsApp incluída.",
+          "Solo por R$ 249 e Equipe por R$ 549/mês; Empresarial sob consulta, sem teste grátis; IA no WhatsApp incluída.",
         competitor:
           "Plano gratuito, Pro a partir de R$ 59,90/mês e Enterprise a partir de R$ 139,90/mês para 1 a 2 profissionais; complementos variam por plano.",
       },
@@ -543,7 +543,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
       {
         criterion: "Modelo comercial publicado",
         flowo:
-          "R$ 249, R$ 549 e R$ 1.049/mês; sem teste e sem fidelidade.",
+          "Solo por R$ 249 e Equipe por R$ 549/mês; Empresarial sob consulta, sem teste e sem fidelidade.",
         competitor:
           "R$ 88,90/mês para 1 a 2 profissionais na opção anual; outras faixas sob consulta e diversos recursos adicionais.",
       },
@@ -650,7 +650,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
       {
         criterion: "Modelo comercial publicado",
         flowo:
-          "R$ 249, R$ 549 e R$ 1.049/mês; IA de recepção incluída.",
+          "Solo por R$ 249 e Equipe por R$ 549/mês; Empresarial sob consulta; IA de recepção incluída.",
         competitor:
           "Mensal a partir de R$ 94,90 para até três profissionais e anual a partir de R$ 79,90/mês, com módulos adicionais.",
       },
@@ -719,7 +719,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
       { criterion: "Preço", flowo: "Público, desde R$ 249", competitor: "Sob proposta" },
     ],
     priceSummary:
-      "O Flowo publica planos de R$ 249, R$ 549 e R$ 1.049 por mês, sem teste grátis. O Barva oferece sete dias de teste e monta uma proposta conforme número de profissionais e módulos; não publica um preço final único na página consultada.",
+      "O Flowo publica Solo por R$ 249 e Equipe por R$ 549 por mês; o Empresarial é sob consulta e não há teste grátis. O Barva oferece sete dias de teste e monta uma proposta conforme número de profissionais e módulos; não publica um preço final único na página consultada.",
     keyDifferences: [
       "A recepção com IA no WhatsApp está incluída nos três planos Flowo.",
       "No Barva, a gestão completa é obrigatória e as IAs de atendimento e recuperação são módulos opcionais.",
@@ -757,7 +757,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
       {
         criterion: "Modelo comercial publicado",
         flowo:
-          "R$ 249, R$ 549 e R$ 1.049/mês; IA incluída, sem fidelidade e sem teste grátis.",
+          "Solo por R$ 249 e Equipe por R$ 549/mês; Empresarial sob consulta, com IA incluída, sem fidelidade e sem teste grátis.",
         competitor:
           "Preço sob proposta conforme profissionais e módulos; gestão-base obrigatória e IAs opcionais.",
       },
@@ -858,7 +858,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
       {
         criterion: "Modelo comercial publicado",
         flowo:
-          "R$ 249, R$ 549 e R$ 1.049/mês, sem teste grátis e sem fidelidade.",
+          "Solo por R$ 249 e Equipe por R$ 549/mês; Empresarial sob consulta, sem teste grátis e sem fidelidade.",
         competitor:
           "Planos de R$ 59, R$ 99, R$ 179 e R$ 299/mês, teste de sete dias e extras de capacidade publicados.",
       },

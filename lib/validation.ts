@@ -25,6 +25,14 @@ export const leadCaptureSchema = z.object({
   source: z.string().trim().min(1).max(120),
   requestedResource: z.string().trim().max(120).optional().or(z.literal("")),
   company: z.string().trim().max(200).optional().or(z.literal("")),
+  businessName: z.string().trim().max(160).optional().or(z.literal("")),
+  professionalsCount: z.number().int().positive().max(10_000).optional(),
+  unitsCount: z.number().int().positive().max(10_000).optional(),
+  purchaseTimeline: z
+    .enum(["now", "quarter", "planning"])
+    .optional(),
+  experimentKey: z.string().trim().max(80).optional().or(z.literal("")),
+  experimentVariant: z.string().trim().max(80).optional().or(z.literal("")),
   consent: z.literal(true),
   salesContactRequestChannels: z
     .array(z.enum(["email", "phone", "whatsapp"]))

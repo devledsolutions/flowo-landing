@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PLANS, type BillingCycle } from "@/data/pricing-data";
-import { PricingCard } from "./pricing-card";
+import { ENTERPRISE_EXPERIMENT_KEY, PricingCard } from "./pricing-card";
 import { PricingHeader } from "./pricing-header";
 import { PricingToggle } from "./pricing-toggle";
 import { TrustSignals } from "./trust-signals";
 import styles from "./pricing.module.css";
+import { useWebsiteExperiment } from "@/hooks/use-website-experiment";
+import { useSegment } from "@/providers/segment-provider";
 
 interface PricingSectionProps {
   /** Renders the /precos page header (the route's single h1). */
@@ -24,6 +26,18 @@ export function PricingSection({
   showTrustSignals = false,
 }: PricingSectionProps) {
   const [cycle, setCycle] = useState<BillingCycle>("monthly");
+  const { track } = useSegment();
+  const experimentVariant = useWebsiteExperiment(ENTERPRISE_EXPERIMENT_KEY);
+
+  useEffect(() => {
+    if (!experimentVariant) return;
+    track("Enterprise Offer Viewed", {
+      page: "/precos",
+      placement: "pricing_card_empresarial",
+      experiment_key: ENTERPRISE_EXPERIMENT_KEY,
+      experiment_variant: experimentVariant,
+    });
+  }, [experimentVariant, track]);
 
   return (
     <div>
@@ -43,7 +57,13 @@ export function PricingSection({
             className={`${styles.rise} h-full`}
             style={{ animationDelay: `${index * 110}ms` }}
           >
-            <PricingCard plan={plan} cycle={cycle} />
+            <PricingCard
+              plan={plan}
+              cycle={cycle}
+              experimentVariant={
+                plan.id === "empresarial" ? experimentVariant : undefined
+              }
+            />
           </div>
         ))}
       </div>

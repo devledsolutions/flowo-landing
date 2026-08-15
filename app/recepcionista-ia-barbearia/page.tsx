@@ -1,6 +1,6 @@
 import { SalesCampaignPage } from "@/components/marketing/sales-campaign-page";
 import { InstitutionalFilmSchema } from "@/components/marketing/institutional-film";
-import { PLANS } from "@/data/pricing-data";
+import { hasPublishedPrice, PLANS } from "@/data/pricing-data";
 import { buildMetadata, absoluteUrl } from "@/lib/seo";
 
 const PAGE_PATH = "/recepcionista-ia-barbearia";
@@ -74,7 +74,7 @@ export default function RecepcionistaIaBarbeariaPage() {
         url: absoluteUrl(PAGE_PATH),
         description:
           "Sistema para barbearias com recepção por inteligência artificial no WhatsApp, agenda por barbeiro, comandas e pagamentos opcionais.",
-        offers: PLANS.map((plan) => ({
+        offers: PLANS.filter(hasPublishedPrice).map((plan) => ({
           "@type": "Offer",
           name: `Plano ${plan.name}`,
           price: plan.monthly,

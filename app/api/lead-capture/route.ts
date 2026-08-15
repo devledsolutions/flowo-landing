@@ -19,6 +19,12 @@ type CaptureWebsiteLeadArgs = {
   email?: string;
   phone?: string;
   source: string;
+  businessName?: string;
+  professionalsCount?: number;
+  unitsCount?: number;
+  purchaseTimeline?: "now" | "quarter" | "planning";
+  experimentKey?: string;
+  experimentVariant?: string;
   requestedResource?: string;
   landingPath: string;
   referrer?: string;
@@ -165,6 +171,12 @@ export async function POST(request: Request) {
       email,
       whatsapp,
       source = "",
+      businessName = "",
+      professionalsCount,
+      unitsCount,
+      purchaseTimeline,
+      experimentKey = "",
+      experimentVariant = "",
       requestedResource = "",
       company = "",
       consent,
@@ -240,6 +252,12 @@ export async function POST(request: Request) {
       email: optional(email),
       phone: optional(whatsapp),
       source,
+      businessName: optional(businessName),
+      professionalsCount,
+      unitsCount,
+      purchaseTimeline,
+      experimentKey: optional(experimentKey),
+      experimentVariant: optional(experimentVariant),
       requestedResource: optional(requestedResource),
       landingPath: landingPath || refererHeader || "/",
       referrer: optional(referrer),

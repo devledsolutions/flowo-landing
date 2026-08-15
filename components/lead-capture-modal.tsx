@@ -45,10 +45,16 @@ export function LeadCaptureModal({
   children,
   initiallyOpen = false,
   source = "lead-capture-modal",
+  intent = "general",
+  experimentKey,
+  experimentVariant,
 }: {
   children: React.ReactNode;
   initiallyOpen?: boolean;
   source?: string;
+  intent?: "general" | "enterprise";
+  experimentKey?: string;
+  experimentVariant?: string | null;
 }) {
   const trackLeadRemarketing = useLeadRemarketing();
   const {
@@ -61,7 +67,11 @@ export function LeadCaptureModal({
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
-  const [company, setCompany] = useState("");
+  const [honeypot, setHoneypot] = useState("");
+  const [businessName, setBusinessName] = useState("");
+  const [professionalsCount, setProfessionalsCount] = useState("");
+  const [unitsCount, setUnitsCount] = useState("");
+  const [purchaseTimeline, setPurchaseTimeline] = useState("");
   const [turnstileToken, setTurnstileToken] = useState("");
   const [emailMarketingConsent, setEmailMarketingConsent] = useState(false);
   const [smsMarketingConsent, setSmsMarketingConsent] = useState(false);
@@ -81,6 +91,9 @@ export function LeadCaptureModal({
     track("Lead Form Submitted", {
       form: "sales_contact",
       source,
+      intent,
+      experiment_key: experimentKey,
+      experiment_variant: experimentVariant,
     });
 
     Sentry.addBreadcrumb({
@@ -105,7 +118,15 @@ export function LeadCaptureModal({
           name,
           email,
           whatsapp: `${dialCode}${whatsapp}`,
-          company,
+          company: honeypot,
+          businessName: intent === "enterprise" ? businessName : undefined,
+          professionalsCount:
+            intent === "enterprise" ? Number(professionalsCount) : undefined,
+          unitsCount: intent === "enterprise" ? Number(unitsCount) : undefined,
+          purchaseTimeline:
+            intent === "enterprise" ? purchaseTimeline : undefined,
+          experimentKey,
+          experimentVariant: experimentVariant || undefined,
           source,
           consent: true,
           salesContactRequestChannels: ["whatsapp"],
@@ -169,12 +190,25 @@ export function LeadCaptureModal({
       track("Lead Form Succeeded", {
         form: "sales_contact",
         source,
+        intent,
+        experiment_key: experimentKey,
+        experiment_variant: experimentVariant,
         response_channel: "whatsapp",
         email_marketing_opt_in: Boolean(email) && emailMarketingConsent,
         sms_marketing_opt_in: countryCode === "BR" && smsMarketingConsent,
         whatsapp_marketing_opt_in:
           countryCode === "BR" && whatsappMarketingConsent,
       });
+      if (intent === "enterprise") {
+        track("Enterprise Lead Submitted", {
+          source,
+          experiment_key: experimentKey,
+          experiment_variant: experimentVariant,
+          professionals_range: professionalsCount,
+          units_range: unitsCount,
+          purchase_timeline: purchaseTimeline,
+        });
+      }
 
       Sentry.addBreadcrumb({
         category: "lead-capture-modal",
@@ -221,7 +255,11 @@ export function LeadCaptureModal({
     setName("");
     setEmail("");
     setWhatsapp("");
-    setCompany("");
+    setHoneypot("");
+    setBusinessName("");
+    setProfessionalsCount("");
+    setUnitsCount("");
+    setPurchaseTimeline("");
     setTurnstileToken("");
     setEmailMarketingConsent(false);
     setSmsMarketingConsent(false);
@@ -263,7 +301,22 @@ export function LeadCaptureModal({
           track("Lead Form Opened", {
             form: "sales_contact",
             source,
+            intent,
+            experiment_key: experimentKey,
+            experiment_variant: experimentVariant,
           });
+          if (intent === "enterprise") {
+            track("Enterprise CTA Clicked", {
+              source,
+              experiment_key: experimentKey,
+              experiment_variant: experimentVariant,
+            });
+            track("Enterprise Form Started", {
+              source,
+              experiment_key: experimentKey,
+              experiment_variant: experimentVariant,
+            });
+          }
         }}
       >
         {children}
@@ -280,8 +333,9 @@ export function LeadCaptureModal({
                   Recebemos seu contato!
                 </DialogTitle>
                 <DialogDescription className="text-body text-muted-ink sm:text-center">
-                  Obrigado, {name.split(" ")[0]}! Nossa equipe vai te chamar no
-                  WhatsApp em breve para mostrar o Flowo funcionando.
+                  {intent === "enterprise"
+                    ? `Obrigado, ${name.split(" ")[0]}! Um especialista da Flowo vai analisar sua operação e entrar em contato em até um dia útil.`
+                    : `Obrigado, ${name.split(" ")[0]}! Nossa equipe vai te chamar no WhatsApp para mostrar o Flowo funcionando.`}
                 </DialogDescription>
               </DialogHeader>
               <div className="mt-6 space-y-3">
@@ -336,24 +390,38 @@ export function LeadCaptureModal({
             <>
               <DialogHeader>
                 <DialogTitle className="text-h3 font-semibold">
-                  Fale com a gente
+                  {intent === "enterprise" ? "Planeje sua operação com a Flowo" : "Fale com a gente"}
                 </DialogTitle>
                 <DialogDescription className="text-body text-muted-ink">
-                  Deixe seu contato e nossa equipe te chama no WhatsApp para
-                  mostrar o Flowo funcionando na sua barbearia.
+                  {intent === "enterprise"
+                    ? "Conte o tamanho da sua operação. Nossa equipe prepara uma conversa sobre implantação, integrações e condições comerciais."
+                    : "Deixe seu contato e nossa equipe te chama no WhatsApp para mostrar o Flowo funcionando na sua barbearia."}
                 </DialogDescription>
               </DialogHeader>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <input
                   type="text"
                   name="company"
-                  value={company}
-                  onChange={(e) => setCompany(e.target.value)}
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
                   className="hidden"
                   tabIndex={-1}
                   autoComplete="off"
                   aria-hidden="true"
                 />
+                {intent === "enterprise" ? (
+                  <div className="space-y-1.5">
+                    <Label htmlFor="lead-business-name">Empresa</Label>
+                    <Input
+                      id="lead-business-name"
+                      value={businessName}
+                      autoComplete="organization"
+                      onChange={(event) => setBusinessName(event.target.value)}
+                      placeholder="Nome da rede ou barbearia"
+                      required
+                    />
+                  </div>
+                ) : null}
                 <div className="space-y-1.5">
                   <Label htmlFor="lead-name">Nome</Label>
                   <Input
@@ -364,6 +432,51 @@ export function LeadCaptureModal({
                     required
                   />
                 </div>
+                {intent === "enterprise" ? (
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div className="space-y-1.5">
+                      <Label htmlFor="lead-professionals">Profissionais</Label>
+                      <Select value={professionalsCount} onValueChange={setProfessionalsCount} required>
+                        <SelectTrigger id="lead-professionals">
+                          <SelectValue placeholder="Selecione" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="6">6 a 10</SelectItem>
+                          <SelectItem value="11">11 a 25</SelectItem>
+                          <SelectItem value="26">26 a 50</SelectItem>
+                          <SelectItem value="51">Mais de 50</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="lead-units">Unidades</Label>
+                      <Select value={unitsCount} onValueChange={setUnitsCount} required>
+                        <SelectTrigger id="lead-units">
+                          <SelectValue placeholder="Selecione" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="1">1 unidade, alto volume</SelectItem>
+                          <SelectItem value="2">2 a 3</SelectItem>
+                          <SelectItem value="4">4 a 10</SelectItem>
+                          <SelectItem value="11">Mais de 10</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-1.5 sm:col-span-2">
+                      <Label htmlFor="lead-timeline">Quando pretende começar?</Label>
+                      <Select value={purchaseTimeline} onValueChange={setPurchaseTimeline} required>
+                        <SelectTrigger id="lead-timeline">
+                          <SelectValue placeholder="Selecione" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="now">Agora</SelectItem>
+                          <SelectItem value="quarter">Nos próximos 3 meses</SelectItem>
+                          <SelectItem value="planning">Ainda estou planejando</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                ) : null}
                 <div className="space-y-1.5">
                   <Label htmlFor="lead-email">E-mail (opcional)</Label>
                   <Input

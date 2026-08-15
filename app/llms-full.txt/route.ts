@@ -2,7 +2,7 @@ import {
   COMPARISON_LAST_VERIFIED_LABEL,
   COMPETITOR_COMPARISONS,
 } from "@/data/competitor-comparisons";
-import { PLANS, formatBRL } from "@/data/pricing-data";
+import { PLANS, formatBRL, hasPublishedPrice } from "@/data/pricing-data";
 import { INSTITUTIONAL_FILM } from "@/lib/institutional-film";
 import { SITE_URL } from "@/lib/seo";
 
@@ -12,7 +12,9 @@ const CACHE_HEADER =
 export function GET() {
   const plans = PLANS.map(
     (plan) =>
-      `- ${plan.name}: ${formatBRL(plan.monthly)}/mês. ${plan.description} Recursos principais: ${plan.features.join("; ")}.`,
+      hasPublishedPrice(plan)
+        ? `- ${plan.name}: ${formatBRL(plan.monthly)}/mês. ${plan.description} Recursos principais: ${plan.features.join("; ")}.`
+        : `- ${plan.name}: ${plan.consultationLabel}. Contratação e implantação assistidas. ${plan.description} Recursos principais: ${plan.features.join("; ")}.`,
   ).join("\n");
 
   const comparisons = COMPETITOR_COMPARISONS.map((comparison) => {

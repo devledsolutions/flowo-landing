@@ -9,7 +9,7 @@ import {
   RelatedSolutions,
 } from "@/components/marketing/commercial-page";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
-import { PLANS } from "@/data/pricing-data";
+import { getPlan } from "@/data/pricing-data";
 import { FlowoProductProof } from "@/components/marketing/flowo-product-proof";
 
 const PATH = "/flowo-vs-agenda-manual";
@@ -227,7 +227,7 @@ export default function FlowoVsAgendaManualPage() {
         <CommercialCta
           title="Pare de apagar incêndio na agenda."
           description="Automatize agendamento, confirmação e lembrete pelo WhatsApp e deixe a equipe trabalhar com a mesma informação."
-          price={PLANS[0].monthly}
+          price={getPlan("solo").monthly}
         />
       </main>
       <Footer />

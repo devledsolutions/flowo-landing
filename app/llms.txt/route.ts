@@ -3,7 +3,7 @@ import {
   COMPARISON_LAST_VERIFIED_LABEL,
   COMPETITOR_COMPARISONS,
 } from "@/data/competitor-comparisons";
-import { PLANS, ANNUAL_DISCOUNT_LABEL, formatBRL } from "@/data/pricing-data";
+import { PLANS, ANNUAL_DISCOUNT_LABEL, formatBRL, hasPublishedPrice } from "@/data/pricing-data";
 import { INSTITUTIONAL_FILM } from "@/lib/institutional-film";
 import { SITE_URL } from "@/lib/seo";
 
@@ -13,7 +13,9 @@ const CACHE_HEADER =
 export function GET() {
   const planLines = PLANS.map(
     (plan) =>
-      `- ${plan.name}: ${formatBRL(plan.monthly)}/mês (anual ${formatBRL(plan.annualTotal)}, ${ANNUAL_DISCOUNT_LABEL}). ${plan.description}`,
+      hasPublishedPrice(plan)
+        ? `- ${plan.name}: ${formatBRL(plan.monthly)}/mês (anual ${formatBRL(plan.annualTotal)}, ${ANNUAL_DISCOUNT_LABEL}). ${plan.description}`
+        : `- ${plan.name}: ${plan.consultationLabel}. Proposta, cobrança e implantação acompanhadas pela equipe Flowo. ${plan.description}`,
   ).join("\n");
   const guideLines = GUIDES.map(
     (guide) => `- [${guide.title}](${SITE_URL}${guide.path})`,

@@ -13,7 +13,6 @@ interface HelpEntry {
 
 const solo = getPlan("solo");
 const equipe = getPlan("equipe");
-const empresarial = getPlan("empresarial");
 
 const helpEntries: HelpEntry[] = [
   {
@@ -21,9 +20,10 @@ const helpEntries: HelpEntry[] = [
     question: "Quanto custa?",
     answer: (
       <>
-        Solo {formatBRL(solo.monthly)}/mês, Equipe {formatBRL(equipe.monthly)}
-        /mês e Empresarial {formatBRL(empresarial.monthly)}/mês. No plano anual
-        você paga o equivalente a 10 meses, 2 meses grátis.{" "}
+        Solo {formatBRL(solo.monthly)}/mês e Equipe {formatBRL(equipe.monthly)}
+        /mês. O Empresarial é sob consulta, com proposta e implantação
+        acompanhadas. No plano anual dos planos públicos você paga o equivalente
+        a 10 meses, com 2 meses grátis.{" "}
         <Link
           href="/precos"
           className="font-medium text-ink underline underline-offset-2"

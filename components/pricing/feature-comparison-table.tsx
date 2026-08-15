@@ -1,6 +1,6 @@
 import { Check } from "lucide-react";
 import { featureComparison, type FeatureComparisonItem } from "@/data/feature-comparison";
-import { formatBRL, getPlan, type PlanId } from "@/data/pricing-data";
+import { formatBRL, getPlan, hasPublishedPrice, type PlanId } from "@/data/pricing-data";
 import { cn } from "@/lib/utils";
 
 const PLAN_COLUMNS: ReadonlyArray<{ id: PlanId; highlight: boolean }> = [
@@ -90,7 +90,9 @@ export function FeatureComparisonTable() {
                       {plan.name}
                     </span>
                     <span className="mt-0.5 block text-caption font-normal text-muted-ink">
-                      {formatBRL(plan.monthly)}/mês
+                      {hasPublishedPrice(plan)
+                        ? `${formatBRL(plan.monthly)}/mês`
+                        : plan.consultationLabel}
                     </span>
                     {highlight && (
                       <span className="mt-1.5 inline-block rounded-full border border-line px-2 py-0.5 text-caption font-medium text-ink">

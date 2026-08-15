@@ -17,7 +17,7 @@ import {
   RelatedSolutions,
 } from "@/components/marketing/commercial-page";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
-import { PLANS } from "@/data/pricing-data";
+import { getPlan, hasPublishedPrice, PLANS } from "@/data/pricing-data";
 import {
   InstitutionalFilm,
   InstitutionalFilmSchema,
@@ -117,7 +117,7 @@ const faqItems = [
   {
     question: "Quanto custa o sistema?",
     answer:
-      "Os planos mensais são Solo por R$ 249, Equipe por R$ 549 e Empresarial por R$ 1.049. A assinatura começa no primeiro dia, sem período de teste e sem fidelidade.",
+      "Os planos mensais são Solo por R$ 249 e Equipe por R$ 549. O Empresarial é sob consulta, com proposta e implantação acompanhadas. A assinatura começa no primeiro dia, sem período de teste e sem fidelidade.",
   },
 ] as const;
 
@@ -140,7 +140,7 @@ const structuredData = {
       operatingSystem: "Web",
       url: absoluteUrl(PATH),
       featureList: capabilityGroups.flatMap((group) => group.items),
-      offers: PLANS.map((plan) => ({
+      offers: PLANS.filter(hasPublishedPrice).map((plan) => ({
         "@type": "Offer",
         name: `Plano ${plan.name}`,
         price: plan.monthly,
@@ -402,7 +402,7 @@ export default function SchedulingSystemPage() {
         <CommercialCta
           title="Agenda organizada é atendimento que rende."
           description="Deixe a rotina de marcar, confirmar e lembrar com a Flowo. Sua equipe cuida do corte."
-          price={PLANS[0].monthly}
+          price={getPlan("solo").monthly}
         />
       </main>
       <Footer />

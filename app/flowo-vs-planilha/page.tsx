@@ -9,7 +9,7 @@ import {
   RelatedSolutions,
 } from "@/components/marketing/commercial-page";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
-import { PLANS } from "@/data/pricing-data";
+import { getPlan } from "@/data/pricing-data";
 import { FlowoProductProof } from "@/components/marketing/flowo-product-proof";
 
 const PATH = "/flowo-vs-planilha";
@@ -229,7 +229,7 @@ export default function FlowoVsPlanilhaPage() {
         <CommercialCta
           title="Troque anotação por execução."
           description="Centralize agenda, confirmação, comanda e recebimento em uma rotina que não depende de atualizar cada célula."
-          price={PLANS[0].monthly}
+          price={getPlan("solo").monthly}
         />
       </main>
       <Footer />
