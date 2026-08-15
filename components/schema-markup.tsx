@@ -1,4 +1,4 @@
-import { PRICING } from "@/data/pricing-data";
+import { hasPublishedPrice, PRICING } from "@/data/pricing-data";
 import { homeFaqItems } from "@/data/faq-items";
 import { LEGAL_ENTITY } from "@/lib/legal-identity";
 import { SITE_URL, absoluteUrl } from "@/lib/seo";
@@ -12,7 +12,7 @@ import { WHATSAPP_NUMBER_E164 } from "@/components/cta-links";
  * - FAQ is generated from the exact home-page subset so visible copy and schema never drift.
  */
 export default function SchemaMarkup() {
-  const offers = PRICING.plans.map((plan) => ({
+  const offers = PRICING.plans.filter(hasPublishedPrice).map((plan) => ({
     "@type": "Offer",
     name: `Plano ${plan.name}`,
     price: String(plan.monthly),

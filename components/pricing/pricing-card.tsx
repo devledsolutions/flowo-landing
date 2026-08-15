@@ -1,3 +1,5 @@
+"use client";
+
 import { Check } from "lucide-react";
 import { LeadCaptureModal } from "../lead-capture-modal";
 import { cn } from "@/lib/utils";
@@ -10,18 +12,22 @@ import {
 } from "@/data/pricing-data";
 import { SIGNUP_URL } from "./links";
 import { TrackedLink } from "@/components/analytics/tracked-link";
+export const ENTERPRISE_EXPERIMENT_KEY = "enterprise-value-proposition-v1";
 
 interface PricingCardProps {
   plan: Plan;
   cycle: BillingCycle;
+  experimentVariant?: string | null;
 }
 
 const CTA_BASE =
   "inline-flex h-11 w-full items-center justify-center rounded-full text-sm font-medium transition-colors duration-200 ease-out-quint";
 
-export function PricingCard({ plan, cycle }: PricingCardProps) {
+export function PricingCard({ plan, cycle, experimentVariant }: PricingCardProps) {
   const isPopular = Boolean(plan.isPopular);
-  const price = planPriceForCycle(plan, cycle);
+  const price = plan.salesLed ? null : planPriceForCycle(plan, cycle);
+  const implementationVariant =
+    plan.salesLed && experimentVariant === "implementation";
 
   return (
     <article
@@ -41,22 +47,42 @@ export function PricingCard({ plan, cycle }: PricingCardProps) {
       </div>
       <p className="mt-2 text-sm text-muted-ink">{plan.description}</p>
 
-      <p className="mt-7 flex items-baseline gap-1.5" aria-live="polite">
-        <span className="text-sm font-medium text-muted-ink">R$</span>
-        <span className="text-[2.75rem] font-bold leading-none tracking-tight text-ink tabular-nums">
-          {price.toLocaleString("pt-BR")}
-        </span>
-        <span className="text-sm text-muted-ink">/mês</span>
-      </p>
-      <p className="mt-2.5 text-caption text-muted-ink">
-        {cycle === "yearly"
-          ? `${formatBRL(plan.annualTotal)} faturados uma vez ao ano · ${ANNUAL_DISCOUNT_LABEL}`
-          : "Faturado mês a mês"}
-      </p>
+      {plan.salesLed ? (
+        <>
+          <p className="mt-7 text-[2.35rem] font-bold leading-none tracking-tight text-ink">
+            {plan.consultationLabel}
+          </p>
+          <p className="mt-2.5 min-h-10 text-caption text-muted-ink">
+            {implementationVariant
+              ? "Planejamento, implantação e cobrança definidos com a sua equipe."
+              : "Proposta e implantação desenhadas para a sua operação."}
+          </p>
+        </>
+      ) : (
+        <>
+          <p className="mt-7 flex items-baseline gap-1.5" aria-live="polite">
+            <span className="text-sm font-medium text-muted-ink">R$</span>
+            <span className="text-[2.75rem] font-bold leading-none tracking-tight text-ink tabular-nums">
+              {price?.toLocaleString("pt-BR")}
+            </span>
+            <span className="text-sm text-muted-ink">/mês</span>
+          </p>
+          <p className="mt-2.5 text-caption text-muted-ink">
+            {cycle === "yearly"
+              ? `${formatBRL(plan.annualTotal)} faturados uma vez ao ano · ${ANNUAL_DISCOUNT_LABEL}`
+              : "Faturado mês a mês"}
+          </p>
+        </>
+      )}
 
       <div className="mt-7">
         {plan.salesLed ? (
-          <LeadCaptureModal>
+          <LeadCaptureModal
+            intent="enterprise"
+            source="enterprise_pricing_page"
+            experimentKey={ENTERPRISE_EXPERIMENT_KEY}
+            experimentVariant={experimentVariant}
+          >
             <button
               type="button"
               className={cn(
@@ -64,7 +90,7 @@ export function PricingCard({ plan, cycle }: PricingCardProps) {
                 "border border-line bg-transparent text-ink hover:bg-surface-2"
               )}
             >
-              Falar com a gente
+              {implementationVariant ? "Planejar implantação" : "Falar com um especialista"}
             </button>
           </LeadCaptureModal>
         ) : (
@@ -86,7 +112,7 @@ export function PricingCard({ plan, cycle }: PricingCardProps) {
         )}
         <p className="mt-3 text-center text-caption text-muted-ink">
           {plan.salesLed
-            ? "Converse com o time antes de assinar"
+            ? "Contratação e ativação acompanhadas pelo time Flowo"
             : "Sem fidelidade. Cancele quando quiser"}
         </p>
       </div>

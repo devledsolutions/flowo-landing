@@ -36,7 +36,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { PLANS, formatBRL } from "@/data/pricing-data";
+import { PLANS, formatBRL, getPlan, hasPublishedPrice } from "@/data/pricing-data";
 import { INSTITUTIONAL_FILM } from "@/lib/institutional-film";
 
 const productSignals = [
@@ -226,7 +226,7 @@ export function SalesCampaignPage() {
                 <div className="mt-4 max-w-lg space-y-1 text-caption leading-relaxed text-muted-ink">
                   <p>Uma conversa de 20 minutos · sem cartão · sem instalação</p>
                   <p>
-                    Planos a partir de {formatBRL(PLANS[0].monthly)}/mês · sem
+                    Planos a partir de {formatBRL(getPlan("solo").monthly)}/mês · sem
                     fidelidade · pagamentos integrados opcionais
                   </p>
                 </div>
@@ -552,15 +552,14 @@ export function SalesCampaignPage() {
                     )}
                   </div>
                   <p className="mt-7 flex flex-wrap items-baseline gap-x-1.5 text-ink">
-                    {plan.salesLed && (
-                      <span className="w-full text-caption text-muted-ink">
-                        A partir de
-                      </span>
-                    )}
-                    <span className="text-[clamp(2.7rem,4vw,4rem)] font-semibold leading-none tracking-[-0.045em] tabular-nums">
-                      {formatBRL(plan.monthly)}
+                    <span className="text-[clamp(2.35rem,4vw,3.35rem)] font-semibold leading-none tracking-[-0.045em]">
+                      {hasPublishedPrice(plan)
+                        ? formatBRL(plan.monthly)
+                        : plan.consultationLabel}
                     </span>
-                    <span className="text-label text-muted-ink">/mês</span>
+                    {hasPublishedPrice(plan) ? (
+                      <span className="text-label text-muted-ink">/mês</span>
+                    ) : null}
                   </p>
                   <p className="mt-5 text-sm leading-relaxed text-muted-ink">
                     {plan.description}
@@ -714,7 +713,7 @@ function CampaignHeader() {
         </Link>
         <div className="hidden items-center gap-5 md:flex">
           <p className="text-caption text-muted-ink">
-            Para barbearias · planos desde {formatBRL(PLANS[0].monthly)}/mês
+            Para barbearias · planos desde {formatBRL(getPlan("solo").monthly)}/mês
           </p>
           <SalesCampaignCta
             placement="header"

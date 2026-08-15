@@ -12,7 +12,7 @@ import {
   RelatedSolutions,
 } from "@/components/marketing/commercial-page";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
-import { PLANS } from "@/data/pricing-data";
+import { getPlan } from "@/data/pricing-data";
 
 const PATH = "/agenda-barbearia-whatsapp";
 
@@ -186,7 +186,7 @@ export default function WhatsappAgendaPage() {
         <CommercialCta
           title="Enquanto você corta, a Flowo atende."
           description="Coloque sua agenda para rodar no WhatsApp com confirmação automática e a equipe focada na cadeira."
-          price={PLANS[0].monthly}
+          price={getPlan("solo").monthly}
         />
       </main>
       <Footer />

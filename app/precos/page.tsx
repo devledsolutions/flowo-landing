@@ -6,14 +6,15 @@ import { FeatureComparisonTable } from "@/components/pricing/feature-comparison-
 import { FeaturedResource } from "@/components/pricing/featured-resource";
 import { PricingCTA } from "@/components/pricing/pricing-cta";
 import { OptionalCapabilities } from "@/components/pricing/optional-capabilities";
-import { featuredResources, formatBRL, PLANS, PRICING } from "@/data/pricing-data";
+import { featuredResources, formatBRL, getPlan, hasPublishedPrice, PRICING } from "@/data/pricing-data";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
 
-const [solo, equipe, empresarial] = PLANS;
+const solo = getPlan("solo");
+const equipe = getPlan("equipe");
 
 export const metadata = buildMetadata({
   title: "Planos e Preços para Barbearias",
-  description: `Planos para barbearias: Solo por ${formatBRL(solo.monthly)}/mês, Equipe por ${formatBRL(equipe.monthly)}/mês e Empresarial por ${formatBRL(empresarial.monthly)}/mês. IA no WhatsApp, lembretes e pagamentos integrados opcionais. Sem fidelidade.`,
+  description: `Planos para barbearias: Solo por ${formatBRL(solo.monthly)}/mês, Equipe por ${formatBRL(equipe.monthly)}/mês e Empresarial sob consulta, com implantação acompanhada. IA no WhatsApp, lembretes e pagamentos integrados opcionais. Sem fidelidade.`,
   path: "/precos",
 });
 
@@ -24,7 +25,7 @@ const pricingJsonLd = {
   applicationCategory: "BusinessApplication",
   operatingSystem: "Web",
   inLanguage: "pt-BR",
-  offers: PRICING.plans.map((plan) => ({
+  offers: PRICING.plans.filter(hasPublishedPrice).map((plan) => ({
     "@type": "Offer",
     name: `Plano ${plan.name}`,
     price: String(plan.monthly),
