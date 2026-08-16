@@ -30,7 +30,7 @@ Fontes internas consultadas:
 | trocar planilha ou agenda manual | `/flowo-vs-planilha`, `/flowo-vs-agenda-manual` | guias de agenda e financeiro | comparação por processo |
 | gestão de equipe e horários diferentes | `/sistema-agendamento-barbearia` | `/recursos/guias/gerenciamento-equipe` e `/recursos/guias/escala-equipe` | horários individuais por profissional |
 | comandas, clientes e relatórios | `/recursos` | guias de ticket, financeiro e métricas | apresentados como partes da operação |
-| preços de sistema para barbearia | `/precos` | Home e comparativos | R$249, R$549 e R$1.049; sem teste |
+| preços de sistema para barbearia | `/precos` | Home e comparativos | R$249, R$549 e Empresarial sob consulta; sem teste |
 
 ## Decisões
 

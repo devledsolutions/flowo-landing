@@ -115,12 +115,14 @@ export default function HomePricingSection() {
         {PLANS.map((plan) => {
           const highlighted = plan.id === "equipe";
           const price = plan.salesLed ? null : planPriceForCycle(plan, cycle);
-          const signupUrl = buildSignupUrl({
-            plan: plan.id,
-            cycle,
-            campaign: "homepage_pricing",
-            content: `pricing_card_${plan.id}`,
-          });
+          const signupUrl = plan.salesLed
+            ? null
+            : buildSignupUrl({
+                plan: plan.id,
+                cycle,
+                campaign: "homepage_pricing",
+                content: `pricing_card_${plan.id}`,
+              });
 
           return (
             <article
@@ -217,7 +219,7 @@ export default function HomePricingSection() {
                       <ArrowRight className="h-4 w-4" aria-hidden="true" />
                     </button>
                   )
-                ) : (
+                ) : signupUrl ? (
                   <TrackedLink
                     href={signupUrl}
                     event="CTA Clicked"
@@ -249,7 +251,7 @@ export default function HomePricingSection() {
                     Começar agora
                     <ArrowRight className="h-4 w-4" aria-hidden="true" />
                   </TrackedLink>
-                )}
+                ) : null}
               </div>
             </article>
           );

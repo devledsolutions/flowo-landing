@@ -10,8 +10,9 @@
   suficiente para prometer percentuais de resultado.
 - **Canal principal de aquisição:** site, busca, Instagram/Facebook/TikTok e conversa com vendas
   pelo WhatsApp.
-- **Planos públicos:** Solo R$249/mês, Equipe R$549/mês e Empresarial a partir de R$1.049/mês.
-  Assinatura paga desde o primeiro dia, sem teste e sem fidelidade.
+- **Planos públicos:** Solo R$249/mês e Equipe R$549/mês. Empresarial é sob consulta,
+  com proposta, contratação e implantação acompanhadas. Assinatura paga desde o
+  primeiro dia, sem teste e sem fidelidade.
 
 ### Diagnóstico da oferta atual
 
@@ -154,7 +155,8 @@ eliminam e pelo resultado operacional que permitem verificar.
 | Roteiro de validação | Aumenta confiança antes da rotina real | Alto |
 | Materiais de adoção | Reduz esforço da equipe | Médio |
 
-- **Preço real:** Solo R$249/mês, Equipe R$549/mês, Empresarial a partir de R$1.049/mês.
+- **Condição comercial:** Solo R$249/mês e Equipe R$549/mês têm preços públicos;
+  Empresarial é negociado com o time Flowo e não possui preço público.
 - **Referência econômica existente:** o spec interno ancora a categoria no trabalho de recepção,
   estimado em R$1.500–2.500/mês. Não transformar essa referência em promessa de substituição,
   economia ou ROI sem validação.

@@ -15,8 +15,9 @@ celular, sem data pública de lançamento.
 **Product category:** Sistema de agendamento e gestão para barbearias; recepção
 com IA no WhatsApp.  
 **Product type:** SaaS B2B multi-tenant.  
-**Business model:** Assinatura paga desde o primeiro dia: Solo R$249/mês, Equipe
-R$549/mês e Empresarial R$1.049/mês. Sem período de teste e sem fidelidade.
+**Business model:** Assinatura paga desde o primeiro dia: Solo R$249/mês e Equipe
+R$549/mês. Empresarial é sob consulta, com proposta, contratação e ativação
+assistidas. Sem período de teste e sem fidelidade.
 
 ## Target Audience
 

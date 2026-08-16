@@ -6,7 +6,7 @@
 export const SIGNUP_URL = "https://barber.flowo.com.br/sign-up";
 export const LOGIN_URL = "https://barber.flowo.com.br";
 
-type SignupPlan = "solo" | "equipe" | "empresarial";
+type SignupPlan = "solo" | "equipe";
 type SignupCycle = "monthly" | "yearly";
 
 interface SignupUrlOptions {
@@ -20,8 +20,10 @@ interface SignupUrlOptions {
 
 /**
  * Keeps the visitor's commercial intent attached to the cross-domain signup.
- * The dashboard treats these values as UX hints only and validates the actual
- * plan and price again during checkout.
+ * Empresarial is deliberately excluded: that plan always enters the assisted
+ * sales flow instead of account creation or checkout. The dashboard treats
+ * these values as UX hints only and validates the actual plan and price again
+ * during checkout.
  */
 export function buildSignupUrl({
   plan,
