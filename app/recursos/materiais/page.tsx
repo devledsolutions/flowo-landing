@@ -21,6 +21,7 @@ import { ResourceNav } from "@/components/resources/resource-nav";
 import { ResourceCollectionStructuredData } from "@/components/resources/resource-structured-data";
 import { SIGNUP_URL } from "@/components/cta-links";
 import { buildMetadata } from "@/lib/seo";
+import { LEGAL_ENTITY } from "@/lib/legal-identity";
 
 const PAGE_TITLE = "Materiais Gratuitos para Barbearias";
 const PAGE_DESCRIPTION =
@@ -549,7 +550,7 @@ export default function MaterialsPage() {
                 Estamos criando mais templates, planilhas e guias. Tem uma
                 sugestão?{" "}
                 <a
-                  href="mailto:contato@flowo.com.br"
+                  href={`mailto:${LEGAL_ENTITY.contactEmail}`}
                   className="font-medium text-ink underline underline-offset-4"
                 >
                   Fale conosco

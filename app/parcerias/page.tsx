@@ -9,6 +9,7 @@ import {
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { Breadcrumb } from "@/components/breadcrumb";
+import { LEGAL_ENTITY } from "@/lib/legal-identity";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
 
 const PATH = "/parcerias";
@@ -161,7 +162,7 @@ export default function ParceriasPage() {
                 identificados com clareza.
               </p>
               <a
-                href="mailto:contato@flowo.com.br?subject=Parceria%20com%20a%20Flowo"
+                href={`mailto:${LEGAL_ENTITY.contactEmail}?subject=Parceria%20com%20a%20Flowo`}
                 className="mt-7 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-ink px-7 py-3 text-label font-semibold text-cream transition-opacity hover:opacity-90"
               >
                 Falar sobre parceria

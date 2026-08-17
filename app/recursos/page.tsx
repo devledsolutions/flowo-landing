@@ -29,6 +29,7 @@ import {
   type GuideIconKey,
 } from "@/data/guides";
 import { buildMetadata } from "@/lib/seo";
+import { LEGAL_ENTITY } from "@/lib/legal-identity";
 
 const PAGE_TITLE = "Recursos e Guias para Barbearias";
 const PAGE_DESCRIPTION =
@@ -482,7 +483,7 @@ export default function ResourcesPage() {
               <p className="mt-12 text-center text-label text-muted-ink">
                 Mais guias e materiais em breve. Tem uma dúvida específica?{" "}
                 <a
-                  href="mailto:contato@flowo.com.br"
+                  href={`mailto:${LEGAL_ENTITY.contactEmail}`}
                   className="font-medium text-ink underline underline-offset-4"
                 >
                   Fale conosco

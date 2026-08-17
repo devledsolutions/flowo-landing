@@ -6,6 +6,7 @@ import {
 import { PLANS, ANNUAL_DISCOUNT_LABEL, formatBRL, hasPublishedPrice } from "@/data/pricing-data";
 import { INSTITUTIONAL_FILM } from "@/lib/institutional-film";
 import { SITE_URL } from "@/lib/seo";
+import { LEGAL_ENTITY } from "@/lib/legal-identity";
 
 const CACHE_HEADER =
   "public, max-age=3600, s-maxage=86400, stale-while-revalidate=86400";
@@ -104,8 +105,8 @@ ${guideLines}
 - [Politica de privacidade](${SITE_URL}/privacidade)
 - [Termos de uso](${SITE_URL}/termos)
 - [Exclusao de conta e dados](${SITE_URL}/exclusao-de-dados)
-- Operadora legal: Devled Tecnologia e Consultoria LTDA - CNPJ 49.034.715/0001-54
-- Contato: contato@flowo.com.br
+- Operadora legal: ${LEGAL_ENTITY.name} - CNPJ ${LEGAL_ENTITY.taxId}
+- Contato: ${LEGAL_ENTITY.contactEmail}
 `;
 
   return new Response(content, {
