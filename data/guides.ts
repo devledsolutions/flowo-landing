@@ -228,6 +228,24 @@ export const GUIDES: GuideEntry[] = [
       "/recursos/guias/gerenciamento-equipe",
     ],
   },
+  {
+    path: "/recursos/guias/melhor-sistema-para-barbearia",
+    title: "Melhor sistema para barbearia: como escolher",
+    description:
+      "Compare agenda, WhatsApp, aplicativo, equipe, financeiro, preço e implantação antes de escolher um sistema para sua barbearia.",
+    readTime: "12 min",
+    category: "Comparação",
+    topics: ["Critérios de escolha", "Preço total", "Comparativo de sistemas"],
+    group: "gestao",
+    icon: "chart",
+    publishedTime: "2026-07-31T00:00:00.000Z",
+    modifiedTime: "2026-07-31T00:00:00.000Z",
+    relatedPaths: [
+      "/recursos/guias/guia-definitivo-agendamento",
+      "/recursos/guias/gerenciamento-equipe",
+      "/recursos/guias/controle-financeiro-barbearia",
+    ],
+  },
 ];
 
 export const GUIDE_BY_PATH = Object.fromEntries(

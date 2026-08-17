@@ -2,7 +2,7 @@ import {
   COMPARISON_LAST_VERIFIED_LABEL,
   COMPETITOR_COMPARISONS,
 } from "@/data/competitor-comparisons";
-import { PLANS, formatBRL } from "@/data/pricing-data";
+import { PLANS, formatBRL, hasPublishedPrice } from "@/data/pricing-data";
 import { INSTITUTIONAL_FILM } from "@/lib/institutional-film";
 import { SITE_URL } from "@/lib/seo";
 
@@ -12,7 +12,9 @@ const CACHE_HEADER =
 export function GET() {
   const plans = PLANS.map(
     (plan) =>
-      `- ${plan.name}: ${formatBRL(plan.monthly)}/mês. ${plan.description} Recursos principais: ${plan.features.join("; ")}.`,
+      hasPublishedPrice(plan)
+        ? `- ${plan.name}: ${formatBRL(plan.monthly)}/mês. ${plan.description} Recursos principais: ${plan.features.join("; ")}.`
+        : `- ${plan.name}: ${plan.consultationLabel}. Contratação e implantação assistidas. ${plan.description} Recursos principais: ${plan.features.join("; ")}.`,
   ).join("\n");
 
   const comparisons = COMPETITOR_COMPARISONS.map((comparison) => {
@@ -59,6 +61,29 @@ Flowo é uma plataforma operacional para barbearias. A IA atende clientes no Wha
 
 O WhatsApp é a recepção do Flowo; o painel é a central de supervisão. A proposta não é apenas oferecer uma agenda online, mas reduzir o atendimento manual que acontece enquanto barbeiros estão com as mãos ocupadas.
 
+Página comercial canônica: ${SITE_URL}/recepcionista-ia-barbearia
+
+## O produto funcionando de ponta a ponta
+
+Em 26 de julho de 2026, a Flowo concluiu em produção, com números e
+estabelecimentos de teste controlados, o fluxo de mensagem recebida, resposta da
+IA, consulta de disponibilidade e criação, consulta, remarcação, cancelamento e
+confirmação de agendamento. O teste também cobriu a pausa da IA para atendimento
+humano e a retomada posterior.
+
+O fluxo conecta a conversa no WhatsApp à agenda e mantém o controle humano para
+as situações em que a equipe precisa assumir o atendimento.
+
+Escopo e demonstração: ${SITE_URL}/demonstracao-agendamento-whatsapp
+
+## Flowo em ação por perfil
+
+- Linha Onze Barbearia, perfil solo: ${SITE_URL}/casos-de-validacao/linha-onze-sao-paulo
+- Quatro Tempos Barbearia, perfil com equipe: ${SITE_URL}/casos-de-validacao/quatro-tempos-curitiba
+
+As duas jornadas organizam perfis comuns de operação e mostram a interface e o
+funcionamento da Flowo em cada rotina.
+
 ## Planos oficiais
 
 ${plans}
@@ -87,6 +112,49 @@ pública de lançamento.
 
 URL canônica: ${SITE_URL}/aplicativo-para-barbeiros
 
+## Diagnóstico gratuito de agenda
+
+O Diagnóstico de Agenda é uma ferramenta interativa gratuita para descobrir
+quanto a rotina depende de decisões manuais entre WhatsApp, disponibilidade e
+horários de cada barbeiro. São 5 perguntas, pontuação de 0 a 100, um gargalo
+prioritário e uma primeira ação. O resultado aparece sem cadastro.
+
+Depois do resultado, a pessoa pode solicitar o PDF complementar Raio-X da Agenda,
+com 12 perguntas, o método editorial C.A.D.E.I.R.A., um mapa de prioridade e um
+plano de ação. Nome e e-mail são suficientes para a entrega; telefone e
+consentimentos de marketing são opcionais e separados.
+
+URL canônica: ${SITE_URL}/recursos/diagnostico-agenda-barbearia
+
+## Ferramentas gratuitas para barbearias
+
+- Calculadora de tempo no WhatsApp: ${SITE_URL}/calculadora-tempo-whatsapp-barbearia
+  Estima horas usadas em conversas de disponibilidade a partir dos valores informados pela barbearia. Não calcula faturamento perdido.
+- Calculadora de comissão de barbeiro: ${SITE_URL}/calculadora-comissao-barbeiro
+  Simula bases separadas para serviços, produtos e ajustes. É uma ferramenta operacional e não substitui orientação contábil, trabalhista ou contrato.
+- Planejador de retorno de clientes: ${SITE_URL}/mensagens-retorno-clientes-barbearia
+  Sugere uma janela de revisão e uma mensagem curta. O envio depende de consentimento, conferência de agenda, histórico recente e opção de saída.
+
+Os resultados aparecem sem cadastro. Nome e e-mail são solicitados apenas para
+entregar os PDFs complementares; telefone e consentimentos de marketing são
+opcionais e separados.
+
+## Coleção de guias práticos
+
+- Guia de Gestão da Barbearia: ${SITE_URL}/downloads/guia-completo-barbearia.pdf
+- Agenda sem Interrupção: ${SITE_URL}/downloads/agenda-sem-interrupcao-flowo.pdf
+- Fechamento da Equipe: ${SITE_URL}/downloads/fechamento-equipe-flowo.pdf
+- Retorno sem Spam: ${SITE_URL}/downloads/retorno-sem-spam-flowo.pdf
+- Comissões sem Planilha Paralela: ${SITE_URL}/downloads/comissoes-sem-planilha-flowo.pdf
+- Clientes na Hora de Voltar: ${SITE_URL}/downloads/clientes-na-hora-de-voltar-flowo.pdf
+- Caixa sem Confusão: ${SITE_URL}/downloads/caixa-e-recebimentos-flowo.pdf
+- Painel Semanal da Barbearia: ${SITE_URL}/downloads/referencia-rapida-barbearia.pdf
+- Stories com Cara da sua Barbearia: ${SITE_URL}/downloads/templates-stories-barbearia.pdf
+
+Os guias são PDFs preenchíveis de oito páginas. Eles organizam decisões da
+rotina sem prometer faturamento, agenda cheia ou resultado automático. No
+formulário da biblioteca, WhatsApp e autorizações de marketing são opcionais.
+
 ## Comparações verificadas
 
 ${comparisons}
@@ -102,11 +170,19 @@ ${comparisons}
 
 ## Rotas úteis
 
+- Página comercial: ${SITE_URL}/recepcionista-ia-barbearia
 - Comparações: ${SITE_URL}/comparar
 - Filme institucional: ${SITE_URL}${INSTITUTIONAL_FILM.video}
 - Filme vertical: ${SITE_URL}${INSTITUTIONAL_FILM.verticalVideo}
 - Recursos: ${SITE_URL}/recursos
+- Diagnóstico de agenda: ${SITE_URL}/recursos/diagnostico-agenda-barbearia
+- Calculadora de tempo no WhatsApp: ${SITE_URL}/calculadora-tempo-whatsapp-barbearia
+- Calculadora de comissão: ${SITE_URL}/calculadora-comissao-barbeiro
+- Planejador de retorno: ${SITE_URL}/mensagens-retorno-clientes-barbearia
 - Aplicativo para barbeiros: ${SITE_URL}/aplicativo-para-barbeiros
+- Demonstração validada: ${SITE_URL}/demonstracao-agendamento-whatsapp
+- Flowo em ação: ${SITE_URL}/casos-de-validacao
+- Parcerias e imprensa: ${SITE_URL}/parcerias
 - Planos: ${SITE_URL}/precos
 - Guias: ${SITE_URL}/recursos/guias
 - Termos: ${SITE_URL}/termos

@@ -1,13 +1,10 @@
 import Link from "next/link";
 import {
   ArrowRight,
-  Boxes,
   CalendarDays,
   Check,
   ClipboardList,
   MessageCircle,
-  Scale,
-  Search,
   ShieldCheck,
 } from "lucide-react";
 import Navbar from "@/components/navbar";
@@ -17,7 +14,6 @@ import {
   FlowoDeliveryMap,
   FlowoProductProof,
 } from "@/components/marketing/flowo-product-proof";
-import { InstitutionalFilmSchema } from "@/components/marketing/institutional-film";
 import {
   COMPARISON_LAST_VERIFIED_LABEL,
   COMPETITOR_COMPARISONS,
@@ -25,9 +21,9 @@ import {
 import { absoluteUrl, buildMetadata, SITE_URL } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Flowo vs Trinks, AppBarber, Barbeiro.app e Outros",
+  title: "Flowo vs Trinks, BestBarbers e Outros Sistemas",
   description:
-    "Compare Flowo com Trinks, AppBarber, Barbeiro.app, Avec e Graces. Veja WhatsApp com IA, agenda, gestão, preços e o perfil ideal de cada sistema.",
+    "Compare Flowo com Trinks, BestBarbers, AppBarber, Barbeiro.app, Opero, Barva, Avec e Graces em IA, agenda, gestão, preço e perfil ideal.",
   path: "/comparar",
 });
 
@@ -54,14 +50,13 @@ const criteria = [
   },
 ] as const;
 
-const comparisons = [
+const manualComparisons = [
   {
     icon: CalendarDays,
     title: "Flowo vs agenda manual",
     description:
       "Para quem ainda cruza caderno, calendário e mensagens antes de confirmar cada horário.",
     href: "/flowo-vs-agenda-manual",
-    cta: "Comparar a agenda",
   },
   {
     icon: ClipboardList,
@@ -69,7 +64,6 @@ const comparisons = [
     description:
       "Para quem registra dados depois do trabalho, mas ainda executa a rotina fora da planilha.",
     href: "/flowo-vs-planilha",
-    cta: "Comparar o controle",
   },
   {
     icon: MessageCircle,
@@ -77,7 +71,29 @@ const comparisons = [
     description:
       "Para entender a diferença entre apenas conversar e usar a agenda como fonte da resposta.",
     href: "/agenda-barbearia-whatsapp",
-    cta: "Ver a agenda no WhatsApp",
+  },
+] as const;
+
+const decisionPaths = [
+  {
+    label: "WhatsApp como recepção",
+    detail: "Compare Flowo, Opero e Barva",
+    href: "/flowo-vs-opero",
+  },
+  {
+    label: "Aplicativo próprio",
+    detail: "Compare AppBarber e BestBarbers",
+    href: "/flowo-vs-appbarber",
+  },
+  {
+    label: "Gestão e backoffice amplos",
+    detail: "Compare Trinks, Avec e Graces",
+    href: "/flowo-vs-trinks",
+  },
+  {
+    label: "Menor preço de entrada",
+    detail: "Compare Barbeiro.app e Opero",
+    href: "/flowo-vs-barbeiro-app",
   },
 ] as const;
 
@@ -95,7 +111,7 @@ const hubFaq = [
   {
     question: "Como as comparações foram feitas?",
     answer:
-      "A Flowo consulta páginas oficiais dos concorrentes, registra a data e o escopo da fonte e separa recursos incluídos de módulos ou add-ons. Não usamos avaliações anônimas para afirmar vantagens.",
+      "A Flowo consulta páginas oficiais dos concorrentes, registra a data e o escopo da fonte e separa recursos incluídos de módulos adicionais. Não usamos avaliações anônimas para afirmar vantagens.",
   },
 ] as const;
 
@@ -159,14 +175,73 @@ function ComparisonHubSchema() {
   );
 }
 
+function DecisionWindow() {
+  return (
+    <div className="relative isolate pb-5 pr-3 sm:pr-5">
+      <div
+        className="absolute inset-0 translate-x-3 translate-y-5 border border-line bg-surface-2 sm:translate-x-5"
+        aria-hidden="true"
+      />
+      <div className="relative overflow-hidden border border-ink bg-surface">
+        <div className="flex min-h-11 items-center justify-between bg-ink px-4 text-cream">
+          <div className="flex gap-1.5" aria-hidden="true">
+            <span className="h-2.5 w-2.5 rounded-full border border-cream/50" />
+            <span className="h-2.5 w-2.5 rounded-full border border-cream/50" />
+            <span className="h-2.5 w-2.5 rounded-full border border-cream/50" />
+          </div>
+          <span className="text-[0.65rem] font-semibold tracking-[0.08em] text-cream/70">
+            mapa-de-decisao.flowo
+          </span>
+          <span className="w-[3.25rem]" aria-hidden="true" />
+        </div>
+
+        <div className="p-5 sm:p-7">
+          <p className="text-caption font-semibold text-muted-ink">
+            Por onde começar
+          </p>
+          <h2 className="mt-2 text-2xl font-semibold text-ink">
+            O que mais pesa na sua escolha?
+          </h2>
+          <div className="mt-6 divide-y divide-line border-y border-line">
+            {decisionPaths.map((path) => (
+              <Link
+                key={path.label}
+                href={path.href}
+                className="group flex min-h-16 items-center justify-between gap-5 py-4 text-ink"
+              >
+                <span>
+                  <strong className="block text-sm">{path.label}</strong>
+                  <span className="mt-1 block text-caption text-muted-ink">
+                    {path.detail}
+                  </span>
+                </span>
+                <ArrowRight
+                  className="h-4 w-4 shrink-0 transition-transform duration-200 group-hover:translate-x-1"
+                  aria-hidden="true"
+                />
+              </Link>
+            ))}
+          </div>
+          <p className="mt-5 flex items-start gap-2 text-caption text-muted-ink">
+            <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+            Fontes oficiais verificadas em {COMPARISON_LAST_VERIFIED_LABEL}.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function ComparePage() {
+  const firstColumn = COMPETITOR_COMPARISONS.slice(0, 4);
+  const secondColumn = COMPETITOR_COMPARISONS.slice(4);
+
   return (
     <>
       <ComparisonHubSchema />
-      <InstitutionalFilmSchema pagePath="/comparar" />
       <Navbar />
       <main id="main-content">
-        <section className="pt-32 pb-section-tight md:pt-40">
+        <section className="pb-section-normal pt-28 md:pt-32">
           <div className="container-page">
             <Breadcrumb
               items={[
@@ -174,131 +249,142 @@ export default function ComparePage() {
                 { label: "Comparar", href: "/comparar" },
               ]}
             />
-            <div className="mt-10 grid items-end gap-10 lg:grid-cols-[1fr_0.7fr] lg:gap-20">
+            <div className="mt-10 grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:items-center lg:gap-20">
               <div>
-                <p className="text-label font-semibold uppercase tracking-[0.12em] text-faint-ink">
+                <p className="text-sm font-semibold text-muted-ink">
                   Compare com fontes, não por promessa
                 </p>
-                <h1 className="mt-4 max-w-[15ch] text-h2 font-semibold tracking-[-0.025em] text-ink-strong">
-                  Flowo vs os principais sistemas para barbearias.
+                <h1 className="mt-4 max-w-[16ch] text-[clamp(2.6rem,4.2vw,4.25rem)] font-semibold leading-[1.02] tracking-[-0.035em] text-ink-strong">
+                  Compare sistemas para sua barbearia.
                 </h1>
+                <p className="mt-6 max-w-[65ch] text-lead text-muted-ink">
+                  Compare Flowo com AppBarber, Trinks, BestBarbers, Opero,
+                  Barva, Barbeiro.app, Avec e Graces. Comece pelo problema que
+                  você quer resolver, não pela maior lista de funções.
+                </p>
+                <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                  <a
+                    href="#comparacoes"
+                    className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-ink px-6 text-label font-semibold text-cream transition-colors duration-200 hover:bg-ink/90"
+                  >
+                    Escolher uma comparação
+                    <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                  </a>
+                  <Link
+                    href="/recursos/diagnostico-agenda-barbearia"
+                    className="inline-flex min-h-12 items-center justify-center rounded-full border border-line bg-surface px-6 text-label font-semibold text-ink transition-colors duration-200 hover:bg-surface-2"
+                  >
+                    Diagnosticar minha rotina
+                  </Link>
+                </div>
               </div>
-              <p className="max-w-measure text-lead text-muted-ink">
-                Compare Flowo com Trinks, AppBarber, Barbeiro.app, Avec e
-                Graces. Mostramos onde cada plataforma é forte, o que aparece
-                como adicional e quando outra opção pode fazer mais sentido.
-              </p>
+              <DecisionWindow />
             </div>
-            <p className="mt-8 flex items-start gap-2 text-caption text-muted-ink">
-              <ShieldCheck
-                className="mt-0.5 h-4 w-4 shrink-0"
-                aria-hidden="true"
-              />
-              Fontes oficiais verificadas em {COMPARISON_LAST_VERIFIED_LABEL}.
-            </p>
           </div>
         </section>
 
-        <FlowoProductProof />
-
-        <section className="section-normal border-y border-line bg-surface">
+        <section
+          id="comparacoes"
+          className="section-normal scroll-mt-28 border-y border-line bg-surface"
+        >
           <div className="container-page">
-            <div className="max-w-3xl">
-              <p className="text-label font-semibold uppercase tracking-[0.12em] text-faint-ink">
-                Comparações diretas
-              </p>
-              <h2 className="mt-4 text-h2 font-semibold text-ink-strong">
-                Escolha pelo fluxo que sua equipe precisa.
+            <div className="grid gap-6 lg:grid-cols-[0.72fr_1fr] lg:items-end lg:gap-20">
+              <h2 className="text-h2 font-semibold tracking-[-0.025em] text-ink-strong">
+                Abra a comparação que responde à sua dúvida.
               </h2>
-              <p className="mt-4 text-lead text-muted-ink">
-                Cada página compara canal de agendamento, IA, operação, preço e
-                perfil ideal — com links para as fontes consultadas.
+              <p className="text-lead text-muted-ink">
+                Cada página mostra onde cada plataforma é forte, o preço
+                publicado, os recursos adicionais e o perfil de operação que
+                tende a aproveitar melhor cada escolha.
               </p>
             </div>
 
-            <div className="mt-10 grid gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-2 lg:grid-cols-3">
-              {COMPETITOR_COMPARISONS.map((comparison, index) => (
-                <Link
-                  key={comparison.path}
-                  href={comparison.path}
-                  className="group flex min-h-72 flex-col bg-cream p-7 transition-colors hover:bg-surface-2"
+            <div className="mt-10 grid gap-x-14 md:grid-cols-2">
+              {[firstColumn, secondColumn].map((column, columnIndex) => (
+                <div
+                  key={columnIndex}
+                  className="divide-y divide-line border-y border-line md:first:border-b-0 md:last:border-t-0"
                 >
-                  <div className="flex items-center justify-between">
-                    {index % 2 === 0 ? (
-                      <Scale className="h-5 w-5 text-ink" aria-hidden="true" />
-                    ) : (
-                      <Boxes className="h-5 w-5 text-ink" aria-hidden="true" />
-                    )}
-                    <span className="text-caption tabular-nums text-faint-ink">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                  </div>
-                  <h3 className="mt-8 text-xl font-semibold text-ink">
-                    Flowo vs {comparison.name}
-                  </h3>
-                  <p className="mt-3 text-body text-muted-ink">
-                    {comparison.summary}
-                  </p>
-                  <span className="mt-auto flex items-center gap-2 pt-8 text-label font-semibold text-ink">
-                    Ver comparação completa
-                    <ArrowRight
-                      className="h-4 w-4 transition-transform group-hover:translate-x-1"
-                      aria-hidden="true"
-                    />
-                  </span>
-                </Link>
+                  {column.map((comparison) => (
+                    <Link
+                      key={comparison.path}
+                      href={comparison.path}
+                      className="group flex min-h-28 items-center justify-between gap-6 py-5 text-ink"
+                    >
+                      <span>
+                        <strong className="block text-xl">
+                          Flowo vs {comparison.name}
+                        </strong>
+                        <span className="mt-2 block max-w-[48ch] text-sm leading-relaxed text-muted-ink">
+                          {comparison.eyebrow}
+                        </span>
+                      </span>
+                      <ArrowRight
+                        className="h-5 w-5 shrink-0 transition-transform duration-200 group-hover:translate-x-1"
+                        aria-hidden="true"
+                      />
+                    </Link>
+                  ))}
+                </div>
               ))}
             </div>
           </div>
         </section>
 
+        <FlowoProductProof includeFilm={false} />
         <FlowoDeliveryMap />
 
         <section className="section-normal">
           <div className="container-page">
             <div className="mb-10 grid gap-8 lg:grid-cols-[0.7fr_1fr] lg:items-end lg:gap-20">
-              <div>
-                <p className="text-label font-semibold uppercase tracking-[0.12em] text-faint-ink">
-                  Critérios que importam
-                </p>
-                <h2 className="mt-4 text-h2 font-semibold text-ink-strong">
-                  Antes da marca, compare a rotina.
-                </h2>
-              </div>
+              <h2 className="text-h2 font-semibold text-ink-strong">
+                Antes da marca, compare a rotina.
+              </h2>
               <p className="text-lead text-muted-ink">
                 Uma mensalidade menor não ajuda se o cliente continua esperando
-                resposta. Uma plataforma ampla também pode ser a escolha certa
-                quando estoque, marketplace ou fiscal são o centro da decisão.
+                resposta. Uma plataforma ampla pode ser a escolha certa quando
+                estoque, marketplace ou fiscal são o centro da decisão.
               </p>
             </div>
-            <div className="overflow-x-auto rounded-xl border border-line bg-cream [contain:paint]">
+            <div className="overflow-x-auto border border-line bg-cream [contain:paint]">
               <table className="w-full min-w-[44rem] border-collapse">
                 <caption className="sr-only">
                   Comparação entre rotina manual e rotina conectada pelo Flowo
                 </caption>
                 <thead>
-                  <tr className="border-b border-line">
+                  <tr className="border-b border-line bg-surface">
                     <th className="w-[28%] px-6 py-5 text-left text-label font-medium text-muted-ink">
                       Critério
                     </th>
-                    <th className="px-6 py-5 text-left text-label font-semibold text-ink">
+                    <th className="border-l border-line px-6 py-5 text-left text-label font-semibold text-ink">
                       Rotina espalhada
                     </th>
-                    <th className="bg-ink px-6 py-5 text-left text-label font-semibold text-cream">
+                    <th className="border-l border-line bg-surface-2 px-6 py-5 text-left text-label font-semibold text-ink">
                       Com Flowo
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   {criteria.map((row) => (
-                    <tr key={row.label} className="border-b border-line last:border-b-0">
-                      <th scope="row" className="px-6 py-5 text-left text-sm font-semibold text-ink">
+                    <tr
+                      key={row.label}
+                      className="border-b border-line last:border-b-0"
+                    >
+                      <th
+                        scope="row"
+                        className="px-6 py-5 text-left text-sm font-semibold text-ink"
+                      >
                         {row.label}
                       </th>
-                      <td className="px-6 py-5 text-sm text-muted-ink">{row.manual}</td>
-                      <td className="bg-ink px-6 py-5 text-sm text-cream">
+                      <td className="border-l border-line px-6 py-5 text-sm text-muted-ink">
+                        {row.manual}
+                      </td>
+                      <td className="border-l border-line bg-surface-2 px-6 py-5 text-sm text-ink">
                         <span className="flex items-start gap-3">
-                          <Check className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+                          <Check
+                            className="mt-0.5 h-4 w-4 shrink-0"
+                            aria-hidden="true"
+                          />
                           {row.flowo}
                         </span>
                       </td>
@@ -307,47 +393,42 @@ export default function ComparePage() {
                 </tbody>
               </table>
             </div>
-            <p className="mt-5 flex items-start gap-2 text-caption text-muted-ink">
-              <ShieldCheck className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-              Este quadro explica o contraste entre uma rotina espalhada e o
-              Flowo. As páginas nominais usam somente informações públicas dos
-              concorrentes.
-            </p>
           </div>
         </section>
 
-        <section className="section-normal border-y border-line bg-surface">
+        <section className="section-tight border-y border-line bg-surface">
           <div className="container-page">
-            <div className="max-w-2xl">
-              <h2 className="text-h2 font-semibold text-ink-strong">
-                Ainda no manual? Comece pelo gargalo atual.
-              </h2>
-              <p className="mt-4 text-lead text-muted-ink">
-                Compare também o Flowo com caderno, planilha ou um WhatsApp
-                desconectado da agenda.
-              </p>
-            </div>
-            <div className="mt-10 grid gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-3">
-              {comparisons.map(({ icon: Icon, ...item }, index) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="group flex min-h-72 flex-col bg-surface p-7 transition-colors hover:bg-surface-2"
-                >
-                  <div className="flex items-center justify-between">
-                    <Icon className="h-5 w-5 text-ink" aria-hidden="true" />
-                    <span className="text-caption tabular-nums text-faint-ink">
-                      {String(index + 1).padStart(2, "0")}
+            <div className="grid gap-8 lg:grid-cols-[0.7fr_1fr] lg:gap-20">
+              <div>
+                <h2 className="text-h3 font-semibold text-ink-strong">
+                  Ainda no manual?
+                </h2>
+                <p className="mt-3 text-body text-muted-ink">
+                  Compare também com caderno, planilha ou WhatsApp desconectado
+                  da agenda.
+                </p>
+              </div>
+              <div className="divide-y divide-line border-y border-line">
+                {manualComparisons.map(({ icon: Icon, ...item }) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="group flex min-h-20 items-center gap-4 py-4 text-ink"
+                  >
+                    <Icon className="h-5 w-5 shrink-0" aria-hidden="true" />
+                    <span>
+                      <strong className="block text-base">{item.title}</strong>
+                      <span className="mt-1 block text-sm text-muted-ink">
+                        {item.description}
+                      </span>
                     </span>
-                  </div>
-                  <h3 className="mt-8 text-xl font-semibold text-ink">{item.title}</h3>
-                  <p className="mt-3 text-body text-muted-ink">{item.description}</p>
-                  <span className="mt-auto flex items-center gap-2 pt-8 text-label font-semibold text-ink">
-                    {item.cta}
-                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
-                  </span>
-                </Link>
-              ))}
+                    <ArrowRight
+                      className="ml-auto h-4 w-4 shrink-0 transition-transform duration-200 group-hover:translate-x-1"
+                      aria-hidden="true"
+                    />
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
         </section>
@@ -355,24 +436,28 @@ export default function ComparePage() {
         <section className="section-normal">
           <div className="container-page">
             <div className="grid gap-10 lg:grid-cols-[0.72fr_1fr] lg:gap-20">
-              <div>
-                <div className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-surface">
-                  <Search className="h-5 w-5 text-ink" aria-hidden="true" />
-                </div>
-                <h2 className="mt-6 text-h2 font-semibold text-ink-strong">
-                  Perguntas que ajudam a decidir.
-                </h2>
-              </div>
-              <div className="space-y-px overflow-hidden rounded-xl border border-line bg-line">
+              <h2 className="text-h2 font-semibold text-ink-strong">
+                Dúvidas antes de comparar.
+              </h2>
+              <div className="border-t border-line">
                 {hubFaq.map((item) => (
-                  <article key={item.question} className="bg-surface p-6 md:p-8">
-                    <h3 className="text-lg font-semibold text-ink">
+                  <details
+                    key={item.question}
+                    className="group border-b border-line"
+                  >
+                    <summary className="flex min-h-16 cursor-pointer list-none items-center justify-between gap-5 py-5 text-base font-semibold text-ink marker:content-none">
                       {item.question}
-                    </h3>
-                    <p className="mt-3 text-body text-muted-ink">
+                      <span
+                        className="text-xl font-normal transition-transform duration-200 group-open:rotate-45"
+                        aria-hidden="true"
+                      >
+                        +
+                      </span>
+                    </summary>
+                    <p className="max-w-[70ch] pb-6 text-body text-muted-ink">
                       {item.answer}
                     </p>
-                  </article>
+                  </details>
                 ))}
               </div>
             </div>

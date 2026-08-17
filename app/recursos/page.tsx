@@ -59,19 +59,22 @@ const featuredGuides = [
 
 const downloads = [
   {
-    title: "Planilha de Precificação",
-    description: "Calcule o preço ideal dos seus serviços",
-    icon: FileSpreadsheet,
+    title: "Tempo no WhatsApp",
+    description: "Calcule as horas usadas em conversas sobre horário",
+    icon: Clock,
+    href: "/calculadora-tempo-whatsapp-barbearia",
   },
   {
-    title: "Calendário de Conteúdo",
-    description: "30 dias de ideias para Instagram",
-    icon: Calendar,
+    title: "Comissão de barbeiro",
+    description: "Simule o acerto com serviço e produto separados",
+    icon: FileSpreadsheet,
+    href: "/calculadora-comissao-barbeiro",
   },
   {
-    title: "Planilha de Comissões",
-    description: "Controle pagamentos da equipe",
-    icon: FileSpreadsheet,
+    title: "Retorno de clientes",
+    description: "Planeje a data e adapte uma mensagem responsável",
+    icon: RotateCcw,
+    href: "/mensagens-retorno-clientes-barbearia",
   },
 ];
 
@@ -174,6 +177,24 @@ export default function ResourcesPage() {
             name: "Roteiros de Shorts e Reels para Barbearias",
             path: "/recursos/videos",
             description: "Roteiros curtos baseados nas práticas publicadas nas guias.",
+          },
+          {
+            name: "Calculadora de Tempo no WhatsApp",
+            path: "/calculadora-tempo-whatsapp-barbearia",
+            description:
+              "Estimativa gratuita de horas usadas em conversas sobre disponibilidade.",
+          },
+          {
+            name: "Calculadora de Comissão de Barbeiro",
+            path: "/calculadora-comissao-barbeiro",
+            description:
+              "Simulação de comissão com serviços, produtos e ajustes separados.",
+          },
+          {
+            name: "Planejador de Retorno de Clientes",
+            path: "/mensagens-retorno-clientes-barbearia",
+            description:
+              "Janela de revisão e mensagem responsável para retorno de clientes.",
           },
           {
             name: "Comissões de Barbeiros",
@@ -412,7 +433,7 @@ export default function ResourcesPage() {
                   {downloads.map((item) => (
                     <Link
                       key={item.title}
-                      href="/recursos/materiais"
+                      href={item.href}
                       className="group block rounded-lg border border-line bg-surface p-5 transition-colors duration-200 ease-out-quint hover:border-ink/40"
                     >
                       <div className="mb-3 flex items-center justify-between">

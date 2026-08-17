@@ -263,6 +263,75 @@ Repositório: `flowo-app-v2/flowo-app`.
 | Página própria `/aplicativo-para-barbeiros` | GlossGenius + Square + Flighty + Mangomint + fonte móvel real | Escopo implementado separado da distribuição pública | Cria intenção de busca, mostra profundidade e não finge lançamento |
 | Lista de interesse inline em dois estados | Copperx flow 8902 | Sem data pública e sem modal | Reduz atrito e confirma o resultado no contexto |
 | Segment como camada de eventos | Arquitetura existente do site | Consentimento e zero PII nos eventos | Evita segundo SDK, peso e custo de instrumentação |
+| Perfis de uso baseados na validação técnica | Validação controlada de produção de 26/07/2026 + `/demonstracao-agendamento-whatsapp` | Nomes fictícios identificados; somente capacidades efetivamente exercitadas; sem atribuir resultado econômico ou depoimento | Mostra como a prova técnica se aplica à rotina solo e de equipe sem inventar cliente ou métrica |
+
+### Casos de validação da Home
+
+Os nomes “Linha Onze Barbearia” e “Quatro Tempos Barbearia”, assim como seus
+logos, são fictícios e representam perfis de uso, não identidades ou
+depoimentos de clientes. A evidência apresentada vem da validação técnica
+concluída em produção, com ativos próprios, em 26 de julho de 2026:
+
+- resposta pelo WhatsApp;
+- consulta de disponibilidade;
+- criação e consulta de agendamento;
+- remarcação, cancelamento e confirmação;
+- pausa e retomada da IA durante atendimento humano.
+
+Os perfis não publicam volume, economia de tempo, receita ou outra métrica ainda
+não observada. Quando existirem clientes autorizados, a seção poderá evoluir
+para casos comerciais com período, amostra, método e consentimento documentados.
+
+Os nomes exatos foram pesquisados antes da publicação. “Clube da Barba
+Curitiba”, opção descartada, coincide com uma empresa ativa e não deve ser
+usado como identidade fictícia. As identidades aprovadas continuam marcadas
+como fictícias na Home, no hub e nas páginas individuais.
+
+### Identidades visuais dos casos de validação
+
+As duas marcas foram geradas no ChatGPT Image em 31 de julho de 2026 e
+exportadas em PNG de 768 × 768 px para uso no site:
+
+- `public/images/validation-cases/linha-onze-professional-v2.png`: assinatura
+  tipográfica vertical com monograma XI, ornamentação gravada e acento em latão;
+- `public/images/validation-cases/quatro-tempos-professional-v2.png`: emblema
+  arquitetônico de traço mais largo, número quatro integrado e ritmo radial em
+  quatro partes, com acento bordô.
+
+Direção dos prompts: identidade completa de barbearia premium, com lettering
+protagonista, hierarquia de fachada, composição legível e acabamento de marca
+histórica. A Black Stive Barbearia, de Campinas, foi observada somente como
+referência de nível de acabamento — presença tipográfica, moldura ornamental e
+leitura de letreiro. Nenhum nome, símbolo, lettering, composição ou ornamento da
+marca real foi reproduzido. As duas soluções são originais e deliberadamente
+distintas entre si.
+
+As imagens permanecem identidades fictícias dos perfis de validação e não devem
+ser reutilizadas como logos de clientes reais. O layout reserva 96 px na Home e
+até 160 px nas páginas individuais para não reduzir uma assinatura completa ao
+tamanho de um ícone genérico.
+
+### Auditoria factual dos casos
+
+As afirmações operacionais foram confrontadas com o produto em 31 de julho de
+2026:
+
+- serviços, duração, agenda por profissional, horários individuais e folgas:
+  `flowo-app-v2/flowo-app/docs/specs/business-catalog.md`;
+- disponibilidade e respeito ao horário do profissional:
+  `packages/backend/convex/appointments/availability.ts` e
+  `convex/__tests__/business-hours-validation.test.ts` (35 testes aprovados);
+- criação, confirmação e proibição de alegar sucesso sem a mutação concluir:
+  `packages/backend/convex/ai/prompt_v2.ts` e
+  `convex/__tests__/booking-audit-fixes.test.ts` (16 testes aprovados);
+- remarcação sem criar agendamento duplicado e cancelamento explícito:
+  `packages/backend/convex/ai/prompt_v2.ts`;
+- pausa para atendimento humano e retorno à IA:
+  `docs/specs/conversations-inbox.md` e
+  `convex/__tests__/human-handoff-intent.test.ts` (3 testes aprovados).
+
+Os casos não afirmam volume, economia, receita, redução de faltas ou resultado
+comercial ainda não medido.
 
 ## Processo para usar esta biblioteca
 

@@ -7,7 +7,7 @@ import {
   Users,
   type LucideIcon,
 } from "lucide-react";
-import { formatBRL, getPlan, type PlanId } from "@/data/pricing-data";
+import { formatBRL, getPlan, hasPublishedPrice, type PlanId } from "@/data/pricing-data";
 
 interface Scenario {
   planId: PlanId;
@@ -103,7 +103,9 @@ export default function IndustryExamples() {
                 <p className="mt-auto pt-7 text-label text-muted-ink">
                   Plano {plan.name} ·{" "}
                   <span className="font-semibold tabular-nums text-ink">
-                    {formatBRL(plan.monthly)}/mês
+                    {hasPublishedPrice(plan)
+                      ? `${formatBRL(plan.monthly)}/mês`
+                      : plan.consultationLabel}
                   </span>
                 </p>
               </article>

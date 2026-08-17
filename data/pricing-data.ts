@@ -2,10 +2,9 @@ import { Calendar, MessageCircle, Shield, Star, Users } from 'lucide-react'
 
 /**
  * SINGLE SOURCE OF TRUTH for Flowo pricing on the landing site.
- * Values mirror the app backend (packages/backend convex subscriptions/constants.ts,
- * TIER_PRICING v3) and docs/product/flowo-product-spec.md:
- *   Solo R$249/mês (anual R$2.490), Equipe R$549/mês (anual R$5.490),
- *   Empresarial R$1.049/mês (anual R$10.490). Anual = 2 meses grátis.
+ * Public commercial contract for the landing site. Solo and Equipe have
+ * published prices. Empresarial is sales-assisted and deliberately carries no
+ * public price; its negotiated value exists only in the authenticated product.
  * No trials, no deposits: Flowo is pay-first, subscribers-only.
  * Any component or JSON-LD that shows a price MUST import from here.
  */
@@ -13,22 +12,33 @@ import { Calendar, MessageCircle, Shield, Star, Users } from 'lucide-react'
 export type PlanId = 'solo' | 'equipe' | 'empresarial'
 export type BillingCycle = 'monthly' | 'yearly'
 
-export interface Plan {
+interface BasePlan {
   id: PlanId
   name: string
   description: string
+  isPopular?: boolean
+  /** Verified plan facts (backend featureGates.ts + product spec §3a). */
+  features: string[]
+}
+
+export interface PublishedPricePlan extends BasePlan {
+  id: 'solo' | 'equipe'
   /** R$ per month, monthly billing. */
   monthly: number
   /** R$ per year, annual billing (equals 10x monthly: 2 months free). */
   annualTotal: number
-  /** Rounded R$/month equivalent when billed annually (matches the app's rounding). */
+  /** Rounded R$/month equivalent when billed annually. */
   annualPerMonth: number
-  isPopular?: boolean
-  /** Verified plan facts (backend featureGates.ts + product spec §3a). */
-  features: string[]
-  /** Sales-assisted plan (Empresarial): CTA is "falar com a gente", not checkout. */
-  salesLed?: boolean
+  salesLed?: false
 }
+
+export interface SalesLedPlan extends BasePlan {
+  id: 'empresarial'
+  salesLed: true
+  consultationLabel: string
+}
+
+export type Plan = PublishedPricePlan | SalesLedPlan
 
 export const PRICE_VALID_UNTIL = '2026-12-31'
 export const ANNUAL_DISCOUNT_LABEL = '2 meses grátis'
@@ -74,11 +84,9 @@ export const PLANS: readonly Plan[] = [
   {
     id: 'empresarial',
     name: 'Empresarial',
-    description: 'Para redes e barbearias de alto volume, com várias unidades.',
-    monthly: 1049,
-    annualTotal: 10490,
-    annualPerMonth: 875,
+    description: 'Para redes, múltiplas unidades e operações que precisam de implantação acompanhada.',
     salesLed: true,
+    consultationLabel: 'Sob consulta',
     features: [
       'Profissionais ilimitados',
       'Múltiplas unidades',
@@ -99,6 +107,9 @@ export const PRICING = {
   plans: PLANS,
 } as const
 
+export function getPlan(id: 'solo' | 'equipe'): PublishedPricePlan
+export function getPlan(id: 'empresarial'): SalesLedPlan
+export function getPlan(id: PlanId): Plan
 export function getPlan(id: PlanId): Plan {
   const plan = PLANS.find((p) => p.id === id)
   if (!plan) throw new Error(`Unknown plan: ${id}`)
@@ -116,7 +127,14 @@ export function formatBRL(value: number): string {
 
 /** Price for a cycle: monthly price, or the R$/month equivalent when annual. */
 export function planPriceForCycle(plan: Plan, cycle: BillingCycle): number {
+  if (plan.salesLed) {
+    throw new Error('Sales-led plans do not have a public price')
+  }
   return cycle === 'yearly' ? plan.annualPerMonth : plan.monthly
+}
+
+export function hasPublishedPrice(plan: Plan): plan is PublishedPricePlan {
+  return plan.salesLed !== true
 }
 
 /* ------------------------------------------------------------------ */
@@ -124,7 +142,7 @@ export function planPriceForCycle(plan: Plan, cycle: BillingCycle): number {
    replaces them. Values are corrected; DO NOT reintroduce trials.     */
 /* ------------------------------------------------------------------ */
 
-export const pricingPlans = PLANS.map((plan) => ({
+export const pricingPlans = PLANS.filter(hasPublishedPrice).map((plan) => ({
   name: plan.name,
   description: plan.description,
   monthlyPrice: plan.monthly,

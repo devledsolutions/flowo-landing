@@ -3,7 +3,7 @@ import { COMPETITOR_COMPARISONS } from "@/data/competitor-comparisons";
 import { GUIDES } from "@/data/guides";
 import { SITE_URL } from "@/lib/seo";
 
-const LAST_MODIFIED = new Date("2026-07-29T00:00:00.000Z");
+const LAST_MODIFIED = new Date("2026-07-31T00:00:00.000Z");
 const COMPETITOR_ROUTES = COMPETITOR_COMPARISONS.map(
   (comparison) => comparison.path,
 );
@@ -11,11 +11,15 @@ const COMPETITOR_ROUTES = COMPETITOR_COMPARISONS.map(
 const CORE_ROUTES = [
   "/",
   "/precos",
+  "/recepcionista-ia-barbearia",
   "/sistema-agendamento-barbearia",
   "/agenda-barbearia-whatsapp",
+  "/demonstracao-agendamento-whatsapp",
+  "/casos-de-validacao",
+  "/casos-de-validacao/linha-onze-sao-paulo",
+  "/casos-de-validacao/quatro-tempos-curitiba",
   "/software-barbearia-com-pix",
   "/aplicativo-para-barbeiros",
-  "/flowo-recupera",
   "/recursos/comissoes-barbeiros",
   "/recursos/cashback-barbearia",
   "/recursos/nota-fiscal-barbearia",
@@ -26,11 +30,12 @@ const CORE_ROUTES = [
   "/recursos",
   "/recursos/videos",
   "/recursos/materiais",
+  "/recursos/diagnostico-agenda-barbearia",
+  "/calculadora-tempo-whatsapp-barbearia",
+  "/calculadora-comissao-barbeiro",
+  "/mensagens-retorno-clientes-barbearia",
   "/recursos/guias",
-  "/casos-de-sucesso",
-  "/casos-de-sucesso/academia-corpo-em-forma",
-  "/casos-de-sucesso/clinica-saude-total",
-  "/casos-de-sucesso/estudio-beleza-radiante",
+  "/parcerias",
   "/sobre",
   "/privacidade",
   "/termos",
@@ -45,14 +50,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority:
       route === "/"
         ? 1
-        : route === "/sistema-agendamento-barbearia" ||
+        : route === "/recepcionista-ia-barbearia" ||
+            route === "/sistema-agendamento-barbearia" ||
             route === "/agenda-barbearia-whatsapp" ||
+            route === "/demonstracao-agendamento-whatsapp" ||
+            route === "/casos-de-validacao" ||
+            route.startsWith("/casos-de-validacao/") ||
             route === "/software-barbearia-com-pix" ||
             route === "/aplicativo-para-barbeiros" ||
-            route === "/flowo-recupera" ||
             route === "/recursos/comissoes-barbeiros" ||
             route === "/recursos/cashback-barbearia" ||
             route === "/recursos/nota-fiscal-barbearia"
+            || route === "/recursos/diagnostico-agenda-barbearia"
+            || route === "/calculadora-tempo-whatsapp-barbearia"
+            || route === "/calculadora-comissao-barbeiro"
+            || route === "/mensagens-retorno-clientes-barbearia"
           ? 0.9
           : route === "/comparar" ||
               route === "/flowo-vs-planilha" ||

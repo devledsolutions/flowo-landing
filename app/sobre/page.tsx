@@ -1,8 +1,11 @@
 import Image from "next/image";
+import Link from "next/link";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { Breadcrumb } from "@/components/breadcrumb";
-import { buildMetadata } from "@/lib/seo";
+import { WHATSAPP_URL } from "@/components/cta-links";
+import { LEGAL_ENTITY } from "@/lib/legal-identity";
+import { absoluteUrl, buildMetadata } from "@/lib/seo";
 import {
   Building2,
   Brain,
@@ -12,39 +15,38 @@ import {
   Shield,
   Zap,
 } from "lucide-react";
-import { LEGAL_ENTITY } from "@/lib/legal-identity";
 
 export const metadata = buildMetadata({
-  title: "Sobre o Flowo: Sistema de Agendamento para Barbearia com IA",
+  title: "Sobre a Flowo: Tecnologia para Barbearias",
   description:
-    "Conheça o Flowo: a plataforma brasileira de agendamento via WhatsApp com IA para barbearias e negócios de serviços.",
+    "Conheça a empresa, os princípios e a validação técnica da Flowo, plataforma brasileira de IA no WhatsApp e gestão para barbearias.",
   path: "/sobre",
 });
 
 const values = [
   {
     icon: Zap,
-    title: "Simplicidade",
+    title: "Produto antes da promessa",
     description:
-      "Tecnologia poderosa que qualquer pessoa consegue usar. Sem complicação.",
+      "Mostramos o que já funciona, o que depende de ativação e o que ainda está em desenvolvimento.",
   },
   {
     icon: Heart,
-    title: "Foco no cliente",
+    title: "Rotina antes do jargão",
     description:
-      "Seu sucesso é o nosso sucesso. Estamos aqui para o seu negócio crescer.",
+      "Falamos de horário, cadeira, encaixe, comanda e acerto — situações que a equipe reconhece.",
   },
   {
     icon: Shield,
-    title: "Confiança",
+    title: "Controle da barbearia",
     description:
-      "Seus dados e os dos seus clientes são tratados com máxima segurança.",
+      "A equipe pode acompanhar a conversa, assumir o atendimento e escolher como receber.",
   },
   {
     icon: Brain,
-    title: "Inovação",
+    title: "Evidência com limite claro",
     description:
-      "IA de verdade, que atende e agenda de fato. Não promessa de demo.",
+      "Testes técnicos não viram depoimentos, e estimativas não são apresentadas como receita realizada.",
   },
 ];
 
@@ -75,9 +77,73 @@ const differentials = [
   },
 ];
 
+const aboutSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "AboutPage",
+      "@id": absoluteUrl("/sobre#webpage"),
+      url: absoluteUrl("/sobre"),
+      name: "Sobre a Flowo",
+      description:
+        "Empresa brasileira de tecnologia que desenvolve recepção com IA no WhatsApp e gestão para barbearias.",
+      inLanguage: "pt-BR",
+      mainEntity: { "@id": `${absoluteUrl("/")}#organization` },
+    },
+    {
+      "@type": "Organization",
+      "@id": `${absoluteUrl("/")}#organization`,
+      name: "Flowo",
+      legalName: LEGAL_ENTITY.name,
+      taxID: LEGAL_ENTITY.taxId,
+      url: absoluteUrl("/"),
+      logo: absoluteUrl("/flowo-logo.svg"),
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "Rua Carlos Augusto Cornelsen, 203, Loja 01",
+        addressLocality: "Curitiba",
+        addressRegion: "PR",
+        postalCode: "80520-560",
+        addressCountry: "BR",
+      },
+      areaServed: { "@type": "Country", name: "Brasil" },
+      contactPoint: {
+        "@type": "ContactPoint",
+        contactType: "Customer Support",
+        email: LEGAL_ENTITY.supportEmail,
+        availableLanguage: "Portuguese",
+        areaServed: "BR",
+      },
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Início",
+          item: absoluteUrl("/"),
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Sobre",
+          item: absoluteUrl("/sobre"),
+        },
+      ],
+    },
+  ],
+};
+
 export default function AboutPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(aboutSchema).replace(/</g, "\\u003c"),
+        }}
+      />
       <Navbar />
       <main id="main-content" className="bg-cream">
         {/* Header */}
@@ -91,13 +157,12 @@ export default function AboutPage() {
             />
             <div className="mt-10 max-w-3xl">
               <h1 className="text-h2 font-semibold text-ink">
-                Simplificando o agendamento para quem faz acontecer
+                Tecnologia brasileira para a rotina real da barbearia.
               </h1>
               <p className="mt-6 max-w-measure text-lead text-muted-ink">
-                O Flowo nasceu de uma frustração real: donos de barbearia
-                perdendo horas respondendo WhatsApp, clientes que não aparecem
-                e dinheiro deixado na mesa. Criamos a solução que gostaríamos
-                de ter.
+                A Flowo conecta o atendimento no WhatsApp à agenda, à equipe e
+                ao fechamento do serviço. Construímos o produto para reduzir a
+                troca manual de informação sem tirar o controle do negócio.
               </p>
             </div>
           </div>
@@ -109,26 +174,26 @@ export default function AboutPage() {
             <div className="grid items-center gap-12 lg:grid-cols-[1fr_minmax(0,26rem)] lg:gap-20">
               <div>
                 <h2 className="text-h3 font-semibold text-ink">
-                  Nossa história
+                  Por que construímos assim
                 </h2>
                 <div className="mt-6 max-w-measure space-y-5 text-body text-muted-ink">
                   <p>
-                    Tudo começou observando o dia a dia de uma barbearia. O
-                    barbeiro parava no meio do corte para responder WhatsApp.
-                    Clientes ligavam para remarcar. Outros simplesmente não
-                    apareciam. No fim do mês, a conta não fechava como deveria.
+                    O problema é concreto: o cliente pergunta por um horário no
+                    WhatsApp, a equipe consulta outra tela e alguém precisa
+                    copiar a resposta de volta. Durante um corte, essa tarefa
+                    disputa atenção com o atendimento na cadeira.
                   </p>
                   <p>
-                    Percebemos que o problema não era falta de clientes, era
-                    falta de organização. E que a solução não podia ser um app
-                    complicado que ninguém ia usar. Tinha que funcionar onde os
-                    clientes já estão: no WhatsApp.
+                    Por isso, o WhatsApp funciona como recepção e o painel como
+                    central de supervisão. A disponibilidade considera dias,
+                    turnos, folgas, serviços e duração de cada profissional nos
+                    planos com equipe.
                   </p>
                   <p>
-                    Assim nasceu o Flowo: uma IA que responde pelo WhatsApp,
-                    agenda automaticamente, envia lembretes e confirma cada
-                    horário. Simples assim, para a barbearia cuidar do corte
-                    enquanto a agenda cuida de si mesma.
+                    A empresa responsável é a {LEGAL_ENTITY.name}, inscrita no
+                    CNPJ {LEGAL_ENTITY.taxId}, com sede em Curitiba. Produto,
+                    privacidade, termos e canais de contato ficam públicos para
+                    que a avaliação não dependa só da nossa mensagem comercial.
                   </p>
                 </div>
               </div>
@@ -140,6 +205,54 @@ export default function AboutPage() {
                   sizes="(min-width: 1024px) 26rem, 100vw"
                   className="img-duotone object-cover"
                 />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="border-y border-line bg-surface py-10 md:py-12">
+          <div className="container-page grid gap-8 md:grid-cols-2 md:gap-12">
+            <div>
+              <p className="text-label font-semibold uppercase tracking-[0.12em] text-faint-ink">
+                Prova técnica
+              </p>
+              <h2 className="mt-3 text-h3 font-semibold text-ink-strong">
+                O fluxo foi executado em produção.
+              </h2>
+              <p className="mt-4 max-w-measure text-body text-muted-ink">
+                Em ambiente controlado, validamos mensagem, resposta da IA,
+                consulta de disponibilidade, agendamento, remarcação,
+                cancelamento, confirmação e atendimento humano.
+              </p>
+              <Link
+                href="/demonstracao-agendamento-whatsapp"
+                className="mt-5 inline-flex min-h-11 items-center font-semibold text-ink underline underline-offset-4"
+              >
+                Ver escopo e limites do teste
+              </Link>
+            </div>
+            <div>
+              <p className="text-label font-semibold uppercase tracking-[0.12em] text-faint-ink">
+                Transparência
+              </p>
+              <h2 className="mt-3 text-h3 font-semibold text-ink-strong">
+                Sem cliente inventado. Sem número solto.
+              </h2>
+              <p className="mt-4 max-w-measure text-body text-muted-ink">
+                O teste comprova funcionamento técnico, não aumento de receita.
+                Quando houver resultados comerciais medidos com clientes, eles
+                serão publicados com contexto, período e autorização.
+              </p>
+              <div className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-sm">
+                <Link href="/privacidade" className="font-semibold text-ink underline underline-offset-4">
+                  Privacidade
+                </Link>
+                <Link href="/termos" className="font-semibold text-ink underline underline-offset-4">
+                  Termos de uso
+                </Link>
+                <a href={`mailto:${LEGAL_ENTITY.supportEmail}`} className="font-semibold text-ink underline underline-offset-4">
+                  Suporte
+                </a>
               </div>
             </div>
           </div>
@@ -224,24 +337,24 @@ export default function AboutPage() {
         <section className="on-ink section-normal">
           <div className="container-page text-center">
             <h2 className="mx-auto max-w-2xl text-h2 font-semibold text-ink">
-              Pronto para simplificar seu agendamento?
+              Quer ver o fluxo antes de decidir?
             </h2>
             <p className="mx-auto mt-5 max-w-measure text-lead text-muted-ink">
-              Assine o Flowo e deixe a IA atender, agendar e confirmar seus
-              clientes no WhatsApp.
+              Veja o que já foi validado ou converse com a equipe sobre a rotina
+              da sua barbearia.
             </p>
             <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <a
-                href="https://barber.flowo.com.br/sign-up"
+              <Link
+                href="/demonstracao-agendamento-whatsapp"
                 className="inline-flex items-center justify-center rounded-full bg-ink px-8 py-3.5 text-label font-medium text-cream transition-colors duration-200 ease-out-quint hover:bg-ink-strong"
               >
-                Começar agora
-              </a>
+                Ver demonstração
+              </Link>
               <a
-                href={`mailto:${LEGAL_ENTITY.contactEmail}`}
+                href={WHATSAPP_URL}
                 className="inline-flex items-center justify-center rounded-full border border-line px-8 py-3.5 text-label font-medium text-ink transition-colors duration-200 ease-out-quint hover:bg-surface"
               >
-                Tirar dúvidas
+                Falar com a Flowo
               </a>
             </div>
           </div>

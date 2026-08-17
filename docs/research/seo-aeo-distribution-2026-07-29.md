@@ -1,6 +1,6 @@
 # Distribuição técnica: busca, respostas com IA e performance
 
-**Validado em:** 29 de julho de 2026  
+**Validado em:** 31 de julho de 2026
 **Site canônico:** <https://www.flowo.com.br>
 
 ## Objetivo
@@ -63,9 +63,17 @@ Fontes oficiais:
 - JSON-LD: `Organization`, `WebSite`, `SoftwareApplication`, `FAQPage`,
   `VideoObject`, breadcrumbs e entidades específicas por rota.
 - Metadados por rota: título, descrição, canonical, Open Graph e Twitter.
+- Manifest em pt-BR com nome, descrição, cores e identidade do produto.
 - Verificação opcional por ambiente:
   `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` e
   `NEXT_PUBLIC_BING_SITE_VERIFICATION`.
+
+O comando abaixo audita todas as URLs do sitemap, o HTML inicial, H1, destino
+de acessibilidade, metadados sociais, canonical, JSON-LD, links e imagens:
+
+```bash
+pnpm seo:audit https://www.flowo.com.br
+```
 
 ## Critérios de aceite
 

@@ -1,7 +1,7 @@
 # Product Marketing Context
 
-**Document version:** v1  
-**Last updated:** 2026-07-29
+**Document version:** v4
+**Last updated:** 2026-07-31
 
 ## Product Overview
 
@@ -15,8 +15,9 @@ celular, sem data pública de lançamento.
 **Product category:** Sistema de agendamento e gestão para barbearias; recepção
 com IA no WhatsApp.  
 **Product type:** SaaS B2B multi-tenant.  
-**Business model:** Assinatura paga desde o primeiro dia: Solo R$249/mês, Equipe
-R$549/mês e Empresarial R$1.049/mês. Sem período de teste e sem fidelidade.
+**Business model:** Assinatura paga desde o primeiro dia: Solo R$249/mês e Equipe
+R$549/mês. Empresarial é sob consulta, com proposta, contratação e ativação
+assistidas. Sem período de teste e sem fidelidade.
 
 ## Target Audience
 
@@ -118,16 +119,23 @@ errado.
 - “Não consigo responder enquanto estou cortando.”
 - “Cada barbeiro trabalha num horário diferente.”
 - “O cliente chama no WhatsApp e eu preciso parar para olhar a agenda.”
+- “O cliente marcou e não apareceu.”
+- “Ficou um buraco na agenda.”
+- “O horário ficou no WhatsApp e ninguém passou para a agenda.”
+- “Preciso fazer um encaixe.”
+- “No fim do mês ainda tenho que conferir o acerto de cada barbeiro.”
 
 **How they describe us:**
 
 - “Uma recepcionista no WhatsApp.”
 - “A IA agenda enquanto eu trabalho.”
 
-**Words to use:** WhatsApp, agenda, horário, barbeiro, cliente, comanda,
-recepção, confirmar, escolher.  
+**Words to use:** WhatsApp, agenda, horário, barbeiro, cliente, corte, cadeira,
+comanda, confirmar, remarcar, encaixe, folga, turno, comissão, acerto, cliente
+sumido, agenda furada.  
 **Words to avoid:** revolucionário, completo sem condição, automático quando há
-revisão humana, grátis, teste, pagamento obrigatório.  
+revisão humana, grátis, teste, pagamento obrigatório, jornada, handoff, atrito,
+operação conectada sem explicar o que foi conectado.  
 **Glossary:**
 
 | Term | Meaning |
@@ -140,8 +148,34 @@ revisão humana, grátis, teste, pagamento obrigatório.
 ## Brand Voice
 
 **Tone:** Profissional, direto e próximo.  
-**Style:** Frases claras, critérios verificáveis e condições visíveis.  
+**Style:** Frases curtas e concretas, com cenas da rotina da barbearia. Trocar
+termos internos por situações reconhecíveis, como parar o corte para responder,
+conferir a escala, fazer um encaixe ou fechar a comanda.  
 **Personality:** Confiante, honesta, prática, cuidadosa e brasileira.
+
+## Visual Identity
+
+**Sistema:** Barbearia Noir — composição limpa, premium e funcional, com
+contraste alto e ritmo editorial controlado. A interface do produto é a imagem
+principal; fotografias e imagens geradas mostram a rotina real da barbearia.
+
+**Logo canônico:** `/flowo-logo.svg`, em tinta monocromática. Os arquivos
+`/logo.png`, `/logo.svg` e `/logo-2.svg` são legados e não podem ser usados em
+novas páginas, metadados, materiais ou prompts de geração.
+
+**Paleta:** tinta quente `#171810`, creme `#f8f6f2`/`#f4f0e5` e superfícies
+neutras do `app/globals.css`. Cores de WhatsApp, estados semânticos, controles
+de janela e telas do aplicativo ficam restritas ao objeto que representam;
+elas não se tornam cor da marca do site.
+
+**Tipografia:** Poppins para interface e comunicação; Lora apenas nos momentos
+editoriais já definidos pelo sistema. Preservar essa combinação em páginas
+existentes em vez de escolher uma nova fonte por campanha.
+
+**Imagem e mockup:** partir das páginas e mockups aprovados da Home, Raio-X,
+produto e recursos. ChatGPT Image pode criar fotografia editorial e cenas de
+contexto; telas da Flowo devem ser capturas ou composições fiéis do produto,
+nunca uma interface inventada pelo gerador.
 
 ## Proof Points
 
@@ -149,6 +183,11 @@ revisão humana, grátis, teste, pagamento obrigatório.
 auditável.  
 **Customers:** Não usar logos sem autorização.  
 **Testimonials:** Não inventar depoimentos.  
+**Technical validation:** Em 26 de julho de 2026, a Flowo validou em produção,
+com ativos próprios de teste, a resposta pelo WhatsApp, a consulta de
+disponibilidade, a criação, consulta, remarcação, cancelamento e confirmação de
+agendamento, além da pausa e retomada da IA durante atendimento humano. Isso é
+prova técnica, não caso de cliente nem promessa de resultado econômico.
 **Value themes:**
 
 | Theme | Proof |
@@ -168,5 +207,8 @@ automação no WhatsApp.
 
 ## Changelog
 
+- v4 (2026-07-31) — Fixou a identidade visual canônica das landing pages, o uso exclusivo de `flowo-logo.svg` e a separação entre imagens geradas e telas reais do produto.
+- v3 (2026-07-31) — Registrou a validação técnica em produção e delimitou seu uso: prova de funcionamento, sem apresentá-la como caso de cliente ou resultado financeiro.
+- v2 (2026-07-30) — Ampliou a linguagem do cliente e a voz da marca com termos da rotina de barbeiros; removeu jargão operacional das diretrizes.
 - v1 (2026-07-29) — Contexto inicial criado a partir do produto, do site e da pesquisa competitiva oficial.
 - v1.1 (2026-07-29) — Estado e proposta do aplicativo adicionados, com lista de interesse como conversão secundária.

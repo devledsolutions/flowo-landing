@@ -3,7 +3,6 @@ import { getPlan, formatBRL } from "@/data/pricing-data"
 
 const solo = getPlan("solo")
 const equipe = getPlan("equipe")
-const empresarial = getPlan("empresarial")
 
 export const faqItems: FAQItem[] = [
   {
@@ -33,7 +32,7 @@ export const faqItems: FAQItem[] = [
   },
   {
     question: "Quanto custa o Flowo?",
-    answer: `São três planos: Solo por ${formatBRL(solo.monthly)}/mês, Equipe por ${formatBRL(equipe.monthly)}/mês e Empresarial por ${formatBRL(empresarial.monthly)}/mês. No plano anual você leva 2 meses grátis (o Solo, por exemplo, sai por ${formatBRL(solo.annualTotal)}/ano). Sem taxa de instalação e sem fidelidade.`,
+    answer: `São três planos: Solo por ${formatBRL(solo.monthly)}/mês, Equipe por ${formatBRL(equipe.monthly)}/mês e Empresarial sob consulta, com proposta e implantação acompanhadas. No plano anual você leva 2 meses grátis (o Solo, por exemplo, sai por ${formatBRL(solo.annualTotal)}/ano). Sem fidelidade.`,
     category: "Planos"
   },
   {

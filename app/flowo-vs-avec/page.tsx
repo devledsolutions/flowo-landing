@@ -9,8 +9,8 @@ export const metadata = buildMetadata({
   description: comparison.seoDescription,
   path: comparison.path,
   type: "article",
-  publishedTime: "2026-07-29",
-  modifiedTime: "2026-07-29",
+  publishedTime: comparison.publishedAt,
+  modifiedTime: "2026-07-31",
 });
 
 export default function FlowoVsAvecPage() {

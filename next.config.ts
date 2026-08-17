@@ -44,12 +44,17 @@ const nextConfig: NextConfig = {
         ],
       },
       {
-        // Marketing downloads rarely change and can be cached aggressively.
+        // Keep downloadable assets out of search results so their explanatory
+        // landing pages own the query and conversion path.
         source: "/downloads/:path*",
         headers: [
           {
             key: "Cache-Control",
             value: "public, max-age=604800, stale-while-revalidate=2592000",
+          },
+          {
+            key: "X-Robots-Tag",
+            value: "noindex, noarchive",
           },
         ],
       },
@@ -99,26 +104,6 @@ const nextConfig: NextConfig = {
       {
         // Brand assets are stable most of the time.
         source: "/flowo-logo.svg",
-        headers: [
-          {
-            key: "Cache-Control",
-            value:
-              "public, max-age=86400, s-maxage=604800, stale-while-revalidate=2592000",
-          },
-        ],
-      },
-      {
-        source: "/logo.svg",
-        headers: [
-          {
-            key: "Cache-Control",
-            value:
-              "public, max-age=86400, s-maxage=604800, stale-while-revalidate=2592000",
-          },
-        ],
-      },
-      {
-        source: "/logo.png",
         headers: [
           {
             key: "Cache-Control",

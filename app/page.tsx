@@ -2,21 +2,17 @@ import SchemaMarkup from "@/components/schema-markup";
 import Navbar from "@/components/navbar";
 import Hero from "@/components/hero";
 import ProductStory from "@/components/home/product-story";
-import MobileAppSection from "@/components/mobile-app-section";
-import OptionalOperations from "@/components/home/optional-operations";
-import { RecoveryHomeSection } from "@/components/marketing/recovery-preview";
+import SwitchingReassurance from "@/components/home/switching-reassurance";
+import ScenarioSelector from "@/components/home/scenario-selector";
 import HomePricingSection from "@/components/home-pricing-section";
 import FAQ from "@/components/faq";
 import OnboardingClose from "@/components/home/onboarding-close";
+import { ValidatedProof } from "@/components/home/validated-proof";
 import Footer from "@/components/footer";
-import {
-  InstitutionalFilm,
-  InstitutionalFilmSchema,
-} from "@/components/marketing/institutional-film";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Sistema de Agendamento para Barbearia | WhatsApp + IA - Flowo",
+  title: "Flowo | IA no WhatsApp e Gestão para Barbearias",
   description:
     "A IA da Flowo atende no WhatsApp, agenda e confirma clientes. Organize horários, comandas e formas de recebimento — com pagamentos integrados opcionais.",
   path: "/",
@@ -27,15 +23,13 @@ export default function Home() {
   return (
     <>
       <SchemaMarkup />
-      <InstitutionalFilmSchema pagePath="/" />
       <Navbar />
       <main id="main-content">
         <Hero />
+        <ValidatedProof />
         <ProductStory />
-        <MobileAppSection />
-        <InstitutionalFilm />
-        <OptionalOperations />
-        <RecoveryHomeSection />
+        <SwitchingReassurance />
+        <ScenarioSelector />
         <section id="precos" className="section-normal scroll-mt-24">
           <div className="container-page">
             <HomePricingSection />
@@ -44,7 +38,7 @@ export default function Home() {
         <FAQ compact />
         <OnboardingClose />
       </main>
-      <Footer />
+      <Footer compact />
     </>
   );
 }

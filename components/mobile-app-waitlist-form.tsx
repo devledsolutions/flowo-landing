@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { TurnstileWidget } from "@/components/turnstile-widget";
 import { useSegment } from "@/providers/segment-provider";
+import { useLeadRemarketing } from "@/hooks/use-lead-remarketing";
 
 function formatBrazilianPhone(value: string) {
   const digits = value.replace(/\D/g, "").slice(0, 11);
@@ -17,6 +18,7 @@ function formatBrazilianPhone(value: string) {
 }
 
 export function MobileAppWaitlistForm() {
+  const trackLeadRemarketing = useLeadRemarketing();
   const {
     track,
     identify,
@@ -29,7 +31,9 @@ export function MobileAppWaitlistForm() {
   const [whatsapp, setWhatsapp] = useState("");
   const [company, setCompany] = useState("");
   const [turnstileToken, setTurnstileToken] = useState("");
-  const [marketingConsent, setMarketingConsent] = useState(false);
+  const [emailMarketingConsent, setEmailMarketingConsent] = useState(false);
+  const [smsMarketingConsent, setSmsMarketingConsent] = useState(false);
+  const [whatsappMarketingConsent, setWhatsappMarketingConsent] = useState(false);
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">(
     "idle",
   );
@@ -71,13 +75,18 @@ export function MobileAppWaitlistForm() {
           company,
           source: "app-mobile-waitlist",
           consent: true,
-          marketingConsent,
+          emailMarketingConsent,
+          smsMarketingConsent,
+          whatsappMarketingConsent,
           ...getAcquisitionContext(),
           segmentAnonymousId: getAnonymousId(),
           turnstileToken,
         }),
       });
-      const data = (await response.json()) as { message?: string };
+      const data = (await response.json()) as {
+        message?: string;
+        metaEventId?: string;
+      };
 
       if (!response.ok) {
         setStatus("error");
@@ -90,17 +99,26 @@ export function MobileAppWaitlistForm() {
       }
 
       setStatus("success");
+      trackLeadRemarketing({
+        eventId: data.metaEventId,
+        source: "app-mobile-waitlist",
+        kind: "waitlist",
+      });
       identify(undefined, {
         email,
         name,
         phone: `+55${whatsapp.replace(/\D/g, "")}`,
         lead_source: "app-mobile-waitlist",
-        email_marketing_opt_in: marketingConsent,
+        email_marketing_opt_in: emailMarketingConsent,
+        sms_marketing_opt_in: smsMarketingConsent,
+        whatsapp_marketing_opt_in: whatsappMarketingConsent,
       });
       track("App Waitlist Submitted", {
         page: "/aplicativo-para-barbeiros",
         surface: "launch_interest_form",
-        marketing_opt_in: marketingConsent,
+        email_marketing_opt_in: emailMarketingConsent,
+        sms_marketing_opt_in: smsMarketingConsent,
+        whatsapp_marketing_opt_in: whatsappMarketingConsent,
       });
     } catch {
       setStatus("error");
@@ -251,13 +269,41 @@ export function MobileAppWaitlistForm() {
       <label className="mt-3 flex max-w-2xl items-start gap-2 text-caption leading-5 text-muted-ink">
         <input
           type="checkbox"
-          checked={marketingConsent}
-          onChange={(event) => setMarketingConsent(event.target.checked)}
+          checked={whatsappMarketingConsent}
+          onChange={(event) =>
+            setWhatsappMarketingConsent(event.target.checked)
+          }
+          className="mt-0.5 h-4 w-4 shrink-0 accent-ink"
+        />
+        <span>
+          Quero receber pelo WhatsApp dicas práticas, novidades e convites da
+          Flowo. Posso responder SAIR quando quiser.
+        </span>
+      </label>
+      <label className="mt-3 flex max-w-2xl items-start gap-2 text-caption leading-5 text-muted-ink">
+        <input
+          type="checkbox"
+          checked={emailMarketingConsent}
+          onChange={(event) =>
+            setEmailMarketingConsent(event.target.checked)
+          }
           className="mt-0.5 h-4 w-4 shrink-0 accent-ink"
         />
         <span>
           Quero receber por e-mail conteúdos, novidades e ofertas da Flowo.
           Posso cancelar quando quiser.
+        </span>
+      </label>
+      <label className="mt-3 flex max-w-2xl items-start gap-2 text-caption leading-5 text-muted-ink">
+        <input
+          type="checkbox"
+          checked={smsMarketingConsent}
+          onChange={(event) => setSmsMarketingConsent(event.target.checked)}
+          className="mt-0.5 h-4 w-4 shrink-0 accent-ink"
+        />
+        <span>
+          Quero receber por SMS novidades e convites da Flowo. A frequência é
+          limitada e posso responder SAIR a qualquer momento.
         </span>
       </label>
 

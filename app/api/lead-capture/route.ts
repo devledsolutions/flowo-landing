@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { randomUUID } from "node:crypto";
 import * as Sentry from "@sentry/nextjs";
 import { ConvexHttpClient } from "convex/browser";
 import { makeFunctionReference } from "convex/server";
@@ -16,8 +17,15 @@ const LEAD_CAPTURE_LIMIT = 15;
 type CaptureWebsiteLeadArgs = {
   name: string;
   email?: string;
-  phone: string;
+  phone?: string;
   source: string;
+  businessName?: string;
+  professionalsCount?: number;
+  unitsCount?: number;
+  purchaseTimeline?: "now" | "quarter" | "planning";
+  experimentKey?: string;
+  experimentVariant?: string;
+  requestedResource?: string;
   landingPath: string;
   referrer?: string;
   utmSource?: string;
@@ -25,9 +33,29 @@ type CaptureWebsiteLeadArgs = {
   utmCampaign?: string;
   utmContent?: string;
   utmTerm?: string;
+  fbclid?: string;
+  fbc?: string;
+  fbp?: string;
+  gclid?: string;
+  gbraid?: string;
+  wbraid?: string;
+  msclkid?: string;
+  ttclid?: string;
+  ctwaClid?: string;
   segmentAnonymousId?: string;
   consent: true;
+  salesContactRequestChannels?: Array<"email" | "phone" | "whatsapp">;
+  salesContactRequestMessage?: string;
+  emailMarketingConsent?: boolean;
+  smsMarketingConsent?: boolean;
+  whatsappMarketingConsent?: boolean;
   marketingConsent?: boolean;
+  advertisingConsent?: boolean;
+  advertisingConsentVersion?: string;
+  metaEventId?: string;
+  clientIpAddress?: string;
+  clientUserAgent?: string;
+  eventSourceUrl?: string;
   website?: string;
 };
 
@@ -39,6 +67,56 @@ const captureWebsiteLead = makeFunctionReference<
 
 function optional(value: string | undefined): string | undefined {
   return value || undefined;
+}
+
+function readCookie(request: Request, name: string): string | undefined {
+  const header = request.headers.get("cookie");
+  if (!header) return undefined;
+
+  let match: string | undefined;
+  for (const entry of header.split(";")) {
+    const separator = entry.indexOf("=");
+    if (separator < 0) continue;
+    const key = entry.slice(0, separator).trim();
+    if (key !== name) continue;
+    const value = entry.slice(separator + 1).trim();
+    try {
+      match = decodeURIComponent(value);
+    } catch {
+      match = value;
+    }
+  }
+  return match;
+}
+
+function readAdvertisingConsent(request: Request): {
+  value?: boolean;
+  granted: boolean;
+  version?: string;
+} {
+  const rawPreferences = readCookie(request, "cookieConsent");
+  if (!rawPreferences) {
+    return { granted: false };
+  }
+  try {
+    const preferences = JSON.parse(rawPreferences) as { marketing?: unknown };
+    const metadata = JSON.parse(
+      readCookie(request, "cookieConsentDate") || "{}"
+    ) as { consentVersion?: unknown };
+    if (preferences.marketing !== true && preferences.marketing !== false) {
+      return { granted: false };
+    }
+    return {
+      value: preferences.marketing,
+      granted: preferences.marketing === true,
+      version:
+        typeof metadata.consentVersion === "string"
+          ? metadata.consentVersion.slice(0, 40)
+          : undefined,
+    };
+  } catch {
+    return { granted: false };
+  }
 }
 
 function tooManyRequestsResponse(retryAfterSeconds: number) {
@@ -93,8 +171,20 @@ export async function POST(request: Request) {
       email,
       whatsapp,
       source = "",
+      businessName = "",
+      professionalsCount,
+      unitsCount,
+      purchaseTimeline,
+      experimentKey = "",
+      experimentVariant = "",
+      requestedResource = "",
       company = "",
       consent,
+      salesContactRequestChannels,
+      salesContactRequestMessage = "",
+      emailMarketingConsent,
+      smsMarketingConsent,
+      whatsappMarketingConsent,
       marketingConsent,
       landingPath = "",
       referrer = "",
@@ -103,6 +193,15 @@ export async function POST(request: Request) {
       utmCampaign = "",
       utmContent = "",
       utmTerm = "",
+      fbclid = "",
+      fbc = "",
+      fbp = "",
+      gclid = "",
+      gbraid = "",
+      wbraid = "",
+      msclkid = "",
+      ttclid = "",
+      ctwaClid = "",
       segmentAnonymousId = "",
       turnstileToken = "",
     } = parsed.data;
@@ -145,12 +244,21 @@ export async function POST(request: Request) {
     }
 
     const refererHeader = request.headers.get("referer") || "";
+    const advertisingConsent = readAdvertisingConsent(request);
+    const metaEventId = advertisingConsent.granted ? randomUUID() : undefined;
     const convex = new ConvexHttpClient(convexUrl);
     await convex.mutation(captureWebsiteLead, {
       name,
       email: optional(email),
-      phone: whatsapp,
+      phone: optional(whatsapp),
       source,
+      businessName: optional(businessName),
+      professionalsCount,
+      unitsCount,
+      purchaseTimeline,
+      experimentKey: optional(experimentKey),
+      experimentVariant: optional(experimentVariant),
+      requestedResource: optional(requestedResource),
       landingPath: landingPath || refererHeader || "/",
       referrer: optional(referrer),
       utmSource: optional(utmSource),
@@ -158,9 +266,34 @@ export async function POST(request: Request) {
       utmCampaign: optional(utmCampaign),
       utmContent: optional(utmContent),
       utmTerm: optional(utmTerm),
+      fbclid: optional(fbclid),
+      fbc: optional(fbc),
+      fbp: optional(fbp),
+      gclid: optional(gclid),
+      gbraid: optional(gbraid),
+      wbraid: optional(wbraid),
+      msclkid: optional(msclkid),
+      ttclid: optional(ttclid),
+      ctwaClid: optional(ctwaClid),
       segmentAnonymousId: optional(segmentAnonymousId),
       consent,
-      marketingConsent,
+      salesContactRequestChannels,
+      salesContactRequestMessage: optional(salesContactRequestMessage),
+      emailMarketingConsent:
+        emailMarketingConsent ?? marketingConsent ?? false,
+      smsMarketingConsent,
+      whatsappMarketingConsent,
+      advertisingConsent: advertisingConsent.value,
+      advertisingConsentVersion: advertisingConsent.version,
+      metaEventId,
+      clientIpAddress:
+        advertisingConsent.granted && ip !== "unknown" ? ip : undefined,
+      clientUserAgent: advertisingConsent.granted
+        ? optional(request.headers.get("user-agent") || undefined)
+        : undefined,
+      eventSourceUrl: advertisingConsent.granted
+        ? landingPath || refererHeader || "https://www.flowo.com.br/"
+        : undefined,
       website: optional(company),
     });
 
@@ -177,6 +310,7 @@ export async function POST(request: Request) {
     return NextResponse.json({
       success: true,
       message: "Lead captured successfully",
+      metaEventId,
     });
   } catch (error) {
     console.error("Error capturing lead:", error);

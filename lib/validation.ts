@@ -21,11 +21,34 @@ export const leadCaptureSchema = z.object({
     .email()
     .optional()
     .or(z.literal("")),
-  whatsapp: whatsappSchema,
+  whatsapp: whatsappSchema.optional().or(z.literal("")),
   source: z.string().trim().min(1).max(120),
+  requestedResource: z.string().trim().max(120).optional().or(z.literal("")),
   company: z.string().trim().max(200).optional().or(z.literal("")),
+  businessName: z.string().trim().max(160).optional().or(z.literal("")),
+  professionalsCount: z.number().int().positive().max(10_000).optional(),
+  unitsCount: z.number().int().positive().max(10_000).optional(),
+  purchaseTimeline: z
+    .enum(["now", "quarter", "planning"])
+    .optional(),
+  experimentKey: z.string().trim().max(80).optional().or(z.literal("")),
+  experimentVariant: z.string().trim().max(80).optional().or(z.literal("")),
   consent: z.literal(true),
-  marketingConsent: z.boolean().optional().default(false),
+  salesContactRequestChannels: z
+    .array(z.enum(["email", "phone", "whatsapp"]))
+    .max(3)
+    .optional(),
+  salesContactRequestMessage: z
+    .string()
+    .trim()
+    .max(1000)
+    .optional()
+    .or(z.literal("")),
+  emailMarketingConsent: z.boolean().optional(),
+  smsMarketingConsent: z.boolean().optional(),
+  whatsappMarketingConsent: z.boolean().optional(),
+  // Backward-compatible while older cached clients finish rolling over.
+  marketingConsent: z.boolean().optional(),
   landingPath: z.string().trim().max(300).optional().or(z.literal("")),
   referrer: z.string().trim().max(500).optional().or(z.literal("")),
   utmSource: z.string().trim().max(100).optional().or(z.literal("")),
@@ -33,6 +56,15 @@ export const leadCaptureSchema = z.object({
   utmCampaign: z.string().trim().max(150).optional().or(z.literal("")),
   utmContent: z.string().trim().max(150).optional().or(z.literal("")),
   utmTerm: z.string().trim().max(150).optional().or(z.literal("")),
+  fbclid: z.string().trim().max(300).optional().or(z.literal("")),
+  fbc: z.string().trim().max(300).optional().or(z.literal("")),
+  fbp: z.string().trim().max(300).optional().or(z.literal("")),
+  gclid: z.string().trim().max(300).optional().or(z.literal("")),
+  gbraid: z.string().trim().max(300).optional().or(z.literal("")),
+  wbraid: z.string().trim().max(300).optional().or(z.literal("")),
+  msclkid: z.string().trim().max(300).optional().or(z.literal("")),
+  ttclid: z.string().trim().max(300).optional().or(z.literal("")),
+  ctwaClid: z.string().trim().max(300).optional().or(z.literal("")),
   segmentAnonymousId: z.string().trim().max(200).optional().or(z.literal("")),
   turnstileToken: z
     .string()
@@ -45,7 +77,26 @@ export const leadCaptureSchema = z.object({
 export const contactFormSchema = z.object({
   name: z.string().trim().min(2).max(120),
   email: z.string().trim().toLowerCase().email(),
-  message: z.string().trim().min(10).max(2000),
+  message: z.string().trim().min(10).max(1000),
+  consent: z.literal(true),
+  emailMarketingConsent: z.boolean().optional().default(false),
+  landingPath: z.string().trim().max(300).optional().or(z.literal("")),
+  referrer: z.string().trim().max(500).optional().or(z.literal("")),
+  utmSource: z.string().trim().max(100).optional().or(z.literal("")),
+  utmMedium: z.string().trim().max(100).optional().or(z.literal("")),
+  utmCampaign: z.string().trim().max(150).optional().or(z.literal("")),
+  utmContent: z.string().trim().max(150).optional().or(z.literal("")),
+  utmTerm: z.string().trim().max(150).optional().or(z.literal("")),
+  fbclid: z.string().trim().max(300).optional().or(z.literal("")),
+  fbc: z.string().trim().max(300).optional().or(z.literal("")),
+  fbp: z.string().trim().max(300).optional().or(z.literal("")),
+  gclid: z.string().trim().max(300).optional().or(z.literal("")),
+  gbraid: z.string().trim().max(300).optional().or(z.literal("")),
+  wbraid: z.string().trim().max(300).optional().or(z.literal("")),
+  msclkid: z.string().trim().max(300).optional().or(z.literal("")),
+  ttclid: z.string().trim().max(300).optional().or(z.literal("")),
+  ctwaClid: z.string().trim().max(300).optional().or(z.literal("")),
+  segmentAnonymousId: z.string().trim().max(200).optional().or(z.literal("")),
   company: z.string().trim().max(200).optional().or(z.literal("")),
   turnstileToken: z
     .string()

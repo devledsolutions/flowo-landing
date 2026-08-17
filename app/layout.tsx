@@ -1,8 +1,9 @@
 import type { Metadata, Viewport } from "next"
-import { Suspense } from "react"
 import { Poppins, Lora } from "next/font/google"
 import "./globals.css"
 import { SegmentProvider } from "@/providers/segment-provider"
+import { MetaRemarketingProvider } from "@/providers/meta-remarketing-provider"
+import { PaidMediaProvider } from "@/providers/paid-media-provider"
 import { CookieBanner } from "@/components/cookie-banner"
 import { ConsentInitializer } from "@/components/consent-initializer"
 import {
@@ -28,7 +29,7 @@ const lora = Lora({
 })
 
 const DEFAULT_TITLE =
-  "Sistema de Agendamento para Barbearia | WhatsApp + IA - Flowo"
+  "Flowo | IA no WhatsApp e Gestão para Barbearias"
 const DEFAULT_DESCRIPTION =
   "Software de agendamento para barbearias: a IA atende no WhatsApp, agenda e confirma clientes. Organize comandas e recebimentos, com PIX e cartão integrados opcionais."
 
@@ -47,6 +48,8 @@ export const metadata: Metadata = {
     "agenda barbearia",
     "gestão barbearia",
     "software barbearia",
+    "recepcionista ia barbearia",
+    "sistema de gestão para barbearia",
     "lembrete agendamento",
     "reduzir faltas barbearia",
   ],
@@ -90,13 +93,14 @@ export const metadata: Metadata = {
     ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
       ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
       : {}),
-    ...(process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
-      ? {
-          other: {
+    other: {
+      "facebook-domain-verification": "llh12wjtj6ysmbmtxeuzlq4xunrnwe",
+      ...(process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
+        ? {
             "msvalidate.01": process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION,
-          },
-        }
-      : {}),
+          }
+        : {}),
+    },
   },
 }
 
@@ -142,11 +146,20 @@ export default function RootLayout({
           Pular para o conteúdo principal
         </a>
         <ConsentInitializer />
-        <Suspense fallback={null}>
-          <SegmentProvider writeKey={process.env.NEXT_PUBLIC_SEGMENT_WRITE_KEY}>
-            {children}
-          </SegmentProvider>
-        </Suspense>
+        <PaidMediaProvider
+          googleAnalyticsId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}
+          googleAdsId={process.env.NEXT_PUBLIC_GOOGLE_ADS_ID}
+          googleLeadConversionLabel={
+            process.env.NEXT_PUBLIC_GOOGLE_ADS_LEAD_CONVERSION_LABEL
+          }
+          tiktokPixelId={process.env.NEXT_PUBLIC_TIKTOK_PIXEL_ID}
+        >
+          <MetaRemarketingProvider pixelId={process.env.NEXT_PUBLIC_META_PIXEL_ID}>
+            <SegmentProvider writeKey={process.env.NEXT_PUBLIC_SEGMENT_WRITE_KEY}>
+              {children}
+            </SegmentProvider>
+          </MetaRemarketingProvider>
+        </PaidMediaProvider>
         <CookieBanner />
       </body>
     </html>

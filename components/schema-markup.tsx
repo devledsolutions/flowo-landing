@@ -1,7 +1,8 @@
-import { PRICING } from "@/data/pricing-data";
+import { hasPublishedPrice, PRICING } from "@/data/pricing-data";
 import { homeFaqItems } from "@/data/faq-items";
 import { LEGAL_ENTITY } from "@/lib/legal-identity";
 import { SITE_URL, absoluteUrl } from "@/lib/seo";
+import { WHATSAPP_NUMBER_E164 } from "@/components/cta-links";
 
 /**
  * JSON-LD for the home page. Rules:
@@ -11,7 +12,7 @@ import { SITE_URL, absoluteUrl } from "@/lib/seo";
  * - FAQ is generated from the exact home-page subset so visible copy and schema never drift.
  */
 export default function SchemaMarkup() {
-  const offers = PRICING.plans.map((plan) => ({
+  const offers = PRICING.plans.filter(hasPublishedPrice).map((plan) => ({
     "@type": "Offer",
     name: `Plano ${plan.name}`,
     price: String(plan.monthly),
@@ -42,6 +43,7 @@ export default function SchemaMarkup() {
     inLanguage: "pt-BR",
     author: {
       "@type": "Organization",
+      "@id": `${SITE_URL}/#organization`,
       name: "Flowo",
       url: SITE_URL,
     },
@@ -50,8 +52,10 @@ export default function SchemaMarkup() {
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: LEGAL_ENTITY.name,
-    alternateName: "Flowo",
+    "@id": `${SITE_URL}/#organization`,
+    name: "Flowo",
+    legalName: LEGAL_ENTITY.name,
+    alternateName: "Flowo para Barbearias",
     taxID: LEGAL_ENTITY.taxId,
     url: SITE_URL,
     logo: absoluteUrl("/flowo-logo.svg"),
@@ -65,12 +69,26 @@ export default function SchemaMarkup() {
       postalCode: "80520-560",
       addressCountry: "BR",
     },
-    contactPoint: {
-      "@type": "ContactPoint",
-      contactType: "Customer Support",
-      email: LEGAL_ENTITY.supportEmail,
-      availableLanguage: ["Portuguese"],
+    areaServed: {
+      "@type": "Country",
+      name: "Brasil",
     },
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        contactType: "Sales",
+        telephone: WHATSAPP_NUMBER_E164,
+        availableLanguage: ["Portuguese"],
+        areaServed: "BR",
+      },
+      {
+        "@type": "ContactPoint",
+        contactType: "Customer Support",
+        email: LEGAL_ENTITY.supportEmail,
+        availableLanguage: ["Portuguese"],
+        areaServed: "BR",
+      },
+    ],
   };
 
   const webSiteSchema = {
@@ -80,6 +98,9 @@ export default function SchemaMarkup() {
     alternateName: "flowo.com.br",
     url: SITE_URL,
     inLanguage: "pt-BR",
+    publisher: {
+      "@id": `${SITE_URL}/#organization`,
+    },
   };
 
   const faqSchema = {

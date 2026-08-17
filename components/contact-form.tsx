@@ -1,14 +1,17 @@
 "use client"
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { CheckCircle2 } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { TurnstileWidget } from "@/components/turnstile-widget"
+import { useSegment } from "@/providers/segment-provider"
 
 export default function ContactForm() {
+  const { track, identify, getAnonymousId, getAcquisitionContext } = useSegment()
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
@@ -17,12 +20,17 @@ export default function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
+  const [emailMarketingConsent, setEmailMarketingConsent] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
     setError('')
     setSuccess(false)
+    track('Lead Form Submitted', {
+      form: 'contact',
+      source: 'contact:site',
+    })
 
     try {
       const response = await fetch('/api/contact-form', {
@@ -30,7 +38,17 @@ export default function ContactForm() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name, email, message, company, turnstileToken }),
+        body: JSON.stringify({
+          name,
+          email,
+          message,
+          company,
+          consent: true,
+          emailMarketingConsent,
+          ...getAcquisitionContext(),
+          segmentAnonymousId: getAnonymousId(),
+          turnstileToken,
+        }),
       })
 
       if (!response.ok) {
@@ -39,12 +57,29 @@ export default function ContactForm() {
       }
 
       setSuccess(true)
+      identify(undefined, {
+        email,
+        name,
+        lead_source: 'contact:site',
+        email_marketing_opt_in: emailMarketingConsent,
+      })
+      track('Lead Form Succeeded', {
+        form: 'contact',
+        source: 'contact:site',
+        response_channel: 'email',
+        email_marketing_opt_in: emailMarketingConsent,
+      })
       setName('')
       setEmail('')
       setMessage('')
       setCompany('')
       setTurnstileToken('')
+      setEmailMarketingConsent(false)
     } catch (err) {
+      track('Lead Form Failed', {
+        form: 'contact',
+        source: 'contact:site',
+      })
       setError(err instanceof Error ? err.message : 'Ocorreu um erro. Tente novamente.')
     } finally {
       setIsSubmitting(false)
@@ -124,6 +159,37 @@ export default function ContactForm() {
               />
             </div>
             <TurnstileWidget action="contact_form" onTokenChange={setTurnstileToken} className="mx-auto" />
+            <label className="flex items-start gap-2 text-xs leading-5 text-muted-ink">
+              <input
+                type="checkbox"
+                required
+                className="mt-0.5 h-4 w-4 shrink-0 accent-ink"
+              />
+              <span>
+                Autorizo a Flowo a usar estes dados para responder minha
+                mensagem, conforme a{' '}
+                <Link className="underline underline-offset-2" href="/privacidade">
+                  Política de Privacidade
+                </Link>{' '}
+                e os{' '}
+                <Link className="underline underline-offset-2" href="/termos">
+                  Termos de Uso
+                </Link>
+                .
+              </span>
+            </label>
+            <label className="flex items-start gap-2 text-xs leading-5 text-muted-ink">
+              <input
+                type="checkbox"
+                checked={emailMarketingConsent}
+                onChange={(event) => setEmailMarketingConsent(event.target.checked)}
+                className="mt-0.5 h-4 w-4 shrink-0 accent-ink"
+              />
+              <span>
+                Também quero receber conteúdos, novidades e ofertas da Flowo
+                por e-mail. Posso cancelar quando quiser.
+              </span>
+            </label>
             {error && (
               <p role="alert" className="text-sm font-medium text-danger">
                 {error}

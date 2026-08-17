@@ -127,9 +127,7 @@ const sections: LegalSection[] = [
           configuração da conta. Também podemos compartilhar dados para cumprir
           lei, ordem válida, defender direitos ou lidar com incidente.
         </p>
-        <p>
-          Quando o canal WhatsApp é ativado, utilizamos atualmente:
-        </p>
+        <p>Entre os principais operadores utilizados atualmente estão:</p>
         <ul>
           <li>
             <strong>Meta Platforms / WhatsApp:</strong> responsável pela
@@ -155,6 +153,16 @@ const sections: LegalSection[] = [
               Política de Privacidade do WhatsApp
             </a>
             .
+          </li>
+          <li>
+            <strong>Meta Platforms / ferramentas de publicidade:</strong> com
+            autorização de cookies de marketing, o site pode enviar eventos de
+            visita e conversão pelo Pixel e pela API de Conversões. Para
+            mensurar e evitar eventos duplicados, podem ser processados URL,
+            identificadores de clique e navegador, endereço IP, dados técnicos
+            do dispositivo e versões criptográficas irreversíveis do contato
+            informado voluntariamente. A recusa não impede baixar materiais,
+            pedir contato ou criar uma conta.
           </li>
           <li>
             <strong>YCloud:</strong> provedora técnica e suboperadora utilizada
@@ -188,6 +196,13 @@ const sections: LegalSection[] = [
             para responder a um pedido de contato ou entregar um material não
             inscreve automaticamente a pessoa em marketing. O descadastro e as
             preferências podem ser alterados pelos links presentes nos e-mails.
+          </li>
+          <li>
+            <strong>SMSDev:</strong> usado para transportar SMS no Brasil. SMS
+            de novidades e convites da própria Flowo só é enviado quando a
+            pessoa marca o opt-in específico para esse canal. O consentimento
+            para e-mail não autoriza SMS. A pessoa pode revogar a autorização
+            respondendo SAIR ou solicitando o cancelamento à Flowo.
           </li>
         </ul>
         <p>
@@ -279,11 +294,20 @@ const sections: LegalSection[] = [
           retiradas nas preferências.
         </p>
         <p>
-          Podemos manter a primeira origem de campanha por período limitado para
-          entender conversão entre o site e a criação da conta. Comunicações
-          promocionais devem respeitar preferências e permitir oposição ou
-          descadastro; mensagens transacionais podem continuar quando
-          necessárias ao serviço.
+          Podemos manter a primeira origem de campanha durante a sessão para
+          atribuir um pedido de contato e, com autorização analítica, por
+          período limitado para entender conversão entre o site e a criação da
+          conta. Identificadores de clique recebidos da plataforma do anúncio
+          podem acompanhar essa origem. Comunicações promocionais, incluindo A
+          Semana da Barbearia, exigem opt-in do canal e permitem descadastro;
+          mensagens transacionais podem continuar quando necessárias ao
+          serviço.
+        </p>
+        <p>
+          Cookies de publicidade são independentes do opt-in de e-mail e SMS.
+          Eles só são ativados quando a categoria de marketing é aceita. A
+          mesma escolha vale entre o site e o painel da Flowo e pode ser
+          alterada a qualquer momento em “Preferências de cookies”.
         </p>
       </>
     ),

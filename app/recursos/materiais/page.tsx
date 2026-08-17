@@ -1,11 +1,14 @@
+import Link from "next/link";
 import {
   Calendar,
+  Calculator,
+  Clock3,
   DollarSign,
   Download,
   FileSpreadsheet,
   FileText,
-  Instagram,
   MessageCircle,
+  RotateCcw,
   Users,
   type LucideIcon,
 } from "lucide-react";
@@ -37,43 +40,113 @@ interface Downloadable {
   icon: LucideIcon;
   downloadUrl: string;
   resourceType: "pdf" | "spreadsheet";
+  requestedResource?: string;
   tags: string[];
 }
 
 const groups: { heading: string; description: string; items: Downloadable[] }[] = [
   {
-    heading: "Guias em PDF",
-    description: "Leitura de referência para imprimir ou guardar",
+    heading: "Guias práticos em PDF",
+    description: "Materiais para preencher com a rotina real da barbearia",
     items: [
       {
-        id: "guia-completo",
-        title: "Guia Completo para Barbearias",
+        id: "guia-gestao-barbearia",
+        title: "Guia de Gestão da Barbearia",
         description:
-          "Checklist de abertura, precificação, fidelização e como automatizar sua barbearia.",
+          "Estruture agenda, equipe, caixa e atendimento em um plano prático de 30 dias.",
         icon: FileText,
         downloadUrl: "/downloads/guia-completo-barbearia.pdf",
         resourceType: "pdf",
-        tags: ["Guia", "Completo"],
+        requestedResource: "guia_gestao_barbearia",
+        tags: ["Gestão", "Operação"],
       },
       {
-        id: "templates-stories",
-        title: "Templates de Stories para Instagram",
+        id: "agenda-sem-interrupcao",
+        title: "Agenda sem Interrupção",
         description:
-          "10 ideias de Stories prontas para usar na sua barbearia, com CTAs que convertem.",
-        icon: Instagram,
-        downloadUrl: "/downloads/templates-stories-barbearia.pdf",
+          "Mapeie perguntas repetidas, escala da equipe e regras de confirmação em um teste de sete dias.",
+        icon: Clock3,
+        downloadUrl: "/downloads/agenda-sem-interrupcao-flowo.pdf",
         resourceType: "pdf",
-        tags: ["Marketing", "Instagram"],
+        requestedResource: "agenda_sem_interrupcao",
+        tags: ["WhatsApp", "Agenda"],
       },
       {
-        id: "referencia-rapida",
-        title: "Cartão de Referência Rápida",
+        id: "fechamento-equipe",
+        title: "Fechamento da Equipe",
         description:
-          "Métricas essenciais, checklist diário e metas para ter sempre à mão.",
+          "Escreva regras, confira bases e registre ajustes antes de pagar as comissões.",
+        icon: DollarSign,
+        downloadUrl: "/downloads/fechamento-equipe-flowo.pdf",
+        resourceType: "pdf",
+        requestedResource: "fechamento_equipe",
+        tags: ["Comissões", "Equipe"],
+      },
+      {
+        id: "retorno-sem-spam",
+        title: "Retorno sem Spam",
+        description:
+          "Organize consentimento, janela de contato e mensagens sem pressão ou urgência falsa.",
+        icon: RotateCcw,
+        downloadUrl: "/downloads/retorno-sem-spam-flowo.pdf",
+        resourceType: "pdf",
+        requestedResource: "retorno_sem_spam",
+        tags: ["Clientes", "Retorno"],
+      },
+      {
+        id: "comissoes-sem-planilha",
+        title: "Comissões sem Planilha Paralela",
+        description:
+          "Combine regras, confira comandas e feche o acerto de cada barbeiro sem depender da memória.",
+        icon: DollarSign,
+        downloadUrl: "/downloads/comissoes-sem-planilha-flowo.pdf",
+        resourceType: "pdf",
+        requestedResource: "comissoes_sem_planilha",
+        tags: ["Comissões", "Equipe"],
+      },
+      {
+        id: "clientes-na-hora-de-voltar",
+        title: "Clientes na Hora de Voltar",
+        description:
+          "Plano de 30 dias para organizar contatos de retorno sem spam ou desconto automático.",
+        icon: Users,
+        downloadUrl: "/downloads/clientes-na-hora-de-voltar-flowo.pdf",
+        resourceType: "pdf",
+        requestedResource: "clientes_hora_voltar",
+        tags: ["Clientes", "Retorno"],
+      },
+      {
+        id: "caixa-e-recebimentos",
+        title: "Caixa sem Confusão",
+        description:
+          "Separe venda, recebimento, comissão e resultado sem trocar sua maquininha.",
+        icon: DollarSign,
+        downloadUrl: "/downloads/caixa-e-recebimentos-flowo.pdf",
+        resourceType: "pdf",
+        requestedResource: "caixa_recebimentos",
+        tags: ["Caixa", "Recebimentos"],
+      },
+      {
+        id: "painel-semanal-barbearia",
+        title: "Painel Semanal da Barbearia",
+        description:
+          "Transforme agenda, faltas, ticket e retorno em uma ação clara para a semana.",
         icon: FileText,
         downloadUrl: "/downloads/referencia-rapida-barbearia.pdf",
         resourceType: "pdf",
-        tags: ["Gestão", "Métricas"],
+        requestedResource: "painel_semanal_barbearia",
+        tags: ["Indicadores", "Gestão"],
+      },
+      {
+        id: "stories-com-cara-da-barbearia",
+        title: "Stories com Cara da sua Barbearia",
+        description:
+          "Planeje prova, bastidor, informação e horários sem cair em promoção genérica.",
+        icon: FileText,
+        downloadUrl: "/downloads/templates-stories-barbearia.pdf",
+        resourceType: "pdf",
+        requestedResource: "stories_barbearia",
+        tags: ["Marketing", "Stories"],
       },
     ],
   },
@@ -89,6 +162,7 @@ const groups: { heading: string; description: string; items: Downloadable[] }[] 
         icon: FileSpreadsheet,
         downloadUrl: "/downloads/planilha-precificacao-barbearia.xlsx",
         resourceType: "spreadsheet",
+        requestedResource: "planilha_precificacao",
         tags: ["Financeiro", "Preços"],
       },
       {
@@ -99,6 +173,7 @@ const groups: { heading: string; description: string; items: Downloadable[] }[] 
         icon: Calendar,
         downloadUrl: "/downloads/calendario-conteudo-instagram.xlsx",
         resourceType: "spreadsheet",
+        requestedResource: "calendario_conteudo",
         tags: ["Marketing", "Instagram"],
       },
       {
@@ -109,6 +184,7 @@ const groups: { heading: string; description: string; items: Downloadable[] }[] 
         icon: FileText,
         downloadUrl: "/downloads/checklist-abertura-barbearia.xlsx",
         resourceType: "spreadsheet",
+        requestedResource: "checklist_abertura",
         tags: ["Gestão", "Iniciantes"],
       },
       {
@@ -119,6 +195,7 @@ const groups: { heading: string; description: string; items: Downloadable[] }[] 
         icon: DollarSign,
         downloadUrl: "/downloads/planilha-comissoes-barbearia.xlsx",
         resourceType: "spreadsheet",
+        requestedResource: "planilha_comissoes",
         tags: ["Financeiro", "Equipe"],
       },
       {
@@ -129,6 +206,7 @@ const groups: { heading: string; description: string; items: Downloadable[] }[] 
         icon: Users,
         downloadUrl: "/downloads/guia-fidelizacao-clientes.xlsx",
         resourceType: "spreadsheet",
+        requestedResource: "guia_fidelizacao",
         tags: ["Marketing", "Clientes"],
       },
     ],
@@ -145,6 +223,7 @@ const groups: { heading: string; description: string; items: Downloadable[] }[] 
         icon: MessageCircle,
         downloadUrl: "/downloads/lead-magnets/checklist-agendamento-whatsapp.csv",
         resourceType: "spreadsheet",
+        requestedResource: "checklist_agendamento_whatsapp",
         tags: ["WhatsApp", "Agendamento"],
       },
       {
@@ -155,6 +234,7 @@ const groups: { heading: string; description: string; items: Downloadable[] }[] 
         icon: MessageCircle,
         downloadUrl: "/downloads/lead-magnets/script-confirmacao-whatsapp.csv",
         resourceType: "spreadsheet",
+        requestedResource: "script_confirmacao_whatsapp",
         tags: ["WhatsApp", "Confirmação"],
       },
       {
@@ -165,6 +245,7 @@ const groups: { heading: string; description: string; items: Downloadable[] }[] 
         icon: Users,
         downloadUrl: "/downloads/lead-magnets/roteiro-reativacao-clientes.csv",
         resourceType: "spreadsheet",
+        requestedResource: "roteiro_reativacao",
         tags: ["WhatsApp", "Fidelização"],
       },
       {
@@ -174,6 +255,7 @@ const groups: { heading: string; description: string; items: Downloadable[] }[] 
         icon: Users,
         downloadUrl: "/downloads/lead-magnets/checklist-fidelizacao-30-dias.csv",
         resourceType: "spreadsheet",
+        requestedResource: "checklist_fidelizacao_30",
         tags: ["Fidelização", "Plano"],
       },
     ],
@@ -189,6 +271,7 @@ const groups: { heading: string; description: string; items: Downloadable[] }[] 
         icon: DollarSign,
         downloadUrl: "/downloads/lead-magnets/fluxo-caixa-semanal-barbearia.csv",
         resourceType: "spreadsheet",
+        requestedResource: "fluxo_caixa_semanal",
         tags: ["Financeiro", "Caixa"],
       },
       {
@@ -198,6 +281,7 @@ const groups: { heading: string; description: string; items: Downloadable[] }[] 
         icon: FileSpreadsheet,
         downloadUrl: "/downloads/lead-magnets/plano-metas-faturamento.csv",
         resourceType: "spreadsheet",
+        requestedResource: "plano_metas_faturamento",
         tags: ["Financeiro", "Metas"],
       },
       {
@@ -208,6 +292,7 @@ const groups: { heading: string; description: string; items: Downloadable[] }[] 
         icon: DollarSign,
         downloadUrl: "/downloads/lead-magnets/planilha-combos-ticket-medio.csv",
         resourceType: "spreadsheet",
+        requestedResource: "planilha_combos_ticket",
         tags: ["Financeiro", "Ticket médio"],
       },
       {
@@ -217,6 +302,7 @@ const groups: { heading: string; description: string; items: Downloadable[] }[] 
         icon: FileSpreadsheet,
         downloadUrl: "/downloads/lead-magnets/calculadora-ticket-medio.csv",
         resourceType: "spreadsheet",
+        requestedResource: "calculadora_ticket",
         tags: ["Financeiro", "Ticket médio"],
       },
     ],
@@ -233,11 +319,39 @@ const groups: { heading: string; description: string; items: Downloadable[] }[] 
         icon: Calendar,
         downloadUrl: "/downloads/lead-magnets/roteiros-shorts-reels-30-dias.csv",
         resourceType: "spreadsheet",
+        requestedResource: "roteiros_shorts_reels",
         tags: ["Marketing", "Vídeo"],
       },
     ],
   },
 ];
+
+const TOTAL_MATERIALS =
+  groups.reduce((total, group) => total + group.items.length, 0) + 1;
+
+const freeTools = [
+  {
+    title: "Tempo no WhatsApp",
+    description:
+      "Estime quantas horas do mês vão para conversas sobre disponibilidade.",
+    href: "/calculadora-tempo-whatsapp-barbearia",
+    icon: Clock3,
+  },
+  {
+    title: "Comissão de barbeiro",
+    description:
+      "Separe serviço, produto e ajuste numa memória fácil de conferir.",
+    href: "/calculadora-comissao-barbeiro",
+    icon: Calculator,
+  },
+  {
+    title: "Retorno de clientes",
+    description:
+      "Escolha uma janela de retorno e adapte uma mensagem responsável.",
+    href: "/mensagens-retorno-clientes-barbearia",
+    icon: RotateCcw,
+  },
+] as const;
 
 export default function MaterialsPage() {
   return (
@@ -247,13 +361,26 @@ export default function MaterialsPage() {
         description={PAGE_DESCRIPTION}
         path="/recursos/materiais"
         breadcrumbLabel="Materiais"
-        items={groups.flatMap((group) =>
-          group.items.map((item) => ({
-            name: item.title,
-            path: item.downloadUrl,
-            description: item.description,
+        items={[
+          {
+            name: "Raio-X da Agenda + Kit Operação sem Interrupção",
+            path: "/recursos/diagnostico-agenda-barbearia",
+            description:
+              "Diagnóstico prático para organizar WhatsApp, agenda e horários individuais da equipe.",
+          },
+          ...freeTools.map((tool) => ({
+            name: tool.title,
+            path: tool.href,
+            description: tool.description,
           })),
-        )}
+          ...groups.flatMap((group) =>
+            group.items.map((item) => ({
+              name: item.title,
+              path: item.downloadUrl,
+              description: item.description,
+            })),
+          ),
+        ]}
       />
       <Navbar />
       <main id="main-content" className="min-h-screen">
@@ -272,7 +399,7 @@ export default function MaterialsPage() {
               {/* Hero */}
               <div className="mt-10 mb-14">
                 <p className="text-label font-semibold uppercase tracking-[0.14em] text-faint-ink">
-                  17 arquivos para baixar
+                  3 ferramentas e {TOTAL_MATERIALS} materiais para usar
                 </p>
                 <h1 className="mt-3 text-h2 font-bold leading-tight text-ink">
                   Modelos prontos para tirar tarefas do improviso
@@ -282,6 +409,77 @@ export default function MaterialsPage() {
                   hoje para agenda, equipe, divulgação e financeiro.
                 </p>
               </div>
+
+              <section className="mb-14" aria-labelledby="free-tools-title">
+                <div className="mb-6 border-b border-line pb-3">
+                  <h2 id="free-tools-title" className="text-h3 font-bold text-ink">
+                    Ferramentas gratuitas
+                  </h2>
+                  <p className="mt-1 text-label text-muted-ink">
+                    Faça a conta na tela antes de baixar qualquer material
+                  </p>
+                </div>
+                <div className="grid gap-4 md:grid-cols-3">
+                  {freeTools.map((tool) => (
+                    <Link
+                      key={tool.href}
+                      href={tool.href}
+                      className="group flex min-h-64 flex-col border border-line bg-surface p-6 outline-none transition-colors duration-200 ease-out-quint hover:border-ink focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-4"
+                    >
+                      <tool.icon
+                        aria-hidden="true"
+                        className="h-6 w-6 text-ink"
+                      />
+                      <h3 className="mt-8 text-lg font-semibold leading-tight text-ink">
+                        {tool.title}
+                      </h3>
+                      <p className="mt-3 text-label leading-relaxed text-muted-ink">
+                        {tool.description}
+                      </p>
+                      <span className="mt-auto pt-6 text-label font-semibold text-ink underline-offset-4 group-hover:underline">
+                        Usar agora
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </section>
+
+              <Link
+                href="/recursos/diagnostico-agenda-barbearia"
+                className="group mb-14 grid overflow-hidden rounded-xl border border-ink bg-cream transition-transform duration-200 ease-out-quint hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-4 sm:grid-cols-[1fr_0.72fr]"
+              >
+                <span className="p-7 sm:p-9">
+                  <span className="text-caption font-semibold uppercase tracking-[0.14em] text-faint-ink">
+                    Diagnóstico interativo + PDF · destaque
+                  </span>
+                  <span className="mt-4 block text-h3 font-bold text-ink">
+                    Diagnóstico de Agenda
+                  </span>
+                  <span className="mt-3 block text-label leading-relaxed text-muted-ink">
+                    Resultado imediato em 5 perguntas, com Raio-X de 12
+                    perguntas e plano de ação opcionais em PDF.
+                  </span>
+                  <span className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-full bg-ink px-5 text-label font-semibold text-background">
+                    Fazer o diagnóstico
+                    <Download className="h-4 w-4" aria-hidden="true" />
+                  </span>
+                </span>
+                <span
+                  aria-hidden="true"
+                  className="relative min-h-56 border-t border-ink bg-surface p-7 sm:border-l sm:border-t-0"
+                >
+                  <span className="absolute left-10 top-11 h-36 w-28 rotate-[-6deg] rounded-md border border-ink bg-cream shadow-[8px_10px_0_rgba(23,24,16,0.08)]" />
+                  <span className="absolute right-8 top-7 flex h-40 w-32 rotate-[4deg] flex-col rounded-md border border-ink bg-surface p-4 shadow-[8px_10px_0_rgba(23,24,16,0.08)]">
+                    <span className="text-[0.55rem] font-semibold uppercase tracking-wider text-faint-ink">
+                      Flowo · diagnóstico
+                    </span>
+                    <span className="mt-8 font-serif text-xl leading-tight text-ink">
+                      Raio-X da Agenda
+                    </span>
+                    <span className="mt-auto h-px bg-ink" />
+                  </span>
+                </span>
+              </Link>
 
               {/* Grouped downloads */}
               <div className="space-y-14">
@@ -303,6 +501,7 @@ export default function MaterialsPage() {
                           resourceDescription={item.description}
                           downloadUrl={item.downloadUrl}
                           resourceType={item.resourceType}
+                          requestedResource={item.requestedResource}
                         >
                           <button
                             type="button"
