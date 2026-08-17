@@ -14,6 +14,7 @@ import {
 } from "@/components/marketing/recovery-preview";
 import { SIGNUP_URL } from "@/components/cta-links";
 import { buildMetadata } from "@/lib/seo";
+import { LEGAL_ENTITY } from "@/lib/legal-identity";
 
 export const metadata = buildMetadata({
   title: "Flowo Recupera: Beta Acompanhada",
@@ -71,7 +72,7 @@ export default function FlowoRecuperaPage() {
                     <ArrowRight className="h-4 w-4" aria-hidden="true" />
                   </a>
                   <a
-                    href="mailto:contato@flowo.com.br?subject=Interesse%20no%20Flowo%20Recupera"
+                    href={`mailto:${LEGAL_ENTITY.contactEmail}?subject=Interesse%20no%20Flowo%20Recupera`}
                     className="inline-flex min-h-12 items-center justify-center whitespace-nowrap rounded-full border border-line px-7 py-3 text-label font-medium text-ink hover:bg-surface-2"
                   >
                     Manifestar interesse na beta

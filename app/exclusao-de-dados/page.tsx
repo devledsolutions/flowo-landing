@@ -43,9 +43,9 @@ const sections: LegalSection[] = [
           ou escrever para{" "}
           <a
             className="underline underline-offset-4"
-            href={`mailto:${LEGAL_ENTITY.supportEmail}?subject=Exclus%C3%A3o%20de%20conta%20e%20dados`}
+            href={`mailto:${LEGAL_ENTITY.privacyEmail}?subject=Exclus%C3%A3o%20de%20conta%20e%20dados`}
           >
-            {LEGAL_ENTITY.supportEmail}
+            {LEGAL_ENTITY.privacyEmail}
           </a>{" "}
           usando o e-mail cadastrado.
         </p>
@@ -105,7 +105,7 @@ const sections: LegalSection[] = [
           <br />
           {LEGAL_ENTITY.address}
           <br />
-          {LEGAL_ENTITY.supportEmail}
+          {LEGAL_ENTITY.privacyEmail}
         </p>
         <p>
           Consulte também a{" "}

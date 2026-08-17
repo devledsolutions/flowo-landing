@@ -81,17 +81,19 @@ export default function Footer() {
               <li className="flex items-center gap-3 text-sm">
                 <Mail aria-hidden="true" className="h-4 w-4 shrink-0 text-muted-ink" />
                 <a
-                  href="mailto:contato@flowo.com.br"
+                  href={`mailto:${LEGAL_ENTITY.contactEmail}`}
                   className="flex min-h-11 items-center rounded-sm text-muted-ink outline-none transition-colors duration-200 ease-out-quint hover:text-ink focus-visible:ring-2 focus-visible:ring-cream focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
                 >
-                  contato@flowo.com.br
+                  {LEGAL_ENTITY.contactEmail}
                 </a>
               </li>
             </ul>
             <p className="mt-5 max-w-xs text-xs leading-relaxed text-muted-ink">
-              Flowo é um produto da {LEGAL_ENTITY.name}
+              Flowo é um produto operado pela {LEGAL_ENTITY.name}
               <br />
               CNPJ {LEGAL_ENTITY.taxId}
+              <br />
+              {LEGAL_ENTITY.address}
             </p>
           </div>
 

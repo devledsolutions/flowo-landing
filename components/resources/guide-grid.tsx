@@ -16,6 +16,7 @@ import {
   GUIDE_GROUPS,
   type GuideIconKey,
 } from "@/data/guides";
+import { LEGAL_ENTITY } from "@/lib/legal-identity";
 
 const guideIcons: Record<GuideIconKey, typeof Calendar> = {
   calendar: Calendar,
@@ -137,7 +138,7 @@ export function GuideGrid() {
           <p className="mt-12 text-center text-label text-muted-ink">
             Mais guias em breve. Tem uma dúvida específica?{" "}
             <a
-              href="mailto:contato@flowo.com.br"
+              href={`mailto:${LEGAL_ENTITY.contactEmail}`}
               className="font-medium text-ink underline underline-offset-4"
             >
               Fale conosco

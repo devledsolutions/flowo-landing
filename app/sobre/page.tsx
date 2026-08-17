@@ -12,6 +12,7 @@ import {
   Shield,
   Zap,
 } from "lucide-react";
+import { LEGAL_ENTITY } from "@/lib/legal-identity";
 
 export const metadata = buildMetadata({
   title: "Sobre o Flowo: Sistema de Agendamento para Barbearia com IA",
@@ -237,7 +238,7 @@ export default function AboutPage() {
                 Começar agora
               </a>
               <a
-                href="mailto:contato@flowo.com.br"
+                href={`mailto:${LEGAL_ENTITY.contactEmail}`}
                 className="inline-flex items-center justify-center rounded-full border border-line px-8 py-3.5 text-label font-medium text-ink transition-colors duration-200 ease-out-quint hover:bg-surface"
               >
                 Tirar dúvidas

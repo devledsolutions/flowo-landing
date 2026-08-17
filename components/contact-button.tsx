@@ -4,6 +4,7 @@ import { useId, useState } from 'react'
 import { Mail, MessageCircle, X } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { LeadCaptureModal } from "@/components/lead-capture-modal"
+import { LEGAL_ENTITY } from "@/lib/legal-identity";
 
 export default function ContactButton() {
   const [isOpen, setIsOpen] = useState(false)
@@ -33,9 +34,9 @@ export default function ContactButton() {
               variant="outline"
               className="w-full rounded-full"
             >
-              <a href="mailto:contato@flowo.com.br">
+              <a href={`mailto:${LEGAL_ENTITY.contactEmail}`}>
                 <Mail aria-hidden="true" className="h-4 w-4" />
-                contato@flowo.com.br
+                {LEGAL_ENTITY.contactEmail}
               </a>
             </Button>
           </div>
