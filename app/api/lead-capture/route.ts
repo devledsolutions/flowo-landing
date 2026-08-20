@@ -7,6 +7,7 @@ import { getClientIp } from "@/lib/request-ip";
 import { applyRateLimit } from "@/lib/rate-limit";
 import { leadCaptureSchema, getValidationMessage } from "@/lib/validation";
 import { verifyTurnstile } from "@/lib/turnstile";
+import { VOICE_CONTACT_CONSENT_VERSION } from "@/lib/voice-verification";
 
 export const runtime = "nodejs";
 export const preferredRegion = ["gru1"];
@@ -45,6 +46,8 @@ type CaptureWebsiteLeadArgs = {
   segmentAnonymousId?: string;
   consent: true;
   salesContactRequestChannels?: Array<"email" | "phone" | "whatsapp">;
+  voiceContactConsent?: boolean;
+  voiceContactConsentVersion?: string;
   salesContactRequestMessage?: string;
   emailMarketingConsent?: boolean;
   smsMarketingConsent?: boolean;
@@ -181,6 +184,7 @@ export async function POST(request: Request) {
       company = "",
       consent,
       salesContactRequestChannels,
+      voiceContactConsent,
       salesContactRequestMessage = "",
       emailMarketingConsent,
       smsMarketingConsent,
@@ -278,6 +282,12 @@ export async function POST(request: Request) {
       segmentAnonymousId: optional(segmentAnonymousId),
       consent,
       salesContactRequestChannels,
+      // Isto NÃO concede permissão de ligação: o backend grava apenas um pedido
+      // pendente. A permissão nasce só do código conferido.
+      voiceContactConsent,
+      voiceContactConsentVersion: voiceContactConsent
+        ? VOICE_CONTACT_CONSENT_VERSION
+        : undefined,
       salesContactRequestMessage: optional(salesContactRequestMessage),
       emailMarketingConsent:
         emailMarketingConsent ?? marketingConsent ?? false,

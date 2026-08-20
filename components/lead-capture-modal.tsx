@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as Sentry from "@sentry/nextjs";
 import {
   Dialog,
@@ -9,6 +9,11 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
+import {
+  VOICE_CODE_LENGTH,
+  VOICE_CODE_RESEND_SECONDS,
+  VOICE_CONTACT_CONSENT_TEXT,
+} from "@/lib/voice-verification";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -80,6 +85,80 @@ export function LeadCaptureModal({
   const [dialCode, setDialCode] = useState("+55");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  // Pedido de ligação. `voiceConsent` é só a caixa marcada; a permissão de
+  // verdade nasce do código conferido, no backend.
+  const [voiceConsent, setVoiceConsent] = useState(false);
+  const [voiceStep, setVoiceStep] = useState<"none" | "code" | "verified">("none");
+  const [voiceCode, setVoiceCode] = useState("");
+  const [voiceError, setVoiceError] = useState("");
+  const [voiceBusy, setVoiceBusy] = useState(false);
+  const [resendIn, setResendIn] = useState(0);
+
+  const fullPhone = `${dialCode}${whatsapp.replace(/\D/g, "")}`;
+
+  const requestVoiceCode = async (): Promise<void> => {
+    setVoiceBusy(true);
+    setVoiceError("");
+    try {
+      const response = await fetch("/api/voice-verification/request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone: fullPhone }),
+      });
+      if (!response.ok) {
+        setVoiceError("Não foi possível enviar o código agora. Tente de novo.");
+        return;
+      }
+      setVoiceStep("code");
+      setResendIn(VOICE_CODE_RESEND_SECONDS);
+    } catch {
+      setVoiceError("Não foi possível enviar o código agora. Tente de novo.");
+    } finally {
+      setVoiceBusy(false);
+    }
+  };
+
+  const confirmVoiceCode = async (): Promise<void> => {
+    setVoiceBusy(true);
+    setVoiceError("");
+    try {
+      const response = await fetch("/api/voice-verification/confirm", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone: fullPhone, code: voiceCode }),
+      });
+      const data = (await response.json()) as {
+        verified?: boolean;
+        attemptsRemaining?: number;
+        reason?: string;
+      };
+      if (data.verified) {
+        setVoiceStep("verified");
+        return;
+      }
+      // Cada motivo tem seu próprio texto. "Código inválido" para tudo obriga a
+      // pessoa a adivinhar se errou, se demorou, ou se acabou.
+      if (data.reason === "expired") {
+        setVoiceError("Esse código venceu. Peça outro.");
+      } else if (data.attemptsRemaining === 0) {
+        setVoiceError("Tentativas esgotadas. Peça um código novo.");
+      } else {
+        setVoiceError(
+          `Código incorreto. ${data.attemptsRemaining ?? 0} tentativa(s) restante(s).`
+        );
+      }
+    } catch {
+      setVoiceError("Não foi possível conferir agora. Tente de novo.");
+    } finally {
+      setVoiceBusy(false);
+    }
+  };
+
+  useEffect(() => {
+    if (resendIn <= 0) return;
+    const timer = setTimeout(() => setResendIn((value) => value - 1), 1000);
+    return () => clearTimeout(timer);
+  }, [resendIn]);
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -130,6 +209,7 @@ export function LeadCaptureModal({
           source,
           consent: true,
           salesContactRequestChannels: ["whatsapp"],
+          voiceContactConsent: countryCode === "BR" && voiceConsent,
           emailMarketingConsent: Boolean(email) && emailMarketingConsent,
           smsMarketingConsent: countryCode === "BR" && smsMarketingConsent,
           whatsappMarketingConsent:
@@ -173,6 +253,12 @@ export function LeadCaptureModal({
       }
 
       setIsSuccess(true);
+      // Quem pediu ligação ainda não pediu de verdade: o pedido fica pendente
+      // até o código ser conferido. Disparamos o envio aqui para a pessoa não
+      // ter de apertar mais um botão.
+      if (countryCode === "BR" && voiceConsent) {
+        void requestVoiceCode();
+      }
       trackLeadRemarketing({
         eventId: data.metaEventId,
         source,
@@ -345,6 +431,70 @@ export function LeadCaptureModal({
                     {dialCode} {formatPhoneNumber(whatsapp, dialCode)}
                   </span>
                 </p>
+
+                {voiceConsent && voiceStep !== "verified" && (
+                  <div className="rounded-xl border border-line bg-surface-2 p-4 text-left">
+                    <Label htmlFor="voice-code" className="text-sm font-semibold text-ink">
+                      Confirme seu número
+                    </Label>
+                    <p className="mt-1 text-xs leading-5 text-muted-ink">
+                      Enviamos um código por SMS. Sem ele não ligamos, porque
+                      precisamos ter certeza de que o número é seu.
+                    </p>
+                    <Input
+                      id="voice-code"
+                      inputMode="numeric"
+                      autoComplete="one-time-code"
+                      maxLength={VOICE_CODE_LENGTH}
+                      value={voiceCode}
+                      onChange={(event) => {
+                        setVoiceCode(event.target.value.replace(/\D/g, ""));
+                        setVoiceError("");
+                      }}
+                      placeholder="000000"
+                      className="mt-3 text-center text-lg tracking-[0.4em]"
+                      aria-invalid={Boolean(voiceError)}
+                      aria-describedby={voiceError ? "voice-code-error" : undefined}
+                    />
+                    {voiceError && (
+                      <p
+                        id="voice-code-error"
+                        role="alert"
+                        className="mt-2 text-xs text-danger"
+                      >
+                        {voiceError}
+                      </p>
+                    )}
+                    <Button
+                      type="button"
+                      onClick={() => void confirmVoiceCode()}
+                      disabled={voiceBusy || voiceCode.length < VOICE_CODE_LENGTH}
+                      className="mt-3 w-full rounded-full"
+                    >
+                      {voiceBusy ? "Conferindo..." : "Confirmar código"}
+                    </Button>
+                    <button
+                      type="button"
+                      onClick={() => void requestVoiceCode()}
+                      disabled={voiceBusy || resendIn > 0}
+                      className="mt-2 w-full text-xs text-muted-ink underline-offset-2 hover:underline disabled:no-underline"
+                    >
+                      {resendIn > 0
+                        ? `Reenviar em ${resendIn}s`
+                        : "Não chegou? Reenviar código"}
+                    </button>
+                    <p className="mt-3 text-xs leading-5 text-muted-ink">
+                      Ligamos de segunda a sexta, das 9h às 18h.
+                    </p>
+                  </div>
+                )}
+
+                {voiceStep === "verified" && (
+                  <p className="rounded-xl border border-line bg-surface-2 p-4 text-left text-sm text-ink">
+                    Número confirmado. Vamos te ligar de segunda a sexta, das 9h
+                    às 18h.
+                  </p>
+                )}
                 <Button
                   onClick={() => handleOpenChange(false)}
                   className="w-full rounded-full"
@@ -608,6 +758,20 @@ export function LeadCaptureModal({
                       Quero receber por SMS novidades e convites da Flowo. A
                       frequência é limitada e posso responder SAIR a qualquer
                       momento.
+                    </span>
+                  </label>
+                )}
+                {countryCode === "BR" && (
+                  <label className="flex items-start gap-2 text-xs leading-5 text-muted-ink">
+                    <input
+                      type="checkbox"
+                      checked={voiceConsent}
+                      onChange={(event) => setVoiceConsent(event.target.checked)}
+                      className="mt-0.5 h-4 w-4 shrink-0 accent-ink"
+                    />
+                    <span>
+                      {VOICE_CONTACT_CONSENT_TEXT} Enviamos um código para
+                      confirmar o número antes de qualquer ligação.
                     </span>
                   </label>
                 )}

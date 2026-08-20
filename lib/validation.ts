@@ -46,6 +46,9 @@ export const leadCaptureSchema = z.object({
     .or(z.literal("")),
   emailMarketingConsent: z.boolean().optional(),
   smsMarketingConsent: z.boolean().optional(),
+  // Pedido de ligação. Não é permissão: o backend grava um pedido pendente e
+  // só o código conferido concede a discagem.
+  voiceContactConsent: z.boolean().optional(),
   whatsappMarketingConsent: z.boolean().optional(),
   // Backward-compatible while older cached clients finish rolling over.
   marketingConsent: z.boolean().optional(),
