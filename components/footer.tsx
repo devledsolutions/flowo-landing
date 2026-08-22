@@ -4,8 +4,7 @@ import { Mail, MapPin } from "lucide-react";
 import { CookiePreferencesButton } from "@/components/cookie-preferences-button";
 import { LEGAL_ENTITY } from "@/lib/legal-identity";
 import { NewsletterSignup } from "@/components/newsletter-signup";
-
-const SIGNUP_URL = "https://barber.flowo.com.br/sign-up";
+import { SIGNUP_URL } from "@/components/cta-links";
 const APP_URL = "https://barber.flowo.com.br";
 
 const produtoLinks = [

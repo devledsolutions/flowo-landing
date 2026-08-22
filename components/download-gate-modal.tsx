@@ -21,11 +21,12 @@ import {
 } from "@/components/ui/select";
 import countries from "@/lib/countries";
 import { FlagIcon, FlagIconCode } from "react-flag-kit";
-import { CheckCircle2, XCircle, Download, FileText } from "lucide-react";
+import { CheckCircle2, XCircle, Download, FileText, MessageCircle } from "lucide-react";
 import { TurnstileWidget } from "@/components/turnstile-widget";
 import { useSegment } from "@/providers/segment-provider";
 import { useLeadRemarketing } from "@/hooks/use-lead-remarketing";
 import Link from "next/link";
+import { buildWhatsAppUrl } from "@/components/cta-links";
 
 const formatPhoneNumber = (phone: string, dialCode: string) => {
   const cleaned = phone.replace(/\D/g, "");
@@ -335,6 +336,24 @@ export function DownloadGateModal({
                 >
                   <Download aria-hidden="true" className="mr-2 h-4 w-4" />
                   Baixar novamente
+                </Button>
+                <Button asChild variant="outline" className="w-full rounded-full">
+                  <a
+                    href={buildWhatsAppUrl(
+                      "Olá! Baixei um material da Flowo e quero entender se o sistema faz sentido para a minha barbearia."
+                    )}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={() =>
+                      track("Lead Magnet WhatsApp CTA Clicked", {
+                        resource_id: requestedResource || resourceTitle,
+                        placement: "download_success",
+                      })
+                    }
+                  >
+                    <MessageCircle aria-hidden="true" className="mr-2 h-4 w-4" />
+                    Falar com a Flowo no WhatsApp
+                  </a>
                 </Button>
                 <Button
                   variant="outline"

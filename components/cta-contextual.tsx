@@ -1,8 +1,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-const SIGNUP_URL = "https://barber.flowo.com.br/sign-up";
+import { SIGNUP_URL } from "@/components/cta-links";
 
 interface CTAContextualProps {
   title: string;

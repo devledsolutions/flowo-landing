@@ -4,8 +4,7 @@ import Image from "next/image"
 import { motion, useReducedMotion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { LeadCaptureModal } from "./lead-capture-modal"
-
-const SIGNUP_URL = "https://barber.flowo.com.br/sign-up"
+import { SIGNUP_URL } from "./cta-links"
 
 export default function CallToAction() {
   const reduceMotion = useReducedMotion()

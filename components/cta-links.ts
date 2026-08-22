@@ -3,7 +3,7 @@
  * Flowo is subscribers-only, pay-first: the primary CTA goes straight to the
  * app signup (no trial, no lead modal). The soft CTA opens WhatsApp.
  */
-export const SIGNUP_URL = "https://barber.flowo.com.br/sign-up";
+const SIGNUP_BASE_URL = "https://barber.flowo.com.br/sign-up";
 export const LOGIN_URL = "https://barber.flowo.com.br";
 
 type SignupPlan = "solo" | "equipe";
@@ -33,7 +33,7 @@ export function buildSignupUrl({
   campaign = "signup",
   content,
 }: SignupUrlOptions = {}) {
-  const url = new URL(SIGNUP_URL);
+  const url = new URL(SIGNUP_BASE_URL);
 
   if (plan) url.searchParams.set("plan", plan);
   if (cycle) url.searchParams.set("cycle", cycle);
@@ -45,12 +45,22 @@ export function buildSignupUrl({
   return url.toString();
 }
 
+// Keep a useful first-party source on server-rendered links even before the
+// analytics provider hydrates and adds the consented anonymous handoff id.
+export const SIGNUP_URL = buildSignupUrl();
+
 export const WHATSAPP_NUMBER = (
   process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "5541936181301"
 ).replace(/\D/g, "");
 
 export const WHATSAPP_NUMBER_E164 = `+${WHATSAPP_NUMBER}`;
 
-export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-  "Olá! Vim pelo site da Flowo e gostaria de tirar algumas dúvidas."
-)}`;
+export function buildWhatsAppUrl(
+  message = "Olá! Vim pelo site da Flowo e gostaria de tirar algumas dúvidas."
+) {
+  const url = new URL(`https://wa.me/${WHATSAPP_NUMBER}`);
+  url.searchParams.set("text", message);
+  return url.toString();
+}
+
+export const WHATSAPP_URL = buildWhatsAppUrl();
