@@ -11,8 +11,7 @@ import {
   MessageCircle,
   Scissors,
 } from "lucide-react";
-
-const SIGNUP_URL = "https://barber.flowo.com.br/sign-up";
+import { SIGNUP_URL } from "@/components/cta-links";
 
 type PreviewKind = "agenda" | "whatsapp" | "pagamento" | "comparacao";
 

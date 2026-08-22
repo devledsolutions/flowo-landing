@@ -6,6 +6,7 @@ import { CheckCircle2, Download, LoaderCircle } from "lucide-react";
 import { TurnstileWidget } from "@/components/turnstile-widget";
 import { useSegment } from "@/providers/segment-provider";
 import { useLeadRemarketing } from "@/hooks/use-lead-remarketing";
+import { buildWhatsAppUrl } from "@/components/cta-links";
 import styles from "@/components/design-review/lead-offer-landing.module.css";
 
 export type LeadMagnetConfig = {
@@ -250,6 +251,22 @@ export function LeadMagnetForm({
             {productCtaLabel}
           </Link>
         ) : null}
+        <a
+          className={styles.productLink}
+          href={buildWhatsAppUrl(
+            "Olá! Baixei um material da Flowo e quero entender se o sistema faz sentido para a minha barbearia."
+          )}
+          target="_blank"
+          rel="noreferrer"
+          onClick={() =>
+            track("Lead Magnet WhatsApp CTA Clicked", {
+              resource_id: resourceId,
+              placement: "success",
+            })
+          }
+        >
+          Falar com a Flowo no WhatsApp
+        </a>
       </div>
     );
   }
