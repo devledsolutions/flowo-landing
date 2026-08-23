@@ -5,7 +5,8 @@ import { Calendar, MessageCircle, Shield, Star, Users } from 'lucide-react'
  * Public commercial contract for the landing site. Solo and Equipe have
  * published prices. Empresarial is sales-assisted and deliberately carries no
  * public price; its negotiated value exists only in the authenticated product.
- * No trials, no deposits: Flowo is pay-first, subscribers-only.
+ * The public/default journey is pay-first. Sales can manually grant one
+ * cardless 14-day assisted evaluation to eligible Solo or Equipe customers.
  * Any component or JSON-LD that shows a price MUST import from here.
  */
 
@@ -56,10 +57,12 @@ export const PLANS: readonly Plan[] = [
       '1 profissional',
       'Até 200 agendamentos por mês',
       'IA no WhatsApp: atende, agenda e confirma',
+      'Cancelamento pelo WhatsApp',
       'Lembretes e confirmação automática',
       'Pagamentos integrados opcionais',
       'Histórico de clientes',
       '50 mensagens de campanha por mês',
+      'Suporte por e-mail',
     ],
   },
   {
@@ -74,11 +77,12 @@ export const PLANS: readonly Plan[] = [
       'Até 5 profissionais',
       'Agendamentos ilimitados',
       'IA no WhatsApp: atende, agenda e confirma',
+      'Cancelamento e remarcação pelo WhatsApp',
       'Sincronização com Google, Apple e Outlook',
-      'Remarcação pelo WhatsApp',
       'Relatórios de faturamento',
       'Pagamentos integrados opcionais',
       '150 mensagens de campanha por mês',
+      'Suporte por e-mail e WhatsApp',
     ],
   },
   {
@@ -92,10 +96,12 @@ export const PLANS: readonly Plan[] = [
       'Múltiplas unidades',
       'Agendamentos ilimitados',
       'IA no WhatsApp: atende, agenda e confirma',
+      'Cancelamento e remarcação pelo WhatsApp',
+      'Sincronização com Google, Apple e Outlook',
       'Relatórios de faturamento',
       'Pagamentos integrados opcionais',
       '1.000 mensagens de campanha por mês',
-      'Atendimento próximo do time Flowo',
+      'Suporte por e-mail, WhatsApp e telefone',
     ],
   },
 ] as const
@@ -139,7 +145,8 @@ export function hasPublishedPrice(plan: Plan): plan is PublishedPricePlan {
 
 /* ------------------------------------------------------------------ */
 /* Legacy shape kept so existing components compile until the redesign
-   replaces them. Values are corrected; DO NOT reintroduce trials.     */
+   replaces them. Values are corrected; the assisted evaluation is
+   sales-granted and must never be presented as an automatic trial.  */
 /* ------------------------------------------------------------------ */
 
 export const pricingPlans = PLANS.filter(hasPublishedPrice).map((plan) => ({
@@ -158,7 +165,7 @@ export const featuredResources = [
     description: 'Atendimento no WhatsApp 24/7 que entende linguagem natural e agenda automaticamente',
     benefits: [
       'Resposta em segundos, mesmo com a barbearia cheia',
-      'Cliente marca, remarca e cancela pelo chat',
+      'Cliente marca e cancela pelo chat; no Equipe, também remarca',
     ],
   },
   {
@@ -166,17 +173,17 @@ export const featuredResources = [
     title: 'Confirmação automática',
     description: 'Lembretes e confirmação pelo WhatsApp antes do horário marcado, sem esforço da equipe',
     benefits: [
-      'Cliente confirma, remarca ou cancela respondendo a mensagem',
+      'Cliente confirma ou cancela respondendo à mensagem',
       'Menos cadeira vazia por esquecimento',
     ],
   },
   {
     icon: Calendar,
     title: 'Sync de calendários',
-    description: 'Integração automática com Google Calendar, Apple Calendar e Microsoft Outlook',
+    description: 'No Equipe e Empresarial, conecte Google Calendar, Apple Calendar e Microsoft Outlook',
     benefits: [
-      'Agendamentos no seu celular',
-      'Evita conflitos de horário',
+      'Google sincroniza nos dois sentidos',
+      'Apple e Outlook recebem os compromissos da Flowo',
     ],
   },
   {
@@ -191,10 +198,10 @@ export const featuredResources = [
   {
     icon: Users,
     title: 'Suporte humanizado',
-    description: 'Equipe brasileira disponível para garantir seu sucesso com o Flowo',
+    description: 'Canais de suporte definidos conforme o plano contratado',
     benefits: [
-      'Atendimento em português',
-      'Ajuda na configuração inicial',
+      'Solo por e-mail; Equipe também pelo WhatsApp',
+      'Empresarial inclui atendimento por telefone',
     ],
   },
 ]

@@ -7,10 +7,14 @@ import importlib.util
 import shutil
 from dataclasses import dataclass
 from pathlib import Path
+from urllib.parse import urlencode
 
 from reportlab.lib.colors import HexColor
 from reportlab.lib.pagesizes import A4
+from reportlab.pdfbase.pdfdoc import PDFString
 from reportlab.pdfgen import canvas
+
+from tagged_pdf import add_accessible_tags
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -71,6 +75,13 @@ class Guide:
     flowo_points: tuple[str, ...]
     disclaimer: str
     keywords: str
+    cta_path: str
+    cover_prompt: str = "Preencha com a rotina real da sua barbearia."
+    how_to_title: str = "Faça com quem vive a rotina."
+    framework_rule: str = (
+        "Se a equipe não consegue explicar, a regra ainda não está pronta."
+    )
+    worksheet_rows: tuple[tuple[str, ...], ...] = ()
 
 
 GUIDES = (
@@ -187,6 +198,7 @@ GUIDES = (
             "Confirme o escopo antes da contratação."
         ),
         keywords="barbearia, comissões, barbeiros, comanda, acerto, Flowo",
+        cta_path="/recursos/comissoes-barbeiros",
     ),
     Guide(
         slug="clientes-na-hora-de-voltar-flowo",
@@ -204,8 +216,8 @@ GUIDES = (
             "Retorno medido até a comanda",
         ),
         use_intro=(
-            "Comece pequeno. Escolha um grupo que faça sentido, revise a mensagem "
-            "e acompanhe o que aconteceu antes de criar o próximo contato."
+            "Comece com um grupo pequeno e verificável. Registre por que cada pessoa "
+            "pode receber o contato e acompanhe o resultado antes do próximo ciclo."
         ),
         use_steps=(
             ("01", "Filtre", "Retire quem já agendou, pediu para sair ou foi chamado recentemente."),
@@ -243,20 +255,22 @@ GUIDES = (
         ),
         worksheet_title="Fila de retorno para revisão",
         worksheet_intro=(
-            "Preencha antes do envio. A coluna de motivo ajuda a equipe a entender "
-            "por que o cliente apareceu na lista."
+            "Preencha antes do envio. Registre a base do consentimento, o último "
+            "contato e qualquer pedido de saída antes de decidir."
         ),
         worksheet_columns=(
-            ("CLIENTE", 105),
-            ("ÚLTIMA VISITA", 92),
-            ("SERVIÇO", 84),
-            ("MOTIVO", 115),
-            ("REVISOU", 71),
-            ("ENVIAR", 45),
+            ("CLIENTE", 72),
+            ("ÚLT. VISITA", 62),
+            ("SERVIÇO", 58),
+            ("ÚLT. CONTATO", 70),
+            ("BASE/CONSENT.", 90),
+            ("SAÍDA?", 51),
+            ("MOTIVO", 68),
+            ("ENVIAR", 40),
         ),
         worksheet_note=(
-            "Tempo sem voltar depende do serviço e do costume do cliente. Trinta dias "
-            "não é uma regra universal."
+            "Pedido de saída bloqueia o envio. Tempo sem voltar depende do serviço e "
+            "do hábito do cliente; trinta dias não é uma regra universal."
         ),
         test_title="Antes de chamar a lista inteira",
         test_intro=(
@@ -291,7 +305,7 @@ GUIDES = (
         ),
         flowo_points=(
             "Campanhas usam objetivo, público e mensagem escolhidos pela barbearia.",
-            "Flowo Recupera é um adicional em beta, não um plano separado.",
+            "Flowo Recupera é um adicional opcional, não um plano separado.",
             "O responsável revisa a ação antes do contato proativo.",
             "Resultado só é confirmado depois do atendimento e da comanda fechada.",
         ),
@@ -300,6 +314,12 @@ GUIDES = (
             "Preço e franquia pública ainda não estão definidos."
         ),
         keywords="barbearia, clientes, retorno, reativação, WhatsApp, Flowo Recupera",
+        cta_path="/flowo-recupera",
+        cover_prompt="Revise cada contato antes de decidir pelo envio.",
+        how_to_title="Comece por uma lista pequena e verificável.",
+        framework_rule=(
+            "Sem origem, consentimento e contexto, o contato não deve sair."
+        ),
     ),
     Guide(
         slug="caixa-e-recebimentos-flowo",
@@ -343,7 +363,7 @@ GUIDES = (
             ("Comissão", "Acerto do barbeiro é confundido com despesa já paga."),
             ("Fiscal", "Nota emitida é usada como prova de recebimento financeiro."),
         ),
-        framework_title="Quatro números diferentes",
+        framework_title="Cinco números diferentes",
         framework_intro=(
             "Eles podem coincidir em alguns dias, mas respondem perguntas diferentes. "
             "Não use um no lugar do outro."
@@ -414,6 +434,10 @@ GUIDES = (
             "precisa ser confirmada para o município e o negócio."
         ),
         keywords="barbearia, caixa, pagamentos, PIX, cartão, comanda, Flowo",
+        cta_path="/software-barbearia-com-pix",
+        cover_prompt="Use números que a equipe consegue reconciliar.",
+        how_to_title="Feche o dia com as mesmas definições.",
+        framework_rule="Diferença sem origem e responsável continua em aberto.",
     ),
 )
 
@@ -530,14 +554,14 @@ def cover(c: canvas.Canvas, guide: Guide) -> None:
     c.drawString(M + 18, 125, "MATERIAL PRÁTICO")
     c.setFillColor(WHITE)
     c.setFont("Lora", 15)
-    c.drawString(M + 18, 98, "Preencha com a rotina real da sua barbearia.")
+    c.drawString(M + 18, 98, guide.cover_prompt)
     footer(c, guide, 1)
     c.showPage()
 
 
 def how_to(c: canvas.Canvas, guide: Guide) -> None:
     page_bg(c, CREAM)
-    y = header(c, guide, "Como usar", "Faça com quem vive a rotina.", guide.use_intro, 2)
+    y = header(c, guide, "Como usar", guide.how_to_title, guide.use_intro, 2)
     for number, title, body in guide.use_steps:
         c.setFillColor(PAPER)
         c.roundRect(M, y - 62, CONTENT_W, 62, 7, fill=1, stroke=0)
@@ -635,9 +659,18 @@ def framework(c: canvas.Canvas, guide: Guide) -> None:
     c.setFillColor(GREEN)
     c.setFont("PoppinsSemiBold", 7)
     c.drawString(M + 16, 135, "REGRA DE OURO")
-    c.setFillColor(WHITE)
-    c.setFont("PoppinsMedium", 7.5)
-    c.drawString(M + 16, 108, "Se a equipe não consegue explicar, a regra ainda não está pronta.")
+    base.paragraph(
+        c,
+        guide.framework_rule,
+        M + 16,
+        111,
+        CONTENT_W - 32,
+        "PoppinsMedium",
+        7.5,
+        10.5,
+        WHITE,
+        max_lines=2,
+    )
     c.showPage()
 
 
@@ -665,7 +698,21 @@ def worksheet(c: canvas.Canvas, guide: Guide) -> None:
         c.rect(M, y - 58, CONTENT_W, 58, fill=1, stroke=0)
         x = M
         c.setStrokeColor(LINE)
-        for _, width in guide.worksheet_columns:
+        values = guide.worksheet_rows[row] if row < len(guide.worksheet_rows) else ()
+        for column_index, (_, width) in enumerate(guide.worksheet_columns):
+            if column_index < len(values) and values[column_index]:
+                base.paragraph(
+                    c,
+                    values[column_index],
+                    x + 6,
+                    y - 21,
+                    width - 12,
+                    "PoppinsMedium",
+                    6.3,
+                    8.5,
+                    INK,
+                    max_lines=2,
+                )
             c.line(x + width, y, x + width, y - 58)
             x += width
         c.line(M, y - 58, PAGE_W - M, y - 58)
@@ -826,7 +873,18 @@ def next_step(c: canvas.Canvas, guide: Guide) -> None:
     c.drawCentredString(M + 124, 123, "CONHECER A FLOWO")
     c.setFillColor(MUTED)
     c.setFont("Poppins", 7)
-    c.drawString(M, 80, "flowo.com.br/recepcionista-ia-barbearia")
+    cta_display_url = f"https://www.flowo.com.br{guide.cta_path}"
+    cta_query = urlencode(
+        {
+            "utm_source": "flowo_material",
+            "utm_medium": "pdf",
+            "utm_campaign": guide.slug,
+            "utm_content": "final_cta",
+        }
+    )
+    cta_url = f"{cta_display_url}?{cta_query}"
+    c.drawString(M, 80, cta_display_url.removeprefix("https://www."))
+    c.linkURL(cta_url, (M, 104, M + 248, 152), relative=0)
     footer(c, guide, 8)
     c.showPage()
 
@@ -839,17 +897,31 @@ def build_guide(guide: Guide) -> Path:
     c = canvas.Canvas(str(output_path), pagesize=A4, pageCompression=1)
     c.setTitle(f"Flowo - {guide.collection_name.title()}")
     c.setAuthor("Flowo")
+    c.setCreator("Flowo")
     c.setSubject(guide.subtitle)
     c.setKeywords(guide.keywords)
-    cover(c, guide)
-    how_to(c, guide)
-    audit(c, guide)
-    framework(c, guide)
-    worksheet(c, guide)
-    test_page(c, guide)
-    plan_page(c, guide)
-    next_step(c, guide)
+    c.setViewerPreference("DisplayDocTitle", "true")
+    c._doc.Catalog.Lang = PDFString("pt-BR")
+    pages = (
+        ("Capa", "cover", cover),
+        ("Como usar", "how-to", how_to),
+        ("Diagnóstico", "audit", audit),
+        ("Método", "framework", framework),
+        ("Folha de trabalho", "worksheet", worksheet),
+        ("Teste", "test", test_page),
+        ("Plano de ação", "plan", plan_page),
+        ("Como a Flowo ajuda", "next-step", next_step),
+    )
+    for title, key, render in pages:
+        c.bookmarkPage(key)
+        c.addOutlineEntry(title, key, level=0, closed=False)
+        render(c, guide)
     c.save()
+    add_accessible_tags(
+        output_path,
+        title=f"Flowo - {guide.collection_name.title()}",
+        page_titles=[title for title, _key, _render in pages],
+    )
     shutil.copyfile(output_path, public_path)
     return output_path
 

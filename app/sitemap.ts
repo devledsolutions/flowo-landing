@@ -1,12 +1,23 @@
 import type { MetadataRoute } from "next";
-import { COMPETITOR_COMPARISONS } from "@/data/competitor-comparisons";
+import {
+  COMPARISON_LAST_VERIFIED,
+  COMPETITOR_COMPARISONS,
+} from "@/data/competitor-comparisons";
 import { GUIDES } from "@/data/guides";
 import { SITE_URL } from "@/lib/seo";
 
-const LAST_MODIFIED = new Date("2026-07-31T00:00:00.000Z");
 const COMPETITOR_ROUTES = COMPETITOR_COMPARISONS.map(
   (comparison) => comparison.path,
 );
+
+const CONTENT_DATES = {
+  commercial: new Date("2026-08-23T00:00:00.000Z"),
+  product: new Date("2026-08-17T00:00:00.000Z"),
+  resources: new Date("2026-08-23T00:00:00.000Z"),
+  validation: new Date("2026-08-17T00:00:00.000Z"),
+  comparisons: new Date(`${COMPARISON_LAST_VERIFIED}T00:00:00.000Z`),
+  legal: new Date("2026-08-14T00:00:00.000Z"),
+} as const;
 
 const CORE_ROUTES = [
   "/",
@@ -42,11 +53,58 @@ const CORE_ROUTES = [
   "/exclusao-de-dados",
 ] as const;
 
+type CoreRoute = (typeof CORE_ROUTES)[number];
+
+function routeContentClass(route: CoreRoute): keyof typeof CONTENT_DATES {
+  if (
+    route === "/comparar" ||
+    route === "/flowo-vs-planilha" ||
+    route === "/flowo-vs-agenda-manual" ||
+    COMPETITOR_ROUTES.includes(route)
+  ) {
+    return "comparisons";
+  }
+  if (
+    route.startsWith("/recursos") ||
+    route === "/calculadora-tempo-whatsapp-barbearia" ||
+    route === "/calculadora-comissao-barbeiro" ||
+    route === "/mensagens-retorno-clientes-barbearia"
+  ) {
+    return "resources";
+  }
+  if (
+    route === "/demonstracao-agendamento-whatsapp" ||
+    route.startsWith("/casos-de-validacao")
+  ) {
+    return "validation";
+  }
+  if (
+    route === "/privacidade" ||
+    route === "/termos" ||
+    route === "/exclusao-de-dados"
+  ) {
+    return "legal";
+  }
+  if (route === "/" || route === "/precos") return "commercial";
+  return "product";
+}
+
+function routeChangeFrequency(
+  route: CoreRoute,
+): MetadataRoute.Sitemap[number]["changeFrequency"] {
+  const contentClass = routeContentClass(route);
+  if (contentClass === "legal") return "yearly";
+  if (contentClass === "comparisons" || contentClass === "validation") {
+    return "monthly";
+  }
+  return "weekly";
+}
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const coreEntries: MetadataRoute.Sitemap = CORE_ROUTES.map((route) => ({
     url: `${SITE_URL}${route}`,
-    lastModified: LAST_MODIFIED,
-    changeFrequency: route === "/" ? "daily" : "weekly",
+    lastModified: CONTENT_DATES[routeContentClass(route)],
+    changeFrequency: routeChangeFrequency(route),
     priority:
       route === "/"
         ? 1

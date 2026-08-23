@@ -30,12 +30,12 @@ const steps = [
   {
     title: "Escolhe serviço, barbeiro e horário",
     description:
-      "O agendamento entra direto na agenda da barbearia e sincroniza com Google, Apple e Outlook. Sem conflito de horário.",
+      "O agendamento entra na agenda da barbearia. No Equipe e Empresarial, a equipe também pode conectar Google, Apple ou Outlook.",
   },
   {
     title: "Confirmação automática contra faltas",
     description:
-      "Lembrete 24h e 2h antes, pelo próprio WhatsApp. O cliente confirma, remarca ou cancela na mesma conversa, sem te ligar.",
+      "Lembrete 24h e 2h antes, pelo WhatsApp. O cliente confirma ou cancela; no Equipe e Empresarial, também pode remarcar.",
   },
   {
     title: "Você só atende",

@@ -71,7 +71,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
     summary:
       "O AppBarber organiza a experiência em um aplicativo para clientes e profissionais, apoiado por um módulo administrativo. O Flowo coloca a recepção com IA dentro do WhatsApp e usa o painel como central de supervisão da operação.",
     flowoFit:
-      "Barbearias que querem atender, agendar, confirmar e remarcar na conversa do WhatsApp, sem transformar o download de um aplicativo no caminho principal do cliente.",
+      "Barbearias que querem atender, agendar e confirmar na conversa do WhatsApp; nos planos Equipe e Empresarial, também remarcar sem exigir um aplicativo do cliente.",
     competitorFit:
       "Operações que preferem um aplicativo dedicado para cliente e profissional e valorizam recursos como estoque, programa de fidelidade, pacotes e clube de clientes.",
     honestVerdict:
@@ -83,7 +83,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
       { criterion: "Entrada publicada", flowo: "R$ 249/mês", competitor: "R$ 79,90/mês" },
     ],
     priceSummary:
-      "O Flowo começa em R$ 249/mês, sem período de teste. Em sua tabela pública, o AppBarber mostra plano mensal a partir de R$ 79,90 para um profissional e teste grátis de 30 dias. Recursos e condições podem mudar; confirme no site oficial.",
+      "O Flowo começa em R$ 249/mês. A jornada pública é paga; a equipe pode conceder uma avaliação assistida de 14 dias a clientes elegíveis do Solo ou Equipe. O AppBarber mostra plano mensal a partir de R$ 79,90 para um profissional e teste grátis de 30 dias. Confirme as condições vigentes.",
     keyDifferences: [
       "No Flowo, a IA no WhatsApp faz parte do produto principal.",
       "No AppBarber, o aplicativo é um dos canais centrais para clientes e profissionais.",
@@ -184,7 +184,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
       { criterion: "Entrada publicada", flowo: "R$ 249/mês", competitor: "R$ 76/mês no anual" },
     ],
     priceSummary:
-      "O Flowo começa em R$ 249/mês e não oferece teste grátis. A Trinks publica valor anual a partir de R$ 76/mês para 1 a 2 profissionais e teste de 5 dias; chatbot, comunicação e outras soluções aparecem como adicionais. Confirme a composição final com a Trinks.",
+      "O Flowo começa em R$ 249/mês. A jornada pública é paga; clientes elegíveis do Solo ou Equipe podem receber uma avaliação assistida de 14 dias. A Trinks publica valor anual a partir de R$ 76/mês para 1 a 2 profissionais e teste de 5 dias; chatbot, comunicação e outras soluções aparecem como adicionais. Confirme a composição final com a Trinks.",
     keyDifferences: [
       "A IA no WhatsApp é núcleo do Flowo, não um complemento posterior.",
       "A Trinks declara uma base ampla de marketplace, pagamentos, estoque, fiscal e autoatendimento.",
@@ -222,7 +222,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
       {
         criterion: "Modelo comercial publicado",
         flowo:
-          "Planos públicos Solo de R$ 249 e Equipe de R$ 549/mês; Empresarial sob consulta, sem período de teste e sem fidelidade.",
+          "Solo por R$ 249 e Equipe por R$ 549/mês; Empresarial sob consulta. A avaliação assistida de 14 dias pode ser concedida manualmente a clientes elegíveis do Solo ou Equipe; sem fidelidade.",
         competitor:
           "Valor anual publicado a partir de R$ 76/mês para 1 a 2 profissionais, teste de 5 dias e recursos adicionais.",
       },
@@ -291,7 +291,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
       { criterion: "Entrada publicada", flowo: "R$ 249/mês", competitor: "Básico grátis; app a R$ 299" },
     ],
     priceSummary:
-      "O Flowo começa em R$ 249/mês, sem teste grátis. O BestBarbers publica um plano básico gratuito e o plano App Exclusivo a partir de R$ 299/mês. Confirme quais recursos, implantação e equipamentos opcionais entram na proposta vigente.",
+      "O Flowo começa em R$ 249/mês. A jornada pública é paga; clientes elegíveis do Solo ou Equipe podem receber uma avaliação assistida de 14 dias. O BestBarbers publica um plano básico gratuito e o plano App Exclusivo a partir de R$ 299/mês. Confirme os recursos e equipamentos da proposta vigente.",
     keyDifferences: [
       "No Flowo, o cliente pode conversar e agendar no WhatsApp sem baixar um aplicativo.",
       "O BestBarbers diferencia sua oferta com app próprio, clube de assinaturas, notificações push e totem opcional.",
@@ -329,7 +329,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
       {
         criterion: "Modelo comercial publicado",
         flowo:
-          "Solo por R$ 249 e Equipe por R$ 549/mês; Empresarial sob consulta, sem teste grátis e sem fidelidade; IA no WhatsApp incluída.",
+          "Solo por R$ 249 e Equipe por R$ 549/mês; Empresarial sob consulta. Avaliação assistida de 14 dias pode ser concedida a elegíveis do Solo ou Equipe; IA no WhatsApp incluída e sem fidelidade.",
         competitor:
           "Plano básico gratuito e App Exclusivo a partir de R$ 299/mês; app personalizado leva prazo de publicação nas lojas.",
       },
@@ -436,7 +436,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
       {
         criterion: "Modelo comercial publicado",
         flowo:
-          "Solo por R$ 249 e Equipe por R$ 549/mês; Empresarial sob consulta, sem teste grátis; IA no WhatsApp incluída.",
+          "Solo por R$ 249 e Equipe por R$ 549/mês; Empresarial sob consulta. Avaliação assistida de 14 dias pode ser concedida a elegíveis do Solo ou Equipe; IA no WhatsApp incluída.",
         competitor:
           "Plano gratuito, Pro a partir de R$ 59,90/mês e Enterprise a partir de R$ 139,90/mês para 1 a 2 profissionais; complementos variam por plano.",
       },
@@ -543,7 +543,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
       {
         criterion: "Modelo comercial publicado",
         flowo:
-          "Solo por R$ 249 e Equipe por R$ 549/mês; Empresarial sob consulta, sem teste e sem fidelidade.",
+          "Solo por R$ 249 e Equipe por R$ 549/mês; Empresarial sob consulta. Avaliação assistida de 14 dias pode ser concedida a elegíveis do Solo ou Equipe; sem fidelidade.",
         competitor:
           "R$ 88,90/mês para 1 a 2 profissionais na opção anual; outras faixas sob consulta e diversos recursos adicionais.",
       },
@@ -719,7 +719,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
       { criterion: "Preço", flowo: "Público, desde R$ 249", competitor: "Sob proposta" },
     ],
     priceSummary:
-      "O Flowo publica Solo por R$ 249 e Equipe por R$ 549 por mês; o Empresarial é sob consulta e não há teste grátis. O Barva oferece sete dias de teste e monta uma proposta conforme número de profissionais e módulos; não publica um preço final único na página consultada.",
+      "O Flowo publica Solo por R$ 249 e Equipe por R$ 549 por mês; o Empresarial é sob consulta. A avaliação assistida de 14 dias pode ser concedida a clientes elegíveis do Solo ou Equipe. O Barva oferece sete dias de teste e monta uma proposta conforme profissionais e módulos.",
     keyDifferences: [
       "A recepção com IA no WhatsApp está incluída nos três planos Flowo.",
       "No Barva, a gestão completa é obrigatória e as IAs de atendimento e recuperação são módulos opcionais.",
@@ -750,14 +750,14 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
       {
         criterion: "Como avaliar antes de contratar",
         flowo:
-          "Demonstração pública do fluxo validado e conversa acompanhada; não há período de teste.",
+          "Demonstração pública e conversa acompanhada; clientes elegíveis do Solo ou Equipe podem receber uma avaliação assistida de 14 dias.",
         competitor:
           "Telas, vídeo, demonstração guiada, proposta personalizada e teste grátis de sete dias.",
       },
       {
         criterion: "Modelo comercial publicado",
         flowo:
-          "Solo por R$ 249 e Equipe por R$ 549/mês; Empresarial sob consulta, com IA incluída, sem fidelidade e sem teste grátis.",
+          "Solo por R$ 249 e Equipe por R$ 549/mês; Empresarial sob consulta, IA incluída e sem fidelidade. Avaliação assistida de 14 dias pode ser concedida a elegíveis do Solo ou Equipe.",
         competitor:
           "Preço sob proposta conforme profissionais e módulos; gestão-base obrigatória e IAs opcionais.",
       },
@@ -776,7 +776,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
       {
         question: "Qual deles permite testar antes?",
         answer:
-          "O Barva divulga sete dias de teste grátis. O Flowo não oferece período de teste; disponibiliza demonstração e configuração acompanhada.",
+          "O Barva divulga sete dias de teste grátis. No Flowo, a jornada pública é paga; a equipe pode conceder manualmente uma avaliação assistida de 14 dias a clientes elegíveis do Solo ou Equipe.",
       },
       {
         question: "Como comparar o preço de Flowo e Barva?",
@@ -820,7 +820,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
       { criterion: "Entrada publicada", flowo: "R$ 249/mês", competitor: "R$ 59/mês" },
     ],
     priceSummary:
-      "O Flowo começa em R$ 249/mês, sem teste grátis. A Opero publica quatro planos de R$ 59 a R$ 299/mês, teste de sete dias e capacidades extras com preços próprios. Confirme limites de profissionais, números e notificações na proposta vigente.",
+      "O Flowo começa em R$ 249/mês. A jornada pública é paga; clientes elegíveis do Solo ou Equipe podem receber uma avaliação assistida de 14 dias. A Opero publica quatro planos de R$ 59 a R$ 299/mês e teste de sete dias. Confirme limites e capacidades na proposta vigente.",
     keyDifferences: [
       "As duas plataformas divulgam IA no WhatsApp conectada à agenda por profissional.",
       "O Flowo não cobra sinal para reservar e deixa o pagamento integrado como opção depois do atendimento.",
@@ -858,7 +858,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
       {
         criterion: "Modelo comercial publicado",
         flowo:
-          "Solo por R$ 249 e Equipe por R$ 549/mês; Empresarial sob consulta, sem teste grátis e sem fidelidade.",
+          "Solo por R$ 249 e Equipe por R$ 549/mês; Empresarial sob consulta. Avaliação assistida de 14 dias pode ser concedida a elegíveis do Solo ou Equipe; sem fidelidade.",
         competitor:
           "Planos de R$ 59, R$ 99, R$ 179 e R$ 299/mês, teste de sete dias e extras de capacidade publicados.",
       },

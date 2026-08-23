@@ -1,5 +1,11 @@
-Dia,Ação,Canal
-1,Mensagem pós-atendimento,WhatsApp
-15,Oferta de manutenção,WhatsApp
-25,Lembrete de retorno,WhatsApp
-30,Pedido de avaliação,Google/Instagram
+﻿Dia;Etapa;Ação;Tipo;Consentimento;Responsável;Resultado;Cuidado;Status
+1;Pós-atendimento;Agradecer e abrir canal para ajuste;Serviço;Não;Equipe;Satisfação registrada;;Pendente
+3;Qualidade;Revisar feedbacks e ajustes pendentes;Interno;Não;Responsável da loja;Pendências resolvidas;;Pendente
+7;Relacionamento;Publicar dica útil baseada em dúvidas reais;Conteúdo;Não para envio individual;Marketing;Interações;;Pendente
+10;Preferências;Atualizar serviço e profissional preferido;Atendimento;Não;Equipe;Cadastro atualizado;;Pendente
+14;Retorno;Revisar clientes no período habitual de manutenção;Interno;Não;Responsável comercial;Lista revisada;;Pendente
+15;Contato autorizado;Oferecer consulta de horários a quem consentiu;Marketing;Sim;Responsável comercial;Resposta/agendamento/SAIR;Incluir SAIR;Pendente
+21;Experiência;Revisar tempo de espera e dúvidas recorrentes;Interno;Não;Responsável da loja;Melhoria definida;;Pendente
+25;Avaliação;Pedir avaliação somente após experiência real;Serviço;Conforme contexto;Equipe;Avaliação ou feedback;Sem recompensa condicionada;Pendente
+28;Inativos;Revisar uma única tentativa de reativação consentida;Marketing;Sim;Responsável comercial;Resposta ou encerramento;Não insistir;Pendente
+30;Fechamento;Comparar ações, respostas, retornos e saídas;Interno;Não;Gestor;Próximo ciclo definido;;Pendente

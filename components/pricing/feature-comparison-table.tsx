@@ -60,8 +60,8 @@ export function FeatureComparisonTable() {
           Compare os planos
         </h2>
         <p className="mt-3 text-lead text-muted-ink">
-          A IA atende no WhatsApp em todos. A diferença está no tamanho da
-          equipe e no volume.
+          A IA atende no WhatsApp em todos. Compare equipe, agenda, volume e
+          canais de suporte.
         </p>
       </div>
 

@@ -7,7 +7,7 @@ const equipe = getPlan("equipe")
 export const faqItems: FAQItem[] = [
   {
     question: "Como funciona o agendamento pelo WhatsApp?",
-    answer: "Seu cliente manda uma mensagem no WhatsApp da barbearia pedindo pra marcar horário. A IA do Flowo responde automaticamente mostrando os horários disponíveis dos seus barbeiros, serviços e preços. Cliente escolhe e pronto: está agendado. Funciona 24/7, mesmo você dormindo.",
+    answer: "O cliente chama no WhatsApp da barbearia, explica o que precisa e a Flowo consulta a agenda antes de oferecer horários. O agendamento só é criado depois que o cliente escolhe e confirma. A equipe acompanha as conversas e pode assumir o atendimento quando necessário.",
     category: "WhatsApp"
   },
   {
@@ -17,17 +17,17 @@ export const faqItems: FAQItem[] = [
   },
   {
     question: "O Flowo sincroniza com meu Google Calendar?",
-    answer: "Sim! Sincroniza com Google Calendar, Apple Calendar e Microsoft Outlook. Quando um cliente agenda, o horário aparece automaticamente no seu calendário pessoal em segundos. Se você criar um compromisso no seu calendário, o Flowo também bloqueia o horário. Tudo em tempo real, sem conflitos.",
+    answer: "Nos planos Equipe e Empresarial, você pode conectar Google Calendar, Apple Calendar e Microsoft Outlook. O Google permite sincronização nos dois sentidos; Apple e Outlook recebem os compromissos criados ou alterados na Flowo.",
     category: "Calendário"
   },
   {
     question: "Quanto tempo leva para configurar o Flowo na minha barbearia?",
-    answer: "Pouco tempo: você cadastra seus barbeiros, serviços (corte, barba, degradê, etc) e horários de funcionamento, conecta o WhatsApp e pronto. Nossa equipe acompanha o onboarding para garantir que tudo funcione desde o primeiro dia.",
+    answer: "A configuração inclui os dados da barbearia, serviços, profissionais, horários e a conexão do WhatsApp. Antes de ativar o atendimento, a equipe confere as regras e testa o fluxo com você. O tempo varia conforme o número de profissionais e a situação do WhatsApp.",
     category: "Configuração"
   },
   {
     question: "Serve para barbeiro solo ou só para barbearias grandes?",
-    answer: "Serve para os dois. O plano Solo é para quem trabalha sozinho e quer a agenda simples, com a IA atendendo no WhatsApp. Nos planos Equipe e Empresarial, o sistema organiza vários barbeiros, distribui os clientes entre eles e comporta mais de uma unidade.",
+    answer: "Serve para os dois. O Solo atende um profissional. O Equipe organiza até cinco profissionais em uma unidade, com horários individuais. O Empresarial é contratado com a equipe Flowo para operações maiores ou com várias unidades.",
     category: "Planos"
   },
   {
@@ -37,32 +37,32 @@ export const faqItems: FAQItem[] = [
   },
   {
     question: "Tem período de teste grátis?",
-    answer: "Não. O Flowo é uma assinatura paga desde o primeiro dia, sem período de teste. Você contrata o plano, configura com a ajuda do nosso time e começa a usar no mesmo dia. E como não tem fidelidade, você pode cancelar quando quiser.",
+    answer: "Não há teste automático no site. A equipe Flowo pode oferecer uma avaliação assistida de 14 dias a clientes elegíveis dos planos Solo ou Equipe. Ela é concedida manualmente, não exige cartão, não renova nem gera cobrança automática e começa depois da configuração.",
     category: "Assinatura"
   },
   {
     question: "Como os lembretes reduzem as faltas?",
-    answer: "O sistema envia lembretes antes do horário, direto no WhatsApp do cliente. Ele pode confirmar, pedir remarcação ou cancelar respondendo à mensagem. A falta de resposta não cancela nem libera o horário automaticamente.",
+    answer: "O sistema envia lembretes antes do horário, direto no WhatsApp do cliente. Ele pode confirmar ou cancelar respondendo à mensagem; nos planos Equipe e Empresarial, também pode pedir remarcação. A falta de resposta não cancela nem libera o horário automaticamente.",
     category: "Lembretes"
   },
   {
     question: "Preciso trocar meu número de WhatsApp?",
-    answer: "Não! O Flowo funciona com o número de WhatsApp que você já usa na barbearia. Seus clientes continuam mandando mensagem no mesmo número de sempre. A diferença é que agora a IA responde automaticamente.",
+    answer: "A equipe verifica se o número que você já usa pode ser conectado mantendo sua rotina atual. Quando isso não for possível, as alternativas são explicadas antes da ativação. Seus clientes continuam falando com a barbearia pelo WhatsApp, sem instalar outro aplicativo.",
     category: "WhatsApp"
   },
   {
     question: "Consigo gerenciar vários barbeiros na mesma agenda?",
-    answer: "Sim! Você cadastra cada barbeiro com seus horários, serviços e especialidades. Quando o cliente agenda, o sistema mostra os horários de quem está disponível. Cada profissional pode ter preços diferentes e a agenda individual sincroniza com o calendário pessoal dele.",
+    answer: "Sim, nos planos Equipe e Empresarial. Cada profissional pode ter horários, folgas, serviços, duração e preços próprios. A Flowo consulta a disponibilidade correta antes de oferecer um horário. A conexão com calendários pessoais também está disponível nesses planos.",
     category: "Equipe"
   },
   {
     question: "Posso integrar o Flowo com outros sistemas?",
-    answer: "O Flowo sincroniza a agenda com Google Calendar, Apple Calendar e Microsoft Outlook. PIX e cartão integrados podem ser ativados separadamente; dinheiro e maquininha própria continuam válidos. Precisa de outra integração? Fale com a gente e confirmamos o que está disponível para a sua barbearia.",
+    answer: "Equipe e Empresarial podem conectar Google Calendar, Apple Calendar e Microsoft Outlook. Pagamentos integrados podem ser ativados separadamente; dinheiro e maquininha própria continuam válidos. Para outra integração, fale com a equipe e confirme o que está disponível para a sua operação.",
     category: "Integrações"
   },
   {
     question: "O sistema guarda histórico dos clientes?",
-    answer: "Sim. Cada vez que um cliente vem, o sistema registra: que serviço fez, quanto tempo levou, preferências, se chegou no horário, etc. Na próxima vez que ele agendar, a IA já sabe do histórico dele e pode sugerir combos ou serviços complementares automaticamente.",
+    answer: "Sim. O histórico reúne cadastro, atendimentos, serviços, observações e situação dos agendamentos. Isso ajuda a equipe a continuar o atendimento com contexto e consultar o que aconteceu antes, sem depender de anotações espalhadas.",
     category: "Clientes"
   },
   {
@@ -72,7 +72,7 @@ export const faqItems: FAQItem[] = [
   },
   {
     question: "E se eu precisar de ajuda? Tem suporte?",
-    answer: "Tem! Suporte via WhatsApp e email com resposta rápida. Além disso, você tem acesso a uma base de conhecimento com vídeos e guias passo a passo. No plano Empresarial, o atendimento é ainda mais próximo do time Flowo.",
+    answer: "Sim. O Solo inclui suporte por e-mail. O Equipe inclui e-mail e WhatsApp. O Empresarial inclui e-mail, WhatsApp e telefone, além de implantação acompanhada.",
     category: "Suporte"
   }
 ]
