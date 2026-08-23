@@ -18,7 +18,7 @@ const benefits = [
   },
   {
     icon: CalendarDays,
-    text: "Agenda sincronizada com Google, Apple e Outlook.",
+    text: "No Equipe e Empresarial, conecte Google, Apple ou Outlook.",
   },
   {
     icon: CreditCard,

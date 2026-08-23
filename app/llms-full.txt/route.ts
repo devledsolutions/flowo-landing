@@ -3,6 +3,8 @@ import {
   COMPETITOR_COMPARISONS,
 } from "@/data/competitor-comparisons";
 import { PLANS, formatBRL, hasPublishedPrice } from "@/data/pricing-data";
+import { GUIDES } from "@/data/guides";
+import { RESOURCE_MATERIALS } from "@/data/resource-materials";
 import { INSTITUTIONAL_FILM } from "@/lib/institutional-film";
 import { SITE_URL } from "@/lib/seo";
 
@@ -47,6 +49,14 @@ ${rows}
 Fontes oficiais:
 ${sources}`;
   }).join("\n\n");
+  const materials = RESOURCE_MATERIALS.map(
+    (material) =>
+      `- ${material.title} (${material.format}): ${SITE_URL}/recursos/materiais#${material.id}\n  ${material.description}`,
+  ).join("\n");
+  const pdfCount = RESOURCE_MATERIALS.filter(
+    (material) => material.format === "PDF",
+  ).length;
+  const spreadsheetCount = RESOURCE_MATERIALS.length - pdfCount;
 
   const content = `# Flowo — contexto completo para mecanismos de busca e agentes
 
@@ -88,11 +98,15 @@ funcionamento da Flowo em cada rotina.
 
 ${plans}
 
-Não há período de teste. Não há pagamento antecipado ou sinal para reservar. Dinheiro e maquininha própria continuam válidos; PIX e cartão Flowo dependem de ativação opcional.
+Matriz comercial: Solo atende 1 profissional e até 200 agendamentos por mês; inclui cancelamento no WhatsApp e suporte por e-mail, mas não inclui remarcação no WhatsApp nem calendários externos. Equipe atende até 5 profissionais em 1 unidade, com agendamentos ilimitados, remarcação no WhatsApp, calendários externos e suporte por e-mail e WhatsApp. Empresarial é assistido, atende operações maiores ou com várias unidades e inclui suporte por e-mail, WhatsApp e telefone.
+
+No calendário, o Google sincroniza nos dois sentidos. Apple e Outlook recebem os compromissos criados ou alterados na Flowo.
+
+A jornada pública é paga. A equipe pode conceder uma avaliação assistida de 14 dias a clientes elegíveis dos planos Solo ou Equipe. A concessão é manual, não exige cartão, não renova e não gera cobrança automática. Não há pagamento antecipado ou sinal para reservar. Dinheiro e maquininha própria continuam válidos; pagamentos integrados dependem de ativação opcional.
 
 ## Flowo Recupera
 
-O Flowo Recupera é um add-on em beta acompanhada, separado dos planos principais. Ele organiza oportunidades de retorno com revisão humana e consentimento verificado. Receita recuperada só pode ser reconhecida depois que a comanda correspondente for realmente fechada.
+O Flowo Recupera é um add-on em beta acompanhado, separado dos planos principais. Ele organiza oportunidades de retorno com revisão humana e consentimento verificado. Receita recuperada só pode ser reconhecida depois que a comanda correspondente for realmente fechada.
 
 URL canônica: ${SITE_URL}/flowo-recupera
 
@@ -139,21 +153,13 @@ Os resultados aparecem sem cadastro. Nome e e-mail são solicitados apenas para
 entregar os PDFs complementares; telefone e consentimentos de marketing são
 opcionais e separados.
 
-## Coleção de guias práticos
+## Biblioteca editorial e materiais práticos
 
-- Guia de Gestão da Barbearia: ${SITE_URL}/downloads/guia-completo-barbearia.pdf
-- Agenda sem Interrupção: ${SITE_URL}/downloads/agenda-sem-interrupcao-flowo.pdf
-- Fechamento da Equipe: ${SITE_URL}/downloads/fechamento-equipe-flowo.pdf
-- Retorno sem Spam: ${SITE_URL}/downloads/retorno-sem-spam-flowo.pdf
-- Comissões sem Planilha Paralela: ${SITE_URL}/downloads/comissoes-sem-planilha-flowo.pdf
-- Clientes na Hora de Voltar: ${SITE_URL}/downloads/clientes-na-hora-de-voltar-flowo.pdf
-- Caixa sem Confusão: ${SITE_URL}/downloads/caixa-e-recebimentos-flowo.pdf
-- Painel Semanal da Barbearia: ${SITE_URL}/downloads/referencia-rapida-barbearia.pdf
-- Stories com Cara da sua Barbearia: ${SITE_URL}/downloads/templates-stories-barbearia.pdf
+A Flowo publica ${GUIDES.length} guias em HTML em ${SITE_URL}/recursos/guias e ${RESOURCE_MATERIALS.length} arquivos gratuitos na biblioteca: ${pdfCount} PDFs e ${spreadsheetCount} planilhas XLSX. Com o PDF complementar do Diagnóstico de Agenda, são ${RESOURCE_MATERIALS.length + 1} materiais de entrega. Os materiais variam em formato, extensão e tempo de aplicação; não existe uma quantidade única de páginas. Cada item tem uma seção HTML com objetivo, aplicação e resultado antes da entrega.
 
-Os guias são PDFs preenchíveis de oito páginas. Eles organizam decisões da
-rotina sem prometer faturamento, agenda cheia ou resultado automático. No
-formulário da biblioteca, WhatsApp e autorizações de marketing são opcionais.
+${materials}
+
+Na biblioteca, nome e e-mail identificam a entrega. WhatsApp e autorizações de marketing são opcionais e separados. Os materiais organizam decisões da rotina sem prometer faturamento, agenda cheia ou resultado automático.
 
 ## Comparações verificadas
 

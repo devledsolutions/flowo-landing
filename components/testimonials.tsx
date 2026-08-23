@@ -30,7 +30,7 @@ const situations = [
     moment: "Antes do horário",
     title: "A confirmação não depende de alguém lembrar.",
     description:
-      "O cliente recebe o lembrete no WhatsApp e pode confirmar, remarcar ou cancelar antes do atendimento.",
+      "O cliente recebe o lembrete e pode confirmar ou cancelar no WhatsApp. No Equipe e Empresarial, também pode remarcar.",
     href: "/recursos/guias/reduzindo-faltas",
     linkLabel: "Ver processo de confirmação",
   },

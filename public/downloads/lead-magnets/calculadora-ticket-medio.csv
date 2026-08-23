@@ -1,5 +1,6 @@
-Servico,Quantidade,Preco Unitario,Faturamento
-Corte,0,0,0
-Barba,0,0,0
-Combo,0,0,0
-Ticket Medio,,,
+﻿Serviço;Quantidade;Preço médio (R$);Observações
+Corte;80;60;Use o XLSX para calcular faturamento e participação
+Barba;30;45;Use o XLSX para calcular faturamento e participação
+Corte + barba;40;95;Use o XLSX para calcular faturamento e participação
+Acabamento;15;25;Use o XLSX para calcular faturamento e participação
+Produtos;12;40;Use o XLSX para calcular faturamento e participação

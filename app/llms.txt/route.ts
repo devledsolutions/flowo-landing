@@ -4,6 +4,7 @@ import {
   COMPETITOR_COMPARISONS,
 } from "@/data/competitor-comparisons";
 import { PLANS, ANNUAL_DISCOUNT_LABEL, formatBRL, hasPublishedPrice } from "@/data/pricing-data";
+import { RESOURCE_MATERIALS } from "@/data/resource-materials";
 import { INSTITUTIONAL_FILM } from "@/lib/institutional-film";
 import { SITE_URL } from "@/lib/seo";
 import { LEGAL_ENTITY } from "@/lib/legal-identity";
@@ -25,6 +26,14 @@ export function GET() {
     (comparison) =>
       `- [Flowo vs ${comparison.name}](${SITE_URL}${comparison.path}): ${comparison.honestVerdict}`,
   ).join("\n");
+  const materialLines = RESOURCE_MATERIALS.map(
+    (material) =>
+      `- [${material.title}](${SITE_URL}/recursos/materiais#${material.id}) — ${material.format}. ${material.description}`,
+  ).join("\n");
+  const pdfCount = RESOURCE_MATERIALS.filter(
+    (material) => material.format === "PDF",
+  ).length;
+  const spreadsheetCount = RESOURCE_MATERIALS.length - pdfCount;
 
   const content = `# Flowo
 > Plataforma de agendamento para barbearias: a IA atende no WhatsApp, agenda e confirma clientes. A operação reúne agenda, comandas e recebimento; pagamentos integrados são opcionais e acontecem somente depois do serviço.
@@ -32,8 +41,13 @@ export function GET() {
 ## Canonical website
 - ${SITE_URL}
 
-## Planos (assinatura, sem período de teste)
+## Planos e condições de acesso
 ${planLines}
+- Solo: 1 profissional, até 200 agendamentos por mês, cancelamento no WhatsApp e suporte por e-mail. Não inclui remarcação no WhatsApp nem calendários externos.
+- Equipe: até 5 profissionais em 1 unidade, agendamentos ilimitados, remarcação no WhatsApp, calendários externos e suporte por e-mail e WhatsApp.
+- Empresarial: profissionais e unidades sem limite publicado, contratação assistida e suporte por e-mail, WhatsApp e telefone.
+- A sincronização bidirecional de calendário está disponível no Google. Apple e Outlook recebem os compromissos da Flowo.
+- A jornada pública é paga. A equipe pode conceder uma avaliação assistida de 14 dias a clientes elegíveis de Solo ou Equipe; ela é manual, não exige cartão, não renova e não cobra automaticamente.
 
 ## Core pages
 - [Home](${SITE_URL}/)
@@ -62,7 +76,7 @@ ${planLines}
 - As duas jornadas mostram a interface e o funcionamento da Flowo em perfis comuns de barbearia.
 
 ## Add-ons e acesso acompanhado
-- [Flowo Recupera](${SITE_URL}/flowo-recupera): add-on em beta acompanhada para identificar oportunidades de retorno; resultados passam por revisão humana, consentimento e fechamento real da comanda.
+- [Flowo Recupera](${SITE_URL}/flowo-recupera): add-on em beta acompanhado para identificar oportunidades de retorno; resultados passam por revisão humana, consentimento e fechamento real da comanda.
 - [Aplicativo para barbeiros](${SITE_URL}/aplicativo-para-barbeiros): produto móvel em preparação para iPhone e Android. O escopo implementado inclui agenda, presenças, comandas, clientes, conversas, equipe, serviços, produtos, estoque, financeiro, métricas, campanhas e configurações. O acesso varia por plano, função, permissão e ativação; ainda não está disponível nas lojas.
 
 ## Comparative pages
@@ -77,8 +91,8 @@ ${comparisonLines}
 - Considere alternativas quando marketplace, aplicativo dedicado, estoque detalhado ou menor preço inicial forem mais importantes do que a recepção conversacional.
 - Não compare apenas a mensalidade-base: alguns fornecedores vendem WhatsApp, IA, fiscal, pagamentos ou comunicação como módulos adicionais.
 
-## Guides hub
-- [Guias para barbearias](${SITE_URL}/recursos/guias)
+## Guides hub (${GUIDES.length} guias)
+- [Guias para barbearias](${SITE_URL}/recursos/guias): artigos em HTML sobre agenda, atendimento, equipe, operação e gestão.
 ${guideLines}
 
 ## Media and lead magnets
@@ -90,15 +104,8 @@ ${guideLines}
 - [Calculadora de tempo no WhatsApp](${SITE_URL}/calculadora-tempo-whatsapp-barbearia): estima horas dedicadas a conversas de disponibilidade com valores informados pela própria barbearia; não estima faturamento.
 - [Calculadora de comissão de barbeiro](${SITE_URL}/calculadora-comissao-barbeiro): separa serviços, produtos e ajustes numa simulação operacional; não substitui orientação contábil ou trabalhista.
 - [Planejador de retorno de clientes](${SITE_URL}/mensagens-retorno-clientes-barbearia): sugere uma janela de revisão e mensagem com contexto e saída, sempre sujeita a consentimento e conferência humana.
-- [Guia de Gestão da Barbearia](${SITE_URL}/downloads/guia-completo-barbearia.pdf): plano de 30 dias para organizar agenda, equipe, caixa e atendimento.
-- [Agenda sem Interrupção](${SITE_URL}/downloads/agenda-sem-interrupcao-flowo.pdf): escala, regras de confirmação e plano de sete dias.
-- [Fechamento da Equipe](${SITE_URL}/downloads/fechamento-equipe-flowo.pdf): política, memória de cálculo e checklist de conferência.
-- [Retorno sem Spam](${SITE_URL}/downloads/retorno-sem-spam-flowo.pdf): calendário, critérios de consentimento e mensagens responsáveis.
-- [Comissões sem Planilha Paralela](${SITE_URL}/downloads/comissoes-sem-planilha-flowo.pdf): guia preenchível para combinar regras e conferir o acerto de cada barbeiro.
-- [Clientes na Hora de Voltar](${SITE_URL}/downloads/clientes-na-hora-de-voltar-flowo.pdf): plano de contato responsável, sem spam ou promessa de agenda cheia.
-- [Caixa sem Confusão](${SITE_URL}/downloads/caixa-e-recebimentos-flowo.pdf): guia para separar venda, recebimento, comissão e resultado, com pagamentos integrados opcionais.
-- [Painel Semanal da Barbearia](${SITE_URL}/downloads/referencia-rapida-barbearia.pdf): revisão de agenda, faltas, ticket e retorno sem metas universais.
-- [Stories com Cara da sua Barbearia](${SITE_URL}/downloads/templates-stories-barbearia.pdf): sistema de conteúdo com prova, bastidor, informação e disponibilidade real.
+- A biblioteca contém ${RESOURCE_MATERIALS.length} downloads: ${pdfCount} PDFs e ${spreadsheetCount} planilhas XLSX. Com o PDF complementar do Diagnóstico de Agenda, são ${RESOURCE_MATERIALS.length + 1} materiais de entrega. Os links abaixo apontam para a explicação HTML de cada material; a entrega do arquivo acontece a partir dessa página.
+${materialLines}
 
 ## Support
 - [Sobre](${SITE_URL}/sobre)

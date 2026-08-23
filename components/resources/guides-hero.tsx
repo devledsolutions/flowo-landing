@@ -1,5 +1,6 @@
 import { Breadcrumb } from "@/components/breadcrumb";
 import { ResourceNav } from "@/components/resources/resource-nav";
+import { GUIDES } from "@/data/guides";
 
 export function GuidesHero() {
   return (
@@ -16,7 +17,7 @@ export function GuidesHero() {
           <ResourceNav current="/recursos/guias" />
           <div className="mt-8">
             <p className="text-label font-semibold uppercase tracking-[0.14em] text-faint-ink">
-              10 guias práticos
+              {GUIDES.length} guias práticos
             </p>
             <h1 className="mt-3 text-h2 font-bold leading-tight text-ink">
               Um processo claro para cada parte da operação

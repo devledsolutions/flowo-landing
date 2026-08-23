@@ -1,5 +1,9 @@
-Tipo,Mensagem
-Confirmacao 24h,"Olá, seu horário está confirmado para amanhã às __."
-Confirmacao 2h,"Passando para confirmar seu horário de hoje às __."
-Remarcacao,"Sem problemas, posso te oferecer os horários ____."
-No-show,"Percebemos sua ausência, quer reagendar agora?"
+﻿Momento;Tipo;Mensagem;Resultado esperado;Consentimento;Responsável
+Confirmação;Serviço;Oi, [nome]. Seu [serviço] está marcado para [dia], às [hora], com [profissional]. Está tudo certo para você?;Resposta do cliente;Não exige opt-in de marketing;Equipe de atendimento
+Lembrete;Serviço;Oi, [nome]. Passando para lembrar do seu horário hoje, às [hora], com [profissional]. Se precisar mudar, me avise por aqui.;Resposta do cliente;Não exige opt-in de marketing;Equipe de atendimento
+Remarcação;Serviço;Claro. Para [serviço], tenho [opção 1], [opção 2] ou [opção 3]. Qual funciona melhor?;Novo horário escolhido;Não exige opt-in de marketing;Equipe de atendimento
+Cancelamento;Serviço;Certo, [nome]. O horário de [dia], às [hora], foi cancelado. Quando quiser remarcar, pode chamar por aqui.;Cancelamento confirmado;Não exige opt-in de marketing;Equipe de atendimento
+Atraso da barbearia;Serviço;Oi, [nome]. Tivemos um atraso e seu atendimento deve começar por volta de [hora]. Desculpa pelo imprevisto. Esse novo horário funciona para você?;Aceite ou remarcação;Não exige opt-in de marketing;Responsável do turno
+Ausência do cliente;Serviço;Oi, [nome]. Seu horário de hoje, às [hora], ficou registrado como não comparecimento. Está tudo bem? Se quiser, posso consultar novas opções.;Resposta ou encerramento;Não transformar em campanha;Equipe de atendimento
+Pós-atendimento;Serviço;Oi, [nome]. Obrigado pela visita de hoje. Se precisar de qualquer ajuste, responde por aqui que a equipe te ajuda.;Satisfação;Evitar oferta sem consentimento;Equipe de atendimento
+Novidade autorizada;Marketing;Oi, [nome]. Você pediu para receber novidades da [barbearia]. [mensagem relevante]. Se não quiser mais receber, responda SAIR.;Clique, resposta ou SAIR;Consentimento obrigatório;Responsável por marketing

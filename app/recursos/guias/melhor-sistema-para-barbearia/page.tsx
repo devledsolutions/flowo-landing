@@ -219,10 +219,13 @@ export default function BestBarbershopSystemGuidePage() {
                 precisa. Peça o valor mensal final por escrito.
               </GuideCallout>
               <p>
-                O Flowo publica os planos Solo por R$ 249 e Equipe por R$ 549 por mês. O Empresarial é sob consulta, sem
-                teste grátis e sem fidelidade. A recepção com IA no WhatsApp está
-                incluída; pagamentos integrados são opcionais e acontecem depois
-                do atendimento. As páginas comparativas registram os preços
+                O Flowo publica os planos Solo por R$ 249 e Equipe por R$ 549
+                por mês. O Empresarial é sob consulta e a assinatura não tem
+                fidelidade. Não há teste automático; uma avaliação assistida
+                de 14 dias pode ser concedida a clientes elegíveis de Solo ou
+                Equipe. A recepção com IA no WhatsApp está incluída;
+                pagamentos integrados são opcionais e acontecem depois do
+                atendimento. As páginas comparativas registram os preços
                 públicos dos concorrentes e a data da consulta.
               </p>
             </GuideSection>

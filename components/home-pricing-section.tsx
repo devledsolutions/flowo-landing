@@ -56,9 +56,9 @@ const summaryFeatures = {
 } as const;
 
 const purchaseFacts = [
-  ["Seu número continua", "Os clientes seguem chamando no WhatsApp que já conhecem."],
+  ["WhatsApp avaliado na configuração", "A equipe confirma como conectar o número atual antes da ativação."],
   ["A configuração é acompanhada", "Serviços, equipe, horários e respostas são revisados com você."],
-  ["A cobrança começa na contratação", "A assinatura vale desde o primeiro dia; não há período de teste."],
+  ["Jornada pública paga", "Avaliações de 14 dias são concedidas manualmente a clientes elegíveis de Solo ou Equipe."],
   ["Sem fidelidade", "Você pode cancelar sem multa e usar até o fim do período já pago."],
 ] as const;
 
@@ -107,7 +107,7 @@ export default function HomePricingSection() {
           A IA no WhatsApp está em todos. O que muda é a escala da barbearia.
         </p>
         <p className="mx-auto mt-5 max-w-2xl text-caption font-medium text-ink">
-          Assinatura paga desde o início · sem fidelidade · onboarding acompanhado
+          Jornada pública paga · sem fidelidade · configuração acompanhada
         </p>
       </header>
 

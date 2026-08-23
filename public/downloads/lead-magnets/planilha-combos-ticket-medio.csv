@@ -1,4 +1,4 @@
-Combo,Preco Base,Preco Combo,Objetivo
-Corte + Barba,80,69,Aumentar adesão
-Corte + Sobrancelha,65,59,Adicionar serviço
-Premium Mensal,220,189,Recorrência
+﻿Combo;Soma individual (R$);Preço do combo (R$);Custo estimado (R$);Vendas previstas;Observações
+Corte + barba;105;95;30;20;Use o XLSX para calcular desconto e margem
+Corte + acabamento;80;75;20;15;Use o XLSX para calcular desconto e margem
+Barba + tratamento;85;78;26;12;Use o XLSX para calcular desconto e margem

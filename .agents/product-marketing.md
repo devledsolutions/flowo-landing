@@ -15,9 +15,11 @@ celular, sem data pública de lançamento.
 **Product category:** Sistema de agendamento e gestão para barbearias; recepção
 com IA no WhatsApp.  
 **Product type:** SaaS B2B multi-tenant.  
-**Business model:** Assinatura paga desde o primeiro dia: Solo R$249/mês e Equipe
+**Business model:** A jornada pública é paga: Solo R$249/mês e Equipe
 R$549/mês. Empresarial é sob consulta, com proposta, contratação e ativação
-assistidas. Sem período de teste e sem fidelidade.
+assistidas. A equipe pode conceder manualmente uma avaliação assistida de 14
+dias a clientes elegíveis dos planos Solo ou Equipe. Ela não exige cartão, não
+renova e não gera cobrança automática. Sem fidelidade.
 
 ## Target Audience
 

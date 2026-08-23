@@ -72,7 +72,7 @@ const teamBenefits = [
     icon: Clock3,
     title: "Menos tempo no celular",
     description:
-      "A conversa repetitiva de marcar, remarcar e confirmar sai da mão da equipe e vira rotina automática.",
+      "Marcação e confirmação saem da mão da equipe. Nos planos Equipe e Empresarial, a remarcação também acontece no WhatsApp.",
   },
 ];
 
@@ -89,7 +89,7 @@ export default function WhatsappAgendaPage() {
           current="Agenda de Barbearia no WhatsApp"
           eyebrow="Atendimento e agenda no mesmo fluxo"
           title="Atenda, agende e confirme clientes no WhatsApp da barbearia"
-          description="Com o Flowo, o cliente marca, remarca e confirma pelo WhatsApp em uma conversa normal. Sua equipe para de responder mensagem o dia todo e volta a focar no atendimento."
+          description="Com a Flowo, o cliente marca e confirma pelo WhatsApp; no Equipe e Empresarial, também pode remarcar. A equipe acompanha e assume quando precisar."
           preview="whatsapp"
         />
 

@@ -26,6 +26,7 @@ import { ResourceCollectionStructuredData } from "@/components/resources/resourc
 import { SIGNUP_URL } from "@/components/cta-links";
 import {
   GUIDE_BY_PATH,
+  GUIDES,
   type GuideIconKey,
 } from "@/data/guides";
 import { buildMetadata } from "@/lib/seo";
@@ -78,7 +79,7 @@ const downloads = [
   },
 ];
 
-const TOTAL_GUIDES = 10;
+const TOTAL_GUIDES = GUIDES.length;
 
 const startingPoints = [
   {
@@ -166,7 +167,7 @@ export default function ResourcesPage() {
           {
             name: "Guias para Barbearias",
             path: "/recursos/guias",
-            description: "Dez guias agrupados por agenda, relacionamento e gestão.",
+            description: `${GUIDES.length} guias agrupados por agenda, relacionamento e gestão.`,
           },
           {
             name: "Materiais Gratuitos para Barbearias",
