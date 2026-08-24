@@ -2,8 +2,11 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   ArrowRight,
+  BarChart3,
   Calculator,
   Clock3,
+  Compass,
+  MessageCircle,
   RotateCcw,
 } from "lucide-react";
 import Navbar from "@/components/navbar";
@@ -52,6 +55,34 @@ const freeTools = [
     href: "/mensagens-retorno-clientes-barbearia",
     icon: RotateCcw,
     cta: "Planejar retorno",
+  },
+  {
+    title: "Oportunidade no WhatsApp",
+    description: "Encontre conversas que merecem revisão antes de falar em perda.",
+    href: "/calculadora-dinheiro-perdido-whatsapp-barbearia",
+    icon: MessageCircle,
+    cta: "Calcular cenário",
+  },
+  {
+    title: "Ocupação da agenda",
+    description: "Compare capacidade da equipe com os atendimentos marcados.",
+    href: "/calculadora-ocupacao-agenda-barbearia",
+    icon: BarChart3,
+    cta: "Ver ocupação",
+  },
+  {
+    title: "Qual plano combina",
+    description: "Escolha um ponto de partida entre Solo, Equipe e Empresarial.",
+    href: "/qual-plano-flowo",
+    icon: Compass,
+    cta: "Escolher plano",
+  },
+  {
+    title: "Raio-X da gestão",
+    description: "Responda cinco perguntas e escolha a primeira melhoria.",
+    href: "/raio-x-gestao-barbearia",
+    icon: Calculator,
+    cta: "Fazer o Raio-X",
   },
 ] as const;
 
@@ -111,7 +142,7 @@ export default function MaterialsPage() {
               <header className="mt-10 grid items-center gap-10 border-b border-line pb-14 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16">
                 <div>
                   <p className="text-label font-semibold uppercase tracking-[0.14em] text-faint-ink">
-                    3 ferramentas e {TOTAL_MATERIALS} materiais gratuitos
+                    {freeTools.length} ferramentas e {TOTAL_MATERIALS} materiais gratuitos
                   </p>
                   <h1 className="mt-4 max-w-3xl text-h2 font-bold leading-[1.05] text-ink">
                     Menos improviso. Uma próxima ação clara para a barbearia.
@@ -123,13 +154,13 @@ export default function MaterialsPage() {
                   </p>
                   <div className="mt-7 flex flex-wrap items-center gap-3 text-caption text-muted-ink">
                     <span className="rounded-full border border-line bg-surface px-3 py-1.5">
-                      Entrega por e-mail + download
+                      Comece em 10 a 30 minutos
                     </span>
                     <span className="rounded-full border border-line bg-surface px-3 py-1.5">
-                      PDFs para imprimir
+                      Planilhas com exemplos prontos
                     </span>
                     <span className="rounded-full border border-line bg-surface px-3 py-1.5">
-                      Feitos para barbearias
+                      PDFs para celular ou impressão
                     </span>
                   </div>
                 </div>

@@ -14,6 +14,9 @@ export default function ContactForm() {
   const { track, identify, getAnonymousId, getAcquisitionContext } = useSegment()
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
+  const [contactChannel, setContactChannel] = useState<'email' | 'whatsapp'>('email')
+  const [submittedChannel, setSubmittedChannel] = useState<'email' | 'whatsapp'>('email')
   const [message, setMessage] = useState('')
   const [company, setCompany] = useState('')
   const [turnstileToken, setTurnstileToken] = useState('')
@@ -30,6 +33,7 @@ export default function ContactForm() {
     track('Lead Form Submitted', {
       form: 'contact',
       source: 'contact:site',
+      response_channel: contactChannel,
     })
 
     try {
@@ -41,6 +45,8 @@ export default function ContactForm() {
         body: JSON.stringify({
           name,
           email,
+          phone,
+          contactChannel,
           message,
           company,
           consent: true,
@@ -57,20 +63,24 @@ export default function ContactForm() {
       }
 
       setSuccess(true)
+      setSubmittedChannel(contactChannel)
       identify(undefined, {
         email,
         name,
+        ...(contactChannel === 'whatsapp' && phone ? { phone } : {}),
         lead_source: 'contact:site',
         email_marketing_opt_in: emailMarketingConsent,
       })
       track('Lead Form Succeeded', {
         form: 'contact',
         source: 'contact:site',
-        response_channel: 'email',
+        response_channel: contactChannel,
         email_marketing_opt_in: emailMarketingConsent,
       })
       setName('')
       setEmail('')
+      setPhone('')
+      setContactChannel('email')
       setMessage('')
       setCompany('')
       setTurnstileToken('')
@@ -105,7 +115,9 @@ export default function ContactForm() {
               Sua mensagem foi enviada com sucesso!
             </p>
             <p className="mt-2 text-sm text-muted-ink">
-              Respondemos pelo e-mail que você informou.
+              {submittedChannel === 'whatsapp'
+                ? 'A equipe responde pelo WhatsApp informado.'
+                : 'Respondemos pelo e-mail que você informou.'}
             </p>
             <Button
               variant="outline"
@@ -148,6 +160,63 @@ export default function ContactForm() {
                 required
               />
             </div>
+            <fieldset className="space-y-3">
+              <legend className="text-sm font-medium text-ink">
+                Como prefere receber a resposta?
+              </legend>
+              <div className="grid gap-2 sm:grid-cols-2">
+                {([
+                  ['email', 'E-mail'],
+                  ['whatsapp', 'WhatsApp'],
+                ] as const).map(([value, label]) => (
+                  <label
+                    key={value}
+                    className={`flex min-h-12 cursor-pointer items-center gap-3 rounded-xl border px-4 text-sm transition-colors ${
+                      contactChannel === value
+                        ? 'border-ink bg-ink text-background'
+                        : 'border-input bg-surface text-muted-ink hover:border-ink'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="contact-channel"
+                      value={value}
+                      checked={contactChannel === value}
+                      onChange={() => setContactChannel(value)}
+                      className="sr-only"
+                    />
+                    <span
+                      aria-hidden="true"
+                      className={`h-3 w-3 rounded-full border ${
+                        contactChannel === value
+                          ? 'border-background bg-background'
+                          : 'border-muted-ink'
+                      }`}
+                    />
+                    {label}
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+            {contactChannel === 'whatsapp' ? (
+              <div className="space-y-1.5">
+                <Label htmlFor="contact-phone">WhatsApp</Label>
+                <Input
+                  id="contact-phone"
+                  type="tel"
+                  inputMode="tel"
+                  autoComplete="tel"
+                  placeholder="(11) 99999-9999"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  required
+                />
+                <p className="text-xs leading-5 text-muted-ink">
+                  Usaremos este número somente para responder seu pedido. Você não
+                  entra em uma campanha de mensagens por escolher o WhatsApp.
+                </p>
+              </div>
+            ) : null}
             <div className="space-y-1.5">
               <Label htmlFor="contact-message">Mensagem</Label>
               <Textarea

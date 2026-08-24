@@ -79,6 +79,15 @@ const RESOURCE_TYPE_LABEL: Record<
   template: "Modelo",
 };
 
+const RESOURCE_TYPE_FREE_LABEL: Record<
+  NonNullable<DownloadGateModalProps["resourceType"]>,
+  string
+> = {
+  pdf: "PDF gratuito",
+  spreadsheet: "Planilha gratuita",
+  template: "Modelo gratuito",
+};
+
 export function DownloadGateModal({
   children,
   resourceTitle,
@@ -488,7 +497,7 @@ export function DownloadGateModal({
                 </div>
                 <div className="min-w-0">
                   <p className="text-caption font-semibold uppercase tracking-[0.12em] text-faint-ink">
-                    {RESOURCE_TYPE_LABEL[resourceType]} gratuito
+                    {RESOURCE_TYPE_FREE_LABEL[resourceType]}
                   </p>
                   <DialogTitle className="mt-1 text-xl font-semibold leading-tight">
                     {resourceTitle}

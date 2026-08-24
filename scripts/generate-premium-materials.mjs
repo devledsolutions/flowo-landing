@@ -18,15 +18,21 @@ const COLORS = {
   muted: "6D6A61",
   line: "D9D3C6",
   accent: "C52663",
+  input: "F8E9EF",
+  inputInk: "7A173F",
   success: "1F7A50",
+  successSoft: "E7F3EC",
   warning: "A45D13",
+  warningSoft: "FAEEDB",
+  danger: "A23030",
+  dangerSoft: "F8E5E5",
   white: "FFFFFF",
 };
 
 const DISCLAIMER =
   "Material educativo. Adapte à realidade da sua barbearia e valide decisões contábeis, fiscais, trabalhistas e jurídicas com profissionais habilitados.";
 const WHATSAPP_NOTICE =
-  "Envie mensagens de relacionamento ou oferta apenas a contatos com consentimento válido. SAIR ou PARAR interrompem divulgações. CANCELAR trata somente de um agendamento identificado e não deve, sozinho, remover o consentimento de marketing.";
+  "Mande ofertas somente para quem autorizou esse tipo de contato. Se a pessoa responder SAIR ou PARAR, interrompa as divulgações. CANCELAR trata apenas do agendamento informado.";
 
 const GENERATED_WORKBOOKS = [];
 
@@ -61,6 +67,25 @@ function styleRange(sheet, range, style) {
       sheet[ref].s = style;
     }
   }
+}
+
+function styleSqref(sheet, sqref, style) {
+  for (const range of String(sqref).trim().split(/\s+/).filter(Boolean)) {
+    styleRange(sheet, range, style);
+  }
+}
+
+function markInputRange(sheet, sqref) {
+  styleSqref(sheet, sqref, cellStyle({
+    fill: COLORS.input,
+    color: COLORS.inputInk,
+    border: true,
+  }));
+}
+
+function addConditionalFormatting(sheet, sqref, rules) {
+  sheet["!flowoConditionalFormattings"] = sheet["!flowoConditionalFormattings"] || [];
+  sheet["!flowoConditionalFormattings"].push({ sqref, rules });
 }
 
 function finalizeSheet(sheet, { widths = [], freezeRow = 0, autoFilter, rowHeights = {} } = {}) {
@@ -101,6 +126,11 @@ function addDataValidation(sheet, sqref, {
     promptTitle,
     prompt,
   });
+  styleSqref(sheet, sqref, cellStyle({
+    fill: COLORS.input,
+    color: COLORS.inputInk,
+    border: true,
+  }));
 }
 
 function addTitleBlock(sheet, title, subtitle, lastColumn, { eyebrow = "MATERIAL PRÁTICO FLOWO" } = {}) {
@@ -119,50 +149,143 @@ function addTitleBlock(sheet, title, subtitle, lastColumn, { eyebrow = "MATERIAL
 }
 
 function addReadme(wb, { title, purpose, steps, notes = [], whatsapp = false, disclaimer = DISCLAIMER }) {
+  const shortSteps = steps.slice(0, 3);
   const rows = [
-    ["MATERIAL PRÁTICO FLOWO"],
-    [title],
-    [purpose],
-    ["flowo.com.br"],
+    ["FLOWO · MATERIAL PRÁTICO", "", "", "", "", ""],
+    [title, "", "", "", "", ""],
+    [purpose, "", "", "", "", ""],
+    ["Veja o resumo na próxima aba. Depois, preencha somente as células rosadas e volte ao resumo para decidir o que fazer.", "", "", "", "", ""],
     [],
-    ["COMO USAR"],
-    ...steps.map((step, index) => [`${index + 1}. ${step}`]),
+    ["01", "", "02", "", "03", ""],
+    [shortSteps[0] || "Preencha os dados da rotina.", "", shortSteps[1] || "Confira o resultado.", "", shortSteps[2] || "Escolha a próxima ação.", ""],
     [],
-    ...(whatsapp ? [["USO RESPONSÁVEL NO WHATSAPP"], [WHATSAPP_NOTICE], []] : []),
-    ...(notes.length ? [["ANTES DE COMEÇAR"], ...notes.map((note) => [`• ${note}`]), []] : []),
-    ["AVISO IMPORTANTE"],
-    [disclaimer],
+    ["LEGENDA RÁPIDA", "", "", "", "", ""],
+    ["DIGITE AQUI", "", "RESULTADO", "", "ATENÇÃO", ""],
+    ["Células rosadas", "", "Células verdes", "", "Células amarelas", ""],
+    [],
+    ...(whatsapp ? [["WHATSAPP COM RESPONSABILIDADE", "", "", "", "", ""], [WHATSAPP_NOTICE, "", "", "", "", ""], []] : []),
+    ...(notes.length ? [["ANTES DE COMEÇAR", "", "", "", "", ""], ...notes.map((note) => [`• ${note}`, "", "", "", "", ""]), []] : []),
+    ["AVISO IMPORTANTE", "", "", "", "", ""],
+    [disclaimer, "", "", "", "", ""],
+    ["flowo.com.br/recursos/materiais", "", "", "", "", ""],
   ];
   const sheet = XLSX.utils.aoa_to_sheet(rows);
   sheet["!merges"] = [];
-  for (let row = 1; row <= rows.length; row += 1) {
+  for (const row of [1, 2, 3, 4, 9]) {
     sheet["!merges"].push(XLSX.utils.decode_range(`A${row}:F${row}`));
   }
-  styleRange(sheet, "A1:F1", cellStyle({ fill: COLORS.ink, color: COLORS.cream, bold: true, size: 10 }));
-  styleRange(sheet, "A2:F2", cellStyle({ fill: COLORS.cream, bold: true, size: 20 }));
-  styleRange(sheet, "A3:F4", cellStyle({ fill: COLORS.cream, color: COLORS.muted }));
-  for (let row = 6; row <= rows.length; row += 1) {
-    const value = String(sheet[`A${row}`]?.v || "");
-    if (["COMO USAR", "USO RESPONSÁVEL NO WHATSAPP", "ANTES DE COMEÇAR", "AVISO IMPORTANTE"].includes(value)) {
-      styleRange(sheet, `A${row}:F${row}`, cellStyle({ fill: COLORS.ink, color: COLORS.cream, bold: true, size: 11 }));
-    } else {
-      styleRange(sheet, `A${row}:F${row}`, cellStyle({ fill: COLORS.paper, color: value.startsWith("•") ? COLORS.muted : COLORS.ink }));
+  for (const row of [6, 7, 10, 11]) {
+    for (const start of ["A", "C", "E"]) {
+      const end = String.fromCharCode(start.charCodeAt(0) + 1);
+      sheet["!merges"].push(XLSX.utils.decode_range(`${start}${row}:${end}${row}`));
     }
   }
-  const sectionLabels = new Set(["COMO USAR", "USO RESPONSÁVEL NO WHATSAPP", "ANTES DE COMEÇAR", "AVISO IMPORTANTE"]);
-  const rowHeights = Object.fromEntries(
-    rows.map(([value = ""], index) => {
-      const text = String(value);
-      if (index === 0) return [index, 28];
-      if (index === 1) return [index, 42];
-      if (index === 2) return [index, Math.max(34, 20 + Math.ceil(text.length / 95) * 14)];
-      if (sectionLabels.has(text)) return [index, 28];
-      if (!text) return [index, 10];
-      return [index, Math.min(64, 20 + Math.ceil(text.length / 105) * 14)];
-    }),
-  );
-  finalizeSheet(sheet, { widths: [32, 18, 18, 18, 18, 18], rowHeights });
-  XLSX.utils.book_append_sheet(wb, sheet, "Leia primeiro");
+  for (let row = 13; row <= rows.length; row += 1) {
+    sheet["!merges"].push(XLSX.utils.decode_range(`A${row}:F${row}`));
+  }
+
+  styleRange(sheet, "A1:F1", cellStyle({ fill: COLORS.ink, color: COLORS.cream, bold: true, size: 10 }));
+  styleRange(sheet, "A2:F2", cellStyle({ fill: COLORS.cream, bold: true, size: 22 }));
+  styleRange(sheet, "A3:F3", cellStyle({ fill: COLORS.cream, color: COLORS.muted, size: 12 }));
+  styleRange(sheet, "A4:F4", cellStyle({ fill: COLORS.paper, color: COLORS.ink, bold: true, size: 11, border: true }));
+  for (const start of ["A", "C", "E"]) {
+    const end = String.fromCharCode(start.charCodeAt(0) + 1);
+    styleRange(sheet, `${start}6:${end}6`, cellStyle({ fill: COLORS.ink, color: COLORS.cream, bold: true, size: 11 }));
+    styleRange(sheet, `${start}7:${end}7`, cellStyle({ fill: COLORS.paper, color: COLORS.ink, size: 11, border: true }));
+  }
+  styleRange(sheet, "A9:F9", cellStyle({ fill: COLORS.ink, color: COLORS.cream, bold: true, size: 10 }));
+  styleRange(sheet, "A10:B11", cellStyle({ fill: COLORS.input, color: COLORS.inputInk, bold: true, border: true }));
+  styleRange(sheet, "C10:D11", cellStyle({ fill: COLORS.successSoft, color: COLORS.success, bold: true, border: true }));
+  styleRange(sheet, "E10:F11", cellStyle({ fill: COLORS.warningSoft, color: COLORS.warning, bold: true, border: true }));
+
+  for (let row = 13; row <= rows.length; row += 1) {
+    const value = String(sheet[`A${row}`]?.v || "");
+    if (["WHATSAPP COM RESPONSABILIDADE", "ANTES DE COMEÇAR", "AVISO IMPORTANTE"].includes(value)) {
+      styleRange(sheet, `A${row}:F${row}`, cellStyle({ fill: COLORS.ink, color: COLORS.cream, bold: true, size: 10 }));
+    } else if (value === "flowo.com.br/recursos/materiais") {
+      styleRange(sheet, `A${row}:F${row}`, cellStyle({ fill: COLORS.cream, color: COLORS.accent, bold: true, size: 10 }));
+    } else if (value) {
+      styleRange(sheet, `A${row}:F${row}`, cellStyle({ fill: COLORS.paper, color: value.startsWith("•") ? COLORS.muted : COLORS.ink, size: 10 }));
+    }
+  }
+
+  const rowHeights = Object.fromEntries(rows.map((row, index) => {
+    const text = String(row[0] || "");
+    if (index === 0) return [index, 24];
+    if (index === 1) return [index, 40];
+    if (index === 2) return [index, 42];
+    if (index === 3) return [index, 34];
+    if ([5, 9].includes(index)) return [index, 24];
+    if ([6, 10].includes(index)) return [index, 48];
+    if (!text) return [index, 8];
+    return [index, Math.min(54, 22 + Math.ceil(text.length / 120) * 12)];
+  }));
+  finalizeSheet(sheet, { widths: [18, 18, 18, 18, 18, 18], rowHeights });
+  XLSX.utils.book_append_sheet(wb, sheet, "Comece aqui");
+}
+
+function addQuickPanel(wb, {
+  title,
+  question,
+  metrics,
+  nextAction,
+  name = "Painel rápido",
+}) {
+  const rows = Array.from({ length: 18 }, () => Array.from({ length: 9 }, () => ""));
+  rows[0][0] = "FLOWO · RESUMO SIMPLES";
+  rows[1][0] = title;
+  rows[2][0] = question;
+  rows[4][0] = metrics[0]?.label || "Indicador";
+  rows[4][3] = metrics[1]?.label || "Indicador";
+  rows[4][6] = metrics[2]?.label || "Indicador";
+  rows[5][0] = metrics[0]?.formula ? { f: metrics[0].formula } : metrics[0]?.value ?? "—";
+  rows[5][3] = metrics[1]?.formula ? { f: metrics[1].formula } : metrics[1]?.value ?? "—";
+  rows[5][6] = metrics[2]?.formula ? { f: metrics[2].formula } : metrics[2]?.value ?? "—";
+  rows[6][0] = metrics[0]?.description || "";
+  rows[6][3] = metrics[1]?.description || "";
+  rows[6][6] = metrics[2]?.description || "";
+  rows[9][0] = "PRÓXIMA AÇÃO";
+  rows[10][0] = nextAction;
+  rows[13][0] = "COMO LER";
+  rows[14][0] = "1. Preencha as células rosadas nas outras abas.";
+  rows[15][0] = "2. Volte aqui para conferir os números principais.";
+  rows[16][0] = "3. Resolva primeiro o que estiver pendente ou bloqueado.";
+
+  const sheet = XLSX.utils.aoa_to_sheet(rows);
+  sheet["!merges"] = [];
+  for (const row of [1, 2, 3, 10, 11, 14, 15, 16, 17]) {
+    sheet["!merges"].push(XLSX.utils.decode_range(`A${row}:I${row}`));
+  }
+  for (const start of ["A", "D", "G"]) {
+    const startCode = start.charCodeAt(0);
+    const end = String.fromCharCode(startCode + 2);
+    for (const row of [5, 6, 7]) {
+      sheet["!merges"].push(XLSX.utils.decode_range(`${start}${row}:${end}${row}`));
+    }
+  }
+  styleRange(sheet, "A1:I1", cellStyle({ fill: COLORS.ink, color: COLORS.cream, bold: true, size: 10 }));
+  styleRange(sheet, "A2:I2", cellStyle({ fill: COLORS.cream, color: COLORS.ink, bold: true, size: 22 }));
+  styleRange(sheet, "A3:I3", cellStyle({ fill: COLORS.cream, color: COLORS.muted, size: 11 }));
+  for (const start of ["A", "D", "G"]) {
+    const end = String.fromCharCode(start.charCodeAt(0) + 2);
+    styleRange(sheet, `${start}5:${end}5`, cellStyle({ fill: COLORS.ink, color: COLORS.cream, bold: true, size: 10 }));
+    styleRange(sheet, `${start}6:${end}6`, cellStyle({ fill: COLORS.successSoft, color: COLORS.success, bold: true, size: 22, align: "center", border: true }));
+    styleRange(sheet, `${start}7:${end}7`, cellStyle({ fill: COLORS.paper, color: COLORS.muted, size: 10, align: "center", border: true }));
+  }
+  for (let index = 0; index < 3; index += 1) {
+    const cell = sheet[["A6", "D6", "G6"][index]];
+    if (cell && metrics[index]?.format) cell.z = metrics[index].format;
+  }
+  styleRange(sheet, "A10:I10", cellStyle({ fill: COLORS.ink, color: COLORS.cream, bold: true, size: 10 }));
+  styleRange(sheet, "A11:I11", cellStyle({ fill: COLORS.warningSoft, color: COLORS.warning, bold: true, size: 12, border: true }));
+  styleRange(sheet, "A14:I14", cellStyle({ fill: COLORS.cream, color: COLORS.ink, bold: true, size: 10 }));
+  styleRange(sheet, "A15:I17", cellStyle({ fill: COLORS.paper, color: COLORS.muted, size: 10 }));
+  finalizeSheet(sheet, {
+    widths: Array.from({ length: 9 }, () => 14),
+    rowHeights: { 0: 24, 1: 40, 2: 34, 4: 26, 5: 44, 6: 34, 9: 26, 10: 42, 13: 24, 14: 24, 15: 24, 16: 24 },
+  });
+  XLSX.utils.book_append_sheet(wb, sheet, name);
+  wb.SheetNames = ["Comece aqui", name, ...wb.SheetNames.filter((sheetName) => !["Comece aqui", name].includes(sheetName))];
 }
 
 function decorateTable(sheet, { headerRow, lastColumn, lastRow, widths, freezeRow = headerRow, autoFilter = true }) {
@@ -181,6 +304,34 @@ function decorateTable(sheet, { headerRow, lastColumn, lastRow, widths, freezeRo
     autoFilter: autoFilter ? `A${headerRow}:${lastColumn}${lastRow}` : undefined,
     rowHeights,
   });
+  for (let col = 0; col <= XLSX.utils.decode_col(lastColumn); col += 1) {
+    const ref = XLSX.utils.encode_cell({ r: headerRow - 1, c: col });
+    const header = String(sheet[ref]?.v || "");
+    const bodyRange = `${XLSX.utils.encode_col(col)}${headerRow + 1}:${XLSX.utils.encode_col(col)}${lastRow}`;
+    if (header === "Status") {
+      addConditionalFormatting(sheet, bodyRange, [
+        { text: "Concluído", style: "success" },
+        { text: "Publicado", style: "success" },
+        { text: "Pronto", style: "success" },
+        { text: "Pendente", style: "warning" },
+        { text: "Em andamento", style: "warning" },
+        { text: "Revisar", style: "warning" },
+        { text: "Bloqueado", style: "danger" },
+        { text: "Cancelado", style: "danger" },
+        { text: "Estornado", style: "danger" },
+      ]);
+    }
+    if (header === "Validação") {
+      addConditionalFormatting(sheet, bodyRange, [
+        { text: "Elegível", style: "success" },
+        { text: "Excluído", style: "warning" },
+        { text: "ERRO", style: "danger" },
+      ]);
+    }
+    if (["SAIR/PARAR", "Pedido de saída"].includes(header)) {
+      addConditionalFormatting(sheet, bodyRange, [{ text: "Sim", style: "danger" }]);
+    }
+  }
 }
 
 function createWorkbook(title) {
@@ -270,6 +421,35 @@ function addDataValidations(sheetXml, validations = []) {
     : sheetXml.replace(/<\/worksheet>/, `${block}</worksheet>`);
 }
 
+function addConditionalFormattings(sheetXml, groups = [], dxfIds = {}) {
+  if (!groups.length) return sheetXml;
+  let priority = 1;
+  const blocks = groups.map(({ sqref, rules }) => {
+    const firstRange = String(sqref).trim().split(/\s+/)[0];
+    const firstCell = firstRange.split(":")[0];
+    const entries = rules.map((rule) => {
+      const text = xmlEscape(rule.text);
+      const dxfId = dxfIds[rule.style];
+      if (dxfId == null) throw new Error(`Estilo condicional ausente: ${rule.style}`);
+      const formula = `ISNUMBER(SEARCH(&quot;${text}&quot;,${firstCell}))`;
+      return `<cfRule type="expression" dxfId="${dxfId}" priority="${priority++}"><formula>${formula}</formula></cfRule>`;
+    }).join("");
+    return `<conditionalFormatting sqref="${xmlEscape(sqref)}">${entries}</conditionalFormatting>`;
+  }).join("");
+  const anchor = sheetXml.match(/<(?:dataValidations|hyperlinks|printOptions|pageMargins|pageSetup)\b/)?.[0];
+  return anchor
+    ? sheetXml.replace(anchor, `${blocks}${anchor}`)
+    : sheetXml.replace(/<\/worksheet>/, `${blocks}</worksheet>`);
+}
+
+function appendOrCreateDxfs(stylesXml, entries) {
+  if (!entries.length) return stylesXml;
+  if (/<dxfs count="\d+">/.test(stylesXml)) {
+    return appendStyleEntries(stylesXml, "dxfs", entries);
+  }
+  return stylesXml.replace(/<\/styleSheet>/, `<dxfs count="${entries.length}">${entries.join("")}</dxfs></styleSheet>`);
+}
+
 function absoluteRange(ref) {
   const decoded = XLSX.utils.decode_range(ref);
   const start = XLSX.utils.encode_cell(decoded.s).replace(/^([A-Z]+)(\d+)$/, "$$$1$$$2");
@@ -280,7 +460,7 @@ function absoluteRange(ref) {
 function addWorkbookPrintAreas(workbookXml, wb) {
   const printAreas = wb.SheetNames.map((sheetName, index) => {
     const sheet = wb.Sheets[sheetName];
-    const ref = sheetName === "Leia primeiro"
+    const ref = sheetName === "Comece aqui"
       ? `A1:F${XLSX.utils.decode_range(sheet["!ref"]).e.r + 1}`
       : sheet["!ref"];
     const escapedName = xmlEscape(sheetName.replaceAll("'", "''"));
@@ -327,6 +507,17 @@ function styleWorkbookOoxml(target, wb) {
     const baseXfs = cellXfsMatch[2].match(/<xf\b[^>]*(?:\/>|>[\s\S]*?<\/xf>)/g) || [];
     const baseXfCount = Number(cellXfsMatch[1]);
     const baseNumFmtIds = baseXfs.map((xf) => Number(xf.match(/numFmtId="(\d+)"/)?.[1] || 0));
+    const baseDxfCount = Number(stylesXml.match(/<dxfs count="(\d+)">/)?.[1] || 0);
+    const dxfEntries = [
+      `<dxf><font><b/><color rgb="FF${COLORS.success}"/></font><fill><patternFill patternType="solid"><fgColor rgb="FF${COLORS.successSoft}"/><bgColor indexed="64"/></patternFill></fill></dxf>`,
+      `<dxf><font><b/><color rgb="FF${COLORS.warning}"/></font><fill><patternFill patternType="solid"><fgColor rgb="FF${COLORS.warningSoft}"/><bgColor indexed="64"/></patternFill></fill></dxf>`,
+      `<dxf><font><b/><color rgb="FF${COLORS.danger}"/></font><fill><patternFill patternType="solid"><fgColor rgb="FF${COLORS.dangerSoft}"/><bgColor indexed="64"/></patternFill></fill></dxf>`,
+    ];
+    const dxfIds = {
+      success: baseDxfCount,
+      warning: baseDxfCount + 1,
+      danger: baseDxfCount + 2,
+    };
 
     const fontEntries = [];
     const fillEntries = [];
@@ -379,7 +570,8 @@ function styleWorkbookOoxml(target, wb) {
           .map(([ref, cell]) => [ref, cell.s]),
       );
       const validations = sheet["!flowoDataValidations"] || [];
-      if (!plan.size && !validations.length) return;
+      const conditionalFormattings = sheet["!flowoConditionalFormattings"] || [];
+      if (!plan.size && !validations.length && !conditionalFormattings.length) return;
       const sheetPath = path.join(tempDir, "xl", "worksheets", `sheet${sheetIndex + 1}.xml`);
       let sheetXml = fs.readFileSync(sheetPath, "utf8");
       sheetXml = sheetXml.replace(/<c\b[^>]*\br="([^"]+)"[^>]*>/g, (tag, ref) => {
@@ -392,8 +584,9 @@ function styleWorkbookOoxml(target, wb) {
           ? tag.replace(/\bs="\d+"/, `s="${nextStyle}"`)
           : tag.replace(/>$/, ` s="${nextStyle}">`);
       });
-      sheetXml = addPrintSetup(sheetXml, { readme: sheetName === "Leia primeiro" });
+      sheetXml = addPrintSetup(sheetXml, { readme: sheetName === "Comece aqui" });
       sheetXml = addDataValidations(sheetXml, validations);
+      sheetXml = addConditionalFormattings(sheetXml, conditionalFormattings, dxfIds);
       fs.writeFileSync(sheetPath, sheetXml, "utf8");
     });
 
@@ -404,6 +597,7 @@ function styleWorkbookOoxml(target, wb) {
     stylesXml = appendStyleEntries(stylesXml, "fonts", fontEntries);
     stylesXml = appendStyleEntries(stylesXml, "fills", fillEntries);
     stylesXml = appendStyleEntries(stylesXml, "borders", borderEntries);
+    stylesXml = appendOrCreateDxfs(stylesXml, dxfEntries);
     stylesXml = stylesXml.replace(
       /<cellXfs count="\d+">([\s\S]*?)<\/cellXfs>/,
       `<cellXfs count="${baseXfCount + xfEntries.length}">$1${xfEntries.join("")}</cellXfs>`,
@@ -518,11 +712,18 @@ function auditGeneratedWorkbooks(targets) {
     let cachedValues = 0;
     let numericCaches = 0;
     let nonZeroCaches = 0;
+    let formulaErrors = 0;
+    if (workbook.SheetNames[0] !== "Comece aqui" || workbook.SheetNames[1] !== "Painel rápido") {
+      throw new Error(`${path.basename(target)} deve abrir em Comece aqui e Painel rápido`);
+    }
     for (const sheetName of workbook.SheetNames) {
       for (const [ref, cell] of Object.entries(workbook.Sheets[sheetName])) {
         if (ref.startsWith("!") || !cell?.f) continue;
         formulas += 1;
         if (cell.v != null) cachedValues += 1;
+        if (cell.t === "e" || (typeof cell.v === "string" && cell.v.startsWith("#"))) {
+          formulaErrors += 1;
+        }
         if (typeof cell.v === "number" && Number.isFinite(cell.v)) {
           numericCaches += 1;
           if (Math.abs(cell.v) > 1e-9) nonZeroCaches += 1;
@@ -535,8 +736,11 @@ function auditGeneratedWorkbooks(targets) {
       0,
     );
     if (validations === 0) throw new Error(`${path.basename(target)} não contém validação de dados`);
-    if (formulas > 0 && nonZeroCaches === 0) {
-      throw new Error(`${path.basename(target)} não preservou nenhum cache numérico diferente de zero`);
+    if (formulas > 0 && cachedValues === 0) {
+      throw new Error(`${path.basename(target)} não preservou os resultados calculados das fórmulas`);
+    }
+    if (formulaErrors > 0) {
+      throw new Error(`${path.basename(target)} contém ${formulaErrors} fórmula(s) com erro`);
     }
     return {
       arquivo: path.basename(target),
@@ -545,6 +749,7 @@ function auditGeneratedWorkbooks(targets) {
       cachesPersistidos: cachedValues,
       cachesNumericos: numericCaches,
       cachesNaoZero: nonZeroCaches,
+      errosDeFormula: formulaErrors,
       validacoes: validations,
     };
   });
@@ -690,7 +895,18 @@ function buildInstagramCalendar() {
     formula1: '"Planejar,Gravar,Criar,Fotografar,Revisar,Publicar,Publicado"',
     error: "Escolha uma etapa válida da produção.",
   });
+  markInputRange(sheet, "F2:F31");
   XLSX.utils.book_append_sheet(wb, sheet, "Calendário 30 dias");
+  addQuickPanel(wb, {
+    title: "Seu conteúdo do mês em um olhar",
+    question: "Quantas publicações já saíram e o que precisa ser produzido agora?",
+    metrics: [
+      { label: "PUBLICADOS", formula: `COUNTIF('Calendário 30 dias'!$F$2:$F$31,"Publicado")`, description: "conteúdos que já foram ao ar", format: "0" },
+      { label: "EM PRODUÇÃO", formula: `COUNTIF('Calendário 30 dias'!$F$2:$F$31,"Gravar")+COUNTIF('Calendário 30 dias'!$F$2:$F$31,"Criar")+COUNTIF('Calendário 30 dias'!$F$2:$F$31,"Fotografar")+COUNTIF('Calendário 30 dias'!$F$2:$F$31,"Revisar")`, description: "conteúdos com próxima etapa", format: "0" },
+      { label: "FALTAM PUBLICAR", formula: `30-COUNTIF('Calendário 30 dias'!$F$2:$F$31,"Publicado")`, description: "ideias ainda disponíveis", format: "0" },
+    ],
+    nextAction: "Escolha apenas o conteúdo de amanhã, mude o status e defina quem vai gravar ou criar.",
+  });
   writeWorkbook("calendario-conteudo-instagram.xlsx", wb);
 }
 
@@ -699,7 +915,7 @@ function buildOpeningChecklist() {
   addReadme(wb, {
     title: "Checklist de abertura de barbearia",
     purpose: "Organize decisões, documentos e responsáveis antes de abrir as portas.",
-    steps: ["Defina um responsável e um prazo real para cada item.", "Use a coluna Evidência para registrar link, documento ou contato.", "Revise pendências semanalmente até a abertura."],
+    steps: ["Defina quem vai cuidar e até quando.", "Use a coluna Comprovante ou link para guardar documento, contato ou endereço.", "Revise o que falta uma vez por semana até a abertura."],
     notes: ["Licenças e obrigações variam conforme município, atividade e modelo de contratação.", "Consulte contador, prefeitura, vigilância sanitária e profissionais jurídicos quando aplicável."],
   });
   const items = [
@@ -719,12 +935,12 @@ function buildOpeningChecklist() {
     ["Atendimento", "Configurar número oficial e mensagens de WhatsApp", "Pendente", "", "", "", ""],
     ["Atendimento", "Preparar agenda e horários de cada profissional", "Pendente", "", "", "", ""],
     ["Financeiro", "Separar conta pessoal e conta da empresa", "Pendente", "", "", "", ""],
-    ["Financeiro", "Definir meios de recebimento e conciliação", "Pendente", "", "", "", ""],
+    ["Financeiro", "Definir como receber e como conferir o dinheiro que entrou", "Pendente", "", "", "", ""],
     ["Marketing", "Criar identidade e perfis oficiais", "Pendente", "", "", "", ""],
     ["Marketing", "Planejar divulgação de abertura sem promessas enganosas", "Pendente", "", "", "", ""],
     ["Abertura", "Executar atendimento-piloto e revisar o fluxo", "Pendente", "", "", "", ""],
   ];
-  const rows = [["Área", "Tarefa", "Status", "Responsável", "Prazo", "Evidência", "Observações"], ...items];
+  const rows = [["Área", "Tarefa", "Status", "Quem cuida", "Prazo", "Comprovante ou link", "Observações"], ...items];
   const sheet = XLSX.utils.aoa_to_sheet(rows);
   decorateTable(sheet, { headerRow: 1, lastColumn: "G", lastRow: rows.length, widths: [20, 52, 16, 22, 14, 30, 38] });
   addDataValidation(sheet, `C2:C${rows.length}`, {
@@ -738,7 +954,18 @@ function buildOpeningChecklist() {
     formula2: "DATE(2100,12,31)",
     error: "Informe uma data válida.",
   });
+  markInputRange(sheet, `D2:G${rows.length}`);
   XLSX.utils.book_append_sheet(wb, sheet, "Checklist");
+  addQuickPanel(wb, {
+    title: "O que falta para abrir com segurança",
+    question: "Resolva primeiro o que está bloqueado; depois avance no que já começou.",
+    metrics: [
+      { label: "CONCLUÍDOS", formula: `COUNTIF(Checklist!$C$2:$C$${rows.length},"Concluído")`, description: `de ${items.length} itens`, format: "0" },
+      { label: "EM ANDAMENTO", formula: `COUNTIF(Checklist!$C$2:$C$${rows.length},"Em andamento")`, description: "itens já iniciados", format: "0" },
+      { label: "BLOQUEADOS", formula: `COUNTIF(Checklist!$C$2:$C$${rows.length},"Bloqueado")`, description: "itens que pedem ajuda", format: "0" },
+    ],
+    nextAction: "Abra o Checklist, filtre por Bloqueado e registre quem cuida, prazo e comprovante no primeiro item.",
+  });
   writeWorkbook("checklist-abertura-barbearia.xlsx", wb);
 }
 
@@ -747,22 +974,22 @@ function buildLoyaltyGuide() {
   addReadme(wb, {
     title: "Guia prático de fidelização",
     purpose: "Transforme bom atendimento em retorno planejado, sem pressionar nem enviar mensagem fora de contexto.",
-    steps: ["Escolha uma ação simples para cada etapa da jornada.", "Peça consentimento antes de enviar campanhas pelo WhatsApp.", "Acompanhe resposta, retorno e pedido de saída."],
+    steps: ["Escolha uma ação simples para cada momento do cliente.", "Peça permissão antes de enviar ofertas pelo WhatsApp.", "Acompanhe resposta, retorno e pedido para parar."],
     whatsapp: true,
     notes: ["Não existe percentual universal de retorno ou frequência ideal.", "Benefícios, cashback e promoções precisam de regras claras e prazo informado."],
   });
   const plan = [
-    ["Após o atendimento", "Agradecer e orientar cuidados", "Serviço", "No mesmo dia", "Equipe", "Satisfação registrada", "Não incluir oferta sem consentimento"],
+    ["Após o atendimento", "Agradecer e orientar cuidados", "Serviço", "No mesmo dia", "Equipe", "Satisfação registrada", "Não incluir oferta sem permissão"],
     ["Próximo retorno", "Sugerir período de manutenção conforme o serviço", "Atendimento", "No fechamento", "Profissional", "Previsão registrada", "Evitar pressão"],
     ["Cliente autorizou contato", "Enviar conteúdo ou convite relevante", "Marketing", "Conforme preferência", "Responsável comercial", "Resposta/retorno", "Incluir opção SAIR"],
-    ["Cliente inativo", "Perguntar se ainda deseja receber novidades", "Marketing", "Uma tentativa", "Responsável comercial", "Consentimento renovado ou saída", "Não insistir sem resposta"],
+    ["Cliente inativo", "Perguntar se ainda deseja receber novidades", "Marketing", "Uma tentativa", "Responsável comercial", "Permissão renovada ou saída", "Não insistir sem resposta"],
     ["Cliente voltou", "Reconhecer o retorno e atualizar preferências", "Atendimento", "Na visita", "Equipe", "Preferência atualizada", "Não presumir interesse futuro"],
     ["Pedido de saída", "Parar campanhas e registrar a solicitação", "Governança", "Imediato", "Responsável pelo canal", "Contato suprimido", "Confirmar de forma curta"],
   ];
   const sheet = XLSX.utils.aoa_to_sheet([["Momento", "Ação", "Tipo", "Quando", "Responsável", "Resultado esperado", "Cuidado"], ...plan]);
   decorateTable(sheet, { headerRow: 1, lastColumn: "G", lastRow: plan.length + 1, widths: [24, 46, 18, 20, 24, 30, 40] });
   XLSX.utils.book_append_sheet(wb, sheet, "Plano de fidelização");
-  const logHeaders = ["Data", "Cliente/identificador", "Consentimento", "Canal", "Ação", "Responsável", "Resultado", "Pedido de saída", "Próximo passo"];
+  const logHeaders = ["Data", "Cliente/identificador", "Permissão para mensagem", "Canal", "Ação", "Responsável", "Resultado", "Pedido para parar", "Próximo passo"];
   const log = XLSX.utils.aoa_to_sheet([logHeaders, ...Array.from({ length: 30 }, () => ["", "", "Não confirmado", "", "", "", "", "Não", ""])]);
   decorateTable(log, { headerRow: 1, lastColumn: "I", lastRow: 31, widths: [14, 26, 20, 16, 34, 24, 26, 18, 30] });
   addDataValidation(log, "A2:A31", {
@@ -774,7 +1001,7 @@ function buildLoyaltyGuide() {
   });
   addDataValidation(log, "C2:C31", {
     formula1: '"Não confirmado,Confirmado,Revogado"',
-    error: "Escolha o estado do consentimento.",
+    error: "Escolha se a pessoa deu permissão, não deu ou pediu para parar.",
   });
   addDataValidation(log, "D2:D31", {
     formula1: '"WhatsApp,E-mail,Telefone,Presencial"',
@@ -784,7 +1011,18 @@ function buildLoyaltyGuide() {
     formula1: '"Não,Sim"',
     error: "Escolha Sim ou Não.",
   });
+  markInputRange(log, "B2:B31 E2:G31 I2:I31");
   XLSX.utils.book_append_sheet(wb, log, "Acompanhamento");
+  addQuickPanel(wb, {
+    title: "Fidelização sem perder o controle",
+    question: "Veja quantos contatos têm permissão, quantos pediram saída e quanto já foi registrado.",
+    metrics: [
+      { label: "PERMISSÃO OK", formula: `COUNTIF(Acompanhamento!$C$2:$C$31,"Confirmado")`, description: "contatos liberados", format: "0" },
+      { label: "PEDIRAM SAÍDA", formula: `COUNTIF(Acompanhamento!$H$2:$H$31,"Sim")`, description: "não devem receber divulgação", format: "0" },
+      { label: "AÇÕES REGISTRADAS", formula: `COUNTA(Acompanhamento!$A$2:$A$31)`, description: "linhas preenchidas", format: "0" },
+    ],
+    nextAction: "Antes de mandar qualquer divulgação, filtre Permissão para mensagem e retire todos os pedidos para parar.",
+  });
   writeWorkbook("guia-fidelizacao-clientes.xlsx", wb);
 }
 
@@ -826,6 +1064,7 @@ function buildCommissions() {
     formula1: "0",
     error: "O valor fixo não pode ser negativo.",
   });
+  markInputRange(config, "D2:F13");
   XLSX.utils.book_append_sheet(wb, config, "Configuração");
   wb.Workbook = wb.Workbook || {};
   wb.Workbook.Names = [
@@ -889,6 +1128,7 @@ function buildCommissions() {
     formula1: '"Concluído,Cancelado,Estornado,Não elegível"',
     error: "Escolha Concluído, Cancelado, Estornado ou Não elegível.",
   });
+  markInputRange(attendance, "C2:C101 H2:H101");
   XLSX.utils.book_append_sheet(wb, attendance, "Atendimentos");
 
   const summaryRows = [["Profissional", "Atendimentos", "Faturamento (R$)", "Comissão variável (R$)", "Fixo (R$)", "Total a pagar (R$)"]];
@@ -909,6 +1149,16 @@ function buildCommissions() {
   for (let row = 2; row <= summaryRows.length; row += 1) for (const col of ["C", "D", "E", "F"]) summary[`${col}${row}`].z = 'R$ #,##0.00';
   styleRange(summary, `A${summaryRows.length}:F${summaryRows.length}`, cellStyle({ fill: COLORS.ink, color: COLORS.cream, bold: true, border: true }));
   XLSX.utils.book_append_sheet(wb, summary, "Resumo");
+  addQuickPanel(wb, {
+    title: "Fechamento da equipe sem conta solta",
+    question: "Confira o que foi concluído, quanto entrou e quanto deve ser pago.",
+    metrics: [
+      { label: "ATENDIMENTOS", formula: `Resumo!$B$${summaryRows.length}`, description: "concluídos no período", format: "0" },
+      { label: "FATURAMENTO", formula: `Resumo!$C$${summaryRows.length}`, description: "somente atendimentos concluídos", format: "R$ #,##0.00" },
+      { label: "TOTAL A PAGAR", formula: `Resumo!$F$${summaryRows.length}`, description: "variável + fixo", format: "R$ #,##0.00" },
+    ],
+    nextAction: "Confira os atendimentos excluídos e valide a linha TOTAL do Resumo antes de pagar.",
+  });
   writeWorkbook("planilha-comissoes-barbearia.xlsx", wb);
 }
 
@@ -917,7 +1167,7 @@ function buildPricing() {
   addReadme(wb, {
     title: "Planilha de precificação de serviços",
     purpose: "Organize custos, capacidade e margem para tomar decisões de preço com mais clareza.",
-    steps: ["Substitua os custos e a capacidade produtiva mensal pelos dados da barbearia.", "Revise insumos e tempo de cada serviço.", "Compare preço calculado, mercado e posicionamento antes de decidir."],
+    steps: ["Troque os custos e as horas de atendimento pelos números da barbearia.", "Revise material usado e tempo de cada serviço.", "Compare o preço calculado com o preço praticado na sua região."],
     notes: ["A planilha não substitui análise contábil, tributária ou de mercado.", "Preço final deve considerar impostos, capacidade, posicionamento e realidade local."],
   });
   const costRows = [
@@ -948,11 +1198,12 @@ function buildPricing() {
     formula1: "0",
     error: "Informe uma capacidade mensal maior que zero.",
   });
+  markInputRange(costs, "B2:B7 B9");
   styleRange(costs, "A8:C8", cellStyle({ fill: COLORS.cream, bold: true, border: true }));
   styleRange(costs, "A10:C10", cellStyle({ fill: COLORS.ink, color: COLORS.cream, bold: true, border: true }));
   XLSX.utils.book_append_sheet(wb, costs, "Custos");
 
-  const priceRows = [["Serviço", "Tempo (min)", "Insumos (R$)", "Custo fixo rateado pelo tempo", "Custo total", "Margem desejada", "Preço calculado", "Preço final", "Observações"]];
+  const priceRows = [["Serviço", "Tempo (min)", "Material usado (R$)", "Parte dos custos fixos", "Custo total", "Margem desejada", "Preço calculado", "Preço final", "Observações"]];
   const defaults = [["Corte", 40], ["Barba", 30], ["Corte + barba", 65], ["Acabamento", 20], ["Outro serviço", 30]];
   for (let index = 0; index < 20; index += 1) {
     const row = index + 2;
@@ -994,7 +1245,19 @@ function buildPricing() {
     formula2: "0.95",
     error: "Informe uma margem entre 0% e 95%.",
   });
+  markInputRange(prices, "A2:C21 F2:F21 H2:I21");
+  styleSqref(prices, "D2:E21 G2:G21", cellStyle({ fill: COLORS.successSoft, color: COLORS.ink, border: true }));
   XLSX.utils.book_append_sheet(wb, prices, "Precificação");
+  addQuickPanel(wb, {
+    title: "Seu preço precisa caber na rotina",
+    question: "Use o cálculo como referência e compare com mercado, posicionamento e capacidade.",
+    metrics: [
+      { label: "SERVIÇOS PREENCHIDOS", formula: `COUNTIF(Precificação!$A$2:$A$21,"<>")`, description: "serviços com nome", format: "0" },
+      { label: "PREÇO CALCULADO MÉDIO", formula: `IFERROR(AVERAGEIF(Precificação!$G$2:$G$21,">0"),0)`, description: "referência dos serviços cadastrados", format: "R$ #,##0.00" },
+      { label: "PREÇOS FINAIS DEFINIDOS", formula: `COUNTIF(Precificação!$H$2:$H$21,">0")`, description: "decisões já registradas", format: "0" },
+    ],
+    nextAction: "Comece por um único serviço: preencha tempo, material usado e margem; depois registre o preço final que faz sentido.",
+  });
   writeWorkbook("planilha-precificacao-barbearia.xlsx", wb);
 }
 
@@ -1003,7 +1266,7 @@ function buildSchedulingChecklist() {
   addReadme(wb, {
     title: "Checklist de agendamento pelo WhatsApp",
     purpose: "Organize o atendimento para responder, oferecer horários e registrar o agendamento sem perder contexto.",
-    steps: ["Defina quem responde e qual agenda é a fonte de verdade.", "Teste agendamento, remarcação, cancelamento e retorno humano.", "Registre consentimento separado para mensagens de marketing."],
+    steps: ["Defina quem responde e qual agenda vale de verdade.", "Teste agendamento, remarcação, cancelamento e pedido de ajuda.", "Registre separado quem permitiu receber ofertas."],
     whatsapp: true,
   });
   const items = [
@@ -1018,9 +1281,9 @@ function buildSchedulingChecklist() {
     ["Exceções", "Testar remarcação e cancelamento", "Pendente", "", "", "", ""],
     ["Exceções", "Testar cliente sem cadastro ou com pedido incompleto", "Pendente", "", "", "", ""],
     ["Privacidade", "Separar mensagens de serviço de campanhas", "Pendente", "", "", "", ""],
-    ["Privacidade", "Registrar consentimento para campanhas", "Pendente", "", "", "", ""],
+    ["Privacidade", "Registrar quem permitiu receber ofertas", "Pendente", "", "", "", ""],
     ["Privacidade", "Testar SAIR/PARAR e interromper somente divulgações", "Pendente", "", "", "", ""],
-    ["Exceções", "Testar CANCELAR como pedido do agendamento, sem alterar consentimento de marketing", "Pendente", "", "", "", ""],
+    ["Exceções", "Testar CANCELAR como pedido do agendamento, sem mexer na permissão de ofertas", "Pendente", "", "", "", ""],
     ["Qualidade", "Revisar conversa do início ao fim", "Pendente", "", "", "", ""],
     ["Qualidade", "Medir respostas, agendamentos e falhas", "Pendente", "", "", "", ""],
   ];
@@ -1038,7 +1301,18 @@ function buildSchedulingChecklist() {
     formula2: "DATE(2100,12,31)",
     error: "Informe uma data válida.",
   });
+  markInputRange(sheet, `D2:G${rows.length}`);
   XLSX.utils.book_append_sheet(wb, sheet, "Checklist");
+  addQuickPanel(wb, {
+    title: "Agendamento pronto para um dia real",
+    question: "O fluxo só está pronto quando agenda, equipe e exceções funcionam juntos.",
+    metrics: [
+      { label: "CONCLUÍDOS", formula: `COUNTIF(Checklist!$C$2:$C$${rows.length},"Concluído")`, description: `de ${items.length} verificações`, format: "0" },
+      { label: "EM ANDAMENTO", formula: `COUNTIF(Checklist!$C$2:$C$${rows.length},"Em andamento")`, description: "testes em execução", format: "0" },
+      { label: "BLOQUEADOS", formula: `COUNTIF(Checklist!$C$2:$C$${rows.length},"Bloqueado")`, description: "falhas para resolver", format: "0" },
+    ],
+    nextAction: "Teste uma conversa completa no WhatsApp e anote no Checklist o primeiro ponto que exigiu ajuda humana.",
+  });
   writeWorkbook("public/downloads/lead-magnets/checklist-agendamento-whatsapp.xlsx", wb);
   writeCsv("checklist-agendamento-whatsapp.csv", rows);
 }
@@ -1048,7 +1322,7 @@ function buildConfirmationScripts() {
   addReadme(wb, {
     title: "Scripts de confirmação pelo WhatsApp",
     purpose: "Modelos curtos para confirmar, lembrar, remarcar e retomar um atendimento sem parecer mensagem genérica.",
-    steps: ["Troque campos entre colchetes pelos dados reais.", "Confirme horário e profissional com clareza.", "Use mensagens de campanha somente com consentimento."],
+    steps: ["Troque os campos entre colchetes pelos dados reais.", "Confirme horário e profissional com clareza.", "Mande ofertas somente para quem autorizou."],
     whatsapp: true,
     notes: ["Confirmação de um agendamento existente é mensagem de serviço; oferta e reativação são marketing.", "Não diga que o horário será cancelado automaticamente se essa regra não existir e não tiver sido informada."],
   });
@@ -1059,14 +1333,14 @@ function buildConfirmationScripts() {
     ["Cancelamento", "Serviço", "Certo, [nome]. O horário de [dia], às [hora], foi cancelado. Quando quiser remarcar, pode chamar por aqui.", "Cancelamento confirmado", "Não exige opt-in de marketing", "Equipe de atendimento"],
     ["Atraso da barbearia", "Serviço", "Oi, [nome]. Tivemos um atraso e seu atendimento deve começar por volta de [hora]. Desculpa pelo imprevisto. Esse novo horário funciona para você?", "Aceite ou remarcação", "Não exige opt-in de marketing", "Responsável do turno"],
     ["Ausência do cliente", "Serviço", "Oi, [nome]. Seu horário de hoje, às [hora], ficou registrado como não comparecimento. Está tudo bem? Se quiser, posso consultar novas opções.", "Resposta ou encerramento", "Não transformar em campanha", "Equipe de atendimento"],
-    ["Pós-atendimento", "Serviço", "Oi, [nome]. Obrigado pela visita de hoje. Se precisar de qualquer ajuste, responde por aqui que a equipe te ajuda.", "Satisfação", "Evitar oferta sem consentimento", "Equipe de atendimento"],
-    ["Novidade autorizada", "Marketing", "Oi, [nome]. Você pediu para receber novidades da [barbearia]. [mensagem relevante]. Se não quiser mais receber, responda SAIR.", "Clique, resposta ou SAIR", "Consentimento obrigatório", "Responsável por marketing"],
+    ["Pós-atendimento", "Serviço", "Oi, [nome]. Obrigado pela visita de hoje. Se precisar de qualquer ajuste, responde por aqui que a equipe te ajuda.", "Satisfação", "Evitar oferta sem permissão", "Equipe de atendimento"],
+    ["Novidade autorizada", "Marketing", "Oi, [nome]. Você pediu para receber novidades da [barbearia]. [mensagem relevante]. Se não quiser mais receber, responda SAIR.", "Clique, resposta ou SAIR", "Precisa de permissão", "Responsável por marketing"],
   ];
-  const rows = [["Momento", "Tipo", "Mensagem", "Resultado esperado", "Consentimento", "Responsável"], ...templates];
+  const rows = [["Situação", "Tipo", "Mensagem", "Resultado esperado", "Permissão para mensagem", "Responsável"], ...templates];
   const sheet = XLSX.utils.aoa_to_sheet(rows);
   decorateTable(sheet, { headerRow: 1, lastColumn: "F", lastRow: rows.length, widths: [24, 16, 80, 28, 30, 28] });
   XLSX.utils.book_append_sheet(wb, sheet, "Scripts");
-  const logRows = [["Data", "Cliente/identificador", "Mensagem", "Consentimento", "Responsável", "Resultado", "SAIR/PARAR", "Próximo passo"], ...Array.from({ length: 30 }, () => ["", "", "", "", "", "", "Não", ""])];
+  const logRows = [["Data", "Cliente/identificador", "Mensagem", "Permissão para mensagem", "Responsável", "Resultado", "SAIR/PARAR", "Próximo passo"], ...Array.from({ length: 30 }, () => ["", "", "", "", "", "", "Não", ""])];
   const log = XLSX.utils.aoa_to_sheet(logRows);
   decorateTable(log, { headerRow: 1, lastColumn: "H", lastRow: logRows.length, widths: [14, 26, 24, 22, 24, 26, 18, 30] });
   addDataValidation(log, "A2:A31", {
@@ -1078,38 +1352,49 @@ function buildConfirmationScripts() {
   });
   addDataValidation(log, "D2:D31", {
     formula1: '"Não confirmado,Confirmado,Não se aplica,Revogado"',
-    error: "Escolha o estado do consentimento.",
+    error: "Escolha se a pessoa deu permissão, não deu ou pediu para parar.",
   });
   addDataValidation(log, "G2:G31", {
     formula1: '"Não,Sim"',
     error: "Escolha Sim ou Não.",
   });
+  markInputRange(log, "B2:C31 E2:F31 H2:H31");
   XLSX.utils.book_append_sheet(wb, log, "Registro de uso");
+  addQuickPanel(wb, {
+    title: "Mensagens que ajudam — e não confundem",
+    question: "Registre o uso para saber o que foi enviado, respondido ou interrompido.",
+    metrics: [
+      { label: "USOS REGISTRADOS", formula: `COUNTA('Registro de uso'!$A$2:$A$31)`, description: "mensagens acompanhadas", format: "0" },
+      { label: "PERMISSÃO OK", formula: `COUNTIF('Registro de uso'!$D$2:$D$31,"Confirmado")`, description: "quando a mensagem exige permissão", format: "0" },
+      { label: "PEDIRAM SAÍDA", formula: `COUNTIF('Registro de uso'!$G$2:$G$31,"Sim")`, description: "pare divulgações imediatamente", format: "0" },
+    ],
+    nextAction: "Escolha o script pelo motivo real da conversa e registre o resultado antes de mandar outra mensagem.",
+  });
   writeWorkbook("public/downloads/lead-magnets/script-confirmacao-whatsapp.xlsx", wb);
   writeCsv("script-confirmacao-whatsapp.csv", rows);
 }
 
 function buildReactivation() {
-  const wb = createWorkbook("Roteiro de reativação de clientes");
+  const wb = createWorkbook("Roteiro para chamar clientes de volta");
   addReadme(wb, {
-    title: "Roteiro de reativação de clientes",
+    title: "Roteiro para chamar clientes de volta",
     purpose: "Reabra conversas com clientes que autorizaram contato, com contexto e sem insistência.",
-    steps: ["Selecione apenas contatos com consentimento de marketing registrado.", "Envie uma mensagem ligada ao histórico real da pessoa.", "Registre resposta, ausência de resposta e pedido de saída."],
+    steps: ["Selecione apenas quem permitiu receber ofertas.", "Mande uma mensagem ligada ao histórico real da pessoa.", "Registre resposta, falta de resposta e pedido para parar."],
     whatsapp: true,
     notes: ["Não use urgência falsa nem benefício que não exista.", "Uma ausência de resposta não autoriza sequência indefinida."],
   });
   const templates = [
-    ["Retorno previsto", "Cliente autorizou novidades e já está no período habitual de retorno", "Oi, [nome]. Aqui é a [pessoa] da [barbearia]. Faz um tempo desde seu último [serviço]. Quer que eu veja os horários desta semana? Se não quiser mais receber mensagens, responda SAIR.", "Consentimento registrado", "Resposta, agendamento ou SAIR", "Responsável comercial"],
+    ["Retorno previsto", "Cliente autorizou novidades e já está no período habitual de retorno", "Oi, [nome]. Aqui é a [pessoa] da [barbearia]. Faz um tempo desde seu último [serviço]. Quer que eu veja os horários desta semana? Se não quiser mais receber mensagens, responda SAIR.", "Permissão registrada", "Resposta, agendamento ou SAIR", "Responsável comercial"],
     ["Cliente pediu para lembrar", "Cliente solicitou contato em uma data", "Oi, [nome]. Você pediu para eu te chamar nesta época para ver um novo horário. Quer que eu consulte as opções? Se preferir parar as mensagens, responda SAIR.", "Pedido do cliente", "Resposta, agendamento ou SAIR", "Responsável comercial"],
-    ["Novidade relevante", "Serviço ou profissional realmente relacionado ao histórico", "Oi, [nome]. Aqui é a [pessoa] da [barbearia]. Temos [novidade] e lembrei de você por causa do seu último [serviço]. Quer saber os detalhes? Para não receber mais, responda SAIR.", "Consentimento registrado", "Interesse, sem interesse ou SAIR", "Responsável comercial"],
-    ["Sem resposta", "Uma única tentativa curta após a primeira mensagem", "Oi, [nome]. Só confirmando se ainda faz sentido eu te enviar opções. Se não for o momento, tudo bem. Para parar as mensagens, responda SAIR.", "Consentimento registrado", "Resposta ou encerramento", "Responsável comercial"],
+    ["Novidade relevante", "Serviço ou profissional realmente relacionado ao histórico", "Oi, [nome]. Aqui é a [pessoa] da [barbearia]. Temos [novidade] e lembrei de você por causa do seu último [serviço]. Quer saber os detalhes? Para não receber mais, responda SAIR.", "Permissão registrada", "Interesse, sem interesse ou SAIR", "Responsável comercial"],
+    ["Sem resposta", "Uma única tentativa curta após a primeira mensagem", "Oi, [nome]. Só confirmando se ainda faz sentido eu te enviar opções. Se não for o momento, tudo bem. Para parar as mensagens, responda SAIR.", "Permissão registrada", "Resposta ou encerramento", "Responsável comercial"],
     ["Pedido de saída", "Cliente respondeu SAIR, PARAR ou equivalente", "Tudo certo. Você não receberá mais mensagens de divulgação da [barbearia].", "Pedido de saída", "Contato suprimido", "Responsável pelo canal"],
   ];
-  const rows = [["Situação", "Quando usar", "Mensagem", "Base de consentimento", "Resultado esperado", "Responsável"], ...templates];
+  const rows = [["Situação", "Quando usar", "Mensagem", "Por que pode enviar", "Resultado esperado", "Quem cuida"], ...templates];
   const sheet = XLSX.utils.aoa_to_sheet(rows);
   decorateTable(sheet, { headerRow: 1, lastColumn: "F", lastRow: rows.length, widths: [24, 44, 90, 28, 30, 26] });
   XLSX.utils.book_append_sheet(wb, sheet, "Roteiros");
-  const logRows = [["Data", "Cliente/identificador", "Consentimento verificado", "Roteiro", "Responsável", "Resultado", "SAIR/PARAR", "Próxima ação"], ...Array.from({ length: 40 }, () => ["", "", "Não", "", "", "", "Não", ""])];
+  const logRows = [["Data", "Cliente/identificador", "Permissão conferida", "Roteiro", "Responsável", "Resultado", "SAIR/PARAR", "Próxima ação"], ...Array.from({ length: 40 }, () => ["", "", "Não", "", "", "", "Não", ""])];
   const log = XLSX.utils.aoa_to_sheet(logRows);
   decorateTable(log, { headerRow: 1, lastColumn: "H", lastRow: logRows.length, widths: [14, 26, 24, 22, 24, 26, 18, 28] });
   addDataValidation(log, "A2:A41", {
@@ -1123,7 +1408,18 @@ function buildReactivation() {
     formula1: '"Não,Sim"',
     error: "Escolha Sim ou Não.",
   });
+  markInputRange(log, "B2:B41 D2:F41 H2:H41");
   XLSX.utils.book_append_sheet(wb, log, "Acompanhamento");
+  addQuickPanel(wb, {
+    title: "Chame clientes de volta sem insistir",
+    question: "Só avance com permissão registrada e pare quando a pessoa pedir ou não houver resposta.",
+    metrics: [
+      { label: "CONTATOS REGISTRADOS", formula: `COUNTA(Acompanhamento!$A$2:$A$41)`, description: "tentativas acompanhadas", format: "0" },
+      { label: "PERMISSÃO CONFERIDA", formula: `COUNTIF(Acompanhamento!$C$2:$C$41,"Sim")`, description: "contatos liberados", format: "0" },
+      { label: "PEDIRAM SAÍDA", formula: `COUNTIF(Acompanhamento!$G$2:$G$41,"Sim")`, description: "não contatar novamente", format: "0" },
+    ],
+    nextAction: "Escolha até cinco clientes que permitiram contato. Faça uma tentativa e registre a resposta.",
+  });
   writeWorkbook("public/downloads/lead-magnets/roteiro-reativacao-clientes.xlsx", wb);
   writeCsv("roteiro-reativacao-clientes.csv", rows);
 }
@@ -1142,13 +1438,13 @@ function buildLoyalty30Days() {
     [7, "Relacionamento", "Publicar dica útil baseada em dúvidas reais", "Conteúdo", "Não para envio individual", "Marketing", "Interações", ""],
     [10, "Preferências", "Atualizar serviço e profissional preferido", "Atendimento", "Não", "Equipe", "Cadastro atualizado", ""],
     [14, "Retorno", "Revisar clientes no período habitual de manutenção", "Interno", "Não", "Responsável comercial", "Lista revisada", ""],
-    [15, "Contato autorizado", "Oferecer consulta de horários a quem consentiu", "Marketing", "Sim", "Responsável comercial", "Resposta/agendamento/SAIR", "Incluir SAIR"],
+    [15, "Contato autorizado", "Oferecer horários a quem permitiu receber mensagens", "Marketing", "Sim", "Responsável comercial", "Resposta/agendamento/SAIR", "Incluir SAIR"],
     [21, "Experiência", "Revisar tempo de espera e dúvidas recorrentes", "Interno", "Não", "Responsável da loja", "Melhoria definida", ""],
     [25, "Avaliação", "Pedir avaliação somente após experiência real", "Serviço", "Conforme contexto", "Equipe", "Avaliação ou feedback", "Sem recompensa condicionada"],
-    [28, "Inativos", "Revisar uma única tentativa de reativação consentida", "Marketing", "Sim", "Responsável comercial", "Resposta ou encerramento", "Não insistir"],
+    [28, "Inativos", "Fazer uma única tentativa com quem permitiu contato", "Marketing", "Sim", "Responsável comercial", "Resposta ou encerramento", "Não insistir"],
     [30, "Fechamento", "Comparar ações, respostas, retornos e saídas", "Interno", "Não", "Gestor", "Próximo ciclo definido", ""],
   ];
-  const rows = [["Dia", "Etapa", "Ação", "Tipo", "Consentimento", "Responsável", "Resultado", "Cuidado", "Status"], ...actions.map((row) => [...row, "Pendente"])];
+  const rows = [["Dia", "Etapa", "Ação", "Tipo", "Permissão para mensagem", "Responsável", "Resultado", "Cuidado", "Status"], ...actions.map((row) => [...row, "Pendente"])];
   const sheet = XLSX.utils.aoa_to_sheet(rows);
   decorateTable(sheet, { headerRow: 1, lastColumn: "I", lastRow: rows.length, widths: [8, 22, 48, 18, 20, 24, 28, 34, 16] });
   addDataValidation(sheet, `A2:A${rows.length}`, {
@@ -1160,13 +1456,24 @@ function buildLoyalty30Days() {
   });
   addDataValidation(sheet, `E2:E${rows.length}`, {
     formula1: '"Não,Sim,Conforme contexto,Não para envio individual"',
-    error: "Escolha uma condição de consentimento válida.",
+    error: "Escolha uma condição de permissão válida.",
   });
   addDataValidation(sheet, `I2:I${rows.length}`, {
     formula1: '"Pendente,Em andamento,Concluído,Bloqueado"',
     error: "Escolha um status da lista.",
   });
+  markInputRange(sheet, `F2:I${rows.length}`);
   XLSX.utils.book_append_sheet(wb, sheet, "Plano 30 dias");
+  addQuickPanel(wb, {
+    title: "Fidelização em passos que cabem no mês",
+    question: "Não tente fazer tudo de uma vez: conclua a próxima ação e registre o resultado.",
+    metrics: [
+      { label: "CONCLUÍDOS", formula: `COUNTIF('Plano 30 dias'!$I$2:$I$${rows.length},"Concluído")`, description: `de ${actions.length} ações`, format: "0" },
+      { label: "EM ANDAMENTO", formula: `COUNTIF('Plano 30 dias'!$I$2:$I$${rows.length},"Em andamento")`, description: "ações que já começaram", format: "0" },
+      { label: "BLOQUEADOS", formula: `COUNTIF('Plano 30 dias'!$I$2:$I$${rows.length},"Bloqueado")`, description: "ações que precisam de ajuda", format: "0" },
+    ],
+    nextAction: "Abra o Plano 30 dias e escolha somente a primeira ação Pendente que faz sentido para esta semana.",
+  });
   writeWorkbook("public/downloads/lead-magnets/checklist-fidelizacao-30-dias.xlsx", wb);
   writeCsv("checklist-fidelizacao-30-dias.csv", rows);
 }
@@ -1177,7 +1484,7 @@ function buildCashFlow() {
     title: "Fluxo de caixa semanal",
     purpose: "Registre entradas e saídas e acompanhe o saldo da barbearia por semana.",
     steps: ["Defina a data inicial, a quantidade de semanas e o saldo inicial na aba Configuração.", "Registre cada movimento com data sem horário e selecione Entrada ou Saída.", "Confira o resumo semanal e concilie com conta, caixa e meios de recebimento."],
-    notes: ["Saldo de caixa não é lucro.", "Valide categorias, impostos e conciliação com seu contador."],
+    notes: ["Saldo de caixa não é lucro.", "Confira categorias, impostos e valores recebidos com seu contador."],
   });
   const configRows = [
     ["Configuração", "Valor", "Orientação"],
@@ -1210,6 +1517,7 @@ function buildCashFlow() {
     formula2: "100000000",
     error: "Informe um saldo inicial numérico.",
   });
+  markInputRange(config, "B2:B4");
   XLSX.utils.book_append_sheet(wb, config, "Configuração");
 
   const movementRows = [["Data", "Descrição", "Categoria", "Tipo", "Forma", "Valor (R$)", "Responsável", "Comprovante/observação"]];
@@ -1250,6 +1558,7 @@ function buildCashFlow() {
     formula1: "0",
     error: "Use um valor positivo e classifique como Entrada ou Saída.",
   });
+  markInputRange(movements, "B2:B121 G2:H121");
   XLSX.utils.book_append_sheet(wb, movements, "Lançamentos");
 
   const summaryRows = [["Semana iniciada em", "Entradas (R$)", "Saídas (R$)", "Saldo da semana", "Saldo acumulado"]];
@@ -1269,7 +1578,19 @@ function buildCashFlow() {
   decorateTable(summary, { headerRow: 1, lastColumn: "E", lastRow: summaryRows.length, widths: [22, 20, 20, 22, 22] });
   for (let row = 2; row <= summaryRows.length; row += 1) for (const col of ["B", "C", "D", "E"]) summary[`${col}${row}`].z = 'R$ #,##0.00';
   for (let row = 2; row <= summaryRows.length; row += 1) summary[`A${row}`].z = "dd/mm/yyyy";
+  styleRange(summary, `A2:E${summaryRows.length}`, cellStyle({ fill: COLORS.successSoft, color: COLORS.ink, border: true }));
+  styleRange(summary, "A1:E1", cellStyle({ fill: COLORS.ink, color: COLORS.cream, bold: true, border: true }));
   XLSX.utils.book_append_sheet(wb, summary, "Resumo semanal");
+  addQuickPanel(wb, {
+    title: "Seu caixa da semana sem conta de cabeça",
+    question: "Registre cada movimento e confira se o saldo acumulado combina com o caixa real.",
+    metrics: [
+      { label: "LANÇAMENTOS", formula: `COUNTA(Lançamentos!$A$2:$A$121)`, description: "entradas e saídas registradas", format: "0" },
+      { label: "ENTRADAS NO PERÍODO", formula: `SUM('Resumo semanal'!$B$2:$B$53)`, description: "soma das semanas configuradas", format: "R$ #,##0.00" },
+      { label: "SALDO ACUMULADO", formula: `INDEX('Resumo semanal'!$E$2:$E$53,Configuração!$B$3)`, description: "saldo ao fim da última semana", format: "R$ #,##0.00" },
+    ],
+    nextAction: "Compare o saldo acumulado com banco, Pix, cartão e dinheiro. Se não bater, confira a semana mais recente.",
+  });
   writeWorkbook("public/downloads/lead-magnets/fluxo-caixa-semanal-barbearia.xlsx", wb);
   writeCsv("fluxo-caixa-semanal-barbearia.csv", [
     ["Semana iniciada em (configure no XLSX)", "Entradas (R$)", "Saídas (R$)", "Saldo da semana", "Observações"],
@@ -1318,6 +1639,8 @@ function buildRevenueGoals() {
     formula2: "100",
     error: "Informe de 1 a 100 profissionais ativos.",
   });
+  markInputRange(config, "B2:B3 B5");
+  styleSqref(config, "B4 B6:B7", cellStyle({ fill: COLORS.successSoft, color: COLORS.success, bold: true, border: true }));
   XLSX.utils.book_append_sheet(wb, config, "Meta");
 
   const trackingRows = [["Data", "Dia de atendimento?", "Faturamento realizado (R$)", "Meta do dia (R$)", "Diferença", "% da meta", "Observações"]];
@@ -1353,8 +1676,19 @@ function buildRevenueGoals() {
     formula1: "0",
     error: "O faturamento não pode ser negativo.",
   });
+  markInputRange(tracking, "G2:G32");
   XLSX.utils.book_append_sheet(wb, tracking, "Acompanhamento diário");
   styleRange(tracking, `A${trackingRows.length}:G${trackingRows.length}`, cellStyle({ fill: COLORS.ink, color: COLORS.cream, bold: true, border: true }));
+  addQuickPanel(wb, {
+    title: "A meta do mês sem pressão cega",
+    question: "Compare o realizado com a meta somente nos dias em que a barbearia atende.",
+    metrics: [
+      { label: "FATURAMENTO REALIZADO", formula: `'Acompanhamento diário'!$C$33`, description: "registrado até agora", format: "R$ #,##0.00" },
+      { label: "META DO MÊS", formula: `Meta!$B$2`, description: "valor definido por você", format: "R$ #,##0.00" },
+      { label: "% DA META", formula: `'Acompanhamento diário'!$F$33`, description: "ritmo do mês", format: "0%" },
+    ],
+    nextAction: "Preencha apenas o faturamento dos dias já fechados e use a diferença para escolher uma ação desta semana.",
+  });
   writeWorkbook("public/downloads/lead-magnets/plano-metas-faturamento.xlsx", wb);
   writeCsv("plano-metas-faturamento.csv", [["Meta mensal (R$)", "Mês de referência", "Dias de atendimento no mês", "Profissionais", "Meta por dia aberto"], [20000, "2026-08", "Configure Sim/Não no XLSX", 2, "Use o XLSX para calcular"]]);
 }
@@ -1404,8 +1738,20 @@ function buildCombos() {
     formula1: "0",
     error: "Informe uma quantidade inteira igual ou maior que zero.",
   });
+  markInputRange(sheet, "A2:C21 E2:E21 H2:H21");
+  styleSqref(sheet, "D2:D21 F2:G21 I2:K21", cellStyle({ fill: COLORS.successSoft, color: COLORS.ink, border: true }));
   styleRange(sheet, `A${rows.length}:K${rows.length}`, cellStyle({ fill: COLORS.ink, color: COLORS.cream, bold: true, border: true }));
   XLSX.utils.book_append_sheet(wb, sheet, "Combos");
+  addQuickPanel(wb, {
+    title: "Combos que vendem sem comer sua margem",
+    question: "Compare desconto, custo e volume antes de divulgar qualquer oferta.",
+    metrics: [
+      { label: "PRONTOS PARA TESTAR", formula: `COUNTIF(Combos!$K$2:$K$21,"Pronto para testar")`, description: "combos com preço, custo e volume", format: "0" },
+      { label: "FATURAMENTO PROJETADO", formula: `Combos!$I$${rows.length}`, description: "se o volume previsto acontecer", format: "R$ #,##0.00" },
+      { label: "MARGEM PROJETADA", formula: `Combos!$J$${rows.length}`, description: "antes de impostos e outros custos", format: "R$ #,##0.00" },
+    ],
+    nextAction: "Teste um único combo por vez. Se o status pedir revisão, ajuste preço, custo ou quantidade antes de divulgar.",
+  });
   writeWorkbook("public/downloads/lead-magnets/planilha-combos-ticket-medio.xlsx", wb);
   writeCsv("planilha-combos-ticket-medio.csv", [["Combo", "Soma individual (R$)", "Preço do combo (R$)", "Custo estimado (R$)", "Vendas previstas", "Observações"], ...examples.map(([combo, individual, comboPrice, cost, sales]) => [combo, individual, comboPrice, cost, sales, "Use o XLSX para calcular desconto e margem"])]);
 }
@@ -1454,9 +1800,21 @@ function buildTicketCalculator() {
     formula1: "0",
     error: "Informe um valor igual ou maior que zero.",
   });
+  markInputRange(sheet, "A2:C31 B33 D35");
+  styleSqref(sheet, "D2:E34 D36:E37", cellStyle({ fill: COLORS.successSoft, color: COLORS.ink, border: true }));
   styleRange(sheet, "A32:E32", cellStyle({ fill: COLORS.ink, color: COLORS.cream, bold: true, border: true }));
   styleRange(sheet, "A34:E37", cellStyle({ fill: COLORS.cream, bold: true, border: true }));
   XLSX.utils.book_append_sheet(wb, sheet, "Calculadora");
+  addQuickPanel(wb, {
+    title: "Quanto cada atendimento deixa no caixa",
+    question: "Veja o ticket atual, compare com a meta e escolha um serviço para trabalhar primeiro.",
+    metrics: [
+      { label: "TICKET ATUAL", formula: `Calculadora!$D$34`, description: "faturamento ÷ atendimentos", format: "R$ #,##0.00" },
+      { label: "META DE TICKET", formula: `Calculadora!$D$35`, description: "valor definido por você", format: "R$ #,##0.00" },
+      { label: "FALTA POR ATENDIMENTO", formula: `Calculadora!$D$36`, description: "diferença para a meta", format: "R$ #,##0.00" },
+    ],
+    nextAction: "Escolha um serviço complementar real e calcule quantos clientes precisam aceitá-lo para reduzir a diferença.",
+  });
   writeWorkbook("public/downloads/lead-magnets/calculadora-ticket-medio.xlsx", wb);
   writeCsv("calculadora-ticket-medio.csv", [["Serviço", "Quantidade", "Preço médio (R$)", "Observações"], ...examples.map(([service, quantity, price]) => [service, quantity, price, "Use o XLSX para calcular faturamento e participação"])]);
 }
@@ -1469,19 +1827,19 @@ const reels = [
   [5, "Reels", "Ticket médio", "Barbearia cheia e faturamento travado? Olhe o ticket antes de mexer no preço.", "Explique quantidade, preço médio e mix de serviços com um exemplo simples.", "Use a calculadora gratuita.", "/recursos/materiais", "Não apresente projeção como resultado garantido."],
   [6, "Stories", "Enquete de serviço", "O que seus clientes pedem junto com o corte?", "Abra enquete com duas opções reais e explique que a resposta ajuda a montar combos.", "Vote aqui.", "/recursos/guias/aumentar-ticket-medio", "Evite opção que a casa não oferece."],
   [7, "Reels", "Combo bem montado", "Desconto sozinho não faz um combo ser bom.", "Compare soma individual, preço do combo, custo e margem.", "Baixe a planilha antes de divulgar.", "/recursos/materiais", "Mostre números legíveis e realistas."],
-  [8, "Carrossel", "Preço do serviço", "Seu preço cobre custo, tempo e margem?", "Separe custo fixo, insumos, capacidade e posicionamento.", "Use a planilha de precificação.", "/recursos/materiais", "Inclua aviso para validar com contador."],
+  [8, "Carrossel", "Preço do serviço", "Seu preço cobre custo, tempo e margem?", "Separe custo fixo, material usado, horas disponíveis e posicionamento.", "Use a planilha de precificação.", "/recursos/materiais", "Inclua aviso para validar com contador."],
   [9, "Reels", "Faturamento não é lucro", "Entrou dinheiro no caixa. Isso não quer dizer que sobrou.", "Mostre entradas, saídas e saldo semanal em uma situação cotidiana.", "Baixe o fluxo de caixa.", "/recursos/guias/controle-financeiro-barbearia", "Não dê aconselhamento contábil individual."],
   [10, "Stories", "Fechamento semanal", "Três números para olhar antes de começar outra semana.", "Mostre faturamento, ticket e horários ociosos.", "Qual deles você já acompanha?", "/recursos/materiais", "Use dados anonimizados."],
   [11, "Reels", "Comissão", "Comissão anotada em papel vira discussão no fechamento.", "Mostre registro por atendimento, regra definida e resumo por profissional.", "Pegue a planilha gratuita.", "/recursos/guias/gerenciamento-equipe", "Não trate regra trabalhista como universal."],
   [12, "Carrossel", "Horário por profissional", "A barbearia abre no mesmo horário, mas cada barbeiro pode ter a própria agenda.", "Mostre escala geral, exceção individual e folga.", "Salve para revisar com a equipe.", "/recursos/guias/escala-equipe", "Use exemplos claros, não interface inventada."],
   [13, "Reels", "Atraso", "O atraso fica pior quando o cliente descobre só na cadeira.", "Mostre como avisar, oferecer opção e registrar a decisão.", "Baixe os scripts de atendimento.", "/recursos/materiais", "Priorize transparência, não culpa."],
   [14, "Stories", "Caixa de perguntas", "Qual parte da gestão mais toma seu tempo hoje?", "Abra caixa: agenda, equipe, caixa ou clientes.", "Responde aqui.", "/recursos", "Use as respostas para pautas futuras."],
-  [15, "Reels", "Cliente que sumiu", "Reativar cliente não é mandar promoção para todo mundo.", "Explique consentimento, contexto e uma tentativa relevante.", "Veja o roteiro responsável.", "/recursos/materiais", "Mostre a opção SAIR na tela."],
+  [15, "Reels", "Cliente que sumiu", "Reativar cliente não é mandar promoção para todo mundo.", "Explique permissão, contexto e uma tentativa relevante.", "Veja o roteiro responsável.", "/recursos/materiais", "Mostre a opção SAIR na tela."],
   [16, "Carrossel", "Fidelização", "Fidelização começa no atendimento, não no cupom.", "Mostre pós-atendimento, previsão de retorno e preferência registrada.", "Baixe o plano de 30 dias.", "/recursos/guias/fidelizacao-clientes", "Não use estatística sem fonte."],
   [17, "Reels", "No-show", "Silêncio no WhatsApp não é motivo para inventar cancelamento automático.", "Explique lembrete, resposta clara e registro de ausência.", "Use o fluxo de confirmação.", "/recursos/guias/reduzindo-faltas", "Não crie política que a barbearia não pratica."],
   [18, "Stories", "Bastidor da agenda", "O que acontece entre a mensagem e o horário marcado?", "Mostre consulta, escolha e confirmação em três partes.", "Quer ver o fluxo completo?", "/recursos/guias/guia-definitivo-agendamento", "Anonimize nomes e telefones."],
   [19, "Reels", "Um número ou vários", "Sua equipe atende no mesmo WhatsApp ou cada profissional usa o próprio número?", "Mostre os dois cenários e o custo de perder o histórico.", "Conta como funciona aí.", "/recursos/guias/gerenciamento-equipe", "Pergunta real, sem induzir resposta."],
-  [20, "Carrossel", "Cadastro de clientes", "Nome e telefone não contam a história toda.", "Mostre preferência, último serviço, profissional e consentimento.", "Revise seu cadastro.", "/recursos/guias/fidelizacao-clientes", "Minimize dados e respeite privacidade."],
+  [20, "Carrossel", "Cadastro de clientes", "Nome e telefone não contam a história toda.", "Mostre preferência, último serviço, profissional e permissão de contato.", "Revise seu cadastro.", "/recursos/guias/fidelizacao-clientes", "Minimize dados e respeite privacidade."],
   [21, "Reels", "Meta mensal", "Meta que fica só no mês não ajuda a decidir hoje.", "Quebre em semana, dia e profissional; depois compare com capacidade.", "Baixe o plano de metas.", "/recursos/materiais", "Não prometa que a meta será atingida."],
   [22, "Stories", "Horário ocioso", "Qual período mais sobra na sua agenda?", "Use enquete manhã, tarde ou noite e explique como medir.", "Vote e confira sua agenda.", "/recursos/guias/reduzindo-faltas", "Evite falsa escassez."],
   [23, "Reels", "Atendimento solo", "Quando você atende sozinho, cada interrupção pesa.", "Mostre corte, mensagem chegando e a rotina organizada para responder depois ou automatizar com segurança.", "Baixe o checklist.", "/recursos/materiais", "Não diga que tecnologia substitui cuidado humano."],
@@ -1502,7 +1860,10 @@ function buildReels() {
     steps: ["Escolha a pauta que combina com uma situação real da sua barbearia.", "Grave o gancho em uma frase e mostre uma prova visual.", "Termine com uma ação simples: comentar, salvar, conversar ou baixar o material."],
     notes: ["Use clientes e dados somente com autorização.", "Não apresente exemplo, projeção ou simulação como resultado comprovado."],
   });
-  const rows = [["Dia", "Formato", "Tema", "Gancho", "Desenvolvimento", "CTA", "Página base", "Direção de gravação"], ...reels];
+  const rows = [
+    ["Dia", "Formato", "Tema", "Gancho", "Desenvolvimento", "CTA", "Página base", "Direção de gravação", "Meu status"],
+    ...reels.map((row) => [...row, "Não comecei"]),
+  ];
   const guideSource = fs.readFileSync(path.join(ROOT, "data", "guides.ts"), "utf8");
   const validRoutes = new Set([
     "/recursos",
@@ -1512,7 +1873,7 @@ function buildReels() {
   const invalidRoutes = reels.map((row) => row[6]).filter((route) => !validRoutes.has(route));
   if (invalidRoutes.length) throw new Error(`Rotas inexistentes nos roteiros: ${[...new Set(invalidRoutes)].join(", ")}`);
   const sheet = XLSX.utils.aoa_to_sheet(rows);
-  decorateTable(sheet, { headerRow: 1, lastColumn: "H", lastRow: rows.length, widths: [8, 14, 26, 60, 72, 38, 38, 48] });
+  decorateTable(sheet, { headerRow: 1, lastColumn: "I", lastRow: rows.length, widths: [8, 14, 26, 60, 72, 38, 38, 48, 18] });
   addDataValidation(sheet, "A2:A31", {
     type: "whole",
     operator: "between",
@@ -1524,7 +1885,26 @@ function buildReels() {
     formula1: '"Reels,Stories,Carrossel"',
     error: "Escolha Reels, Stories ou Carrossel.",
   });
+  addDataValidation(sheet, "I2:I31", {
+    formula1: '"Não comecei,Separado,Gravado,Publicado"',
+    error: "Escolha Não comecei, Separado, Gravado ou Publicado.",
+  });
+  addConditionalFormatting(sheet, "I2:I31", [
+    { text: "Publicado", style: "success" },
+    { text: "Gravado", style: "success" },
+    { text: "Separado", style: "warning" },
+  ]);
   XLSX.utils.book_append_sheet(wb, sheet, "30 roteiros");
+  addQuickPanel(wb, {
+    title: "Trinta ideias, uma gravação por vez",
+    question: "Escolha a pauta que combina com uma situação real desta semana.",
+    metrics: [
+      { label: "ROTEIROS PUBLICADOS", formula: `COUNTIF('30 roteiros'!$I$2:$I$31,"Publicado")`, description: "conteúdos que já foram ao ar", format: "0" },
+      { label: "IDEIAS DE REELS", formula: `COUNTIF('30 roteiros'!$B$2:$B$31,"Reels")`, description: "vídeos curtos para gravar", format: "0" },
+      { label: "PÁGINAS DE APOIO", formula: `COUNTA('30 roteiros'!$G$2:$G$31)`, description: "links para aprofundar o tema", format: "0" },
+    ],
+    nextAction: "Escolha uma cena que realmente aconteceu, grave o gancho em uma frase e mostre uma prova visual.",
+  });
   writeWorkbook("public/downloads/lead-magnets/roteiros-shorts-reels-30-dias.xlsx", wb);
   writeCsv("roteiros-shorts-reels-30-dias.csv", rows);
 }

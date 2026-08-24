@@ -77,9 +77,12 @@ export const leadCaptureSchema = z.object({
     .or(z.literal("")),
 });
 
-export const contactFormSchema = z.object({
+export const contactFormSchema = z
+  .object({
   name: z.string().trim().min(2).max(120),
   email: z.string().trim().toLowerCase().email(),
+  phone: whatsappSchema.optional().or(z.literal("")),
+  contactChannel: z.enum(["email", "whatsapp"]).default("email"),
   message: z.string().trim().min(10).max(1000),
   consent: z.literal(true),
   emailMarketingConsent: z.boolean().optional().default(false),
@@ -107,7 +110,16 @@ export const contactFormSchema = z.object({
     .max(4096)
     .optional()
     .or(z.literal("")),
-});
+  })
+  .superRefine((value, ctx) => {
+    if (value.contactChannel === "whatsapp" && !value.phone) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["phone"],
+        message: "Informe um WhatsApp para receber a resposta.",
+      });
+    }
+  });
 
 export function getValidationMessage(error: z.ZodError): string {
   const firstIssue = error.issues[0];

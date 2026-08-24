@@ -43,7 +43,11 @@ const CORE_ROUTES = [
   "/recursos/materiais",
   "/recursos/diagnostico-agenda-barbearia",
   "/calculadora-tempo-whatsapp-barbearia",
+  "/calculadora-dinheiro-perdido-whatsapp-barbearia",
+  "/calculadora-ocupacao-agenda-barbearia",
   "/calculadora-comissao-barbeiro",
+  "/qual-plano-flowo",
+  "/raio-x-gestao-barbearia",
   "/mensagens-retorno-clientes-barbearia",
   "/recursos/guias",
   "/parcerias",
@@ -67,7 +71,11 @@ function routeContentClass(route: CoreRoute): keyof typeof CONTENT_DATES {
   if (
     route.startsWith("/recursos") ||
     route === "/calculadora-tempo-whatsapp-barbearia" ||
+    route === "/calculadora-dinheiro-perdido-whatsapp-barbearia" ||
+    route === "/calculadora-ocupacao-agenda-barbearia" ||
     route === "/calculadora-comissao-barbeiro" ||
+    route === "/qual-plano-flowo" ||
+    route === "/raio-x-gestao-barbearia" ||
     route === "/mensagens-retorno-clientes-barbearia"
   ) {
     return "resources";
@@ -121,7 +129,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
             route === "/recursos/nota-fiscal-barbearia"
             || route === "/recursos/diagnostico-agenda-barbearia"
             || route === "/calculadora-tempo-whatsapp-barbearia"
+            || route === "/calculadora-dinheiro-perdido-whatsapp-barbearia"
+            || route === "/calculadora-ocupacao-agenda-barbearia"
             || route === "/calculadora-comissao-barbeiro"
+            || route === "/qual-plano-flowo"
+            || route === "/raio-x-gestao-barbearia"
             || route === "/mensagens-retorno-clientes-barbearia"
           ? 0.9
           : route === "/comparar" ||

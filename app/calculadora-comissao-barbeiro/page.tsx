@@ -52,6 +52,7 @@ export default function CommissionCalculatorPage() {
       <GrowthToolLanding
         content={{
           kind: "commission",
+          campaign: true,
           navCta: "Baixar checklist",
           kicker: "Simulador gratuito de fechamento da equipe",
           title: (
