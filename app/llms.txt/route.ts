@@ -58,6 +58,7 @@ ${planLines}
 - [Parcerias e imprensa](${SITE_URL}/parcerias)
 
 ## Money pages
+- [Software para barbearia](${SITE_URL}/software-para-barbearia): visão geral de agenda, WhatsApp, equipe, clientes, comandas e recebimento opcional.
 - [Recepcionista com IA para barbearia](${SITE_URL}/recepcionista-ia-barbearia)
 - [Sistema de agendamento para barbearia](${SITE_URL}/sistema-agendamento-barbearia)
 - [Agenda de barbearia no WhatsApp](${SITE_URL}/agenda-barbearia-whatsapp)

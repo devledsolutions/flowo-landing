@@ -1,7 +1,11 @@
 import { hasPublishedPrice, PRICING } from "@/data/pricing-data";
 import { homeFaqItems } from "@/data/faq-items";
 import { LEGAL_ENTITY } from "@/lib/legal-identity";
-import { SITE_URL, absoluteUrl } from "@/lib/seo";
+import {
+  OFFICIAL_SOCIAL_PROFILES,
+  SITE_URL,
+  absoluteUrl,
+} from "@/lib/seo";
 import { WHATSAPP_NUMBER_E164 } from "@/components/cta-links";
 
 /**
@@ -59,6 +63,14 @@ export default function SchemaMarkup() {
     taxID: LEGAL_ENTITY.taxId,
     url: SITE_URL,
     logo: absoluteUrl("/flowo-logo.svg"),
+    sameAs: [...OFFICIAL_SOCIAL_PROFILES],
+    knowsAbout: [
+      "sistema para barbearia",
+      "software de gestão para barbearias",
+      "agendamento de barbearia pelo WhatsApp",
+      "agenda por profissional",
+      "comandas e recebimentos pós-atendimento",
+    ],
     description:
       "Software de agendamento para barbearias via WhatsApp com inteligência artificial",
     address: {
@@ -98,6 +110,10 @@ export default function SchemaMarkup() {
     alternateName: "flowo.com.br",
     url: SITE_URL,
     inLanguage: "pt-BR",
+    potentialAction: {
+      "@type": "ReadAction",
+      target: [absoluteUrl("/sistema-agendamento-barbearia")],
+    },
     publisher: {
       "@id": `${SITE_URL}/#organization`,
     },

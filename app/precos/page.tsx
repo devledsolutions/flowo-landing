@@ -14,7 +14,7 @@ const equipe = getPlan("equipe");
 
 export const metadata = buildMetadata({
   title: "Planos e Preços para Barbearias",
-  description: `Solo por ${formatBRL(solo.monthly)}/mês, Equipe por ${formatBRL(equipe.monthly)}/mês e Empresarial sob consulta. Compare IA no WhatsApp, agenda, suporte e pagamentos opcionais.`,
+  description: `Planos para barbearias: Solo ${formatBRL(solo.monthly)}/mês, Equipe ${formatBRL(equipe.monthly)}/mês e Empresarial sob consulta. IA no WhatsApp, agenda e pagamentos opcionais. Sem fidelidade.`,
   path: "/precos",
 });
 

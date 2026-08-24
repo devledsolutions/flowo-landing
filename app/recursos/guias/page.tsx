@@ -20,6 +20,11 @@ export const metadata = buildMetadata({
 
 const strategicLinks = [
   {
+    title: "Software para Barbearia",
+    description: "Visão geral do produto, agenda, WhatsApp e gestão.",
+    href: "/software-para-barbearia",
+  },
+  {
     title: "Sistema de Agendamento para Barbearia",
     description: "Página comercial focada em operação e recorrência.",
     href: "/sistema-agendamento-barbearia",

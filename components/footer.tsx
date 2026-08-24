@@ -22,6 +22,7 @@ const produtoLinks = [
 
 const barbeariasLinks = [
   { href: "/sistema-agendamento-barbearia", label: "Sistema de agendamento" },
+  { href: "/software-para-barbearia", label: "Software para barbearia" },
   { href: "/agenda-barbearia-whatsapp", label: "Agenda no WhatsApp" },
   { href: "/software-barbearia-com-pix", label: "Pagamentos opcionais" },
   { href: "/recursos/comissoes-barbeiros", label: "Comissões de barbeiros" },

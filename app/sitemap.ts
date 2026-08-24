@@ -1,29 +1,19 @@
 import type { MetadataRoute } from "next";
-import {
-  COMPARISON_LAST_VERIFIED,
-  COMPETITOR_COMPARISONS,
-} from "@/data/competitor-comparisons";
+import { COMPETITOR_COMPARISONS } from "@/data/competitor-comparisons";
 import { GUIDES } from "@/data/guides";
 import { SITE_URL } from "@/lib/seo";
 
+const LAST_MODIFIED = new Date("2026-08-24T00:00:00.000Z");
 const COMPETITOR_ROUTES = COMPETITOR_COMPARISONS.map(
   (comparison) => comparison.path,
 );
-
-const CONTENT_DATES = {
-  commercial: new Date("2026-08-23T00:00:00.000Z"),
-  product: new Date("2026-08-17T00:00:00.000Z"),
-  resources: new Date("2026-08-23T00:00:00.000Z"),
-  validation: new Date("2026-08-17T00:00:00.000Z"),
-  comparisons: new Date(`${COMPARISON_LAST_VERIFIED}T00:00:00.000Z`),
-  legal: new Date("2026-08-14T00:00:00.000Z"),
-} as const;
 
 const CORE_ROUTES = [
   "/",
   "/precos",
   "/recepcionista-ia-barbearia",
   "/sistema-agendamento-barbearia",
+  "/software-para-barbearia",
   "/agenda-barbearia-whatsapp",
   "/demonstracao-agendamento-whatsapp",
   "/casos-de-validacao",
@@ -43,11 +33,7 @@ const CORE_ROUTES = [
   "/recursos/materiais",
   "/recursos/diagnostico-agenda-barbearia",
   "/calculadora-tempo-whatsapp-barbearia",
-  "/calculadora-dinheiro-perdido-whatsapp-barbearia",
-  "/calculadora-ocupacao-agenda-barbearia",
   "/calculadora-comissao-barbeiro",
-  "/qual-plano-flowo",
-  "/raio-x-gestao-barbearia",
   "/mensagens-retorno-clientes-barbearia",
   "/recursos/guias",
   "/parcerias",
@@ -57,67 +43,17 @@ const CORE_ROUTES = [
   "/exclusao-de-dados",
 ] as const;
 
-type CoreRoute = (typeof CORE_ROUTES)[number];
-
-function routeContentClass(route: CoreRoute): keyof typeof CONTENT_DATES {
-  if (
-    route === "/comparar" ||
-    route === "/flowo-vs-planilha" ||
-    route === "/flowo-vs-agenda-manual" ||
-    COMPETITOR_ROUTES.includes(route)
-  ) {
-    return "comparisons";
-  }
-  if (
-    route.startsWith("/recursos") ||
-    route === "/calculadora-tempo-whatsapp-barbearia" ||
-    route === "/calculadora-dinheiro-perdido-whatsapp-barbearia" ||
-    route === "/calculadora-ocupacao-agenda-barbearia" ||
-    route === "/calculadora-comissao-barbeiro" ||
-    route === "/qual-plano-flowo" ||
-    route === "/raio-x-gestao-barbearia" ||
-    route === "/mensagens-retorno-clientes-barbearia"
-  ) {
-    return "resources";
-  }
-  if (
-    route === "/demonstracao-agendamento-whatsapp" ||
-    route.startsWith("/casos-de-validacao")
-  ) {
-    return "validation";
-  }
-  if (
-    route === "/privacidade" ||
-    route === "/termos" ||
-    route === "/exclusao-de-dados"
-  ) {
-    return "legal";
-  }
-  if (route === "/" || route === "/precos") return "commercial";
-  return "product";
-}
-
-function routeChangeFrequency(
-  route: CoreRoute,
-): MetadataRoute.Sitemap[number]["changeFrequency"] {
-  const contentClass = routeContentClass(route);
-  if (contentClass === "legal") return "yearly";
-  if (contentClass === "comparisons" || contentClass === "validation") {
-    return "monthly";
-  }
-  return "weekly";
-}
-
 export default function sitemap(): MetadataRoute.Sitemap {
   const coreEntries: MetadataRoute.Sitemap = CORE_ROUTES.map((route) => ({
     url: `${SITE_URL}${route}`,
-    lastModified: CONTENT_DATES[routeContentClass(route)],
-    changeFrequency: routeChangeFrequency(route),
+    lastModified: LAST_MODIFIED,
+    changeFrequency: route === "/" ? "daily" : "weekly",
     priority:
       route === "/"
         ? 1
         : route === "/recepcionista-ia-barbearia" ||
             route === "/sistema-agendamento-barbearia" ||
+            route === "/software-para-barbearia" ||
             route === "/agenda-barbearia-whatsapp" ||
             route === "/demonstracao-agendamento-whatsapp" ||
             route === "/casos-de-validacao" ||
@@ -129,11 +65,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
             route === "/recursos/nota-fiscal-barbearia"
             || route === "/recursos/diagnostico-agenda-barbearia"
             || route === "/calculadora-tempo-whatsapp-barbearia"
-            || route === "/calculadora-dinheiro-perdido-whatsapp-barbearia"
-            || route === "/calculadora-ocupacao-agenda-barbearia"
             || route === "/calculadora-comissao-barbeiro"
-            || route === "/qual-plano-flowo"
-            || route === "/raio-x-gestao-barbearia"
             || route === "/mensagens-retorno-clientes-barbearia"
           ? 0.9
           : route === "/comparar" ||

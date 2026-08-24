@@ -5,7 +5,11 @@ import Footer from "@/components/footer";
 import { Breadcrumb } from "@/components/breadcrumb";
 import { WHATSAPP_URL } from "@/components/cta-links";
 import { LEGAL_ENTITY } from "@/lib/legal-identity";
-import { absoluteUrl, buildMetadata } from "@/lib/seo";
+import {
+  OFFICIAL_SOCIAL_PROFILES,
+  absoluteUrl,
+  buildMetadata,
+} from "@/lib/seo";
 import {
   Building2,
   Brain,
@@ -98,6 +102,7 @@ const aboutSchema = {
       taxID: LEGAL_ENTITY.taxId,
       url: absoluteUrl("/"),
       logo: absoluteUrl("/flowo-logo.svg"),
+      sameAs: [...OFFICIAL_SOCIAL_PROFILES],
       address: {
         "@type": "PostalAddress",
         streetAddress: "Rua Carlos Augusto Cornelsen, 203, Loja 01",
