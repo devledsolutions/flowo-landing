@@ -34,7 +34,11 @@ const CORE_ROUTES = [
   "/recursos/diagnostico-agenda-barbearia",
   "/calculadora-tempo-whatsapp-barbearia",
   "/calculadora-comissao-barbeiro",
+  "/calculadora-dinheiro-perdido-whatsapp-barbearia",
+  "/calculadora-ocupacao-agenda-barbearia",
   "/mensagens-retorno-clientes-barbearia",
+  "/qual-plano-flowo",
+  "/raio-x-gestao-barbearia",
   "/recursos/guias",
   "/parcerias",
   "/sobre",
@@ -66,7 +70,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
             || route === "/recursos/diagnostico-agenda-barbearia"
             || route === "/calculadora-tempo-whatsapp-barbearia"
             || route === "/calculadora-comissao-barbeiro"
+            || route === "/calculadora-dinheiro-perdido-whatsapp-barbearia"
+            || route === "/calculadora-ocupacao-agenda-barbearia"
             || route === "/mensagens-retorno-clientes-barbearia"
+            || route === "/qual-plano-flowo"
+            || route === "/raio-x-gestao-barbearia"
           ? 0.9
           : route === "/comparar" ||
               route === "/flowo-vs-planilha" ||
