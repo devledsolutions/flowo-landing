@@ -63,6 +63,9 @@ O WhatsApp é a recepção do Flowo; o painel é a central de supervisão. A pro
 
 Página comercial canônica: ${SITE_URL}/recepcionista-ia-barbearia
 
+Página de intenção "software para barbearia": ${SITE_URL}/software-para-barbearia
+Resumo: software de gestão para barbearias com atendimento no WhatsApp, agenda por profissional, clientes, comandas e recebimento opcional. O Flowo atende a operação solo e equipes de até cinco profissionais nos planos públicos.
+
 ## O produto funcionando de ponta a ponta
 
 Em 26 de julho de 2026, a Flowo concluiu em produção, com números e

@@ -9,6 +9,14 @@ export const SITE_NAME = "Flowo"
 export const DEFAULT_OG_IMAGE = "/og-image.png"
 export const TWITTER_HANDLE = "@flowoapp"
 
+/** Profiles verified against the public Flowo accounts. Keep this list limited
+ * to owned profiles so the Organization entity does not inherit unrelated
+ * results for the name "Flowo". */
+export const OFFICIAL_SOCIAL_PROFILES = [
+  "https://www.instagram.com/flowobarber/",
+  "https://www.tiktok.com/@flowobarber",
+] as const
+
 /** Resolve a path or absolute URL against the site origin. */
 export function absoluteUrl(pathOrUrl: string): string {
   if (/^https?:\/\//.test(pathOrUrl)) return pathOrUrl

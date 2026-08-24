@@ -3,7 +3,7 @@ import { COMPETITOR_COMPARISONS } from "@/data/competitor-comparisons";
 import { GUIDES } from "@/data/guides";
 import { SITE_URL } from "@/lib/seo";
 
-const LAST_MODIFIED = new Date("2026-07-31T00:00:00.000Z");
+const LAST_MODIFIED = new Date("2026-08-24T00:00:00.000Z");
 const COMPETITOR_ROUTES = COMPETITOR_COMPARISONS.map(
   (comparison) => comparison.path,
 );
@@ -13,6 +13,7 @@ const CORE_ROUTES = [
   "/precos",
   "/recepcionista-ia-barbearia",
   "/sistema-agendamento-barbearia",
+  "/software-para-barbearia",
   "/agenda-barbearia-whatsapp",
   "/demonstracao-agendamento-whatsapp",
   "/casos-de-validacao",
@@ -52,6 +53,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         ? 1
         : route === "/recepcionista-ia-barbearia" ||
             route === "/sistema-agendamento-barbearia" ||
+            route === "/software-para-barbearia" ||
             route === "/agenda-barbearia-whatsapp" ||
             route === "/demonstracao-agendamento-whatsapp" ||
             route === "/casos-de-validacao" ||
