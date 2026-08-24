@@ -52,6 +52,7 @@ export default function CustomerReturnMessagesPage() {
       <GrowthToolLanding
         content={{
           kind: "return",
+          campaign: true,
           navCta: "Receber o kit",
           kicker: "Planejador gratuito de retorno de clientes",
           title: (

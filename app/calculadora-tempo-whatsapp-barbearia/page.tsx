@@ -52,6 +52,7 @@ export default function WhatsAppTimeCalculatorPage() {
       <GrowthToolLanding
         content={{
           kind: "time",
+          campaign: true,
           navCta: "Receber o plano",
           kicker: "Calculadora gratuita para a rotina da barbearia",
           title: (

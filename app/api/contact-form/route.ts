@@ -16,6 +16,7 @@ const CONTACT_LIMIT = 10;
 type CaptureWebsiteLeadArgs = {
   name: string;
   email: string;
+  phone?: string;
   source: string;
   landingPath: string;
   referrer?: string;
@@ -35,7 +36,7 @@ type CaptureWebsiteLeadArgs = {
   ctwaClid?: string;
   segmentAnonymousId?: string;
   consent: true;
-  salesContactRequestChannels: ["email"];
+  salesContactRequestChannels: Array<"email" | "whatsapp">;
   salesContactRequestMessage: string;
   emailMarketingConsent: boolean;
 };
@@ -88,6 +89,8 @@ export async function POST(request: Request) {
     const {
       name,
       email,
+      phone = "",
+      contactChannel = "email",
       message,
       company = "",
       consent,
@@ -151,6 +154,7 @@ export async function POST(request: Request) {
     await convex.mutation(captureWebsiteLead, {
       name,
       email,
+      phone: optional(phone),
       source: "contact:site",
       landingPath: landingPath || refererHeader || "/contato",
       referrer: optional(referrer),
@@ -170,7 +174,8 @@ export async function POST(request: Request) {
       ctwaClid: optional(ctwaClid),
       segmentAnonymousId: optional(segmentAnonymousId),
       consent,
-      salesContactRequestChannels: ["email"],
+      salesContactRequestChannels:
+        contactChannel === "whatsapp" ? ["whatsapp"] : ["email"],
       salesContactRequestMessage: message,
       emailMarketingConsent,
     });

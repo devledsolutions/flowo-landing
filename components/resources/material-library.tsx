@@ -5,6 +5,7 @@ import Image from "next/image";
 import {
   Calendar,
   Calculator,
+  CheckCircle2,
   Clock3,
   DollarSign,
   Download,
@@ -311,6 +312,16 @@ export function MaterialLibrary({ materials }: { materials: ResourceMaterial[] }
                 </h3>
                 <p className="mt-2 text-label leading-relaxed text-muted-ink">
                   {material.description}
+                </p>
+
+                <p className="mt-4 flex items-start gap-2 rounded-lg bg-surface-2 px-3 py-2.5 text-caption leading-relaxed text-ink">
+                  <CheckCircle2
+                    aria-hidden="true"
+                    className="mt-0.5 h-4 w-4 shrink-0 text-success"
+                  />
+                  {material.format === "XLSX"
+                    ? "Já vem com exemplos. Altere somente as células rosadas."
+                    : "Leitura curta para usar no celular ou imprimir."}
                 </p>
 
                 <div className="mt-5 border-l border-ink/30 pl-3">

@@ -180,3 +180,43 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Campaign pages reserve the bottom edge for their primary mobile action.
+   Keep the consent notice above it instead of covering the CTA or form. */
+@media (max-width: 639px) {
+  .flowo-campaign-cookie {
+    bottom: calc(76px + env(safe-area-inset-bottom)) !important;
+    left: 16px !important;
+    max-width: none !important;
+    right: 16px !important;
+  }
+
+  /* Keep the consent surface compact enough to sit between the page content
+     and the fixed campaign CTA. It must never hide the hero action on a
+     390px viewport, while every control keeps a comfortable touch target. */
+  .flowo-campaign-cookie > div > div {
+    padding: 10px 12px !important;
+  }
+
+  .flowo-campaign-cookie .mb-3 {
+    margin-bottom: 6px !important;
+  }
+
+  .flowo-campaign-cookie .mb-3 p {
+    font-size: 0.75rem;
+    line-height: 1.4;
+  }
+
+  .flowo-campaign-cookie .mb-3 button {
+    height: 36px;
+    width: 36px;
+  }
+
+  .flowo-campaign-cookie .flex.gap-2 button {
+    min-height: 40px;
+  }
+
+  .flowo-campaign-cookie .flex.gap-2 {
+    gap: 4px;
+  }
+}

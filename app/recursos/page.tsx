@@ -8,6 +8,7 @@ import {
   Calendar,
   Clapperboard,
   Clock,
+  Compass,
   CreditCard,
   Download,
   FileSpreadsheet,
@@ -76,6 +77,30 @@ const downloads = [
     description: "Planeje a data e adapte uma mensagem responsável",
     icon: RotateCcw,
     href: "/mensagens-retorno-clientes-barbearia",
+  },
+  {
+    title: "Oportunidade no WhatsApp",
+    description: "Encontre conversas que merecem revisão",
+    icon: MessageCircle,
+    href: "/calculadora-dinheiro-perdido-whatsapp-barbearia",
+  },
+  {
+    title: "Ocupação da agenda",
+    description: "Compare capacidade e atendimentos marcados",
+    icon: BarChart3,
+    href: "/calculadora-ocupacao-agenda-barbearia",
+  },
+  {
+    title: "Qual plano combina",
+    description: "Escolha um ponto de partida para a operação",
+    icon: Compass,
+    href: "/qual-plano-flowo",
+  },
+  {
+    title: "Raio-X da gestão",
+    description: "Encontre o gargalo que merece atenção primeiro",
+    icon: BarChart3,
+    href: "/raio-x-gestao-barbearia",
   },
 ];
 
@@ -196,6 +221,30 @@ export default function ResourcesPage() {
             path: "/mensagens-retorno-clientes-barbearia",
             description:
               "Janela de revisão e mensagem responsável para retorno de clientes.",
+          },
+          {
+            name: "Calculadora de Oportunidades no WhatsApp",
+            path: "/calculadora-dinheiro-perdido-whatsapp-barbearia",
+            description:
+              "Cenário de revisão para conversas de horário que ficaram abertas.",
+          },
+          {
+            name: "Calculadora de Ocupação da Agenda",
+            path: "/calculadora-ocupacao-agenda-barbearia",
+            description:
+              "Capacidade semanal aproximada e próxima conversa da equipe.",
+          },
+          {
+            name: "Qual Plano da Flowo Combina",
+            path: "/qual-plano-flowo",
+            description:
+              "Escolha guiada entre Solo, Equipe e Empresarial.",
+          },
+          {
+            name: "Raio-X da Gestão da Barbearia",
+            path: "/raio-x-gestao-barbearia",
+            description:
+              "Cinco perguntas para escolher uma melhoria possível nesta semana.",
           },
           {
             name: "Comissões de Barbeiros",

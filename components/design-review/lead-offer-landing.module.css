@@ -784,6 +784,14 @@
   line-height: 1.65;
 }
 
+.formSuccess .successFollowup {
+  color: var(--review-green-dark);
+  font-size: 0.74rem;
+  font-weight: 600;
+  line-height: 1.55;
+  margin-top: 12px;
+}
+
 .downloadButton {
   align-items: center;
   background: var(--review-ink);

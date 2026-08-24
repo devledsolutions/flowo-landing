@@ -614,12 +614,15 @@ export function SegmentProvider({ children, writeKey }: SegmentProviderProps) {
           destination_host: destination.hostname,
           destination_path: destination.pathname,
         });
+        if (destination.hostname === "wa.me" || destination.hostname === "api.whatsapp.com") {
+          sendKnownLeadSignal("demo_requested");
+        }
       }
     };
 
     document.addEventListener("click", handleDocumentClick, true);
     return () => document.removeEventListener("click", handleDocumentClick, true);
-  }, [decorateDestination, track]);
+  }, [decorateDestination, sendKnownLeadSignal, track]);
 
   return (
     <SegmentContext.Provider
