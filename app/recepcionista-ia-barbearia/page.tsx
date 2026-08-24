@@ -27,7 +27,7 @@ const faq = [
   {
     question: "O Flowo tem período de teste?",
     answer:
-      "Não. A assinatura começa no primeiro dia, com configuração acompanhada pela equipe Flowo e sem fidelidade.",
+      "Não há teste automático. Clientes elegíveis dos planos Solo ou Equipe podem receber uma avaliação assistida de 14 dias, liberada manualmente pela equipe, sem cartão, renovação ou cobrança automática.",
   },
 ];
 

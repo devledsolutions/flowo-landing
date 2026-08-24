@@ -436,7 +436,7 @@ export function ImplementationLanding() {
             </a>
           </div>
           <p className={styles.conditions}>
-            A partir de R$249/mês · sem teste · sem fidelidade · implantação acompanhada
+            A partir de R$249/mês · sem fidelidade · implantação acompanhada
           </p>
         </div>
         <div className={styles.heroEvidence} id="demonstracao">
@@ -528,10 +528,10 @@ export function ImplementationLanding() {
       <section className={styles.pricingProof}>
         <div>
           <small>RISCO REDUZIDO, SEM PROMESSA VAZIA</small>
-          <h2>Assinatura paga desde o início. Liberdade para sair.</h2>
+          <h2>Jornada pública paga. Liberdade para sair.</h2>
           <p>
-            A Flowo não oferece teste. Em contrapartida, não há fidelidade e a
-            implantação é acompanhada.
+            Não há fidelidade. Clientes elegíveis do Solo ou Equipe podem
+            receber uma avaliação assistida de 14 dias, concedida manualmente.
           </p>
         </div>
         <div className={styles.priceCard}>

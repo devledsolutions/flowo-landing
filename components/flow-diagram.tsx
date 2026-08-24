@@ -26,14 +26,14 @@ const steps = [
     title: "Confirmação automática",
     description: "Lembrete 24h e 2h antes, com pedido de confirmação.",
     detail:
-      "O cliente confirma, remarca ou cancela respondendo a própria mensagem. É assim que o Flowo combate as faltas, sem cobrar sinal.",
+      "O cliente confirma ou cancela respondendo à mensagem. No Equipe e Empresarial, também pode remarcar. Sem cobrança de sinal.",
   },
   {
     icon: Scissors,
     title: "Cliente na cadeira",
     description: "O dia aparece organizado no painel e você só atende.",
     detail:
-      "A agenda sincroniza com Google, Apple e Outlook. Se você quiser, o cliente paga o atendimento por PIX ou cartão na hora.",
+      "No Equipe e Empresarial, a agenda conecta Google, Apple ou Outlook. Pagamentos integrados continuam opcionais e acontecem depois do atendimento.",
   },
 ];
 

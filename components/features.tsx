@@ -19,7 +19,7 @@ const featureGroups = [
         icon: CalendarDays,
         title: "Sincronização de calendários",
         description:
-          "Google, Apple e Outlook sempre em dia. O agendamento aparece no seu celular na hora.",
+          "No Equipe e Empresarial, o Google sincroniza nos dois sentidos; Apple e Outlook recebem os compromissos da Flowo.",
       },
       {
         icon: Bell,
@@ -31,7 +31,7 @@ const featureGroups = [
         icon: RefreshCw,
         title: "Remarcação pelo WhatsApp",
         description:
-          "Remarcar ou cancelar é uma mensagem, não uma ligação. A agenda se ajusta sozinha.",
+          "O cliente cancela na conversa em todos os planos. No Equipe e Empresarial, também pode remarcar.",
       },
     ],
   },
@@ -86,7 +86,7 @@ const featureGroups = [
 const aiPoints = [
   "Responde de madrugada, no domingo e com a barbearia cheia",
   "Oferece só horários realmente livres na agenda",
-  "Remarca e cancela na mesma conversa",
+  "Cancela na conversa; no Equipe e Empresarial, também remarca",
   "Passa a conversa para você quando precisar",
 ];
 

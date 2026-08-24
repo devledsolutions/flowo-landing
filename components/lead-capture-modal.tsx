@@ -408,7 +408,7 @@ export function LeadCaptureModal({
         {children}
       </div>
       <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-        <DialogContent className="rounded-xl">
+        <DialogContent className="max-h-[calc(100dvh-2rem)] overflow-y-auto rounded-xl">
           {isSuccess ? (
             <div className="py-6 text-center" role="status">
               <div className="mb-4 flex justify-center">

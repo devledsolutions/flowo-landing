@@ -7,9 +7,21 @@
   --tool-paper: #fffdf8;
   --tool-line: #d8d4c7;
   --tool-muted: #69685f;
+  /* LeadMagnetForm is shared with the editorial offer pages. Keep its
+     existing contract mapped to this campaign's tokens so controls never
+     fall back to transparent/undefined colours on campaign routes. */
+  --review-ink: var(--tool-ink);
+  --review-paper: var(--tool-paper);
+  --review-line: var(--tool-line);
+  --review-muted: var(--tool-muted);
+  --review-green: var(--tool-accent);
+  --review-green-dark: var(--tool-accent-dark);
+  --review-green-pale: var(--tool-accent-soft);
   background: var(--tool-paper);
   color: var(--tool-ink);
   font-family: var(--font-poppins), Poppins, sans-serif;
+  min-height: 100vh;
+  overflow-x: clip;
 }
 
 .page[data-tool="commission"] {
@@ -22,6 +34,25 @@
   --tool-accent: #9aa977;
   --tool-accent-dark: #4f6035;
   --tool-accent-soft: #e8ecd9;
+}
+
+.page[data-tool="money"] {
+  --tool-accent: #d46a8d;
+  --tool-accent-dark: #8e3155;
+  --tool-accent-soft: #f7e1e9;
+}
+
+.page[data-tool="occupancy"] {
+  --tool-accent: #5ba8a0;
+  --tool-accent-dark: #216b64;
+  --tool-accent-soft: #dff1ee;
+}
+
+.page[data-tool="plan"],
+.page[data-tool="diagnostic"] {
+  --tool-accent: #8d83c2;
+  --tool-accent-dark: #554b8c;
+  --tool-accent-soft: #e9e6f6;
 }
 
 .page *,
@@ -85,6 +116,235 @@
   min-height: 48px;
   padding: 0 22px;
   text-decoration: none;
+}
+
+.campaignLabel {
+  color: var(--tool-muted);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  margin: 0 0 0 auto;
+  text-transform: uppercase;
+}
+
+.page[data-campaign="true"] .nav {
+  max-width: 1040px;
+}
+
+.page[data-campaign="true"] .hero {
+  max-width: 1100px;
+  padding-top: clamp(82px, 10vw, 138px);
+}
+
+.campaignProof {
+  border-top: 1px solid var(--tool-line);
+  margin: 0 auto;
+  max-width: 1100px;
+  padding: clamp(70px, 9vw, 112px) 24px;
+}
+
+.campaignProofHeader {
+  display: grid;
+  gap: 24px 60px;
+  grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+  margin-bottom: 52px;
+}
+
+.campaignProofHeader small {
+  color: var(--tool-accent-dark);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.campaignProofHeader h2 {
+  font-family: var(--font-lora), Lora, serif;
+  font-size: clamp(2.25rem, 4vw, 3.8rem);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 1.03;
+  margin: 0;
+  max-width: 760px;
+}
+
+.campaignProofHeader p {
+  color: var(--tool-muted);
+  font-size: 0.9rem;
+  grid-column: 2;
+  line-height: 1.75;
+  margin: 0;
+  max-width: 650px;
+}
+
+.campaignProofGrid {
+  border-top: 1px solid var(--tool-line);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.campaignProofCard {
+  border-bottom: 1px solid var(--tool-line);
+  border-right: 1px solid var(--tool-line);
+  min-height: 238px;
+  padding: 26px 24px 30px 0;
+}
+
+.campaignProofCard + .campaignProofCard {
+  padding-left: 24px;
+}
+
+.campaignProofCard:last-child {
+  border-right: 0;
+  padding-right: 0;
+}
+
+.campaignProofCard > span {
+  color: var(--tool-accent-dark);
+  font-family: var(--font-lora), Lora, serif;
+  font-size: 1.35rem;
+}
+
+.campaignProofCard h3 {
+  font-size: 0.98rem;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  margin: 28px 0 0;
+}
+
+.campaignProofCard p {
+  color: var(--tool-muted);
+  font-size: 0.78rem;
+  line-height: 1.65;
+  margin: 12px 0 0;
+}
+
+.campaignFooter {
+  background: var(--tool-ink);
+  color: rgb(255 255 255 / 68%);
+  padding: 28px 24px calc(28px + env(safe-area-inset-bottom));
+}
+
+.campaignFooter > div {
+  align-items: center;
+  display: flex;
+  font-size: 0.68rem;
+  gap: 20px 32px;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 1100px;
+}
+
+.campaignFooter nav {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+}
+
+.campaignFooter a,
+.campaignFooter button {
+  color: rgb(255 255 255 / 78%);
+  font: inherit;
+  text-decoration: none;
+}
+
+.campaignFooter a:hover,
+.campaignFooter button:hover {
+  color: #fff;
+}
+
+.mobileCta {
+  display: none;
+}
+
+.trialSection {
+  border-bottom: 1px solid var(--tool-line);
+  border-top: 1px solid var(--tool-line);
+  display: grid;
+  gap: 44px 72px;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+  margin: 0 auto;
+  max-width: 1100px;
+  padding: clamp(64px, 8vw, 104px) 24px;
+}
+
+.trialIntro p {
+  color: var(--tool-accent-dark);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  margin: 0 0 18px;
+}
+
+.trialIntro h2 {
+  font-family: var(--font-lora), Lora, serif;
+  font-size: clamp(2.1rem, 4vw, 3.7rem);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 1.04;
+  margin: 0;
+  max-width: 540px;
+  text-wrap: balance;
+}
+
+.trialBody {
+  align-self: center;
+  max-width: 650px;
+}
+
+.trialBody > p {
+  color: var(--tool-muted);
+  font-size: 0.92rem;
+  line-height: 1.75;
+  margin: 0;
+  max-width: 61ch;
+}
+
+.trialBody ul {
+  border-top: 1px solid var(--tool-line);
+  list-style: none;
+  margin: 26px 0 0;
+  padding: 14px 0 0;
+}
+
+.trialBody li {
+  color: var(--tool-muted);
+  font-size: 0.78rem;
+  line-height: 1.55;
+  padding: 7px 0 7px 25px;
+  position: relative;
+}
+
+.trialBody li::before {
+  color: var(--tool-accent-dark);
+  content: "✓";
+  font-weight: 700;
+  left: 0;
+  position: absolute;
+}
+
+.trialCta {
+  align-items: center;
+  background: var(--tool-ink);
+  border: 1px solid var(--tool-ink);
+  border-radius: 999px;
+  color: #fff;
+  display: inline-flex;
+  font-size: 0.78rem;
+  font-weight: 700;
+  justify-content: center;
+  margin-top: 28px;
+  min-height: 48px;
+  padding: 0 20px;
+  text-decoration: none;
+}
+
+.formBrandNote {
+  color: var(--tool-accent-dark) !important;
+  font-size: 0.76rem !important;
+  font-weight: 600;
+  line-height: 1.55 !important;
+  margin-top: 16px !important;
 }
 
 .hero {
@@ -637,6 +897,14 @@
   padding-top: 30px;
 }
 
+.hero,
+.toolStage,
+.trialSection,
+.formSection,
+.faq {
+  scroll-margin-top: 92px;
+}
+
 .faq h2 {
   margin-bottom: 48px;
   max-width: 750px;
@@ -669,8 +937,12 @@
 
 .navCta:focus-visible,
 .primaryCta:focus-visible,
+.trialCta:focus-visible,
 .navLinks a:focus-visible,
-.calculateButton:focus-visible {
+.calculateButton:focus-visible,
+.campaignFooter a:focus-visible,
+.campaignFooter button:focus-visible,
+.mobileCta a:focus-visible {
   outline: 3px solid var(--tool-accent);
   outline-offset: 3px;
 }
@@ -698,16 +970,34 @@
   .problemBand > div,
   .sectionHeader,
   .materialStrip,
-  .formSection {
+  .formSection,
+  .campaignProofHeader,
+  .trialSection {
     grid-template-columns: 1fr;
   }
 
-  .problemBand span {
+  .problemBand span,
+  .campaignProofHeader p {
     grid-column: 1;
   }
 
   .formCopy {
     position: static;
+  }
+
+  .campaignProofGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .campaignProofCard,
+  .campaignProofCard + .campaignProofCard,
+  .campaignProofCard:last-child {
+    border-right: 0;
+    padding: 24px 0;
+  }
+
+  .campaignProofCard:last-child {
+    border-bottom: 0;
   }
 }
 
@@ -723,13 +1013,20 @@
     padding: 0 15px;
   }
 
+  .campaignLabel {
+    display: none;
+  }
+
   .hero {
     gap: 52px;
     padding: 58px 18px 72px;
   }
 
   .hero h1 {
-    font-size: clamp(2.75rem, 14vw, 4.2rem);
+    font-size: clamp(2.45rem, 12vw, 3.7rem);
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
   }
 
   .heroActions {
@@ -739,6 +1036,41 @@
 
   .primaryCta {
     width: 100%;
+  }
+
+  .page[data-campaign="true"] {
+    padding-bottom: calc(86px + env(safe-area-inset-bottom));
+  }
+
+  .mobileCta {
+    background: rgb(255 253 248 / 96%);
+    border-top: 1px solid var(--tool-line);
+    bottom: 0;
+    display: block;
+    left: 0;
+    padding: 10px 16px max(10px, env(safe-area-inset-bottom));
+    position: fixed;
+    right: 0;
+    z-index: 30;
+  }
+
+  .mobileCta a {
+    align-items: center;
+    background: var(--tool-ink);
+    border: 1px solid var(--tool-ink);
+    border-radius: 999px;
+    color: #fff;
+    display: flex;
+    font-size: 0.78rem;
+    font-weight: 700;
+    justify-content: center;
+    min-height: 48px;
+    text-decoration: none;
+  }
+
+  .campaignFooter > div {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .toolStage::after {
@@ -796,6 +1128,19 @@
 
   .formSection {
     gap: 42px;
+  }
+
+  .trialSection {
+    gap: 34px;
+    padding-inline: 18px;
+  }
+
+  .trialBody > p {
+    font-size: 0.88rem;
+  }
+
+  .trialCta {
+    width: 100%;
   }
 }
 

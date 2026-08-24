@@ -13,6 +13,10 @@
     "seo:indexnow": "node scripts/submit-indexnow.mjs",
     "marketing:audit": "node scripts/audit-marketing-assets.mjs",
     "consent:audit": "node scripts/audit-ad-consent.mjs",
+    "materials:generate": "pnpm materials:generate:xlsx && pnpm materials:generate:pdf",
+    "materials:generate:xlsx": "node scripts/generate-premium-materials.mjs",
+    "materials:generate:pdf": "python3 scripts/generate-flowo-practical-guides.py && python3 scripts/generate-growth-tool-guides.py && python3 scripts/generate-refreshed-evergreen-guides.py && python3 scripts/generate-raio-x-agenda.py",
+    "materials:audit": "node scripts/audit-marketing-assets.mjs && python3 scripts/audit-tagged-pdfs.py",
     "video:studio": "remotion studio remotion/index.ts",
     "video:render": "remotion render remotion/index.ts FlowoInstitucional public/videos/flowo-institucional-voz-natural-2026-07.mp4 --codec=h264 --crf=20 --audio-codec=aac --audio-bitrate=192k && remotion render remotion/index.ts FlowoInstitucionalVertical public/videos/flowo-institucional-voz-natural-2026-07-vertical.mp4 --codec=h264 --crf=21 --audio-codec=aac --audio-bitrate=192k",
     "video:posters": "remotion still remotion/index.ts FlowoInstitucional public/videos/flowo-institucional-poster.jpg --frame=1320 --image-format=jpeg --jpeg-quality=92 && remotion still remotion/index.ts FlowoInstitucionalVertical public/videos/flowo-institucional-vertical-poster.jpg --frame=1320 --image-format=jpeg --jpeg-quality=92"

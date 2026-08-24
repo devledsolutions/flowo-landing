@@ -57,11 +57,18 @@ export const featureComparison: Record<string, FeatureComparisonItem[]> = {
       note: "O cliente confirma o horário respondendo no WhatsApp",
     },
     {
+      name: "Cancelamento pelo WhatsApp",
+      solo: true,
+      equipe: true,
+      empresarial: true,
+      note: "O cliente pode cancelar na conversa; o horário volta para a agenda",
+    },
+    {
       name: "Remarcação pelo WhatsApp",
       solo: false,
       equipe: true,
       empresarial: true,
-      note: "O cliente remarca ou cancela direto na conversa",
+      note: "Disponível nos planos Equipe e Empresarial",
     },
     {
       name: "Mensagens de campanha por mês",
@@ -100,12 +107,14 @@ export const featureComparison: Record<string, FeatureComparisonItem[]> = {
       solo: false,
       equipe: true,
       empresarial: true,
+      note: "Recebe os compromissos criados ou alterados na Flowo",
     },
     {
       name: "Microsoft Outlook",
       solo: false,
       equipe: true,
       empresarial: true,
+      note: "Recebe os compromissos criados ou alterados na Flowo",
     },
   ],
   "Relatórios e acompanhamento": [
@@ -116,10 +125,10 @@ export const featureComparison: Record<string, FeatureComparisonItem[]> = {
       empresarial: true,
     },
     {
-      name: "Atendimento próximo do time Flowo",
-      solo: false,
-      equipe: false,
-      empresarial: true,
+      name: "Canais de suporte",
+      solo: "E-mail",
+      equipe: "E-mail e WhatsApp",
+      empresarial: "E-mail, WhatsApp e telefone",
     },
   ],
 };

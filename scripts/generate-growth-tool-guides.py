@@ -137,6 +137,7 @@ TIME_GUIDE = replace(
     keywords=(
         "barbearia, WhatsApp, agenda, interrupção, escala, mensagens, Flowo"
     ),
+    cta_path="/agenda-barbearia-whatsapp",
 )
 
 COMMISSION_GUIDE = replace(
@@ -151,14 +152,102 @@ COMMISSION_GUIDE = replace(
     cover_label="POLÍTICA + CONFERÊNCIA + CHECKLIST",
     cover_items=(
         "Regra escrita e com vigência",
-        "Serviço e produto separados",
+        "Percentual único por profissional",
         "Desconto, estorno e adiantamento",
         "Aprovação antes do pagamento",
+    ),
+    use_intro=(
+        "Use esta folha no fechamento do período, depois de a política de comissão "
+        "já estar combinada. Ela serve para conferir os números e registrar a aprovação."
+    ),
+    use_steps=(
+        ("01", "Trave o período", "Defina a data e a hora de corte das comandas."),
+        ("02", "Exporte os dados", "Reúna itens, descontos e estornos das comandas."),
+        ("03", "Confira por pessoa", "Compare total, ajustes e memória de cálculo."),
+        ("04", "Aprove", "Registre a diferença resolvida antes do pagamento."),
+    ),
+    before_start=(
+        "Esta folha pressupõe uma política de comissão já aprovada. Para desenhar ou "
+        "alterar regras, use o guia Comissões sem Planilha Paralela."
+    ),
+    audit_title="Fechamento pronto para conferência?",
+    audit_intro=(
+        "Antes de calcular, confirme os seis pontos abaixo. Se um deles estiver aberto, "
+        "o total ainda não está pronto para aprovação."
+    ),
+    audit_items=(
+        ("Período", "Todas as comandas pertencem ao intervalo informado."),
+        ("Status", "Somente atendimentos concluídos e elegíveis entraram na base."),
+        ("Base líquida", "Valores e descontos conferem com as comandas."),
+        ("Atribuição", "Cada item elegível está ligado ao profissional correto."),
+        ("Ajustes", "Estornos e adiantamentos têm motivo e responsável."),
+        ("Vigência", "O percentual usado valia na data do atendimento."),
+    ),
+    framework_title="A memória de cálculo em uma linha",
+    framework_intro=(
+        "Cada total precisa ser explicado pelos mesmos campos. Evite somas soltas ou "
+        "ajustes sem referência à comanda."
+    ),
+    framework=(
+        ("01", "Base", "Total elegível depois dos descontos previstos na regra."),
+        ("02", "Percentual", "Um único percentual vigente do profissional."),
+        ("03", "Comissão bruta", "Base multiplicada pelo percentual."),
+        ("04", "Ajustes", "Estorno, falta, adiantamento ou correção identificada."),
+        ("05", "Total aprovado", "Valor final com data e responsável pela conferência."),
+    ),
+    worksheet_title="Folha de fechamento por profissional",
+    worksheet_intro=(
+        "Preencha uma linha por profissional e anexe a memória detalhada quando houver "
+        "diferença ou ajuste manual."
+    ),
+    worksheet_columns=(
+        ("PROFISSIONAL", 105),
+        ("BASE", 80),
+        ("COMISSÃO", 82),
+        ("AJUSTES", 72),
+        ("TOTAL", 72),
+        ("APROVOU", 78),
+    ),
+    worksheet_note=(
+        "Esta folha fecha um período. Guarde a política de comissão e a memória das "
+        "comandas como documentos separados."
     ),
     test_title="Memória de cálculo do período",
     test_intro=(
         "Refaça a conta com comandas já fechadas. Registre a base usada, o "
         "percentual e cada ajuste antes de mostrar o total."
+    ),
+    scenarios=(
+        "Comanda concluída dentro do período",
+        "Atendimento com desconto previsto",
+        "Item atribuído ao profissional correto",
+        "Estorno lançado depois do atendimento",
+        "Adiantamento descontado no período",
+        "Diferença corrigida antes da aprovação",
+    ),
+    plan_title="Checklist de fechamento do mês",
+    plan_intro=(
+        "Siga a ordem para não pagar antes de a equipe ter acesso ao mesmo número e à "
+        "mesma memória de cálculo."
+    ),
+    plan=(
+        ("01", "Cortar o período", "Defina o último atendimento que entra no fechamento."),
+        ("02", "Conferir pendências", "Resolva comandas abertas, estornos e descontos."),
+        ("03", "Calcular", "Aplique o percentual vigente de cada profissional."),
+        ("04", "Revisar", "Compare os totais por profissional e os ajustes."),
+        ("05", "Compartilhar", "Entregue a memória antes do pagamento."),
+        ("06", "Aprovar", "Registre responsável, data e diferença resolvida."),
+        ("07", "Pagar", "Confirme o pagamento somente depois da aprovação."),
+    ),
+    flowo_intro=(
+        "Na Flowo, comandas fechadas e regras configuradas podem compor a memória de "
+        "comissão do período, conforme o plano contratado."
+    ),
+    flowo_points=(
+        "Serviço, profissional e valor permanecem ligados à comanda.",
+        "O percentual configurado fica associado ao profissional.",
+        "A equipe autorizada revisa o fechamento antes do pagamento.",
+        "Contrato e decisão trabalhista continuam sob responsabilidade da barbearia.",
     ),
     disclaimer=(
         "Este material é operacional e não substitui contrato, folha, contador "
@@ -167,6 +256,9 @@ COMMISSION_GUIDE = replace(
     keywords=(
         "barbearia, comissão, barbeiro, fechamento, equipe, comanda, Flowo"
     ),
+    cover_prompt="Feche o período com base, percentual e ajustes rastreáveis.",
+    how_to_title="Confira o mesmo período com toda a equipe.",
+    framework_rule="Um total sem comanda, vigência e responsável não está pronto.",
 )
 
 RETURN_GUIDE = replace(
@@ -185,22 +277,110 @@ RETURN_GUIDE = replace(
         "Mensagem com contexto e saída",
         "Resultado medido até a comanda",
     ),
+    use_intro=(
+        "Defina uma cadência inicial por serviço, aprove uma versão da mensagem e "
+        "decida quem pode receber. As faixas orientam a revisão, nunca o disparo automático."
+    ),
+    use_steps=(
+        ("01", "Justifique", "Registre por que cada pessoa pode receber o contato."),
+        ("02", "Exclua", "Retire agendados, atendimentos abertos e pedidos de saída."),
+        ("03", "Revise", "Confira identidade, motivo, convite e opção de parar."),
+        ("04", "Aprove", "Defina responsável, horário e tamanho do primeiro envio."),
+    ),
+    before_start=(
+        "A mensagem não corrige uma lista sem origem ou consentimento. Na dúvida sobre "
+        "a permissão de contato, não envie até a situação ser revisada."
+    ),
+    audit_title="O envio pode acontecer com segurança?",
+    audit_intro=(
+        "Marque apenas quando houver evidência. Um item em aberto interrompe o envio, "
+        "mesmo que o texto esteja pronto."
+    ),
+    audit_items=(
+        ("Origem", "A equipe sabe como o contato entrou na base."),
+        ("Consentimento", "Existe permissão válida para o canal e a finalidade."),
+        ("Saída", "Pedidos de SAIR já foram aplicados à lista."),
+        ("Contexto", "A pessoa reconhece a barbearia e o motivo do contato."),
+        ("Agenda", "Não existe horário futuro ou conversa humana aberta."),
+        ("Responsável", "Alguém vai acompanhar resposta, falha e reclamação."),
+    ),
     framework_title="Uma mensagem que o cliente reconhece",
     framework_intro=(
         "O texto precisa dizer quem chamou, por que chamou e como sair. Nenhuma "
         "mensagem corrige uma lista sem consentimento."
     ),
-    plan_title="Calendário de revisão",
+    framework=(
+        ("01", "Quem fala", "Nome da barbearia, sem número ou remetente surpresa."),
+        ("02", "Por que chamou", "Contexto reconhecível, sem urgência inventada."),
+        ("03", "O que fazer", "Uma pergunta simples ou um próximo passo opcional."),
+        ("04", "Como sair", "Instrução curta: responda SAIR para não receber."),
+        ("05", "Quem acompanha", "Responsável por respostas e exceções."),
+    ),
+    worksheet_title="Ficha de aprovação da mensagem",
+    worksheet_intro=(
+        "Registre a versão e o texto aprovado. Mudou o público, a base ou o motivo? "
+        "Crie outra versão antes de reutilizar a mensagem."
+    ),
+    worksheet_columns=(
+        ("VERSÃO", 55),
+        ("OBJETIVO", 65),
+        ("PÚBLICO/BASE", 90),
+        ("TEXTO APROVADO", 170),
+        ("SAÍDA", 55),
+        ("RESP./APROV.", 76),
+    ),
+    worksheet_note=(
+        "Copie a mensagem integral no campo de texto ou registre um identificador "
+        "inequívoco da versão arquivada. Não use lista comprada."
+    ),
+    test_title="Teste de leitura antes do envio",
+    test_intro=(
+        "Leia a mensagem como cliente e valide os cenários abaixo com um grupo interno "
+        "antes de liberar a lista."
+    ),
+    scenarios=(
+        "Cliente reconhece imediatamente a barbearia",
+        "Cliente já tem um horário futuro",
+        "Cliente responde SAIR",
+        "Cliente pergunta por que recebeu",
+        "Número está inválido ou pertence a outra pessoa",
+        "Cliente pede atendimento humano",
+    ),
+    plan_title="Calendário-base por serviço",
     plan_intro=(
-        "Planeje a revisão antes do envio. O intervalo é uma referência por "
-        "serviço, nunca uma regra universal para toda a base."
+        "Use as faixas como ponto de partida editável. Preencha a última visita e a "
+        "próxima revisão; histórico e consentimento sempre prevalecem."
+    ),
+    plan=(
+        ("01", "Corte curto · 21–35 d", "Última visita: ____  Próxima revisão: ____"),
+        ("02", "Barba · 7–21 d", "Última visita: ____  Próxima revisão: ____"),
+        ("03", "Corte + barba · 21–35 d", "Última visita: ____  Próxima revisão: ____"),
+        ("04", "Acabamento · 14–28 d", "Última visita: ____  Próxima revisão: ____"),
+        ("05", "Tratamento", "Use a orientação técnica. Próxima revisão: ____"),
+        ("06", "Hábito individual", "Use o histórico do cliente. Revisar em: ____"),
+        ("07", "Antes do envio", "Revalidar consentimento, agenda, saída e contato recente."),
+    ),
+    flowo_intro=(
+        "O Flowo Recupera, quando contratado, organiza oportunidades elegíveis para "
+        "revisão contínua. Campanhas continuam sendo o caminho para ações pontuais."
+    ),
+    flowo_points=(
+        "A oportunidade parte de retorno ou horário livre verificado.",
+        "Consentimento, frequência, agenda e mensagem são revistos antes do envio.",
+        "O responsável aprova a ação antes do contato proativo.",
+        "O resultado acompanha agendamento, atendimento e comanda fechada.",
     ),
     disclaimer=(
         "Respeite consentimento, pedidos de saída e legislação aplicável. Flowo "
-        "Recupera é um add-on em beta acompanhada e possui escopo separado."
+        "Recupera é um adicional opcional, não um plano separado."
     ),
     keywords=(
         "barbearia, retorno, clientes, WhatsApp, consentimento, mensagens, Flowo"
+    ),
+    cover_prompt="Defina intervalos e aprove cada mensagem antes do envio.",
+    how_to_title="Monte a cadência a partir do serviço e da permissão.",
+    framework_rule=(
+        "Intervalo sugerido não substitui consentimento nem revisão humana."
     ),
 )
 

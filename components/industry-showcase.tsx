@@ -21,7 +21,7 @@ const rows: readonly ShowcaseRow[] = [
     size: "Barbearia com equipe",
     scale: "Vários barbeiros, uma agenda",
     pain: "Controles separados, conflito de horário e cliente marcado em cima de outro.",
-    fix: "Agenda de todos em um lugar, sincronizada com Google, Apple e Outlook. Cada um vê a sua.",
+    fix: "Agenda individual no mesmo painel. No Equipe, cada profissional pode conectar Google, Apple ou Outlook.",
   },
   {
     size: "Rede de barbearias",

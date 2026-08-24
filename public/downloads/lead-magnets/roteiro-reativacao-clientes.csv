@@ -1,4 +1,6 @@
-Segmento,Mensagem
-30 dias sem retorno,"Sentimos sua falta. Quer reservar um horário essa semana?"
-45 dias sem retorno,"Temos horários especiais para você voltar."
-60 dias sem retorno,"Vamos te ajudar a retomar sua rotina com benefício de retorno."
+﻿Situação;Quando usar;Mensagem;Por que pode enviar;Resultado esperado;Quem cuida
+Retorno previsto;Cliente autorizou novidades e já está no período habitual de retorno;Oi, [nome]. Aqui é a [pessoa] da [barbearia]. Faz um tempo desde seu último [serviço]. Quer que eu veja os horários desta semana? Se não quiser mais receber mensagens, responda SAIR.;Permissão registrada;Resposta, agendamento ou SAIR;Responsável comercial
+Cliente pediu para lembrar;Cliente solicitou contato em uma data;Oi, [nome]. Você pediu para eu te chamar nesta época para ver um novo horário. Quer que eu consulte as opções? Se preferir parar as mensagens, responda SAIR.;Pedido do cliente;Resposta, agendamento ou SAIR;Responsável comercial
+Novidade relevante;Serviço ou profissional realmente relacionado ao histórico;Oi, [nome]. Aqui é a [pessoa] da [barbearia]. Temos [novidade] e lembrei de você por causa do seu último [serviço]. Quer saber os detalhes? Para não receber mais, responda SAIR.;Permissão registrada;Interesse, sem interesse ou SAIR;Responsável comercial
+Sem resposta;Uma única tentativa curta após a primeira mensagem;Oi, [nome]. Só confirmando se ainda faz sentido eu te enviar opções. Se não for o momento, tudo bem. Para parar as mensagens, responda SAIR.;Permissão registrada;Resposta ou encerramento;Responsável comercial
+Pedido de saída;Cliente respondeu SAIR, PARAR ou equivalente;Tudo certo. Você não receberá mais mensagens de divulgação da [barbearia].;Pedido de saída;Contato suprimido;Responsável pelo canal

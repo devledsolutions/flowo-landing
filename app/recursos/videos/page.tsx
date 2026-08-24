@@ -9,10 +9,12 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { Breadcrumb } from "@/components/breadcrumb";
 import { Button } from "@/components/ui/button";
+import { DownloadGateModal } from "@/components/download-gate-modal";
 import { ResourceNav } from "@/components/resources/resource-nav";
 import { ResourceCollectionStructuredData } from "@/components/resources/resource-structured-data";
 import { SIGNUP_URL } from "@/components/cta-links";
 import { buildMetadata } from "@/lib/seo";
+import { RESOURCE_MATERIAL_BY_ID } from "@/data/resource-materials";
 
 const PAGE_TITLE = "Roteiros de Shorts e Reels para Barbearias";
 const PAGE_DESCRIPTION =
@@ -123,6 +125,8 @@ const shortsPlan = [
   },
 ];
 
+const reelsMaterial = RESOURCE_MATERIAL_BY_ID["roteiros-shorts-reels"];
+
 export default function VideosPage() {
   return (
     <>
@@ -175,12 +179,22 @@ export default function VideosPage() {
                     Inclui hook, estrutura de roteiro e CTA para cada tema.
                   </p>
                 </div>
-                <Button variant="outline" asChild className="rounded-full sm:flex-shrink-0">
-                  <Link href="/downloads/lead-magnets/roteiros-shorts-reels-30-dias.csv">
+                <DownloadGateModal
+                  resourceTitle={reelsMaterial.title}
+                  resourceDescription={reelsMaterial.description}
+                  downloadUrl={reelsMaterial.downloadUrl}
+                  resourceType={reelsMaterial.resourceType}
+                  requestedResource={reelsMaterial.requestedResource}
+                >
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="rounded-full sm:flex-shrink-0"
+                  >
                     <Download className="mr-2 h-4 w-4" aria-hidden="true" />
-                    Baixar roteiros (CSV)
-                  </Link>
-                </Button>
+                    Receber os 30 roteiros
+                  </Button>
+                </DownloadGateModal>
               </div>
 
               {/* Scripts */}

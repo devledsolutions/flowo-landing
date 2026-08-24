@@ -165,7 +165,7 @@ const objections = [
   {
     question: "Tem teste grátis ou fidelidade?",
     answer:
-      "Não há período de teste. A assinatura começa no primeiro dia, com configuração acompanhada pela equipe Flowo, e não tem fidelidade. Você pode cancelar sem multa e usar até o fim do período já pago.",
+      "Não há teste automático. Para clientes elegíveis dos planos Solo ou Equipe, a equipe pode liberar uma avaliação assistida de 14 dias, sem cartão, renovação ou cobrança automática. A assinatura não tem fidelidade.",
   },
   {
     question: "A IA trabalha sem supervisão?",
@@ -586,8 +586,8 @@ export function SalesCampaignPage() {
               ))}
             </div>
             <p className="mt-6 text-center text-caption text-muted-ink">
-              Mensal ou anual · 2 meses grátis no anual · sem fidelidade · sem
-              período de teste
+              Mensal ou anual · 2 meses grátis no anual · sem fidelidade ·
+              avaliação assistida para clientes elegíveis
             </p>
           </div>
         </section>

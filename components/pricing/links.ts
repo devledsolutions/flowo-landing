@@ -1,6 +1,6 @@
 /**
  * CTA targets for the pricing surfaces.
- * Flowo is pay-first, subscribers-only: the primary CTA goes straight to the
- * app signup (which leads into the plan-driven checkout). No trials.
+ * The public journey is pay-first: the primary CTA goes straight to app signup.
+ * Assisted evaluations are granted manually by sales, not through this link.
  */
-export const SIGNUP_URL = "https://barber.flowo.com.br/sign-up";
+export { SIGNUP_URL } from "@/components/cta-links";

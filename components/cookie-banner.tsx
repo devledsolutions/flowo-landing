@@ -13,6 +13,7 @@ import Link from "next/link";
 export function CookieBanner() {
   const [isVisible, setIsVisible] = useState(false);
   const [showPreferences, setShowPreferences] = useState(false);
+  const [isCampaignPage, setIsCampaignPage] = useState(false);
   const [preferences, setPreferences] = useState<ConsentPreferences>({
     necessary: true,
     analytics: false,
@@ -20,6 +21,10 @@ export function CookieBanner() {
   });
 
   useEffect(() => {
+    setIsCampaignPage(
+      Boolean(document.querySelector('[data-campaign="true"]')),
+    );
+
     const handleOpenPreferences = () => {
       setShowPreferences(true);
       setIsVisible(true);
@@ -74,7 +79,9 @@ export function CookieBanner() {
   return (
     <section
       aria-label="Aviso de cookies"
-      className="fixed bottom-4 left-4 z-50 max-w-sm animate-in slide-in-from-bottom-4 fade-in duration-300"
+      className={`fixed bottom-4 left-4 z-50 max-w-sm animate-in slide-in-from-bottom-4 fade-in duration-300${
+        isCampaignPage ? " flowo-campaign-cookie" : ""
+      }`}
     >
       <div className="overflow-hidden rounded-xl bg-surface shadow-[0_4px_8px_-2px_oklch(0.205_0.012_110/0.22)]">
         {!showPreferences ? (

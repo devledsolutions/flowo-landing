@@ -524,14 +524,31 @@ export function SegmentProvider({ children, writeKey }: SegmentProviderProps) {
         const anonymousId = getAnonymousId();
         const attribution = getAcquisitionContext();
         if (anonymousId) destination.searchParams.set("flowo_aid", anonymousId);
-        if (attribution.utmSource) {
-          destination.searchParams.set("utm_source", attribution.utmSource);
+        const propagatedValues: Array<[string, string | undefined]> = [
+          ["utm_source", attribution.utmSource],
+          ["utm_medium", attribution.utmMedium],
+          ["utm_campaign", attribution.utmCampaign],
+          ["utm_content", attribution.utmContent],
+          ["utm_term", attribution.utmTerm],
+          ["fbclid", attribution.fbclid],
+          ["gclid", attribution.gclid],
+          ["gbraid", attribution.gbraid],
+          ["wbraid", attribution.wbraid],
+          ["msclkid", attribution.msclkid],
+          ["ttclid", attribution.ttclid],
+          ["ctwa_clid", attribution.ctwaClid],
+        ];
+        for (const [key, value] of propagatedValues) {
+          if (value) destination.searchParams.set(key, value);
         }
-        if (attribution.utmMedium) {
-          destination.searchParams.set("utm_medium", attribution.utmMedium);
-        }
-        if (attribution.utmCampaign) {
-          destination.searchParams.set("utm_campaign", attribution.utmCampaign);
+        try {
+          const firstLanding = new URL(
+            attribution.landingPath,
+            window.location.origin
+          );
+          destination.searchParams.set("flowo_landing_path", firstLanding.pathname);
+        } catch {
+          // The signup remains usable when legacy attribution is malformed.
         }
         return destination.toString();
       } catch {
@@ -597,12 +614,15 @@ export function SegmentProvider({ children, writeKey }: SegmentProviderProps) {
           destination_host: destination.hostname,
           destination_path: destination.pathname,
         });
+        if (destination.hostname === "wa.me" || destination.hostname === "api.whatsapp.com") {
+          sendKnownLeadSignal("demo_requested");
+        }
       }
     };
 
     document.addEventListener("click", handleDocumentClick, true);
     return () => document.removeEventListener("click", handleDocumentClick, true);
-  }, [decorateDestination, track]);
+  }, [decorateDestination, sendKnownLeadSignal, track]);
 
   return (
     <SegmentContext.Provider

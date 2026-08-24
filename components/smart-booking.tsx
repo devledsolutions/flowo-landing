@@ -12,13 +12,13 @@ const features = [
     icon: Bell,
     title: "Lembretes e confirmação",
     description:
-      "Lembrete 24h e 2h antes do horário, pelo WhatsApp. O cliente confirma, remarca ou cancela na própria conversa.",
+      "Lembrete 24h e 2h antes do horário. O cliente confirma ou cancela no WhatsApp; no Equipe e Empresarial, também pode remarcar.",
   },
   {
     icon: RefreshCw,
     title: "Calendário sempre em dia",
     description:
-      "Sincronização em tempo real com Google, Apple e Outlook. O que entra na agenda aparece no seu celular.",
+      "No Equipe e Empresarial, conecte Google, Apple ou Outlook. O Google sincroniza nos dois sentidos; os demais recebem os compromissos da Flowo.",
   },
   {
     icon: UserCheck,

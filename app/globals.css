@@ -23,6 +23,7 @@
     --muted-ink: oklch(0.46 0.01 106);        /* body-secondary, ~6.5:1 on cream */
     --faint-ink: oklch(0.54 0.009 104);       /* labels / LARGE text, ≥4.5:1 on cream and warm-white surfaces */
     --line: oklch(0.205 0.012 110 / 0.12);    /* warm hairline; full borders only, never side-stripe */
+    --control-border: oklch(0.205 0.012 110 / 0.52); /* ≥3:1 cue for interactive control boundaries */
 
     /* --- semantic states (rare, low-chroma; never brand decoration) --- */
     --success: oklch(0.62 0.12 150);
@@ -48,7 +49,7 @@
     --destructive: var(--danger);
     --destructive-foreground: oklch(0.988 0.003 95);
     --border: var(--line);
-    --input: var(--surface);
+    --input: var(--control-border);
     --ring: var(--ink);                        /* focus = ink, 2px + 2px offset */
     --radius: 0.75rem;                         /* cards/inputs/media 12px; pills via rounded-full */
 
@@ -84,6 +85,7 @@
     --muted-ink: oklch(0.76 0.006 100);        /* ≥4.5:1 on the ink bg */
     --faint-ink: oklch(0.68 0.007 100);
     --line: oklch(0.955 0.004 92 / 0.14);
+    --control-border: oklch(0.955 0.004 92 / 0.55);
     --ring: oklch(0.955 0.004 92);
     background-color: var(--bg);
     color: var(--ink);
@@ -176,5 +178,45 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* Campaign pages reserve the bottom edge for their primary mobile action.
+   Keep the consent notice above it instead of covering the CTA or form. */
+@media (max-width: 639px) {
+  .flowo-campaign-cookie {
+    bottom: calc(76px + env(safe-area-inset-bottom)) !important;
+    left: 16px !important;
+    max-width: none !important;
+    right: 16px !important;
+  }
+
+  /* Keep the consent surface compact enough to sit between the page content
+     and the fixed campaign CTA. It must never hide the hero action on a
+     390px viewport, while every control keeps a comfortable touch target. */
+  .flowo-campaign-cookie > div > div {
+    padding: 10px 12px !important;
+  }
+
+  .flowo-campaign-cookie .mb-3 {
+    margin-bottom: 6px !important;
+  }
+
+  .flowo-campaign-cookie .mb-3 p {
+    font-size: 0.75rem;
+    line-height: 1.4;
+  }
+
+  .flowo-campaign-cookie .mb-3 button {
+    height: 36px;
+    width: 36px;
+  }
+
+  .flowo-campaign-cookie .flex.gap-2 button {
+    min-height: 40px;
+  }
+
+  .flowo-campaign-cookie .flex.gap-2 {
+    gap: 4px;
   }
 }

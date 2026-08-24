@@ -133,6 +133,7 @@ REFRESHED_GUIDES = (
             "de faltas. O resultado depende da operação e do uso da barbearia."
         ),
         keywords="barbearia, gestão, agenda, equipe, caixa, WhatsApp, Flowo",
+        cta_path="/",
     ),
     guides.Guide(
         slug="referencia-rapida-barbearia",
@@ -190,20 +191,20 @@ REFRESHED_GUIDES = (
         ),
         worksheet_title="Painel de revisão semanal",
         worksheet_intro=(
-            "Use poucas linhas. Agenda ocupada, faltas, ticket, retorno e caixa já "
-            "formam um começo útil quando as definições estão claras."
+            "Revise os cinco indicadores na mesma folha. Registre a fonte ou fórmula "
+            "antes de comparar e escolha uma ação para cada desvio relevante."
         ),
         worksheet_columns=(
-            ("INDICADOR", 105),
-            ("ATUAL", 66),
-            ("ANTERIOR", 76),
-            ("MUDOU", 80),
-            ("AÇÃO", 112),
-            ("RESP.", 72),
+            ("INDICADOR", 95),
+            ("FÓRMULA/FONTE", 112),
+            ("ATUAL", 58),
+            ("ANTERIOR", 62),
+            ("AÇÃO", 114),
+            ("RESP./PRAZO", 70),
         ),
         worksheet_note=(
-            "Registre a fórmula ao lado do painel. Quando a definição mudar, comece "
-            "uma nova série e preserve o histórico anterior."
+            "Use FÓRMULA/FONTE para tornar cada número reproduzível. Se a definição "
+            "mudar, comece uma nova série e preserve o histórico anterior."
         ),
         test_title="Conferências antes da reunião",
         test_intro=(
@@ -247,6 +248,19 @@ REFRESHED_GUIDES = (
             "financeira. Compare dados completos e preserve o contexto."
         ),
         keywords="barbearia, indicadores, agenda, faltas, ticket, retorno, Flowo",
+        cta_path="/",
+        cover_prompt="Escolha números que levem a uma decisão.",
+        how_to_title="Reserve 20 minutos e saia com uma ação.",
+        framework_rule=(
+            "Indicador sem fonte, comparação e ação ainda não orienta a rotina."
+        ),
+        worksheet_rows=(
+            ("Agenda ocupada",),
+            ("Faltas",),
+            ("Ticket médio",),
+            ("Retorno",),
+            ("Caixa",),
+        ),
     ),
     guides.Guide(
         slug="templates-stories-barbearia",
@@ -290,7 +304,7 @@ REFRESHED_GUIDES = (
             ("Ação", "O Story pede para clicar, responder e compartilhar ao mesmo tempo."),
             ("Medição", "Respostas e agendamentos não são ligados ao conteúdo."),
         ),
-        framework_title="Quatro tipos de Story que se alternam",
+        framework_title="Cinco tipos de Story que se alternam",
         framework_intro=(
             "Use a rotina como matéria-prima. A sequência ganha variedade sem perder "
             "a identidade da barbearia."
@@ -361,6 +375,12 @@ REFRESHED_GUIDES = (
             "próprio, respeite direitos de imagem e acompanhe respostas reais."
         ),
         keywords="barbearia, Instagram, Stories, conteúdo, agenda, Flowo",
+        cta_path="/",
+        cover_prompt="Transforme cenas reais em uma semana de conteúdo.",
+        how_to_title="Grave durante a rotina e publique com intenção.",
+        framework_rule=(
+            "Se a cena não aconteceu na barbearia, a história perde credibilidade."
+        ),
     ),
 )
 

@@ -1,15 +1,19 @@
 #!/usr/bin/env python3
-"""Generate the production Flowo Raio-X da Agenda workbook."""
+"""Generate the production Flowo Raio-X da Agenda material."""
 
 from __future__ import annotations
 
 import importlib.util
 import shutil
 from pathlib import Path
+from urllib.parse import urlencode
 
 from reportlab.lib.colors import HexColor
 from reportlab.lib.pagesizes import A4
+from reportlab.pdfbase.pdfdoc import PDFString
 from reportlab.pdfgen import canvas
+
+from tagged_pdf import add_accessible_tags
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -390,7 +394,7 @@ def method_page(c: canvas.Canvas) -> None:
     c.drawString(M + 16, 119, "LEMBRETE")
     base.paragraph(
         c,
-        "C.A.D.E.I.R.A. é um método editorial deste workbook. Não é uma tecnologia proprietária nem uma garantia de resultado.",
+        "C.A.D.E.I.R.A. é um método editorial deste material. Não é uma tecnologia proprietária nem uma garantia de resultado.",
         M + 16,
         98,
         CONTENT_W - 32,
@@ -713,7 +717,7 @@ def next_step(c: canvas.Canvas) -> None:
     base.label(c, "Condições transparentes", M + 16, 270)
     base.paragraph(
         c,
-        "Assinatura paga desde o primeiro dia, sem período de teste e sem fidelidade. Pagamentos integrados são opcionais e acontecem depois do atendimento.",
+        "Não há teste automático no site. Em casos elegíveis, a equipe pode oferecer uma avaliação assistida de 14 dias nos planos Solo ou Equipe. Pagamentos integrados são opcionais e acontecem depois do atendimento.",
         M + 16,
         244,
         CONTENT_W - 32,
@@ -730,7 +734,19 @@ def next_step(c: canvas.Canvas) -> None:
     c.drawCentredString(M + 124, 126, "VER A RECEPÇÃO COM IA")
     c.setFillColor(MUTED)
     c.setFont("Poppins", 7)
-    c.drawString(M, 82, "flowo.com.br/recepcionista-ia-barbearia")
+    cta_query = urlencode(
+        {
+            "utm_source": "flowo_material",
+            "utm_medium": "pdf",
+            "utm_campaign": "raio-x-da-agenda-flowo",
+            "utm_content": "final_cta",
+        }
+    )
+    cta_url = (
+        "https://www.flowo.com.br/agenda-barbearia-whatsapp?" + cta_query
+    )
+    c.drawString(M, 82, "flowo.com.br/agenda-barbearia-whatsapp")
+    c.linkURL(cta_url, (M, 107, M + 248, 155), relative=0)
     page_footer(c, 12)
     c.showPage()
 
@@ -742,23 +758,37 @@ def build_pdf() -> Path:
     c = canvas.Canvas(str(PDF_PATH), pagesize=A4, pageCompression=1)
     c.setTitle("Flowo - Raio-X da Agenda")
     c.setAuthor("Flowo")
+    c.setCreator("Flowo")
     c.setSubject("Raio-X da agenda para barbearias")
     c.setKeywords(
         "barbearia, agenda, WhatsApp, horários, equipe, diagnóstico, Flowo"
     )
-    cover(c)
-    how_to_use(c)
-    diagnostic_page(c, 3, 0)
-    diagnostic_page(c, 4, 6)
-    priority_map(c)
-    method_page(c)
-    journey_page(c)
-    schedules_page(c)
-    handoff_page(c)
-    test_matrix(c)
-    action_plan(c)
-    next_step(c)
+    c.setViewerPreference("DisplayDocTitle", "true")
+    c._doc.Catalog.Lang = PDFString("pt-BR")
+    pages = (
+        ("Capa", "cover", lambda: cover(c)),
+        ("Como usar", "how-to", lambda: how_to_use(c)),
+        ("Diagnóstico 1", "diagnostic-1", lambda: diagnostic_page(c, 3, 0)),
+        ("Diagnóstico 2", "diagnostic-2", lambda: diagnostic_page(c, 4, 6)),
+        ("Mapa de prioridade", "priority", lambda: priority_map(c)),
+        ("Método", "method", lambda: method_page(c)),
+        ("Jornada", "journey", lambda: journey_page(c)),
+        ("Horários individuais", "schedules", lambda: schedules_page(c)),
+        ("Passagem para a equipe", "handoff", lambda: handoff_page(c)),
+        ("Matriz de teste", "tests", lambda: test_matrix(c)),
+        ("Plano de ação", "action-plan", lambda: action_plan(c)),
+        ("Como a Flowo ajuda", "next-step", lambda: next_step(c)),
+    )
+    for title, key, render in pages:
+        c.bookmarkPage(key)
+        c.addOutlineEntry(title, key, level=0, closed=False)
+        render()
     c.save()
+    add_accessible_tags(
+        PDF_PATH,
+        title="Flowo - Raio-X da Agenda",
+        page_titles=[title for title, _key, _render in pages],
+    )
     shutil.copyfile(PDF_PATH, PUBLIC_PATH)
     return PDF_PATH
 

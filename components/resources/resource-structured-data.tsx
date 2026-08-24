@@ -95,7 +95,16 @@ export function ResourceCollectionStructuredData({
   title: string;
   description: string;
   path: string;
-  items: { name: string; path: string; description?: string }[];
+  items: {
+    name: string;
+    path: string;
+    description?: string;
+    /** HTML page or anchor that explains the resource. */
+    canonicalPath?: string;
+    /** Optional downloadable media represented as a MediaObject. */
+    mediaUrl?: string;
+    encodingFormat?: string;
+  }[];
   breadcrumbLabel: string;
 }) {
   const url = absoluteUrl(path);
@@ -112,13 +121,43 @@ export function ResourceCollectionStructuredData({
         mainEntity: {
           "@type": "ItemList",
           numberOfItems: items.length,
-          itemListElement: items.map((item, index) => ({
-            "@type": "ListItem",
-            position: index + 1,
-            url: absoluteUrl(item.path),
-            name: item.name,
-            ...(item.description ? { description: item.description } : {}),
-          })),
+          itemListElement: items.map((item, index) => {
+            const canonicalUrl = absoluteUrl(item.canonicalPath ?? item.path);
+            const mediaUrl = item.mediaUrl ? absoluteUrl(item.mediaUrl) : null;
+            const document = item.mediaUrl
+              ? {
+                  "@type": "MediaObject",
+                  "@id": `${canonicalUrl}#download`,
+                  name: item.name,
+                  url: canonicalUrl,
+                  contentUrl: mediaUrl,
+                  encodingFormat: item.encodingFormat,
+                  inLanguage: "pt-BR",
+                  isAccessibleForFree: true,
+                  mainEntityOfPage: canonicalUrl,
+                  isPartOf: { "@id": `${url}#collection` },
+                  ...(item.description
+                    ? { description: item.description }
+                    : {}),
+                }
+              : {
+                  "@type": "CreativeWork",
+                  "@id": canonicalUrl,
+                  name: item.name,
+                  url: canonicalUrl,
+                  inLanguage: "pt-BR",
+                  isPartOf: { "@id": `${url}#collection` },
+                  ...(item.description
+                    ? { description: item.description }
+                    : {}),
+                };
+
+            return {
+              "@type": "ListItem",
+              position: index + 1,
+              item: document,
+            };
+          }),
         },
       },
       {

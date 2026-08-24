@@ -65,7 +65,7 @@ export default function OnboardingClose() {
               </TrackedLink>
             </div>
             <p className="mt-5 text-caption text-muted-ink">
-              Assinatura paga desde o início · sem fidelidade · suporte em português
+              Jornada pública paga · sem fidelidade · configuração acompanhada
             </p>
           </div>
         </div>

@@ -39,7 +39,7 @@ export default function SchemaMarkup() {
       "Agendamento pelo WhatsApp com IA",
       "Lembretes e confirmação automática",
       "Gestão de múltiplos barbeiros",
-      "Sincronização com Google, Apple e Outlook",
+      "Calendários externos nos planos Equipe e Empresarial",
       "Histórico de clientes",
       "Comandas com registro da forma de recebimento",
       "Relatórios de faturamento",

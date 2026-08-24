@@ -6,23 +6,27 @@ import { CheckCircle2, Download, LoaderCircle } from "lucide-react";
 import { TurnstileWidget } from "@/components/turnstile-widget";
 import { useSegment } from "@/providers/segment-provider";
 import { useLeadRemarketing } from "@/hooks/use-lead-remarketing";
+import { buildWhatsAppUrl } from "@/components/cta-links";
 import styles from "@/components/design-review/lead-offer-landing.module.css";
 
 export type LeadMagnetConfig = {
   resourceId: string;
   resourceUrl: string;
   source: string;
+  resourceFormat?: "PDF" | "XLSX";
   submitLabel: string;
   successTitle: string;
   successDescription?: string;
   productCtaLabel?: string;
   productCtaHref?: string;
+  showTrialInterest?: boolean;
 };
 
 const DEFAULT_CONFIG: LeadMagnetConfig = {
   resourceId: "raio_x_agenda",
   resourceUrl: "/downloads/raio-x-da-agenda-flowo.pdf",
   source: "download:raio-x-agenda",
+  resourceFormat: "PDF",
   submitLabel: "Baixar meu Raio-X da Agenda",
   successTitle: "Seu Raio-X da Agenda está pronto.",
   successDescription:
@@ -57,12 +61,15 @@ export function LeadMagnetForm({
     resourceId,
     resourceUrl,
     source,
+    resourceFormat = DEFAULT_CONFIG.resourceFormat,
     submitLabel,
     successTitle,
     successDescription = DEFAULT_CONFIG.successDescription,
     productCtaLabel = DEFAULT_CONFIG.productCtaLabel,
     productCtaHref = DEFAULT_CONFIG.productCtaHref,
+    showTrialInterest = false,
   } = config;
+  const resourceType = resourceFormat === "XLSX" ? "spreadsheet" : "pdf";
   const fieldPrefix = `lead-magnet-${resourceId.replaceAll("_", "-")}`;
   const {
     track,
@@ -76,6 +83,7 @@ export function LeadMagnetForm({
   const [phone, setPhone] = useState("");
   const [company, setCompany] = useState("");
   const [deliveryConsent, setDeliveryConsent] = useState(false);
+  const [trialInterest, setTrialInterest] = useState(false);
   const [emailMarketingConsent, setEmailMarketingConsent] = useState(false);
   const [smsMarketingConsent, setSmsMarketingConsent] = useState(false);
   const [whatsappMarketingConsent, setWhatsappMarketingConsent] = useState(false);
@@ -88,7 +96,7 @@ export function LeadMagnetForm({
   useEffect(() => {
     track("Lead Magnet Viewed", {
       resource_id: resourceId,
-      resource_type: "pdf",
+      resource_type: resourceType,
     });
 
     const handleCtaClick = (event: MouseEvent) => {
@@ -102,7 +110,7 @@ export function LeadMagnetForm({
 
     document.addEventListener("click", handleCtaClick, true);
     return () => document.removeEventListener("click", handleCtaClick, true);
-  }, [resourceId, track]);
+  }, [resourceId, resourceType, track]);
 
   const markStarted = () => {
     if (startedRef.current) return;
@@ -125,6 +133,7 @@ export function LeadMagnetForm({
       sms_marketing_opt_in: Boolean(normalizedPhone) && smsMarketingConsent,
       whatsapp_marketing_opt_in:
         Boolean(normalizedPhone) && whatsappMarketingConsent,
+      trial_interest: showTrialInterest && trialInterest,
     });
 
     try {
@@ -139,6 +148,10 @@ export function LeadMagnetForm({
           requestedResource: resourceId,
           company,
           consent: deliveryConsent,
+          salesContactRequestChannels: trialInterest ? ["email"] : undefined,
+          salesContactRequestMessage: trialInterest
+            ? `Interesse em avaliação assistida após receber o material ${resourceId}.`
+            : undefined,
           emailMarketingConsent,
           smsMarketingConsent: Boolean(normalizedPhone) && smsMarketingConsent,
           whatsappMarketingConsent:
@@ -176,6 +189,7 @@ export function LeadMagnetForm({
         sms_marketing_opt_in: Boolean(normalizedPhone) && smsMarketingConsent,
         whatsapp_marketing_opt_in:
           Boolean(normalizedPhone) && whatsappMarketingConsent,
+        flowo_trial_interest: showTrialInterest && trialInterest,
       });
       trackLeadRemarketing({
         eventId: data.metaEventId,
@@ -185,6 +199,7 @@ export function LeadMagnetForm({
       track("Lead Magnet Delivered", {
         resource_id: resourceId,
         delivery_method: "page_and_email",
+        trial_interest: showTrialInterest && trialInterest,
       });
       if (
         emailMarketingConsent ||
@@ -220,6 +235,12 @@ export function LeadMagnetForm({
           <p className={styles.successEyebrow}>Material liberado</p>
           <h3>{successTitle}</h3>
           <p>{successDescription}</p>
+          {showTrialInterest && trialInterest ? (
+            <p className={styles.successFollowup}>
+              Registramos seu interesse na avaliação assistida. A equipe pode
+              responder pelo e-mail informado para explicar os próximos passos.
+            </p>
+          ) : null}
         </div>
         <a
           className={styles.downloadButton}
@@ -250,6 +271,22 @@ export function LeadMagnetForm({
             {productCtaLabel}
           </Link>
         ) : null}
+        <a
+          className={styles.productLink}
+          href={buildWhatsAppUrl(
+            "Olá! Baixei um material da Flowo e quero entender se o sistema faz sentido para a minha barbearia."
+          )}
+          target="_blank"
+          rel="noreferrer"
+          onClick={() =>
+            track("Lead Magnet WhatsApp CTA Clicked", {
+              resource_id: resourceId,
+              placement: "success",
+            })
+          }
+        >
+          Falar com a Flowo no WhatsApp
+        </a>
       </div>
     );
   }
@@ -284,7 +321,7 @@ export function LeadMagnetForm({
         />
       </label>
       <label htmlFor={`${fieldPrefix}-email`}>
-        E-mail para receber o PDF
+        E-mail para receber o {resourceFormat}
         <input
           id={`${fieldPrefix}-email`}
           name="email"
@@ -331,6 +368,19 @@ export function LeadMagnetForm({
           <Link href="/termos">Termos de Uso</Link>.
         </span>
       </label>
+      {showTrialInterest ? (
+        <label className={styles.consent}>
+          <input
+            checked={trialInterest}
+            onChange={(event) => setTrialInterest(event.target.checked)}
+            type="checkbox"
+          />
+          <span>
+            Quero saber se minha barbearia pode fazer uma avaliação assistida de
+            14 dias. A equipe responde pelo e-mail informado.
+          </span>
+        </label>
+      ) : null}
       <label className={styles.consent}>
         <input
           checked={emailMarketingConsent}
@@ -395,7 +445,7 @@ export function LeadMagnetForm({
         )}
       </button>
       <p>
-        Você recebe o PDF mesmo sem aceitar marketing por e-mail, WhatsApp ou
+        Você recebe o {resourceFormat} mesmo sem aceitar marketing por e-mail, WhatsApp ou
         SMS. Se aceitar, pode cancelar quando quiser.
       </p>
     </form>

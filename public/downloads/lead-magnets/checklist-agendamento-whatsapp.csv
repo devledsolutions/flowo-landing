@@ -1,5 +1,17 @@
-Etapa,Status,Observacao
-Configurar mensagens de boas-vindas,Pendente,
-Definir janelas de confirmação,Pendente,
-Criar resposta para remarcação,Pendente,
-Revisar tempo médio entre serviços,Pendente,
+﻿Área;Verificação;Status;Responsável;Data;Resultado;Observações
+Base;Definir o número oficial da barbearia;Pendente;;;;
+Base;Definir a agenda usada por cada profissional;Pendente;;;;
+Base;Cadastrar serviços, duração e intervalos;Pendente;;;;
+Atendimento;Escrever uma apresentação curta e humana;Pendente;;;;
+Atendimento;Perguntar serviço, profissional e dia quando necessário;Pendente;;;;
+Atendimento;Oferecer apenas horários realmente livres;Pendente;;;;
+Atendimento;Confirmar todos os detalhes antes de registrar;Pendente;;;;
+Exceções;Definir quando chamar uma pessoa da equipe;Pendente;;;;
+Exceções;Testar remarcação e cancelamento;Pendente;;;;
+Exceções;Testar cliente sem cadastro ou com pedido incompleto;Pendente;;;;
+Privacidade;Separar mensagens de serviço de campanhas;Pendente;;;;
+Privacidade;Registrar quem permitiu receber ofertas;Pendente;;;;
+Privacidade;Testar SAIR/PARAR e interromper somente divulgações;Pendente;;;;
+Exceções;Testar CANCELAR como pedido do agendamento, sem mexer na permissão de ofertas;Pendente;;;;
+Qualidade;Revisar conversa do início ao fim;Pendente;;;;
+Qualidade;Medir respostas, agendamentos e falhas;Pendente;;;;

@@ -37,7 +37,7 @@ export const productFacts: readonly ProductFact[] = [
     icon: CalendarCheck2,
     title: "Confirmação automática",
     detail:
-      "Lembrete antes do horário. O cliente confirma, remarca ou cancela respondendo a mensagem.",
+      "Lembrete antes do horário. O cliente confirma ou cancela no WhatsApp; no Equipe e Empresarial, também pode remarcar.",
   },
   {
     icon: CreditCard,
@@ -49,7 +49,7 @@ export const productFacts: readonly ProductFact[] = [
     icon: Users,
     title: "Agenda da equipe em um lugar",
     detail:
-      "Cada barbeiro vê a própria agenda, sincronizada com Google, Apple e Outlook.",
+      "No Equipe e Empresarial, cada barbeiro tem seus horários e pode conectar Google, Apple ou Outlook.",
   },
 ]
 
@@ -68,7 +68,7 @@ export const noShowMechanism: readonly MechanismStep[] = [
   {
     title: "O cliente responde no chat",
     detail:
-      "Confirma, remarca ou cancela sem ligar e sem interromper a equipe.",
+      "Confirma ou cancela sem ligar; no Equipe e Empresarial, também pode remarcar.",
   },
   {
     title: "A agenda se ajusta sozinha",

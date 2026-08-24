@@ -1,13 +1,30 @@
 "use client";
 
-import { useState } from "react";
+import {
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type FormEvent,
+  type ReactElement,
+} from "react";
+import Link from "next/link";
 import * as Sentry from "@sentry/nextjs";
+import {
+  CheckCircle2,
+  ChevronDown,
+  Download,
+  FileText,
+  MessageCircle,
+  XCircle,
+} from "lucide-react";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,25 +36,39 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import countries from "@/lib/countries";
-import { FlagIcon, FlagIconCode } from "react-flag-kit";
-import { CheckCircle2, XCircle, Download, FileText } from "lucide-react";
-import { TurnstileWidget } from "@/components/turnstile-widget";
-import { useSegment } from "@/providers/segment-provider";
+import {
+  TurnstileWidget,
+  type TurnstileStatus,
+} from "@/components/turnstile-widget";
+import { buildWhatsAppUrl } from "@/components/cta-links";
 import { useLeadRemarketing } from "@/hooks/use-lead-remarketing";
-import Link from "next/link";
+import countries from "@/lib/countries";
+import { useSegment } from "@/providers/segment-provider";
+import { FlagIcon, type FlagIconCode } from "react-flag-kit";
 
 const formatPhoneNumber = (phone: string, dialCode: string) => {
   const cleaned = phone.replace(/\D/g, "");
   if (dialCode === "+55" && cleaned.length >= 10) {
     if (cleaned.length === 11) {
       return `(${cleaned.slice(0, 2)}) ${cleaned.slice(2, 7)}-${cleaned.slice(7)}`;
-    } else if (cleaned.length === 10) {
+    }
+    if (cleaned.length === 10) {
       return `(${cleaned.slice(0, 2)}) ${cleaned.slice(2, 6)}-${cleaned.slice(6)}`;
     }
   }
   return phone;
 };
+
+interface DownloadGateModalProps {
+  children?: ReactElement;
+  resourceTitle: string;
+  resourceDescription: string;
+  downloadUrl: string;
+  resourceType?: "pdf" | "spreadsheet" | "template";
+  requestedResource?: string;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+}
 
 const RESOURCE_TYPE_LABEL: Record<
   NonNullable<DownloadGateModalProps["resourceType"]>,
@@ -48,14 +79,14 @@ const RESOURCE_TYPE_LABEL: Record<
   template: "Modelo",
 };
 
-interface DownloadGateModalProps {
-  children: React.ReactNode;
-  resourceTitle: string;
-  resourceDescription: string;
-  downloadUrl: string;
-  resourceType?: "pdf" | "spreadsheet" | "template";
-  requestedResource?: string;
-}
+const RESOURCE_TYPE_FREE_LABEL: Record<
+  NonNullable<DownloadGateModalProps["resourceType"]>,
+  string
+> = {
+  pdf: "PDF gratuito",
+  spreadsheet: "Planilha gratuita",
+  template: "Modelo gratuito",
+};
 
 export function DownloadGateModal({
   children,
@@ -64,20 +95,25 @@ export function DownloadGateModal({
   downloadUrl,
   resourceType = "pdf",
   requestedResource,
+  open: controlledOpen,
+  onOpenChange,
 }: DownloadGateModalProps) {
+  const idPrefix = `download-${useId().replace(/:/g, "")}`;
   const trackLeadRemarketing = useLeadRemarketing();
-  const {
-    track,
-    identify,
-    getAnonymousId,
-    getAcquisitionContext,
-  } = useSegment();
-  const [isOpen, setIsOpen] = useState(false);
+  const { track, identify, getAnonymousId, getAcquisitionContext } = useSegment();
+  const stableRequestedResource = requestedResource || resourceTitle;
+  const turnstileRequired = Boolean(
+    process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
+  );
+  const [internalOpen, setInternalOpen] = useState(false);
+  const isOpen = controlledOpen ?? internalOpen;
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
   const [company, setCompany] = useState("");
   const [turnstileToken, setTurnstileToken] = useState("");
+  const [turnstileStatus, setTurnstileStatus] =
+    useState<TurnstileStatus>("loading");
   const [emailMarketingConsent, setEmailMarketingConsent] = useState(false);
   const [whatsappMarketingConsent, setWhatsappMarketingConsent] = useState(false);
   const [smsMarketingConsent, setSmsMarketingConsent] = useState(false);
@@ -87,9 +123,120 @@ export function DownloadGateModal({
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const requestGenerationRef = useRef(0);
+  const abortControllerRef = useRef<AbortController | null>(null);
+  const nameInputRef = useRef<HTMLInputElement | null>(null);
+  const successTitleRef = useRef<HTMLHeadingElement | null>(null);
+  const errorTitleRef = useRef<HTMLHeadingElement | null>(null);
+  const shouldFocusFormRef = useRef(false);
+  const wasOpenRef = useRef(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  useEffect(() => {
+    if (isOpen && !wasOpenRef.current) {
+      track("Lead Form Opened", {
+        form: "resource_download",
+        resource_title: resourceTitle,
+        resource_type: resourceType,
+        requested_resource: stableRequestedResource,
+      });
+    }
+    wasOpenRef.current = isOpen;
+  }, [isOpen, resourceTitle, resourceType, stableRequestedResource, track]);
+
+  useEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+
+    const target = isSuccess
+      ? successTitleRef.current
+      : isError
+        ? errorTitleRef.current
+        : shouldFocusFormRef.current
+          ? nameInputRef.current
+          : null;
+
+    if (!target) {
+      return;
+    }
+
+    shouldFocusFormRef.current = false;
+    const animationFrame = window.requestAnimationFrame(() => target.focus());
+    return () => window.cancelAnimationFrame(animationFrame);
+  }, [isError, isOpen, isSuccess]);
+
+  useEffect(
+    () => () => {
+      requestGenerationRef.current += 1;
+      abortControllerRef.current?.abort();
+    },
+    [],
+  );
+
+  const resetForm = () => {
+    setName("");
+    setEmail("");
+    setWhatsapp("");
+    setCompany("");
+    setTurnstileToken("");
+    setTurnstileStatus("loading");
+    setEmailMarketingConsent(false);
+    setWhatsappMarketingConsent(false);
+    setSmsMarketingConsent(false);
+    setCountryCode("BR");
+    setDialCode("+55");
+    setIsSuccess(false);
+    setIsError(false);
+    setErrorMessage("");
+    shouldFocusFormRef.current = false;
+  };
+
+  const handleOpenChange = (open: boolean) => {
+    if (controlledOpen === undefined) {
+      setInternalOpen(open);
+    }
+    onOpenChange?.(open);
+    if (!open) {
+      requestGenerationRef.current += 1;
+      abortControllerRef.current?.abort();
+      abortControllerRef.current = null;
+      setIsSubmitting(false);
+      resetForm();
+    }
+  };
+
+  const handleCountryChange = (value: string) => {
+    const [code, dial] = value.split(":");
+    setCountryCode(code as FlagIconCode);
+    setDialCode(dial);
+    if (code !== "BR") {
+      setWhatsappMarketingConsent(false);
+      setSmsMarketingConsent(false);
+    }
+  };
+
+  const handleDownloadClick = () => {
+    track("Resource Downloaded", {
+      resource_name: resourceTitle,
+      resource_type: resourceType,
+      resource_url: downloadUrl,
+      requested_resource: stableRequestedResource,
+    });
+    Sentry.addBreadcrumb({
+      category: "download-gate-modal",
+      message: "Resource download started by the lead",
+      level: "info",
+      data: { resourceTitle },
+    });
+  };
+
+  const handleSubmit = async (event: FormEvent) => {
+    event.preventDefault();
+    abortControllerRef.current?.abort();
+    const controller = new AbortController();
+    const requestGeneration = requestGenerationRef.current + 1;
+    requestGenerationRef.current = requestGeneration;
+    abortControllerRef.current = controller;
     setIsSubmitting(true);
     setIsError(false);
     setErrorMessage("");
@@ -97,7 +244,7 @@ export function DownloadGateModal({
       form: "resource_download",
       resource_title: resourceTitle,
       resource_type: resourceType,
-      requested_resource: requestedResource,
+      requested_resource: stableRequestedResource,
     });
 
     Sentry.addBreadcrumb({
@@ -106,9 +253,9 @@ export function DownloadGateModal({
       level: "info",
       data: {
         resourceTitle,
-        hasName: !!name,
-        hasEmail: !!email,
-        hasWhatsapp: !!whatsapp,
+        hasName: Boolean(name),
+        hasEmail: Boolean(email),
+        hasWhatsapp: Boolean(whatsapp),
         countryCode,
       },
     });
@@ -116,9 +263,7 @@ export function DownloadGateModal({
     try {
       const response = await fetch("/api/lead-capture", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name,
           email,
@@ -138,6 +283,7 @@ export function DownloadGateModal({
           segmentAnonymousId: getAnonymousId(),
           turnstileToken,
         }),
+        signal: controller.signal,
       });
 
       const data = (await response.json()) as {
@@ -145,31 +291,35 @@ export function DownloadGateModal({
         metaEventId?: string;
       };
 
+      if (
+        controller.signal.aborted ||
+        requestGeneration !== requestGenerationRef.current
+      ) {
+        return;
+      }
+
       if (!response.ok) {
-        const errorMessage = data.message || "Ocorreu um erro. Tente novamente.";
+        const responseMessage = data.message || "Ocorreu um erro. Tente novamente.";
         setIsError(true);
-        setErrorMessage(errorMessage);
+        setErrorMessage(responseMessage);
         track("Lead Form Failed", {
           form: "resource_download",
           resource_title: resourceTitle,
+          resource_type: resourceType,
+          requested_resource: stableRequestedResource,
           status_code: response.status,
         });
-
         Sentry.captureMessage("Download gate form submission failed", {
           level: "warning",
-          tags: {
-            component: "download-gate-modal",
-            error_type: "api_error",
-          },
+          tags: { component: "download-gate-modal", error_type: "api_error" },
           extra: {
             statusCode: response.status,
-            errorMessage,
-            hasName: !!name,
-            hasEmail: !!email,
+            errorMessage: responseMessage,
+            hasName: Boolean(name),
+            hasEmail: Boolean(email),
             resourceTitle,
           },
         });
-
         return;
       }
 
@@ -177,14 +327,14 @@ export function DownloadGateModal({
       trackLeadRemarketing({
         eventId: data.metaEventId,
         source: `download:${resourceTitle}`,
-        resource: requestedResource || resourceTitle,
+        resource: stableRequestedResource,
       });
       identify(undefined, {
         email,
         name,
         ...(whatsapp ? { phone: `${dialCode}${whatsapp}` } : {}),
         lead_source: `download:${resourceTitle}`,
-        ...(requestedResource ? { requested_resource: requestedResource } : {}),
+        requested_resource: stableRequestedResource,
         email_marketing_opt_in: emailMarketingConsent,
         whatsapp_marketing_opt_in:
           Boolean(whatsapp) &&
@@ -197,7 +347,7 @@ export function DownloadGateModal({
         form: "resource_download",
         resource_title: resourceTitle,
         resource_type: resourceType,
-        requested_resource: requestedResource,
+        requested_resource: stableRequestedResource,
         email_marketing_opt_in: emailMarketingConsent,
         whatsapp_marketing_opt_in:
           Boolean(whatsapp) &&
@@ -206,44 +356,33 @@ export function DownloadGateModal({
         sms_marketing_opt_in:
           Boolean(whatsapp) && countryCode === "BR" && smsMarketingConsent,
       });
-      track("Resource Downloaded", {
-        resource_name: resourceTitle,
-        resource_type: resourceType,
-        resource_url: downloadUrl,
-      });
+    } catch (error) {
+      if (
+        controller.signal.aborted ||
+        requestGeneration !== requestGenerationRef.current
+      ) {
+        return;
+      }
 
-      Sentry.addBreadcrumb({
-        category: "download-gate-modal",
-        message: "Form submitted successfully, initiating download",
-        level: "info",
-        data: { resourceTitle },
-      });
-
-      setTimeout(() => {
-        window.open(downloadUrl, "_blank");
-      }, 1500);
-    } catch (err) {
       setIsError(true);
       setErrorMessage("Não foi possível conectar. Verifique sua internet e tente novamente.");
       track("Lead Form Failed", {
         form: "resource_download",
         resource_title: resourceTitle,
+        resource_type: resourceType,
+        requested_resource: stableRequestedResource,
         status_code: 0,
       });
-
-      Sentry.captureException(err, {
+      Sentry.captureException(error, {
         level: "error",
-        tags: {
-          component: "download-gate-modal",
-          error_type: "network_error",
-        },
+        tags: { component: "download-gate-modal", error_type: "network_error" },
         contexts: {
           form: {
             name: "Download Gate Form",
             data: {
-              hasName: !!name,
-              hasEmail: !!email,
-              hasWhatsapp: !!whatsapp,
+              hasName: Boolean(name),
+              hasEmail: Boolean(email),
+              hasWhatsapp: Boolean(whatsapp),
               countryCode,
               dialCode,
               resourceTitle,
@@ -251,340 +390,343 @@ export function DownloadGateModal({
           },
         },
         extra: {
-          errorMessage: err instanceof Error ? err.message : "Unknown error",
+          errorMessage: error instanceof Error ? error.message : "Unknown error",
         },
       });
     } finally {
-      setIsSubmitting(false);
+      if (requestGeneration === requestGenerationRef.current) {
+        abortControllerRef.current = null;
+        setIsSubmitting(false);
+      }
     }
   };
 
-  const resetForm = () => {
-    setName("");
-    setEmail("");
-    setWhatsapp("");
-    setCompany("");
-    setTurnstileToken("");
-    setEmailMarketingConsent(false);
-    setWhatsappMarketingConsent(false);
-    setSmsMarketingConsent(false);
-    setCountryCode("BR");
-    setDialCode("+55");
-    setIsSuccess(false);
+  const formDisabled =
+    isSubmitting ||
+    (turnstileRequired &&
+      (!turnstileToken || turnstileStatus !== "verified"));
+
+  const handleReturnToForm = () => {
+    shouldFocusFormRef.current = true;
     setIsError(false);
     setErrorMessage("");
   };
 
-  const handleOpenChange = (open: boolean) => {
-    setIsOpen(open);
-    if (!open) {
-      resetForm();
-    }
-  };
-
-  const handleCountryChange = (value: string) => {
-    const [code, dial] = value.split(":");
-    setCountryCode(code as FlagIconCode);
-    setDialCode(dial);
-    if (code !== "BR") {
-      setWhatsappMarketingConsent(false);
-      setSmsMarketingConsent(false);
-    }
-  };
-
-  const handleWhatsAppChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const input = e.target.value.replace(/\D/g, "");
-    setWhatsapp(input);
-  };
-
   return (
-    <>
-      <div
-        onClick={() => {
-          setIsOpen(true);
-          track("Lead Form Opened", {
-            form: "resource_download",
-            resource_title: resourceTitle,
-            resource_type: resourceType,
-          });
-        }}
-        className="cursor-pointer"
-      >
-        {children}
-      </div>
-      <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-        <DialogContent className="max-w-md rounded-xl">
-          {isSuccess ? (
-            <div className="py-6 text-center" role="status">
-              <div className="mb-4 flex justify-center">
-                <CheckCircle2 aria-hidden="true" className="h-16 w-16 text-success" />
-              </div>
-              <DialogHeader>
-                <DialogTitle className="mb-2 text-h3 font-semibold sm:text-center">
-                  Download iniciado!
+    <Dialog open={isOpen} onOpenChange={handleOpenChange}>
+      {children ? <DialogTrigger asChild>{children}</DialogTrigger> : null}
+      <DialogContent className="bottom-0 top-auto flex max-h-[92dvh] w-[calc(100%-0.75rem)] max-w-none -translate-y-0 flex-col gap-0 overflow-hidden rounded-t-xl border-line bg-background p-0 sm:bottom-auto sm:top-1/2 sm:max-h-[88dvh] sm:max-w-lg sm:-translate-y-1/2 sm:rounded-xl">
+        {isSuccess ? (
+          <div className="flex min-h-0 flex-col">
+            <div className="overflow-y-auto px-6 pb-6 pt-8 text-center sm:px-8" role="status">
+              <CheckCircle2 aria-hidden="true" className="mx-auto h-12 w-12 text-success" />
+              <DialogHeader className="mt-5">
+                <DialogTitle
+                  ref={successTitleRef}
+                  tabIndex={-1}
+                  className="text-h3 font-semibold focus:outline-none sm:text-center"
+                >
+                  Seu material está pronto
                 </DialogTitle>
-                <DialogDescription className="text-body text-muted-ink sm:text-center">
-                  O download de &ldquo;{resourceTitle}&rdquo; vai começar
-                  automaticamente. Se não iniciar, clique no botão abaixo.
+                <DialogDescription className="mt-2 text-body leading-relaxed text-muted-ink sm:text-center">
+                  Já solicitamos o envio deste link para o e-mail informado. Se
+                  quiser, baixe &ldquo;{resourceTitle}&rdquo; agora pelo botão abaixo.
                 </DialogDescription>
               </DialogHeader>
-              <div className="mt-6 space-y-3">
-                <Button
-                  onClick={() => window.open(downloadUrl, "_blank")}
-                  className="w-full rounded-full"
-                >
+              <p className="mt-5 text-caption leading-relaxed text-faint-ink">
+                Se o download não aparecer, este mesmo botão continua disponível
+                enquanto a janela estiver aberta.
+              </p>
+            </div>
+            <div className="shrink-0 border-t border-line bg-background px-6 pb-[max(1rem,env(safe-area-inset-bottom))] pt-4 sm:px-8">
+              <Button asChild className="w-full rounded-full">
+                <a href={downloadUrl} download onClick={handleDownloadClick}>
                   <Download aria-hidden="true" className="mr-2 h-4 w-4" />
-                  Baixar novamente
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => handleOpenChange(false)}
-                  className="w-full rounded-full"
-                >
-                  Fechar
-                </Button>
-              </div>
+                  Baixar {RESOURCE_TYPE_LABEL[resourceType]}
+                </a>
+              </Button>
+              <a
+                href={buildWhatsAppUrl(
+                  "Olá! Baixei um material da Flowo e quero entender se o sistema faz sentido para a minha barbearia.",
+                )}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() =>
+                  track("Lead Magnet WhatsApp CTA Clicked", {
+                    resource_id: stableRequestedResource,
+                    requested_resource: stableRequestedResource,
+                    placement: "download_success",
+                  })
+                }
+                className="mt-3 flex min-h-10 items-center justify-center gap-2 text-caption font-semibold text-ink underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink"
+              >
+                <MessageCircle aria-hidden="true" className="h-4 w-4" />
+                Tirar uma dúvida no WhatsApp
+              </a>
             </div>
-          ) : isError ? (
-            <div className="py-6 text-center" role="alert">
-              <div className="mb-4 flex justify-center">
-                <XCircle aria-hidden="true" className="h-16 w-16 text-danger" />
-              </div>
-              <DialogHeader>
-                <DialogTitle className="mb-2 text-h3 font-semibold sm:text-center">
-                  Algo deu errado
+          </div>
+        ) : isError ? (
+          <div className="flex min-h-0 flex-col">
+            <div className="overflow-y-auto px-6 pb-6 pt-8 text-center sm:px-8" role="alert">
+              <XCircle aria-hidden="true" className="mx-auto h-12 w-12 text-danger" />
+              <DialogHeader className="mt-5">
+                <DialogTitle
+                  ref={errorTitleRef}
+                  tabIndex={-1}
+                  className="text-h3 font-semibold focus:outline-none sm:text-center"
+                >
+                  Não conseguimos liberar o arquivo
                 </DialogTitle>
-                <DialogDescription className="text-body text-muted-ink sm:text-center">
-                  {errorMessage ||
-                    "Não conseguimos processar sua solicitação no momento."}
+                <DialogDescription className="mt-2 text-body text-muted-ink sm:text-center">
+                  {errorMessage || "Tente novamente em alguns instantes."}
                 </DialogDescription>
               </DialogHeader>
-              <div className="mt-6 space-y-3">
-                <Button
-                  onClick={() => setIsError(false)}
-                  className="w-full rounded-full"
-                >
-                  Tentar novamente
-                </Button>
-                <Button
-                  onClick={() => handleOpenChange(false)}
-                  variant="outline"
-                  className="w-full rounded-full"
-                >
-                  Fechar
-                </Button>
-              </div>
             </div>
-          ) : (
-            <>
-              <DialogHeader>
-                <div className="mb-2 flex items-center gap-3">
-                  <div className="rounded-lg bg-secondary p-3">
-                    <FileText aria-hidden="true" className="h-7 w-7 text-ink" />
-                  </div>
-                  <div className="text-left">
-                    <p className="text-caption font-medium uppercase tracking-wide text-muted-ink">
-                      {RESOURCE_TYPE_LABEL[resourceType]} gratuito
-                    </p>
-                    <DialogTitle className="mt-0.5 text-xl font-semibold">
-                      {resourceTitle}
-                    </DialogTitle>
-                    <DialogDescription className="mt-1 text-sm text-muted-ink">
-                      {resourceDescription}
-                    </DialogDescription>
-                  </div>
+            <div className="shrink-0 border-t border-line bg-background px-6 pb-[max(1rem,env(safe-area-inset-bottom))] pt-4 sm:px-8">
+              <Button onClick={handleReturnToForm} className="w-full rounded-full">
+                Tentar novamente
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <>
+            <DialogHeader className="shrink-0 border-b border-line px-6 pb-5 pt-6 pr-14 sm:px-8 sm:pt-7">
+              <div className="flex items-start gap-3 text-left">
+                <div className="mt-0.5 rounded-lg border border-line bg-surface-2 p-2.5">
+                  <FileText aria-hidden="true" className="h-5 w-5 text-ink" />
                 </div>
-              </DialogHeader>
-              <div className="mt-2">
-                <p className="mb-4 text-sm text-muted-ink">
-                  Preencha seus dados para baixar gratuitamente:
-                </p>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <input
-                    type="text"
-                    name="company"
-                    value={company}
-                    onChange={(e) => setCompany(e.target.value)}
-                    className="hidden"
-                    tabIndex={-1}
-                    autoComplete="off"
-                    aria-hidden="true"
-                  />
-                  <div className="space-y-1.5">
-                    <Label htmlFor="download-name">Nome</Label>
-                    <Input
-                      id="download-name"
-                      value={name}
-                      autoComplete="name"
-                      onChange={(e) => setName(e.target.value)}
-                      placeholder="Seu nome"
-                      required
-                    />
-                  </div>
-                  <div className="space-y-1.5">
-                    <Label htmlFor="download-email">E-mail</Label>
-                    <Input
-                      id="download-email"
-                      type="email"
-                      autoComplete="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="seu@email.com"
-                      required
-                    />
-                  </div>
-                  <div className="space-y-1.5">
-                    <Label htmlFor="download-whatsapp">
-                      WhatsApp <span className="font-normal text-muted-ink">(opcional)</span>
-                    </Label>
-                    <div className="flex">
-                      <Select
-                        onValueChange={handleCountryChange}
-                        defaultValue={`BR:+55`}
-                      >
-                        <SelectTrigger
-                          className="w-[100px]"
-                          aria-label="Código do país"
-                        >
-                          <SelectValue>
-                            <div className="flex items-center">
-                              <FlagIcon
-                                code={countryCode}
-                                size={24}
-                                className="mr-2"
-                              />
-                              {dialCode}
-                            </div>
-                          </SelectValue>
-                        </SelectTrigger>
-                        <SelectContent>
-                          {countries.map((country) => (
-                            <SelectItem
-                              key={country.code}
-                              value={`${country.code}:${country.dialCode}`}
-                            >
-                              <div className="flex items-center">
-                                <FlagIcon
-                                  code={country.code as FlagIconCode}
-                                  size={24}
-                                  className="mr-2"
-                                />
-                                {country.dialCode}
-                              </div>
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <Input
-                        id="download-whatsapp"
-                        type="tel"
-                        autoComplete="tel-national"
-                        value={formatPhoneNumber(whatsapp, dialCode)}
-                        onChange={handleWhatsAppChange}
-                        placeholder="(11) 98765-4321"
-                        className="ml-2 flex-1"
-                      />
-                    </div>
-                  </div>
-                  <TurnstileWidget
-                    action="lead_capture"
-                    onTokenChange={setTurnstileToken}
-                    className="mx-auto"
-                  />
-                  <label className="flex items-start gap-2 text-xs leading-5 text-muted-ink">
-                    <input
-                      type="checkbox"
-                      required
-                      className="mt-0.5 h-4 w-4 shrink-0 accent-ink"
-                    />
-                    <span>
-                      Autorizo o envio deste material e o contato necessário
-                      para atender esta solicitação, conforme a{" "}
-                      <Link className="underline underline-offset-2" href="/privacidade">
-                        Política de Privacidade
-                      </Link>{" "}
-                      e os{" "}
-                      <Link className="underline underline-offset-2" href="/termos">
-                        Termos de Uso
-                      </Link>
-                      .
-                    </span>
-                  </label>
-                  <label className="flex items-start gap-2 text-xs leading-5 text-muted-ink">
-                    <input
-                      type="checkbox"
-                      checked={emailMarketingConsent}
-                      onChange={(event) =>
-                        setEmailMarketingConsent(event.target.checked)
-                      }
-                      className="mt-0.5 h-4 w-4 shrink-0 accent-ink"
-                    />
-                    <span>
-                      Quero receber por e-mail conteúdos, novidades e ofertas da
-                      Flowo. Posso cancelar quando quiser.
-                    </span>
-                  </label>
-                  {countryCode === "BR" && whatsapp && (
-                    <label className="flex items-start gap-2 text-xs leading-5 text-muted-ink">
-                      <input
-                        type="checkbox"
-                        checked={whatsappMarketingConsent}
-                        onChange={(event) =>
-                          setWhatsappMarketingConsent(event.target.checked)
-                        }
-                        className="mt-0.5 h-4 w-4 shrink-0 accent-ink"
-                      />
-                      <span>
-                        Quero receber pelo WhatsApp dicas práticas, novidades e
-                        convites da Flowo. Posso responder SAIR quando quiser.
-                      </span>
-                    </label>
-                  )}
-                  {countryCode === "BR" && whatsapp && (
-                    <label className="flex items-start gap-2 text-xs leading-5 text-muted-ink">
-                      <input
-                        type="checkbox"
-                        checked={smsMarketingConsent}
-                        onChange={(event) =>
-                          setSmsMarketingConsent(event.target.checked)
-                        }
-                        className="mt-0.5 h-4 w-4 shrink-0 accent-ink"
-                      />
-                      <span>
-                        Quero receber por SMS novidades e convites da Flowo. A
-                        frequência é limitada e posso responder SAIR a qualquer
-                        momento.
-                      </span>
-                    </label>
-                  )}
-                  <Button
-                    type="submit"
-                    className="w-full rounded-full font-semibold"
-                    disabled={
-                      isSubmitting ||
-                      (Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY) &&
-                        !turnstileToken)
-                    }
-                  >
-                    {isSubmitting ? (
-                      "Processando..."
-                    ) : (
-                      <>
-                        <Download aria-hidden="true" className="mr-2 h-4 w-4" />
-                        Baixar material
-                      </>
-                    )}
-                  </Button>
-                  <p className="text-center text-caption text-muted-ink">
-                    O WhatsApp é opcional. Você recebe o material mesmo sem
-                    aceitar marketing por e-mail, WhatsApp ou SMS.
+                <div className="min-w-0">
+                  <p className="text-caption font-semibold uppercase tracking-[0.12em] text-faint-ink">
+                    {RESOURCE_TYPE_FREE_LABEL[resourceType]}
                   </p>
-                </form>
+                  <DialogTitle className="mt-1 text-xl font-semibold leading-tight">
+                    {resourceTitle}
+                  </DialogTitle>
+                  <DialogDescription className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted-ink">
+                    {resourceDescription}
+                  </DialogDescription>
+                </div>
               </div>
-            </>
-          )}
-        </DialogContent>
-      </Dialog>
-    </>
+            </DialogHeader>
+
+            <form
+              onSubmit={handleSubmit}
+              aria-busy={isSubmitting}
+              className="flex min-h-0 flex-1 flex-col"
+            >
+              <div className="min-h-0 flex-1 space-y-4 overflow-y-auto px-6 py-5 sm:px-8">
+                <p className="text-sm leading-relaxed text-muted-ink">
+                  Informe nome e e-mail. O WhatsApp e as comunicações de marketing
+                  são opcionais.
+                </p>
+                <input
+                  type="text"
+                  name="company"
+                  value={company}
+                  onChange={(event) => setCompany(event.target.value)}
+                  className="hidden"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                />
+                <div className="space-y-1.5">
+                  <Label htmlFor={`${idPrefix}-name`}>Nome</Label>
+                  <Input
+                    ref={nameInputRef}
+                    id={`${idPrefix}-name`}
+                    value={name}
+                    autoComplete="name"
+                    onChange={(event) => setName(event.target.value)}
+                    placeholder="Seu nome"
+                    required
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor={`${idPrefix}-email`}>E-mail</Label>
+                  <Input
+                    id={`${idPrefix}-email`}
+                    type="email"
+                    autoComplete="email"
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                    placeholder="seu@email.com"
+                    required
+                  />
+                </div>
+
+                <p className="rounded-lg border border-line bg-surface px-3 py-2.5 text-xs leading-5 text-muted-ink">
+                  Usaremos seu nome e e-mail somente para entregar este material e
+                  atender esta solicitação. Saiba mais na{" "}
+                  <Link className="underline underline-offset-2" href="/privacidade">
+                    Política de Privacidade
+                  </Link>{" "}
+                  e nos{" "}
+                  <Link className="underline underline-offset-2" href="/termos">
+                    Termos de Uso
+                  </Link>
+                  .
+                </p>
+
+                <details className="group rounded-lg border border-line bg-surface">
+                  <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-3 px-4 text-sm font-semibold text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ink">
+                    Receber novidades e falar pelo WhatsApp
+                    <ChevronDown
+                      aria-hidden="true"
+                      className="h-4 w-4 text-muted-ink transition-transform group-open:rotate-180"
+                    />
+                  </summary>
+                  <div className="space-y-4 border-t border-line px-4 py-4">
+                    <div className="space-y-1.5">
+                      <Label htmlFor={`${idPrefix}-whatsapp`}>
+                        WhatsApp{" "}
+                        <span className="font-normal text-muted-ink">(opcional)</span>
+                      </Label>
+                      <div className="flex">
+                        <Select
+                          onValueChange={handleCountryChange}
+                          value={`${countryCode}:${dialCode}`}
+                        >
+                          <SelectTrigger
+                            className="w-[112px]"
+                            aria-label={`País: ${
+                              countries.find((country) => country.code === countryCode)
+                                ?.name ?? countryCode
+                            }`}
+                          >
+                            <SelectValue>
+                              <span className="flex items-center">
+                                <FlagIcon code={countryCode} size={24} className="mr-2" />
+                                {dialCode}
+                              </span>
+                            </SelectValue>
+                          </SelectTrigger>
+                          <SelectContent>
+                            {countries.map((country) => (
+                              <SelectItem
+                                key={country.code}
+                                value={`${country.code}:${country.dialCode}`}
+                              >
+                                <span className="flex w-full items-center gap-2">
+                                  <FlagIcon
+                                    code={country.code as FlagIconCode}
+                                    size={24}
+                                  />
+                                  <span>{country.name}</span>
+                                  <span className="ml-auto text-muted-ink">
+                                    {country.dialCode}
+                                  </span>
+                                </span>
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <Input
+                          id={`${idPrefix}-whatsapp`}
+                          type="tel"
+                          autoComplete="tel-national"
+                          value={formatPhoneNumber(whatsapp, dialCode)}
+                          onChange={(event) =>
+                            setWhatsapp(event.target.value.replace(/\D/g, ""))
+                          }
+                          placeholder="(11) 98765-4321"
+                          className="ml-2 flex-1"
+                        />
+                      </div>
+                    </div>
+
+                    <label
+                      htmlFor={`${idPrefix}-email-marketing`}
+                      className="flex items-start gap-2 text-xs leading-5 text-muted-ink"
+                    >
+                      <input
+                        id={`${idPrefix}-email-marketing`}
+                        type="checkbox"
+                        checked={emailMarketingConsent}
+                        onChange={(event) =>
+                          setEmailMarketingConsent(event.target.checked)
+                        }
+                        className="mt-0.5 h-4 w-4 shrink-0 accent-ink"
+                      />
+                      <span>
+                        Quero receber por e-mail conteúdos, novidades e ofertas.
+                        Posso cancelar quando quiser.
+                      </span>
+                    </label>
+
+                    {countryCode === "BR" && whatsapp ? (
+                      <>
+                        <label
+                          htmlFor={`${idPrefix}-whatsapp-marketing`}
+                          className="flex items-start gap-2 text-xs leading-5 text-muted-ink"
+                        >
+                          <input
+                            id={`${idPrefix}-whatsapp-marketing`}
+                            type="checkbox"
+                            checked={whatsappMarketingConsent}
+                            onChange={(event) =>
+                              setWhatsappMarketingConsent(event.target.checked)
+                            }
+                            className="mt-0.5 h-4 w-4 shrink-0 accent-ink"
+                          />
+                          <span>
+                            Quero receber dicas e convites pelo WhatsApp. Posso
+                            responder SAIR quando quiser.
+                          </span>
+                        </label>
+                        <label
+                          htmlFor={`${idPrefix}-sms-marketing`}
+                          className="flex items-start gap-2 text-xs leading-5 text-muted-ink"
+                        >
+                          <input
+                            id={`${idPrefix}-sms-marketing`}
+                            type="checkbox"
+                            checked={smsMarketingConsent}
+                            onChange={(event) =>
+                              setSmsMarketingConsent(event.target.checked)
+                            }
+                            className="mt-0.5 h-4 w-4 shrink-0 accent-ink"
+                          />
+                          <span>
+                            Quero receber novidades por SMS. Posso responder SAIR
+                            quando quiser.
+                          </span>
+                        </label>
+                      </>
+                    ) : null}
+                  </div>
+                </details>
+
+                <TurnstileWidget
+                  action="lead_capture"
+                  onTokenChange={setTurnstileToken}
+                  onStatusChange={setTurnstileStatus}
+                  className="mx-auto"
+                />
+              </div>
+
+              <div className="shrink-0 border-t border-line bg-background px-6 pb-[max(1rem,env(safe-area-inset-bottom))] pt-4 sm:px-8">
+                <Button
+                  type="submit"
+                  className="w-full rounded-full font-semibold"
+                  disabled={formDisabled}
+                >
+                  {isSubmitting ? (
+                    "Liberando material..."
+                  ) : (
+                    <>
+                      <Download aria-hidden="true" className="mr-2 h-4 w-4" />
+                      Liberar material
+                    </>
+                  )}
+                </Button>
+                <p className="mt-2 text-center text-caption text-muted-ink">
+                  Sem aceitar marketing, você ainda recebe o arquivo normalmente.
+                </p>
+              </div>
+            </form>
+          </>
+        )}
+      </DialogContent>
+    </Dialog>
   );
 }
