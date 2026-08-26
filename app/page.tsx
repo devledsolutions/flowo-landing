@@ -2,6 +2,7 @@ import SchemaMarkup from "@/components/schema-markup";
 import Navbar from "@/components/navbar";
 import Hero from "@/components/hero";
 import ProductStory from "@/components/home/product-story";
+import OptionalOperations from "@/components/home/optional-operations";
 import SwitchingReassurance from "@/components/home/switching-reassurance";
 import ScenarioSelector from "@/components/home/scenario-selector";
 import HomePricingSection from "@/components/home-pricing-section";
@@ -14,7 +15,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "Flowo | IA no WhatsApp e Gestão para Barbearias",
   description:
-    "A IA da Flowo atende no WhatsApp, agenda e confirma clientes. Organize horários, comandas e formas de recebimento — com pagamentos integrados opcionais.",
+    "Chegou “tem horário hoje?” A Flowo confere e já marca. Você continua no corte; o cliente recebe os horários livres e o agendamento fica na agenda.",
   path: "/",
   absoluteTitle: true,
 });
@@ -28,6 +29,7 @@ export default function Home() {
         <Hero />
         <ValidatedProof />
         <ProductStory />
+        <OptionalOperations />
         <SwitchingReassurance />
         <ScenarioSelector />
         <section id="precos" className="section-normal scroll-mt-24">

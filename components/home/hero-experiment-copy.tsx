@@ -10,9 +10,7 @@ export function HeroExperimentCopy() {
   return (
     <>
       <p className="mx-auto mt-5 max-w-2xl text-lead text-muted-ink">
-        {challenger
-          ? "O cliente pergunta no WhatsApp. A Flowo encontra o horário, agenda e chama sua equipe quando precisa."
-          : "A IA da Flowo responde no WhatsApp. Você acompanha tudo no painel."}
+        Você continua no corte; o cliente recebe os horários livres e o agendamento fica na agenda.
       </p>
       <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
         <TrackedLink

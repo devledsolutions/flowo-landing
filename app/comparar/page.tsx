@@ -14,6 +14,7 @@ import {
   FlowoDeliveryMap,
   FlowoProductProof,
 } from "@/components/marketing/flowo-product-proof";
+import { CompetitiveMatrix } from "@/components/marketing/competitive-matrix";
 import {
   COMPARISON_LAST_VERIFIED_LABEL,
   COMPETITOR_COMPARISONS,
@@ -106,7 +107,7 @@ const hubFaq = [
   {
     question: "O Flowo é mais barato que Trinks, AppBarber ou Barbeiro.app?",
     answer:
-      "Não necessariamente. O Flowo começa em R$ 249/mês e inclui a recepção com IA no WhatsApp. Alguns concorrentes têm planos-base mais baratos, mas podem cobrar módulos adicionais. Compare o pacote completo necessário para a sua rotina.",
+      "Não necessariamente. O Flowo começa em R$ 379/mês e inclui o atendimento no WhatsApp ligado à agenda. Alguns concorrentes têm planos-base mais baratos, mas podem cobrar módulos adicionais. Compare o pacote completo necessário para a sua rotina.",
   },
   {
     question: "Como as comparações foram feitas?",
@@ -333,6 +334,7 @@ export default function ComparePage() {
 
         <FlowoProductProof includeFilm={false} />
         <FlowoDeliveryMap />
+        <CompetitiveMatrix />
 
         <section className="section-normal">
           <div className="container-page">

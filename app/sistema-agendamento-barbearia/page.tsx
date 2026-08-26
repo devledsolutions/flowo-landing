@@ -117,7 +117,7 @@ const faqItems = [
   {
     question: "Quanto custa o sistema?",
     answer:
-      "Os planos mensais são Solo por R$ 249 e Equipe por R$ 549. O Empresarial é sob consulta. A jornada pública é paga e sem fidelidade; clientes elegíveis de Solo ou Equipe podem receber uma avaliação assistida de 14 dias, concedida manualmente e sem cobrança automática.",
+      "Os planos mensais são Solo por R$ 379 e Equipe por R$ 789. O Empresarial é sob consulta. A jornada pública é paga e sem fidelidade; clientes elegíveis de Solo ou Equipe podem receber uma avaliação assistida de 14 dias, concedida manualmente e sem cobrança automática.",
   },
 ] as const;
 

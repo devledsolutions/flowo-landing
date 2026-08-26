@@ -130,10 +130,12 @@ const sections: LegalSection[] = [
     content: (
       <>
         <p>
-          O preço público inicial exibido no site é R$ 249 por mês para o plano
-          Solo, salvo atualização, oferta ou contrato específico. Não há período
-          grátis. A proposta ou checkout informa preço aceito, ciclo, limites e
-          eventual data de renovação.
+          O preço público inicial exibido no site é R$ 379 por mês para o plano
+          Solo, salvo atualização, oferta ou contrato específico. Em casos
+          elegíveis, a Flowo pode liberar uma avaliação assistida de 14 dias,
+          sem cartão e sem renovação automática, somente para Solo ou Equipe.
+          A proposta ou checkout informa preço aceito, ciclo, limites e eventual
+          data de renovação.
         </p>
         <p>
           Custos de processadores, mensageria, emissão fiscal, excedentes ou

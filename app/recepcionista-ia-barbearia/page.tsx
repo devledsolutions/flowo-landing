@@ -8,7 +8,7 @@ const PAGE_PATH = "/recepcionista-ia-barbearia";
 export const metadata = buildMetadata({
   title: "Recepcionista com IA para Barbearia no WhatsApp | Flowo",
   description:
-    "A IA da Flowo atende no WhatsApp, consulta horários por profissional e agenda clientes. Planos desde R$ 249/mês, sem fidelidade.",
+    "Chegou ‘tem horário hoje?’ A Flowo confere e já marca no WhatsApp, com agenda por profissional. Planos desde R$ 379/mês.",
   path: PAGE_PATH,
   absoluteTitle: true,
 });
@@ -73,7 +73,7 @@ export default function RecepcionistaIaBarbeariaPage() {
         operatingSystem: "Web",
         url: absoluteUrl(PAGE_PATH),
         description:
-          "Sistema para barbearias com recepção por inteligência artificial no WhatsApp, agenda por barbeiro, comandas e pagamentos opcionais.",
+          "Atendimento no WhatsApp ligado à agenda da barbearia, com horários por profissional, comandas e pagamentos opcionais.",
         offers: PLANS.filter(hasPublishedPrice).map((plan) => ({
           "@type": "Offer",
           name: `Plano ${plan.name}`,

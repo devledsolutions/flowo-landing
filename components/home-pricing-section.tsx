@@ -58,7 +58,7 @@ const summaryFeatures = {
 const purchaseFacts = [
   ["WhatsApp avaliado na configuração", "A equipe confirma como conectar o número atual antes da ativação."],
   ["A configuração é acompanhada", "Serviços, equipe, horários e respostas são revisados com você."],
-  ["Jornada pública paga", "Avaliações de 14 dias são concedidas manualmente a clientes elegíveis de Solo ou Equipe."],
+  ["Avaliação assistida", "Em casos elegíveis, a equipe libera 14 dias sem cartão e sem renovação automática nos planos Solo ou Equipe."],
   ["Sem fidelidade", "Você pode cancelar sem multa e usar até o fim do período já pago."],
 ] as const;
 
@@ -107,7 +107,7 @@ export default function HomePricingSection() {
           A IA no WhatsApp está em todos. O que muda é a escala da barbearia.
         </p>
         <p className="mx-auto mt-5 max-w-2xl text-caption font-medium text-ink">
-          Jornada pública paga · sem fidelidade · configuração acompanhada
+          Sem cartão na avaliação · sem renovação automática · configuração acompanhada
         </p>
       </header>
 

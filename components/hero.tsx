@@ -15,10 +15,7 @@ export default function Hero() {
           <h1
             className="text-[clamp(2.35rem,1.45rem+4vw,4.9rem)] font-semibold leading-[1.04] tracking-[-0.04em] text-ink-strong"
           >
-            Sua barbearia atende mesmo{" "}
-            <em className="block font-serif font-medium italic tracking-[-0.025em]">
-              quando você está cortando.
-            </em>
+            Chegou “tem horário hoje?” A Flowo confere e já marca.
           </h1>
           <HeroExperimentCopy />
           <TrackedLink

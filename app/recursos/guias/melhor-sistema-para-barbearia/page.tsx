@@ -219,7 +219,7 @@ export default function BestBarbershopSystemGuidePage() {
                 precisa. Peça o valor mensal final por escrito.
               </GuideCallout>
               <p>
-                O Flowo publica os planos Solo por R$ 249 e Equipe por R$ 549
+                O Flowo publica os planos Solo por R$ 379 e Equipe por R$ 789
                 por mês. O Empresarial é sob consulta e a assinatura não tem
                 fidelidade. Não há teste automático; uma avaliação assistida
                 de 14 dias pode ser concedida a clientes elegíveis de Solo ou

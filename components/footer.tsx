@@ -114,8 +114,8 @@ export default function Footer({ compact = false }: { compact?: boolean }) {
               className="brightness-0 invert"
             />
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-muted-ink">
-              A recepção da sua barbearia no WhatsApp: a IA atende, agenda e
-              confirma. Você cuida do corte.
+              Chegou “tem horário hoje?” A Flowo confere e já marca. Você cuida
+              do corte.
             </p>
             <ul className="mt-6 space-y-3">
               <li className="flex items-center gap-3 text-sm text-muted-ink">

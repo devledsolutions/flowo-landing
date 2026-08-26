@@ -50,9 +50,9 @@ export const PLANS: readonly Plan[] = [
     id: 'solo',
     name: 'Solo',
     description: 'Para o barbeiro que trabalha sozinho e quer a IA atendendo no WhatsApp.',
-    monthly: 249,
-    annualTotal: 2490,
-    annualPerMonth: 208,
+    monthly: 379,
+    annualTotal: 3790,
+    annualPerMonth: 316,
     features: [
       '1 profissional',
       'Até 200 agendamentos por mês',
@@ -69,9 +69,9 @@ export const PLANS: readonly Plan[] = [
     id: 'equipe',
     name: 'Equipe',
     description: 'Para barbearias com equipe: agenda de todos os barbeiros em um lugar.',
-    monthly: 549,
-    annualTotal: 5490,
-    annualPerMonth: 458,
+    monthly: 789,
+    annualTotal: 7890,
+    annualPerMonth: 658,
     isPopular: true,
     features: [
       'Até 5 profissionais',
@@ -122,7 +122,7 @@ export function getPlan(id: PlanId): Plan {
   return plan
 }
 
-/** "R$ 249" (pt-BR, no cents). */
+/** "R$ 379" (pt-BR, no cents). */
 export function formatBRL(value: number): string {
   return new Intl.NumberFormat('pt-BR', {
     style: 'currency',

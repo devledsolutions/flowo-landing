@@ -80,7 +80,7 @@ export default function OptionalOperations() {
               id="optional-operations-title"
               className="mt-4 max-w-[18ch] text-h2 font-semibold tracking-[-0.025em] text-ink-strong"
             >
-              Você decide como recebe. O Flowo organiza o resto.
+              Você decide como recebe. A Flowo organiza o resto.
             </h2>
           </div>
           <p className="max-w-measure text-lead text-muted-ink">
