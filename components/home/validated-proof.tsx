@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 const proofItems = [
-  "mensagem recebida e respondida pela IA",
+  "mensagem recebida e respondida no WhatsApp",
   "agendamento criado e confirmado na agenda",
   "remarcação, cancelamento e controle humano testados",
 ] as const;

@@ -32,7 +32,7 @@ const validationCases = [
     name: "Quatro Tempos Barbearia",
     location: "Curitiba · operação com equipe",
     routine:
-      "A recepção precisa manter conversa e agenda alinhadas quando o cliente muda de ideia ou a equipe assume o atendimento.",
+      "A equipe precisa manter conversa e agenda alinhadas quando o cliente muda de ideia ou alguém assume o atendimento.",
     evidence:
       "A Flowo consulta, remarca e cancela o horário, além de pausar a IA quando a equipe assume o atendimento.",
     result: "Agenda atualizada → equipe no controle → IA retomada",
@@ -76,9 +76,9 @@ export default function ScenarioSelector() {
             </h2>
           </div>
           <p className="max-w-[35rem] text-body text-muted-ink">
-            Do barbeiro solo à equipe com horários diferentes: veja como a IA
-            atende, consulta a disponibilidade e mantém cada compromisso na
-            agenda certa.
+            Do barbeiro solo à equipe com horários diferentes: veja como o
+            atendimento consulta a disponibilidade e mantém cada compromisso
+            na agenda certa.
           </p>
         </header>
 

@@ -1,0 +1,47 @@
+{
+  "version": "2026-08-26.1",
+  "positioning": {
+    "headline": "Chegou “tem horário hoje?” A Flowo confere e já marca.",
+    "supporting": "Você continua no corte; o cliente recebe os horários livres e o agendamento fica na agenda.",
+    "channel": "whatsapp"
+  },
+  "trial": {
+    "durationDays": 14,
+    "mode": "assisted",
+    "requiresCard": false,
+    "autoRenew": false,
+    "eligiblePlans": ["solo", "equipe"],
+    "startsAfter": "operation_setup"
+  },
+  "onboarding": {
+    "preparationRequired": ["business", "services", "professionals", "business_hours"],
+    "professionalHoursOptional": true,
+    "whatsappRequiredForAi": true,
+    "paymentsRequiredForOnboarding": false,
+    "activationStates": ["operation_ready", "whatsapp_pending", "ai_ready", "first_value", "tenant_activated"]
+  },
+  "plans": {
+    "solo": {
+      "name": "Solo",
+      "monthlyPriceCents": 37900,
+      "yearlyPriceCents": 379000,
+      "maxProfessionals": 1,
+      "marketingMessagesPerMonth": 50
+    },
+    "equipe": {
+      "name": "Equipe",
+      "monthlyPriceCents": 78900,
+      "yearlyPriceCents": 789000,
+      "maxProfessionals": 5,
+      "marketingMessagesPerMonth": 150
+    },
+    "empresarial": {
+      "name": "Empresarial",
+      "monthlyPriceCents": 157800,
+      "yearlyPriceCents": 1578000,
+      "maxProfessionals": null,
+      "marketingMessagesPerMonth": 1000,
+      "publicPrice": "sob_consulta"
+    }
+  }
+}
