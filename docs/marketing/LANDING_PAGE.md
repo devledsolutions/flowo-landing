@@ -115,7 +115,7 @@ Não existe garantia de resultado. A promessa é editorial e verificável:
 - **Subheadline:** A Flowo consulta a agenda de cada profissional, executa ações autorizadas e
   deixa a equipe supervisionar a operação no painel.
 - **CTA:** Candidatar minha barbearia
-- **Condições:** A partir de R$249/mês. Sem teste e sem fidelidade. Implantação acompanhada.
+- **Condições:** Solo R$379/mês ou R$3.790/ano; Equipe R$789/mês ou R$7.890/ano. Avaliação assistida quando aprovada, sem fidelidade. Implantação acompanhada.
 
 ### 2. Problem Section
 
@@ -171,7 +171,7 @@ Não mostrar valor monetário fictício para cada item. Mostrar o fluxo e o esco
 
 ### 9. Guarantee
 
-**Risco reduzido atual:** sem fidelidade, cancelamento sem multa e implantação acompanhada.
+**Risco reduzido atual:** sem fidelidade, cancelamento sem multa, acesso até o fim do período pago e implantação acompanhada. A assinatura é cancelada no Flowo ou na loja em que foi contratada; o WhatsApp é gerenciado separadamente.
 
 Uma garantia condicional de implantação só poderá ser adicionada após SLA e aprovação jurídica.
 
@@ -184,8 +184,8 @@ Uma garantia condicional de implantação só poderá ser adicionada após SLA e
 
 ### 11. FAQ
 
-- **Tem teste grátis?** Não. A assinatura é paga desde o primeiro dia.
-- **Existe fidelidade?** Não.
+- **Tem teste grátis?** Não há teste automático no site. Em casos elegíveis, a equipe pode liberar uma avaliação assistida de 14 dias, sem cartão e sem renovação automática, depois da configuração.
+- **Existe fidelidade?** Não. No site, o cancelamento fica em Configurações > Plano; no app, na App Store ou no Google Play. O WhatsApp é gerenciado separadamente em Configurações > Integrações > WhatsApp oficial.
 - **Preciso receber pela Flowo?** Não. Pagamentos integrados são opcionais.
 - **Cada profissional pode ter um horário?** Sim, conforme plano e configuração da equipe.
 - **O aplicativo já está nas lojas?** Ainda não há lançamento público.

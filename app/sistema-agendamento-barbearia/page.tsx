@@ -17,13 +17,15 @@ import {
   RelatedSolutions,
 } from "@/components/marketing/commercial-page";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
-import { getPlan, hasPublishedPrice, PLANS } from "@/data/pricing-data";
+import { formatBRL, getPlan, hasPublishedPrice, PLANS } from "@/data/pricing-data";
 import {
   InstitutionalFilm,
   InstitutionalFilmSchema,
 } from "@/components/marketing/institutional-film";
 
 const PATH = "/sistema-agendamento-barbearia";
+const soloPrice = formatBRL(getPlan("solo").monthly);
+const equipePrice = formatBRL(getPlan("equipe").monthly);
 
 export const metadata = buildMetadata({
   title: "Sistema para Barbearia com Agenda e IA no WhatsApp",
@@ -117,7 +119,7 @@ const faqItems = [
   {
     question: "Quanto custa o sistema?",
     answer:
-      "Os planos mensais são Solo por R$ 379 e Equipe por R$ 789. O Empresarial é sob consulta. A jornada pública é paga e sem fidelidade; clientes elegíveis de Solo ou Equipe podem receber uma avaliação assistida de 14 dias, concedida manualmente e sem cobrança automática.",
+      `Os planos mensais são Solo por ${soloPrice} e Equipe por ${equipePrice}. O Empresarial é sob consulta. A jornada pública é paga e sem fidelidade; clientes elegíveis de Solo ou Equipe podem receber uma avaliação assistida de 14 dias, concedida manualmente e sem cobrança automática.`,
   },
 ] as const;
 

@@ -1,5 +1,5 @@
 {
-  "version": "2026-08-26.1",
+  "version": "2026-08-29.1",
   "positioning": {
     "headline": "Chegou “tem horário hoje?” A Flowo confere e já marca.",
     "supporting": "Você continua no corte; o cliente recebe os horários livres e o agendamento fica na agenda.",
@@ -12,6 +12,33 @@
     "autoRenew": false,
     "eligiblePlans": ["solo", "equipe"],
     "startsAfter": "operation_setup"
+  },
+  "cancellation": {
+    "web": "manage_in_flowo",
+    "appStore": "manage_in_store",
+    "playStore": "manage_in_store",
+    "accessUntilPaidPeriodEnd": true,
+    "refunds": "subject_to_billing_authority_and_applicable_policy",
+    "whatsapp": {
+      "managedSeparately": true,
+      "managementRoute": "/whatsapp",
+      "disconnectOnPeriodEndCancellation": false,
+      "terminalLifecycleMayDeprovision": true
+    }
+  },
+  "nativeStoreCatalog": {
+    "currency": "BRL",
+    "authority": "app_store_or_play_store",
+    "plans": {
+      "solo": {
+        "monthlyPriceCents": 44900,
+        "yearlyPriceCents": 449000
+      },
+      "equipe": {
+        "monthlyPriceCents": 92900,
+        "yearlyPriceCents": 929000
+      }
+    }
   },
   "onboarding": {
     "preparationRequired": ["business", "services", "professionals", "business_hours"],

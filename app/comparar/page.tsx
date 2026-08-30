@@ -19,6 +19,7 @@ import {
   COMPARISON_LAST_VERIFIED_LABEL,
   COMPETITOR_COMPARISONS,
 } from "@/data/competitor-comparisons";
+import { formatBRL, getPlan } from "@/data/pricing-data";
 import { absoluteUrl, buildMetadata, SITE_URL } from "@/lib/seo";
 
 export const metadata = buildMetadata({
@@ -50,6 +51,8 @@ const criteria = [
     flowo: "Atendimento, comanda e registro conectados",
   },
 ] as const;
+
+const soloPrice = formatBRL(getPlan("solo").monthly);
 
 const manualComparisons = [
   {
@@ -107,7 +110,7 @@ const hubFaq = [
   {
     question: "O Flowo é mais barato que Trinks, AppBarber ou Barbeiro.app?",
     answer:
-      "Não necessariamente. O Flowo começa em R$ 379/mês e inclui o atendimento no WhatsApp ligado à agenda. Alguns concorrentes têm planos-base mais baratos, mas podem cobrar módulos adicionais. Compare o pacote completo necessário para a sua rotina.",
+      `Não necessariamente. O Flowo começa em ${soloPrice}/mês e inclui o atendimento no WhatsApp ligado à agenda. Alguns concorrentes têm planos-base mais baratos, mas podem cobrar módulos adicionais. Compare o pacote completo necessário para a sua rotina.`,
   },
   {
     question: "Como as comparações foram feitas?",

@@ -10,9 +10,11 @@
   suficiente para prometer percentuais de resultado.
 - **Canal principal de aquisição:** site, busca, Instagram/Facebook/TikTok e conversa com vendas
   pelo WhatsApp.
-- **Planos públicos:** Solo R$249/mês e Equipe R$549/mês. Empresarial é sob consulta,
-  com proposta, contratação e implantação acompanhadas. Assinatura paga desde o
-  primeiro dia, sem teste e sem fidelidade.
+- **Planos públicos:** Solo R$379/mês ou R$3.790/ano e Equipe R$789/mês ou R$7.890/ano.
+  Empresarial é sob consulta, com proposta, contratação e implantação acompanhadas.
+  A avaliação é assistida quando aprovada; não há fidelidade. A assinatura é
+  cancelada no Flowo ou na loja em que foi contratada, enquanto o WhatsApp é
+  gerenciado separadamente.
 
 ### Diagnóstico da oferta atual
 
@@ -100,7 +102,7 @@
 | Comparação com agenda barata | Comparação do pacote necessário | Quadro de escopo sem atacar concorrentes |
 | Pagamento parece obrigatório | Escolha explícita de recebimento | Configuração opcional pós-atendimento |
 | Dúvida de plano | Capacidade e permissões por cenário | Diagnóstico comercial |
-| Medo de fidelidade | Risco contratual reduzido | Cancelamento sem multa |
+| Medo de fidelidade | Risco contratual reduzido | Cancelamento sem multa, no canal correto, com acesso até o fim do período pago |
 | Falta de preparo | Lista do que reunir | Kit pré-implantação |
 
 ## 7. Core Offer
@@ -155,12 +157,12 @@ eliminam e pelo resultado operacional que permitem verificar.
 | Roteiro de validação | Aumenta confiança antes da rotina real | Alto |
 | Materiais de adoção | Reduz esforço da equipe | Médio |
 
-- **Condição comercial:** Solo R$249/mês e Equipe R$549/mês têm preços públicos;
+- **Condição comercial:** Solo R$379/mês e Equipe R$789/mês têm preços públicos;
   Empresarial é negociado com o time Flowo e não possui preço público.
 - **Referência econômica existente:** o spec interno ancora a categoria no trabalho de recepção,
   estimado em R$1.500–2.500/mês. Não transformar essa referência em promessa de substituição,
   economia ou ROI sem validação.
-- **Decisão:** não usar “valor total R$X por apenas R$249” até os componentes possuírem preço
+- **Decisão:** não usar “valor total R$X por apenas R$379” até os componentes possuírem preço
   independente real.
 
 ## 10. Guarantee

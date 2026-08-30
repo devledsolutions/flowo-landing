@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { LegalPage, type LegalSection } from "@/components/legal-page";
-import { LEGAL_ENTITY, LEGAL_UPDATED_AT } from "@/lib/legal-identity";
+import { formatBRL, getPlan } from "@/data/pricing-data";
+import { LEGAL_ENTITY, LEGAL_TERMS_UPDATED_AT } from "@/lib/legal-identity";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
@@ -9,6 +10,13 @@ export const metadata = buildMetadata({
     "Condições de contratação e uso da plataforma Flowo para barbearias e negócios de serviços no Brasil.",
   path: "/termos",
 });
+
+const solo = getPlan("solo");
+const equipe = getPlan("equipe");
+const soloPrice = formatBRL(solo.monthly);
+const equipePrice = formatBRL(equipe.monthly);
+const soloAnnualPrice = formatBRL(solo.annualTotal);
+const equipeAnnualPrice = formatBRL(equipe.annualTotal);
 
 const sections: LegalSection[] = [
   {
@@ -130,12 +138,19 @@ const sections: LegalSection[] = [
     content: (
       <>
         <p>
-          O preço público inicial exibido no site é R$ 379 por mês para o plano
-          Solo, salvo atualização, oferta ou contrato específico. Em casos
+          O preço público inicial exibido no site é {soloPrice} por mês ou{" "}
+          {soloAnnualPrice} por ano para o plano Solo e {equipePrice} por mês ou{" "}
+          {equipeAnnualPrice} por ano para o plano Equipe, salvo atualização,
+          oferta ou contrato específico. O Empresarial é sob consulta. Em casos
           elegíveis, a Flowo pode liberar uma avaliação assistida de 14 dias,
           sem cartão e sem renovação automática, somente para Solo ou Equipe.
           A proposta ou checkout informa preço aceito, ciclo, limites e eventual
           data de renovação.
+        </p>
+        <p>
+          Quando a assinatura é contratada no aplicativo, o preço, o ciclo e as
+          condições exibidos pela App Store ou pelo Google Play no momento da
+          compra prevalecem para aquela contratação.
         </p>
         <p>
           Custos de processadores, mensageria, emissão fiscal, excedentes ou
@@ -211,13 +226,39 @@ const sections: LegalSection[] = [
     id: "cancelamento",
     title: "Cancelamento, suspensão e encerramento",
     content: (
-      <p>
-        O cliente pode solicitar cancelamento pelo fluxo disponível ou pelo
-        suporte, observando ciclo, aviso e obrigações da contratação. Podemos
-        suspender acesso por inadimplência, risco, uso proibido ou exigência
-        legal. Após o encerramento, exportação, retenção e eliminação seguem o
-        contrato, a Política de Privacidade e os prazos obrigatórios.
-      </p>
+      <>
+        <p>
+          A assinatura e a conexão do WhatsApp são controles separados. Na
+          contratação pelo site, o proprietário ou administrador pode cancelar
+          em <strong>Configurações &gt; Plano</strong>. Se a assinatura foi feita
+          no aplicativo, o cancelamento e a reativação devem ser feitos na App
+          Store ou no Google Play. A autoridade de cobrança informa a data e o
+          estado que prevalecem para aquela assinatura.
+        </p>
+        <p>
+          O cancelamento ao final do período interrompe a renovação e mantém o
+          acesso até a data já paga. O cancelamento imediato encerra o acesso
+          antes dessa data e pode iniciar o desligamento do canal conectado.
+          Cancelar não gera reembolso automático: pedidos de reembolso seguem o
+          checkout ou a loja responsável, suas políticas e a legislação
+          aplicável.
+        </p>
+        <p>
+          Cancelar a assinatura não desconecta automaticamente o WhatsApp durante
+          o período pago. Para pausar a Bia ou desconectar o canal, use{" "}
+          <strong>Configurações &gt; Integrações &gt; WhatsApp oficial</strong>.
+          Quando o acesso chega a um estado terminal por cancelamento imediato,
+          inadimplência, expiração ou revogação confirmada pela loja, a Flowo
+          pode suspender as funções pagas e programar o desligamento do canal,
+          observadas as regras de conexão, segurança, retenção e proteção de
+          dados.
+        </p>
+        <p>
+          Podemos suspender acesso por inadimplência, risco, uso proibido ou
+          exigência legal. Após o encerramento, exportação, retenção e eliminação
+          seguem o contrato, a Política de Privacidade e os prazos obrigatórios.
+        </p>
+      </>
     ),
   },
   {
@@ -262,7 +303,7 @@ export default function TermsOfServicePage() {
       title="Termos de Uso"
       breadcrumbLabel="Termos de Uso"
       path="/termos"
-      updatedAt={LEGAL_UPDATED_AT}
+      updatedAt={LEGAL_TERMS_UPDATED_AT}
       intro="Estas condições regulam o acesso ao site, à plataforma e ao aplicativo Flowo."
       sections={sections}
     />

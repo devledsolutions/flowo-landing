@@ -67,7 +67,7 @@ export const faqItems: FAQItem[] = [
   },
   {
     question: "Como funciona a assinatura? Tem fidelidade?",
-    answer: "A assinatura é mensal ou anual (no anual você leva 2 meses grátis) e começa a valer assim que você contrata. Não tem fidelidade: você pode cancelar quando quiser, sem multa, e usa o sistema até o fim do período já pago.",
+    answer: "A assinatura é mensal ou anual (no anual você leva 2 meses grátis) e começa a valer assim que você contrata. Se contratou pelo site, cancele em Configurações > Plano; se assinou no app, gerencie na App Store ou no Google Play. O cancelamento ao fim do período mantém o acesso até a data já paga. Isso não desconecta o WhatsApp: para pausar a Bia ou desconectar o canal, use Configurações > Integrações > WhatsApp oficial. Não há reembolso automático; pedidos seguem o checkout ou a loja responsável e a legislação aplicável.",
     category: "Assinatura"
   },
   {
@@ -84,6 +84,7 @@ const homeFaqQuestions = new Set([
   "Serve para barbeiro solo ou só para barbearias grandes?",
   "Quanto custa o Flowo?",
   "Tem período de teste grátis?",
+  "Como funciona a assinatura? Tem fidelidade?",
   "Consigo gerenciar vários barbeiros na mesma agenda?",
   "E se eu precisar de ajuda? Tem suporte?",
 ])

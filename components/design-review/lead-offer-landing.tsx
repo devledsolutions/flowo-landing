@@ -1,7 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { ReactNode } from "react";
+import { formatBRL, getPlan } from "@/data/pricing-data";
 import styles from "./lead-offer-landing.module.css";
+
+const soloPrice = formatBRL(getPlan("solo").monthly);
 
 const diagnosisItems = [
   ["01", "Raio-X da Agenda", "Marque onde mensagens viram atraso, conflito ou horário perdido."],
@@ -436,7 +439,7 @@ export function ImplementationLanding() {
             </a>
           </div>
           <p className={styles.conditions}>
-            A partir de R$379/mês · sem fidelidade · implantação acompanhada
+            A partir de {soloPrice}/mês · sem fidelidade · implantação acompanhada
           </p>
         </div>
         <div className={styles.heroEvidence} id="demonstracao">
@@ -537,7 +540,7 @@ export function ImplementationLanding() {
         <div className={styles.priceCard}>
           <span>SOLO</span>
           <strong>
-            R$379<small>/mês</small>
+            {soloPrice}<small>/mês</small>
           </strong>
           <ul>
             <li>recepção com IA</li>

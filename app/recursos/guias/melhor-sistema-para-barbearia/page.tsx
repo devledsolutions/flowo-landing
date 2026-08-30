@@ -25,9 +25,12 @@ import {
 } from "@/components/resources/guide-shell";
 import { GuideStructuredData } from "@/components/resources/resource-structured-data";
 import { getGuide } from "@/data/guides";
+import { formatBRL, getPlan } from "@/data/pricing-data";
 import { buildGuideMetadata } from "@/lib/seo";
 
 const guide = getGuide("/recursos/guias/melhor-sistema-para-barbearia");
+const soloPrice = formatBRL(getPlan("solo").monthly);
+const equipePrice = formatBRL(getPlan("equipe").monthly);
 
 export const metadata = buildGuideMetadata(guide);
 
@@ -219,7 +222,7 @@ export default function BestBarbershopSystemGuidePage() {
                 precisa. Peça o valor mensal final por escrito.
               </GuideCallout>
               <p>
-                O Flowo publica os planos Solo por R$ 379 e Equipe por R$ 789
+                O Flowo publica os planos Solo por {soloPrice} e Equipe por {equipePrice}
                 por mês. O Empresarial é sob consulta e a assinatura não tem
                 fidelidade. Não há teste automático; uma avaliação assistida
                 de 14 dias pode ser concedida a clientes elegíveis de Solo ou

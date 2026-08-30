@@ -12,12 +12,22 @@ const expect = (condition, message) => {
   if (!condition) errors.push(message);
 };
 
-expect(contract.version === "2026-08-26.1", "contract version is stale");
+expect(contract.version === "2026-08-29.1", "contract version is stale");
 expect(contract.positioning.headline.includes("tem horário hoje?"), "positioning headline drifted");
 expect(contract.trial.durationDays === 14, "trial duration must remain 14 days");
 expect(contract.trial.requiresCard === false, "assisted trial must not require a card");
 expect(contract.trial.autoRenew === false, "assisted trial must not auto-renew");
 expect(contract.onboarding.paymentsRequiredForOnboarding === false, "payments must stay optional during onboarding");
+expect(contract.cancellation.web === "manage_in_flowo", "web cancellation authority drifted");
+expect(contract.cancellation.appStore === "manage_in_store", "App Store cancellation authority drifted");
+expect(contract.cancellation.playStore === "manage_in_store", "Google Play cancellation authority drifted");
+expect(contract.cancellation.accessUntilPaidPeriodEnd === true, "paid-period access policy drifted");
+expect(contract.cancellation.whatsapp.managedSeparately === true, "WhatsApp cancellation boundary drifted");
+expect(contract.cancellation.whatsapp.disconnectOnPeriodEndCancellation === false, "period-end cancellation must not disconnect WhatsApp");
+expect(contract.nativeStoreCatalog.plans.solo.monthlyPriceCents === 44900, "native Solo monthly price drifted");
+expect(contract.nativeStoreCatalog.plans.solo.yearlyPriceCents === 449000, "native Solo annual price drifted");
+expect(contract.nativeStoreCatalog.plans.equipe.monthlyPriceCents === 92900, "native Equipe monthly price drifted");
+expect(contract.nativeStoreCatalog.plans.equipe.yearlyPriceCents === 929000, "native Equipe annual price drifted");
 
 const expected = {
   solo: ["monthly: 379", "annualTotal: 3790", "annualPerMonth: 316"],
@@ -37,4 +47,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log(`Product contract ${contract.version} matches site pricing, trial and onboarding policy.`);
+console.log(`Product contract ${contract.version} matches site pricing, trial, cancellation and onboarding policy.`);

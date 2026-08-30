@@ -59,7 +59,7 @@ const purchaseFacts = [
   ["WhatsApp avaliado na configuração", "A equipe confirma como conectar o número atual antes da ativação."],
   ["A configuração é acompanhada", "Serviços, equipe, horários e respostas são revisados com você."],
   ["Avaliação assistida", "Em casos elegíveis, a equipe libera 14 dias sem cartão e sem renovação automática nos planos Solo ou Equipe."],
-  ["Sem fidelidade", "Você pode cancelar sem multa e usar até o fim do período já pago."],
+  ["Cancelamento claro", "Cancele no Flowo ou na loja onde assinou. O WhatsApp é gerenciado separadamente."],
 ] as const;
 
 export default function HomePricingSection() {

@@ -6,8 +6,8 @@ export function PricingHeaderHome() {
         Escolha o plano da sua barbearia
       </h2>
       <p className="mx-auto mt-4 max-w-measure text-lead text-muted-ink">
-        Do barbeiro solo à rede com várias unidades. Sem fidelidade: cancele
-        quando quiser.
+        Do barbeiro solo à rede com várias unidades. Sem fidelidade: cancele no
+        canal em que assinou.
       </p>
     </header>
   );

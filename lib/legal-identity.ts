@@ -9,3 +9,4 @@ export const LEGAL_ENTITY = {
 } as const;
 
 export const LEGAL_UPDATED_AT = "16 de agosto de 2026";
+export const LEGAL_TERMS_UPDATED_AT = "29 de agosto de 2026";
