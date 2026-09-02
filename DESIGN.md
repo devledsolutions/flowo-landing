@@ -80,7 +80,11 @@ demonstrações de produto, controles de janela e estados semânticos.
 
 - Transições de estado: 150–250 ms, `ease-out`.
 - Entrada de seção: 500–800 ms somente como melhoria progressiva.
-- Sem autoplay, parallax ou movimento contínuo.
+- Sem autoplay nem movimento contínuo.
+- Parallax só como profundidade de planos no hero, ligado ao scroll, apenas em
+  desktop e desligado com redução de movimento. Decisão do fundador em
+  2026-09-02, a partir da referência fora.so. Transform apenas, um rAF por
+  evento de scroll.
 - Com redução de movimento, todo conteúdo permanece visível e funcional.
 
 ## Rejeições explícitas
