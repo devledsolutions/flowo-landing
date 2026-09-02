@@ -4,8 +4,8 @@ const reassuranceRows = [
     unchanged: "O cliente chama a barbearia no canal que já conhece.",
     flowo: (
       <>
-        <strong className="font-semibold text-ink">A IA faz a primeira resposta</strong>{" "}
-        e conduz o pedido sem depender de alguém parar o atendimento.
+        <strong className="font-semibold text-ink">A Flowo responde</strong>{" "}
+        e conduz o pedido sem alguém precisar parar o atendimento.
       </>
     ),
   },
@@ -55,20 +55,18 @@ export default function SwitchingReassurance() {
       <div className="container-page grid gap-12 lg:grid-cols-[0.72fr_1.28fr] lg:gap-20">
         <header>
           <p className="inline-flex min-h-8 items-center rounded-full border border-line bg-surface px-3 text-caption font-semibold text-ink">
-            O canal continua familiar
+            O WhatsApp não muda
           </p>
           <h2
             id="switching-reassurance-title"
             className="mt-7 max-w-[13ch] text-h2 font-semibold leading-[1.08] tracking-[-0.025em] text-ink-strong"
           >
-            O cliente percebe a diferença já na primeira resposta.
+            Para o cliente, continua sendo a barbearia.
           </h2>
           <p className="mt-5 max-w-[34rem] text-lead text-muted-ink">
-            Ele continua no WhatsApp, mas encontra uma recepção mais rápida e
-            organizada — sem aquele vácuo enquanto a equipe está atendendo.
-          </p>
-          <p className="mt-7 max-w-[34rem] text-body font-semibold text-ink">
-            O que muda é a velocidade, a clareza e a conexão com a agenda.
+            Ele chama no mesmo número e fala do jeito de sempre. A diferença é
+            que não precisa esperar alguém terminar o atendimento para saber se
+            tem horário.
           </p>
         </header>
 
@@ -78,8 +76,8 @@ export default function SwitchingReassurance() {
             aria-hidden="true"
           >
             <span />
-            <span>O que continua igual</span>
-            <span>O que o Flowo assume</span>
+            <span>Como já funciona</span>
+            <span>Com a Flowo</span>
           </div>
 
           {reassuranceRows.map((row) => (

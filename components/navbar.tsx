@@ -12,10 +12,8 @@ import {
 import { TrackedLink } from "@/components/analytics/tracked-link";
 
 const navItems = [
-  { name: "Produto", href: "/sistema-agendamento-barbearia" },
+  { name: "Como funciona", href: "/sistema-agendamento-barbearia" },
   { name: "Demonstração", href: "/demonstracao-agendamento-whatsapp" },
-  { name: "App", href: "/aplicativo-para-barbeiros" },
-  { name: "Recursos", href: "/recursos" },
   { name: "Preços", href: "/precos" },
 ];
 
@@ -53,12 +51,12 @@ export default function Navbar() {
   });
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-line bg-cream">
       <nav
         aria-label="Principal"
-        className="mx-auto mt-3 w-[calc(100%-1.5rem)] max-w-4xl md:mt-4"
+        className="container-page"
       >
-        <div className="flex h-14 items-center justify-between rounded-full border border-line bg-cream pl-5 pr-2.5 shadow-[0_4px_8px_oklch(0.17_0.012_110/0.08)]">
+        <div className="flex h-[4.5rem] items-center justify-between">
           <Link
             href="/"
             prefetch={false}
@@ -77,7 +75,7 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop links */}
-          <div className="hidden items-center gap-5 lg:flex lg:gap-7">
+          <div className="hidden items-center gap-7 lg:flex">
             {navItems.map((item) => (
               <Link
                 key={item.name}
@@ -91,21 +89,6 @@ export default function Navbar() {
           </div>
 
           <div className="hidden items-center gap-5 lg:flex">
-            <TrackedLink
-              href={WHATSAPP_URL}
-              event="CTA Clicked"
-              properties={{
-                page: "navigation",
-                placement: "navbar_desktop",
-                destination: "whatsapp_sales",
-                intent: "ask_question",
-              }}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="min-h-11 items-center text-label font-medium text-muted-ink transition-colors duration-200 ease-out-quint hover:text-ink xl:inline-flex"
-            >
-              Tirar dúvidas
-            </TrackedLink>
             <a
               href={LOGIN_URL}
               className="inline-flex min-h-11 items-center text-label font-medium text-muted-ink transition-colors duration-200 ease-out-quint hover:text-ink"
@@ -121,9 +104,9 @@ export default function Navbar() {
                 destination: "dashboard_signup",
                 intent: "start_now",
               }}
-              className="inline-flex h-11 items-center rounded-full bg-ink px-5 text-label font-semibold text-cream transition-colors duration-200 ease-out-quint hover:bg-ink/90"
+              className="inline-flex h-11 items-center rounded-full bg-ink px-5 text-label font-semibold text-cream transition-colors duration-200 ease-out-quint hover:bg-ink/90 active:translate-y-px"
             >
-              Começar agora
+              Criar minha conta
             </TrackedLink>
           </div>
 
@@ -136,6 +119,8 @@ export default function Navbar() {
             aria-expanded={isMenuOpen}
             aria-controls="mobile-menu"
             aria-label={isMenuOpen ? "Fechar menu" : "Abrir menu"}
+            aria-hidden={isMenuOpen}
+            tabIndex={isMenuOpen ? -1 : 0}
           >
             {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -156,8 +141,8 @@ export default function Navbar() {
           toggleRef.current?.focus();
         }}
       >
-        <div className="flex min-h-[100dvh] flex-col px-6 pb-8 pt-3">
-          <div className="flex h-14 items-center justify-between rounded-full border border-line bg-cream pl-5 pr-2.5 shadow-[0_4px_8px_oklch(0.17_0.012_110/0.08)]">
+        <div className="flex min-h-[100dvh] flex-col px-6 pb-8">
+          <div className="flex h-[4.5rem] items-center justify-between border-b border-line">
             <Link
               href="/"
               prefetch={false}
@@ -216,7 +201,7 @@ export default function Navbar() {
                 className="inline-flex h-12 items-center justify-center rounded-full bg-ink px-6 text-label font-semibold text-cream transition-colors duration-200 hover:bg-ink/90"
                 onClick={closeMenu}
               >
-                Começar agora
+                Criar minha conta
               </TrackedLink>
               <TrackedLink
                 href={WHATSAPP_URL}
@@ -232,7 +217,7 @@ export default function Navbar() {
                 className="inline-flex h-12 items-center justify-center rounded-full border border-line px-6 text-label font-medium text-ink transition-colors duration-200 hover:bg-surface"
                 onClick={closeMenu}
               >
-                Tirar dúvidas no WhatsApp
+                Falar com a Flowo no WhatsApp
               </TrackedLink>
             </div>
           </nav>

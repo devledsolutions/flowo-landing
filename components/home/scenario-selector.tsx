@@ -66,19 +66,18 @@ export default function ScenarioSelector() {
         <header className="grid gap-6 lg:grid-cols-[1fr_0.62fr] lg:items-end lg:gap-20">
           <div>
             <p className="text-caption font-semibold text-muted-ink">
-              Flowo em ação
+              Testes com rotinas diferentes
             </p>
             <h2
               id="validation-cases-title"
               className="mt-3 max-w-[16ch] text-h2 font-semibold leading-[1.08] tracking-[-0.025em] text-ink-strong"
             >
-              A rotina muda. O fluxo continua chegando à agenda.
+              Sozinho ou com equipe, cada pedido vai para a agenda certa.
             </h2>
           </div>
           <p className="max-w-[35rem] text-body text-muted-ink">
-            Do barbeiro solo à equipe com horários diferentes: veja como o
-            atendimento consulta a disponibilidade e mantém cada compromisso
-            na agenda certa.
+            Testamos horários diferentes por profissional, remarcação,
+            cancelamento e o momento em que uma pessoa assume a conversa.
           </p>
         </header>
 
@@ -133,7 +132,7 @@ export default function ScenarioSelector() {
                   }}
                   className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full border border-current px-5 text-label font-semibold text-ink transition-colors duration-200 hover:bg-ink hover:text-[#171810] lg:w-auto"
                 >
-                  Ver a Flowo neste cenário
+                  Ver este teste
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </TrackedLink>
                 <TrackedLink

@@ -15,7 +15,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "Flowo | IA no WhatsApp e Gestão para Barbearias",
   description:
-    "Chegou “tem horário hoje?” A Flowo confere e já marca. Você continua no corte; o cliente recebe os horários livres e o agendamento fica na agenda.",
+    "“Tem horário hoje?” A Flowo responde. Você continua atendendo. Ela consulta a agenda de cada barbeiro e confirma o agendamento pelo WhatsApp.",
   path: "/",
   absoluteTitle: true,
 });

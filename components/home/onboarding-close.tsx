@@ -6,7 +6,7 @@ import { TrackedLink } from "@/components/analytics/tracked-link";
 const steps = [
   "Crie sua conta",
   "Escolha o plano",
-  "Conecte o WhatsApp com ajuda da Flowo",
+  "Conecte o WhatsApp com a nossa equipe",
 ] as const;
 
 export default function OnboardingClose() {
@@ -27,11 +27,11 @@ export default function OnboardingClose() {
               id="onboarding-close-title"
               className="max-w-xl text-h2 font-semibold leading-tight tracking-[-0.025em] text-ink-strong"
             >
-              Você começa com acompanhamento, não com uma tela vazia.
+              A gente configura com você.
             </h2>
             <p className="mt-5 max-w-lg text-lead text-muted-ink">
-              Escolha o plano, conecte o WhatsApp da barbearia e configure a
-              agenda com a nossa equipe.
+              Organizamos serviços, profissionais e horários. Antes de ativar,
+              testamos o WhatsApp junto com você.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <TrackedLink
@@ -45,7 +45,7 @@ export default function OnboardingClose() {
                 }}
                 className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-ink px-7 text-label font-semibold text-cream transition-colors hover:bg-ink/90"
               >
-                Começar agora
+                Criar minha conta
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </TrackedLink>
               <TrackedLink
@@ -61,11 +61,11 @@ export default function OnboardingClose() {
                 rel="noopener noreferrer"
                 className="inline-flex h-12 items-center justify-center rounded-full border border-line px-7 text-label font-semibold text-ink transition-colors hover:bg-surface"
               >
-                Tirar dúvidas
+                Falar com a Flowo
               </TrackedLink>
             </div>
             <p className="mt-5 text-caption text-muted-ink">
-              Jornada pública paga · sem fidelidade · configuração acompanhada
+              Sem fidelidade. Avaliação assistida de 14 dias para clientes elegíveis.
             </p>
           </div>
         </div>
@@ -90,10 +90,10 @@ export default function OnboardingClose() {
                 <Check className="h-5 w-5" aria-hidden="true" />
               </span>
               <div>
-                <p className="font-semibold text-ink">Configuração acompanhada</p>
+                <p className="font-semibold text-ink">Antes de ativar</p>
                 <p className="mt-1 text-body text-muted-ink">
-                  Sua agenda fica pronta com os serviços, profissionais e horários
-                  de cada pessoa.
+                  Revisamos a agenda e fazemos uma conversa de teste para conferir
+                  os horários oferecidos.
                 </p>
               </div>
             </div>
