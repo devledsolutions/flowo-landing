@@ -5,6 +5,7 @@ import { CookiePreferencesButton } from "@/components/cookie-preferences-button"
 import { LEGAL_ENTITY } from "@/lib/legal-identity";
 import { NewsletterSignup } from "@/components/newsletter-signup";
 import { SIGNUP_URL } from "@/components/cta-links";
+import { cn } from "@/lib/utils";
 const APP_URL = "https://barber.flowo.com.br";
 
 const produtoLinks = [
@@ -94,10 +95,22 @@ function FooterLinkList({ links }: { links: { href: string; label: string }[] })
   );
 }
 
-export default function Footer({ compact = false }: { compact?: boolean }) {
+export default function Footer({
+  compact = false,
+  topInset = false,
+}: {
+  compact?: boolean;
+  /** The closing section lets a product screenshot run down behind the footer. */
+  topInset?: boolean;
+}) {
   return (
-    <footer className="on-ink border-t border-line">
-      <div className="container-page section-tight">
+    <footer className={cn("on-ink relative z-0", !topInset && "border-t border-line")}>
+      <div
+        className={cn(
+          "container-page",
+          topInset ? "pb-[var(--section-y-tight)] pt-36 lg:pt-52" : "section-tight"
+        )}
+      >
         {!compact ? (
           <div className="mb-14">
             <NewsletterSignup />

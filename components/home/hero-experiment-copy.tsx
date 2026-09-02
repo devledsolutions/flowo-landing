@@ -9,12 +9,11 @@ export function HeroExperimentCopy() {
   const challenger = variant === "challenger";
   return (
     <>
-      <p className="mx-auto mt-5 max-w-2xl text-lead text-muted-ink">
-        Ela consulta a agenda de cada barbeiro, oferece os horários livres e
-        confirma o agendamento pelo WhatsApp. Sua equipe pode assumir a conversa
-        quando quiser.
+      <p className="mt-6 max-w-[30rem] text-lead text-muted-ink">
+        Ela consulta a agenda de cada barbeiro e confirma o horário pelo
+        WhatsApp. Você continua atendendo.
       </p>
-      <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+      <div className="mt-8 flex flex-col gap-3 sm:flex-row">
         <TrackedLink
           href="/demonstracao-agendamento-whatsapp"
           event="CTA Clicked"

@@ -79,14 +79,14 @@ export function CookieBanner() {
   return (
     <section
       aria-label="Aviso de cookies"
-      className={`fixed bottom-4 left-4 z-50 max-w-sm animate-in slide-in-from-bottom-4 fade-in duration-300${
+      className={`fixed inset-x-0 bottom-0 z-50 animate-in slide-in-from-bottom-4 fade-in duration-300${
         isCampaignPage ? " flowo-campaign-cookie" : ""
       }`}
     >
-      <div className="overflow-hidden rounded-xl bg-surface shadow-[0_4px_8px_-2px_oklch(0.205_0.012_110/0.22)]">
+      <div className="border-t border-line bg-surface shadow-[0_-4px_8px_-2px_oklch(0.205_0.012_110/0.12)]">
         {!showPreferences ? (
-          <div className="p-4">
-            <div className="mb-3 flex items-start gap-3">
+          <div className="mx-auto flex max-w-page flex-col gap-2 px-[var(--gutter)] py-2.5 sm:flex-row sm:items-center sm:gap-5">
+            <div className="flex min-w-0 flex-1 items-start gap-3">
               <Cookie aria-hidden="true" className="mt-0.5 h-5 w-5 flex-shrink-0 text-ink" />
               <div>
                 <p className="text-sm leading-relaxed text-muted-ink">
@@ -102,17 +102,17 @@ export function CookieBanner() {
               </div>
               <button
                 onClick={handleRejectAll}
-                className="inline-flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full transition-colors duration-200 ease-out-quint hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2"
+                className="inline-flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full transition-colors duration-200 ease-out-quint hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 sm:hidden"
                 aria-label="Fechar e rejeitar cookies opcionais"
               >
                 <X aria-hidden="true" className="h-4 w-4 text-muted-ink" />
               </button>
             </div>
 
-            <div className="flex gap-2">
+            <div className="flex shrink-0 justify-end gap-2 sm:justify-start">
               <button
                 type="button"
-                className="inline-flex h-11 items-center rounded-full px-3 text-xs text-muted-ink hover:text-ink"
+                className="inline-flex h-9 items-center rounded-full px-2.5 text-xs text-muted-ink hover:text-ink"
                 onClick={() => setShowPreferences(true)}
               >
                 <Settings aria-hidden="true" className="mr-1.5 h-3.5 w-3.5" />
@@ -120,14 +120,14 @@ export function CookieBanner() {
               </button>
               <button
                 type="button"
-                className="inline-flex h-11 items-center rounded-full border border-line px-3 text-xs text-ink"
+                className="inline-flex h-9 items-center rounded-full border border-line px-3.5 text-xs text-ink"
                 onClick={handleRejectAll}
               >
                 Rejeitar
               </button>
               <button
                 type="button"
-                className="inline-flex h-11 items-center rounded-full bg-ink px-3 text-xs font-medium text-cream"
+                className="inline-flex h-9 items-center rounded-full bg-ink px-3.5 text-xs font-medium text-cream"
                 onClick={handleAcceptAll}
               >
                 Aceitar
@@ -135,7 +135,7 @@ export function CookieBanner() {
             </div>
           </div>
         ) : (
-          <div className="p-4">
+          <div className="mx-auto max-w-md px-[var(--gutter)] py-4">
             <div className="mb-3 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Shield aria-hidden="true" className="h-4 w-4 text-ink" />

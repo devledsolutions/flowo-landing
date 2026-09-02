@@ -64,7 +64,7 @@
 
     /* --- section cadence (three rhythms, not one-size py-24) --- */
     --section-y-tight: clamp(3rem, 6vw, 4.5rem);
-    --section-y-normal: clamp(4.5rem, 9vw, 7.5rem);
+    --section-y-normal: clamp(3.5rem, 9vw, 7.5rem);
     --section-y-loose: clamp(6rem, 12vw, 10rem);
     --container-max: 75rem;                    /* 1200px */
     --gutter: clamp(1.25rem, 5vw, 2.5rem);

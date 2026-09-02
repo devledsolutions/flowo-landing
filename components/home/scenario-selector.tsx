@@ -60,7 +60,7 @@ export default function ScenarioSelector() {
     <section
       id="casos-de-validacao"
       aria-labelledby="validation-cases-title"
-      className="section-normal scroll-mt-28 on-ink"
+      className="section-normal scroll-mt-28 border-t border-line bg-surface"
     >
       <div className="container-page">
         <header className="grid gap-6 lg:grid-cols-[1fr_0.62fr] lg:items-end lg:gap-20">
@@ -81,13 +81,13 @@ export default function ScenarioSelector() {
           </p>
         </header>
 
-        <div className="mt-9 border-t border-current">
+        <div className="mt-9 border-t border-ink">
           {validationCases.map((validationCase) => (
             <article
               key={validationCase.id}
               className="grid gap-6 border-b border-line py-8 lg:grid-cols-[6.5rem_minmax(13rem,0.72fr)_minmax(20rem,1.28fr)_auto] lg:items-center lg:gap-8"
             >
-              <span className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-xl border border-current bg-[#f4f0e5] p-1 text-ink">
+              <span className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-xl border border-line bg-surface-2 p-1 text-ink">
                 <Image
                   src={validationCase.logo}
                   alt=""
@@ -130,7 +130,7 @@ export default function ScenarioSelector() {
                     profile: validationCase.id,
                     proof_origin: "controlled_production_validation",
                   }}
-                  className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full border border-current px-5 text-label font-semibold text-ink transition-colors duration-200 hover:bg-ink hover:text-[#171810] lg:w-auto"
+                  className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full border border-current px-5 text-label font-semibold text-ink transition-colors duration-200 hover:bg-ink hover:text-cream lg:w-auto"
                 >
                   Ver este teste
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
