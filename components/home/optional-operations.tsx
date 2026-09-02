@@ -34,7 +34,8 @@ const capabilities = [
     label: "Opcional",
     title: "Pagamentos integrados",
     description:
-      "Receba por PIX ou cartão no pós-atendimento, sem abandonar dinheiro ou maquininha própria.",
+      "Receba por Pix ou cartão depois do serviço, se quiser usar essa opção.",
+    cta: "Ver pagamentos",
     href: "/software-barbearia-com-pix",
   },
   {
@@ -43,6 +44,7 @@ const capabilities = [
     title: "Comissões",
     description:
       "Calcule depois da comanda paga; o gestor confere e inicia o repasse.",
+    cta: "Ver comissões",
     href: "/recursos/comissoes-barbeiros",
   },
   {
@@ -51,6 +53,7 @@ const capabilities = [
     title: "Cashback",
     description:
       "Defina percentual, validade e limite de uso antes de ativar o benefício.",
+    cta: "Ver cashback",
     href: "/recursos/cashback-barbearia",
   },
   {
@@ -59,6 +62,7 @@ const capabilities = [
     title: "Nota fiscal",
     description:
       "Valide município, dados fiscais e homologação antes de emitir pela comanda.",
+    cta: "Ver nota fiscal",
     href: "/recursos/nota-fiscal-barbearia",
   },
 ] as const;
@@ -74,19 +78,18 @@ export default function OptionalOperations() {
         <div className="grid items-end gap-8 lg:grid-cols-[1fr_0.7fr] lg:gap-20">
           <div>
             <p className="text-label font-semibold uppercase tracking-[0.12em] text-faint-ink">
-              Depois do atendimento
+              Recebimentos
             </p>
             <h2
               id="optional-operations-title"
               className="mt-4 max-w-[18ch] text-h2 font-semibold tracking-[-0.025em] text-ink-strong"
             >
-              Você decide como recebe. A Flowo organiza o resto.
+              Receba do jeito que já recebe hoje.
             </h2>
           </div>
           <p className="max-w-measure text-lead text-muted-ink">
-            O pagamento integrado é uma escolha, não uma condição para usar o
-            produto. A comanda pode registrar dinheiro, maquininha própria ou
-            uma opção Flowo ativada pela barbearia.
+            Registre dinheiro ou maquininha na comanda. Pix e cartão Flowo podem
+            ser ativados depois, sem mudar o agendamento.
           </p>
         </div>
 
@@ -128,7 +131,7 @@ export default function OptionalOperations() {
               <h3 className="mt-8 text-lg font-semibold text-ink">{item.title}</h3>
               <p className="mt-3 text-label text-muted-ink">{item.description}</p>
               <span className="mt-auto flex items-center gap-2 pt-8 text-label font-semibold text-ink">
-                Entender o recurso
+                {item.cta}
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
               </span>
             </Link>

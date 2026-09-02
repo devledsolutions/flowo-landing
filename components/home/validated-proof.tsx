@@ -2,9 +2,9 @@ import Link from "next/link";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 const proofItems = [
-  "mensagem recebida e respondida no WhatsApp",
-  "agendamento criado e confirmado na agenda",
-  "remarcação, cancelamento e controle humano testados",
+  "a resposta saiu pelo WhatsApp",
+  "o cliente escolheu um horário que estava livre",
+  "o agendamento foi criado, remarcado e cancelado na agenda",
 ] as const;
 
 export function ValidatedProof() {
@@ -17,13 +17,13 @@ export function ValidatedProof() {
         <div className="grid gap-7 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:items-center lg:gap-14">
           <div>
             <p className="text-caption font-medium text-faint-ink">
-              Fluxo validado ponta a ponta em ambiente controlado
+              Testado com números e agendas de teste
             </p>
             <h2
               id="validated-proof-title"
               className="mt-2 max-w-[21ch] text-h3 font-semibold text-ink"
             >
-              A conversa realmente chega até a agenda.
+              Mandamos a mensagem. O horário apareceu na agenda.
             </h2>
           </div>
 
@@ -43,7 +43,7 @@ export function ValidatedProof() {
               href="/demonstracao-agendamento-whatsapp"
               className="mt-5 inline-flex min-h-11 items-center gap-2 text-label font-semibold text-ink underline-offset-4 hover:underline"
             >
-              Ver o que foi testado
+              Ver os testes
               <ArrowRight aria-hidden="true" className="h-4 w-4" />
             </Link>
           </div>

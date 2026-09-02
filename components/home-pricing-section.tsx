@@ -40,12 +40,12 @@ const LeadCaptureModal = dynamic(
 const summaryFeatures = {
   solo: [
     "1 profissional",
-    "IA atende, agenda e confirma no WhatsApp",
+    "Flowo responde, agenda e confirma no WhatsApp",
     "Até 200 agendamentos por mês",
   ],
   equipe: [
     "Até 5 profissionais, cada um com seus horários",
-    "IA atende, agenda e confirma no WhatsApp",
+    "Flowo responde, agenda e confirma no WhatsApp",
     "Agendamentos ilimitados",
   ],
   empresarial: [
@@ -56,10 +56,10 @@ const summaryFeatures = {
 } as const;
 
 const purchaseFacts = [
-  ["WhatsApp avaliado na configuração", "A equipe confirma como conectar o número atual antes da ativação."],
-  ["A configuração é acompanhada", "Serviços, equipe, horários e respostas são revisados com você."],
-  ["Avaliação assistida", "Em casos elegíveis, a equipe libera 14 dias sem cartão e sem renovação automática nos planos Solo ou Equipe."],
-  ["Cancelamento claro", "Cancele no Flowo ou na loja onde assinou. O WhatsApp é gerenciado separadamente."],
+  ["Antes de conectar o WhatsApp", "A gente confere com você se o número atual pode ser usado."],
+  ["A gente configura com você", "Serviços, equipe, horários e respostas são revisados antes da ativação."],
+  ["14 dias para clientes elegíveis", "A avaliação assistida não pede cartão nem renova automaticamente."],
+  ["Você pode cancelar", "Cancele no Flowo ou na loja onde assinou, sem multa de fidelidade."],
 ] as const;
 
 export default function HomePricingSection() {
@@ -101,13 +101,14 @@ export default function HomePricingSection() {
       />
       <header className="mx-auto mt-8 max-w-4xl text-center">
         <h2 className="text-h2 font-semibold tracking-[-0.025em] text-ink-strong">
-          Um plano para cada tamanho de operação.
+          Você trabalha sozinho ou tem uma equipe?
         </h2>
         <p className="mx-auto mt-4 max-w-2xl text-lead text-muted-ink">
-          A IA no WhatsApp está em todos. O que muda é a escala da barbearia.
+          Escolha pelo número de profissionais. O atendimento no WhatsApp está
+          nos dois planos.
         </p>
         <p className="mx-auto mt-5 max-w-2xl text-caption font-medium text-ink">
-          Sem cartão na avaliação · sem renovação automática · configuração acompanhada
+          Sem fidelidade. A avaliação de 14 dias é liberada para clientes elegíveis.
         </p>
       </header>
 
@@ -248,7 +249,7 @@ export default function HomePricingSection() {
                         : "bg-ink text-cream hover:bg-ink-strong"
                     )}
                   >
-                    Começar agora
+                    Criar minha conta
                     <ArrowRight className="h-4 w-4" aria-hidden="true" />
                   </TrackedLink>
                 ) : null}

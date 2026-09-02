@@ -34,11 +34,10 @@ export default function ProductStory() {
               id="product-proof-title"
               className="text-h2 font-semibold leading-tight tracking-[-0.025em] text-ink-strong"
             >
-              Da mensagem à cadeira,{" "}
-              <em className="font-serif font-medium italic">sem perder o controle.</em>
+              O pedido sai do WhatsApp e entra na agenda.
             </h2>
             <p className="mt-4 text-lead text-muted-ink">
-              A mesma informação acompanha cada etapa.
+              Sem copiar nome, serviço ou horário de uma tela para outra.
             </p>
           </header>
 
@@ -78,12 +77,11 @@ export default function ProductStory() {
               id="team-schedules-title"
               className="text-h2 font-semibold leading-tight tracking-[-0.025em] text-ink-strong"
             >
-              Cada profissional no seu horário. Tudo sob{" "}
-              <em className="font-serif font-medium italic">controle.</em>
+              Rafael trabalha de manhã. Pedro só à tarde. A Flowo sabe a diferença.
             </h2>
             <p className="mt-5 text-lead text-muted-ink">
-              Dias, serviços e disponibilidade podem ser diferentes para cada
-              barbeiro.
+              Cada barbeiro pode ter seus dias, serviços e duração. A Flowo só
+              oferece o que está livre naquela agenda.
             </p>
             <dl className="mt-9 divide-y divide-line border-y border-line">
               {planFit.map(([plan, fit]) => (
@@ -109,12 +107,11 @@ export default function ProductStory() {
               id="payment-proof-title"
               className="text-h2 font-semibold leading-tight tracking-[-0.025em] text-ink-strong"
             >
-              Atendimento concluído. Caixa{" "}
-              <em className="font-serif font-medium italic">atualizado.</em>
+              Terminou o atendimento? Registre como o cliente pagou.
             </h2>
             <p className="mt-5 text-lead text-muted-ink">
-              Depois do serviço, registre dinheiro, maquininha própria ou um
-              pagamento Flowo opcional — nunca para reservar o horário.
+              Dinheiro e maquininha própria continuam valendo. Pix e cartão
+              Flowo são opcionais e só aparecem depois do serviço.
             </p>
 
             <ol className="mt-9 flex items-center gap-3" aria-label="Etapas do atendimento">
@@ -144,8 +141,8 @@ export default function ProductStory() {
           <div className="flex items-start gap-3">
             <MessageCircle className="mt-1 h-5 w-5 shrink-0 text-ink" aria-hidden="true" />
             <p className="max-w-2xl text-body text-muted-ink">
-              A IA atende no WhatsApp da barbearia. Sua equipe acompanha a agenda
-              e pode assumir qualquer conversa.
+              A Flowo responde no WhatsApp da barbearia. Sua equipe vê o que
+              aconteceu e pode assumir quando precisar.
             </p>
           </div>
           <a

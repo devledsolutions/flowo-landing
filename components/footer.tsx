@@ -64,14 +64,17 @@ const compararLinks = [
   { href: "/flowo-vs-barbeiro-app", label: "Flowo vs Barbeiro.app" },
 ];
 
-const compactLinks = [
-  { href: "/sistema-agendamento-barbearia", label: "Conhecer o produto" },
+const compactProductLinks = [
+  { href: "/sistema-agendamento-barbearia", label: "Como funciona" },
+  { href: "/demonstracao-agendamento-whatsapp", label: "Demonstração" },
   { href: "/precos", label: "Planos e preços" },
+];
+
+const compactFlowoLinks = [
+  { href: "/recursos", label: "Recursos" },
   { href: "/comparar", label: "Comparar sistemas" },
-  { href: "/recursos", label: "Recursos gratuitos" },
   { href: "/sobre", label: "Sobre a Flowo" },
-  { href: APP_URL, label: "Entrar" },
-] as const;
+];
 
 function FooterLinkList({ links }: { links: { href: string; label: string }[] }) {
   return (
@@ -95,9 +98,11 @@ export default function Footer({ compact = false }: { compact?: boolean }) {
   return (
     <footer className="on-ink border-t border-line">
       <div className="container-page section-tight">
-        <div className="mb-14">
-          <NewsletterSignup />
-        </div>
+        {!compact ? (
+          <div className="mb-14">
+            <NewsletterSignup />
+          </div>
+        ) : null}
         <div
           className={
             compact
@@ -114,8 +119,7 @@ export default function Footer({ compact = false }: { compact?: boolean }) {
               className="brightness-0 invert"
             />
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-muted-ink">
-              Chegou “tem horário hoje?” A Flowo confere e já marca. Você cuida
-              do corte.
+              Atendimento no WhatsApp conectado à agenda da barbearia.
             </p>
             <ul className="mt-6 space-y-3">
               <li className="flex items-center gap-3 text-sm text-muted-ink">
@@ -132,56 +136,25 @@ export default function Footer({ compact = false }: { compact?: boolean }) {
                 </a>
               </li>
             </ul>
-            <p className="mt-5 max-w-xs text-xs leading-relaxed text-muted-ink">
-              Flowo é um produto operado pela {LEGAL_ENTITY.name}
-              <br />
-              CNPJ {LEGAL_ENTITY.taxId}
-              <br />
-              {LEGAL_ENTITY.address}
-            </p>
           </div>
 
           {compact ? (
-            <nav aria-label="Atalhos da Flowo">
-              <h3 className="text-label font-medium text-ink">
-                Continue por onde fizer sentido
-              </h3>
-              <ul className="mt-5 grid border-y border-line sm:grid-cols-2 sm:divide-x sm:divide-line">
-                {compactLinks.map((link, index) => (
-                  <li
-                    key={link.href}
-                    className={`border-b border-line last:border-b-0 sm:px-5 ${
-                      index >= compactLinks.length - 2 ? "sm:border-b-0" : ""
-                    }`}
-                  >
-                    {link.href.startsWith("http") ? (
-                      <a
-                        href={link.href}
-                        className="flex min-h-14 items-center justify-between gap-4 text-sm font-medium text-muted-ink transition-colors hover:text-ink"
-                      >
-                        {link.label}
-                        <span aria-hidden="true">↗</span>
-                      </a>
-                    ) : (
-                      <Link
-                        href={link.href}
-                        prefetch={false}
-                        className="flex min-h-14 items-center justify-between gap-4 text-sm font-medium text-muted-ink transition-colors hover:text-ink"
-                      >
-                        {link.label}
-                        <span aria-hidden="true">→</span>
-                      </Link>
-                    )}
-                  </li>
-                ))}
-              </ul>
-              <a
-                href={SIGNUP_URL}
-                className="mt-7 inline-flex min-h-11 items-center rounded-full bg-surface px-5 text-sm font-semibold text-ink-strong transition-colors hover:bg-cream"
-              >
-                Começar agora
-              </a>
-            </nav>
+            <div className="grid gap-10 sm:grid-cols-2">
+              <nav aria-label="Produto">
+                <h3 className="text-label font-medium text-ink">Produto</h3>
+                <FooterLinkList links={compactProductLinks} />
+              </nav>
+              <nav aria-label="Flowo">
+                <h3 className="text-label font-medium text-ink">Flowo</h3>
+                <FooterLinkList links={compactFlowoLinks} />
+                <a
+                  href={APP_URL}
+                  className="mt-3 flex min-h-11 items-center rounded-sm text-sm font-medium text-ink underline-offset-4 outline-none hover:underline focus-visible:ring-2 focus-visible:ring-cream focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+                >
+                  Entrar
+                </a>
+              </nav>
+            </div>
           ) : (
             <>
               <nav aria-label="Produto">
@@ -227,9 +200,12 @@ export default function Footer({ compact = false }: { compact?: boolean }) {
         </div>
 
         <div className="mt-14 flex flex-col gap-4 border-t border-line pt-8 md:flex-row md:items-center md:justify-between">
-          <p className="text-caption text-muted-ink">
-            © {new Date().getFullYear()} Flowo. Todos os direitos reservados.
-          </p>
+          <div className="max-w-2xl text-caption leading-relaxed text-muted-ink">
+            <p>© {new Date().getFullYear()} Flowo. Todos os direitos reservados.</p>
+            <p className="mt-2">
+              {LEGAL_ENTITY.name} · CNPJ {LEGAL_ENTITY.taxId} · {LEGAL_ENTITY.address}
+            </p>
+          </div>
           <div className="flex flex-wrap gap-x-6 text-caption">
             <Link
               href="/privacidade"

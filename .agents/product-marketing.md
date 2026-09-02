@@ -1,22 +1,25 @@
 # Product Marketing Context
 
-**Document version:** v4
-**Last updated:** 2026-07-31
+**Document version:** v5
+**Last updated:** 2026-09-01
 
 ## Product Overview
 
-**One-liner:** Flowo é a recepção com IA no WhatsApp conectada à operação da barbearia.  
-**What it does:** A IA atende, consulta a agenda, marca e confirma horários no
-WhatsApp. O painel reúne agenda, profissionais, clientes, comandas, campanhas e
-formas de recebimento; pagamentos integrados são opcionais e pós-atendimento.  
+**One-liner:** “Tem horário hoje?” A Flowo responde. Você continua atendendo.
+
+**What it does:** A Flowo responde no WhatsApp, consulta a agenda de cada
+profissional, oferece os horários livres e confirma o agendamento. O painel reúne
+agenda, profissionais, clientes, comandas, campanhas e formas de recebimento;
+pagamentos integrados são opcionais e pós-atendimento.
+
 O aplicativo para barbeiros e gestores está em preparação para iPhone e
 Android; ele complementa o painel com agenda, presenças, clientes e comandas no
 celular, sem data pública de lançamento.  
 **Product category:** Sistema de agendamento e gestão para barbearias; recepção
 com IA no WhatsApp.  
 **Product type:** SaaS B2B multi-tenant.  
-**Business model:** A jornada pública é paga: Solo R$249/mês e Equipe
-R$549/mês. Empresarial é sob consulta, com proposta, contratação e ativação
+**Business model:** A contratação pública é paga: Solo R$379/mês e Equipe
+R$789/mês. Empresarial é sob consulta, com proposta, contratação e ativação
 assistidas. A equipe pode conceder manualmente uma avaliação assistida de 14
 dias a clientes elegíveis dos planos Solo ou Equipe. Ela não exige cartão, não
 renova e não gera cobrança automática. Sem fidelidade.
@@ -131,6 +134,7 @@ errado.
 
 - “Uma recepcionista no WhatsApp.”
 - “A IA agenda enquanto eu trabalho.”
+- “A Flowo responde. Eu continuo atendendo.”
 
 **Words to use:** WhatsApp, agenda, horário, barbeiro, cliente, corte, cadeira,
 comanda, confirmar, remarcar, encaixe, folga, turno, comissão, acerto, cliente
@@ -209,6 +213,7 @@ automação no WhatsApp.
 
 ## Changelog
 
+- v5 (2026-09-01) — Atualizou preços, fixou a promessa da Home em linguagem do cliente e retirou “recepção com IA” da abertura da marca.
 - v4 (2026-07-31) — Fixou a identidade visual canônica das landing pages, o uso exclusivo de `flowo-logo.svg` e a separação entre imagens geradas e telas reais do produto.
 - v3 (2026-07-31) — Registrou a validação técnica em produção e delimitou seu uso: prova de funcionamento, sem apresentá-la como caso de cliente ou resultado financeiro.
 - v2 (2026-07-30) — Ampliou a linguagem do cliente e a voz da marca com termos da rotina de barbeiros; removeu jargão operacional das diretrizes.

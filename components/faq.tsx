@@ -7,7 +7,7 @@ export default function FAQ({ compact = false }: { compact?: boolean }) {
       <div className="container-page">
         <FAQSection
           title="Perguntas frequentes"
-          description="Tire suas dúvidas sobre o Flowo"
+          description="Respostas diretas antes de contratar"
           items={compact ? homeFaqItems : faqItems}
           showSearch={!compact}
         />
