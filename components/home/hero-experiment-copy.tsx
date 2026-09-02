@@ -4,16 +4,17 @@ import { ArrowRight } from "lucide-react";
 import { TrackedLink } from "@/components/analytics/tracked-link";
 import { useWebsiteExperiment } from "@/hooks/use-website-experiment";
 
-export function HeroExperimentCopy() {
+export function HeroExperimentCopy({ align = "start" }: { align?: "start" | "center" }) {
+  const centered = align === "center";
   const variant = useWebsiteExperiment("homepage-hero-proof-v1");
   const challenger = variant === "challenger";
   return (
     <>
-      <p className="mt-6 max-w-[30rem] text-lead text-muted-ink">
+      <p className={centered ? "mx-auto mt-6 max-w-[34rem] text-lead text-muted-ink" : "mt-6 max-w-[30rem] text-lead text-muted-ink"}>
         Ela consulta a agenda de cada barbeiro e confirma o horário pelo
         WhatsApp. Você continua atendendo.
       </p>
-      <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+      <div className={centered ? "mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center" : "mt-8 flex flex-col gap-3 sm:flex-row"}>
         <TrackedLink
           href="/demonstracao-agendamento-whatsapp"
           event="CTA Clicked"
