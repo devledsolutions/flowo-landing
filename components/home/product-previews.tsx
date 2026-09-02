@@ -273,11 +273,17 @@ export function PaymentPreview({ className }: { className?: string }) {
   );
 }
 
-export function ProductDisclaimer({ className }: { className?: string }) {
+export function ProductDisclaimer({
+  className,
+  label = "Demonstração com dados ilustrativos",
+}: {
+  className?: string;
+  label?: string;
+}) {
   return (
     <p className={cn("flex items-center gap-1.5 text-[10px] text-faint-ink sm:text-caption", className)}>
       <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
-      Demonstração com dados ilustrativos
+      {label}
     </p>
   );
 }

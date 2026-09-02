@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ArrowRight, ShieldCheck } from "lucide-react";
+import { PhoneFrame } from "@/components/home/phone-frame";
 import { SIGNUP_URL, WHATSAPP_URL } from "@/components/cta-links";
 import { TrackedLink } from "@/components/analytics/tracked-link";
 
@@ -93,19 +94,17 @@ export default function OnboardingClose() {
         </div>
 
         <div className="relative z-10 -mb-28 mx-auto w-[min(100%,19rem)] lg:-mb-40 lg:mr-0 lg:w-[min(100%,21rem)]">
-          <div className="h-[30rem] overflow-hidden rounded-[2rem] border border-ink/25 bg-surface shadow-[0_44px_90px_-46px_oklch(0.08_0.01_110/0.95)] lg:h-[34rem]">
-            <Image
-              src="/images/validation-cases/product/whatsapp-booking.png"
-              alt="Conversa real de agendamento pelo WhatsApp da Flowo, com o horário confirmado na agenda."
-              width={1206}
-              height={2622}
-              sizes="(min-width: 1024px) 21rem, 19rem"
-              className="w-full object-cover object-top"
-            />
-          </div>
+          <PhoneFrame
+            src="/images/product/app-home.png"
+            alt="Tela inicial do app da Flowo: as cadeiras da barbearia, quem está sendo atendido e quanto falta em cada uma."
+            width={720}
+            height={1564}
+            sizes="(min-width: 1024px) 21rem, 19rem"
+            className="h-[30rem] lg:h-[34rem]"
+          />
           <p className="mt-3 flex items-center gap-1.5 text-caption text-muted-ink">
             <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
-            Tela real do produto, de um teste acompanhado
+            Tela real do app, com dados ilustrativos
           </p>
         </div>
       </div>
