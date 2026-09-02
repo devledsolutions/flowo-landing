@@ -8,7 +8,7 @@ import { useWebsiteExperiment } from "@/hooks/use-website-experiment";
  * `fora` is the home hero: one centred 14px lead and a single light pill CTA,
  * boxed to the reference (lead 420px wide, CTA 172x48, gaps 16 and 48).
  */
-export function HeroExperimentCopy({ align = "start" }: { align?: "start" | "center" | "fora" }) {
+export function HeroExperimentCopy({ align = "start" }: { align?: "start" | "center" | "fora" | "flowo" }) {
   const variant = useWebsiteExperiment("homepage-hero-proof-v1");
   const challenger = variant === "challenger";
   const label = challenger ? "Ver conversa e agenda" : "Ver uma conversa completa";
@@ -20,6 +20,28 @@ export function HeroExperimentCopy({ align = "start" }: { align?: "start" | "cen
     experiment_key: "homepage-hero-proof-v1",
     variant_key: variant ?? "unassigned",
   };
+
+  if (align === "flowo") {
+    return (
+      <>
+        <p className="mx-auto mt-5 max-w-[30rem] text-lead text-muted-ink">
+          Ela consulta a agenda de cada barbeiro e confirma o horário pelo WhatsApp. Você
+          continua atendendo.
+        </p>
+        <div className="mt-9 flex justify-center motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-6 motion-safe:fill-mode-both motion-safe:duration-[600ms] motion-safe:delay-[240ms]">
+          <TrackedLink
+            href="/demonstracao-agendamento-whatsapp"
+            event="CTA Clicked"
+            properties={props}
+            className="inline-flex h-12 items-center gap-2 rounded-full bg-ink px-7 text-label font-semibold text-cream transition-colors duration-200 hover:bg-ink/90"
+          >
+            {label}
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </TrackedLink>
+        </div>
+      </>
+    );
+  }
 
   if (align === "fora") {
     return (
