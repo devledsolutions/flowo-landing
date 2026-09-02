@@ -52,9 +52,11 @@ demonstrações de produto, controles de janela e estados semânticos.
 
 - Container máximo: 1200 px com gutter fluido.
 - Seções: cadência curta, normal ou ampla; alternar conforme a narrativa.
-- Desktop: grids assimétricos de texto + prova. Exceção: o hero da home é copy
-  centrada sobre um palco de produto de largura total, na gramática do fora.so
-  (decisão do fundador, 2026-09-02).
+- Desktop: grids assimétricos de texto + prova. Exceção: o hero da home reproduz
+  a composição do hero do fora.so (fundo escuro em gradiente radial, três planos
+  de colinas com parallax, copy centrada e um card de produto entre os planos),
+  por decisão do fundador em 2026-09-02. As medidas de referência estão no
+  comentário de `components/hero.tsx`.
 - Mobile: uma coluna, CTA primário visível cedo e ordem narrativa preservada.
 - Mockups: janela ou dispositivo crível, com legenda clara quando for prévia.
 

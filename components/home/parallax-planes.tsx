@@ -4,36 +4,35 @@ import { useEffect, useRef, type ReactNode } from "react";
 
 /**
  * Depth planes driven by the page scroll, the way fora.so stages its hero:
- * a plane with `rate` 1 travels with the page, a plane with `rate` 0.7 keeps
- * only 70% of that travel and so reads as further away. Everything in front
+ * a plane with `rate` 1 travels with the page, a plane with `rate` 0.69 keeps
+ * only 69% of that travel and so reads as further away. Everything in front
  * of a slower plane appears to climb over it as the reader scrolls.
  *
- * Transform only, one rAF per scroll event, and off entirely on phones and
- * under reduced motion: there the planes are a static stack.
+ * Transform only, one rAF per scroll event, on every viewport (the reference
+ * keeps it on phones too), and off under reduced motion, where the planes
+ * are a still stack.
  */
 export function ParallaxPlanes({
   children,
   className,
+  id,
 }: {
   children: ReactNode;
   className?: string;
+  id?: string;
 }) {
-  const root = useRef<HTMLDivElement>(null);
+  const root = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const el = root.current;
     if (!el) return;
     const planes = [...el.querySelectorAll<HTMLElement>("[data-plane-rate]")];
-    const media = window.matchMedia(
-      "(min-width: 1024px) and (prefers-reduced-motion: no-preference)"
-    );
+    const media = window.matchMedia("(prefers-reduced-motion: no-preference)");
     let raf = 0;
 
     const paint = () => {
       raf = 0;
       const top = el.getBoundingClientRect().top + window.scrollY;
-      // Travel is measured from the top of the stage, and capped at its own
-      // height: past that the hero is off screen and there is nothing to lag.
       const travel = Math.min(Math.max(window.scrollY - top, 0), el.offsetHeight);
       for (const plane of planes) {
         const rate = parseFloat(plane.dataset.planeRate ?? "1");
@@ -69,8 +68,8 @@ export function ParallaxPlanes({
   }, []);
 
   return (
-    <div ref={root} className={className}>
+    <section ref={root} id={id} className={className}>
       {children}
-    </div>
+    </section>
   );
 }

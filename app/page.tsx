@@ -24,7 +24,7 @@ export default function Home() {
   return (
     <>
       <SchemaMarkup />
-      <Navbar />
+      <Navbar overInk />
       <main id="main-content">
         <Hero />
         <ValidatedProof />
