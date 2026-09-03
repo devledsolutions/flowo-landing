@@ -13,6 +13,7 @@ import { Breadcrumb } from "@/components/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { SIGNUP_URL } from "@/components/cta-links";
 import { GUIDE_BY_PATH } from "@/data/guides";
+import { GuideTocNav } from "./guide-toc";
 
 /**
  * Shared shell for every guia em /recursos/guias/*.
@@ -61,7 +62,7 @@ export function GuideHeader({
           Revisado em {updatedAt}
         </span>
       </div>
-      <h1 className="mt-5 text-h2 font-bold leading-tight text-ink">{title}</h1>
+      <h1 className="mt-5 font-serif text-[clamp(2.1rem,1.6rem+1.6vw,3.1rem)] font-medium leading-[1.1] tracking-[-0.02em] text-ink-strong">{title}</h1>
       <p className="mt-4 max-w-measure text-lead leading-relaxed text-muted-ink">
         {lead}
       </p>
@@ -70,28 +71,10 @@ export function GuideHeader({
 }
 
 export function GuideToc({ items }: { items: { id: string; label: string }[] }) {
-  const links = (
-    <ol className="space-y-1">
-      {items.map((item, index) => (
-        <li key={item.id}>
-          <a
-            href={`#${item.id}`}
-            className="flex min-h-11 items-center gap-3 rounded px-1 py-2 text-muted-ink outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2"
-          >
-            <span className="text-caption tabular-nums text-faint-ink">
-              {String(index + 1).padStart(2, "0")}
-            </span>
-            <span>{item.label}</span>
-          </a>
-        </li>
-      ))}
-    </ol>
-  );
-
   return (
     <>
       <details className="group mb-10 rounded-lg border border-line bg-surface sm:hidden">
-        <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-4 px-5 py-3 font-semibold text-ink outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ink">
+        <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-4 px-5 py-3 font-semibold text-ink outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2">
           Neste guia
           <span className="text-caption font-normal text-muted-ink group-open:hidden">
             {items.length} tópicos
@@ -100,17 +83,12 @@ export function GuideToc({ items }: { items: { id: string; label: string }[] }) 
             Fechar
           </span>
         </summary>
-        <nav aria-label="Neste guia" className="border-t border-line px-4 py-3">
-          {links}
-        </nav>
+        <GuideTocNav items={items} className="border-t border-line px-5 py-4" />
       </details>
-      <nav
-        aria-label="Neste guia"
-        className="mb-12 hidden rounded-lg border border-line bg-surface p-6 sm:block"
-      >
-        <h2 className="mb-3 text-label font-semibold text-ink">Neste guia</h2>
-        {links}
-      </nav>
+      <GuideTocNav
+        items={items}
+        className="mb-12 hidden max-h-[calc(100vh-9rem)] overflow-y-auto sm:block"
+      />
     </>
   );
 }
@@ -244,11 +222,11 @@ export function GuideSection({
 }) {
   return (
     <section id={id} className="mt-14 scroll-mt-28 first:mt-0">
-      <div className="mb-5 flex items-center gap-3">
-        <span className="rounded-lg border border-line bg-surface p-2">
-          <Icon className="h-5 w-5 text-ink" aria-hidden="true" />
-        </span>
-        <h2 className="text-h3 font-bold text-ink">{title}</h2>
+      <div className="mb-5 flex items-baseline gap-3 border-t border-line pt-8">
+        <Icon className="h-5 w-5 shrink-0 translate-y-1 text-faint-ink" aria-hidden="true" />
+        <h2 className="font-serif text-[1.75rem] font-medium leading-[1.2] tracking-[-0.015em] text-ink-strong sm:text-[2rem]">
+          {title}
+        </h2>
       </div>
       <div className="space-y-5 text-body leading-relaxed text-muted-ink [&_strong]:font-semibold [&_strong]:text-ink">
         {children}
@@ -281,12 +259,19 @@ export function GuideCards({
 }) {
   return (
     <div
-      className={`my-8 grid gap-4 ${columns === 2 ? "sm:grid-cols-2" : ""}`}
+      className={
+        columns === 2
+          ? "my-8 grid gap-x-10 gap-y-0 border-y border-line sm:grid-cols-2"
+          : "my-8 divide-y divide-line border-y border-line"
+      }
     >
       {items.map((item) => (
-        <div key={item.title} className="rounded-lg border border-line bg-surface p-5">
+        <div
+          key={item.title}
+          className={columns === 2 ? "border-b border-line py-4 last:border-b-0 sm:[&:nth-last-child(-n+2)]:border-b-0" : "py-4"}
+        >
           <h3 className="font-semibold text-ink">{item.title}</h3>
-          <p className="mt-1 text-[0.95rem] text-muted-ink">{item.description}</p>
+          <p className="mt-1 text-[0.95rem] leading-relaxed text-muted-ink">{item.description}</p>
         </div>
       ))}
     </div>
@@ -299,21 +284,18 @@ export function GuideSteps({
   items: { title: string; description: string }[];
 }) {
   return (
-    <ol className="my-8 space-y-4">
+    <ol className="my-8 divide-y divide-line border-y border-line">
       {items.map((item, index) => (
-        <li
-          key={item.title}
-          className="flex items-start gap-4 rounded-lg border border-line bg-surface p-5"
-        >
+        <li key={item.title} className="flex items-start gap-5 py-5">
           <span
             aria-hidden="true"
-            className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-ink text-sm font-semibold text-background"
+            className="w-7 shrink-0 font-serif text-[1.5rem] leading-none text-faint-ink"
           >
-            {index + 1}
+            {String(index + 1).padStart(2, "0")}
           </span>
-          <div>
+          <div className="min-w-0">
             <h3 className="font-semibold text-ink">{item.title}</h3>
-            <p className="mt-1 text-[0.95rem] text-muted-ink">{item.description}</p>
+            <p className="mt-1 text-[0.95rem] leading-relaxed text-muted-ink">{item.description}</p>
           </div>
         </li>
       ))}
@@ -322,17 +304,13 @@ export function GuideSteps({
 }
 
 export function GuideChecklist({ items }: { items: string[] }) {
+  // Uma lista é uma lista. Cartão por item achata a página e some com a
+  // hierarquia: o filete separa sem competir com os avisos de verdade.
   return (
-    <ul className="my-8 space-y-3">
+    <ul className="my-8 divide-y divide-line border-y border-line">
       {items.map((item) => (
-        <li
-          key={item}
-          className="flex items-start gap-3 rounded-lg border border-line bg-surface p-4 text-muted-ink"
-        >
-          <span
-            aria-hidden="true"
-            className="mt-[0.45rem] h-1.5 w-1.5 flex-shrink-0 rounded-full bg-ink"
-          />
+        <li key={item} className="flex items-start gap-3 py-3.5 text-body text-muted-ink">
+          <Check className="mt-1 h-4 w-4 shrink-0 text-faint-ink" aria-hidden="true" />
           {item}
         </li>
       ))}
