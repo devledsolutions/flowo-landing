@@ -14,7 +14,7 @@ const equipe = getPlan("equipe");
 
 export const metadata = buildMetadata({
   title: "Planos e Preços para Barbearias",
-  description: `Planos para barbearias: Solo ${formatBRL(solo.monthly)}/mês, Equipe ${formatBRL(equipe.monthly)}/mês e Empresarial sob consulta. IA no WhatsApp, agenda e pagamentos opcionais. Sem fidelidade.`,
+  description: `Planos para barbearias: Solo ${formatBRL(solo.monthly)}/mês, Equipe ${formatBRL(equipe.monthly)}/mês e Empresarial sob consulta. A Flowo atende no WhatsApp e marca na agenda. Pagamento pela Flowo é opcional. Sem fidelidade.`,
   path: "/precos",
 });
 
@@ -63,11 +63,11 @@ export default function PricingPage() {
           <div className="container-page">
             <div className="mx-auto max-w-2xl text-center">
               <h2 id="recursos-title" className="text-h2 font-semibold text-ink-strong">
-                O que o Flowo faz pela sua barbearia
+                O que a Flowo faz pela sua barbearia
               </h2>
               <p className="mt-3 text-lead text-muted-ink">
-                O núcleo da assinatura organiza atendimento, agenda e operação.
-                Recursos adicionais mostram suas condições separadamente.
+                A assinatura cobre atendimento, agenda e o dia a dia. O que é opcional mostra a
+                própria condição.
               </p>
             </div>
             <div className="mx-auto mt-10 grid max-w-5xl gap-5 sm:grid-cols-2 lg:grid-cols-3">
