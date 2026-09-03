@@ -42,7 +42,7 @@ export function PhoneFrame({
           height={height}
           sizes={sizes}
           priority={priority}
-          className="w-full object-cover object-top"
+          className="h-auto w-full object-cover object-top"
         />
       ) : (
         children

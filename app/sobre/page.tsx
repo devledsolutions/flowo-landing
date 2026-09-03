@@ -179,9 +179,10 @@ export default function AboutPage() {
                 <PhoneFrame
                   src="/images/product/app-home.png"
                   alt="Tela inicial do app da Flowo com os atendimentos do dia"
-                  width={300}
-                  height={650}
+                  width={720}
+                  height={1564}
                   sizes="300px"
+                  className="w-[300px]"
                 />
               </div>
             </div>
