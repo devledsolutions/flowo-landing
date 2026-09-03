@@ -26,7 +26,7 @@ export default function WhatsAppOpportunityPage() {
         navCta: "Receber o checklist",
         kicker: "Calculadora gratuita para barbearias",
         title: <>Quanto vale olhar melhor para as conversas que ficam sem resposta?</>,
-        lead: "Informe a sua rotina e veja um cenário simples para decidir onde conferir primeiro, sem transformar estimativa em promessa de faturamento.",
+        lead: "Informe sua rotina e veja um cenário simples para decidir onde conferir primeiro. Estimativa, não promessa de faturamento.",
         trust: ["Resultado na tela", "Sem cadastro para calcular", "Cenário explicado"],
         tool: <WhatsAppOpportunityCalculator />,
         problemLabel: "O número não é o problema. A falta de visibilidade é.",
