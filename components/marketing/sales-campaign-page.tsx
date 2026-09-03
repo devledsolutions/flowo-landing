@@ -208,13 +208,12 @@ export function SalesCampaignPage() {
                   <span className="h-1.5 w-1.5 rounded-full bg-[var(--success)]" />
                   Para barbearias com equipe
                 </p>
-                <h1 className="mt-6 max-w-[15ch] text-[clamp(2.7rem,1.8rem+3vw,4.55rem)] font-semibold leading-[1.01] tracking-[-0.045em] text-ink-strong">
+                <h1 className="mt-6 max-w-[18ch] text-[clamp(2.4rem,1.7rem+2vw,3.6rem)] font-semibold leading-[1.04] tracking-[-0.04em] text-ink-strong">
                   Pare de responder “tem horário?” no meio do corte.
                 </h1>
                 <p className="mt-6 max-w-xl text-lead text-muted-ink">
-                  A IA da Flowo atende no WhatsApp da sua barbearia, consulta a
-                  agenda de cada profissional e confirma o horário. Você
-                  acompanha tudo e assume quando precisar.
+                  A Flowo atende no WhatsApp, olha a agenda de cada barbeiro e
+                  confirma. Você assume quando quiser.
                 </p>
                 <div className="mt-8">
                   <SalesCampaignCta
@@ -770,7 +769,8 @@ const heroConversation: ChatMessage[] = [
 
 function CampaignProductHero() {
   return (
-    <div className="relative pb-16 pr-8 sm:pb-20 sm:pr-20">
+    <div>
+    <div className="relative pb-16 pr-6 sm:pb-20 sm:pr-20">
       <Image
         src="/images/product/dashboard-agenda.png"
         alt="Agenda da Flowo com os horários de cada barbeiro"
@@ -780,10 +780,14 @@ function CampaignProductHero() {
         priority
         className="w-full rounded-2xl border border-line bg-surface shadow-[0_24px_48px_-24px_rgba(23,24,16,0.35)]"
       />
-      <PhoneFrame className="absolute -bottom-2 right-0 rotate-[1.5deg] sm:right-2">
+      <PhoneFrame className="absolute bottom-0 right-0 rotate-[1.5deg] sm:hidden">
+        <WhatsAppChat width={150} logicalHeight={620} messages={heroConversation} />
+      </PhoneFrame>
+      <PhoneFrame className="absolute bottom-0 right-2 hidden rotate-[1.5deg] sm:block">
         <WhatsAppChat width={200} logicalHeight={620} messages={heroConversation} />
       </PhoneFrame>
-      <ProductDisclaimer className="absolute bottom-4 left-0" label="Telas do app com dados ilustrativos" />
+    </div>
+    <ProductDisclaimer className="mt-3" label="Telas do app com dados ilustrativos" />
     </div>
   );
 }
