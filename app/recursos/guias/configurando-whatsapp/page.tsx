@@ -12,7 +12,6 @@ import {
   GuideAvailability,
   GuideCallout,
   GuideCards,
-  GuideChatSample,
   GuideChecklist,
   GuideCta,
   GuideHeader,
@@ -25,6 +24,8 @@ import {
   GuideContent,
 } from "@/components/resources/guide-shell";
 import { GuideStructuredData } from "@/components/resources/resource-structured-data";
+import type { ChatMessage } from "@/components/home/whatsapp-chat";
+import { GuideHonesty, GuideScreenshot, GuideWhatsApp } from "@/app/recursos/_components/guide-media";
 import { getGuide } from "@/data/guides";
 import { buildGuideMetadata } from "@/lib/seo";
 
@@ -33,11 +34,26 @@ const guide = getGuide("/recursos/guias/configurando-whatsapp");
 export const metadata = buildGuideMetadata(guide);
 
 const tableOfContents = [
-  { id: "antes", label: "O que preparar antes da ativação" },
-  { id: "ativacao", label: "Como funciona a ativação" },
+  { id: "antes", label: "O que preparar antes de ligar" },
+  { id: "ativacao", label: "Como ligar o WhatsApp" },
   { id: "nome-publico", label: "Nome público e aprovação" },
-  { id: "ia", label: "O que a IA faz quando o canal está ativo" },
-  { id: "controle", label: "Personalização e controle humano" },
+  { id: "ia", label: "O que a Flowo faz no seu WhatsApp" },
+  { id: "controle", label: "Tom de voz e quando você assume" },
+];
+
+const conversation: ChatMessage[] = [
+  { from: "cliente", text: "Quero corte amanhã depois das 15h, pode ser com qualquer barbeiro", at: "11:20" },
+  {
+    from: "flowo",
+    text: "Tenho amanhã às 15:30 com o Rafael, 16:00 com o Luiz e 17:00 com o Rafael. Qual fica melhor?",
+    at: "11:20",
+  },
+  { from: "cliente", text: "16:00", at: "11:21" },
+  {
+    from: "flowo",
+    text: "Agendado. Corte amanhã às 16:00 com o Luiz, 30 min, R$ 35. Se precisar remarcar, é só me chamar aqui.",
+    at: "11:21",
+  },
 ];
 
 export default function WhatsAppSetupGuidePage() {
@@ -55,226 +71,189 @@ export default function WhatsAppSetupGuidePage() {
               { label: "Configurando WhatsApp", href: "#" },
             ]}
             readTime={guide.readTime}
-            title="Configurando o WhatsApp com IA"
-            lead="A integração usa o canal oficial do WhatsApp Business. A IA só começa a atender depois que o número aparece como conectado e pronto no Flowo."
+            title="Como ligar a Flowo no WhatsApp da barbearia"
+            lead="A Flowo usa o WhatsApp Business oficial. Ela só começa a responder depois que o número aparece como conectado no painel."
+            updatedAt="3 de setembro de 2026"
           />
 
           <GuideAvailability
             items={[
               {
-                label: "Configuração",
-                value: "Painel web e app móvel",
-                description:
-                  "O app inicia os handoffs seguros e reflete o estado; etapas hospedadas pelo WhatsApp podem abrir fora do app.",
+                label: "Onde configurar",
+                value: "Painel e app",
+                description: "Algumas etapas abrem numa tela do próprio WhatsApp e voltam para a Flowo no fim.",
               },
               {
-                label: "Ativação",
-                value: "Sujeita à aprovação do WhatsApp",
-                description:
-                  "Número, conta e nome público podem permanecer em análise antes de receber mensagens reais.",
+                label: "Aprovação",
+                value: "Depende do WhatsApp",
+                description: "Número, conta e nome público podem ficar em análise antes de receber mensagens.",
               },
               {
-                label: "IA",
-                value: "Somente com canal conectado",
-                description:
-                  "Agenda, remarcação, cancelamento e respostas usam os dados do negócio já cadastrados.",
+                label: "Atendimento",
+                value: "Só com o número conectado",
+                description: "A Flowo responde com os serviços, a equipe e os horários que você cadastrou.",
               },
               {
                 label: "Controle",
-                value: "Pausa e atendimento humano",
-                description:
-                  "A equipe pode assumir uma conversa; enquanto a IA estiver pausada, ela não responde.",
+                value: "Você assume quando quiser",
+                description: "Enquanto alguém da equipe está na conversa, a Flowo fica em espera.",
               },
             ]}
           />
 
           <GuideContent items={tableOfContents}>
-            <GuideSection
-              id="antes"
-              icon={Smartphone}
-              title="O que preparar antes da ativação"
-            >
+            <GuideSection id="antes" icon={Smartphone} title="O que preparar antes de ligar">
               <p>
-                A integração precisa representar uma empresa real. Separe o
-                número que será usado no atendimento e confirme que o nome
-                público pode ser comprovado fora do Flowo.
+                O WhatsApp exige uma empresa real por trás do número. Separe o número que vai
+                atender e confira se o nome da barbearia aparece em algum lugar público.
               </p>
               <GuideChecklist
                 items={[
-                  "Número sob controle da barbearia e apto a receber a verificação",
-                  "Nome comercial visível em site, perfil social, fachada ou documento",
-                  "Serviços, preços, profissionais e horários revisados no Flowo",
-                  "Responsável autorizado para concluir as etapas da conta comercial",
+                  "Número da barbearia, com o chip em mãos para receber o código",
+                  "Nome da barbearia visível na fachada, no Instagram ou no site",
+                  "Serviços, preços, equipe e horários revisados na Flowo",
+                  "Uma pessoa autorizada para concluir a conta comercial",
                 ]}
               />
               <GuideCallout>
                 <span className="flex items-start gap-3">
-                  <AlertTriangle
-                    className="mt-0.5 h-5 w-5 flex-shrink-0 text-ink"
-                    aria-hidden="true"
-                  />
+                  <AlertTriangle className="mt-0.5 h-5 w-5 flex-shrink-0 text-ink" aria-hidden="true" />
                   <span>
-                    <strong>Nome interno não é nome público.</strong> O nome que
-                    você usa por dentro, ou de um número de teste, não deve ser enviado
-                    automaticamente para revisão no WhatsApp.
+                    <strong>Nome interno não é nome público.</strong> O nome que você usa por
+                    dentro, ou de um número de teste, não deve ir para a revisão do WhatsApp.
                   </span>
                 </span>
               </GuideCallout>
             </GuideSection>
 
-            <GuideSection
-              id="ativacao"
-              icon={MessageCircle}
-              title="Como funciona a ativação"
-            >
+            <GuideSection id="ativacao" icon={MessageCircle} title="Como ligar o WhatsApp">
               <GuideSteps
                 items={[
                   {
-                    title: "Abra WhatsApp no Flowo",
-                    description:
-                      "No painel web, use a área WhatsApp. No app móvel, acesse Mais → WhatsApp.",
+                    title: "Abra WhatsApp na Flowo",
+                    description: "No painel, entre em WhatsApp. No app, vá em Mais → WhatsApp.",
                   },
                   {
-                    title: "Conclua as etapas oficiais",
-                    description:
-                      "Autorize a conta comercial, escolha o número e confirme as informações solicitadas no fluxo seguro.",
+                    title: "Conclua as etapas do WhatsApp",
+                    description: "Autorize a conta comercial, escolha o número e confirme os dados pedidos.",
                   },
                   {
-                    title: "Aguarde o estado conectado",
-                    description:
-                      "“Em análise” ou “pendente” ainda não significa que a IA pode receber e enviar mensagens reais.",
+                    title: "Espere aparecer “conectado”",
+                    description: "“Em análise” ou “pendente” ainda não recebe nem envia mensagem.",
                   },
                   {
-                    title: "Faça um teste controlado",
-                    description:
-                      "Quando estiver conectado, envie uma mensagem de um telefone autorizado e confira a conversa no Flowo.",
+                    title: "Mande uma mensagem de teste",
+                    description: "Quando conectar, escreva de outro celular e veja a conversa aparecer na Flowo.",
                   },
                 ]}
               />
               <GuideProductPath
                 items={[
                   {
-                    surface: "Painel web",
+                    surface: "Painel",
                     path: "WhatsApp",
-                    action:
-                      "veja conexão, qualidade, automação e controles de lembrete.",
+                    action: "veja se está conectado, ligue o atendimento e os lembretes.",
                   },
                   {
-                    surface: "App móvel",
+                    surface: "App",
                     path: "Mais → WhatsApp",
-                    action:
-                      "acompanhe o estado e use o handoff seguro de ativação.",
+                    action: "acompanhe o estado e conclua a ativação.",
                   },
                 ]}
               />
             </GuideSection>
 
-            <GuideSection
-              id="nome-publico"
-              icon={Settings}
-              title="Nome público e aprovação"
-            >
+            <GuideSection id="nome-publico" icon={Settings} title="Nome público e aprovação">
               <p>
-                O nome exibido no WhatsApp é revisado separadamente. Ele deve
-                identificar a empresa que o cliente reconhece e ser coerente com
-                a presença pública da marca.
+                O nome que aparece para o cliente passa por uma revisão separada. Ele precisa
+                ser o nome que o cliente reconhece.
               </p>
               <GuideCards
                 columns={2}
                 items={[
                   {
                     title: "Bom exemplo",
-                    description:
-                      "O nome comercial usado no site, Instagram, fachada e atendimento.",
+                    description: "O mesmo nome do site, do Instagram, da fachada e do atendimento.",
                   },
                   {
                     title: "Evite",
-                    description:
-                      "“Teste”, “demo”, nomes de fornecedores, descrições do ambiente ou termos que não aparecem publicamente.",
+                    description: "“Teste”, “demo”, apelidos internos ou qualquer nome que não aparece em lugar público.",
                   },
                 ]}
               />
-              <GuideScopeNote
-                status="conditional"
-                title="Rejeição de nome não derruba o restante do cadastro"
-              >
-                Corrija o nome com base em um documento público (site, fachada ou CNPJ) e reenvie. Não altere o nome
-                interno da barbearia apenas para tentar contornar a revisão.
+              <GuideScopeNote status="conditional" title="Nome recusado não derruba o resto">
+                Corrija o nome com base em algo público (site, fachada ou CNPJ) e envie de novo.
+                Não mude o nome interno da barbearia só para passar na revisão.
               </GuideScopeNote>
             </GuideSection>
 
-            <GuideSection
-              id="ia"
-              icon={Bot}
-              title="O que a IA faz quando o canal está ativo"
-            >
+            <GuideSection id="ia" icon={Bot} title="O que a Flowo faz no seu WhatsApp">
               <GuideCards
                 items={[
                   {
-                    title: "Responde serviços, preços e horários",
-                    description:
-                      "Usa o catálogo, a equipe e a disponibilidade cadastrados no Flowo.",
+                    title: "Responde serviço, preço e horário",
+                    description: "Usa o que você cadastrou: serviços, equipe e horários livres.",
                   },
                   {
                     title: "Agenda, remarca e cancela",
-                    description:
-                      "Executa a ação no sistema e só confirma sucesso quando a gravação realmente ocorreu.",
+                    description: "Só diz “agendado” depois que o horário entrou na agenda de verdade.",
                   },
                   {
-                    title: "Entende confirmações",
-                    description:
-                      "Uma resposta curta à mensagem de confirmação pode atualizar o agendamento sem depender da IA.",
+                    title: "Entende o “sim” da confirmação",
+                    description: "Uma resposta curta à mensagem de confirmação já atualiza o horário.",
                   },
                   {
-                    title: "Encaminha para a equipe",
-                    description:
-                      "Casos que pedem intervenção humana podem ser assumidos na caixa de conversas.",
+                    title: "Passa para a equipe",
+                    description: "O que ela não deve decidir, como desconto, vai para vocês com o histórico.",
                   },
                 ]}
               />
-              <GuideChatSample
-                customer="Quero corte amanhã depois das 15h, pode ser com qualquer profissional"
-                reply="Tenho estes horários disponíveis amanhã: 15h30, 16h e 17h. Qual fica melhor para você?"
-              />
-              <GuideScopeNote
-                status="conditional"
-                title="Lembretes e mensagens também dependem da conexão"
-              >
-                A lógica pode estar configurada, mas nenhum envio pelo WhatsApp
-                ocorre se o canal estiver desconectado, o cliente não tiver
-                telefone válido ou tiver optado por não receber mensagens.
+              <GuideWhatsApp messages={conversation} />
+              <GuideScopeNote status="conditional" title="Lembretes também dependem da conexão">
+                Sem número conectado, sem telefone válido do cliente ou com pedido para não
+                receber mensagens, nada é enviado.
               </GuideScopeNote>
             </GuideSection>
 
-            <GuideSection
-              id="controle"
-              icon={Zap}
-              title="Personalização e controle humano"
-            >
+            <GuideSection id="controle" icon={Zap} title="Tom de voz e quando você assume">
               <p>
-                Em Configurações, ajuste o tom de voz e mantenha os dados do
-                negócio atualizados. A personalização não substitui catálogo,
-                agenda ou políticas: a IA responde com base nessas fontes.
+                Em Configurações, ajuste o tom de voz e mantenha os dados da barbearia em dia. A
+                Flowo responde com base no catálogo, na agenda e nas suas regras.
               </p>
+              <GuideScreenshot
+                src="/images/product/dashboard-conversas.png"
+                alt="Tela Conversas da Flowo: lista de conversas do WhatsApp, uma delas transferida para a equipe, com o botão Assumir conversa"
+              />
               <GuideChecklist
                 items={[
-                  "Escolha um tom coerente com a barbearia",
-                  "Revise preços e duração sempre que o catálogo mudar",
-                  "Mantenha horários individuais e folgas atualizados",
-                  "Assuma a conversa quando o caso exigir decisão humana",
-                  "Retome a IA somente depois de concluir o atendimento manual",
+                  "Escolha um tom parecido com o da barbearia",
+                  "Revise preço e duração sempre que o catálogo mudar",
+                  "Mantenha horários e folgas de cada barbeiro em dia",
+                  "Assuma a conversa quando o caso pedir uma decisão sua",
+                  "Devolva para a Flowo só depois de terminar o atendimento",
                 ]}
               />
-              <GuideScopeNote title="A pausa humana é respeitada">
-                Quando a equipe assume uma conversa, a IA não deve competir com
-                a resposta humana. O retorno à automação é uma decisão explícita.
+              <GuideScopeNote title="Quando você está na conversa, a Flowo espera">
+                Ela não responde por cima da equipe. Voltar para o atendimento automático é uma
+                escolha sua.
               </GuideScopeNote>
             </GuideSection>
           </GuideContent>
 
+          <GuideHonesty
+            tested={[
+              "Atender, agendar, remarcar e cancelar pelo WhatsApp: testado em produção com números de teste da própria Flowo, em 26 de julho de 2026.",
+              "A equipe assumir a conversa e a Flowo esperar: mesmo teste.",
+            ]}
+            notMeasured={[
+              "Tempo que a equipe deixa de gastar no WhatsApp.",
+              "Quantos clientes a mais agendam por conta do atendimento automático.",
+            ]}
+          />
+
           <GuideCta
-            title="Prepare seu WhatsApp para operar com dados reais"
-            description="Cadastre a barbearia, conecte o número oficial e só então valide a IA com uma conversa controlada."
+            title="Ligue o WhatsApp e veja a Flowo responder"
+            description="Cadastre a barbearia, conecte o número e faça uma conversa de teste antes de divulgar."
           />
 
           <GuidePrevNext
