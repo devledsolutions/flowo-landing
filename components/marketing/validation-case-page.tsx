@@ -183,10 +183,10 @@ export function ValidationCasePage({ validationCase }: ValidationCasePageProps) 
 
               <div className="mx-auto w-[340px] max-w-full lg:w-full lg:max-w-[24rem] lg:justify-self-end">
                 <PhoneFrame className="border-ink/30 shadow-[0_44px_90px_-40px_oklch(0.08_0.01_110/0.95)] lg:hidden">
-                  <WhatsAppChat width={340} logicalHeight={validationCase.conversationHeight} messages={conversation} />
+                  <WhatsAppChat width={340} logicalHeight={validationCase.conversationHeight} messages={conversation} businessName={validationCase.name} />
                 </PhoneFrame>
                 <PhoneFrame className="hidden border-ink/30 shadow-[0_44px_90px_-40px_oklch(0.08_0.01_110/0.95)] lg:block">
-                  <WhatsAppChat width={384} logicalHeight={validationCase.conversationHeight} messages={conversation} />
+                  <WhatsAppChat width={384} logicalHeight={validationCase.conversationHeight} messages={conversation} businessName={validationCase.name} />
                 </PhoneFrame>
                 <ProductDisclaimer label="Conversa ilustrativa, com nomes de demonstração" className="mt-4" />
               </div>
