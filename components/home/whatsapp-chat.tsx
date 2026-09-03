@@ -14,12 +14,15 @@ import { cn } from "@/lib/utils";
  * The customer is on this phone, so their messages are the green outgoing
  * ones on the right and Flowo's answers arrive on the left.
  */
-type Msg = { from: "cliente" | "flowo"; text: string; at: string };
+export type ChatMessage =
+  | { from: "cliente" | "flowo" | "equipe"; text: string; at: string }
+  | { day: string };
+type Msg = ChatMessage;
 
 const LOGICAL_WIDTH = 390;
 const LOGICAL_HEIGHT = 844;
 
-const conversation: Msg[] = [
+export const bookingConversation: Msg[] = [
   { from: "cliente", text: "Oi! Tem horário amanhã depois das 18h com o João?", at: "09:37" },
   {
     from: "flowo",
@@ -48,22 +51,29 @@ function Ticks() {
 export function WhatsAppChat({
   width = 248,
   className,
+  messages = bookingConversation,
+  logicalHeight = LOGICAL_HEIGHT,
 }: {
   /** Rendered width in CSS px; the screen scales from 390pt to this. */
   width?: number;
   className?: string;
+  /** The thread to draw; defaults to the booking from the home hero. */
+  messages?: Msg[];
+  /** Screen height in logical px; raise it to show a longer thread whole. */
+  logicalHeight?: number;
 }) {
   const scale = width / LOGICAL_WIDTH;
+  const conversation = messages;
   return (
     <div
       role="img"
       aria-label="Conversa no WhatsApp com a Barbearia Central. O cliente pergunta se tem horário amanhã depois das 18h com o João, a Flowo oferece 18:00, 18:30 e 19:00, o cliente escolhe 18:30 e o corte fica agendado."
       className={cn("relative overflow-hidden", className)}
-      style={{ width, height: Math.round(LOGICAL_HEIGHT * scale) }}
+      style={{ width, height: Math.round(logicalHeight * scale) }}
     >
       <div
         className="absolute left-0 top-0 flex origin-top-left flex-col bg-[#EFEAE2] font-[-apple-system,BlinkMacSystemFont,'SF_Pro_Text','Helvetica_Neue',sans-serif] text-[#111B21]"
-        style={{ width: LOGICAL_WIDTH, height: LOGICAL_HEIGHT, transform: `scale(${scale})` }}
+        style={{ width: LOGICAL_WIDTH, height: logicalHeight, transform: `scale(${scale})` }}
       >
         <div className="bg-[#F6F6F6]/95 pb-2">
           <div className="flex h-12 items-end justify-between px-7 pb-1 text-[16px] font-semibold">
@@ -95,10 +105,19 @@ export function WhatsAppChat({
         </div>
 
         <div className="relative flex-1 space-y-2 px-3 pb-3 pt-3 [background-image:radial-gradient(circle_at_1px_1px,rgba(0,0,0,0.045)_1px,transparent_0)] [background-size:14px_14px]">
-          <p className="mx-auto mb-3 w-fit rounded-md bg-white/90 px-2.5 py-1 text-[12px] font-medium uppercase tracking-wide text-[#54656F] shadow-sm">
-            Hoje
-          </p>
+          {!conversation.some((m) => "day" in m) && (
+            <p className="mx-auto mb-3 w-fit rounded-md bg-white/90 px-2.5 py-1 text-[12px] font-medium uppercase tracking-wide text-[#54656F] shadow-sm">
+              Hoje
+            </p>
+          )}
           {conversation.map((m, i) => {
+            if ("day" in m) {
+              return (
+                <p key={i} className="mx-auto my-3 w-fit rounded-md bg-white/90 px-2.5 py-1 text-[12px] font-medium uppercase tracking-wide text-[#54656F] shadow-sm">
+                  {m.day}
+                </p>
+              );
+            }
             const mine = m.from === "cliente";
             return (
               <div key={i} className={cn("flex", mine ? "justify-end" : "justify-start")}>

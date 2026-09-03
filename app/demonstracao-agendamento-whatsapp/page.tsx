@@ -1,80 +1,133 @@
-import Link from "next/link";
-import {
-  ArrowRight,
-  CalendarCheck2,
-  CheckCircle2,
-  MessageCircle,
-  Repeat2,
-  ShieldCheck,
-  UserRoundCheck,
-} from "lucide-react";
+import { ArrowRight, CalendarCheck2, CalendarX2, Check, MessageCircle, Repeat2, UserRoundCheck } from "lucide-react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { Breadcrumb } from "@/components/breadcrumb";
 import { TrackedLink } from "@/components/analytics/tracked-link";
+import { PhoneFrame } from "@/components/home/phone-frame";
+import { WhatsAppChat, type ChatMessage } from "@/components/home/whatsapp-chat";
+import { ProductDisclaimer } from "@/components/home/product-previews";
 import {
   InstitutionalFilm,
   InstitutionalFilmSchema,
 } from "@/components/marketing/institutional-film";
-import { WHATSAPP_URL } from "@/components/cta-links";
+import { SIGNUP_URL, WHATSAPP_URL } from "@/components/cta-links";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
+import { cn } from "@/lib/utils";
 
 const PATH = "/demonstracao-agendamento-whatsapp";
 
 export const metadata = buildMetadata({
-  title: "Demonstração: Agendamento pelo WhatsApp com IA",
+  title: "Demonstração: a Flowo atendendo no WhatsApp",
   description:
-    "Veja o fluxo validado da Flowo: a IA atende no WhatsApp, consulta a disponibilidade e confirma o agendamento na agenda da barbearia.",
+    "Uma conversa completa: o cliente pede horário, a Flowo olha a agenda e confirma. Depois remarca, cancela e passa a conversa para a equipe quando precisa.",
   path: PATH,
 });
 
-const testedCapabilities = [
+/**
+ * The whole conversation the home hero promises, and what happened in the
+ * agenda at each step. Illustrative names and prices, the same ones the app
+ * screenshots use; the flow is the one exercised in the production test.
+ */
+const conversation: ChatMessage[] = [
+  { day: "Quinta" },
+  { from: "cliente", text: "Oi! Tem horário amanhã depois das 18h com o João?", at: "09:37" },
   {
-    icon: MessageCircle,
-    title: "Entrada e resposta no WhatsApp",
-    description:
-      "A mensagem chegou ao ambiente de produção da Flowo, foi interpretada e recebeu resposta pelo mesmo fluxo de atendimento.",
+    from: "flowo",
+    text: "Tenho três horários com o João amanhã: 18:00, 18:30 e 19:00. Qual fica melhor pra você?",
+    at: "09:37",
   },
+  { from: "cliente", text: "18:30", at: "09:38" },
+  {
+    from: "flowo",
+    text: "Agendado. Corte masculino amanhã às 18:30 com o João, 40 min, R$ 55. Se precisar remarcar, é só me chamar aqui.",
+    at: "09:38",
+  },
+  { day: "Sexta" },
+  { from: "cliente", text: "Consigo passar pras 19:00?", at: "14:02" },
+  { from: "flowo", text: "Consigo. Mudei seu corte com o João para hoje às 19:00. Te espero!", at: "14:02" },
+  { from: "cliente", text: "Vixe, surgiu um imprevisto. Preciso cancelar, desculpa.", at: "16:40" },
+  {
+    from: "flowo",
+    text: "Sem problema, cancelei o horário das 19:00. Quando quiser marcar de novo, é só me chamar.",
+    at: "16:40",
+  },
+  { from: "cliente", text: "Vocês fazem barba também? Quanto fica corte e barba?", at: "16:41" },
+  {
+    from: "equipe",
+    text: "Fala! Aqui é o João. Fazemos sim, corte e barba fica R$ 85 e leva uns 60 min. Quer que eu já deixe sábado às 10:00 reservado pra você?",
+    at: "16:44",
+  },
+];
+
+const agendaSteps = [
   {
     icon: CalendarCheck2,
-    title: "Agendamento na agenda real",
-    description:
-      "A IA consultou a disponibilidade, concluiu a escolha e registrou o horário na agenda do profissional correto.",
+    title: "Sexta, 18:30 · Corte com João",
+    detail: "Horário criado na agenda do João, 40 min, R$ 55.",
+    tone: "ok",
   },
   {
     icon: Repeat2,
-    title: "Consulta, remarcação e cancelamento",
-    description:
-      "O teste percorreu as mudanças que mais acontecem depois da marcação, sempre conferindo o estado da agenda.",
+    title: "Remarcado para 19:00",
+    detail: "O horário das 18:30 foi liberado e o das 19:00 ocupado, sem ninguém digitar nada.",
+    tone: "ok",
+  },
+  {
+    icon: CalendarX2,
+    title: "Cancelado",
+    detail: "A vaga das 19:00 voltou a ficar livre na agenda do João na hora.",
+    tone: "muted",
   },
   {
     icon: UserRoundCheck,
-    title: "Controle humano",
-    description:
-      "Uma pessoa assumiu a conversa, preservou o histórico e devolveu o atendimento para a IA quando a situação foi resolvida.",
+    title: "João assumiu a conversa",
+    detail: "A pergunta sobre barba foi para a equipe. O histórico ficou visível e a Flowo volta quando ele devolver.",
+    tone: "ok",
+  },
+] as const;
+
+const whatFlowoDoes = [
+  {
+    icon: MessageCircle,
+    title: "Responde no seu número do WhatsApp",
+    description: "O cliente escreve no mesmo número de sempre. A Flowo responde em segundos, olhando a agenda de verdade.",
+  },
+  {
+    icon: CalendarCheck2,
+    title: "Marca na agenda do barbeiro certo",
+    description: "Cada profissional tem seus dias e horários. A Flowo só oferece o que está livre naquela agenda.",
+  },
+  {
+    icon: Repeat2,
+    title: "Remarca e cancela",
+    description: "Quando o cliente muda de ideia, a agenda muda junto. A vaga volta a ficar livre sem ninguém precisar apagar.",
+  },
+  {
+    icon: UserRoundCheck,
+    title: "Sua equipe assume quando quiser",
+    description: "Uma pergunta que a Flowo não deve responder vai para vocês, com o histórico inteiro. Depois ela retoma.",
   },
 ] as const;
 
 const faqItems = [
   {
-    question: "A demonstração usa um cliente real?",
+    question: "Essa conversa é com um cliente de verdade?",
     answer:
-      "Não. O fluxo foi executado em produção com números, tenants e contatos controlados pela própria Flowo. Isso comprova o funcionamento técnico sem apresentar um ambiente de teste como se fosse cliente.",
+      "Não. Os nomes e valores são ilustrativos. O fluxo é o mesmo que a Flowo executou em produção com números de teste da própria Flowo, em 26 de julho de 2026.",
   },
   {
-    question: "O agendamento realmente aparece na agenda?",
+    question: "O horário aparece mesmo na agenda?",
     answer:
-      "Sim. A certificação criou e confirmou um agendamento na agenda e também exercitou consulta, remarcação e cancelamento.",
+      "Sim. No teste, o agendamento foi criado, remarcado e cancelado, e a agenda mudou junto em cada passo.",
   },
   {
-    question: "A equipe pode assumir a conversa?",
-    answer:
-      "Sim. O atendimento humano pode assumir com o histórico disponível, pausar a IA e devolver a conversa depois.",
+    question: "Minha equipe pode assumir a conversa?",
+    answer: "Sim. Quem assume vê o histórico, a Flowo fica em espera e volta quando a pessoa devolver a conversa.",
   },
   {
-    question: "Isso garante aumento de faturamento?",
+    question: "Isso garante mais faturamento?",
     answer:
-      "Não. O teste comprova o fluxo de atendimento e agenda. Tempo economizado, ocupação e receita serão medidos com os primeiros clientes e só serão publicados com período e metodologia.",
+      "Não prometemos isso. O que a demonstração mostra é o atendimento e a agenda funcionando. Tempo economizado e faturamento serão medidos com os primeiros clientes.",
   },
 ];
 
@@ -85,22 +138,17 @@ const structuredData = {
       "@type": "WebPage",
       "@id": `${absoluteUrl(PATH)}#webpage`,
       url: absoluteUrl(PATH),
-      name: "Demonstração de agendamento pelo WhatsApp com IA",
+      name: "Demonstração: a Flowo atendendo no WhatsApp",
       description:
-        "Demonstração e escopo da validação em produção do atendimento da Flowo, da mensagem no WhatsApp ao agendamento na agenda.",
+        "Uma conversa completa entre cliente e barbearia com a Flowo respondendo, marcando, remarcando e cancelando na agenda.",
       inLanguage: "pt-BR",
-      dateModified: "2026-07-31",
+      dateModified: "2026-09-03",
     },
     {
       "@type": "BreadcrumbList",
       itemListElement: [
         { "@type": "ListItem", position: 1, name: "Início", item: absoluteUrl("/") },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: "Demonstração",
-          item: absoluteUrl(PATH),
-        },
+        { "@type": "ListItem", position: 2, name: "Demonstração", item: absoluteUrl(PATH) },
       ],
     },
     {
@@ -120,13 +168,11 @@ export default function DemonstracaoAgendamentoWhatsappPage() {
       <InstitutionalFilmSchema pagePath={PATH} />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
-        }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }}
       />
       <Navbar />
       <main id="main-content">
-        <section className="pb-section-normal pt-32 md:pt-40">
+        <section className="border-b border-line bg-cream pb-16 pt-32 md:pt-40 lg:pb-24">
           <div className="container-page">
             <Breadcrumb
               items={[
@@ -134,84 +180,97 @@ export default function DemonstracaoAgendamentoWhatsappPage() {
                 { label: "Demonstração", href: PATH },
               ]}
             />
-            <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_19rem] lg:items-end lg:gap-20">
-              <div>
-                <p className="text-label font-medium text-faint-ink">
-                  Teste concluído em produção · 26 de julho de 2026
-                </p>
-                <h1 className="mt-4 max-w-[18ch] text-h2 font-semibold leading-tight text-ink-strong">
-                  Da mensagem no WhatsApp ao horário confirmado na agenda.
+
+            <div className="mt-10 grid gap-14 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start lg:gap-16">
+              <div className="lg:sticky lg:top-28">
+                <p className="text-caption font-medium text-muted-ink">Uma conversa completa</p>
+                <h1 className="mt-4 max-w-[16ch] text-[clamp(2.2rem,1.8rem+1.3vw,3rem)] font-semibold leading-[1.08] tracking-[-0.035em] text-ink-strong">
+                  <em className="font-serif font-medium italic">“Tem horário amanhã?”</em>
+                  <span className="block">Do pedido ao cancelamento, sem ninguém parar de cortar.</span>
                 </h1>
-                <p className="mt-6 max-w-measure text-lead text-muted-ink">
-                  A Flowo executou o fluxo completo com ativos controlados de
-                  teste: recebeu a conversa, consultou a disponibilidade,
-                  confirmou o agendamento e atualizou a agenda.
+                <p className="mt-6 max-w-[30rem] text-lead text-muted-ink">
+                  A Flowo responde no seu WhatsApp, olha a agenda e confirma. Se o cliente remarcar ou
+                  cancelar, a agenda muda junto. Sua equipe entra na conversa quando quiser.
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                  <a
-                    href="#video-flowo"
-                    className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-ink px-7 py-3 text-label font-semibold text-cream transition-opacity hover:opacity-90"
+                  <TrackedLink
+                    href={SIGNUP_URL}
+                    event="CTA Clicked"
+                    properties={{ page: PATH, placement: "demo_hero", destination: "dashboard_signup", intent: "start_now" }}
+                    className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-ink px-7 text-label font-semibold text-cream transition-colors hover:bg-ink/90"
                   >
-                    Assistir à demonstração
-                    <ArrowRight aria-hidden="true" className="h-4 w-4" />
-                  </a>
-                  <Link
-                    href="/sistema-agendamento-barbearia"
-                    className="inline-flex min-h-12 items-center justify-center rounded-full border border-line px-7 py-3 text-label font-medium text-ink transition-colors hover:bg-surface"
+                    Criar minha conta
+                    <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                  </TrackedLink>
+                  <TrackedLink
+                    href={WHATSAPP_URL}
+                    event="CTA Clicked"
+                    properties={{ page: PATH, placement: "demo_hero", destination: "whatsapp_sales", intent: "ask_question" }}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex h-12 items-center justify-center rounded-full border border-control-border px-7 text-label font-semibold text-ink transition-colors hover:bg-surface"
                   >
-                    Conhecer o sistema
-                  </Link>
+                    Falar com a Flowo
+                  </TrackedLink>
                 </div>
+
+                <h2 className="mt-14 text-caption font-semibold uppercase tracking-[0.1em] text-faint-ink">
+                  O que aconteceu na agenda
+                </h2>
+                <ol className="mt-4 divide-y divide-line border-y border-line">
+                  {agendaSteps.map(({ icon: Icon, title, detail, tone }) => (
+                    <li key={title} className="flex items-start gap-4 py-4">
+                      <span
+                        className={cn(
+                          "flex h-9 w-9 shrink-0 items-center justify-center rounded-full",
+                          tone === "ok"
+                            ? "bg-[oklch(0.91_0.08_150)] text-[oklch(0.43_0.11_150)]"
+                            : "bg-surface-2 text-muted-ink"
+                        )}
+                      >
+                        <Icon className="h-4 w-4" aria-hidden="true" />
+                      </span>
+                      <div>
+                        <p className="text-sm font-semibold text-ink">{title}</p>
+                        <p className="mt-0.5 text-caption text-muted-ink">{detail}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
               </div>
 
-              <aside className="border-y border-line py-5">
-                <div className="flex items-start gap-3">
-                  <ShieldCheck aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-ink" />
-                  <div>
-                    <p className="font-semibold text-ink">Prova técnica, sem resultado inventado</p>
-                    <p className="mt-2 text-label leading-relaxed text-muted-ink">
-                      O teste comprova funcionamento. Resultados de tempo,
-                      ocupação e receita serão publicados somente depois de
-                      medidos em clientes reais.
-                    </p>
-                  </div>
-                </div>
-              </aside>
+              <div className="mx-auto w-[340px] max-w-full lg:w-full lg:max-w-[24rem] lg:justify-self-end">
+                <PhoneFrame className="border-ink/30 shadow-[0_44px_90px_-40px_oklch(0.08_0.01_110/0.95)] lg:hidden">
+                  <WhatsAppChat width={340} logicalHeight={1190} messages={conversation} />
+                </PhoneFrame>
+                <PhoneFrame className="hidden border-ink/30 shadow-[0_44px_90px_-40px_oklch(0.08_0.01_110/0.95)] lg:block">
+                  <WhatsAppChat width={384} logicalHeight={1190} messages={conversation} />
+                </PhoneFrame>
+                <ProductDisclaimer label="Conversa ilustrativa, com o fluxo testado em produção" className="mt-4" />
+              </div>
             </div>
           </div>
         </section>
-
-        <InstitutionalFilm />
 
         <section className="section-normal border-b border-line bg-surface">
           <div className="container-page">
             <div className="grid gap-12 lg:grid-cols-[0.62fr_1.38fr] lg:gap-20">
               <div>
-                <h2 className="text-h2 font-semibold leading-tight text-ink-strong">
-                  O que foi exercitado no fluxo real
-                </h2>
+                <h2 className="text-h2 font-semibold leading-tight text-ink-strong">O que a Flowo faz na sua barbearia</h2>
                 <p className="mt-5 max-w-measure text-body text-muted-ink">
-                  A prova cobre o trabalho que acontece antes e depois do
-                  primeiro “tem horário?”, não apenas uma resposta de chat.
+                  Tudo o que a conversa ao lado mostra, no seu número, com a sua agenda.
                 </p>
               </div>
               <ol className="divide-y divide-line border-y border-line">
-                {testedCapabilities.map((item, index) => (
-                  <li
-                    key={item.title}
-                    className="grid gap-4 py-6 sm:grid-cols-[2.75rem_minmax(0,1fr)]"
-                  >
-                    <span className="flex h-10 w-10 items-center justify-center rounded-full border border-line text-label font-semibold text-ink">
-                      {index + 1}
+                {whatFlowoDoes.map(({ icon: Icon, title, description }, index) => (
+                  <li key={title} className="grid grid-cols-[2rem_auto_1fr] gap-4 py-6">
+                    <span className="pt-1 text-caption font-semibold tabular-nums text-faint-ink">{index + 1}</span>
+                    <span className="flex h-10 w-10 items-center justify-center rounded-full border border-line bg-surface">
+                      <Icon className="h-4 w-4 text-ink" aria-hidden="true" />
                     </span>
                     <div>
-                      <div className="flex items-center gap-3">
-                        <item.icon aria-hidden="true" className="h-5 w-5 text-ink" />
-                        <h3 className="font-semibold text-ink">{item.title}</h3>
-                      </div>
-                      <p className="mt-2 max-w-measure text-body text-muted-ink">
-                        {item.description}
-                      </p>
+                      <h3 className="font-semibold text-ink">{title}</h3>
+                      <p className="mt-1 max-w-measure text-label text-muted-ink">{description}</p>
                     </div>
                   </li>
                 ))}
@@ -220,95 +279,51 @@ export default function DemonstracaoAgendamentoWhatsappPage() {
           </div>
         </section>
 
-        <section className="section-normal">
-          <div className="container-page grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-20">
-            <div>
-              <h2 className="text-h3 font-semibold text-ink">
-                O que essa validação permite afirmar
-              </h2>
-              <ul className="mt-7 divide-y divide-line border-y border-line">
-                {[
-                  "A IA atende pelo WhatsApp e usa a disponibilidade da agenda.",
-                  "O agendamento concluído é registrado no profissional correto.",
-                  "Remarcação e cancelamento atualizam o estado da agenda.",
-                  "A equipe pode assumir e devolver a conversa para a IA.",
-                ].map((item) => (
-                  <li key={item} className="flex gap-3 py-4 text-body text-muted-ink">
-                    <CheckCircle2 aria-hidden="true" className="mt-1 h-4 w-4 shrink-0 text-ink" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h2 className="text-h3 font-semibold text-ink">
-                O que ainda será medido com clientes
-              </h2>
-              <ul className="mt-7 divide-y divide-line border-y border-line">
-                {[
-                  "tempo economizado por semana no atendimento manual",
-                  "quantidade de pedidos que deixaram de ficar sem resposta",
-                  "ocupação adicional de horários e redução de faltas",
-                  "receita atribuída e uso depois de 30, 60 e 90 dias",
-                ].map((item) => (
-                  <li key={item} className="py-4 text-body text-muted-ink">
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </section>
+        <InstitutionalFilm />
 
-        <section className="section-normal border-y border-line bg-surface">
-          <div className="container-page grid gap-12 lg:grid-cols-[0.7fr_1.3fr] lg:gap-20">
+        <section className="section-normal border-b border-line bg-cream">
+          <div className="container-page grid gap-12 lg:grid-cols-[0.62fr_1.38fr] lg:gap-20">
             <div>
-              <h2 className="text-h2 font-semibold text-ink-strong">
-                Dúvidas sobre a demonstração
-              </h2>
+              <h2 className="text-h2 font-semibold leading-tight text-ink-strong">Dúvidas sobre a demonstração</h2>
+              <p className="mt-5 flex items-start gap-3 text-body text-muted-ink">
+                <Check className="mt-1 h-4 w-4 shrink-0 text-ink" aria-hidden="true" />
+                Testado em produção com números de teste da própria Flowo, em 26 de julho de 2026. Não usamos
+                cliente real na demonstração, e não publicamos número de resultado antes de medir com clientes.
+              </p>
             </div>
-            <div className="divide-y divide-line border-y border-line">
+            <dl className="divide-y divide-line border-y border-line">
               {faqItems.map((item) => (
-                <details key={item.question} className="group py-5">
-                  <summary className="cursor-pointer list-none pr-8 font-semibold text-ink">
-                    {item.question}
-                  </summary>
-                  <p className="mt-3 max-w-measure text-body text-muted-ink">
-                    {item.answer}
-                  </p>
-                </details>
+                <div key={item.question} className="py-5">
+                  <dt className="font-semibold text-ink">{item.question}</dt>
+                  <dd className="mt-2 max-w-measure text-label text-muted-ink">{item.answer}</dd>
+                </div>
               ))}
-            </div>
+            </dl>
           </div>
         </section>
 
-        <section className="on-ink section-normal">
-          <div className="container-page grid gap-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
-            <div className="max-w-2xl">
-              <p className="text-label text-muted-ink">Próximo passo</p>
-              <h2 className="mt-4 text-h2 font-semibold text-ink">
-                Veja o mesmo fluxo aplicado à sua barbearia.
+        <section className="on-ink">
+          <div className="container-page section-normal flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <p className="text-caption font-medium text-muted-ink">Próximo passo</p>
+              <h2 className="mt-3 max-w-[18ch] text-h2 font-semibold leading-tight text-ink-strong">
+                Veja a mesma conversa com os seus serviços e horários.
               </h2>
-              <p className="mt-4 text-lead text-muted-ink">
-                Conte como sua equipe trabalha e mostramos serviços, horários e
-                profissionais dentro da conversa.
+              <p className="mt-4 max-w-[34rem] text-body text-muted-ink">
+                Conte como sua equipe trabalha e a gente monta a demonstração com a sua barbearia dentro da
+                conversa.
               </p>
             </div>
             <TrackedLink
               href={WHATSAPP_URL}
               event="CTA Clicked"
-              properties={{
-                page: PATH,
-                placement: "final_cta",
-                destination: "whatsapp_sales",
-                intent: "request_demo",
-              }}
+              properties={{ page: PATH, placement: "demo_closing", destination: "whatsapp_sales", intent: "request_demo" }}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-ink px-7 py-3 text-label font-semibold text-cream transition-opacity hover:opacity-90"
+              className="inline-flex h-12 shrink-0 items-center gap-2 rounded-full bg-ink px-7 text-label font-semibold text-cream transition-colors hover:bg-ink/90"
             >
               Pedir uma demonstração
-              <ArrowRight aria-hidden="true" className="h-4 w-4" />
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </TrackedLink>
           </div>
         </section>
