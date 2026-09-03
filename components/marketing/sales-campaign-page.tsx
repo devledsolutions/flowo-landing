@@ -20,12 +20,11 @@ import {
   WalletCards,
 } from "lucide-react";
 import {
-  AgendaPreview,
-  ConversationPreview,
-  PaymentPreview,
   ProductDisclaimer,
 } from "@/components/home/product-previews";
 import { InstitutionalFilmPlayer } from "@/components/marketing/institutional-film-player";
+import { PhoneFrame } from "@/components/home/phone-frame";
+import { WhatsAppChat, type ChatMessage } from "@/components/home/whatsapp-chat";
 import {
   SalesCampaignCta,
   SalesCampaignMobileCta,
@@ -179,7 +178,7 @@ const decisionLinks = [
     href: "/demonstracao-agendamento-whatsapp",
     label: "Ver a demonstração",
     description:
-      "Entenda o que já foi testado do WhatsApp até a agenda, sem confundir teste com caso de cliente.",
+      "Veja a conversa inteira: pedido, agenda, remarcação e cancelamento.",
   },
   {
     href: "/sistema-agendamento-barbearia",
@@ -207,7 +206,7 @@ export function SalesCampaignPage() {
               <div>
                 <p className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1.5 text-caption font-semibold text-muted-ink">
                   <span className="h-1.5 w-1.5 rounded-full bg-[var(--success)]" />
-                  Para barbearias com 2 a 6 barbeiros
+                  Para barbearias com equipe
                 </p>
                 <h1 className="mt-6 max-w-[15ch] text-[clamp(2.7rem,1.8rem+3vw,4.55rem)] font-semibold leading-[1.01] tracking-[-0.045em] text-ink-strong">
                   Pare de responder “tem horário?” no meio do corte.
@@ -224,7 +223,7 @@ export function SalesCampaignPage() {
                   />
                 </div>
                 <div className="mt-4 max-w-lg space-y-1 text-caption leading-relaxed text-muted-ink">
-                  <p>Uma conversa de 20 minutos · sem cartão · sem instalação</p>
+                  <p>Uma conversa curta · sem cartão · sem instalação</p>
                   <p>
                     Planos a partir de {formatBRL(getPlan("solo").monthly)}/mês · sem
                     fidelidade · pagamentos integrados opcionais
@@ -410,8 +409,15 @@ export function SalesCampaignPage() {
 
             <div className="mt-14 grid items-center gap-10 lg:grid-cols-[1.12fr_0.88fr] lg:gap-16">
               <div>
-                <AgendaPreview detailed />
-                <ProductDisclaimer className="mt-4" />
+                <Image
+                  src="/images/product/dashboard-agenda.png"
+                  alt="Agenda da Flowo com os horários de cada barbeiro"
+                  width={1920}
+                  height={1041}
+                  sizes="(min-width: 1024px) 640px, 100vw"
+                  className="w-full rounded-2xl border border-line bg-surface shadow-[0_24px_48px_-24px_rgba(23,24,16,0.35)]"
+                />
+                <ProductDisclaimer className="mt-4" label="Telas do app com dados ilustrativos" />
               </div>
               <div>
                 <p className="text-label font-semibold uppercase tracking-[0.12em] text-faint-ink">
@@ -512,8 +518,15 @@ export function SalesCampaignPage() {
                 </div>
               </div>
               <div>
-                <PaymentPreview />
-                <ProductDisclaimer className="mt-4" />
+                <Image
+                  src="/images/product/dashboard-comandas.png"
+                  alt="Comanda da Flowo com serviços, produtos e forma de pagamento"
+                  width={1920}
+                  height={1041}
+                  sizes="(min-width: 1024px) 520px, 100vw"
+                  className="w-full rounded-2xl border border-line bg-surface shadow-[0_24px_48px_-24px_rgba(23,24,16,0.35)]"
+                />
+                <ProductDisclaimer className="mt-4" label="Telas do app com dados ilustrativos" />
               </div>
             </div>
           </div>
@@ -658,6 +671,18 @@ export function SalesCampaignPage() {
           </div>
         </section>
 
+        <section className="border-t border-line bg-surface py-8 md:py-10">
+          <div className="container-page">
+            <p className="max-w-measure text-label text-muted-ink">
+              <strong className="font-semibold text-ink">O que já foi testado.</strong> Este atendimento
+              (resposta, agendamento, remarcação, cancelamento e a passagem para a equipe) foi testado pela
+              Flowo no WhatsApp em 26 de julho de 2026, com números de teste da própria Flowo. Ainda não
+              medimos resultado em barbearias clientes. Cada barbearia começa com a configuração acompanhada
+              pela equipe Flowo.
+            </p>
+          </div>
+        </section>
+
         <section className="on-ink overflow-hidden">
           <div className="container-page section-loose">
             <div className="mx-auto max-w-4xl text-center">
@@ -732,34 +757,33 @@ function CampaignHeader() {
   );
 }
 
+const heroConversation: ChatMessage[] = [
+  { from: "cliente", text: "Oi! Tem horário hoje pra corte com o Rafael?", at: "11:02" },
+  { from: "flowo", text: "Oi! O Rafael tem hoje às 14:00, 15:30 e 17:00. Qual fica melhor?", at: "11:02" },
+  { from: "cliente", text: "15:30", at: "11:03" },
+  {
+    from: "flowo",
+    text: "Marcado. Corte hoje às 15:30 com o Rafael, 40 min, R$ 55. Se precisar mudar, é só me chamar aqui.",
+    at: "11:03",
+  },
+];
+
 function CampaignProductHero() {
   return (
-    <div className="relative min-h-[28rem] sm:min-h-[35rem]">
-      <div
-        aria-hidden="true"
-        className="absolute inset-[12%_8%_14%] rounded-full bg-ink/[0.075] blur-3xl"
+    <div className="relative pb-16 pr-8 sm:pb-20 sm:pr-20">
+      <Image
+        src="/images/product/dashboard-agenda.png"
+        alt="Agenda da Flowo com os horários de cada barbeiro"
+        width={1920}
+        height={1041}
+        sizes="(min-width: 1024px) 720px, 100vw"
+        priority
+        className="w-full rounded-2xl border border-line bg-surface shadow-[0_24px_48px_-24px_rgba(23,24,16,0.35)]"
       />
-      <AgendaPreview
-        detailed
-        className="absolute inset-x-0 top-0 sm:inset-x-6"
-      />
-      <div
-        aria-hidden="true"
-        className="absolute bottom-[4.2rem] left-[10%] right-[10%] hidden h-3 rounded-b-[70%] bg-ink/90 shadow-[0_12px_24px_oklch(0.17_0.012_110/0.22)] sm:block"
-      />
-      <ConversationPreview className="absolute bottom-2 right-0 w-[53%] max-w-[17rem] rotate-[1.5deg] sm:right-2 sm:w-[38%]" />
-      <div className="absolute bottom-8 left-0 w-[58%] max-w-72 rounded-xl border border-line bg-surface/95 p-4 shadow-[0_20px_50px_-34px_oklch(0.17_0.012_110/0.55)] backdrop-blur sm:left-8">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-faint-ink">
-          Agenda atualizada
-        </p>
-        <p className="mt-2 text-sm font-semibold text-ink">
-          Corte com Rafael · 10h30
-        </p>
-        <p className="mt-1 text-xs text-muted-ink">
-          Confirmado a partir da conversa
-        </p>
-      </div>
-      <ProductDisclaimer className="absolute -bottom-6 left-0 sm:left-8" />
+      <PhoneFrame className="absolute -bottom-2 right-0 rotate-[1.5deg] sm:right-2">
+        <WhatsAppChat width={200} logicalHeight={620} messages={heroConversation} />
+      </PhoneFrame>
+      <ProductDisclaimer className="absolute bottom-4 left-0" label="Telas do app com dados ilustrativos" />
     </div>
   );
 }
