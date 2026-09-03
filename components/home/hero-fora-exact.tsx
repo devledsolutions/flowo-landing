@@ -165,7 +165,7 @@ export default function HeroForaExact() {
       </div>
 
       <Hills
-        src="/images/hero/hills-front.png"
+        src="/images/hero/hills-front-clean.png"
         rate={1}
         delay="motion-safe:delay-[500ms]"
         className="left-[-120px] top-[897px] h-[125px] w-[630px] lg:top-[984px] lg:h-[285px]"

@@ -149,7 +149,7 @@ export default function Hero() {
       </div>
 
       <Hills
-        src="/images/hero/hills-front.png"
+        src="/images/hero/hills-front-clean.png"
         rate={1}
         delay="motion-safe:delay-[500ms]"
         grade="[filter:grayscale(1)_sepia(.25)_brightness(.3)_contrast(1.1)]"

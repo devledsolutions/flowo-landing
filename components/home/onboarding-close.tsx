@@ -94,7 +94,7 @@ export default function OnboardingClose() {
         className="pointer-events-none absolute inset-x-0 top-[392px] z-20 h-[190px] will-change-transform lg:top-[720px]"
       >
         <Image
-          src="/images/hero/hills-front.png"
+          src="/images/hero/hills-front-clean.png"
           alt=""
           fill
           sizes="100vw"
