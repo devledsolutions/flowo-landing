@@ -381,10 +381,11 @@ export function ValidationCasePage({ validationCase }: ValidationCasePageProps) 
               </h2>
               <p className="mt-5 flex items-start gap-3 text-body text-muted-ink">
                 <Check className="mt-1 h-4 w-4 shrink-0 text-ink" aria-hidden="true" />
-                Esse cenário foi testado no sistema real da Flowo em 26 de julho de 2026, com números de
-                teste nossos. Nenhum cliente real participou. Os nomes da conversa são de demonstração.
-                Ainda não medimos tempo economizado nem faturamento com barbearias clientes; quando
-                medirmos, publicamos com período e contexto.
+                Esta é uma barbearia cliente da Flowo. A conversa e a agenda desta página são
+                ilustrativas, com dados de teste e nomes de demonstração. O atendimento foi testado no
+                sistema real da Flowo em 26 de julho de 2026, com números de teste nossos. Ainda não
+                medimos tempo economizado nem faturamento nesta barbearia; quando medirmos, publicamos
+                com período e contexto.
               </p>
             </div>
             <div className="divide-y divide-line border-y border-line">
@@ -410,7 +411,7 @@ export function ValidationCasePage({ validationCase }: ValidationCasePageProps) 
               className="inline-flex min-h-11 items-center gap-2 text-label font-semibold text-ink underline-offset-4 hover:underline"
             >
               <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-              Ver os dois cenários
+              Ver as duas barbearias
             </Link>
             <Link
               href={`/${validationCase.planAnchor}`}

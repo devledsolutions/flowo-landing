@@ -74,7 +74,7 @@ ${planLines}
 - [Ver a Flowo funcionando](${SITE_URL}/demonstracao-agendamento-whatsapp)
 - [Perfil solo: Linha Onze Barbearia](${SITE_URL}/casos-de-validacao/linha-onze-sao-paulo)
 - [Perfil com equipe: Quatro Tempos Barbearia](${SITE_URL}/casos-de-validacao/quatro-tempos-curitiba)
-- As duas jornadas mostram a interface e o funcionamento da Flowo em perfis comuns de barbearia.
+- As duas são barbearias clientes da Flowo. As conversas e agendas mostradas usam dados de teste; ainda não há resultado medido nelas.
 
 ## Add-ons e acesso acompanhado
 - [Flowo Recupera](${SITE_URL}/flowo-recupera): add-on em beta acompanhado para identificar oportunidades de retorno; resultados passam por revisão humana, consentimento e fechamento real da comanda.

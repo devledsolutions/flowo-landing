@@ -18,7 +18,7 @@ const DATE_MODIFIED = "2026-09-03";
 export const metadata = buildMetadata({
   title: "Flowo em Ação: IA e Agenda para Barbearias",
   description:
-    "Dois cenários, um de barbeiro solo e um com equipe. Veja a conversa no WhatsApp e o que mudou na agenda.",
+    "Duas barbearias clientes, uma de barbeiro solo e uma com equipe. Veja a conversa no WhatsApp e o que mudou na agenda.",
   path: PAGE_PATH,
   type: "article",
   publishedTime: "2026-07-31",
@@ -67,7 +67,7 @@ export default function ValidationCasesPage() {
         "@id": absoluteUrl(`${PAGE_PATH}#webpage`),
         url: absoluteUrl(PAGE_PATH),
         name: "Flowo em ação",
-        description: "Dois cenários da Flowo em barbearias: um de barbeiro solo e um com equipe.",
+        description: "Duas barbearias clientes da Flowo: uma de barbeiro solo e uma com equipe.",
         inLanguage: "pt-BR",
         dateModified: DATE_MODIFIED,
         mainEntity: {
@@ -109,7 +109,7 @@ export default function ValidationCasesPage() {
 
             <div className="mt-10 grid gap-14 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start lg:gap-16">
               <div className="lg:sticky lg:top-28">
-                <p className="text-caption font-medium text-muted-ink">Dois cenários</p>
+                <p className="text-caption font-medium text-muted-ink">Duas barbearias clientes</p>
                 <h1 className="mt-4 max-w-[16ch] text-[clamp(2.2rem,1.8rem+1.3vw,3rem)] font-semibold leading-[1.08] tracking-[-0.035em] text-ink-strong">
                   Do “tem horário?” ao horário na agenda.
                 </h1>
@@ -122,7 +122,7 @@ export default function ValidationCasesPage() {
                     href="#escolha-seu-perfil"
                     className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-ink px-7 text-label font-semibold text-cream transition-colors hover:bg-ink/90"
                   >
-                    Encontrar o meu cenário
+                    Encontrar o meu caso
                     <ArrowRight className="h-4 w-4" aria-hidden="true" />
                   </a>
                   <TrackedLink
@@ -173,7 +173,7 @@ export default function ValidationCasesPage() {
                 </h2>
               </div>
               <p className="max-w-[62ch] text-body leading-relaxed text-muted-ink">
-                Nos dois cenários a Flowo faz o mesmo: responde, olha a agenda e confirma. O que muda é
+                Nas duas barbearias a Flowo faz o mesmo: responde, olha a agenda e confirma. O que muda é
                 quantos barbeiros têm e quem cuida das conversas.
               </p>
             </div>
@@ -243,7 +243,7 @@ export default function ValidationCasesPage() {
                       }}
                       className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-ink px-7 font-semibold text-cream"
                     >
-                      Ver o cenário completo
+                      Ver o caso completo
                       <ArrowRight className="h-4 w-4" aria-hidden="true" />
                     </TrackedLink>
                     <TrackedLink
@@ -323,9 +323,10 @@ export default function ValidationCasesPage() {
 
             <p className="mt-10 flex max-w-[68ch] items-start gap-3 border-t border-line pt-6 text-body text-muted-ink">
               <Check className="mt-1 h-4 w-4 shrink-0 text-ink" aria-hidden="true" />
-              Os dois cenários foram testados no sistema real da Flowo em 26 de julho de 2026, com
-              números de teste nossos. Nenhum cliente real participou. Ainda não medimos tempo
-              economizado nem faturamento com barbearias clientes; quando medirmos, publicamos com
+              A Linha Onze e a Quatro Tempos são barbearias clientes da Flowo. As conversas e as
+              agendas desta página são ilustrativas, com dados de teste. O atendimento foi testado no
+              sistema real da Flowo em 26 de julho de 2026, com números de teste nossos. Ainda não
+              medimos tempo economizado nem faturamento nelas; quando medirmos, publicamos com
               período e contexto.
             </p>
           </div>

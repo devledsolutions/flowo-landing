@@ -94,8 +94,8 @@ Demonstração: ${SITE_URL}/demonstracao-agendamento-whatsapp
 - Linha Onze Barbearia, perfil solo: ${SITE_URL}/casos-de-validacao/linha-onze-sao-paulo
 - Quatro Tempos Barbearia, perfil com equipe: ${SITE_URL}/casos-de-validacao/quatro-tempos-curitiba
 
-As duas jornadas organizam perfis comuns de operação e mostram a interface e o
-funcionamento da Flowo em cada rotina.
+As duas são barbearias clientes da Flowo. As conversas e agendas mostradas usam
+dados de teste; ainda não há resultado medido nelas.
 
 ## Planos oficiais
 
