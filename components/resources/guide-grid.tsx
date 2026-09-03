@@ -123,10 +123,10 @@ export function GuideGrid() {
           </div>
 
           <div className="on-ink mx-auto mt-16 max-w-3xl rounded-lg p-8 text-center sm:p-10">
-            <h2 className="text-h3 font-bold">Quer ver o Flowo na prática?</h2>
+            <h2 className="text-h3 font-bold">Quer ver a Flowo na prática?</h2>
             <p className="mx-auto mt-3 max-w-md text-muted-ink">
-              Configure sua barbearia e aplique o que você leu respeitando os
-              limites e a disponibilidade do seu plano.
+              Configure sua barbearia e aplique o que você leu, dentro do seu
+              plano.
             </p>
             <div className="mt-6">
               <Button size="lg" className="rounded-full px-7" asChild>

@@ -53,7 +53,13 @@ export function WhatsAppChat({
   className,
   messages = bookingConversation,
   logicalHeight = LOGICAL_HEIGHT,
+  businessName = "Barbearia Central",
+  label,
 }: {
+  /** Name shown in the header; initials come from it. */
+  businessName?: string;
+  /** Accessible description of the thread; defaults to the booking one. */
+  label?: string;
   /** Rendered width in CSS px; the screen scales from 390pt to this. */
   width?: number;
   className?: string;
@@ -64,10 +70,23 @@ export function WhatsAppChat({
 }) {
   const scale = width / LOGICAL_WIDTH;
   const conversation = messages;
+  const initials = businessName
+    .split(/\s+/)
+    .filter((part) => part.length > 2 || part === businessName)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() ?? "")
+    .join("");
+  const ariaLabel =
+    label ??
+    (messages === bookingConversation
+      ? "Conversa no WhatsApp com a Barbearia Central. O cliente pergunta se tem horário amanhã depois das 18h com o João, a Flowo oferece 18:00, 18:30 e 19:00, o cliente escolhe 18:30 e o corte fica agendado."
+      : `Conversa no WhatsApp com ${businessName}. ${messages
+          .map((m) => ("day" in m ? `${m.day}.` : `${m.from === "cliente" ? "Cliente" : m.from === "flowo" ? "Flowo" : "Equipe"}: ${m.text}`))
+          .join(" ")}`);
   return (
     <div
       role="img"
-      aria-label="Conversa no WhatsApp com a Barbearia Central. O cliente pergunta se tem horário amanhã depois das 18h com o João, a Flowo oferece 18:00, 18:30 e 19:00, o cliente escolhe 18:30 e o corte fica agendado."
+      aria-label={ariaLabel}
       className={cn("relative overflow-hidden", className)}
       style={{ width, height: Math.round(logicalHeight * scale) }}
     >
@@ -93,10 +112,10 @@ export function WhatsAppChat({
           <div className="flex items-center gap-2 px-2 pt-1">
             <ChevronLeft className="h-7 w-7 text-[#007AFF]" aria-hidden="true" />
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-ink text-[14px] font-semibold text-cream">
-              BC
+              {initials}
             </span>
             <div className="min-w-0 flex-1 leading-tight">
-              <p className="truncate text-[17px] font-semibold">Barbearia Central</p>
+              <p className="truncate text-[17px] font-semibold">{businessName}</p>
               <p className="text-[13px] text-[#667781]">conta comercial</p>
             </div>
             <Video className="h-6 w-6 text-[#007AFF]" aria-hidden="true" />

@@ -52,7 +52,7 @@ const capabilities = [
     label: "Configurável",
     title: "Cashback",
     description:
-      "Defina percentual, validade e limite de uso antes de ativar o benefício.",
+      "Defina percentual, prazo e limite de uso antes de ativar o benefício.",
     cta: "Ver cashback",
     href: "/recursos/cashback-barbearia",
   },

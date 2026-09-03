@@ -127,7 +127,7 @@ const optionalCapabilities = [
     label: "Configurável",
     title: "Cashback",
     description:
-      "Se fizer sentido para a casa, defina percentual, validade e regras.",
+      "Se fizer sentido para a casa, defina percentual, prazo e regras.",
   },
   {
     icon: ReceiptText,

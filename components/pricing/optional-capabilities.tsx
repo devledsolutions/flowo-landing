@@ -22,7 +22,7 @@ const optionalCapabilities = [
     status: "Configurável",
     title: "Cashback",
     description:
-      "Percentual, validade e limites definidos pela barbearia. Consulte disponibilidade.",
+      "Percentual, prazo e limites definidos pela barbearia. Consulte disponibilidade.",
     href: "/recursos/cashback-barbearia",
   },
   {

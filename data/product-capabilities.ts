@@ -38,18 +38,18 @@ export const PRODUCT_CAPABILITIES: Record<
     path: "/software-barbearia-com-pix",
     breadcrumb: "Pagamentos no atendimento",
     eyebrow: "Recebimento opcional",
-    title: "Receba do seu jeito. Registre tudo no mesmo lugar.",
+    title: "Receba do seu jeito.",
     description:
-      "Dinheiro, maquininha própria ou pagamento integrado Flowo: a barbearia escolhe a forma de receber depois do serviço. Nada de sinal para reservar.",
+      "Dinheiro, maquininha ou PIX e cartão Flowo. Você escolhe depois do serviço. Nunca sinal para reservar.",
     statusLabel: "Opcional",
     statusDetail:
       "Você não precisa ativar pagamentos integrados para usar a agenda, o WhatsApp ou as comandas.",
     seoTitle: "Software para Barbearia com PIX Opcional",
     seoDescription:
       "Receba depois do atendimento em dinheiro, maquininha própria, PIX ou cartão. O pagamento integrado Flowo é opcional e nunca exige sinal para agendar.",
-    proofTitle: "A escolha acontece no fechamento da comanda",
+    proofTitle: "Você escolhe no fechamento.",
     proofDescription:
-      "O atendimento é concluído primeiro. Depois, a equipe registra como o cliente pagou e mantém o caixa ligado à comanda.",
+      "O atendimento é concluído primeiro. Depois, a equipe registra como o cliente pagou. O caixa fica ligado à comanda.",
     steps: [
       {
         title: "Conclua o atendimento",
@@ -64,7 +64,7 @@ export const PRODUCT_CAPABILITIES: Record<
       {
         title: "Registre o caixa",
         description:
-          "A forma de pagamento e a comanda concluída ficam no histórico financeiro da operação.",
+          "A forma de pagamento e a comanda concluída ficam no financeiro da barbearia.",
       },
     ],
     safeguards: [
@@ -101,13 +101,13 @@ export const PRODUCT_CAPABILITIES: Record<
     eyebrow: "Recorrência configurável",
     title: "Cashback que cabe na margem da sua barbearia.",
     description:
-      "Defina percentual, validade, valor mínimo e limite por comanda. O benefício só entra na operação quando a barbearia decide ativá-lo.",
+      "Defina percentual, prazo, valor mínimo e limite por comanda. O benefício só entra em uso quando a barbearia decide ativar.",
     statusLabel: "Configurável",
     statusDetail:
       "Cashback é separado de pontos e fidelidade. A disponibilidade e a ativação devem ser confirmadas para a sua conta.",
     seoTitle: "Cashback para Barbearia: Fidelização com Controle",
     seoDescription:
-      "Configure cashback para sua barbearia com percentual, validade, mínimo de resgate e limite por comanda. Recurso opcional e controlado pela gestão.",
+      "Configure cashback para sua barbearia com percentual, prazo, mínimo de resgate e limite por comanda. Recurso opcional e controlado pela gestão.",
     proofTitle: "A regra vem antes da recompensa",
     proofDescription:
       "A barbearia decide quanto conceder e como o saldo pode ser usado. O cliente vê o benefício sem a gestão perder o controle da margem.",
@@ -115,7 +115,7 @@ export const PRODUCT_CAPABILITIES: Record<
       {
         title: "Defina a regra",
         description:
-          "Escolha percentual, prazo de validade, produtos elegíveis e limite de uso por comanda.",
+          "Escolha percentual, prazo para usar, produtos elegíveis e limite de uso por comanda.",
       },
       {
         title: "Gere saldo no atendimento",
@@ -125,12 +125,12 @@ export const PRODUCT_CAPABILITIES: Record<
       {
         title: "Controle o resgate",
         description:
-          "Aplique mínimo de resgate e teto por compra para proteger a margem da operação.",
+          "Aplique mínimo de resgate e teto por compra para proteger a sua margem.",
       },
     ],
     safeguards: [
       "Ativação e pausa sob controle da barbearia",
-      "Percentual e validade configuráveis",
+      "Percentual e prazo configuráveis",
       "Mínimo de resgate e teto por comanda",
       "Cashback não é o mesmo que pontos de fidelidade",
     ],
@@ -176,7 +176,7 @@ export const PRODUCT_CAPABILITIES: Record<
       {
         title: "Configure a comissão",
         description:
-          "Defina as regras aplicáveis aos serviços e profissionais dentro da operação.",
+          "Defina as regras aplicáveis aos serviços e barbeiros da barbearia.",
       },
       {
         title: "Feche a comanda",
@@ -237,7 +237,7 @@ export const PRODUCT_CAPABILITIES: Record<
       {
         title: "Verifique a disponibilidade",
         description:
-          "A equipe Flowo confirma município, documento fiscal aplicável e requisitos da operação.",
+          "A equipe Flowo confirma município, documento fiscal aplicável e o que a prefeitura pede.",
       },
       {
         title: "Homologue os dados",

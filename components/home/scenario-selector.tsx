@@ -15,11 +15,11 @@ const validationCases = [
     id: "solo",
     logo: "/images/validation-cases/linha-onze-professional-v2.png",
     name: "Linha Onze Barbearia",
-    location: "São Paulo · operação solo",
+    location: "São Paulo · barbeiro solo",
     routine:
-      "O barbeiro está com as mãos ocupadas quando chega mais um pedido de horário no WhatsApp.",
+      "O barbeiro está de tesoura na mão quando chega mais um pedido de horário no WhatsApp.",
     evidence:
-      "A IA responde, consulta a disponibilidade e leva o pedido até um agendamento confirmado na agenda.",
+      "A Flowo responde, olha a agenda e confirma o horário. O cliente marca sozinho.",
     result: "WhatsApp → disponibilidade → horário confirmado",
     resultIcon: CalendarCheck2,
     detailHref: "/casos-de-validacao/linha-onze-sao-paulo",
@@ -30,11 +30,11 @@ const validationCases = [
     id: "equipe",
     logo: "/images/validation-cases/quatro-tempos-professional-v2.png",
     name: "Quatro Tempos Barbearia",
-    location: "Curitiba · operação com equipe",
+    location: "Curitiba · barbearia com equipe",
     routine:
-      "A equipe precisa manter conversa e agenda alinhadas quando o cliente muda de ideia ou alguém assume o atendimento.",
+      "O cliente muda de ideia, e alguém da recepção precisa assumir a conversa sem bagunçar a agenda.",
     evidence:
-      "A Flowo consulta, remarca e cancela o horário, além de pausar a IA quando a equipe assume o atendimento.",
+      "A Flowo remarca e cancela na conversa. Quando a equipe assume, a IA pausa e volta depois.",
     result: "Agenda atualizada → equipe no controle → IA retomada",
     resultIcon: MessageCircleMore,
     detailHref: "/casos-de-validacao/quatro-tempos-curitiba",

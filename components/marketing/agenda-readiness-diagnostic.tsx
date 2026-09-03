@@ -1,7 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, type RefObject } from "react";
+import Image from "next/image";
 import Link from "next/link";
+import { PhoneFrame } from "@/components/home/phone-frame";
+import { WhatsAppChat } from "@/components/home/whatsapp-chat";
 import {
   ArrowLeft,
   ArrowRight,
@@ -13,8 +16,6 @@ import {
   Users,
 } from "lucide-react";
 import {
-  AgendaPreview,
-  ConversationPreview,
   ProductDisclaimer,
 } from "@/components/home/product-previews";
 import { LeadMagnetForm } from "@/components/marketing/lead-magnet-form";
@@ -428,11 +429,17 @@ export function AgendaReadinessDiagnostic() {
               </div>
 
               <div className="mt-5 grid gap-4 sm:relative sm:min-h-[31rem] sm:block">
-                <AgendaPreview
-                  detailed
-                  className="sm:absolute sm:left-16 sm:right-[-3rem] sm:top-0 sm:rotate-[0.7deg]"
+                <Image
+                  src="/images/product/dashboard-agenda.png"
+                  alt="Agenda da Flowo com os horários de cada barbeiro"
+                  width={1920}
+                  height={1041}
+                  sizes="(min-width: 1024px) 640px, 100vw"
+                  className="w-full rounded-2xl border border-line bg-surface shadow-[0_24px_48px_-24px_rgba(23,24,16,0.35)] sm:absolute sm:left-16 sm:top-0 sm:w-[calc(100%-1rem)] sm:rotate-[0.7deg]"
                 />
-                <ConversationPreview className="sm:absolute sm:bottom-0 sm:left-0 sm:w-[48%] sm:max-w-[18rem] sm:rotate-[-1.2deg]" />
+                <PhoneFrame className="sm:absolute sm:bottom-0 sm:left-0 sm:rotate-[-1.2deg]">
+                  <WhatsAppChat width={220} logicalHeight={640} />
+                </PhoneFrame>
               </div>
             </div>
             <ProductDisclaimer className="mt-4" />

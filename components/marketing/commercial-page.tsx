@@ -2,16 +2,14 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
-  CalendarDays,
-  Check,
-  CheckCircle2,
   ChevronRight,
-  CreditCard,
-  LockKeyhole,
-  MessageCircle,
-  Scissors,
 } from "lucide-react";
 import { SIGNUP_URL } from "@/components/cta-links";
+import { formatBRL } from "@/data/pricing-data";
+import { PhoneFrame } from "@/components/home/phone-frame";
+import { WhatsAppChat } from "@/components/home/whatsapp-chat";
+import { ProductDisclaimer } from "@/components/home/product-previews";
+import Image from "next/image";
 
 type PreviewKind = "agenda" | "whatsapp" | "pagamento" | "comparacao";
 
@@ -99,297 +97,46 @@ function CommercialBreadcrumb({ current }: { current: string }) {
   );
 }
 
-function ProductPreview({ kind }: { kind: PreviewKind }) {
-  return (
-    <div
-      role="img"
-      aria-label={previewLabels[kind]}
-      className="relative isolate px-1 pb-1 pt-5 sm:px-5 sm:pb-3 sm:pt-8"
-    >
-      <div
-        aria-hidden="true"
-        className="absolute inset-x-[9%] top-[12%] -z-10 h-[72%] rounded-full bg-ink/[0.065] blur-3xl"
-      />
-      <div aria-hidden="true" className="relative">
-        <div className="overflow-hidden rounded-[14px] border border-ink/[0.12] bg-surface [box-shadow:0_2px_3px_-2px_rgb(23_24_16_/_0.14),0_18px_44px_-24px_rgb(23_24_16_/_0.32)]">
-          <div className="grid min-h-11 grid-cols-[auto_1fr_auto] items-center gap-3 border-b border-line bg-surface-2 px-3 sm:px-4">
-            <div className="flex items-center gap-1.5" aria-hidden="true">
-              <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
-              <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
-              <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
-            </div>
-            <div className="mx-auto flex min-h-7 w-full max-w-52 items-center justify-center gap-1.5 rounded-md border border-ink/[0.08] bg-surface px-3 text-[10px] text-muted-ink sm:max-w-60">
-              <LockKeyhole className="h-2.5 w-2.5" />
-              <span className="truncate">barber.flowo.com.br</span>
-            </div>
-            <span className="hidden text-[10px] font-semibold tracking-[0.16em] text-ink sm:inline">
-              FLOWO
-            </span>
-          </div>
-          <div className="flex items-center justify-between border-b border-line px-4 py-3 sm:px-5">
-            <div className="flex items-center gap-2.5">
-              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-ink text-cream">
-                <Scissors className="h-3.5 w-3.5" />
-              </span>
-              <span>
-                <span className="block text-[11px] font-semibold leading-none text-ink">
-                  Flowo
-                </span>
-                <span className="mt-1 block text-[9px] leading-none text-muted-ink">
-                  Gestão da barbearia
-                </span>
-              </span>
-            </div>
-            <span className="rounded-full border border-line px-2 py-1 text-[9px] font-medium text-muted-ink">
-              Ambiente seguro
-            </span>
-          </div>
-          <div className="p-4 pb-8 sm:p-6 sm:pb-10">
-            {kind === "agenda" && <AgendaPreview />}
-            {kind === "whatsapp" && <WhatsappPreview />}
-            {kind === "pagamento" && <PaymentPreview />}
-            {kind === "comparacao" && <ComparisonPreview />}
-          </div>
-        </div>
-        <PreviewSignal kind={kind} />
-      </div>
-      <p className="mt-4 text-center text-[11px] text-muted-ink">
-        Demonstração ilustrativa do produto
-      </p>
-    </div>
-  );
-}
-
-const previewSignals: Record<
-  PreviewKind,
-  { eyebrow: string; title: string; meta: string }
-> = {
+const previewScreens: Record<Exclude<PreviewKind, "whatsapp">, { src: string; alt: string }> = {
   agenda: {
-    eyebrow: "Novo horário",
-    title: "Agendamento confirmado",
-    meta: "Rafa · amanhã, 11h30",
-  },
-  whatsapp: {
-    eyebrow: "WhatsApp",
-    title: "Agendamento concluído",
-    meta: "Corte · amanhã, 11h30",
+    src: "/images/product/dashboard-agenda.png",
+    alt: "Agenda da Flowo com os horários de cada barbeiro",
   },
   pagamento: {
-    eyebrow: "Caixa atualizado",
-    title: "Pagamento aprovado",
-    meta: "PIX · R$ 75,00",
+    src: "/images/product/dashboard-comandas.png",
+    alt: "Comanda da Flowo com serviços, produtos e forma de pagamento",
   },
   comparacao: {
-    eyebrow: "Rotina organizada",
-    title: "3 etapas automatizadas",
-    meta: "Do atendimento à confirmação",
+    src: "/images/product/dashboard-hoje.png",
+    alt: "Tela Hoje da Flowo com os atendimentos do dia",
   },
 };
 
-function PreviewSignal({ kind }: { kind: PreviewKind }) {
-  const signal = previewSignals[kind];
-
+function ProductPreview({ kind }: { kind: PreviewKind }) {
+  if (kind === "whatsapp") {
+    return (
+      <div className="flex flex-col items-center">
+        <PhoneFrame>
+          <WhatsAppChat width={300} logicalHeight={760} />
+        </PhoneFrame>
+        <ProductDisclaimer className="mt-4" label="Conversa com dados ilustrativos" />
+      </div>
+    );
+  }
+  const screen = previewScreens[kind];
   return (
-    <div className="relative -mt-6 ml-auto mr-3 flex w-[min(17rem,82%)] items-center gap-3 rounded-xl border border-ink/[0.1] bg-surface px-3.5 py-3 [box-shadow:0_16px_38px_-22px_rgb(23_24_16_/_0.4)] sm:-mt-7 sm:mr-5 sm:w-72">
-      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-ink text-cream">
-        <CheckCircle2 className="h-4 w-4" />
-      </span>
-      <span className="min-w-0 flex-1">
-        <span className="block text-[9px] font-semibold uppercase tracking-[0.12em] text-faint-ink">
-          {signal.eyebrow}
-        </span>
-        <span className="mt-0.5 block truncate text-xs font-semibold text-ink">
-          {signal.title}
-        </span>
-        <span className="block truncate text-[10px] text-muted-ink">
-          {signal.meta}
-        </span>
-      </span>
-      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--success)]" />
+    <div>
+      <Image
+        src={screen.src}
+        alt={screen.alt}
+        width={1920}
+        height={1041}
+        sizes="(min-width: 1024px) 640px, 100vw"
+        priority
+        className="w-full rounded-2xl border border-line bg-surface shadow-[0_24px_48px_-24px_rgba(23,24,16,0.35)]"
+      />
+      <ProductDisclaimer className="mt-4" label="Telas do app com dados ilustrativos" />
     </div>
-  );
-}
-
-const previewLabels: Record<PreviewKind, string> = {
-  agenda:
-    "Exemplo da agenda do Flowo com horários, profissionais diferentes e status de confirmação.",
-  whatsapp:
-    "Exemplo de conversa no WhatsApp em que a IA oferece horários livres e confirma o agendamento.",
-  pagamento:
-    "Exemplo do fluxo de pagamento do atendimento por PIX ou cartão, com registro no caixa.",
-  comparacao:
-    "Comparação ilustrativa entre uma rotina manual e uma rotina organizada no Flowo.",
-};
-
-const previewAgenda = [
-  ["09:00", "Corte", "Rafa", "Confirmado"],
-  ["10:30", "Barba", "Pedro", "Confirmado"],
-  ["14:00", "Corte + barba", "Rafa", "A confirmar"],
-];
-
-function AgendaPreview() {
-  return (
-    <>
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-caption text-muted-ink">Agenda de hoje</p>
-          <p className="mt-1 font-semibold text-ink">Quarta-feira, 29 de julho</p>
-        </div>
-        <CalendarDays className="h-5 w-5 text-ink" />
-      </div>
-      <ul className="mt-5 divide-y divide-line border-y border-line">
-        {previewAgenda.map(([time, service, barber, status]) => (
-          <li key={time} className="flex items-center gap-3 py-3">
-            <span className="w-11 shrink-0 text-sm font-semibold tabular-nums text-ink">
-              {time}
-            </span>
-            <span className="min-w-0 flex-1">
-              <span className="block truncate text-sm font-medium text-ink">
-                {service}
-              </span>
-              <span className="block text-xs text-muted-ink">{barber}</span>
-            </span>
-            <span
-              className={`shrink-0 rounded-full px-2 py-1 text-[10px] font-medium ${
-                status === "Confirmado"
-                  ? "bg-ink text-cream"
-                  : "bg-surface-2 text-muted-ink"
-              }`}
-            >
-              {status}
-            </span>
-          </li>
-        ))}
-      </ul>
-      <p className="mt-4 text-xs leading-relaxed text-muted-ink">
-        Cada profissional pode trabalhar em dias e horários diferentes nos
-        planos com equipe.
-      </p>
-    </>
-  );
-}
-
-function WhatsappPreview() {
-  return (
-    <>
-      <div className="flex items-center gap-3 border-b border-line pb-4">
-        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-surface-2">
-          <Scissors className="h-4 w-4 text-ink" />
-        </span>
-        <span>
-          <span className="block text-sm font-semibold text-ink">Barbearia</span>
-          <span className="block text-xs text-muted-ink">
-            atendimento pelo Flowo
-          </span>
-        </span>
-      </div>
-      <div className="mt-5 space-y-3">
-        <ChatBubble side="right">Quero corte amanhã com o Rafa.</ChatBubble>
-        <ChatBubble side="left">
-          O Rafa tem 9h, 11h30 ou 15h. Qual horário fica melhor?
-        </ChatBubble>
-        <ChatBubble side="right">11h30.</ChatBubble>
-        <ChatBubble side="left">
-          Pronto: corte com Rafa, amanhã às 11h30. Vou lembrar você antes.
-        </ChatBubble>
-      </div>
-    </>
-  );
-}
-
-function ChatBubble({
-  side,
-  children,
-}: {
-  side: "left" | "right";
-  children: ReactNode;
-}) {
-  return (
-    <div className={`flex ${side === "right" ? "justify-end" : "justify-start"}`}>
-      <p
-        className={`max-w-[86%] rounded-lg px-3.5 py-2.5 text-sm leading-relaxed ${
-          side === "right"
-            ? "bg-ink text-cream"
-            : "border border-line bg-surface-2 text-ink"
-        }`}
-      >
-        {children}
-      </p>
-    </div>
-  );
-}
-
-function PaymentPreview() {
-  const steps = [
-    ["Comanda", "Corte + barba", "R$ 75,00"],
-    ["Forma de pagamento", "PIX ou cartão", "Escolhida pelo cliente"],
-    ["Caixa", "Pagamento aprovado", "Registrado"],
-  ];
-
-  return (
-    <>
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-caption text-muted-ink">Atendimento concluído</p>
-          <p className="mt-1 font-semibold text-ink">Fechamento da comanda</p>
-        </div>
-        <CreditCard className="h-5 w-5 text-ink" />
-      </div>
-      <ol className="mt-5 divide-y divide-line border-y border-line">
-        {steps.map(([label, title, meta], index) => (
-          <li key={label} className="grid grid-cols-[2rem_1fr] gap-3 py-3">
-            <span className="flex h-7 w-7 items-center justify-center rounded-full border border-line text-xs font-semibold text-ink">
-              {index + 1}
-            </span>
-            <span>
-              <span className="block text-xs text-muted-ink">{label}</span>
-              <span className="mt-0.5 block text-sm font-medium text-ink">
-                {title}
-              </span>
-              <span className="block text-xs text-muted-ink">{meta}</span>
-            </span>
-          </li>
-        ))}
-      </ol>
-      <p className="mt-4 text-xs leading-relaxed text-muted-ink">
-        O pagamento é do atendimento. O Flowo não exige sinal para reservar
-        horário.
-      </p>
-    </>
-  );
-}
-
-function ComparisonPreview() {
-  const rows = [
-    ["Responder cada mensagem", "Atendimento automático"],
-    ["Conferir horário à mão", "Disponibilidade atualizada"],
-    ["Lembrar o cliente", "Confirmação automática"],
-  ];
-
-  return (
-    <>
-      <div className="grid grid-cols-2 gap-3">
-        <p className="text-caption font-medium text-muted-ink">Rotina manual</p>
-        <p className="text-caption font-medium text-ink">Com o Flowo</p>
-      </div>
-      <ul className="mt-3 divide-y divide-line border-y border-line">
-        {rows.map(([before, after]) => (
-          <li key={before} className="grid grid-cols-2 gap-3 py-3">
-            <span className="text-sm text-muted-ink">{before}</span>
-            <span className="flex gap-2 text-sm font-medium text-ink">
-              <Check className="mt-0.5 h-4 w-4 shrink-0" />
-              {after}
-            </span>
-          </li>
-        ))}
-      </ul>
-      <div className="mt-5 flex items-center gap-3 rounded-lg bg-surface-2 p-4">
-        <MessageCircle className="h-5 w-5 shrink-0 text-ink" />
-        <p className="text-sm text-muted-ink">
-          A diferença principal não é onde você anota: é quem executa a rotina.
-        </p>
-      </div>
-    </>
   );
 }
 
@@ -479,7 +226,7 @@ export function CommercialCta({
           </div>
         </div>
         <p className="mt-8 border-t border-line pt-5 text-caption text-muted-ink">
-          A partir de R$ {price}/mês no plano Solo. Sem fidelidade.
+          A partir de {formatBRL(price)}/mês no plano Solo. Sem fidelidade.
         </p>
       </div>
     </section>

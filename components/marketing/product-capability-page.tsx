@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -26,7 +27,7 @@ const previewLabels: Record<ProductCapabilityId, string> = {
   payments:
     "Comanda do Flowo mostrando dinheiro, maquininha própria, PIX Flowo e cartão Flowo como escolhas equivalentes.",
   cashback:
-    "Configuração ilustrativa de cashback com percentual, validade, mínimo de resgate e limite por comanda.",
+    "Configuração ilustrativa de cashback com percentual, prazo, mínimo de resgate e limite por comanda.",
   commissions:
     "Painel ilustrativo de comissões com saldo por profissional e repasse iniciado pelo gestor.",
   fiscal:
@@ -313,10 +314,22 @@ export function ProductCapabilityPage({
               </div>
             </div>
             <div>
-              <ProductCapabilityPreview kind={capability.id} />
+              {capability.id === "payments" ? (
+                <Image
+                  src="/images/product/dashboard-comandas.png"
+                  alt="Comanda da Flowo com serviços, produtos e forma de pagamento"
+                  width={1920}
+                  height={1041}
+                  sizes="(min-width: 1024px) 640px, 100vw"
+                  priority
+                  className="w-full rounded-2xl border border-line bg-surface shadow-[0_24px_48px_-24px_rgba(23,24,16,0.35)]"
+                />
+              ) : (
+                <ProductCapabilityPreview kind={capability.id} />
+              )}
               <p className="mt-4 flex items-center justify-center gap-1.5 text-caption text-faint-ink">
                 <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
-                Demonstração ilustrativa do produto
+                {capability.id === "payments" ? "Telas do app com dados ilustrativos" : "Demonstração ilustrativa do produto"}
               </p>
             </div>
           </div>
@@ -371,10 +384,10 @@ export function ProductCapabilityPage({
           <div>
             <Settings2 className="h-6 w-6 text-ink" aria-hidden="true" />
             <h2 className="mt-5 text-h3 font-semibold text-ink-strong">
-              Sem esconder as condições.
+              Sem letra miúda.
             </h2>
             <p className="mt-4 max-w-measure text-body text-muted-ink">
-              Disponibilidade, ativação e responsabilidade aparecem antes da decisão.
+              O que é opcional e o que depende de ativação, antes de você decidir.
             </p>
           </div>
           <ul className="grid gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2">
