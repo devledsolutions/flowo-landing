@@ -16,6 +16,7 @@ import {
   GuideContent,
 } from "@/components/resources/guide-shell";
 import { GuideStructuredData } from "@/components/resources/resource-structured-data";
+import { GuideAppScreen, GuideHonesty } from "@/app/recursos/_components/guide-media";
 import { getGuide } from "@/data/guides";
 import { buildGuideMetadata } from "@/lib/seo";
 
@@ -24,13 +25,13 @@ const guide = getGuide("/recursos/guias/escala-equipe");
 export const metadata = buildGuideMetadata(guide);
 
 const tableOfContents = [
-  { id: "camadas", label: "Entenda as camadas da disponibilidade" },
-  { id: "configurar", label: "Configure cada profissional" },
+  { id: "camadas", label: "As quatro camadas do horário livre" },
+  { id: "configurar", label: "Configure cada barbeiro" },
   { id: "folgas", label: "Registre folgas e exceções" },
-  { id: "revisar", label: "Revise capacidade sem inventar rodízio" },
+  { id: "revisar", label: "Revise a capacidade sem inventar rodízio" },
 ];
 
-export default function EscalaEquipeGuidePage() {
+export default function TeamScheduleGuidePage() {
   return (
     <>
       <GuideStructuredData guide={guide} />
@@ -45,8 +46,9 @@ export default function EscalaEquipeGuidePage() {
               { label: "Escala de Equipe", href: "#" },
             ]}
             readTime={guide.readTime}
-            title="Escala de equipe sem conflito de horários"
-            lead="Use o horário geral como limite e configure a rotina de cada profissional. O Flowo aplica a escala à disponibilidade, mas não cria sozinho um rodízio comercial entre barbeiros."
+            title="Escala de equipe sem horário duplicado"
+            lead="O horário da barbearia é o limite. Cada barbeiro tem a própria rotina. A Flowo aplica isso na agenda, mas não cria rodízio sozinha."
+            updatedAt="3 de setembro de 2026"
           />
 
           <GuideAvailability
@@ -54,147 +56,126 @@ export default function EscalaEquipeGuidePage() {
               {
                 label: "Planos",
                 value: "Equipe e Empresarial",
-                description:
-                  "Múltiplos profissionais ativos exigem capacidade de equipe.",
+                description: "Mais de um barbeiro ativo pede um plano de equipe.",
               },
               {
-                label: "Configuração",
-                value: "Painel web e app móvel",
-                description:
-                  "Horário geral, agenda individual e folgas estão disponíveis nas duas experiências.",
+                label: "Onde configurar",
+                value: "Painel e app",
+                description: "Horário da barbearia, escala de cada barbeiro e folgas nos dois.",
               },
               {
-                label: "Disponibilidade",
-                value: "Calculada por profissional",
-                description:
-                  "Serviço permitido, horário, folga e conflito são verificados antes de mostrar um slot.",
+                label: "Horário livre",
+                value: "Calculado por barbeiro",
+                description: "Serviço, horário, folga e conflito são checados antes de mostrar uma vaga.",
               },
               {
                 label: "Distribuição",
-                value: "Sem round-robin automático",
-                description:
-                  "“Qualquer profissional” encontra alguém elegível e livre; não equilibra metas ou faturamento.",
+                value: "Sem rodízio automático",
+                description: "“Qualquer barbeiro” acha alguém apto e livre. Não equilibra meta ou faturamento.",
               },
             ]}
           />
 
           <GuideContent items={tableOfContents}>
-            <GuideSection
-              id="camadas"
-              icon={ListChecks}
-              title="Entenda as camadas da disponibilidade"
-            >
+            <GuideSection id="camadas" icon={ListChecks} title="As quatro camadas do horário livre">
               <GuideCards
                 items={[
                   {
                     title: "1. Horário da barbearia",
-                    description:
-                      "É a janela máxima de funcionamento. Nenhum profissional recebe horário fora dela.",
+                    description: "A janela máxima. Ninguém recebe horário fora dela.",
                   },
                   {
-                    title: "2. Horário do profissional",
-                    description:
-                      "Pode herdar o geral ou restringir dias e faixas específicas.",
+                    title: "2. Horário do barbeiro",
+                    description: "Herda o da barbearia ou limita dias e faixas próprias.",
                   },
                   {
-                    title: "3. Serviços atribuídos",
-                    description:
-                      "A pessoa só aparece para os serviços que realiza.",
+                    title: "3. Serviços que ele faz",
+                    description: "O barbeiro só aparece para os serviços dele.",
                   },
                   {
                     title: "4. Folgas e conflitos",
-                    description:
-                      "Ausências e agendamentos existentes retiram os slots da oferta.",
+                    description: "Ausências e horários já marcados saem da oferta.",
                   },
                 ]}
               />
-              <GuideScopeNote title="A agenda usa essas mesmas regras">
-                O painel, o agendamento público e a IA consultam a
-                disponibilidade por profissional antes de reservar.
+              <GuideAppScreen
+                src="/images/product/app-agenda.png"
+                alt="Agenda do app da Flowo no celular, com uma coluna por barbeiro e os espaços livres de cada um"
+              />
+              <GuideScopeNote title="A agenda inteira usa as mesmas regras">
+                Painel, página de agendamento e a Flowo no WhatsApp consultam o horário livre de
+                cada barbeiro antes de reservar.
               </GuideScopeNote>
             </GuideSection>
 
-            <GuideSection
-              id="configurar"
-              icon={CalendarClock}
-              title="Configure cada profissional"
-            >
+            <GuideSection id="configurar" icon={CalendarClock} title="Configure cada barbeiro">
               <GuideChecklist
                 items={[
-                  "Marque quem realmente atende e recebe agendamentos",
-                  "Atribua apenas os serviços que a pessoa realiza",
-                  "Escolha se ela herda o horário geral ou usa escala própria",
-                  "Revise início e fim de cada dia de trabalho",
-                  "Salve e teste um horário pela agenda antes de divulgar",
+                  "Marque quem atende e recebe agendamento",
+                  "Ligue só os serviços que a pessoa faz",
+                  "Escolha se ela herda o horário da barbearia ou tem escala própria",
+                  "Revise início e fim de cada dia",
+                  "Salve e teste um horário na agenda antes de divulgar",
                 ]}
               />
               <GuideProductPath
                 items={[
                   {
-                    surface: "Painel web",
-                    path: "Equipe → Horários do profissional",
-                    action:
-                      "defina dias, início, fim e abra o gerenciamento de folgas.",
+                    surface: "Painel",
+                    path: "Equipe → Horários do barbeiro",
+                    action: "defina dias, início e fim, e abra as folgas.",
                   },
                   {
-                    surface: "App móvel",
-                    path: "Mais → Equipe → profissional → Horários",
-                    action:
-                      "revise ou altere a mesma escala individual.",
+                    surface: "App",
+                    path: "Mais → Equipe → barbeiro → Horários",
+                    action: "a mesma escala, no celular.",
                   },
                 ]}
               />
             </GuideSection>
 
-            <GuideSection
-              id="folgas"
-              icon={CalendarOff}
-              title="Registre folgas e exceções"
-            >
+            <GuideSection id="folgas" icon={CalendarOff} title="Registre folgas e exceções">
               <p>
-                Use folga para uma ausência pontual e horário individual para a
-                rotina recorrente. Assim você não precisa editar toda a semana
-                por causa de férias, consulta ou compromisso isolado.
+                Folga é para ausência pontual. Horário próprio é para a rotina. Assim você não
+                edita a semana inteira por causa de férias, consulta ou compromisso.
               </p>
               <GuideCallout title="Exemplo">
-                Pedro trabalha de terça a sábado, das 10h às 19h. Para uma folga
-                na próxima sexta, mantenha a escala semanal e bloqueie apenas o
-                intervalo da ausência.
+                Pedro trabalha de terça a sábado, das 10h às 19h. Para uma folga na próxima
+                sexta, mantenha a escala e bloqueie só aquele dia.
               </GuideCallout>
             </GuideSection>
 
-            <GuideSection
-              id="revisar"
-              icon={Users}
-              title="Revise capacidade sem inventar rodízio"
-            >
+            <GuideSection id="revisar" icon={Users} title="Revise a capacidade sem inventar rodízio">
               <p>
-                Consulte agenda e horários de pico para decidir quando precisa de
-                reforço. Se o cliente escolher “qualquer profissional”, o Flowo
-                reserva alguém elegível e livre.
+                Olhe a agenda e os horários de pico para decidir quando precisa de reforço. Se o
+                cliente escolher “qualquer barbeiro”, a Flowo reserva com alguém apto e livre.
               </p>
-              <GuideScopeNote
-                status="practice"
-                title="Distribuição justa exige uma regra de gestão"
-              >
-                Hoje o produto não distribui automaticamente por fila, meta,
-                comissão ou menor número de clientes. Se essa regra for
-                importante, defina-a com a equipe e acompanhe a agenda.
+              <GuideScopeNote status="practice" title="Distribuição justa é regra de gestão">
+                Hoje a Flowo não distribui por fila, meta, comissão ou menos clientes. Se essa
+                regra importa, combine com a equipe e acompanhe pela agenda.
               </GuideScopeNote>
               <GuideChecklist
                 items={[
-                  "Compare demanda por dia e hora",
-                  "Confira folgas antes de abrir horários extras",
-                  "Evite anunciar capacidade que ainda não foi salva",
-                  "Revise a escala após férias, contratação ou mudança de serviço",
+                  "Compare a procura por dia e hora",
+                  "Confira folgas antes de abrir horário extra",
+                  "Não anuncie horário que ainda não foi salvo",
+                  "Revise a escala depois de férias, contratação ou serviço novo",
                 ]}
               />
             </GuideSection>
           </GuideContent>
 
+          <GuideHonesty
+            tested={[
+              "A Flowo oferecer no WhatsApp só os horários livres do barbeiro pedido: testado em produção com números de teste da própria Flowo, em 26 de julho de 2026.",
+              "Horário por barbeiro, folgas e escolha de “qualquer barbeiro”: conferidos no produto em 3 de setembro de 2026.",
+            ]}
+            notMeasured={["Quanto a escala na Flowo reduz conflito de horário em barbearias reais."]}
+          />
+
           <GuideCta
-            title="Cada profissional tem uma rotina diferente?"
-            description="Use um plano com equipe e configure a disponibilidade individual no painel web ou app móvel."
+            title="Cada barbeiro tem uma rotina diferente?"
+            description="Use um plano com equipe e configure o horário de cada um no painel ou no app."
           />
 
           <GuidePrevNext
