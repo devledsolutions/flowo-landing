@@ -16,6 +16,7 @@ import {
   GuideContent,
 } from "@/components/resources/guide-shell";
 import { GuideStructuredData } from "@/components/resources/resource-structured-data";
+import { GuideHonesty, GuideScreenshot } from "@/app/recursos/_components/guide-media";
 import { getGuide } from "@/data/guides";
 import { buildGuideMetadata } from "@/lib/seo";
 
@@ -25,10 +26,10 @@ export const metadata = buildGuideMetadata(guide);
 
 const tableOfContents = [
   { id: "base", label: "Monte a base da agenda" },
-  { id: "horarios", label: "Configure barbearia e profissionais" },
-  { id: "lembretes", label: "Entenda lembretes e confirmação" },
-  { id: "nao-confirmou", label: "O que acontece quando não há resposta" },
-  { id: "pagamento", label: "Feche e receba depois do serviço" },
+  { id: "horarios", label: "Horário da barbearia e de cada barbeiro" },
+  { id: "lembretes", label: "Confirmação e lembrete" },
+  { id: "nao-confirmou", label: "Quando o cliente não responde" },
+  { id: "pagamento", label: "Receba depois do corte" },
 ];
 
 export default function SchedulingGuidePage() {
@@ -47,34 +48,31 @@ export default function SchedulingGuidePage() {
             ]}
             readTime={guide.readTime}
             title="Guia de agendamento para barbearias"
-            lead="Cadastre a capacidade real da barbearia, evite conflitos e use confirmações sem prometer cancelamentos automáticos que o produto não faz."
+            lead="Cadastre o que a barbearia atende de verdade, evite horário duplicado e use a confirmação sem prometer cancelamento automático."
+            updatedAt="3 de setembro de 2026"
           />
 
           <GuideAvailability
             items={[
               {
                 label: "Agenda",
-                value: "Painel web e app móvel",
-                description:
-                  "Criação, remarcação, status, presença e no-show têm fluxos equivalentes para a operação.",
+                value: "Painel e app",
+                description: "Criar, remarcar, marcar presença e falta funcionam nos dois.",
               },
               {
                 label: "Horários",
-                value: "Geral + individual",
-                description:
-                  "O horário da barbearia é o limite; cada profissional pode ter dias e faixas próprias.",
+                value: "Da barbearia e de cada barbeiro",
+                description: "O horário da barbearia é o limite. Cada barbeiro pode ter dias e faixas próprias.",
               },
               {
                 label: "Mensagens",
-                value: "Após conectar o WhatsApp",
-                description:
-                  "Lembretes, confirmação e respostas dependem de um canal ativo e de um telefone válido do cliente.",
+                value: "Depois de conectar o WhatsApp",
+                description: "Lembrete e confirmação precisam de número conectado e telefone válido do cliente.",
               },
               {
                 label: "Pagamento",
-                value: "Somente pós-serviço",
-                description:
-                  "O Flowo não cobra sinal nem exige pagamento para reservar um horário.",
+                value: "Só depois do serviço",
+                description: "A Flowo não cobra sinal nem exige pagamento para reservar.",
               },
             ]}
           />
@@ -82,168 +80,143 @@ export default function SchedulingGuidePage() {
           <GuideContent items={tableOfContents}>
             <GuideSection id="base" icon={Calendar} title="Monte a base da agenda">
               <p>
-                Antes de abrir horários, cadastre os serviços com duração e
-                preço, os profissionais que realmente atendem e quais serviços
-                cada um realiza. A disponibilidade nasce dessa combinação.
+                Antes de abrir horários, cadastre os serviços com duração e preço. Depois, os
+                barbeiros que atendem e o que cada um faz. A agenda nasce dessa combinação.
               </p>
               <GuideChecklist
                 items={[
-                  "Serviço ativo, com duração compatível com o atendimento real",
-                  "Profissional ativo e marcado como agendável",
-                  "Serviço atribuído ao profissional correto",
-                  "Horário geral e horário individual revisados",
-                  "Folgas e ausências registradas antes de abrir a agenda",
+                  "Serviço ativo, com a duração real do atendimento",
+                  "Barbeiro ativo e marcado como agendável",
+                  "Serviço ligado ao barbeiro certo",
+                  "Horário da barbearia e de cada barbeiro revisados",
+                  "Folgas registradas antes de abrir a agenda",
                 ]}
               />
               <GuideProductPath
                 items={[
                   {
-                    surface: "Painel web",
+                    surface: "Painel",
                     path: "Serviços → Equipe → Horários",
-                    action:
-                      "cadastre catálogo, profissionais e funcionamento nessa ordem.",
+                    action: "cadastre nessa ordem: catálogo, equipe e funcionamento.",
                   },
                   {
-                    surface: "App móvel",
+                    surface: "App",
                     path: "Mais → Serviços / Equipe / Horários",
-                    action:
-                      "acesse as rotas equivalentes para configurar e revisar.",
+                    action: "as mesmas telas, no celular.",
                   },
                 ]}
               />
             </GuideSection>
 
-            <GuideSection
-              id="horarios"
-              icon={Clock}
-              title="Configure barbearia e profissionais"
-            >
+            <GuideSection id="horarios" icon={Clock} title="Horário da barbearia e de cada barbeiro">
               <p>
-                O horário geral define quando o negócio está aberto. Se um
-                profissional não tiver uma configuração própria, ele herda esse
-                padrão. Quando a rotina for diferente, salve dias e faixas
-                individuais.
+                O horário da barbearia diz quando ela abre. Um barbeiro sem horário próprio
+                herda esse padrão. Quando a rotina é diferente, salve dias e faixas individuais.
               </p>
+              <GuideScreenshot
+                src="/images/product/dashboard-agenda.png"
+                alt="Tela Agenda da Flowo: uma coluna por barbeiro no dia, com horários ocupados, um vago não preenchido e o total previsto"
+              />
               <GuideCards
                 items={[
                   {
                     title: "Exemplo: barbearia",
-                    description:
-                      "Terça a sábado, das 9h às 19h. Essa é a janela máxima de atendimento.",
+                    description: "Terça a sábado, das 9h às 19h. Ninguém recebe horário fora disso.",
                   },
                   {
-                    title: "Exemplo: profissional A",
-                    description:
-                      "Terça a sexta, das 9h às 18h. A agenda não oferece 18h30 para essa pessoa.",
+                    title: "Exemplo: barbeiro A",
+                    description: "Terça a sexta, das 9h às 18h. A agenda não oferece 18h30 para ele.",
                   },
                   {
-                    title: "Exemplo: profissional B",
-                    description:
-                      "Quinta a sábado, das 11h às 19h, com uma folga registrada no próximo sábado.",
+                    title: "Exemplo: barbeiro B",
+                    description: "Quinta a sábado, das 11h às 19h, com folga no próximo sábado.",
                   },
                 ]}
               />
-              <GuideScopeNote title="Conflitos são verificados no momento da reserva">
-                A agenda consulta duração, profissional, horário, folga e
-                compromissos existentes. Se duas pessoas tentarem o mesmo slot,
-                a segunda recebe a informação de que ele não está mais
-                disponível.
+              <GuideScopeNote title="O conflito é checado na hora da reserva">
+                A agenda olha duração, barbeiro, horário, folga e o que já está marcado. Se duas
+                pessoas tentarem o mesmo horário, a segunda recebe a resposta de que ele já foi.
               </GuideScopeNote>
             </GuideSection>
 
-            <GuideSection
-              id="lembretes"
-              icon={Bell}
-              title="Entenda lembretes e confirmação"
-            >
+            <GuideSection id="lembretes" icon={Bell} title="Confirmação e lembrete">
               <p>
-                Com o WhatsApp conectado, o Flowo agenda uma mensagem de
-                confirmação antes do atendimento e um lembrete próximo ao
-                horário. Quando a confirmação está ativada, ela substitui o
-                lembrete simples de 24 horas; o lembrete de 2 horas continua.
+                Com o WhatsApp conectado, a Flowo manda um pedido de confirmação antes do
+                atendimento e um lembrete perto da hora. Com a confirmação ligada, ela substitui
+                o lembrete de 24 horas. O de 2 horas continua.
               </p>
               <GuideCards
                 columns={2}
                 items={[
                   {
-                    title: "Confirmação antecipada",
-                    description:
-                      "O prazo é configurável. O padrão é 24 horas antes do agendamento.",
+                    title: "Confirmação",
+                    description: "O prazo é ajustável. O padrão é 24 horas antes do horário.",
                   },
                   {
                     title: "Lembrete final",
-                    description:
-                      "É programado para 2 horas antes, se o horário ainda estiver válido e a opção estiver habilitada.",
+                    description: "Sai 2 horas antes, se o horário ainda vale e a opção está ligada.",
                   },
                 ]}
               />
-              <GuideScopeNote
-                status="conditional"
-                title="O envio depende do canal e do cliente"
-              >
-                Sem WhatsApp conectado, sem telefone válido, com opt-out ou em
-                dados de teste, a mensagem não é enviada. A agenda continua
-                funcionando no painel.
+              <GuideScopeNote status="conditional" title="O envio depende do número e do cliente">
+                Sem WhatsApp conectado, sem telefone válido ou com pedido para não receber
+                mensagens, nada é enviado. A agenda continua funcionando no painel.
               </GuideScopeNote>
             </GuideSection>
 
-            <GuideSection
-              id="nao-confirmou"
-              icon={CalendarCheck}
-              title="O que acontece quando não há resposta"
-            >
+            <GuideSection id="nao-confirmou" icon={CalendarCheck} title="Quando o cliente não responde">
               <p>
-                Uma resposta curta como “sim” pode marcar o agendamento como
-                confirmado. Porém, <strong>o silêncio não cancela nem libera o
-                horário automaticamente</strong>. O compromisso permanece na
-                agenda até uma ação válida de cancelamento, remarcação ou mudança
-                de status.
+                Um “sim” marca o horário como confirmado. Mas{" "}
+                <strong>o silêncio não cancela nem libera a cadeira</strong>. O horário fica na
+                agenda até alguém cancelar, remarcar ou mudar o status.
               </p>
-              <GuideCallout title="Não prometa liberação automática por falta de resposta">
-                O Flowo pode acionar a lista de espera quando um horário é
-                efetivamente liberado por cancelamento ou no-show. Isso é
-                diferente de cancelar um cliente apenas porque ele não respondeu
-                à confirmação.
+              <GuideCallout title="Não prometa cadeira liberada por falta de resposta">
+                A Flowo chama a lista de espera quando um horário é cancelado ou vira falta.
+                Isso é diferente de cancelar um cliente porque ele não respondeu.
               </GuideCallout>
             </GuideSection>
 
-            <GuideSection
-              id="pagamento"
-              icon={CreditCard}
-              title="Feche e receba depois do serviço"
-            >
+            <GuideSection id="pagamento" icon={CreditCard} title="Receba depois do corte">
               <p>
-                Depois do atendimento, abra ou feche a comanda e registre dinheiro,
-                PIX, cartão ou uma combinação permitida. Para PIX e cartão, o
-                cliente pode receber um checkout vinculado à comanda já realizada.
+                No fim do atendimento, feche a comanda e registre dinheiro, maquininha, PIX ou
+                cartão. Para PIX e cartão pela Flowo, o cliente recebe uma cobrança ligada à
+                comanda.
               </p>
               <GuideScopeNote title="Agendar nunca depende de pagar">
-                Não há sinal, depósito ou cobrança antecipada no Flowo. O
-                pagamento pertence ao fechamento do serviço, não à reserva do
-                horário.
+                Não há sinal, depósito nem cobrança antecipada. O pagamento é do fechamento do
+                serviço, não da reserva.
               </GuideScopeNote>
               <GuideProductPath
                 items={[
                   {
-                    surface: "Painel web",
+                    surface: "Painel",
                     path: "Comandas",
-                    action:
-                      "confira os itens, feche o atendimento e escolha a forma de pagamento.",
+                    action: "confira os itens, feche e escolha como receber.",
                   },
                   {
-                    surface: "App móvel",
+                    surface: "App",
                     path: "Comandas",
-                    action:
-                      "faça o fechamento, gere PIX/cartão ou registre dinheiro.",
+                    action: "feche, gere PIX ou cartão, ou registre dinheiro.",
                   },
                 ]}
               />
             </GuideSection>
           </GuideContent>
 
+          <GuideHonesty
+            tested={[
+              "Agendar, remarcar e cancelar pelo WhatsApp com a agenda mudando junto: testado em produção com números de teste da própria Flowo, em 26 de julho de 2026.",
+              "Prazos de 24 horas e 2 horas e a regra de não cancelar por silêncio: conferidos no produto em 3 de setembro de 2026.",
+            ]}
+            notMeasured={[
+              "Quantos horários duplicados a agenda evita numa barbearia real.",
+              "Tempo economizado pela equipe.",
+            ]}
+          />
+
           <GuideCta
             title="Quer uma agenda que respeite a rotina da equipe?"
-            description="Configure serviços, profissionais e horários reais antes de abrir o agendamento aos clientes."
+            description="Cadastre serviços, barbeiros e horários reais antes de abrir a agenda para os clientes."
           />
 
           <GuidePrevNext
