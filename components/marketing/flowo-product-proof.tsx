@@ -35,7 +35,7 @@ const operatingSteps = [
   {
     icon: CalendarDays,
     label: "Disponibilidade",
-    title: "A agenda valida o horário",
+    title: "A agenda confere o horário",
     description: "Dias, serviços e horários podem ser diferentes por profissional.",
   },
   {
@@ -65,7 +65,7 @@ const deliveryLayers = [
   },
   {
     label: "Conforme plano e operação",
-    detail: "Escopo controlado",
+    detail: "Depende do plano",
     tone: "bg-surface-2",
     items: ["Comissões no Empresarial", "Fiscal com ativação assistida"],
   },
