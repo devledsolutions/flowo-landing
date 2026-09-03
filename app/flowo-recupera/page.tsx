@@ -17,25 +17,25 @@ import { buildMetadata } from "@/lib/seo";
 import { LEGAL_ENTITY } from "@/lib/legal-identity";
 
 export const metadata = buildMetadata({
-  title: "Flowo Recupera: Beta Acompanhada",
+  title: "Flowo Recupera: em fase de teste",
   description:
-    "Conheça o conceito do Flowo Recupera: oportunidades revisadas por pessoas, consentimento verificado e receita reconhecida somente após a comanda fechada.",
+    "O Flowo Recupera sugere quem chamar de volta. Uma pessoa revisa antes de enviar. Só comanda fechada conta como dinheiro recuperado.",
   path: "/flowo-recupera",
   noIndex: true,
 });
 
 const ready = [
-  "Fila de ações sugeridas com aprovação, ajuste e descarte",
-  "Reativação conservadora de clientes inativos",
-  "Lista de espera com registro de horários recuperados",
-  "Relatório atual de resultados e comandas atribuídas",
+  "Fila de sugestões que você aprova, ajusta ou descarta",
+  "Convite de volta para clientes que sumiram, sem exagero",
+  "Lista de espera com registro dos horários recuperados",
+  "Relatório de resultados com as comandas ligadas a cada contato",
 ] as const;
 
 const building = [
-  "Fila dedicada do Recupera no web e no aplicativo",
-  "Atribuição estável entre contato, agenda, atendimento e comanda",
-  "Disponibilidade real antes de sugerir um horário vago",
-  "Ativação comercial e limites próprios do módulo",
+  "Fila própria do Recupera no site e no aplicativo",
+  "Ligação firme entre contato, agenda, atendimento e comanda",
+  "Conferir a vaga real antes de sugerir um horário",
+  "Contratação e limites próprios do módulo",
 ] as const;
 
 export default function FlowoRecuperaPage() {
@@ -59,9 +59,8 @@ export default function FlowoRecuperaPage() {
                   Recupere oportunidades sem perder o controle da conversa.
                 </h1>
                 <p className="mt-6 max-w-measure text-lead text-muted-ink">
-                  Um add-on contratado separadamente para reunir clientes
-                  inativos, horários realmente disponíveis e recuperações de
-                  serviço em uma revisão semanal de poucos minutos.
+                  Módulo à parte. Junta clientes que sumiram, horários vagos de
+                  verdade e atendimentos a resolver numa revisão semanal curta.
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                   <a
@@ -75,7 +74,7 @@ export default function FlowoRecuperaPage() {
                     href={`mailto:${LEGAL_ENTITY.contactEmail}?subject=Interesse%20no%20Flowo%20Recupera`}
                     className="inline-flex min-h-12 items-center justify-center whitespace-nowrap rounded-full border border-line px-7 py-3 text-label font-medium text-ink hover:bg-surface-2"
                   >
-                    Manifestar interesse na beta
+                    Quero entrar no teste
                   </a>
                 </div>
               </div>
@@ -83,7 +82,7 @@ export default function FlowoRecuperaPage() {
                 <RecoveryProductPreview />
                 <p className="mt-4 flex items-center justify-center gap-1.5 text-caption text-faint-ink">
                   <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
-                  Mockup da experiência planejada; disponibilidade limitada
+                  Telas ilustrativas do que estamos construindo. Vagas limitadas no teste.
                 </p>
               </div>
             </div>
@@ -94,14 +93,14 @@ export default function FlowoRecuperaPage() {
           <div className="container-page">
             <div className="max-w-3xl">
               <p className="text-label font-semibold uppercase tracking-[0.12em] text-faint-ink">
-                O que a gente registra
+                O que a Flowo registra
               </p>
               <h2 className="mt-4 text-h2 font-semibold text-ink-strong">
                 Potencial não é receita.
               </h2>
               <p className="mt-4 text-lead text-muted-ink">
-                O produto deve mostrar a passagem completa do contato ao
-                atendimento. Só uma comanda fechada pode virar receita realizada.
+                O Recupera mostra o caminho inteiro: contato, agenda,
+                atendimento. Só comanda fechada conta como dinheiro recuperado.
               </p>
             </div>
             <div className="mt-10">
@@ -114,10 +113,10 @@ export default function FlowoRecuperaPage() {
           <div className="container-page grid gap-12 lg:grid-cols-2 lg:gap-20">
             <div>
               <p className="text-label font-semibold uppercase tracking-[0.12em] text-faint-ink">
-                Fundação existente
+                O que já existe
               </p>
               <h2 className="mt-4 text-h3 font-semibold text-ink-strong">
-                O que já sustenta o conceito
+                O que já funciona na Flowo hoje
               </h2>
               <ul className="mt-7 divide-y divide-line border-y border-line">
                 {ready.map((item) => (
@@ -130,10 +129,10 @@ export default function FlowoRecuperaPage() {
             </div>
             <div>
               <p className="text-label font-semibold uppercase tracking-[0.12em] text-faint-ink">
-                Antes da beta
+                Antes de abrir o teste
               </p>
               <h2 className="mt-4 text-h3 font-semibold text-ink-strong">
-                O que ainda precisa ser concluído
+                O que ainda falta terminar
               </h2>
               <ul className="mt-7 divide-y divide-line border-y border-line">
                 {building.map((item) => (
@@ -150,14 +149,14 @@ export default function FlowoRecuperaPage() {
         <section className="on-ink section-normal">
           <div className="container-page max-w-4xl text-center">
             <p className="text-label font-semibold uppercase tracking-[0.12em] text-faint-ink">
-              Regra da primeira versão
+              Como a primeira versão funciona
             </p>
             <h2 className="mt-5 text-h2 font-semibold text-ink-strong">
               A Flowo prepara. O responsável revisa. Só então a mensagem pode seguir.
             </h2>
             <p className="mx-auto mt-5 max-w-2xl text-lead text-muted-ink">
-              Nada de disparo promocional autônomo, disponibilidade especulativa
-              ou valor estimado apresentado como dinheiro recuperado.
+              Sem disparo automático de promoção. Sem sugerir horário que não
+              existe. Sem chamar estimativa de dinheiro recuperado.
             </p>
           </div>
         </section>
