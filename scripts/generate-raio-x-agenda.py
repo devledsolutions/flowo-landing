@@ -33,16 +33,16 @@ PAGE_W, PAGE_H = A4
 M = 42
 CONTENT_W = PAGE_W - 2 * M
 
-INK = HexColor("#171810")
-CREAM = HexColor("#F4F0E5")
-PAPER = HexColor("#FFFDF8")
+# Same tokens the site renders: ink and cream, no third colour.
+INK = HexColor("#171811")
+CREAM = HexColor("#F6F6F3")
+PAPER = HexColor("#FCFBF9")
+SURFACE_2 = HexColor("#F1F0EC")
 WHITE = HexColor("#FFFFFF")
-MUTED = HexColor("#69685F")
-LINE = HexColor("#D8D4C7")
-GREEN = HexColor("#76B38A")
-GREEN_DARK = HexColor("#2C6A43")
-GREEN_PALE = HexColor("#E1F0E5")
-RED_PALE = HexColor("#F7E7E2")
+MUTED = HexColor("#595852")
+FAINT = HexColor("#6F6F69")
+LINE = HexColor("#DCDBD7")
+GRID = HexColor("#C7C5BF")
 
 
 def page_bg(c: canvas.Canvas, color=PAPER) -> None:
@@ -138,7 +138,7 @@ def cover(c: canvas.Canvas) -> None:
     c.setFont("PoppinsMedium", 9)
     c.drawString(M, 563, "12 SITUAÇÕES REAIS • 1 PRIMEIRO AJUSTE")
 
-    c.setFillColor(GREEN)
+    c.setFillColor(CREAM)
     c.rect(PAGE_W - 138, 478, 138, 250, fill=1, stroke=0)
     c.setFillColor(INK)
     c.setFont("PoppinsBold", 72)
@@ -169,9 +169,9 @@ def cover(c: canvas.Canvas) -> None:
     ]
     y = 300
     for index, item in enumerate(kit, start=1):
-        c.setFillColor(GREEN_PALE)
+        c.setFillColor(SURFACE_2)
         c.circle(M + 26, y + 1, 9, fill=1, stroke=0)
-        c.setFillColor(GREEN_DARK)
+        c.setFillColor(FAINT)
         c.setFont("PoppinsBold", 6.4)
         c.drawCentredString(M + 26, y - 1, str(index))
         c.setFillColor(INK)
@@ -181,7 +181,7 @@ def cover(c: canvas.Canvas) -> None:
 
     c.setFillColor(INK)
     c.roundRect(M, 76, CONTENT_W, 98, 8, fill=1, stroke=0)
-    c.setFillColor(GREEN)
+    c.setFillColor(base.rgb_with_alpha("#FFFFFF", 0.6))
     c.setFont("PoppinsSemiBold", 7)
     c.drawString(M + 18, 145, "SAÍDA ESPERADA")
     c.setFillColor(WHITE)
@@ -213,9 +213,9 @@ def how_to_use(c: canvas.Canvas) -> None:
     for number, title, body in steps:
         c.setFillColor(PAPER)
         c.roundRect(M, y - 63, CONTENT_W, 63, 7, fill=1, stroke=0)
-        c.setFillColor(GREEN_PALE)
+        c.setFillColor(SURFACE_2)
         c.circle(M + 28, y - 31, 12, fill=1, stroke=0)
-        c.setFillColor(GREEN_DARK)
+        c.setFillColor(FAINT)
         c.setFont("PoppinsBold", 6.7)
         c.drawCentredString(M + 28, y - 33, number)
         c.setFillColor(INK)
@@ -334,9 +334,9 @@ def priority_map(c: canvas.Canvas) -> None:
     c.setFont("PoppinsSemiBold", 6.5)
     c.drawCentredString(grid_x + grid_w / 2, grid_y - 24, "CONTROLE PARA MUDAR")
 
-    c.setFillColor(GREEN_PALE)
+    c.setFillColor(SURFACE_2)
     c.roundRect(M, 76, CONTENT_W, 112, 7, fill=1, stroke=0)
-    base.label(c, "Minha saída", M + 16, 160, GREEN_DARK)
+    base.label(c, "Minha saída", M + 16, 160, FAINT)
     prompts = [
         ("Prioridade", 105),
         ("Responsável", 105),
@@ -347,7 +347,7 @@ def priority_map(c: canvas.Canvas) -> None:
         c.setFillColor(INK)
         c.setFont("PoppinsSemiBold", 6.5)
         c.drawString(x, 134, title)
-        c.setStrokeColor(GREEN_DARK)
+        c.setStrokeColor(FAINT)
         c.line(x, 102, x + width - 12, 102)
         x += width
     c.showPage()
@@ -373,7 +373,7 @@ def method_page(c: canvas.Canvas) -> None:
         ("A", "Ajuste", "O que corrigir depois."),
     ]
     for index, (letter, title, body) in enumerate(method):
-        fill = GREEN if index in {1, 3, 4} else base.rgb_with_alpha("#FFFFFF", 0.08)
+        fill = base.rgb_with_alpha("#FFFFFF", 0.06)
         c.setFillColor(fill)
         c.roundRect(M, y - 48, CONTENT_W, 48, 6, fill=1, stroke=0)
         c.setFillColor(INK if index in {1, 3, 4} else WHITE)
@@ -389,7 +389,7 @@ def method_page(c: canvas.Canvas) -> None:
         y -= 58
     c.setFillColor(base.rgb_with_alpha("#FFFFFF", 0.08))
     c.roundRect(M, 76, CONTENT_W, 70, 7, fill=1, stroke=0)
-    c.setFillColor(GREEN)
+    c.setFillColor(base.rgb_with_alpha("#FFFFFF", 0.6))
     c.setFont("PoppinsSemiBold", 7)
     c.drawString(M + 16, 119, "LEMBRETE")
     base.paragraph(
@@ -424,9 +424,9 @@ def journey_page(c: canvas.Canvas) -> None:
     for number, title, question in stages:
         c.setFillColor(PAPER)
         c.roundRect(M, y - 73, CONTENT_W, 73, 7, fill=1, stroke=0)
-        c.setFillColor(GREEN_PALE)
+        c.setFillColor(SURFACE_2)
         c.circle(M + 26, y - 25, 10, fill=1, stroke=0)
-        c.setFillColor(GREEN_DARK)
+        c.setFillColor(FAINT)
         c.setFont("PoppinsBold", 6.3)
         c.drawCentredString(M + 26, y - 27, number)
         c.setFillColor(INK)
@@ -526,9 +526,9 @@ def handoff_page(c: canvas.Canvas) -> None:
         9,
     )
     columns = [
-        ("Pode resolver", GREEN_PALE, GREEN_DARK),
+        ("Pode resolver", SURFACE_2, FAINT),
         ("Precisa confirmar", PAPER, INK),
-        ("Chamar uma pessoa", RED_PALE, INK),
+        ("Chamar uma pessoa", SURFACE_2, INK),
     ]
     gap = 10
     width = (CONTENT_W - gap * 2) / 3
@@ -544,7 +544,7 @@ def handoff_page(c: canvas.Canvas) -> None:
 
     c.setFillColor(INK)
     c.roundRect(M, 78, CONTENT_W, 118, 7, fill=1, stroke=0)
-    c.setFillColor(GREEN)
+    c.setFillColor(base.rgb_with_alpha("#FFFFFF", 0.6))
     c.setFont("PoppinsSemiBold", 7)
     c.drawString(M + 16, 167, "RESPONSABILIDADE")
     labels = ["Quem decide", "Onde avisar", "Tempo para responder"]
@@ -602,9 +602,9 @@ def test_matrix(c: canvas.Canvas) -> None:
         c.line(M, y - 60, PAGE_W - M, y - 60)
         y -= 60
 
-    c.setFillColor(GREEN_PALE)
+    c.setFillColor(SURFACE_2)
     c.roundRect(M, 82, CONTENT_W, 105, 7, fill=1, stroke=0)
-    base.label(c, "Critério para avançar", M + 16, 158, GREEN_DARK)
+    base.label(c, "Critério para avançar", M + 16, 158, FAINT)
     base.paragraph(
         c,
         "Os cenários prioritários funcionam como combinado, a equipe sabe assumir uma exceção e o resultado fica no lugar esperado.",
@@ -641,9 +641,9 @@ def action_plan(c: canvas.Canvas) -> None:
     for day, title, task in days:
         c.setFillColor(PAPER)
         c.roundRect(M, y - 52, CONTENT_W, 52, 6, fill=1, stroke=0)
-        c.setFillColor(GREEN if day in {"01", "06", "07"} else GREEN_PALE)
+        c.setFillColor(FAINT if day in {"01", "06", "07"} else SURFACE_2)
         c.circle(M + 25, y - 26, 10, fill=1, stroke=0)
-        c.setFillColor(INK if day in {"01", "06", "07"} else GREEN_DARK)
+        c.setFillColor(INK if day in {"01", "06", "07"} else FAINT)
         c.setFont("PoppinsBold", 6.2)
         c.drawCentredString(M + 25, y - 28, day)
         c.setFillColor(INK)
@@ -694,7 +694,7 @@ def next_step(c: canvas.Canvas) -> None:
 
     c.setFillColor(INK)
     c.roundRect(M, 343, CONTENT_W, 212, 8, fill=1, stroke=0)
-    c.setFillColor(GREEN)
+    c.setFillColor(base.rgb_with_alpha("#FFFFFF", 0.6))
     c.setFont("PoppinsSemiBold", 7)
     c.drawString(M + 18, 524, "COMO A FLOWO SE ENCAIXA")
     points = [
@@ -705,8 +705,8 @@ def next_step(c: canvas.Canvas) -> None:
     ]
     y = 485
     for point in points:
-        c.setFillColor(GREEN)
-        c.circle(M + 23, y + 2, 4, fill=1, stroke=0)
+        c.setFillColor(base.rgb_with_alpha("#FFFFFF", 0.55))
+        c.circle(M + 23, y + 2, 3, fill=1, stroke=0)
         c.setFillColor(WHITE)
         c.setFont("PoppinsMedium", 8)
         c.drawString(M + 40, y - 1, point)
@@ -727,9 +727,9 @@ def next_step(c: canvas.Canvas) -> None:
         INK,
     )
 
-    c.setFillColor(GREEN)
-    c.roundRect(M, 107, 248, 48, 24, fill=1, stroke=0)
     c.setFillColor(INK)
+    c.roundRect(M, 107, 248, 48, 24, fill=1, stroke=0)
+    c.setFillColor(WHITE)
     c.setFont("PoppinsBold", 7.5)
     c.drawCentredString(M + 124, 126, "VER A RECEPÇÃO COM IA")
     c.setFillColor(MUTED)

@@ -132,7 +132,7 @@ TIME_GUIDE = replace(
     ),
     disclaimer=(
         "Disponibilidade e automações variam por plano, configuração e implantação. "
-        "Confirme o escopo contratado antes de alterar a recepção."
+        "Confirme o que você contratou antes de mudar a recepção."
     ),
     keywords=(
         "barbearia, WhatsApp, agenda, interrupção, escala, mensagens, Flowo"
@@ -293,7 +293,7 @@ RETURN_GUIDE = replace(
     ),
     audit_title="O envio pode acontecer com segurança?",
     audit_intro=(
-        "Marque apenas quando houver evidência. Um item em aberto interrompe o envio, "
+        "Marque só quando tiver o registro na mão. Um item em aberto interrompe o envio, "
         "mesmo que o texto esteja pronto."
     ),
     audit_items=(
