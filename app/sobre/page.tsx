@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { PhoneFrame } from "@/components/home/phone-frame";
 import Link from "next/link";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
@@ -175,13 +175,13 @@ export default function AboutPage() {
                   </a>
                 </div>
               </div>
-              <div className="relative aspect-[4/5] overflow-hidden rounded-lg shadow-card">
-                <Image
-                  src="https://images.unsplash.com/photo-1567894340315-735d7c361db0?auto=format&fit=crop&w=1200&q=80"
-                  alt="Barbeiro de avental fazendo o acabamento do corte de um cliente na cadeira"
-                  fill
-                  sizes="(min-width: 1024px) 26rem, 100vw"
-                  className="img-duotone object-cover"
+              <div className="flex justify-center lg:justify-end">
+                <PhoneFrame
+                  src="/images/product/app-home.png"
+                  alt="Tela inicial do app da Flowo com os atendimentos do dia"
+                  width={300}
+                  height={650}
+                  sizes="300px"
                 />
               </div>
             </div>
