@@ -29,7 +29,7 @@ export function CompetitiveMatrix() {
 
         <div className="mt-12 hidden overflow-x-auto border border-line bg-surface lg:block">
           <table className="w-full min-w-[54rem] border-collapse">
-            <caption className="sr-only">Cenários comparados e evidência disponível para o Flowo</caption>
+            <caption className="sr-only">Cenários comparados e o que o Flowo já mostra em cada um</caption>
             <thead>
               <tr className="border-b border-line bg-surface-2">
                 <th className="w-[27%] px-5 py-4 text-left text-label font-semibold text-ink">Cenário</th>

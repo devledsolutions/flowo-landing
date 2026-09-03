@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Flowo — Gestão para Barbearias",
+    name: "Flowo: Gestão para Barbearias",
     short_name: "Flowo",
     description:
       "Recepção com IA no WhatsApp, agenda, comandas e gestão para barbearias brasileiras.",

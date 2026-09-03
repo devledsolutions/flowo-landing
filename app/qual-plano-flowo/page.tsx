@@ -28,7 +28,7 @@ export default function PlanSelectorPage() {
         trust: ["Solo, Equipe ou Empresarial", "Sem cartão para descobrir", "Preços claros antes do cadastro"],
         tool: <PlanSelector />,
         problemLabel: "Preço sem contexto vira comparação rasa.",
-        problemTitle: "O plano precisa caber na rotina — não só na tabela.",
+        problemTitle: "O plano precisa caber na rotina, não só na tabela.",
         problemCopy: "Uma barbearia solo e uma operação com vários profissionais não precisam começar pelo mesmo lugar. A conversa muda quando a agenda, o WhatsApp e o fechamento também mudam.",
         sectionLabel: "Como escolher sem complicar",
         sectionTitle: "Comece pela operação que você quer organizar.",

@@ -23,7 +23,7 @@ export default function OccupancyPage() {
         campaign: true,
         navCta: "Receber o painel semanal",
         kicker: "Calculadora de agenda para barbearias",
-        title: <>A agenda está cheia — ou só parece difícil de ler?</>,
+        title: <>A agenda está cheia, ou só parece difícil de ler?</>,
         lead: "Compare a capacidade aproximada da equipe com os atendimentos marcados e descubra qual conversa a operação precisa ter primeiro.",
         trust: ["Visão semanal", "Sem cadastro para calcular", "Sem prometer ocupação"],
         tool: <OccupancyCalculator />,

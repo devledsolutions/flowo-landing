@@ -70,7 +70,7 @@ export default function ControleFinanceiroGuidePage() {
                   "O relatório usa atendimentos concluídos e permite comparação por período.",
               },
               {
-                label: "Fora do escopo",
+                label: "Não incluído",
                 value: "DRE e contabilidade completa",
                 description:
                   "Custos fixos, folha, impostos e lucro líquido não são calculados automaticamente pelo painel.",

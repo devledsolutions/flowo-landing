@@ -28,7 +28,7 @@ const faqs = [
   {
     question: "O Flowo responde o WhatsApp da barbearia?",
     answer:
-      "O Flowo conecta recepção com IA, agenda e regras da equipe. O escopo disponível depende do plano, da configuração e da implantação contratada.",
+      "O Flowo conecta recepção com IA, agenda e regras da equipe. O que fica disponível depende do plano, da configuração e da implantação contratada.",
   },
 ];
 
@@ -72,7 +72,7 @@ export default function WhatsAppTimeCalculatorPage() {
           problemTitle:
             "A máquina para. A conversa abre. O corte espera alguns minutos.",
           problemCopy:
-            "Uma mensagem parece rápida. Repetida ao longo de seis dias, ela vira uma segunda rotina de recepção — espalhada entre atendimento, intervalo e fim do expediente.",
+            "Uma mensagem parece rápida. Repetida ao longo de seis dias, ela vira uma segunda rotina de recepção, espalhada entre atendimento, intervalo e fim do expediente.",
           sectionLabel: "Do número para a mudança",
           sectionTitle: "Use a estimativa para organizar, não para assustar.",
           sectionCopy:

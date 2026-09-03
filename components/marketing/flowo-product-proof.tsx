@@ -230,7 +230,7 @@ export function FlowoProductProof({
             <p className="max-w-2xl text-lead text-muted-ink">
               {competitorName
                 ? `Antes de comparar listas com ${competitorName}, veja a diferença estrutural: no Flowo, o WhatsApp não fica separado da agenda.`
-                : "O valor do Flowo aparece na ligação entre a conversa do cliente e a rotina da barbearia — não em uma lista isolada de funções."}
+                : "O valor do Flowo aparece na ligação entre a conversa do cliente e a rotina da barbearia, não em uma lista isolada de funções."}
             </p>
             <p className="mt-5 flex items-start gap-2 text-caption text-faint-ink">
               <Check className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />

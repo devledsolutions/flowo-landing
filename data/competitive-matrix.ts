@@ -69,7 +69,7 @@ export const COMPETITIVE_ENTRIES: readonly CompetitiveEntry[] = [
     officialUrl: "https://www.barbeiro.app/",
     status: "self_declared",
     declared: "Publica teste e números de uso, além de agenda e módulos para barbearias.",
-    whereFlowoDiffers: "A Flowo não copia métricas de terceiros: publica apenas o fluxo de atendimento validado.",
+    whereFlowoDiffers: "A Flowo não copia métricas de terceiros: publica apenas o atendimento que já mostrou funcionando.",
     sourceNote: "Claims de uso e redução de faltas são auto-declarados no site do concorrente.",
   },
   {
@@ -190,7 +190,7 @@ export const FLOWO_SCENARIO_SUMMARY: readonly {
 }[] = COMPETITIVE_SCENARIOS.map((scenario) => ({
   scenario,
   evidence:
-    "Fluxo Flowo demonstrado com dados controlados; confirmar escopo do plano e da configuração antes de prometer.",
+    "Atendimento da Flowo mostrado com dados de teste; confirme o plano e a configuração antes de prometer.",
 }));
 
 export const LAYER_LABELS: Record<ComparisonLayer, string> = {

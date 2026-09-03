@@ -139,7 +139,7 @@ export default function ValidationCasesPage() {
                 </div>
                 <p className="mt-5 max-w-[64ch] text-[0.75rem] leading-relaxed text-faint-ink">
                   WhatsApp oficial, agenda conectada e controle humano no mesmo
-                  fluxo — do primeiro pedido à confirmação.
+                  fluxo, do primeiro pedido à confirmação.
                 </p>
               </div>
 

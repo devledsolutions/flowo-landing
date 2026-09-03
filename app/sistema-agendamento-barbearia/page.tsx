@@ -361,7 +361,7 @@ export default function SchedulingSystemPage() {
               </h2>
               <p className="mt-5 max-w-measure text-body text-muted-ink">
                 Compare o fluxo completo, as condições e o trabalho de
-                implantação — não somente a mensalidade inicial.
+                implantação, não somente a mensalidade inicial.
               </p>
             </div>
             <div className="divide-y divide-line border-y border-line">

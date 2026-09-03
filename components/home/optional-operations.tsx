@@ -61,7 +61,7 @@ const capabilities = [
     label: "Ativação assistida",
     title: "Nota fiscal",
     description:
-      "Valide município, dados fiscais e homologação antes de emitir pela comanda.",
+      "Confira município, dados fiscais e liberação da prefeitura antes de emitir pela comanda.",
     cta: "Ver nota fiscal",
     href: "/recursos/nota-fiscal-barbearia",
   },

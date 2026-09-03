@@ -135,7 +135,7 @@ const optionalCapabilities = [
     label: "Ativação assistida",
     title: "Nota fiscal",
     description:
-      "Ativação depende do município, dos dados fiscais e da homologação.",
+      "Ativação depende do município, dos dados fiscais e da liberação da prefeitura.",
   },
   {
     icon: Sparkles,
@@ -177,9 +177,9 @@ const objections = [
 const decisionLinks = [
   {
     href: "/demonstracao-agendamento-whatsapp",
-    label: "Ver a demonstração validada",
+    label: "Ver a demonstração",
     description:
-      "Entenda o que já foi testado do WhatsApp até a agenda, sem confundir prova técnica com caso de cliente.",
+      "Entenda o que já foi testado do WhatsApp até a agenda, sem confundir teste com caso de cliente.",
   },
   {
     href: "/sistema-agendamento-barbearia",

@@ -23,7 +23,7 @@ import {
 export const metadata = buildMetadata({
   title: "Sobre a Flowo: Tecnologia para Barbearias",
   description:
-    "Conheça a empresa, os princípios e a validação técnica da Flowo, plataforma brasileira de IA no WhatsApp e gestão para barbearias.",
+    "Conheça a empresa, os princípios e o que já foi testado na Flowo, plataforma brasileira de IA no WhatsApp e gestão para barbearias.",
   path: "/sobre",
 });
 
@@ -38,7 +38,7 @@ const values = [
     icon: Heart,
     title: "Rotina antes do jargão",
     description:
-      "Falamos de horário, cadeira, encaixe, comanda e acerto — situações que a equipe reconhece.",
+      "Falamos de horário, cadeira, encaixe, comanda e acerto: situações que a equipe reconhece.",
   },
   {
     icon: Shield,
@@ -233,7 +233,7 @@ export default function AboutPage() {
                 href="/demonstracao-agendamento-whatsapp"
                 className="mt-5 inline-flex min-h-11 items-center font-semibold text-ink underline underline-offset-4"
               >
-                Ver escopo e limites do teste
+                Ver o que foi testado
               </Link>
             </div>
             <div>
@@ -345,7 +345,7 @@ export default function AboutPage() {
               Quer ver o fluxo antes de decidir?
             </h2>
             <p className="mx-auto mt-5 max-w-measure text-lead text-muted-ink">
-              Veja o que já foi validado ou converse com a equipe sobre a rotina
+              Veja o que já foi testado ou converse com a equipe sobre a rotina
               da sua barbearia.
             </p>
             <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">

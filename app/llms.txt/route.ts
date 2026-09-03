@@ -28,7 +28,7 @@ export function GET() {
   ).join("\n");
   const materialLines = RESOURCE_MATERIALS.map(
     (material) =>
-      `- [${material.title}](${SITE_URL}/recursos/materiais#${material.id}) — ${material.format}. ${material.description}`,
+      `- [${material.title}](${SITE_URL}/recursos/materiais#${material.id}): ${material.format}. ${material.description}`,
   ).join("\n");
   const pdfCount = RESOURCE_MATERIALS.filter(
     (material) => material.format === "PDF",
@@ -53,7 +53,7 @@ ${planLines}
 - [Home](${SITE_URL}/)
 - [Precos](${SITE_URL}/precos)
 - [Recursos](${SITE_URL}/recursos)
-- [Demonstração validada do agendamento no WhatsApp](${SITE_URL}/demonstracao-agendamento-whatsapp)
+- [Demonstração do agendamento no WhatsApp](${SITE_URL}/demonstracao-agendamento-whatsapp)
 - [Flowo em ação para barbearias solo e com equipe](${SITE_URL}/casos-de-validacao)
 - [Parcerias e imprensa](${SITE_URL}/parcerias)
 
@@ -78,7 +78,7 @@ ${planLines}
 
 ## Add-ons e acesso acompanhado
 - [Flowo Recupera](${SITE_URL}/flowo-recupera): add-on em beta acompanhado para identificar oportunidades de retorno; resultados passam por revisão humana, consentimento e fechamento real da comanda.
-- [Aplicativo para barbeiros](${SITE_URL}/aplicativo-para-barbeiros): produto móvel em preparação para iPhone e Android. O escopo implementado inclui agenda, presenças, comandas, clientes, conversas, equipe, serviços, produtos, estoque, financeiro, métricas, campanhas e configurações. O acesso varia por plano, função, permissão e ativação; ainda não está disponível nas lojas.
+- [Aplicativo para barbeiros](${SITE_URL}/aplicativo-para-barbeiros): app para iPhone e Android, em preparação. Já tem agenda, presenças, comandas, clientes, conversas, equipe, serviços, produtos, estoque, financeiro, métricas, campanhas e configurações. O acesso varia por plano, função, permissão e ativação; ainda não está nas lojas.
 
 ## Comparative pages
 - [Hub de comparações](${SITE_URL}/comparar)

@@ -27,7 +27,7 @@ export function GET() {
       )
       .join("\n");
     const sources = comparison.sources
-      .map((source) => `  - ${source.label}: ${source.url} — ${source.scope}`)
+      .map((source) => `  - ${source.label}: ${source.url} (${source.scope})`)
       .join("\n");
 
     return `## Flowo vs ${comparison.name}
@@ -58,7 +58,7 @@ ${sources}`;
   ).length;
   const spreadsheetCount = RESOURCE_MATERIALS.length - pdfCount;
 
-  const content = `# Flowo — contexto completo para mecanismos de busca e agentes
+  const content = `# Flowo: contexto completo para mecanismos de busca e agentes
 
 Última atualização das comparações: ${COMPARISON_LAST_VERIFIED_LABEL}
 Site canônico: ${SITE_URL}
@@ -117,7 +117,7 @@ URL canônica: ${SITE_URL}/flowo-recupera
 
 O aplicativo Flowo está em preparação para iPhone e Android. A proposta é
 complementar o painel web na rotina móvel de barbeiros, gestores e donos. O
-escopo operacional implementado inclui onboarding, agenda, presenças, lista de
+app já inclui onboarding, agenda, presenças, lista de
 espera, comandas, clientes, conversas, notificações, serviços, produtos,
 estoque, pacotes, equipe, horários individuais, comissões, perfil do negócio,
 financeiro, métricas, campanhas, assinatura e configurações.
@@ -171,7 +171,7 @@ ${comparisons}
 ## Metodologia
 
 - Informações de concorrentes vêm exclusivamente de páginas oficiais acessíveis ao público.
-- A data e o escopo das fontes ficam visíveis em cada comparação.
+- A data e o que cada fonte cobre ficam visíveis em cada comparação.
 - Recursos apresentados como add-on, módulo ou sujeitos a consulta não são tratados como incluídos.
 - A Flowo reconhece situações em que outro produto pode ser mais adequado.
 - Preços e condições de terceiros podem mudar; o fornecedor deve confirmar a proposta final.
@@ -189,7 +189,7 @@ ${comparisons}
 - Calculadora de comissão: ${SITE_URL}/calculadora-comissao-barbeiro
 - Planejador de retorno: ${SITE_URL}/mensagens-retorno-clientes-barbearia
 - Aplicativo para barbeiros: ${SITE_URL}/aplicativo-para-barbeiros
-- Demonstração validada: ${SITE_URL}/demonstracao-agendamento-whatsapp
+- Demonstração do agendamento: ${SITE_URL}/demonstracao-agendamento-whatsapp
 - Flowo em ação: ${SITE_URL}/casos-de-validacao
 - Parcerias e imprensa: ${SITE_URL}/parcerias
 - Planos: ${SITE_URL}/precos

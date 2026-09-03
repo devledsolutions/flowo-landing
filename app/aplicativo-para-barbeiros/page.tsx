@@ -53,7 +53,7 @@ const faqItems = [
   {
     question: "O aplicativo Flowo já está disponível nas lojas?",
     answer:
-      "Ainda não. O produto móvel já possui o escopo operacional implementado, mas a distribuição pública para iPhone e Android continua em preparação e depende das etapas finais de loja e validação em aparelhos. A lista de interesse é o canal para receber novidades do lançamento.",
+      "Ainda não. O app já está pronto por dentro, mas a publicação para iPhone e Android ainda está em preparação e depende das etapas finais das lojas e de testes em aparelhos. A lista de interesse é o canal para receber novidades do lançamento.",
   },
   {
     question: "O que já foi construído no aplicativo?",
@@ -589,7 +589,7 @@ export default function MobileAppPage() {
                   {
                     icon: Store,
                     title: "Lojas ainda em preparação",
-                    text: "O escopo do produto foi construído, mas a liberação pública depende da conclusão das etapas finais de iPhone e Android.",
+                    text: "O app já foi construído, mas a liberação pública depende das etapas finais de iPhone e Android.",
                   },
                 ].map((item) => (
                   <div

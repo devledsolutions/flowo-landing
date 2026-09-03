@@ -67,7 +67,7 @@ export function InstitutionalFilm({
           <div>
             <p className="max-w-2xl text-body text-muted-ink">
               Do primeiro “tem horário?” à visão da equipe: uma demonstração
-              curta do que o Flowo conecta — com pagamentos integrados sempre
+              curta do que o Flowo conecta, com pagamentos integrados sempre
               opcionais.
             </p>
             {!compact && (

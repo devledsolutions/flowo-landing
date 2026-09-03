@@ -184,7 +184,7 @@ export function GuideProductPath({
             <span className="text-label font-semibold text-ink">{item.surface}</span>
             <span className="text-label leading-relaxed text-muted-ink">
               <span className="font-medium text-ink">{item.path}</span>
-              {" — "}
+              {" · "}
               {item.action}
             </span>
           </li>

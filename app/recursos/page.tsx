@@ -159,7 +159,7 @@ const productResources = [
     label: "Piloto",
     title: "Nota fiscal",
     description:
-      "Ativação assistida, sujeita a município, dados fiscais e homologação.",
+      "Ativação assistida, sujeita a município, dados fiscais e liberação da prefeitura.",
     href: "/recursos/nota-fiscal-barbearia",
   },
   {

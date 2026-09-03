@@ -30,7 +30,7 @@ const previewLabels: Record<ProductCapabilityId, string> = {
   commissions:
     "Painel ilustrativo de comissões com saldo por profissional e repasse iniciado pelo gestor.",
   fiscal:
-    "Painel ilustrativo de ativação fiscal assistida, com verificação do município e homologação.",
+    "Painel ilustrativo de ativação fiscal assistida, com conferência do município e liberação da prefeitura.",
 };
 
 function BrowserFrame({

@@ -84,7 +84,7 @@ export default function ParceriasPage() {
                 A Flowo colabora com escolas, educadores, distribuidores,
                 contadores, consultores e canais do setor. Levamos demonstração,
                 material prático e, quando houver amostra suficiente, dados
-                próprios — sem exigir elogio, roteiro positivo ou link.
+                próprios, sem exigir elogio, roteiro positivo ou link.
               </p>
             </div>
           </div>

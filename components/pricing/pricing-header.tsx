@@ -1,4 +1,4 @@
-/** Page header for /precos — owns the route's single h1. */
+/** Page header for /precos, owns the route's single h1. */
 export function PricingHeader() {
   return (
     <header className="mx-auto max-w-3xl text-center">

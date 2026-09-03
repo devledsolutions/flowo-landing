@@ -200,7 +200,7 @@ export const PRODUCT_CAPABILITIES: Record<
         href: "/recursos/guias/gerenciamento-equipe",
         label: "Gerenciamento de equipe",
         description:
-          "Entenda cadastros, horários individuais, folgas e o escopo real das comissões.",
+          "Entenda cadastros, horários individuais, folgas e como as comissões funcionam de verdade.",
       },
       {
         href: "/recursos/guias/controle-financeiro-barbearia",
@@ -223,16 +223,16 @@ export const PRODUCT_CAPABILITIES: Record<
     eyebrow: "Ativação assistida",
     title: "Emissão ligada à comanda, com ativação assistida.",
     description:
-      "O Flowo prepara o fluxo fiscal a partir do atendimento, mas a emissão depende de dados fiscais, homologação e disponibilidade no município.",
+      "O Flowo prepara o fluxo fiscal a partir do atendimento, mas a emissão depende de dados fiscais, liberação da prefeitura e disponibilidade no município.",
     statusLabel: "Piloto acompanhado",
     statusDetail:
       "A cobertura não é nacional e automática. A Flowo confirma município, credenciais e tipo de documento antes da ativação.",
     seoTitle: "Nota Fiscal para Barbearia com Ativação Assistida",
     seoDescription:
-      "Entenda como a emissão fiscal pode se conectar às comandas da barbearia. Disponibilidade sujeita a município, dados fiscais e homologação.",
+      "Entenda como a emissão fiscal pode se conectar às comandas da barbearia. Disponibilidade sujeita a município, dados fiscais e liberação da prefeitura.",
     proofTitle: "Primeiro a elegibilidade. Depois a emissão.",
     proofDescription:
-      "A ativação começa pela validação do município e das credenciais. Só então a comanda pode seguir para o provedor fiscal.",
+      "A ativação começa pela conferência do município e das credenciais. Só então a comanda pode seguir para o provedor fiscal.",
     steps: [
       {
         title: "Verifique a disponibilidade",
@@ -242,7 +242,7 @@ export const PRODUCT_CAPABILITIES: Record<
       {
         title: "Homologue os dados",
         description:
-          "Credenciais e informações fiscais são validadas no ambiente apropriado antes do uso.",
+          "Credenciais e informações fiscais são conferidas antes do uso.",
       },
       {
         title: "Emita a partir da comanda",
@@ -252,7 +252,7 @@ export const PRODUCT_CAPABILITIES: Record<
     ],
     safeguards: [
       "Disponibilidade depende do município e da UF",
-      "Credenciais e dados fiscais precisam ser homologados",
+      "Credenciais e dados fiscais precisam ser liberados pela prefeitura",
       "Ativação acompanhada pela equipe Flowo",
       "Não substitui a orientação do contador",
     ],

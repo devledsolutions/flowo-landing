@@ -140,7 +140,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
       {
         question: "Flowo ou AppBarber: qual é mais barato?",
         answer:
-          `Na verificação de 31 de julho de 2026, o AppBarber publicava mensalidade a partir de R$ 79,90 para um profissional, enquanto o Flowo começava em ${FLOWO_SOLO_PRICE}/mês. Os escopos são diferentes: no Flowo, a recepção com IA no WhatsApp faz parte do produto principal.`,
+          `Na verificação de 31 de julho de 2026, o AppBarber publicava mensalidade a partir de R$ 79,90 para um profissional, enquanto o Flowo começava em ${FLOWO_SOLO_PRICE}/mês. Os produtos são diferentes: no Flowo, a recepção com IA no WhatsApp faz parte do produto principal.`,
       },
       {
         question: "Qual deles reduz mais etapas para o cliente agendar?",
@@ -366,7 +366,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
         label: "BestBarbers para barbearias",
         url: "https://www.bestbarbers.app/sistema-para-barbearia",
         scope:
-          "Funcionalidades, plano básico, preço do App Exclusivo, implantação, FAQ e escopo comercial.",
+          "Funcionalidades, plano básico, preço do App Exclusivo, implantação, FAQ e condições comerciais.",
       },
       {
         label: "Site oficial do BestBarbers",
@@ -636,7 +636,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
         flowo:
           "Atendimento, agendamento e confirmação por IA incluídos nos planos.",
         competitor:
-          "O site lista automação de mensagens e agendamento com IA na área de módulos; o escopo deve ser confirmado.",
+          "O site lista automação de mensagens e agendamento com IA na área de módulos; o que está incluído precisa ser confirmado.",
       },
       {
         criterion: "Financeiro e estoque",
@@ -811,7 +811,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
     heroSummary:
       "Os dois divulgam agendamento pelo WhatsApp; preço, implantação e cobrança de sinal separam as propostas.",
     summary:
-      "Flowo e Opero colocam o WhatsApp no centro do agendamento e conectam a conversa à agenda por profissional. A diferença aparece no modelo comercial, no escopo administrativo e na escolha sobre cobrança antecipada e implantação.",
+      "Flowo e Opero colocam o WhatsApp no centro do agendamento e conectam a conversa à agenda por profissional. A diferença aparece no modelo comercial, no que cada um oferece de gestão e na escolha sobre cobrança antecipada e implantação.",
     flowoFit:
       "Barbearias que preferem implantação acompanhada, pagamentos opcionais somente depois do serviço e uma proposta que não exige sinal para reservar.",
     competitorFit:

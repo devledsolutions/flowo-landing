@@ -146,7 +146,7 @@ export function GrowthToolLanding({ content }: { content: GrowthToolContent }) {
               <article className={styles.campaignProofCard}>
                 <span>02</span>
                 <h3>Leve uma referência prática</h3>
-                <p>Checklist, painel ou guia em linguagem de barbearia — sem teoria que fica na gaveta.</p>
+                <p>Checklist, painel ou guia em linguagem de barbearia, sem teoria que fica na gaveta.</p>
               </article>
               <article className={styles.campaignProofCard}>
                 <span>03</span>
@@ -240,7 +240,7 @@ export function GrowthToolLanding({ content }: { content: GrowthToolContent }) {
           <p>{content.formCopy}</p>
           {isCampaign ? (
             <p className={styles.formBrandNote}>
-              Material da Flowo, feito para aplicar na rotina — e não só salvar
+              Material da Flowo, feito para aplicar na rotina, e não só salvar
               no celular.
             </p>
           ) : null}

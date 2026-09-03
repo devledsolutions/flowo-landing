@@ -114,8 +114,8 @@ export default function WhatsAppSetupGuidePage() {
                     aria-hidden="true"
                   />
                   <span>
-                    <strong>Nome interno não é nome público.</strong> O nome do
-                    tenant ou de um ambiente de teste não deve ser enviado
+                    <strong>Nome interno não é nome público.</strong> O nome que
+                    você usa por dentro, ou de um número de teste, não deve ser enviado
                     automaticamente para revisão no WhatsApp.
                   </span>
                 </span>
@@ -190,7 +190,7 @@ export default function WhatsAppSetupGuidePage() {
                   {
                     title: "Evite",
                     description:
-                      "“Teste”, “validação”, nomes de fornecedores, descrições do ambiente ou termos que não aparecem publicamente.",
+                      "“Teste”, “demo”, nomes de fornecedores, descrições do ambiente ou termos que não aparecem publicamente.",
                   },
                 ]}
               />
@@ -198,7 +198,7 @@ export default function WhatsAppSetupGuidePage() {
                 status="conditional"
                 title="Rejeição de nome não derruba o restante do cadastro"
               >
-                Corrija o nome com evidência pública e reenvie. Não altere o nome
+                Corrija o nome com base em um documento público (site, fachada ou CNPJ) e reenvie. Não altere o nome
                 interno da barbearia apenas para tentar contornar a revisão.
               </GuideScopeNote>
             </GuideSection>

@@ -28,7 +28,7 @@ const faqs = [
   {
     question: "Como o Flowo ajuda no retorno de clientes?",
     answer:
-      "O Flowo organiza histórico e comunicação; o Flowo Recupera é um add-on em beta acompanhada. Disponibilidade, consentimento e escopo dependem da contratação e da configuração.",
+      "O Flowo organiza histórico e comunicação; o Flowo Recupera é um add-on em beta acompanhada. Disponibilidade e consentimento dependem da contratação e da configuração.",
   },
 ];
 
@@ -110,7 +110,7 @@ export default function CustomerReturnMessagesPage() {
           ],
           formTitle: "Receba o kit de contato responsável.",
           formCopy:
-            "O PDF coloca consentimento, contexto e frequência no mesmo fluxo — para a equipe revisar antes de chamar qualquer lista.",
+            "O PDF coloca consentimento, contexto e frequência no mesmo lugar, para a equipe revisar antes de chamar qualquer lista.",
           formNotes: [
             "Não use lista comprada.",
             "Nome e e-mail liberam o PDF.",

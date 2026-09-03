@@ -94,7 +94,7 @@ export default function FlowoRecuperaPage() {
           <div className="container-page">
             <div className="max-w-3xl">
               <p className="text-label font-semibold uppercase tracking-[0.12em] text-faint-ink">
-                Contrato de evidência
+                O que a gente registra
               </p>
               <h2 className="mt-4 text-h2 font-semibold text-ink-strong">
                 Potencial não é receita.

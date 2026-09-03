@@ -149,7 +149,7 @@ export default function MaterialsPage() {
                   </h1>
                   <p className="mt-5 max-w-2xl text-lead leading-relaxed text-muted-ink">
                     Escolha o problema de hoje e encontre planilhas, guias e
-                    checklists para aplicar na rotina — com o que vem no arquivo e
+                    checklists para aplicar na rotina, com o que vem no arquivo e
                     o tempo necessário para começar.
                   </p>
                   <div className="mt-7 flex flex-wrap items-center gap-3 text-caption text-muted-ink">

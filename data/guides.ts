@@ -43,7 +43,7 @@ export const GUIDE_GROUPS: {
     id: "gestao",
     title: "Receita e gestão",
     description:
-      "Feche atendimentos, acompanhe indicadores e use os números dentro do escopo real do Flowo.",
+      "Feche atendimentos, acompanhe indicadores e use os números com o que o Flowo faz de verdade.",
   },
 ];
 

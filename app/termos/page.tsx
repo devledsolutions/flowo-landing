@@ -280,7 +280,7 @@ const sections: LegalSection[] = [
     title: "Contato",
     content: (
       <p>
-        {LEGAL_ENTITY.name} — CNPJ {LEGAL_ENTITY.taxId}
+        {LEGAL_ENTITY.name}, CNPJ {LEGAL_ENTITY.taxId}
         <br />
         {LEGAL_ENTITY.address}
         <br />

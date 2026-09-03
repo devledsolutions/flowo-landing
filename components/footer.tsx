@@ -16,7 +16,7 @@ const produtoLinks = [
   { href: "/sobre", label: "Sobre nós" },
   {
     href: "/demonstracao-agendamento-whatsapp",
-    label: "Demonstração validada",
+    label: "Demonstração",
   },
   { href: "/casos-de-validacao", label: "Flowo em ação" },
 ];

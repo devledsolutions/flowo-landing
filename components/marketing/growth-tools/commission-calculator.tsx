@@ -137,7 +137,7 @@ export function CommissionCalculator() {
           </div>
         </div>
         <p className={styles.resultNote}>
-          Simulação operacional. A regra real deve estar escrita e validada com
+          Simulação operacional. A regra real deve estar escrita e conferida com
           orientação contábil e trabalhista adequada à relação da sua equipe.
         </p>
       </div>

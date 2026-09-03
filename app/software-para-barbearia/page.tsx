@@ -123,7 +123,7 @@ const capabilities = [
     icon: UsersRound,
     title: "Clientes e operação",
     description:
-      "Histórico, profissionais e permissões ficam organizados para a rotina do negócio — no painel e no celular.",
+      "Histórico, profissionais e permissões ficam organizados para a rotina do negócio, no painel e no celular.",
   },
   {
     icon: WalletCards,

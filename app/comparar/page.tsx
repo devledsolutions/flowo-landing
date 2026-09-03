@@ -115,7 +115,7 @@ const hubFaq = [
   {
     question: "Como as comparações foram feitas?",
     answer:
-      "A Flowo consulta páginas oficiais dos concorrentes, registra a data e o escopo da fonte e separa recursos incluídos de módulos adicionais. Não usamos avaliações anônimas para afirmar vantagens.",
+      "A Flowo consulta páginas oficiais dos concorrentes, registra a data e o que a fonte cobre e separa recursos incluídos de módulos adicionais. Não usamos avaliações anônimas para afirmar vantagens.",
   },
 ] as const;
 

@@ -513,7 +513,7 @@ export function ImplementationLanding() {
           <li>
             <span>2</span>
             <strong>Configurar</strong>
-            <p>tom, escopo e exceções</p>
+            <p>tom, limites e exceções</p>
           </li>
           <li>
             <span>3</span>
