@@ -1,42 +1,23 @@
+import Link from "next/link";
 import {
   ArrowDown,
   ArrowRight,
-  BadgeDollarSign,
   BarChart3,
-  BellRing,
   CalendarDays,
   Check,
-  CircleUserRound,
   ClipboardCheck,
-  CreditCard,
-  FileText,
-  Gift,
-  Megaphone,
   MessageCircleMore,
-  Package,
   ReceiptText,
-  Scissors,
   Settings,
-  ShieldCheck,
-  ShoppingBag,
   Smartphone,
-  Sparkles,
-  Store,
   UsersRound,
-  WalletCards,
 } from "lucide-react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { MobileAppWaitlistForm } from "@/components/mobile-app-waitlist-form";
 import { TrackedLink } from "@/components/analytics/tracked-link";
-import {
-  AgendaPhone,
-  ClientsPhone,
-  ComandasPhone,
-  ConversationsPhone,
-  FinancePhone,
-  OperationsPhone,
-} from "@/components/mobile-app-product-previews";
+import { PhoneFrame } from "@/components/home/phone-frame";
+import { ProductDisclaimer } from "@/components/home/product-previews";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
 import { SIGNUP_URL } from "@/components/cta-links";
 
@@ -45,45 +26,34 @@ const PATH = "/aplicativo-para-barbeiros";
 export const metadata = buildMetadata({
   title: "Aplicativo para Barbearia: Agenda, Clientes e Gestão",
   description:
-    "Conheça o aplicativo Flowo em preparação para iPhone e Android: agenda, comandas, clientes, equipe, financeiro, conversas, estoque, campanhas e gestão da barbearia pelo celular.",
+    "O app da Flowo para barbeiros e gestores: agenda, comandas, clientes, conversas e financeiro no celular. Em preparação para iPhone e Android.",
   path: PATH,
 });
 
 const faqItems = [
   {
-    question: "O aplicativo Flowo já está disponível nas lojas?",
+    question: "O app já está nas lojas?",
     answer:
-      "Ainda não. O app já está pronto por dentro, mas a publicação para iPhone e Android ainda está em preparação e depende das etapas finais das lojas e de testes em aparelhos. A lista de interesse é o canal para receber novidades do lançamento.",
+      "Ainda não. O app está construído, mas ainda não foi publicado para iPhone e Android. Não temos data. A lista de interesse avisa quando sair.",
   },
   {
-    question: "O que já foi construído no aplicativo?",
+    question: "O que já existe no app?",
     answer:
-      "O app já cobre onboarding, agenda, presenças, comandas, clientes, conversas, notificações, lista de espera, serviços, produtos, estoque, pacotes, equipe, horários, comissões, perfil do negócio, financeiro, métricas, campanhas, assinatura e configurações. O acesso final varia conforme plano, função, permissão e ativação de cada recurso.",
+      "Agenda, presenças, comandas, clientes, conversas, lista de espera, serviços, produtos, estoque, pacotes, equipe, horários, comissões, financeiro, métricas, campanhas e configurações. O que cada pessoa vê depende do plano e da função.",
   },
   {
-    question: "Todos da equipe enxergam as mesmas informações?",
-    answer:
-      "Não. O aplicativo respeita os papéis e permissões da operação. Dono, administrador, gestor, financeiro e barbeiro acessam apenas as áreas autorizadas para sua função.",
+    question: "Todo mundo da equipe vê a mesma coisa?",
+    answer: "Não. Dono, gerente, financeiro e barbeiro veem só o que a função permite.",
   },
   {
-    question: "Cada barbeiro pode ter horários e comissões diferentes?",
+    question: "Preciso receber pela Flowo?",
     answer:
-      "Sim, quando o plano e a permissão da operação incluem gestão de equipe. A Flowo mantém horários, disponibilidade e regras por profissional; o aplicativo dá acesso à configuração ou à consulta conforme a função de cada pessoa.",
+      "Não. Dinheiro e maquininha própria continuam valendo. PIX e cartão Flowo são opcionais e usados depois do atendimento.",
   },
   {
-    question: "Preciso receber pagamentos pela Flowo?",
+    question: "Preciso esperar o app para usar a Flowo?",
     answer:
-      "Não. Os recebimentos integrados são opcionais. A barbearia pode usar comandas e registrar a operação sem ser obrigada a processar o pagamento pela plataforma. Quando ativados, os recursos financeiros seguem o plano e a configuração da empresa.",
-  },
-  {
-    question: "O painel web vai deixar de existir?",
-    answer:
-      "Não. App e painel usam a mesma operação. O aplicativo atende a rotina no celular; o painel web continua disponível para configuração, supervisão e tarefas que pedem mais espaço.",
-  },
-  {
-    question: "Preciso esperar o aplicativo para usar a Flowo?",
-    answer:
-      "Não. O painel web e o atendimento com IA no WhatsApp são a entrada atual da Flowo. O cadastro nesta página serve apenas para receber novidades do aplicativo.",
+      "Não. O painel web e o atendimento no WhatsApp já funcionam hoje. O app vai usar a mesma agenda e os mesmos clientes. O painel continua existindo.",
   },
 ] as const;
 
@@ -91,115 +61,55 @@ const capabilityGroups = [
   {
     title: "Atendimento",
     icon: CalendarDays,
-    description: "Da chegada do cliente ao fechamento do serviço.",
+    description: "Da chegada do cliente ao fechamento da comanda.",
     items: [
-      "Agenda individual e da equipe",
-      "Novo horário e detalhe do agendamento",
+      "Agenda por barbeiro",
       "Presenças e lista de espera",
-      "Comandas, itens e fechamento",
-      "Clientes e histórico de atendimento",
+      "Comanda com serviços, produtos e total",
+      "Clientes e histórico de cortes",
     ],
   },
   {
-    title: "Relacionamento",
+    title: "Conversas",
     icon: MessageCircleMore,
-    description: "Contexto para continuar a conversa sem perder o cliente.",
+    description: "O WhatsApp da barbearia, no celular de quem atende.",
     items: [
-      "Conversas e busca de mensagens",
-      "Assumir ou devolver o atendimento à IA",
-      "Notificações do operador",
-      "Campanhas e marketing",
-      "Avaliações, lembretes e automações",
+      "Conversas com a Flowo e a equipe no mesmo histórico",
+      "Assumir a conversa e devolver para a Flowo",
+      "Avisos no celular",
     ],
   },
   {
     title: "Cadastros e equipe",
     icon: UsersRound,
-    description: "A base que mantém cada agenda e serviço corretos.",
+    description: "O que mantém cada agenda e cada serviço certos.",
     items: [
-      "Serviços, produtos e catálogo",
-      "Estoque, pacotes e galeria",
-      "Equipe, horários individuais e comissões",
-      "Horários do negócio",
-      "Perfil, links e página de agendamento",
+      "Serviços, produtos e estoque",
+      "Equipe, horários e comissões",
+      "Horários da barbearia",
+      "Perfil e página de agendamento",
     ],
   },
   {
     title: "Gestão",
     icon: BarChart3,
-    description: "Leitura da operação e configuração no mesmo aplicativo.",
+    description: "Os números da barbearia, para quem tem permissão.",
     items: [
-      "Financeiro, histórico e retiradas",
-      "Recebimentos e chaves Pix",
-      "Notas e visão por profissional",
+      "Financeiro e retiradas",
+      "Recebimentos e chave PIX",
       "Métricas da barbearia",
-      "Plano, assinatura, conta e integrações",
+      "Campanhas",
+      "Plano e assinatura",
     ],
-  },
-] as const;
-
-const productChapters = [
-  {
-    title: "Atender sem voltar para o computador.",
-    description:
-      "O profissional consulta a agenda, confirma presença, abre a comanda e acompanha o fechamento no contexto do atendimento.",
-    bullets: [
-      "Agenda separada por profissional",
-      "Status do agendamento e presenças",
-      "Comanda com serviços, produtos e valor",
-    ],
-    icon: Scissors,
-  },
-  {
-    title: "Reconhecer o cliente antes de responder.",
-    description:
-      "Cadastro, histórico e conversa ficam conectados. A equipe autorizada entra quando a IA precisa de apoio humano e mantém o mesmo contexto.",
-    bullets: [
-      "Busca de cliente e histórico",
-      "Conversas centralizadas",
-      "Notificações e retomada humana",
-    ],
-    icon: CircleUserRound,
-  },
-  {
-    title: "Levar a gestão junto, quando fizer sentido.",
-    description:
-      "Dono e gestores podem acompanhar caixa, recebimentos, equipe, métricas e configurações sem expor essas áreas a quem não tem permissão.",
-    bullets: [
-      "Financeiro e repasses",
-      "Métricas e campanhas",
-      "Cadastros, equipe e configurações",
-    ],
-    icon: ShieldCheck,
   },
 ] as const;
 
 const journey = [
-  {
-    title: "Configure a operação",
-    description: "Negócio, serviços, equipe, horários e permissões.",
-    icon: Settings,
-  },
-  {
-    title: "Organize a agenda",
-    description: "Disponibilidade real por profissional e lista de espera.",
-    icon: CalendarDays,
-  },
-  {
-    title: "Atenda o cliente",
-    description: "Presença, cadastro, histórico e conversa no contexto.",
-    icon: ClipboardCheck,
-  },
-  {
-    title: "Feche a comanda",
-    description: "Serviços, produtos e recebimento opcional.",
-    icon: ReceiptText,
-  },
-  {
-    title: "Acompanhe e retorne",
-    description: "Financeiro, métricas, campanhas e automações.",
-    icon: BarChart3,
-  },
+  { title: "Configure", description: "Barbearia, serviços, equipe, horários e permissões.", icon: Settings },
+  { title: "Organize a agenda", description: "Horários livres por barbeiro e lista de espera.", icon: CalendarDays },
+  { title: "Atenda", description: "Presença, cliente, histórico e conversa na mesma tela.", icon: ClipboardCheck },
+  { title: "Feche a comanda", description: "Serviços, produtos e como o cliente pagou.", icon: ReceiptText },
+  { title: "Acompanhe", description: "Financeiro, métricas e campanhas.", icon: BarChart3 },
 ] as const;
 
 const breadcrumbLd = {
@@ -231,8 +141,10 @@ const pageLd = {
   "@type": "WebPage",
   name: "Aplicativo Flowo para barbeiros e gestores",
   description:
-    "Visão do aplicativo Flowo em preparação para a operação móvel de barbearias.",
+    "O app da Flowo para a rotina da barbearia no celular: agenda, comandas, clientes, conversas e financeiro. Em preparação para iPhone e Android.",
   url: absoluteUrl(PATH),
+  inLanguage: "pt-BR",
+  dateModified: "2026-09-03",
   isPartOf: {
     "@type": "WebSite",
     name: "Flowo",
@@ -246,26 +158,6 @@ const pageLd = {
   },
 };
 
-function ChapterList({
-  bullets,
-}: {
-  bullets: readonly string[];
-}) {
-  return (
-    <ul className="mt-7 border-y border-line">
-      {bullets.map((bullet) => (
-        <li
-          key={bullet}
-          className="flex min-h-12 items-center gap-3 border-b border-line py-3 last:border-b-0"
-        >
-          <Check className="h-4 w-4 shrink-0 text-ink" aria-hidden="true" />
-          <span className="text-label font-semibold text-ink">{bullet}</span>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
 export default function MobileAppPage() {
   return (
     <>
@@ -273,7 +165,7 @@ export default function MobileAppPage() {
         <script
           key={index}
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, "\\u003c") }}
         />
       ))}
       <Navbar />
@@ -283,21 +175,17 @@ export default function MobileAppPage() {
             aria-hidden="true"
             className="absolute inset-x-0 bottom-0 -z-10 h-56 border-y border-line bg-surface-2"
           />
-          <div className="container-page grid items-center gap-14 lg:grid-cols-[0.82fr_1.18fr] lg:gap-16">
+          <div className="container-page grid items-center gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
             <div>
-              <div className="inline-flex min-h-9 items-center gap-2 border-y border-line py-2 text-caption font-semibold text-muted-ink">
+              <p className="inline-flex min-h-9 items-center gap-2 border-y border-line py-2 text-caption font-semibold text-muted-ink">
                 <Smartphone className="h-4 w-4" aria-hidden="true" />
-                Produto construído
-                <span className="h-1 w-1 rounded-full bg-current" aria-hidden="true" />
-                lançamento em preparação
-              </div>
+                Em preparação para iPhone e Android
+              </p>
               <h1 className="mt-7 max-w-[12ch] text-display font-semibold leading-[1.02] tracking-[-0.04em] text-ink-strong">
-                A barbearia inteira cabe no seu celular.
+                A barbearia no seu bolso.
               </h1>
               <p className="mt-6 max-w-xl text-lead text-muted-ink">
-                Agenda, presenças, clientes, comandas, equipe, conversas,
-                financeiro e gestão no aplicativo Flowo para barbeiros e
-                gestores.
+                Agenda, comandas, clientes e conversas no app da Flowo. O mesmo painel, na mão do barbeiro.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <TrackedLink
@@ -329,23 +217,30 @@ export default function MobileAppPage() {
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </TrackedLink>
               </div>
-              <p className="mt-5 max-w-lg text-caption text-faint-ink">
-                Ainda não disponível nas lojas. As telas mostram o produto em
-                desenvolvimento com dados ilustrativos.
-              </p>
             </div>
 
-            <div className="relative min-h-[590px] sm:min-h-[640px] lg:min-h-[680px]">
-              <div
-                aria-hidden="true"
-                className="absolute inset-x-2 bottom-4 top-8 rounded-xl bg-ink sm:inset-x-8"
-              />
-              <FinancePhone className="absolute left-1/2 top-16 z-0 hidden -translate-x-[112%] -rotate-[7deg] opacity-90 sm:block" />
-              <ComandasPhone className="absolute left-1/2 top-16 z-0 hidden translate-x-[12%] rotate-[7deg] opacity-90 sm:block" />
-              <AgendaPhone className="absolute left-1/2 top-7 z-10 -translate-x-1/2" />
-              <p className="absolute inset-x-0 bottom-7 z-20 mx-auto w-fit bg-ink px-3 py-1 text-center text-caption text-white/65">
-                Prévia baseada nas telas reais do app
-              </p>
+            <div>
+              <div className="mx-auto flex max-w-[36rem] items-start justify-center gap-4 sm:gap-6">
+                <PhoneFrame
+                  src="/images/product/app-home.png"
+                  alt="Tela inicial do app da Flowo: quem está em cada cadeira agora, um atraso a resolver e os atendimentos do dia."
+                  width={720}
+                  height={1564}
+                  sizes="(min-width: 640px) 16rem, 44vw"
+                  className="w-[47%] max-w-[16rem] border-ink/30"
+                  priority
+                />
+                <PhoneFrame
+                  src="/images/product/app-agenda.png"
+                  alt="Agenda do app da Flowo: a semana, os cinco barbeiros e os horários livres de cada um."
+                  width={720}
+                  height={1564}
+                  sizes="(min-width: 640px) 16rem, 44vw"
+                  className="w-[47%] max-w-[16rem] border-ink/30 sm:mt-10"
+                  priority
+                />
+              </div>
+              <ProductDisclaimer label="Telas do app com dados ilustrativos" className="mt-6 justify-center" />
             </div>
           </div>
         </section>
@@ -357,15 +252,12 @@ export default function MobileAppPage() {
         >
           <div className="container-page grid gap-8 py-12 lg:grid-cols-[0.72fr_1.28fr] lg:items-start lg:gap-16 lg:py-16">
             <div>
-              <p className="text-label font-semibold text-muted-ink">
-                Lista de interesse do aplicativo
-              </p>
+              <p className="text-label font-semibold text-muted-ink">Lista de interesse do aplicativo</p>
               <h2 id="lista-de-interesse-title" className="mt-4 text-h3 font-semibold text-ink">
-                Receba notícias do lançamento.
+                Receba o aviso do lançamento.
               </h2>
               <p className="mt-4 text-body text-muted-ink">
-                Um cadastro curto, confirmação imediata e nenhuma promessa de
-                data que ainda não foi definida.
+                Cadastro curto. A gente avisa quando o app sair. Sem prometer data.
               </p>
             </div>
             <MobileAppWaitlistForm />
@@ -376,17 +268,12 @@ export default function MobileAppPage() {
           <div className="container-page">
             <div className="grid gap-8 border-b border-line pb-10 lg:grid-cols-[0.72fr_1.28fr] lg:items-end">
               <div>
-                <p className="text-label font-semibold text-muted-ink">
-                  Já implementado no produto
-                </p>
-                <h2 className="mt-4 max-w-[12ch] text-h2 font-semibold text-ink">
-                  Não é apenas uma agenda móvel.
-                </h2>
+                <p className="text-label font-semibold text-muted-ink">O que o app faz</p>
+                <h2 className="mt-4 max-w-[14ch] text-h2 font-semibold text-ink">Mais que uma agenda.</h2>
               </div>
               <p className="max-w-2xl text-lead text-muted-ink lg:justify-self-end">
-                O aplicativo acompanha a rotina desde a configuração do negócio
-                até o relacionamento depois do atendimento. Cada pessoa vê o
-                que sua função e seu plano permitem.
+                O app acompanha a rotina da configuração ao retorno do cliente. Cada pessoa vê o que a função e
+                o plano permitem.
               </p>
             </div>
 
@@ -403,9 +290,7 @@ export default function MobileAppPage() {
                     <div>
                       <p className="text-caption text-faint-ink">0{index + 1}</p>
                       <h3 className="mt-1 text-h3 font-semibold text-ink">{group.title}</h3>
-                      <p className="mt-2 max-w-sm text-body text-muted-ink">
-                        {group.description}
-                      </p>
+                      <p className="mt-2 max-w-sm text-body text-muted-ink">{group.description}</p>
                     </div>
                   </div>
                   <ul className="grid gap-x-10 sm:grid-cols-2">
@@ -422,115 +307,18 @@ export default function MobileAppPage() {
                 </article>
               ))}
             </div>
-            <p className="mt-5 max-w-3xl text-caption text-faint-ink">
-              A disponibilidade de cada área depende do plano contratado, do
-              papel da pessoa, das permissões e da ativação de recursos
-              opcionais.
-            </p>
           </div>
         </section>
 
-        <section className="on-ink section-loose overflow-hidden">
-          <div className="container-page">
-            <div className="max-w-4xl">
-              <p className="text-label font-semibold text-muted-ink">
-                Rotina de atendimento
-              </p>
-              <h2 className="mt-4 text-h2 font-semibold text-ink">
-                Do primeiro horário à comanda fechada.
-              </h2>
-              <p className="mt-5 max-w-3xl text-lead text-muted-ink">
-                A tela muda, mas o contexto continua. Agenda e comanda usam a
-                mesma operação configurada para a barbearia e para cada
-                profissional.
-              </p>
-            </div>
-            <div className="mt-14 grid items-center gap-12 lg:grid-cols-[0.72fr_1.28fr] lg:gap-16">
-              <div>
-                <span className="flex h-12 w-12 items-center justify-center rounded-full border border-line">
-                  <Scissors className="h-5 w-5" aria-hidden="true" />
-                </span>
-                <h3 className="mt-6 text-h3 font-semibold text-ink">
-                  {productChapters[0].title}
-                </h3>
-                <p className="mt-4 text-body text-muted-ink">
-                  {productChapters[0].description}
-                </p>
-                <ChapterList bullets={productChapters[0].bullets} />
-              </div>
-              <div className="relative min-h-[610px] overflow-hidden rounded-xl bg-[#11130e] sm:min-h-[650px]">
-                <AgendaPhone className="absolute left-1/2 top-8 z-10 -translate-x-[88%] -rotate-[4deg]" />
-                <ComandasPhone className="absolute left-1/2 top-16 translate-x-[-8%] rotate-[5deg]" />
-                <p className="absolute bottom-5 left-5 z-20 text-caption text-white/55">
-                  Dados ilustrativos para demonstrar a interface.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="section-loose overflow-hidden">
-          <div className="container-page grid items-center gap-12 lg:grid-cols-[1.18fr_0.82fr] lg:gap-20">
-            <div className="relative min-h-[610px] overflow-hidden rounded-xl border border-line bg-surface-2 sm:min-h-[650px]">
-              <ClientsPhone className="absolute left-1/2 top-9 -translate-x-[92%] -rotate-[4deg]" />
-              <ConversationsPhone className="absolute left-1/2 top-14 z-10 translate-x-[-4%] rotate-[5deg]" />
-              <p className="absolute bottom-5 left-5 z-20 text-caption text-faint-ink">
-                Cliente e conversa ligados ao mesmo atendimento.
-              </p>
-            </div>
-            <div>
-              <span className="flex h-12 w-12 items-center justify-center rounded-full border border-line bg-surface">
-                <CircleUserRound className="h-5 w-5" aria-hidden="true" />
-              </span>
-              <h2 className="mt-6 text-h3 font-semibold text-ink">
-                {productChapters[1].title}
-              </h2>
-              <p className="mt-4 text-body text-muted-ink">
-                {productChapters[1].description}
-              </p>
-              <ChapterList bullets={productChapters[1].bullets} />
-            </div>
-          </div>
-        </section>
-
-        <section className="border-y border-line bg-surface-2 section-loose overflow-hidden">
-          <div className="container-page grid items-center gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
-            <div>
-              <span className="flex h-12 w-12 items-center justify-center rounded-full border border-line bg-surface">
-                <ShieldCheck className="h-5 w-5" aria-hidden="true" />
-              </span>
-              <h2 className="mt-6 text-h3 font-semibold text-ink">
-                {productChapters[2].title}
-              </h2>
-              <p className="mt-4 text-body text-muted-ink">
-                {productChapters[2].description}
-              </p>
-              <ChapterList bullets={productChapters[2].bullets} />
-            </div>
-            <div className="relative min-h-[610px] overflow-hidden rounded-xl bg-ink sm:min-h-[650px]">
-              <FinancePhone className="absolute left-1/2 top-8 z-10 -translate-x-[90%] -rotate-[4deg]" />
-              <OperationsPhone className="absolute left-1/2 top-16 translate-x-[-3%] rotate-[5deg]" />
-              <p className="absolute bottom-5 left-5 z-20 text-caption text-white/55">
-                Visibilidade condicionada ao papel e às permissões.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section className="section-loose">
+        <section className="on-ink section-normal">
           <div className="container-page">
             <div className="grid gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:items-end">
               <div>
-                <p className="text-label font-semibold text-muted-ink">
-                  Uma operação conectada
-                </p>
-                <h2 className="mt-4 max-w-[13ch] text-h2 font-semibold text-ink">
-                  A rotina de ponta a ponta.
-                </h2>
+                <p className="text-label font-semibold text-muted-ink">A rotina no app</p>
+                <h2 className="mt-4 max-w-[14ch] text-h2 font-semibold text-ink">Do horário à comanda.</h2>
               </div>
               <p className="max-w-2xl text-lead text-muted-ink lg:justify-self-end">
-                O aplicativo não cria uma operação paralela. Ele usa os mesmos
-                clientes, agendas, regras e registros do painel Flowo.
+                O app não cria outra agenda. Ele usa os mesmos clientes, horários e regras do painel Flowo.
               </p>
             </div>
 
@@ -540,9 +328,7 @@ export default function MobileAppPage() {
                   key={step.title}
                   className="grid gap-4 border-b border-line py-6 last:border-b-0 sm:grid-cols-[3rem_1fr_1.3fr] sm:items-center sm:gap-7"
                 >
-                  <span className="text-caption font-semibold text-faint-ink">
-                    0{index + 1}
-                  </span>
+                  <span className="text-caption font-semibold text-faint-ink">0{index + 1}</span>
                   <div className="flex items-center gap-3">
                     <step.icon className="h-5 w-5 shrink-0" aria-hidden="true" />
                     <h3 className="font-semibold text-ink">{step.title}</h3>
@@ -554,132 +340,40 @@ export default function MobileAppPage() {
           </div>
         </section>
 
-        <section className="on-ink section-normal">
-          <div className="container-page">
-            <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:gap-20">
-              <div>
-                <p className="text-label font-semibold text-muted-ink">
-                  Condições transparentes
-                </p>
-                <h2 className="mt-4 text-h2 font-semibold text-ink">
-                  Completo não significa obrigatório.
-                </h2>
-                <p className="mt-5 text-body text-muted-ink">
-                  A Flowo adapta o aplicativo ao plano, à função e às escolhas
-                  da barbearia.
-                </p>
-              </div>
-              <div className="divide-y divide-line border-y border-line">
-                {[
-                  {
-                    icon: CreditCard,
-                    title: "Recebimentos integrados são opcionais",
-                    text: "A barbearia decide se quer receber pela plataforma. Comandas e gestão não obrigam o uso do pagamento integrado.",
-                  },
-                  {
-                    icon: UsersRound,
-                    title: "Equipe funciona por papel e permissão",
-                    text: "Horários individuais, comissões e dados financeiros aparecem apenas para os planos e acessos autorizados.",
-                  },
-                  {
-                    icon: FileText,
-                    title: "Fiscal e integrações exigem ativação",
-                    text: "Recursos fiscais, financeiros e de integração dependem de configuração, elegibilidade e disponibilidade do serviço.",
-                  },
-                  {
-                    icon: Store,
-                    title: "Lojas ainda em preparação",
-                    text: "O app já foi construído, mas a liberação pública depende das etapas finais de iPhone e Android.",
-                  },
-                ].map((item) => (
-                  <div
-                    key={item.title}
-                    className="grid gap-4 py-6 sm:grid-cols-[2.75rem_1fr]"
-                  >
-                    <span className="flex h-11 w-11 items-center justify-center rounded-full border border-line">
-                      <item.icon className="h-5 w-5" aria-hidden="true" />
-                    </span>
-                    <div>
-                      <h3 className="font-semibold text-ink">{item.title}</h3>
-                      <p className="mt-2 text-body text-muted-ink">{item.text}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="section-normal">
-          <div className="container-page">
-            <div className="grid gap-8 border-b border-line pb-10 lg:grid-cols-[0.72fr_1.28fr] lg:items-end">
-              <div>
-                <p className="text-label font-semibold text-muted-ink">
-                  Mais do que a operação básica
-                </p>
-                <h2 className="mt-4 text-h2 font-semibold text-ink">
-                  Recursos que crescem com a barbearia.
-                </h2>
-              </div>
-              <p className="max-w-2xl text-lead text-muted-ink lg:justify-self-end">
-                O mesmo aplicativo também concentra as áreas que ajudam a
-                organizar recorrência, comunicação e administração.
-              </p>
-            </div>
-            <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3">
-              {[
-                [Gift, "Cashback configurável"],
-                [Megaphone, "Campanhas"],
-                [BellRing, "Lembretes e notificações"],
-                [BadgeDollarSign, "Comissões"],
-                [ShoppingBag, "Produtos e estoque"],
-                [WalletCards, "Financeiro"],
-                [Sparkles, "Automações"],
-                [Package, "Pacotes"],
-              ].map(([Icon, label]) => {
-                const FeatureIcon = Icon as typeof Gift;
-                return (
-                  <span
-                    key={label as string}
-                    className="inline-flex min-h-11 items-center gap-2 border-b border-line py-2 text-label font-semibold text-ink"
-                  >
-                    <FeatureIcon className="h-4 w-4" aria-hidden="true" />
-                    {label as string}
-                  </span>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-
-        <section className="border-y border-line bg-surface-2 section-normal">
+        <section className="border-b border-line bg-surface-2 section-normal">
           <div className="container-page grid gap-12 lg:grid-cols-[0.78fr_1.22fr] lg:gap-20">
             <div>
-              <p className="text-label font-semibold text-muted-ink">
-                Perguntas frequentes
-              </p>
-              <h2 className="mt-4 text-h2 font-semibold text-ink">
-                O que já dá para afirmar.
-              </h2>
+              <p className="text-label font-semibold text-muted-ink">Perguntas frequentes</p>
+              <h2 className="mt-4 text-h2 font-semibold text-ink">Dúvidas sobre o app.</h2>
             </div>
             <div className="divide-y divide-line border-y border-line">
               {faqItems.map((item) => (
                 <details key={item.question} className="group py-6">
                   <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-5 font-semibold text-ink marker:content-none">
                     {item.question}
-                    <span
-                      aria-hidden="true"
-                      className="text-xl font-normal transition-transform group-open:rotate-45"
-                    >
+                    <span aria-hidden="true" className="text-xl font-normal transition-transform group-open:rotate-45">
                       +
                     </span>
                   </summary>
-                  <p className="mt-3 max-w-2xl text-body text-muted-ink">
-                    {item.answer}
-                  </p>
+                  <p className="mt-3 max-w-2xl text-body text-muted-ink">{item.answer}</p>
                 </details>
               ))}
             </div>
+          </div>
+        </section>
+
+        <section className="border-b border-line py-8 md:py-10">
+          <div className="container-page">
+            <p className="max-w-measure text-label text-muted-ink">
+              <strong className="font-semibold text-ink">O que já dá para afirmar.</strong> O app está
+              construído e ainda não foi publicado nas lojas. Não prometemos data. As telas desta página são do
+              app de verdade, com dados ilustrativos. Ainda não medimos o uso do app em barbearias clientes.
+              Hoje, a entrada na Flowo é o painel web com o atendimento no WhatsApp.{" "}
+              <Link href="/demonstracao-agendamento-whatsapp" className="font-medium text-ink underline underline-offset-4">
+                Ver o atendimento funcionando
+              </Link>
+              .
+            </p>
           </div>
         </section>
 
@@ -688,11 +382,10 @@ export default function MobileAppPage() {
             <div>
               <p className="flex items-center gap-2 text-label font-semibold text-ink">
                 <Check className="h-4 w-4" aria-hidden="true" />
-                Não precisa esperar o aplicativo.
+                Não precisa esperar o app.
               </p>
               <p className="mt-2 max-w-2xl text-body text-muted-ink">
-                O painel web e a IA no WhatsApp já são a porta de entrada da
-                Flowo. O app vai complementar essa mesma operação.
+                O painel web e o atendimento no WhatsApp já funcionam hoje. O app vai usar a mesma agenda.
               </p>
             </div>
             <TrackedLink
