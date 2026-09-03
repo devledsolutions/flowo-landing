@@ -23,7 +23,7 @@ export function CompetitiveMatrix() {
             </h2>
           </div>
           <p className="max-w-measure text-lead text-muted-ink">
-            Uma agenda pode ser suficiente para uma operação. A Flowo entra quando a pergunta chega no WhatsApp e alguém precisa responder sem largar o corte. As fontes abaixo são separadas entre declaração oficial, observação e item ainda não verificado.
+            Uma agenda pode ser suficiente para uma operação. A Flowo entra quando a pergunta chega no WhatsApp e alguém precisa responder sem largar o corte. Cada item abaixo diz se veio de uma página oficial do concorrente ou de uma rotina que a gente observa nas barbearias.
           </p>
         </div>
 
