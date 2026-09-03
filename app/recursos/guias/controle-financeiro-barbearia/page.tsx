@@ -140,9 +140,10 @@ export default function FinancialControlGuidePage() {
                 como dinheiro que já pode sair.
               </p>
               <GuideScreenshot
-                src="/images/product/dashboard-hoje.png"
-                alt="Tela Hoje da Flowo: no canto, o valor recebido no dia e o total previsto"
-                caption="Tela Hoje, com dados ilustrativos. O detalhe de saldo e saques fica em Financeiro."
+                src="/images/product/dashboard-financeiro.png"
+                alt="Tela Financeiro da Flowo: saldo disponível, recebido no dia, valor em aberto e o que vai para a equipe"
+                caption="Tela Financeiro, com dados ilustrativos. Cada linha vem de uma comanda recebida."
+                height={1082}
               />
               <GuideCards
                 items={[

@@ -142,9 +142,10 @@ export default function ReportsMetricsGuidePage() {
                 previsão feita a partir de horários só reservados.
               </p>
               <GuideScreenshot
-                src="/images/product/dashboard-hoje.png"
-                alt="Tela Hoje da Flowo: no canto, o recebido do dia e o total previsto"
-                caption="Tela Hoje, com dados ilustrativos: recebido e previsto lado a lado. O relatório por período fica em Métricas."
+                src="/images/product/dashboard-financeiro.png"
+                alt="Tela Financeiro da Flowo: recebido no dia, valor em aberto, repasse da equipe e ticket médio de 30 dias"
+                caption="Tela Financeiro, com dados ilustrativos: recebido, em aberto, repasse e ticket médio. O relatório por período fica em Métricas."
+                height={1082}
               />
               <GuideScopeNote title="Pagamento é depois do serviço">
                 A Flowo não usa sinal nem depósito. Não misture valor previsto com valor

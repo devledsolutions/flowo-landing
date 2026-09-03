@@ -14,7 +14,7 @@ import { ProductDisclaimer } from "@/components/home/product-previews";
 export function GuideWhatsApp({
   messages,
   logicalHeight = 844,
-  caption = "Conversa ilustrativa, com o fluxo testado em produção",
+  caption = "Conversa ilustrativa, com dados de teste",
 }: {
   messages: ChatMessage[];
   logicalHeight?: number;
@@ -43,18 +43,22 @@ export function GuideScreenshot({
   src,
   alt,
   caption = "Tela do app com dados ilustrativos",
+  width = 1920,
+  height = 1041,
 }: {
   src: string;
   alt: string;
   caption?: string;
+  width?: number;
+  height?: number;
 }) {
   return (
     <figure className="my-8">
       <Image
         src={src}
         alt={alt}
-        width={1920}
-        height={1041}
+        width={width}
+        height={height}
         sizes="(min-width: 1024px) 720px, 100vw"
         className="w-full rounded-xl border border-line bg-surface shadow-[0_24px_48px_-24px_rgba(23,24,16,0.35)]"
       />
