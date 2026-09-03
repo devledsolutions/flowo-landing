@@ -208,7 +208,7 @@ export function SalesCampaignPage() {
                   <span className="h-1.5 w-1.5 rounded-full bg-[var(--success)]" />
                   Para barbearias com equipe
                 </p>
-                <h1 className="mt-6 max-w-[18ch] text-[clamp(2.4rem,1.7rem+2vw,3.6rem)] font-semibold leading-[1.04] tracking-[-0.04em] text-ink-strong">
+                <h1 className="mt-6 max-w-[24ch] text-[2.25rem] font-semibold leading-[1.06] tracking-[-0.035em] sm:text-[2.6rem] lg:text-[2.5rem] text-ink-strong">
                   Pare de responder “tem horário?” no meio do corte.
                 </h1>
                 <p className="mt-6 max-w-xl text-lead text-muted-ink">
