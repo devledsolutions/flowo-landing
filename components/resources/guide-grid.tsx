@@ -1,32 +1,15 @@
-import {
-  ArrowRight,
-  BarChart3,
-  Bell,
-  Calendar,
-  Clock,
-  CreditCard,
-  MessageCircle,
-  Users,
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { SIGNUP_URL } from "@/components/cta-links";
-import {
-  GUIDES,
-  GUIDE_GROUPS,
-  type GuideIconKey,
-} from "@/data/guides";
+import { GUIDES, GUIDE_GROUPS } from "@/data/guides";
 import { LEGAL_ENTITY } from "@/lib/legal-identity";
 
-const guideIcons: Record<GuideIconKey, typeof Calendar> = {
-  calendar: Calendar,
-  users: Users,
-  "credit-card": CreditCard,
-  message: MessageCircle,
-  bell: Bell,
-  chart: BarChart3,
-};
-
+/**
+ * Lista dos guias, no mesmo desenho das páginas de guia: grupo à esquerda,
+ * linhas divididas à direita. Cartão com ícone, selo e etiquetas dava a dez
+ * guias o mesmo peso visual e não deixava nenhum sobressair.
+ */
 export function GuideGrid() {
   return (
     <section className="pb-section-tight pt-10">
@@ -44,13 +27,13 @@ export function GuideGrid() {
                   aria-labelledby={`guide-group-${group.id}`}
                   className="grid gap-6 lg:grid-cols-[13rem_minmax(0,1fr)] lg:gap-10"
                 >
-                  <div>
+                  <div className="lg:pt-1">
                     <p className="text-caption tabular-nums text-faint-ink">
                       {String(groupIndex + 1).padStart(2, "0")}
                     </p>
                     <h2
                       id={`guide-group-${group.id}`}
-                      className="mt-2 text-h3 font-bold leading-tight text-ink"
+                      className="mt-2 font-serif text-[1.5rem] font-medium leading-[1.2] tracking-[-0.015em] text-ink-strong"
                     >
                       {group.title}
                     </h2>
@@ -59,63 +42,34 @@ export function GuideGrid() {
                     </p>
                   </div>
 
-                  <ul className="grid gap-4 md:grid-cols-2">
-                    {groupGuides.map((guide) => {
-                      const Icon = guideIcons[guide.icon];
-
-                      return (
-                        <li key={guide.path}>
-                          <Link
-                            href={guide.path}
-                            className="group flex h-full min-h-72 flex-col rounded-lg border border-line bg-surface p-6 outline-none transition-colors duration-200 ease-out-quint hover:border-ink/40 focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2"
-                          >
-                            <div className="flex items-start justify-between gap-4">
-                              <div className="rounded-lg bg-surface-2 p-3">
-                                <Icon
-                                  className="h-5 w-5 text-ink"
-                                  aria-hidden="true"
-                                />
-                              </div>
-                              <ArrowRight
-                                className="h-5 w-5 text-faint-ink transition-transform duration-200 ease-out-quint group-hover:translate-x-1 group-hover:text-ink"
-                                aria-hidden="true"
-                              />
-                            </div>
-
-                            <div className="mt-6 flex flex-wrap items-center gap-3">
-                              <span className="rounded-full border border-line px-2.5 py-0.5 text-caption font-medium text-muted-ink">
-                                {guide.category}
-                              </span>
-                              <span className="flex items-center gap-1 text-caption text-faint-ink">
-                                <Clock
-                                  className="h-3.5 w-3.5"
-                                  aria-hidden="true"
-                                />
-                                {guide.readTime} de leitura
-                              </span>
-                            </div>
-
-                            <h3 className="mt-3 text-h3 font-semibold leading-tight text-ink">
+                  <ul className="divide-y divide-line border-y border-line">
+                    {groupGuides.map((guide) => (
+                      <li key={guide.path}>
+                        <Link
+                          href={guide.path}
+                          className="group grid gap-x-8 gap-y-2 py-6 outline-none transition-colors duration-200 ease-out-quint focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 sm:grid-cols-[minmax(0,1fr)_auto]"
+                        >
+                          <div>
+                            <h3 className="font-serif text-[1.3rem] font-medium leading-[1.25] tracking-[-0.01em] text-ink-strong">
                               {guide.title}
                             </h3>
                             <p className="mt-2 leading-relaxed text-muted-ink">
                               {guide.description}
                             </p>
-
-                            <div className="mt-auto flex flex-wrap gap-2 pt-5">
-                              {guide.topics.map((topic) => (
-                                <span
-                                  key={topic}
-                                  className="rounded-full bg-surface-2 px-2.5 py-1 text-caption text-muted-ink"
-                                >
-                                  {topic}
-                                </span>
-                              ))}
-                            </div>
-                          </Link>
-                        </li>
-                      );
-                    })}
+                            <p className="mt-2 text-caption leading-relaxed text-faint-ink">
+                              {guide.topics.join(" · ")}
+                            </p>
+                          </div>
+                          <span className="flex items-center gap-2 text-caption tabular-nums text-faint-ink sm:justify-end sm:pt-1">
+                            {guide.readTime}
+                            <ArrowRight
+                              className="h-4 w-4 transition-transform duration-200 ease-out-quint group-hover:translate-x-1 group-hover:text-ink"
+                              aria-hidden="true"
+                            />
+                          </span>
+                        </Link>
+                      </li>
+                    ))}
                   </ul>
                 </section>
               );

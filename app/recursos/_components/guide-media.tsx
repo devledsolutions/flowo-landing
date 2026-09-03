@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Check } from "lucide-react";
 import { PhoneFrame } from "@/components/home/phone-frame";
 import { WhatsAppChat, type ChatMessage } from "@/components/home/whatsapp-chat";
 import { ProductDisclaimer } from "@/components/home/product-previews";
@@ -100,29 +101,33 @@ export function GuideHonesty({
   return (
     <aside
       aria-labelledby="guide-honesty-title"
-      className="mt-14 max-w-3xl rounded-lg border border-line bg-surface p-6 sm:p-8"
+      className="mt-14 max-w-3xl border-y border-line py-8"
     >
-      <h2 id="guide-honesty-title" className="text-h3 font-bold text-ink">
-        O que foi testado e o que ainda não medimos
+      <h2
+        id="guide-honesty-title"
+        className="font-serif text-[1.5rem] font-medium leading-[1.2] tracking-[-0.015em] text-ink-strong"
+      >
+        Conferido no produto
       </h2>
-      <div className="mt-5 grid gap-6 sm:grid-cols-2">
-        <div>
-          <p className="text-caption font-medium uppercase tracking-[0.08em] text-faint-ink">Testado</p>
-          <ul className="mt-2 space-y-2 text-label leading-relaxed text-muted-ink">
-            {tested.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <p className="text-caption font-medium uppercase tracking-[0.08em] text-faint-ink">Ainda não medimos</p>
-          <ul className="mt-2 space-y-2 text-label leading-relaxed text-muted-ink">
-            {notMeasured.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </div>
-      </div>
+      <ul className="mt-5 divide-y divide-line border-t border-line">
+        {tested.map((item) => (
+          <li key={item} className="flex items-baseline gap-3 py-3">
+            <Check
+              className="h-4 w-4 shrink-0 translate-y-0.5 text-ink"
+              aria-hidden="true"
+            />
+            <span className="text-label leading-relaxed text-muted-ink">
+              {item}
+            </span>
+          </li>
+        ))}
+      </ul>
+      {notMeasured.length > 0 ? (
+        <p className="mt-5 text-caption leading-relaxed text-faint-ink">
+          <span className="font-medium">Ainda vamos publicar:</span>{" "}
+          {notMeasured.join(" ")}
+        </p>
+      ) : null}
     </aside>
   );
 }

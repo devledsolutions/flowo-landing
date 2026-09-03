@@ -16,10 +16,10 @@ export function GuidesHero() {
           />
           <ResourceNav current="/recursos/guias" />
           <div className="mt-8">
-            <p className="text-label font-semibold uppercase tracking-[0.14em] text-faint-ink">
+            <p className="text-caption font-semibold uppercase tracking-[0.14em] text-faint-ink">
               {GUIDES.length} guias práticos
             </p>
-            <h1 className="mt-3 text-h2 font-bold leading-tight text-ink">
+            <h1 className="mt-3 font-serif text-[clamp(2.1rem,1.6rem+1.6vw,3.1rem)] font-medium leading-[1.1] tracking-[-0.02em] text-ink-strong">
               Um processo claro para cada parte da operação
             </h1>
             <p className="mt-4 max-w-measure text-lead leading-relaxed text-muted-ink">
