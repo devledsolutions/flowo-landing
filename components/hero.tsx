@@ -1,45 +1,27 @@
 import Image from "next/image";
-import {
-  CalendarDays,
-  Check,
-  Home,
-  MessageCircle,
-  Receipt,
-  Search,
-  Users,
-  UsersRound,
-  Wallet,
-} from "lucide-react";
+import { Check } from "lucide-react";
 import { ParallaxPlanes } from "@/components/home/parallax-planes";
 import { PhoneFrame } from "@/components/home/phone-frame";
+import { WhatsAppChat } from "@/components/home/whatsapp-chat";
 import { HeroExperimentCopy } from "@/components/home/hero-experiment-copy";
-import { AgendaPreview, ProductDisclaimer } from "@/components/home/product-previews";
+import { ProductDisclaimer } from "@/components/home/product-previews";
 
 /**
  * Flowo's hero on the fora.so staging mechanism.
  *
  * Same planes, same boxes and the same scroll rates as the exact copy kept in
  * `home/hero-fora-exact.tsx`: a sky, far hills (0.69x), middle hills (0.83x),
- * the centred copy, the product card (0.80x) between the middle and front
- * planes, and front hills that travel with the page and cover the card's base.
+ * the centred copy, the product (0.80x) between the middle and front planes,
+ * and front hills that travel with the page and cover the product's base.
  *
  * What is Flowo's: a cream sky, the hills graded to the brand's ink and olive,
- * ink type, the ink CTA, and the card as the dashboard itself, the real menu
- * beside the agenda, with the customer's WhatsApp resting on its edge. On
- * phones the card shows the conversation, which is the answer to the headline.
+ * ink type and the ink CTA. On a desk the product is the dashboard itself, the
+ * Hoje screen from the v2 design, with the customer's WhatsApp resting on its
+ * edge. On a phone it is that WhatsApp conversation, large, with the app's
+ * agenda behind it: the answer to the headline, then the place it lands.
  */
 const APPEAR =
   "motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-6 motion-safe:fill-mode-both motion-safe:duration-[600ms] motion-safe:ease-out";
-
-const menu = [
-  { icon: Home, label: "Hoje" },
-  { icon: CalendarDays, label: "Agenda", active: true },
-  { icon: Receipt, label: "Comandas" },
-  { icon: Users, label: "Clientes" },
-  { icon: MessageCircle, label: "Conversas" },
-  { icon: Wallet, label: "Financeiro" },
-  { icon: UsersRound, label: "Equipe" },
-] as const;
 
 function Hills({
   src,
@@ -52,7 +34,6 @@ function Hills({
   rate: number;
   className: string;
   delay: string;
-  /** Depth: further planes lift toward the sky, nearer ones sink into ink. */
   grade: string;
 }) {
   return (
@@ -61,14 +42,23 @@ function Hills({
       aria-hidden="true"
       className={`${APPEAR} ${delay} pointer-events-none absolute will-change-transform lg:inset-x-0 lg:w-auto ${className}`}
     >
-      <Image
-        src={src}
-        alt=""
-        fill
-        sizes="100vw"
-        className={`object-cover object-center ${grade}`}
-        priority
-      />
+      <Image src={src} alt="" fill sizes="100vw" className={`object-cover object-center ${grade}`} priority />
+    </div>
+  );
+}
+
+function ConfirmedChip({ className }: { className?: string }) {
+  return (
+    <div
+      className={`flex w-[15.5rem] items-center gap-3 rounded-xl border border-line bg-surface px-4 py-3 shadow-[0_18px_40px_-24px_oklch(0.08_0.01_110/0.7)] ${className ?? ""}`}
+    >
+      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[oklch(0.91_0.08_150)] text-[oklch(0.43_0.11_150)]">
+        <Check className="h-4 w-4" aria-hidden="true" />
+      </span>
+      <div className="min-w-0">
+        <p className="text-sm font-semibold text-ink">Horário confirmado</p>
+        <p className="mt-0.5 truncate text-caption text-muted-ink">Amanhã · 18:30 · Corte com João</p>
+      </div>
     </div>
   );
 }
@@ -114,60 +104,48 @@ export default function Hero() {
         <HeroExperimentCopy align="flowo" />
       </div>
 
+      {/* Desk: the dashboard as the product, the customer's phone on its edge. */}
       <div
         data-plane-rate={0.8}
-        className={`${APPEAR} motion-safe:delay-[320ms] absolute left-6 right-6 top-[569px] h-[452px] will-change-transform lg:left-[calc(50%-480px)] lg:right-auto lg:top-[594px] lg:h-[676px] lg:w-[960px]`}
+        className={`${APPEAR} motion-safe:delay-[320ms] absolute hidden will-change-transform lg:left-[calc(50%-480px)] lg:top-[594px] lg:block lg:h-[676px] lg:w-[960px]`}
       >
-        <div className="relative flex h-full w-full gap-1.5 rounded-t-[24px] border border-b-0 border-ink/20 bg-[oklch(0.2_0.012_110/0.94)] p-1.5 shadow-[0_40px_90px_-50px_oklch(0.08_0.01_110/0.8)]">
+        <div className="relative h-full w-full overflow-hidden rounded-t-[24px] border border-b-0 border-ink/20 bg-[oklch(0.2_0.012_110)] shadow-[0_40px_90px_-50px_oklch(0.08_0.01_110/0.8)]">
+          <Image
+            src="/images/product/dashboard-hoje.png"
+            alt="Dashboard da Flowo, tela Hoje: as cinco cadeiras da barbearia, o dia inteiro da equipe, o que precisa de decisão e o recebido do dia."
+            width={1920}
+            height={1040}
+            sizes="960px"
+            priority
+            className="h-full w-full object-cover object-left-top"
+          />
           <span
             aria-hidden="true"
             className="pointer-events-none absolute inset-x-0 top-0 h-px bg-cream opacity-60 [mask-image:linear-gradient(90deg,transparent_0%,black_50%,transparent_100%)]"
           />
-
-          <nav aria-label="Menu do app" className="flex w-[42px] shrink-0 flex-col gap-1 pt-2 lg:w-[220px] lg:pt-3">
-            <div className="mx-1.5 mb-2 flex h-8 items-center gap-2 rounded-md bg-cream/10 px-2 text-cream/50 lg:mx-2">
-              <Search className="h-4 w-4 shrink-0" aria-hidden="true" />
-              <span className="hidden text-[13px] lg:block">Buscar</span>
-            </div>
-            {menu.map(({ icon: Icon, label, ...item }) => (
-              <span
-                key={label}
-                className={`flex h-9 items-center gap-2.5 rounded-md px-2.5 text-[14px] lg:px-3 ${
-                  "active" in item ? "bg-cream/10 text-cream" : "text-cream/75"
-                }`}
-              >
-                <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
-                <span className="hidden lg:block">{label}</span>
-              </span>
-            ))}
-          </nav>
-
-          <div className="relative min-w-0 flex-1 overflow-hidden rounded-[18px] bg-cream">
-            <div className="hidden h-full lg:block">
-              <AgendaPreview detailed chrome={false} className="h-full rounded-none border-0 shadow-none" />
-            </div>
-            <PhoneFrame
-              src="/images/validation-cases/product/whatsapp-booking.png"
-              alt="Conversa no WhatsApp: o cliente pede horário e a Flowo oferece três opções e confirma."
-              width={1206}
-              height={2622}
-              sizes="(min-width: 1024px) 14rem, 60vw"
-              className="absolute left-1/2 top-5 w-[60%] max-w-[15rem] -translate-x-1/2 lg:left-auto lg:right-8 lg:top-14 lg:w-[14rem] lg:translate-x-0"
-              priority
-            />
-            <div className="absolute bottom-6 left-1/2 hidden w-[15.5rem] -translate-x-1/2 items-center gap-3 rounded-xl border border-line bg-surface px-4 py-3 shadow-[0_18px_40px_-24px_oklch(0.08_0.01_110/0.7)] sm:flex lg:bottom-8 lg:left-auto lg:right-4 lg:translate-x-0">
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[oklch(0.91_0.08_150)] text-[oklch(0.43_0.11_150)]">
-                <Check className="h-4 w-4" aria-hidden="true" />
-              </span>
-              <div className="min-w-0">
-                <p className="text-sm font-semibold text-ink">Horário confirmado</p>
-                <p className="mt-0.5 truncate text-caption text-muted-ink">
-                  Amanhã · 18:30 · Corte com João
-                </p>
-              </div>
-            </div>
-          </div>
         </div>
+        <PhoneFrame className="absolute -right-6 top-10 w-[15.5rem] border-ink/30 shadow-[0_44px_90px_-40px_oklch(0.08_0.01_110/0.95)]">
+          <WhatsAppChat width={248} />
+        </PhoneFrame>
+        <ConfirmedChip className="absolute -right-2 top-[23rem]" />
+      </div>
+
+      {/* Phone: the conversation, large, with the app's agenda behind it. */}
+      <div
+        data-plane-rate={0.8}
+        className={`${APPEAR} motion-safe:delay-[320ms] absolute inset-x-0 top-[500px] h-[522px] will-change-transform lg:hidden`}
+      >
+        <PhoneFrame
+          src="/images/product/app-agenda.png"
+          alt="Agenda do app da Flowo com cinco barbeiros e os horários do dia."
+          width={720}
+          height={1564}
+          sizes="52vw"
+          className="absolute left-1/2 top-0 h-[22rem] w-[52%] translate-x-[18%] rotate-[4deg] opacity-90"
+        />
+        <PhoneFrame className="absolute left-1/2 top-7 w-[288px] -translate-x-[58%] border-ink/30 shadow-[0_44px_90px_-40px_oklch(0.08_0.01_110/0.95)]">
+          <WhatsAppChat width={288} />
+        </PhoneFrame>
       </div>
 
       <Hills

@@ -2,27 +2,30 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 /**
- * A real screenshot in a phone-shaped frame, cropped from the top so the
- * screen's own header stays visible. One frame for every phone on the page,
- * so the radius, edge and shadow cannot drift between the hero and the close.
+ * A phone-shaped frame. Give it a screenshot (`src`) cropped from the top so
+ * the screen's own header stays visible, or give it children to draw a live
+ * screen inside. One frame for every phone on the page, so the radius, edge
+ * and shadow cannot drift between the hero and the close.
  */
 export function PhoneFrame({
   src,
-  alt,
+  alt = "",
   width,
   height,
   sizes,
   className,
   priority = false,
+  children,
 }: {
-  src: string;
-  alt: string;
-  width: number;
-  height: number;
-  sizes: string;
-  /** Sets the visible height; the screenshot is cropped from the top. */
+  src?: string;
+  alt?: string;
+  width?: number;
+  height?: number;
+  sizes?: string;
+  /** Sets the visible height; a screenshot is cropped from the top. */
   className?: string;
   priority?: boolean;
+  children?: React.ReactNode;
 }) {
   return (
     <div
@@ -31,15 +34,19 @@ export function PhoneFrame({
         className
       )}
     >
-      <Image
-        src={src}
-        alt={alt}
-        width={width}
-        height={height}
-        sizes={sizes}
-        priority={priority}
-        className="w-full object-cover object-top"
-      />
+      {src && width && height ? (
+        <Image
+          src={src}
+          alt={alt}
+          width={width}
+          height={height}
+          sizes={sizes}
+          priority={priority}
+          className="w-full object-cover object-top"
+        />
+      ) : (
+        children
+      )}
     </div>
   );
 }
