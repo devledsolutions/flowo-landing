@@ -13,7 +13,7 @@ const faqs = [
   {
     question: "A simulação substitui contador ou contrato?",
     answer:
-      "Não. A ferramenta ajuda a visualizar a memória de cálculo. Regras de vínculo, incidência, pagamento e documentos devem ser definidas com orientação contábil e trabalhista adequada.",
+      "Não. A ferramenta mostra a conta por escrito. Vínculo, impostos, pagamento e documentos precisam de contador e orientação trabalhista.",
   },
   {
     question: "Posso usar percentuais diferentes para serviço e produto?",
@@ -28,7 +28,7 @@ const faqs = [
   {
     question: "O Flowo controla comissões?",
     answer:
-      "O produto possui recursos de equipe, comandas e comissões sujeitos ao plano, às permissões e à configuração da barbearia.",
+      "Sim, no plano Empresarial. O gestor revisa a comissão de cada barbeiro a partir das comandas fechadas e inicia o repasse.",
   },
 ];
 
@@ -61,7 +61,7 @@ export default function CommissionCalculatorPage() {
             </>
           ),
           lead:
-            "Separe serviços, produtos e ajustes para enxergar de onde saiu a comissão. A conta fica simples de conferir antes do pagamento.",
+            "Separe serviços, produtos e ajustes e veja de onde saiu a comissão. Fácil de conferir antes de pagar.",
           trust: [
             "Resultado sem cadastro",
             "Serviço e produto separados",
@@ -112,7 +112,7 @@ export default function CommissionCalculatorPage() {
           formCopy:
             "O PDF ajuda a combinar as regras com a equipe e deixa um caminho de conferência antes do pagamento.",
           formNotes: [
-            "Material operacional, não parecer contábil ou jurídico.",
+            "Material prático. Não é parecer de contador ou advogado.",
             "Nome e e-mail liberam o PDF.",
             "WhatsApp e marketing são opcionais.",
           ],
