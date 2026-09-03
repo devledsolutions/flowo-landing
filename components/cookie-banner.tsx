@@ -85,11 +85,11 @@ export function CookieBanner() {
     >
       <div className="border-t border-line bg-surface shadow-[0_-4px_8px_-2px_oklch(0.205_0.012_110/0.12)]">
         {!showPreferences ? (
-          <div className="mx-auto flex max-w-page flex-col gap-2 px-[var(--gutter)] py-2.5 sm:flex-row sm:items-center sm:gap-5">
+          <div className="mx-auto flex max-w-page flex-col gap-1.5 px-[var(--gutter)] py-2 sm:flex-row sm:items-center sm:gap-5 sm:py-2.5">
             <div className="flex min-w-0 flex-1 items-start gap-3">
-              <Cookie aria-hidden="true" className="mt-0.5 h-5 w-5 flex-shrink-0 text-ink" />
+              <Cookie aria-hidden="true" className="mt-0.5 hidden h-5 w-5 flex-shrink-0 text-ink sm:block" />
               <div>
-                <p className="text-sm leading-relaxed text-muted-ink">
+                <p className="text-xs leading-snug text-muted-ink sm:text-sm sm:leading-relaxed">
                   Usamos cookies para melhorar sua experiência.{" "}
                   <Link
                     href="/privacidade"
@@ -102,32 +102,32 @@ export function CookieBanner() {
               </div>
               <button
                 onClick={handleRejectAll}
-                className="inline-flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full transition-colors duration-200 ease-out-quint hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 sm:hidden"
+                className="hidden h-10 w-10 flex-shrink-0 items-center justify-center rounded-full transition-colors sm:inline-flex duration-200 ease-out-quint hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 sm:hidden"
                 aria-label="Fechar e rejeitar cookies opcionais"
               >
                 <X aria-hidden="true" className="h-4 w-4 text-muted-ink" />
               </button>
             </div>
 
-            <div className="flex shrink-0 justify-end gap-2 sm:justify-start">
+            <div className="flex shrink-0 items-center justify-between gap-2 sm:justify-start">
               <button
                 type="button"
-                className="inline-flex h-9 items-center rounded-full px-2.5 text-xs text-muted-ink hover:text-ink"
+                className="inline-flex h-8 items-center rounded-full px-2 text-xs text-muted-ink hover:text-ink sm:h-9 sm:px-2.5"
                 onClick={() => setShowPreferences(true)}
               >
-                <Settings aria-hidden="true" className="mr-1.5 h-3.5 w-3.5" />
-                Preferências
+                <Settings aria-hidden="true" className="h-3.5 w-3.5 sm:mr-1.5" />
+                <span className="sr-only sm:not-sr-only">Preferências</span>
               </button>
               <button
                 type="button"
-                className="inline-flex h-9 items-center rounded-full border border-line px-3.5 text-xs text-ink"
+                className="inline-flex h-8 items-center rounded-full border border-line px-3 text-xs text-ink sm:h-9 sm:px-3.5"
                 onClick={handleRejectAll}
               >
                 Rejeitar
               </button>
               <button
                 type="button"
-                className="inline-flex h-9 items-center rounded-full bg-ink px-3.5 text-xs font-medium text-cream"
+                className="inline-flex h-8 items-center rounded-full bg-ink px-3 text-xs font-medium text-cream sm:h-9 sm:px-3.5"
                 onClick={handleAcceptAll}
               >
                 Aceitar
