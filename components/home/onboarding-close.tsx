@@ -1,113 +1,106 @@
 import Image from "next/image";
-import { ArrowRight, ShieldCheck } from "lucide-react";
-import { PhoneFrame } from "@/components/home/phone-frame";
-import { SIGNUP_URL, WHATSAPP_URL } from "@/components/cta-links";
+import { ArrowRight } from "lucide-react";
+import { SIGNUP_URL } from "@/components/cta-links";
 import { TrackedLink } from "@/components/analytics/tracked-link";
-
-const steps = [
-  "Crie sua conta",
-  "Escolha o plano",
-  "Conecte o WhatsApp com a nossa equipe",
-] as const;
+import { ParallaxPlanes } from "@/components/home/parallax-planes";
+import { ProductDisclaimer } from "@/components/home/product-previews";
 
 /**
- * The one dark move on the page, and the one photograph. The copy sits on a
- * column of plain ink because the photo is masked away from it: no scrim over
- * the whole frame, no text on skin. On the right, a real screenshot of the
- * product rises out of the section and keeps going behind the footer, which
- * is what makes the close and the footer read as one place instead of a page
- * that ends and a footer that begins.
+ * The close, staged the way fora.so stages its last section, in Flowo's skin.
+ *
+ * Measured on the reference at 1440x900: a 1080 container; a 344px text block
+ * on the left, in front; the product card, the same anatomy as the hero's,
+ * starting at x 572 and running off the right edge, pulled up 338px so its top
+ * meets the copy; and a landscape band 190px tall that starts 64px low and
+ * settles as the section arrives, overlapping the footer's first 64px. On a
+ * phone the card is gone and the band does the same move.
+ *
+ * Flowo's skin: the section is the page's one ink band, the card shows the
+ * Agenda screen from the v2 design, and the band is the front hills graded
+ * to ink, the same plane the hero uses.
  */
+const APPEAR =
+  "motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-6 motion-safe:fill-mode-both motion-safe:duration-[600ms] motion-safe:ease-out";
+
 export default function OnboardingClose() {
   return (
-    <section
-      aria-labelledby="onboarding-close-title"
-      className="on-ink relative z-10 isolate"
+    <ParallaxPlanes
+      id="fechamento"
+      className="on-ink relative z-10 h-[582px] lg:h-[910px]"
     >
-      <Image
-        src="https://images.unsplash.com/photo-1517832606299-7ae9b720a186?auto=format&fit=crop&w=1600&q=82"
-        alt=""
-        fill
-        sizes="100vw"
-        className="img-duotone z-0 object-cover object-[64%_center] opacity-90 [mask-image:linear-gradient(to_bottom,transparent_0%,transparent_34%,black_72%)] lg:[mask-image:linear-gradient(to_right,transparent_0%,transparent_40%,black_66%)]"
-      />
-
-      <div className="container-page relative z-10 grid gap-12 pt-[var(--section-y-loose)] lg:grid-cols-[minmax(0,0.58fr)_minmax(0,0.42fr)] lg:items-end lg:gap-16">
-        <div className="max-w-[33rem] lg:pb-[var(--section-y-loose)]">
-          <h2
-            id="onboarding-close-title"
-            className="text-h2 font-semibold leading-tight tracking-[-0.025em] text-ink-strong"
-          >
+      <div className="relative mx-auto h-full w-full max-w-[1080px] px-6 lg:px-0">
+        <div className={`${APPEAR} absolute left-6 top-[104px] z-[1] w-[342px] lg:left-0 lg:top-[204px] lg:w-[344px]`}>
+          <h2 className="text-[32px] font-semibold leading-[1.34] tracking-[-0.025em] text-ink-strong lg:text-[40px] lg:leading-[1.35]">
             A gente configura com você.
           </h2>
-          <p className="mt-5 max-w-[28rem] text-lead text-muted-ink">
-            Organizamos serviços, profissionais e horários. Antes de ativar,
-            testamos o WhatsApp junto com você.
+          <p className="mt-6 text-[16px] leading-6 text-muted-ink">
+            Organizamos serviços, profissionais e horários. Antes de ativar, testamos o
+            WhatsApp junto com você.
           </p>
-
-          <ol className="mt-8 divide-y divide-line border-y border-line">
-            {steps.map((step, index) => (
-              <li key={step} className="flex items-center gap-4 py-3.5">
-                <span className="w-5 text-caption font-semibold tabular-nums text-muted-ink">
-                  {index + 1}
-                </span>
-                <span className="text-body font-medium text-ink">{step}</span>
-              </li>
-            ))}
-          </ol>
-
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <TrackedLink
-              href={SIGNUP_URL}
-              event="CTA Clicked"
-              properties={{
-                page: "/",
-                placement: "closing",
-                destination: "dashboard_signup",
-                intent: "start_now",
-              }}
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-ink px-7 text-label font-semibold text-cream transition-colors hover:bg-ink/90"
-            >
-              Criar minha conta
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </TrackedLink>
-            <TrackedLink
-              href={WHATSAPP_URL}
-              event="CTA Clicked"
-              properties={{
-                page: "/",
-                placement: "closing",
-                destination: "whatsapp_sales",
-                intent: "ask_question",
-              }}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex h-12 items-center justify-center rounded-full border border-ink/50 bg-cream px-7 text-label font-semibold text-ink transition-colors hover:bg-surface"
-            >
-              Falar com a Flowo
-            </TrackedLink>
-          </div>
-          <p className="mt-5 max-w-[28rem] text-caption text-muted-ink">
-            Antes de ativar, revisamos a agenda e fazemos uma conversa de teste.
+          <TrackedLink
+            href={SIGNUP_URL}
+            event="CTA Clicked"
+            properties={{
+              page: "/",
+              placement: "closing",
+              destination: "dashboard_signup",
+              intent: "start_now",
+            }}
+            className="mt-12 inline-flex h-12 items-center gap-2 rounded-full bg-ink px-6 text-[14px] font-semibold text-cream transition-colors hover:bg-ink/90"
+          >
+            Criar minha conta
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </TrackedLink>
+          <p className="mt-5 text-caption text-muted-ink">
             Sem fidelidade. Avaliação assistida de 14 dias para clientes elegíveis.
           </p>
         </div>
 
-        <div className="relative z-10 -mb-28 mx-auto w-[min(100%,19rem)] lg:-mb-40 lg:mr-0 lg:w-[min(100%,21rem)]">
-          <PhoneFrame
-            src="/images/product/app-home.png"
-            alt="Tela inicial do app da Flowo: as cadeiras da barbearia, quem está sendo atendido e quanto falta em cada uma."
-            width={720}
-            height={1564}
-            sizes="(min-width: 1024px) 21rem, 19rem"
-            className="h-[30rem] lg:h-[34rem]"
+        {/* The product card, same anatomy as the hero's, running off the right edge. */}
+        <div
+          className={`${APPEAR} motion-safe:delay-[150ms] absolute hidden lg:left-[392px] lg:top-[178px] lg:block lg:h-[676px] lg:w-[960px]`}
+        >
+          <div className="relative h-full w-full overflow-hidden rounded-t-[24px] border border-b-0 border-cream/15 bg-[oklch(0.2_0.012_110)] shadow-[0_40px_90px_-50px_oklch(0.08_0.01_110/0.8)]">
+            <Image
+              src="/images/product/dashboard-agenda.png"
+              alt="Dashboard da Flowo, tela Agenda: a semana da barbearia com uma coluna por barbeiro e os horários livres."
+              width={1920}
+              height={1041}
+              sizes="960px"
+              className="h-full w-full object-cover object-left-top"
+            />
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-cream opacity-60 [mask-image:linear-gradient(90deg,transparent_0%,black_50%,transparent_100%)]"
+            />
+          </div>
+          <ProductDisclaimer
+            label="Telas do app com dados ilustrativos"
+            className="absolute -bottom-7 left-1 text-cream/60 [&_svg]:text-cream/60"
           />
-          <p className="mt-3 flex items-center gap-1.5 text-caption text-muted-ink">
-            <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
-            Tela real do app, com dados ilustrativos
-          </p>
         </div>
       </div>
-    </section>
+
+      {/* The landscape: starts 64px low, settles as the section arrives, and
+          runs 64px into the footer. Same front hills as the hero. */}
+      <div
+        data-plane-origin="settle"
+        data-plane-base="64"
+        data-plane-start="344"
+        data-plane-end="744"
+        data-plane-start-lg="300"
+        data-plane-end-lg="900"
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-[392px] z-20 h-[190px] will-change-transform lg:top-[720px]"
+      >
+        <Image
+          src="/images/hero/hills-front.png"
+          alt=""
+          fill
+          sizes="100vw"
+          className="object-cover object-center [filter:grayscale(1)_sepia(.25)_brightness(.3)_contrast(1.1)]"
+        />
+      </div>
+    </ParallaxPlanes>
   );
 }

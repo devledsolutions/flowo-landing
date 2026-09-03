@@ -42,7 +42,7 @@ export default function Home() {
         <FAQ compact />
         <OnboardingClose />
       </main>
-      <Footer compact topInset />
+      <Footer compact />
     </>
   );
 }

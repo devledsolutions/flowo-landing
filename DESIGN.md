@@ -56,7 +56,10 @@ demonstrações de produto, controles de janela e estados semânticos.
   a composição do hero do fora.so (fundo escuro em gradiente radial, três planos
   de colinas com parallax, copy centrada e um card de produto entre os planos),
   por decisão do fundador em 2026-09-02. As medidas de referência estão no
-  comentário de `components/hero.tsx`.
+  comentário de `components/hero.tsx`. O fechamento e o rodapé da home seguem a
+  composição do fechamento e do rodapé do fora.so (bloco de texto de 344px, card do
+  produto vazando pela direita, faixa de colinas invadindo 64px do rodapé; rodapé com
+  marca à esquerda e três colunas de links), mesma decisão, mesma data.
 - Mobile: uma coluna, CTA primário visível cedo e ordem narrativa preservada.
 - Mockups: janela ou dispositivo crível, com legenda clara quando for prévia.
 
