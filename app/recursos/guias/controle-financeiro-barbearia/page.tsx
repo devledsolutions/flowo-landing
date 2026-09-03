@@ -16,6 +16,7 @@ import {
   GuideContent,
 } from "@/components/resources/guide-shell";
 import { GuideStructuredData } from "@/components/resources/resource-structured-data";
+import { GuideHonesty, GuideScreenshot } from "@/app/recursos/_components/guide-media";
 import { getGuide } from "@/data/guides";
 import { buildGuideMetadata } from "@/lib/seo";
 
@@ -24,13 +25,13 @@ const guide = getGuide("/recursos/guias/controle-financeiro-barbearia");
 export const metadata = buildGuideMetadata(guide);
 
 const tableOfContents = [
-  { id: "limite", label: "O que o Flowo controla" },
+  { id: "limite", label: "O que a Flowo controla" },
   { id: "fechamento", label: "Feche cada atendimento" },
-  { id: "saldo", label: "Separe recebido, pendente e disponível" },
-  { id: "custos", label: "Mantenha custos e lucro fora do painel" },
+  { id: "saldo", label: "Recebido, pendente e disponível" },
+  { id: "custos", label: "Custos e lucro ficam fora do painel" },
 ];
 
-export default function ControleFinanceiroGuidePage() {
+export default function FinancialControlGuidePage() {
   return (
     <>
       <GuideStructuredData guide={guide} />
@@ -46,7 +47,8 @@ export default function ControleFinanceiroGuidePage() {
             ]}
             readTime={guide.readTime}
             title="Controle financeiro para barbearia"
-            lead="Use o Flowo para controlar a receita operacional dos atendimentos. Custos, lucro contábil, impostos e conciliação completa continuam exigindo gestão financeira própria."
+            lead="A Flowo controla a receita dos atendimentos. Custos, lucro, impostos e contabilidade continuam com você e seu contador."
+            updatedAt="3 de setembro de 2026"
           />
 
           <GuideAvailability
@@ -54,185 +56,159 @@ export default function ControleFinanceiroGuidePage() {
               {
                 label: "Operação",
                 value: "Comandas e pagamentos",
-                description:
-                  "Serviços, produtos, descontos e formas de pagamento ficam ligados ao atendimento.",
+                description: "Serviço, produto, desconto e forma de pagamento ficam ligados ao atendimento.",
               },
               {
                 label: "Financeiro",
-                value: "Saldo, histórico e retiradas",
-                description:
-                  "Acompanhe valores disponíveis e pendentes da conta integrada.",
+                value: "Saldo, histórico e saques",
+                description: "Veja o que já está disponível e o que ainda está pendente.",
               },
               {
                 label: "Métricas",
                 value: "Receita concluída",
-                description:
-                  "O relatório usa atendimentos concluídos e permite comparação por período.",
+                description: "O relatório conta atendimentos concluídos e compara períodos.",
               },
               {
-                label: "Não incluído",
-                value: "DRE e contabilidade completa",
-                description:
-                  "Custos fixos, folha, impostos e lucro líquido não são calculados automaticamente pelo painel.",
+                label: "Não entra",
+                value: "DRE e contabilidade",
+                description: "Aluguel, folha, impostos e lucro líquido não são calculados pelo painel.",
               },
             ]}
           />
 
           <GuideContent items={tableOfContents}>
-            <GuideSection
-              id="limite"
-              icon={BookOpenCheck}
-              title="O que o Flowo controla"
-            >
+            <GuideSection id="limite" icon={BookOpenCheck} title="O que a Flowo controla">
               <GuideCards
                 items={[
                   {
                     title: "Receita do atendimento",
-                    description:
-                      "Valor de serviços e produtos registrados em comandas fechadas.",
+                    description: "Serviços e produtos das comandas fechadas.",
                   },
                   {
-                    title: "Cobranças digitais",
-                    description:
-                      "PIX e cartão com estados de pendência, confirmação, recebimento e eventual reversão.",
+                    title: "PIX e cartão pela Flowo",
+                    description: "Com os estados de pendente, confirmado, recebido e estornado.",
                   },
                   {
-                    title: "Dinheiro",
-                    description:
-                      "Pagamento presencial registrado no fechamento da comanda.",
+                    title: "Dinheiro e maquininha",
+                    description: "Registro do que foi recebido no balcão, ao fechar a comanda.",
                   },
                   {
                     title: "Saldo da conta",
-                    description:
-                      "Valor disponível para retirada e valores ainda aguardando liquidação.",
+                    description: "O que já pode ser sacado e o que ainda está liquidando.",
                   },
                 ]}
               />
-              <GuideScopeNote
-                status="practice"
-                title="Controle operacional não é lucro"
-              >
-                Receita no Flowo não desconta automaticamente aluguel, folha,
-                produtos consumidos, impostos e outras despesas. Use seu contador
-                e uma rotina financeira própria para chegar ao lucro.
+              <GuideScopeNote status="practice" title="Receita não é lucro">
+                A receita na Flowo não desconta aluguel, folha, produto gasto nem imposto. Para
+                chegar ao lucro, use seu contador e uma rotina financeira própria.
               </GuideScopeNote>
             </GuideSection>
 
-            <GuideSection
-              id="fechamento"
-              icon={ReceiptText}
-              title="Feche cada atendimento"
-            >
+            <GuideSection id="fechamento" icon={ReceiptText} title="Feche cada atendimento">
               <GuideChecklist
                 items={[
-                  "Abra a comanda para o cliente correto",
-                  "Inclua serviços e produtos realmente entregues",
-                  "Aplique descontos antes de gerar a cobrança",
-                  "Registre a forma de pagamento recebida",
-                  "Corrija pendências antes do fechamento do dia",
+                  "Abra a comanda no cliente certo",
+                  "Inclua só o que saiu de verdade",
+                  "Aplique desconto antes de gerar a cobrança",
+                  "Registre como recebeu",
+                  "Resolva pendências antes de fechar o dia",
                 ]}
               />
-              <GuideCallout title="A qualidade do relatório começa na operação">
-                Um serviço recebido fora do Flowo ou uma comanda deixada aberta
-                não entra corretamente na leitura do período.
+              <GuideCallout title="O relatório começa na comanda">
+                Serviço recebido fora da Flowo ou comanda deixada aberta não entram direito na
+                leitura do período.
               </GuideCallout>
               <GuideProductPath
                 items={[
                   {
-                    surface: "Painel web",
+                    surface: "Painel",
                     path: "Comandas",
-                    action:
-                      "registre e feche cada atendimento com os itens corretos.",
+                    action: "registre e feche cada atendimento com os itens certos.",
                   },
                   {
-                    surface: "App móvel",
+                    surface: "App",
                     path: "Comandas",
-                    action:
-                      "faça o fechamento na operação, inclusive PIX, cartão ou dinheiro.",
+                    action: "feche na hora, com PIX, cartão, maquininha ou dinheiro.",
                   },
                 ]}
               />
             </GuideSection>
 
-            <GuideSection
-              id="saldo"
-              icon={Wallet}
-              title="Separe recebido, pendente e disponível"
-            >
+            <GuideSection id="saldo" icon={Wallet} title="Recebido, pendente e disponível">
               <p>
-                Uma cobrança confirmada pode ainda estar em liquidação. Não use
-                o total vendido como se todo o dinheiro já pudesse ser retirado.
+                Uma cobrança confirmada pode ainda estar liquidando. Não trate o total vendido
+                como dinheiro que já pode sair.
               </p>
+              <GuideScreenshot
+                src="/images/product/dashboard-hoje.png"
+                alt="Tela Hoje da Flowo: no canto, o valor recebido no dia e o total previsto"
+                caption="Tela Hoje, com dados ilustrativos. O detalhe de saldo e saques fica em Financeiro."
+              />
               <GuideCards
                 items={[
                   {
                     title: "Receita concluída",
-                    description:
-                      "Mostra o valor operacional dos atendimentos realizados.",
+                    description: "O valor dos atendimentos que aconteceram.",
                   },
                   {
                     title: "Pagamento pendente",
-                    description:
-                      "Cobrança criada, mas ainda sem confirmação definitiva.",
+                    description: "Cobrança criada, ainda sem confirmação.",
                   },
                   {
                     title: "Saldo disponível",
-                    description:
-                      "Valor liquidado que pode sustentar retirada ou repasse autorizado.",
+                    description: "Já liquidado. Pode virar saque ou repasse autorizado.",
                   },
                 ]}
               />
               <GuideProductPath
                 items={[
                   {
-                    surface: "Painel web",
+                    surface: "Painel",
                     path: "Financeiro → Histórico",
-                    action:
-                      "consulte pagamentos e estados antes de retirar ou conciliar.",
+                    action: "veja pagamentos e estados antes de sacar.",
                   },
                   {
-                    surface: "App móvel",
+                    surface: "App",
                     path: "Mais → Financeiro",
-                    action:
-                      "acompanhe saldo, pagamentos, chaves PIX e retiradas.",
+                    action: "saldo, pagamentos, chaves PIX e saques.",
                   },
                 ]}
               />
             </GuideSection>
 
-            <GuideSection
-              id="custos"
-              icon={BarChart3}
-              title="Mantenha custos e lucro fora do painel"
-            >
+            <GuideSection id="custos" icon={BarChart3} title="Custos e lucro ficam fora do painel">
               <p>
-                Mantenha uma rotina separada para despesas, impostos, pró-labore,
-                folha e compras. Use o relatório de receita do Flowo como uma das
-                entradas, não como o demonstrativo final.
+                Mantenha uma rotina separada para despesas, impostos, pró-labore, folha e compras.
+                O relatório de receita da Flowo é uma das entradas, não o resultado final.
               </p>
               <GuideChecklist
                 items={[
-                  "Exporte ou registre a receita concluída do período",
-                  "Concilie recebimentos digitais e dinheiro",
-                  "Inclua despesas fixas e variáveis fora do Flowo",
-                  "Valide impostos e obrigações com a contabilidade",
-                  "Compare lucro e caixa, que não são a mesma coisa",
+                  "Anote a receita concluída do período",
+                  "Bata PIX, cartão, maquininha e dinheiro",
+                  "Some despesas fixas e variáveis fora da Flowo",
+                  "Confira impostos com a contabilidade",
+                  "Compare lucro e caixa: não são a mesma coisa",
                 ]}
               />
-              <GuideScopeNote
-                status="practice"
-                title="Metas semanais são uma decisão de gestão"
-              >
-                Você pode criar metas com base nos relatórios, mas o Flowo não
-                configura nem cobra automaticamente uma meta de caixa por
-                profissional.
+              <GuideScopeNote status="practice" title="Meta semanal é decisão sua">
+                Você pode criar metas a partir do relatório, mas a Flowo não configura nem cobra
+                meta de caixa por barbeiro.
               </GuideScopeNote>
             </GuideSection>
           </GuideContent>
 
+          <GuideHonesty
+            tested={[
+              "Comandas, formas de pagamento, saldo disponível e saque: conferidos no produto em 3 de setembro de 2026.",
+            ]}
+            notMeasured={[
+              "Tempo economizado no fechamento do caixa em barbearias reais.",
+            ]}
+          />
+
           <GuideCta
-            title="Quer fechar agenda e receita no mesmo fluxo?"
-            description="Use comandas e pagamentos no Flowo e mantenha a contabilidade com o responsável financeiro do negócio."
+            title="Quer fechar agenda e receita no mesmo lugar?"
+            description="Use comandas e pagamentos na Flowo e deixe a contabilidade com quem cuida do financeiro."
           />
 
           <GuidePrevNext
