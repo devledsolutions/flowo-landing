@@ -202,13 +202,13 @@ export function SalesCampaignPage() {
       <main id="main-content">
         <section className="relative isolate overflow-hidden pt-24 sm:pt-28 lg:pt-32">
           <div className="container-page pb-16 pt-10 sm:pb-20 lg:pb-28">
-            <div className="grid items-center gap-12 lg:grid-cols-[0.86fr_1.14fr] lg:gap-16">
+            <div className="grid items-center gap-12 lg:grid-cols-[1fr_1fr] lg:gap-16">
               <div>
                 <p className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1.5 text-caption font-semibold text-muted-ink">
                   <span className="h-1.5 w-1.5 rounded-full bg-[var(--success)]" />
                   Para barbearias com equipe
                 </p>
-                <h1 className="mt-6 max-w-[24ch] text-[2.25rem] font-semibold leading-[1.06] tracking-[-0.035em] sm:text-[2.6rem] lg:text-[2.5rem] text-ink-strong">
+                <h1 className="mt-6 max-w-[24ch] text-[2.25rem] font-semibold leading-[1.06] tracking-[-0.035em] sm:text-[2.6rem] lg:text-[2.35rem] text-ink-strong">
                   Pare de responder “tem horário?” no meio do corte.
                 </h1>
                 <p className="mt-6 max-w-xl text-lead text-muted-ink">
