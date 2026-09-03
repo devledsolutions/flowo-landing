@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { LeadCaptureModal } from "../lead-capture-modal";
 import { SIGNUP_URL } from "./links";
 import { TrackedLink } from "@/components/analytics/tracked-link";
@@ -7,8 +6,8 @@ const CTA_BASE =
   "inline-flex h-12 items-center justify-center rounded-full px-8 text-sm font-medium transition-colors duration-200 ease-out-quint";
 
 /**
- * Closing band for /precos: full-bleed ink section over the native
- * black-and-white barber photo, with the page's serif statement.
+ * Closing band for /precos: full-bleed ink section with the page's serif
+ * statement.
  */
 export function PricingCTA() {
   return (
@@ -16,17 +15,6 @@ export function PricingCTA() {
       aria-labelledby="pricing-cta-title"
       className="on-ink relative isolate overflow-hidden"
     >
-      <Image
-        src="https://images.unsplash.com/photo-1517832606299-7ae9b720a186?auto=format&fit=crop&w=1600&q=80"
-        alt=""
-        fill
-        sizes="100vw"
-        className="object-cover object-center opacity-50"
-      />
-      <div
-        aria-hidden
-        className="absolute inset-0 bg-[oklch(0.185_0.01_110_/_0.45)]"
-      />
       <div className="container-page section-loose relative text-center">
         <h2
           id="pricing-cta-title"
