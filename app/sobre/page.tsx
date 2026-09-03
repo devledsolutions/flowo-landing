@@ -245,7 +245,7 @@ export default function AboutPage() {
                 <Check className="mt-1 h-4 w-4 shrink-0 text-ink" aria-hidden="true" />
                 Em 26 de julho de 2026 testamos o atendimento no sistema real da Flowo, com números de
                 teste nossos: mensagem, resposta, horários livres, agendamento, remarcação, cancelamento,
-                confirmação e a equipe assumindo a conversa. Nenhum cliente real participou. Ainda não
+                confirmação e a equipe assumindo a conversa. O teste usou números nossos, não clientes. Ainda não
                 medimos tempo economizado nem faturamento com barbearias clientes. Quando medirmos,
                 publicamos com período, contexto e autorização.
               </p>
