@@ -10,7 +10,7 @@ const DESCRIPTION = "Calcule a capacidade semanal da equipe, compare com os aten
 const faqs = [
   { question: "A conta considera folgas e encaixes?", answer: "Não. A ferramenta usa os dados que você informa e mostra uma capacidade de referência. Folgas, intervalos e serviços com durações diferentes precisam ser conferidos na rotina real." },
   { question: "Ocupação alta sempre é melhor?", answer: "Não necessariamente. Uma agenda cheia pode esconder atrasos, sobrecarga e pouca margem para remarcações. Use o número junto da experiência da equipe." },
-  { question: "Funciona para profissionais com horários diferentes?", answer: "Sim como primeira aproximação. Para uma decisão operacional, separe a capacidade por profissional e configure os horários reais no sistema." },
+  { question: "Funciona para profissionais com horários diferentes?", answer: "Sim, como primeira aproximação. Para uma decisão operacional, separe a capacidade por profissional e configure os horários reais no sistema." },
 ];
 export const metadata: Metadata = buildMetadata({ title: TITLE, description: DESCRIPTION, path: PATH, absoluteTitle: true });
 
