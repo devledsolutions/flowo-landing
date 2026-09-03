@@ -11,7 +11,13 @@ import { WhatsAppChat } from "@/components/home/whatsapp-chat";
 import { ProductDisclaimer } from "@/components/home/product-previews";
 import Image from "next/image";
 
-type PreviewKind = "agenda" | "whatsapp" | "pagamento" | "comparacao";
+type PreviewKind =
+  | "agenda"
+  | "whatsapp"
+  | "pagamento"
+  | "comparacao"
+  | "conversas"
+  | "clientes";
 
 export function CommercialHero({
   current,
@@ -109,6 +115,14 @@ const previewScreens: Record<Exclude<PreviewKind, "whatsapp">, { src: string; al
   comparacao: {
     src: "/images/product/dashboard-hoje.png",
     alt: "Tela Hoje da Flowo com os atendimentos do dia",
+  },
+  conversas: {
+    src: "/images/product/dashboard-conversas.png",
+    alt: "Conversas do WhatsApp da barbearia dentro da Flowo",
+  },
+  clientes: {
+    src: "/images/product/dashboard-clientes.png",
+    alt: "Tela Clientes da Flowo com histórico e contatos da barbearia",
   },
 };
 

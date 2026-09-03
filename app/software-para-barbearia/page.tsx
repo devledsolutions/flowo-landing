@@ -160,7 +160,7 @@ export default function SoftwareParaBarbeariaPage() {
           eyebrow="Feito para a rotina do corte"
           title="Software para barbearia com IA."
           description="Atendimento no WhatsApp, agenda por barbeiro, clientes e comandas em um só painel. Você escolhe o que ativar."
-          preview="comparacao"
+          preview="clientes"
         />
 
         <section className="section-normal border-t border-line">

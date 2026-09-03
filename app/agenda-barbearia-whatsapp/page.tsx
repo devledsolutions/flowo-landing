@@ -179,7 +179,7 @@ export default function WhatsappAgendaPage() {
           eyebrow="Atendimento e agenda no mesmo lugar"
           title="Sua agenda atende no WhatsApp."
           description="O cliente marca pelo WhatsApp. A Flowo olha a agenda do barbeiro e confirma. Sua equipe assume quando quiser."
-          preview="whatsapp"
+          preview="conversas"
         />
 
         <section className="section-normal border-t border-line bg-surface">
