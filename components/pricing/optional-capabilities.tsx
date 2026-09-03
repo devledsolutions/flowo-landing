@@ -22,7 +22,7 @@ const optionalCapabilities = [
     status: "Configurável",
     title: "Cashback",
     description:
-      "Percentual, validade e limites definidos pela barbearia. Consulte disponibilidade.",
+      "Percentual, prazo e limites definidos pela barbearia. Consulte disponibilidade.",
     href: "/recursos/cashback-barbearia",
   },
   {
@@ -38,7 +38,7 @@ const optionalCapabilities = [
     status: "Piloto",
     title: "Nota fiscal",
     description:
-      "Ativação assistida e sujeita a município, dados fiscais e homologação.",
+      "Ativação assistida e sujeita a município, dados fiscais e liberação da prefeitura.",
     href: "/recursos/nota-fiscal-barbearia",
   },
   {
@@ -69,7 +69,7 @@ export function OptionalCapabilities() {
           </div>
           <p className="text-lead text-muted-ink">
             Cada recurso abaixo informa se depende de ativação, plano,
-            homologação ou disponibilidade. Nenhum deles muda o preço-base sem
+            liberação da prefeitura ou disponibilidade. Nenhum deles muda o preço-base sem
             uma decisão comercial explícita.
           </p>
         </div>

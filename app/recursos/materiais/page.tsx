@@ -148,13 +148,12 @@ export default function MaterialsPage() {
                     Menos improviso. Uma próxima ação clara para a barbearia.
                   </h1>
                   <p className="mt-5 max-w-2xl text-lead leading-relaxed text-muted-ink">
-                    Escolha o problema de hoje e encontre planilhas, guias e
-                    checklists para aplicar na rotina — com o que vem no arquivo e
-                    o tempo necessário para começar.
+                    Escolha o problema de hoje. Cada material diz o que vem no
+                    arquivo e quanto tempo leva para começar.
                   </p>
                   <div className="mt-7 flex flex-wrap items-center gap-3 text-caption text-muted-ink">
                     <span className="rounded-full border border-line bg-surface px-3 py-1.5">
-                      Comece em 10 a 30 minutos
+                      Tempo para começar em cada material
                     </span>
                     <span className="rounded-full border border-line bg-surface px-3 py-1.5">
                       Planilhas com exemplos prontos

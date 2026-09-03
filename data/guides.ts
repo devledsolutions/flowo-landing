@@ -37,13 +37,13 @@ export const GUIDE_GROUPS: {
     id: "relacionamento",
     title: "WhatsApp e relacionamento",
     description:
-      "Ative o canal oficial, cuide das conversas e trabalhe retorno e fidelização com consentimento.",
+      "Ligue o WhatsApp, cuide das conversas e chame clientes de volta com permissão.",
   },
   {
     id: "gestao",
     title: "Receita e gestão",
     description:
-      "Feche atendimentos, acompanhe indicadores e use os números dentro do escopo real do Flowo.",
+      "Feche atendimentos, acompanhe indicadores e use os números com o que o Flowo faz de verdade.",
   },
 ];
 
@@ -59,7 +59,7 @@ export const GUIDES: GuideEntry[] = [
     group: "operacao",
     icon: "calendar",
     publishedTime: "2024-12-16T22:06:44.000Z",
-    modifiedTime: "2026-07-29T12:23:48.000Z",
+    modifiedTime: "2026-09-03T00:00:00.000Z",
     relatedPaths: [
       "/recursos/guias/gerenciamento-equipe",
       "/recursos/guias/reduzindo-faltas",
@@ -77,7 +77,7 @@ export const GUIDES: GuideEntry[] = [
     group: "operacao",
     icon: "users",
     publishedTime: "2024-12-16T22:06:44.000Z",
-    modifiedTime: "2026-07-29T12:23:48.000Z",
+    modifiedTime: "2026-09-03T00:00:00.000Z",
     relatedPaths: [
       "/recursos/guias/escala-equipe",
       "/recursos/guias/guia-definitivo-agendamento",
@@ -95,7 +95,7 @@ export const GUIDES: GuideEntry[] = [
     group: "operacao",
     icon: "bell",
     publishedTime: "2025-12-18T00:28:16.000Z",
-    modifiedTime: "2026-07-29T12:23:48.000Z",
+    modifiedTime: "2026-09-03T00:00:00.000Z",
     relatedPaths: [
       "/recursos/guias/guia-definitivo-agendamento",
       "/recursos/guias/configurando-whatsapp",
@@ -113,7 +113,7 @@ export const GUIDES: GuideEntry[] = [
     group: "operacao",
     icon: "users",
     publishedTime: "2026-02-21T04:45:31.000Z",
-    modifiedTime: "2026-07-29T12:23:48.000Z",
+    modifiedTime: "2026-09-03T00:00:00.000Z",
     relatedPaths: [
       "/recursos/guias/gerenciamento-equipe",
       "/recursos/guias/guia-definitivo-agendamento",
@@ -131,7 +131,7 @@ export const GUIDES: GuideEntry[] = [
     group: "relacionamento",
     icon: "message",
     publishedTime: "2025-12-18T00:28:16.000Z",
-    modifiedTime: "2026-07-29T12:23:48.000Z",
+    modifiedTime: "2026-09-03T00:00:00.000Z",
     relatedPaths: [
       "/recursos/guias/guia-definitivo-agendamento",
       "/recursos/guias/reduzindo-faltas",
@@ -142,14 +142,14 @@ export const GUIDES: GuideEntry[] = [
     path: "/recursos/guias/fidelizacao-clientes",
     title: "Fidelização de clientes para barbearias",
     description:
-      "Use histórico, clientes em risco, campanhas e fidelidade com consentimento, limites e ativação claros.",
+      "Use histórico, clientes sumidos, campanhas e cashback com permissão do cliente e limites claros.",
     readTime: "9 min",
     category: "Clientes",
-    topics: ["Histórico", "Campanhas", "Fidelidade"],
+    topics: ["Histórico", "Campanhas", "Cashback"],
     group: "relacionamento",
     icon: "message",
     publishedTime: "2026-02-21T04:45:31.000Z",
-    modifiedTime: "2026-07-29T12:23:48.000Z",
+    modifiedTime: "2026-09-03T00:00:00.000Z",
     relatedPaths: [
       "/recursos/guias/configurando-whatsapp",
       "/recursos/guias/reduzindo-faltas",
@@ -167,7 +167,7 @@ export const GUIDES: GuideEntry[] = [
     group: "gestao",
     icon: "credit-card",
     publishedTime: "2025-12-18T00:28:16.000Z",
-    modifiedTime: "2026-07-29T12:23:48.000Z",
+    modifiedTime: "2026-09-03T00:00:00.000Z",
     relatedPaths: [
       "/recursos/guias/controle-financeiro-barbearia",
       "/recursos/guias/aumentar-ticket-medio",
@@ -185,7 +185,7 @@ export const GUIDES: GuideEntry[] = [
     group: "gestao",
     icon: "chart",
     publishedTime: "2026-02-21T04:45:31.000Z",
-    modifiedTime: "2026-07-29T12:23:48.000Z",
+    modifiedTime: "2026-09-03T00:00:00.000Z",
     relatedPaths: [
       "/recursos/guias/pagamentos-pix",
       "/recursos/guias/relatorios-metricas",
@@ -203,7 +203,7 @@ export const GUIDES: GuideEntry[] = [
     group: "gestao",
     icon: "credit-card",
     publishedTime: "2026-02-21T04:45:31.000Z",
-    modifiedTime: "2026-07-29T12:23:48.000Z",
+    modifiedTime: "2026-09-03T00:00:00.000Z",
     relatedPaths: [
       "/recursos/guias/pagamentos-pix",
       "/recursos/guias/controle-financeiro-barbearia",
@@ -221,7 +221,7 @@ export const GUIDES: GuideEntry[] = [
     group: "gestao",
     icon: "chart",
     publishedTime: "2025-12-18T00:28:16.000Z",
-    modifiedTime: "2026-07-29T12:23:48.000Z",
+    modifiedTime: "2026-09-03T00:00:00.000Z",
     relatedPaths: [
       "/recursos/guias/controle-financeiro-barbearia",
       "/recursos/guias/aumentar-ticket-medio",
@@ -239,7 +239,7 @@ export const GUIDES: GuideEntry[] = [
     group: "gestao",
     icon: "chart",
     publishedTime: "2026-07-31T00:00:00.000Z",
-    modifiedTime: "2026-07-31T00:00:00.000Z",
+    modifiedTime: "2026-09-03T00:00:00.000Z",
     relatedPaths: [
       "/recursos/guias/guia-definitivo-agendamento",
       "/recursos/guias/gerenciamento-equipe",

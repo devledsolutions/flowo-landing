@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -13,6 +14,7 @@ import {
   CommercialHero,
   RelatedSolutions,
 } from "@/components/marketing/commercial-page";
+import { ProductDisclaimer } from "@/components/home/product-previews";
 import { getPlan } from "@/data/pricing-data";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
 
@@ -22,7 +24,7 @@ const solo = getPlan("solo");
 export const metadata = buildMetadata({
   title: "Software para Barbearia com IA no WhatsApp | Flowo",
   description:
-    "Software para barbearia com agenda por profissional, atendimento no WhatsApp com IA, comandas, clientes e recebimento opcional. Conheça o Flowo.",
+    "Agenda por barbeiro, atendimento no WhatsApp com IA, comandas e clientes em um só painel. Recebimento opcional. Conheça a Flowo.",
   path: PATH,
   absoluteTitle: true,
 });
@@ -52,7 +54,7 @@ const softwareSchema = {
       operatingSystem: "Web, iOS, Android",
       url: absoluteUrl(PATH),
       description:
-        "Software de gestão para barbearias com atendimento no WhatsApp, agenda por profissional, comandas e recebimento opcional.",
+        "Software para barbearia com atendimento no WhatsApp, agenda por barbeiro, comandas, clientes e recebimento opcional.",
       inLanguage: "pt-BR",
       brand: { "@type": "Brand", name: "Flowo" },
       offers: {
@@ -63,11 +65,11 @@ const softwareSchema = {
         availability: "https://schema.org/InStock",
       },
       featureList: [
-        "Agenda por profissional",
+        "Agenda por barbeiro",
         "Atendimento e agendamento no WhatsApp",
-        "Confirmação e lembretes",
+        "Lembretes e confirmação",
         "Clientes e histórico",
-        "Comandas e recebimentos pós-atendimento",
+        "Comandas e recebimento depois do atendimento",
       ],
     },
     breadcrumbSchema,
@@ -78,22 +80,22 @@ const faq = [
   {
     question: "O que é um software para barbearia?",
     answer:
-      "É uma plataforma que reúne agenda, clientes, atendimento, equipe, comandas e indicadores da operação. No Flowo, a conversa pode começar no WhatsApp e a disponibilidade considera a agenda configurada.",
+      "É o sistema que junta agenda, clientes, atendimento, equipe e comandas. Na Flowo, o atendimento começa no WhatsApp e a agenda responde.",
   },
   {
-    question: "O Flowo funciona para quem atende sozinho?",
+    question: "Funciona para quem atende sozinho?",
     answer:
-      "Sim. O plano Solo é para um profissional e inclui atendimento no WhatsApp, agenda, confirmação, histórico e recebimentos integrados opcionais.",
+      "Sim. O plano Solo é para um barbeiro: atendimento no WhatsApp, agenda, lembretes, histórico de clientes e recebimento opcional.",
   },
   {
     question: "Cada barbeiro pode ter horários diferentes?",
     answer:
-      "Sim. Nos planos com equipe, cada profissional pode ter dias, turnos, folgas e serviços próprios. A agenda usa essa disponibilidade ao oferecer horários.",
+      "Sim. Nos planos com equipe, cada barbeiro tem dias, turnos, folgas e serviços próprios. A Flowo só oferece o que está livre para ele.",
   },
   {
     question: "Preciso usar o pagamento integrado?",
     answer:
-      "Não. A barbearia pode continuar recebendo em dinheiro ou na própria maquininha. PIX e cartão integrados são opcionais e usados depois do atendimento.",
+      "Não. Dinheiro e maquininha própria continuam valendo. PIX e cartão Flowo são opcionais e usados depois do atendimento.",
   },
 ] as const;
 
@@ -111,32 +113,32 @@ const capabilities = [
     icon: MessageCircle,
     title: "Atendimento no WhatsApp",
     description:
-      "O cliente pergunta, a Flowo consulta a disponibilidade configurada e conduz o próximo passo sem deixar a equipe presa ao celular.",
+      "O cliente pergunta. A Flowo olha a agenda e responde na hora. Sua equipe não para de cortar.",
   },
   {
     icon: CalendarDays,
     title: "Agenda que respeita a equipe",
     description:
-      "Horário geral, agenda individual, serviço, folga e compromisso existente entram na mesma decisão.",
+      "A Flowo só oferece horário livre. Ela olha o horário da barbearia, a agenda de cada barbeiro, a duração do serviço e as folgas.",
   },
   {
     icon: UsersRound,
-    title: "Clientes e operação",
+    title: "Clientes e histórico",
     description:
-      "Histórico, profissionais e permissões ficam organizados para a rotina do negócio — no painel e no celular.",
+      "Cada cliente com seu histórico de cortes. Cada pessoa da equipe vê só o que a função permite.",
   },
   {
     icon: WalletCards,
     title: "Comanda e recebimento",
     description:
-      "Feche o atendimento, registre a forma de pagamento e acompanhe a operação. O pagamento integrado é opcional.",
+      "Feche o atendimento e registre como o cliente pagou. Dinheiro, maquininha ou, se quiser, PIX e cartão Flowo.",
   },
 ] as const;
 
 const steps = [
-  "Cadastre negócio, serviços, profissionais e horários.",
-  "Conecte o WhatsApp oficial e defina quando a equipe assume.",
-  "Acompanhe agenda, clientes, comandas e resultados conforme a operação acontece.",
+  "Cadastre a barbearia, os serviços, os barbeiros e os horários.",
+  "Conecte o WhatsApp da barbearia e diga quando a equipe assume.",
+  "Acompanhe agenda, clientes e comandas no painel, no dia a dia.",
 ] as const;
 
 export default function SoftwareParaBarbeariaPage() {
@@ -155,24 +157,44 @@ export default function SoftwareParaBarbeariaPage() {
       <main id="main-content">
         <CommercialHero
           current="Software para barbearia"
-          eyebrow="Gestão feita para a rotina do corte"
-          title="Um software para barbearia que começa no WhatsApp e termina na operação."
-          description="O Flowo conecta atendimento, agenda por profissional, clientes, comandas e recebimentos em um só lugar. Você escolhe o que ativar e mantém o controle da rotina."
-          preview="comparacao"
+          eyebrow="Feito para a rotina do corte"
+          title="Software para barbearia com IA."
+          description="Atendimento no WhatsApp, agenda por barbeiro, clientes e comandas em um só painel. Você escolhe o que ativar."
+          preview="clientes"
         />
+
+        <section className="section-normal border-t border-line">
+          <div className="container-page">
+            <div className="max-w-2xl">
+              <h2 className="text-h2 font-semibold leading-tight text-ink-strong">A tela de hoje da sua barbearia.</h2>
+              <p className="mt-5 max-w-measure text-body text-muted-ink">
+                Quem está na cadeira, quem atrasou e o que precisa de você. Tudo na mesma tela, atualizado na
+                hora.
+              </p>
+            </div>
+            <div className="mt-10 overflow-hidden rounded-xl border border-ink/15 bg-surface shadow-[0_30px_70px_-45px_oklch(0.17_0.012_110/0.55)]">
+              <Image
+                src="/images/product/dashboard-hoje.png"
+                alt="Painel da Flowo, tela Hoje: as cadeiras ocupadas agora, a lista do dia, um atraso a resolver e o valor recebido até o momento."
+                width={1920}
+                height={1041}
+                sizes="(min-width: 1280px) 1120px, 100vw"
+                className="h-auto w-full"
+                priority
+              />
+            </div>
+            <ProductDisclaimer label="Telas do app com dados ilustrativos" className="mt-4" />
+          </div>
+        </section>
 
         <section className="section-normal border-y border-line bg-surface">
           <div className="container-page">
             <div className="max-w-2xl">
-              <p className="text-label font-medium text-faint-ink">
-                O que precisa funcionar de verdade
-              </p>
-              <h2 className="mt-4 text-h2 font-semibold text-ink-strong">
-                Menos promessa. Mais rotina resolvida.
-              </h2>
+              <p className="text-label font-medium text-faint-ink">O que precisa funcionar de verdade</p>
+              <h2 className="mt-4 text-h2 font-semibold text-ink-strong">Menos promessa. Mais rotina resolvida.</h2>
               <p className="mt-4 text-lead text-muted-ink">
-                Um sistema só vale a pena quando reduz trabalho no horário mais
-                corrido e deixa claro o que a equipe precisa fazer em seguida.
+                Um sistema só vale a pena se tira trabalho da hora mais cheia. E se deixa claro o que fazer em
+                seguida.
               </p>
             </div>
             <div className="mt-12 grid gap-0 border-y border-line sm:grid-cols-2 lg:grid-cols-4 lg:divide-x lg:divide-line">
@@ -191,13 +213,9 @@ export default function SoftwareParaBarbeariaPage() {
           <div className="container-page grid gap-12 lg:grid-cols-[0.75fr_1.25fr] lg:gap-20">
             <div>
               <p className="text-label font-medium text-faint-ink">Como começa</p>
-              <h2 className="mt-4 text-h2 font-semibold text-ink-strong">
-                Da configuração ao primeiro agendamento.
-              </h2>
+              <h2 className="mt-4 text-h2 font-semibold text-ink-strong">Três passos e pronto.</h2>
               <p className="mt-4 text-lead text-muted-ink">
-                A implantação acompanha o que a sua barbearia realmente faz. Os
-                horários individuais podem ser preenchidos agora ou depois, com
-                um aviso claro para manter a resposta correta.
+                Você configura com a equipe Flowo. Os horários de cada barbeiro podem entrar agora ou depois.
               </p>
             </div>
             <ol className="divide-y divide-line border-y border-line">
@@ -217,9 +235,7 @@ export default function SoftwareParaBarbeariaPage() {
           <div className="container-page grid gap-8 md:grid-cols-2 md:items-center">
             <div>
               <p className="text-label font-medium text-faint-ink">Para decidir sem dúvida</p>
-              <h2 className="mt-4 text-h3 font-semibold text-ink-strong">
-                Veja a agenda funcionando antes de escolher.
-              </h2>
+              <h2 className="mt-4 text-h3 font-semibold text-ink-strong">Veja a agenda funcionando antes de escolher.</h2>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row md:justify-end">
               <Link href="/demonstracao-agendamento-whatsapp" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-ink px-7 py-3 text-label font-semibold text-cream hover:opacity-90">
@@ -244,9 +260,28 @@ export default function SoftwareParaBarbeariaPage() {
           </div>
         </section>
 
+        <section className="border-t border-line bg-surface py-8 md:py-10">
+          <div className="container-page">
+            <p className="max-w-measure text-label text-muted-ink">
+              <strong className="font-semibold text-ink">O que já foi testado.</strong> O atendimento no
+              WhatsApp ligado à agenda (resposta, agendamento, remarcação, cancelamento e a passagem para a
+              equipe) foi testado pela Flowo em 26 de julho de 2026, com números de teste da própria Flowo.
+              As telas desta página são do produto, com dados ilustrativos. Ainda não medimos resultado em
+              barbearias clientes.{" "}
+              <Link
+                href="/demonstracao-agendamento-whatsapp"
+                className="font-medium text-ink underline underline-offset-4"
+              >
+                Ver a demonstração completa
+              </Link>
+              .
+            </p>
+          </div>
+        </section>
+
         <CommercialCta
           title="Pronto para organizar a sua barbearia?"
-          description="Comece pelo que hoje mais interrompe o seu atendimento e veja o produto com os seus próprios horários e serviços."
+          description="Comece pelo que mais interrompe o seu atendimento. Veja o produto com os seus horários e serviços."
           price={solo.monthly}
         />
 
@@ -255,17 +290,17 @@ export default function SoftwareParaBarbeariaPage() {
             {
               href: "/sistema-agendamento-barbearia",
               label: "Sistema de agendamento",
-              description: "Agenda por profissional, confirmação e operação conectada.",
+              description: "Agenda por barbeiro, lembretes e confirmação.",
             },
             {
               href: "/agenda-barbearia-whatsapp",
               label: "Agenda no WhatsApp",
-              description: "O cliente pergunta e a Flowo conduz o horário disponível.",
+              description: "O cliente pergunta e a Flowo oferece o horário livre.",
             },
             {
               href: "/aplicativo-para-barbeiros",
               label: "Aplicativo para a equipe",
-              description: "Leve agenda, clientes e gestão para o celular do time.",
+              description: "Agenda e comandas no celular. Em preparação para iPhone e Android.",
             },
           ]}
         />

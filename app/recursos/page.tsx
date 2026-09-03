@@ -109,7 +109,7 @@ const TOTAL_GUIDES = GUIDES.length;
 const startingPoints = [
   {
     title: "Organizar a agenda",
-    description: "Horários, lembretes e confirmações em um fluxo único.",
+    description: "Horários, lembretes e confirmação no mesmo lugar.",
     href: "/recursos/guias/guia-definitivo-agendamento",
   },
   {
@@ -124,7 +124,7 @@ const startingPoints = [
   },
   {
     title: "Entender o caixa",
-    description: "Comandas, pagamentos, saldo e limites do painel financeiro.",
+    description: "Comandas, pagamentos, saldo e o que o painel não faz.",
     href: "/recursos/guias/controle-financeiro-barbearia",
   },
 ] as const;
@@ -143,7 +143,7 @@ const productResources = [
     label: "Empresarial",
     title: "Comissões",
     description:
-      "Cálculo depois da comanda paga e repasse iniciado pelo gestor.",
+      "Comissão calculada depois da comanda paga. Repasse feito pelo gestor.",
     href: "/recursos/comissoes-barbeiros",
   },
   {
@@ -151,7 +151,7 @@ const productResources = [
     label: "Configurável",
     title: "Cashback",
     description:
-      "Percentual, validade e limites definidos antes de ativar o benefício.",
+      "Porcentagem, prazo e limites definidos antes de ligar o benefício.",
     href: "/recursos/cashback-barbearia",
   },
   {
@@ -159,7 +159,7 @@ const productResources = [
     label: "Piloto",
     title: "Nota fiscal",
     description:
-      "Ativação assistida, sujeita a município, dados fiscais e homologação.",
+      "Ligada com ajuda da Flowo. Depende do município, dos dados fiscais e da prefeitura.",
     href: "/recursos/nota-fiscal-barbearia",
   },
   {
@@ -202,13 +202,13 @@ export default function ResourcesPage() {
           {
             name: "Roteiros de Shorts e Reels para Barbearias",
             path: "/recursos/videos",
-            description: "Roteiros curtos baseados nas práticas publicadas nas guias.",
+            description: "Roteiros curtos, cada um ligado a um guia.",
           },
           {
             name: "Calculadora de Tempo no WhatsApp",
             path: "/calculadora-tempo-whatsapp-barbearia",
             description:
-              "Estimativa gratuita de horas usadas em conversas sobre disponibilidade.",
+              "Estimativa gratuita de horas gastas em conversas sobre horário.",
           },
           {
             name: "Calculadora de Comissão de Barbeiro",
@@ -265,7 +265,7 @@ export default function ResourcesPage() {
           {
             name: "Nota Fiscal para Barbearias",
             path: "/recursos/nota-fiscal-barbearia",
-            description: "Fluxo fiscal com ativação assistida e disponibilidade verificada.",
+            description: "Nota fiscal em piloto, ligada com ajuda da Flowo e conforme o município.",
           },
         ]}
       />
@@ -298,11 +298,11 @@ export default function ResourcesPage() {
                 </div>
                 <div className="border-l border-line pl-6">
                   <p className="text-label font-semibold text-ink">
-                    Tudo aqui é feito para usar
+                    Feito para usar hoje
                   </p>
                   <p className="mt-2 text-label text-muted-ink">
-                    Sem teoria solta: cada guia termina com um processo,
-                    checklist ou próxima ação para a sua operação.
+                    Cada guia termina com um checklist ou uma próxima ação
+                    para a sua barbearia.
                   </p>
                 </div>
               </div>
@@ -352,11 +352,10 @@ export default function ResourcesPage() {
                     Conheça o produto
                   </p>
                   <h2 id="product-resources-title" className="mt-2 text-h3 font-bold text-ink">
-                    Recursos com condições explicadas
+                    O que é opcional, o que depende de plano e o que está em piloto
                   </h2>
                   <p className="mt-2 max-w-2xl text-label text-muted-ink">
-                    O que é opcional, configurável, exclusivo de plano ou ainda
-                    está em piloto aparece antes de qualquer chamada para ação.
+                    A condição aparece antes do botão.
                   </p>
                 </div>
                 <div className="grid gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2">
@@ -444,8 +443,8 @@ export default function ResourcesPage() {
                         Shorts e Reels prontos
                       </h2>
                       <p className="mt-1 text-muted-ink">
-                        8 roteiros de vídeos curtos conectados aos guias para
-                        divulgar sua barbearia com uma próxima ação clara.
+                        8 roteiros de vídeo curto, cada um ligado a um guia,
+                        para divulgar sua barbearia.
                       </p>
                     </div>
                   </div>
@@ -467,7 +466,7 @@ export default function ResourcesPage() {
                       Materiais gratuitos
                     </h2>
                     <p className="mt-1 text-label text-muted-ink">
-                      Planilhas e templates para baixar
+                      Planilhas e modelos para baixar
                     </p>
                   </div>
                   <Link
@@ -510,11 +509,11 @@ export default function ResourcesPage() {
               <div className="on-ink rounded-lg p-8 sm:p-10">
                 <div className="max-w-2xl">
                   <h2 className="text-h3 font-bold">
-                    Quer ver o Flowo na prática?
+                    Quer ver a Flowo na prática?
                   </h2>
                   <p className="mt-3 text-muted-ink">
-                    Configure sua barbearia e aplique o que você leu nos guias,
-                    respeitando o seu plano e os recursos já ativados.
+                    Cadastre sua barbearia e aplique o que leu, dentro do seu
+                    plano.
                   </p>
                   <div className="mt-6 flex flex-wrap items-center gap-4">
                     <Button size="lg" className="rounded-full px-7" asChild>

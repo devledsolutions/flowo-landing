@@ -16,6 +16,7 @@ import {
   GuideContent,
 } from "@/components/resources/guide-shell";
 import { GuideStructuredData } from "@/components/resources/resource-structured-data";
+import { GuideHonesty, GuideScreenshot } from "@/app/recursos/_components/guide-media";
 import { getGuide } from "@/data/guides";
 import { buildGuideMetadata } from "@/lib/seo";
 
@@ -24,13 +25,13 @@ const guide = getGuide("/recursos/guias/fidelizacao-clientes");
 export const metadata = buildGuideMetadata(guide);
 
 const tableOfContents = [
-  { id: "base", label: "Construa a base pelo atendimento" },
-  { id: "historico", label: "Use histórico e clientes em risco" },
-  { id: "campanhas", label: "Reative sem enviar spam" },
-  { id: "fidelidade", label: "Entenda o módulo de fidelidade" },
+  { id: "base", label: "Comece pelo atendimento bem fechado" },
+  { id: "historico", label: "Use o histórico e os clientes sumidos" },
+  { id: "campanhas", label: "Chame de volta sem virar spam" },
+  { id: "fidelidade", label: "Cashback: o benefício que existe hoje" },
 ];
 
-export default function FidelizacaoGuidePage() {
+export default function CustomerLoyaltyGuidePage() {
   return (
     <>
       <GuideStructuredData guide={guide} />
@@ -45,189 +46,165 @@ export default function FidelizacaoGuidePage() {
               { label: "Fidelização de Clientes", href: "#" },
             ]}
             readTime={guide.readTime}
-            title="Fidelização de clientes sem automação vazia"
-            lead="Registre o atendimento, entenda quem parou de voltar e use campanhas com consentimento. Fidelidade começa na operação; o canal só ajuda a manter o relacionamento."
+            title="Fidelização de clientes na barbearia"
+            lead="Feche bem o atendimento, veja quem parou de voltar e chame de volta com permissão. Fidelidade começa na cadeira, não na mensagem."
+            updatedAt="3 de setembro de 2026"
           />
 
           <GuideAvailability
             items={[
               {
-                label: "CRM",
-                value: "Clientes e histórico",
-                description:
-                  "Cadastro, visitas, agendamentos e sinais de relacionamento ficam vinculados à barbearia.",
+                label: "Clientes",
+                value: "Cadastro e histórico",
+                description: "Visitas, horários, observações do corte e faltas ficam no cadastro.",
               },
               {
-                label: "Clientes em risco",
-                value: "Detalhe nos planos superiores",
-                description:
-                  "O painel identifica clientes com histórico que estão há mais tempo sem retornar.",
+                label: "Clientes sumidos",
+                value: "Lista nos planos Equipe e Empresarial",
+                description: "A Flowo mostra quem tem histórico e está há mais tempo sem voltar. O Solo vê só o total.",
               },
               {
                 label: "Campanhas",
-                value: "WhatsApp ativo + limite do plano",
-                description:
-                  "Envios dependem de templates, opt-in, audiência válida e cota mensal.",
+                value: "WhatsApp conectado + limite do plano",
+                description: "Só saem com mensagem aprovada, permissão do cliente e dentro do limite do mês.",
               },
               {
-                label: "Fidelidade",
-                value: "Módulo adicional",
-                description:
-                  "Pontos e níveis funcionam com programa ativo; o resgate dentro da comanda ainda não tem fluxo completo.",
+                label: "Cashback",
+                value: "Ligado pela barbearia",
+                description: "Crédito em reais para a próxima visita. Só existe se você ligar e configurar.",
               },
             ]}
           />
 
           <GuideContent items={tableOfContents}>
-            <GuideSection
-              id="base"
-              icon={HeartHandshake}
-              title="Construa a base pelo atendimento"
-            >
+            <GuideSection id="base" icon={HeartHandshake} title="Comece pelo atendimento bem fechado">
               <p>
-                Um cliente recorrente nasce de um cadastro correto e de uma
-                agenda bem fechada. Use o mesmo telefone em todos os canais para
-                evitar duplicidade e marque o resultado real de cada visita.
+                Cliente que volta nasce de um cadastro certo e de uma comanda fechada. Use o
+                mesmo telefone em todo canal para não duplicar e marque o que aconteceu em cada
+                visita.
               </p>
               <GuideChecklist
                 items={[
                   "Confirme nome e telefone do cliente",
-                  "Feche o atendimento e registre a forma de pagamento",
-                  "Marque cancelamento ou no-show com precisão",
-                  "Mantenha preferências e observações úteis, sem dados excessivos",
-                  "Respeite pedidos para não receber mensagens",
+                  "Feche a comanda e registre como recebeu",
+                  "Marque cancelamento ou falta do jeito certo",
+                  "Anote a preferência do corte, sem dado demais",
+                  "Respeite quem pediu para não receber mensagem",
                 ]}
+              />
+              <GuideScreenshot
+                src="/images/product/dashboard-clientes.png"
+                alt="Tela Clientes da Flowo: lista com o filtro Sumidos há 30 dias, o cadastro de um cliente com total gasto, visitas, cashback, faltas, histórico e observação do corte"
               />
               <GuideProductPath
                 items={[
                   {
-                    surface: "Painel web",
+                    surface: "Painel",
                     path: "Clientes",
-                    action:
-                      "busque o cadastro, abra o detalhe e confira o histórico.",
+                    action: "busque o cliente, abra o cadastro e veja o histórico.",
                   },
                   {
-                    surface: "App móvel",
+                    surface: "App",
                     path: "Clientes",
-                    action:
-                      "crie, edite, consulte visitas e inicie um novo agendamento.",
+                    action: "crie, edite, veja visitas e agende de novo.",
                   },
                 ]}
               />
             </GuideSection>
 
-            <GuideSection
-              id="historico"
-              icon={Users}
-              title="Use histórico e clientes em risco"
-            >
+            <GuideSection id="historico" icon={Users} title="Use o histórico e os clientes sumidos">
               <p>
-                Em Métricas, os planos superiores mostram a lista de clientes em
-                risco com base no histórico e no tempo desde a última visita.
-                Use esse recorte como ponto de partida, não como diagnóstico
-                automático de churn.
+                Em Clientes e em Métricas, os planos Equipe e Empresarial mostram quem está há
+                mais tempo sem voltar. Use como ponto de partida, não como sentença.
               </p>
               <GuideCards
                 items={[
                   {
                     title: "Cliente novo",
-                    description:
-                      "Garanta que o primeiro atendimento foi fechado e que o contato está correto.",
+                    description: "Confira se a primeira comanda foi fechada e se o telefone está certo.",
                   },
                   {
-                    title: "Cliente recorrente",
-                    description:
-                      "Use a frequência real para escolher quando faz sentido sugerir retorno.",
+                    title: "Cliente de sempre",
+                    description: "Use a frequência real dele para decidir quando sugerir a volta.",
                   },
                   {
-                    title: "Cliente em risco",
-                    description:
-                      "Considere serviço anterior, última visita e consentimento antes de entrar em contato.",
+                    title: "Cliente sumido",
+                    description: "Olhe o último serviço, a última visita e a permissão antes de chamar.",
                   },
                 ]}
               />
-              <GuideScopeNote
-                status="practice"
-                title="45 dias não é uma regra universal"
-              >
-                A cadência depende do serviço e do cliente. Barba semanal, corte
-                mensal e tratamento ocasional não devem usar o mesmo prazo.
+              <GuideScopeNote status="practice" title="Um prazo só não serve para todo mundo">
+                Barba semanal, corte mensal e tratamento de vez em quando não podem usar o mesmo
+                prazo de “sumiu”.
               </GuideScopeNote>
             </GuideSection>
 
-            <GuideSection
-              id="campanhas"
-              icon={MessageCircle}
-              title="Reative sem enviar spam"
-            >
+            <GuideSection id="campanhas" icon={MessageCircle} title="Chame de volta sem virar spam">
               <p>
-                Campanhas usam uma audiência resolvida pelo backend e respeitam
-                opt-out, limites de segurança e a cota mensal do plano. A área
-                mostra uso e limite; não cobra uma tarifa surpresa por envio.
+                A campanha respeita quem pediu para não receber, o limite de segurança e o limite
+                do seu plano no mês. A tela mostra o uso e o limite. Não há cobrança surpresa por
+                mensagem.
               </p>
               <GuideChecklist
                 items={[
-                  "Escolha um segmento coerente com a oferta",
-                  "Exclua quem não autorizou mensagens",
-                  "Use uma mensagem específica e fácil de recusar",
+                  "Escolha um grupo que combine com a oferta",
+                  "Deixe de fora quem não autorizou mensagem",
+                  "Escreva uma mensagem curta e fácil de recusar",
                   "Revise público, texto e horário antes de aprovar",
-                  "Se atingir a cota, reduza o público ou mude de plano",
+                  "Bateu o limite? Reduza o público ou mude de plano",
                 ]}
               />
-              <GuideScopeNote
-                status="conditional"
-                title="Envio real depende do WhatsApp e dos templates"
-              >
-                A campanha pode ser preparada no produto, mas só é enviada com
-                canal conectado, template aprovado e destinatários válidos.
+              <GuideScopeNote status="conditional" title="O envio depende do WhatsApp e da mensagem aprovada">
+                A campanha pode ficar pronta no painel, mas só sai com número conectado, modelo
+                de mensagem aprovado pelo WhatsApp e clientes válidos.
               </GuideScopeNote>
               <GuideProductPath
                 items={[
                   {
-                    surface: "Painel web",
+                    surface: "Painel",
                     path: "Campanhas",
-                    action:
-                      "crie o rascunho, revise audiência e aprove o envio.",
+                    action: "monte o rascunho, revise o público e aprove.",
                   },
                   {
-                    surface: "App móvel",
+                    surface: "App",
                     path: "Mais → Campanhas",
-                    action:
-                      "acompanhe, edite, publique e consulte resultados.",
+                    action: "acompanhe, edite e veja o resultado.",
                   },
                 ]}
               />
             </GuideSection>
 
-            <GuideSection
-              id="fidelidade"
-              icon={ShieldCheck}
-              title="Entenda o módulo de fidelidade"
-            >
+            <GuideSection id="fidelidade" icon={ShieldCheck} title="Cashback: o benefício que existe hoje">
               <p>
-                Com o módulo ativo, um programa pode acumular pontos após comandas
-                fechadas, classificar níveis e exibir o saldo ao cliente. Sem
-                programa ativo, nada é acumulado.
+                O cashback devolve uma parte do valor pago como crédito para a próxima visita. Você
+                define a porcentagem, o prazo para usar, o valor mínimo e o limite por comanda. O
+                saldo aparece no cadastro do cliente.
               </p>
-              <GuideCallout title="Limite atual">
-                O mecanismo de resgate existe no backend, mas o resgate completo
-                dentro do checkout da comanda ainda está pendente. Não venda o
-                módulo como um caixa de recompensas totalmente automatizado.
+              <GuideCallout title="Sem pontos e sem níveis">
+                A Flowo não tem programa de pontos ativo. O único benefício de fidelidade é o
+                cashback em reais. Não venda nível, selo ou carimbo que o app não tem.
               </GuideCallout>
-              <GuideScopeNote
-                status="conditional"
-                title="Módulo, programa e regras precisam estar ativos"
-              >
-                Pontos não aparecem por padrão em toda conta. Verifique a
-                assinatura, ative o programa e revise as regras antes de divulgar
-                um benefício ao cliente.
+              <GuideScopeNote status="conditional" title="Só existe depois que você liga">
+                Nenhuma conta ganha cashback por padrão. Ligue, configure as regras e só então
+                conte ao cliente.
               </GuideScopeNote>
             </GuideSection>
           </GuideContent>
 
+          <GuideHonesty
+            tested={[
+              "Cadastro, histórico, filtro de clientes sumidos e cashback: conferidos no produto em 3 de setembro de 2026.",
+              "Campanhas saem só com mensagem aprovada pelo WhatsApp e dentro do limite do plano: conferido no produto na mesma data.",
+            ]}
+            notMeasured={[
+              "Quantos clientes sumidos voltam depois de uma campanha.",
+              "Efeito do cashback na frequência de visitas.",
+            ]}
+          />
+
           <GuideCta
-            title="Quer organizar o relacionamento sem perder o contexto?"
-            description="Use histórico, métricas e campanhas do Flowo dentro dos limites do seu plano e do consentimento do cliente."
+            title="Quer cuidar do relacionamento sem perder o contexto?"
+            description="Use histórico, clientes sumidos, campanhas e cashback dentro do seu plano e com permissão do cliente."
           />
 
           <GuidePrevNext

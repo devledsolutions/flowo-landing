@@ -52,7 +52,7 @@ const capabilities = [
     label: "Configurável",
     title: "Cashback",
     description:
-      "Defina percentual, validade e limite de uso antes de ativar o benefício.",
+      "Defina percentual, prazo e limite de uso antes de ativar o benefício.",
     cta: "Ver cashback",
     href: "/recursos/cashback-barbearia",
   },
@@ -61,7 +61,7 @@ const capabilities = [
     label: "Ativação assistida",
     title: "Nota fiscal",
     description:
-      "Valide município, dados fiscais e homologação antes de emitir pela comanda.",
+      "Confira município, dados fiscais e liberação da prefeitura antes de emitir pela comanda.",
     cta: "Ver nota fiscal",
     href: "/recursos/nota-fiscal-barbearia",
   },
@@ -95,18 +95,13 @@ export default function OptionalOperations() {
 
         <div className="mt-12 grid gap-10 lg:grid-cols-[0.64fr_1.36fr] lg:items-center lg:gap-16">
           <ol className="divide-y divide-line border-y border-line">
-            {paymentChoices.map(({ icon: Icon, ...item }, index) => (
+            {paymentChoices.map(({ icon: Icon, ...item }) => (
               <li key={item.title} className="grid grid-cols-[auto_1fr] gap-4 py-5">
                 <span className="flex h-10 w-10 items-center justify-center rounded-full border border-line bg-surface">
                   <Icon className="h-4 w-4 text-ink" aria-hidden="true" />
                 </span>
                 <div>
-                  <div className="flex items-center gap-3">
-                    <span className="text-caption tabular-nums text-faint-ink">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <h3 className="font-semibold text-ink">{item.title}</h3>
-                  </div>
+                  <h3 className="font-semibold text-ink">{item.title}</h3>
                   <p className="mt-1 text-label text-muted-ink">{item.description}</p>
                 </div>
               </li>

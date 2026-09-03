@@ -10,6 +10,7 @@ import {
   WHATSAPP_URL,
 } from "./cta-links";
 import { TrackedLink } from "@/components/analytics/tracked-link";
+import { cn } from "@/lib/utils";
 
 const navItems = [
   { name: "Como funciona", href: "/sistema-agendamento-barbearia" },
@@ -17,8 +18,22 @@ const navItems = [
   { name: "Preços", href: "/precos" },
 ];
 
-export default function Navbar() {
+export default function Navbar({ overInk = false }: { overInk?: boolean }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [pastHero, setPastHero] = useState(false);
+
+  // Over the dark hero the bar is transparent with cream type, the way the
+  // reference sits its nav on the sky; it turns into the cream bar once the
+  // hero has scrolled out.
+  useEffect(() => {
+    if (!overInk) return;
+    const hero = document.getElementById("hero");
+    const onScroll = () => setPastHero(window.scrollY > (hero?.offsetHeight ?? 0) - 72);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [overInk]);
+  const ink = overInk && !pastHero && !isMenuOpen;
   const toggleRef = useRef<HTMLButtonElement>(null);
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -51,7 +66,12 @@ export default function Navbar() {
   });
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-line bg-cream">
+    <header
+      className={cn(
+        "fixed inset-x-0 top-0 z-50 border-b transition-colors duration-200",
+        ink ? "border-transparent bg-transparent" : "border-line bg-cream"
+      )}
+    >
       <nav
         aria-label="Principal"
         className="container-page"
@@ -71,6 +91,7 @@ export default function Navbar() {
               height={40}
               priority
               fetchPriority="high"
+              className={cn(ink && "brightness-0 invert")}
             />
           </Link>
 
@@ -81,7 +102,10 @@ export default function Navbar() {
                 key={item.name}
                 href={item.href}
                 prefetch={false}
-                className="inline-flex min-h-11 items-center text-label font-medium text-muted-ink transition-colors duration-200 ease-out-quint hover:text-ink"
+                className={cn(
+                  "inline-flex min-h-11 items-center text-label font-medium transition-colors duration-200 ease-out-quint",
+                  ink ? "text-white/80 hover:text-white" : "text-muted-ink hover:text-ink"
+                )}
               >
                 {item.name}
               </Link>
@@ -91,7 +115,10 @@ export default function Navbar() {
           <div className="hidden items-center gap-5 lg:flex">
             <a
               href={LOGIN_URL}
-              className="inline-flex min-h-11 items-center text-label font-medium text-muted-ink transition-colors duration-200 ease-out-quint hover:text-ink"
+              className={cn(
+                "inline-flex min-h-11 items-center text-label font-medium transition-colors duration-200 ease-out-quint",
+                ink ? "text-white/80 hover:text-white" : "text-muted-ink hover:text-ink"
+              )}
             >
               Entrar
             </a>
@@ -104,7 +131,10 @@ export default function Navbar() {
                 destination: "dashboard_signup",
                 intent: "start_now",
               }}
-              className="inline-flex h-11 items-center rounded-full bg-ink px-5 text-label font-semibold text-cream transition-colors duration-200 ease-out-quint hover:bg-ink/90 active:translate-y-px"
+              className={cn(
+                "inline-flex h-11 items-center rounded-full px-5 text-label font-semibold transition-colors duration-200 ease-out-quint active:translate-y-px",
+                ink ? "bg-white/80 text-[rgb(1,16,29)] hover:bg-white" : "bg-ink text-cream hover:bg-ink/90"
+              )}
             >
               Criar minha conta
             </TrackedLink>
@@ -114,7 +144,10 @@ export default function Navbar() {
           <button
             ref={toggleRef}
             type="button"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full text-ink transition-colors duration-200 hover:bg-surface-2 lg:hidden"
+            className={cn(
+              "inline-flex h-11 w-11 items-center justify-center rounded-full transition-colors duration-200 lg:hidden",
+              ink ? "text-white hover:bg-white/10" : "text-ink hover:bg-surface-2"
+            )}
             onClick={() => setIsMenuOpen((open) => !open)}
             aria-expanded={isMenuOpen}
             aria-controls="mobile-menu"

@@ -1,6 +1,8 @@
 import SchemaMarkup from "@/components/schema-markup";
 import Navbar from "@/components/navbar";
 import Hero from "@/components/hero";
+// Cópia exata do hero do fora.so, guardada para comparação:
+// import Hero from "@/components/home/hero-fora-exact";
 import ProductStory from "@/components/home/product-story";
 import OptionalOperations from "@/components/home/optional-operations";
 import SwitchingReassurance from "@/components/home/switching-reassurance";

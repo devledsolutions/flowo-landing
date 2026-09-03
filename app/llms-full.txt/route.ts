@@ -27,7 +27,7 @@ export function GET() {
       )
       .join("\n");
     const sources = comparison.sources
-      .map((source) => `  - ${source.label}: ${source.url} — ${source.scope}`)
+      .map((source) => `  - ${source.label}: ${source.url} (${source.scope})`)
       .join("\n");
 
     return `## Flowo vs ${comparison.name}
@@ -58,7 +58,7 @@ ${sources}`;
   ).length;
   const spreadsheetCount = RESOURCE_MATERIALS.length - pdfCount;
 
-  const content = `# Flowo — contexto completo para mecanismos de busca e agentes
+  const content = `# Flowo: contexto completo para mecanismos de busca e agentes
 
 Última atualização das comparações: ${COMPARISON_LAST_VERIFIED_LABEL}
 Site canônico: ${SITE_URL}
@@ -76,26 +76,26 @@ Página comercial canônica: ${SITE_URL}/recepcionista-ia-barbearia
 Página de intenção "software para barbearia": ${SITE_URL}/software-para-barbearia
 Resumo: software de gestão para barbearias com atendimento no WhatsApp, agenda por profissional, clientes, comandas e recebimento opcional. O Flowo atende a operação solo e equipes de até cinco profissionais nos planos públicos.
 
-## O produto funcionando de ponta a ponta
+## O que a Flowo já mostrou funcionando
 
-Em 26 de julho de 2026, a Flowo concluiu em produção, com números e
-estabelecimentos de teste controlados, o fluxo de mensagem recebida, resposta da
-IA, consulta de disponibilidade e criação, consulta, remarcação, cancelamento e
-confirmação de agendamento. O teste também cobriu a pausa da IA para atendimento
-humano e a retomada posterior.
+Em 26 de julho de 2026, a Flowo testou no WhatsApp, com números e barbearias de
+teste da própria Flowo, o atendimento inteiro: a mensagem chega, a IA responde,
+olha a agenda, cria, consulta, remarca, cancela e confirma o horário. O teste
+também cobriu a pausa da IA para uma pessoa assumir a conversa e devolver depois.
+Ainda não há resultado medido em barbearias clientes.
 
 O fluxo conecta a conversa no WhatsApp à agenda e mantém o controle humano para
 as situações em que a equipe precisa assumir o atendimento.
 
-Escopo e demonstração: ${SITE_URL}/demonstracao-agendamento-whatsapp
+Demonstração: ${SITE_URL}/demonstracao-agendamento-whatsapp
 
 ## Flowo em ação por perfil
 
 - Linha Onze Barbearia, perfil solo: ${SITE_URL}/casos-de-validacao/linha-onze-sao-paulo
 - Quatro Tempos Barbearia, perfil com equipe: ${SITE_URL}/casos-de-validacao/quatro-tempos-curitiba
 
-As duas jornadas organizam perfis comuns de operação e mostram a interface e o
-funcionamento da Flowo em cada rotina.
+As duas são barbearias clientes da Flowo. As conversas e agendas mostradas usam
+dados de teste; ainda não há resultado medido nelas.
 
 ## Planos oficiais
 
@@ -105,7 +105,7 @@ Matriz comercial: Solo atende 1 profissional e até 200 agendamentos por mês; i
 
 No calendário, o Google sincroniza nos dois sentidos. Apple e Outlook recebem os compromissos criados ou alterados na Flowo.
 
-A jornada pública é paga. A equipe pode conceder uma avaliação assistida de 14 dias a clientes elegíveis dos planos Solo ou Equipe. A concessão é manual, não exige cartão, não renova e não gera cobrança automática. Não há pagamento antecipado ou sinal para reservar. Dinheiro e maquininha própria continuam válidos; pagamentos integrados dependem de ativação opcional.
+Assinar pelo site é pago desde o início. A equipe pode conceder uma avaliação assistida de 14 dias a clientes elegíveis dos planos Solo ou Equipe. A concessão é manual, não exige cartão, não renova e não gera cobrança automática. Não há pagamento antecipado ou sinal para reservar. Dinheiro e maquininha própria continuam válidos; pagamentos integrados dependem de ativação opcional.
 
 ## Flowo Recupera
 
@@ -117,7 +117,7 @@ URL canônica: ${SITE_URL}/flowo-recupera
 
 O aplicativo Flowo está em preparação para iPhone e Android. A proposta é
 complementar o painel web na rotina móvel de barbeiros, gestores e donos. O
-escopo operacional implementado inclui onboarding, agenda, presenças, lista de
+app já inclui onboarding, agenda, presenças, lista de
 espera, comandas, clientes, conversas, notificações, serviços, produtos,
 estoque, pacotes, equipe, horários individuais, comissões, perfil do negócio,
 financeiro, métricas, campanhas, assinatura e configurações.
@@ -171,7 +171,7 @@ ${comparisons}
 ## Metodologia
 
 - Informações de concorrentes vêm exclusivamente de páginas oficiais acessíveis ao público.
-- A data e o escopo das fontes ficam visíveis em cada comparação.
+- A data e o que cada fonte cobre ficam visíveis em cada comparação.
 - Recursos apresentados como add-on, módulo ou sujeitos a consulta não são tratados como incluídos.
 - A Flowo reconhece situações em que outro produto pode ser mais adequado.
 - Preços e condições de terceiros podem mudar; o fornecedor deve confirmar a proposta final.
@@ -189,7 +189,7 @@ ${comparisons}
 - Calculadora de comissão: ${SITE_URL}/calculadora-comissao-barbeiro
 - Planejador de retorno: ${SITE_URL}/mensagens-retorno-clientes-barbearia
 - Aplicativo para barbeiros: ${SITE_URL}/aplicativo-para-barbeiros
-- Demonstração validada: ${SITE_URL}/demonstracao-agendamento-whatsapp
+- Demonstração do agendamento: ${SITE_URL}/demonstracao-agendamento-whatsapp
 - Flowo em ação: ${SITE_URL}/casos-de-validacao
 - Parcerias e imprensa: ${SITE_URL}/parcerias
 - Planos: ${SITE_URL}/precos

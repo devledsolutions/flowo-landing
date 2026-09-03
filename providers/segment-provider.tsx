@@ -441,10 +441,7 @@ export function SegmentProvider({ children, writeKey }: SegmentProviderProps) {
     if (pathname === "/precos") sendKnownLeadSignal("pricing_viewed");
     else if (pathname === "/comparar" || pathname.startsWith("/flowo-vs-")) {
       sendKnownLeadSignal("comparison_viewed");
-    } else if (
-      pathname.startsWith("/casos-de-sucesso") ||
-      pathname.startsWith("/casos-de-validacao")
-    ) {
+    } else if (pathname.startsWith("/casos-de-validacao")) {
       sendKnownLeadSignal("case_study_viewed");
     }
   }, [pathname, isReady, hasConsent, sendKnownLeadSignal]);

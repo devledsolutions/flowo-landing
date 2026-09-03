@@ -105,17 +105,17 @@ const hubFaq = [
   {
     question: "Qual é o melhor sistema para barbearia?",
     answer:
-      "Depende do gargalo. O Flowo tende a fazer mais sentido quando o WhatsApp é a principal porta de entrada e a equipe precisa de uma IA que atenda e agende. Outras plataformas podem ser mais adequadas quando marketplace, estoque detalhado, aplicativo próprio ou menor preço inicial são prioridades.",
+      "Depende do seu gargalo. A Flowo faz mais sentido quando o WhatsApp é a principal porta de entrada e você quer que ela atenda e agende. Outros sistemas podem servir melhor quando marketplace, estoque detalhado, aplicativo próprio ou menor preço inicial pesam mais.",
   },
   {
     question: "O Flowo é mais barato que Trinks, AppBarber ou Barbeiro.app?",
     answer:
-      `Não necessariamente. O Flowo começa em ${soloPrice}/mês e inclui o atendimento no WhatsApp ligado à agenda. Alguns concorrentes têm planos-base mais baratos, mas podem cobrar módulos adicionais. Compare o pacote completo necessário para a sua rotina.`,
+      `Não necessariamente. A Flowo começa em ${soloPrice}/mês e já inclui o atendimento no WhatsApp ligado à agenda. Alguns concorrentes têm plano de entrada mais barato, mas cobram módulos à parte. Compare o pacote completo que a sua rotina precisa.`,
   },
   {
     question: "Como as comparações foram feitas?",
     answer:
-      "A Flowo consulta páginas oficiais dos concorrentes, registra a data e o escopo da fonte e separa recursos incluídos de módulos adicionais. Não usamos avaliações anônimas para afirmar vantagens.",
+      `Lemos as páginas oficiais de cada concorrente e anotamos a data e o que cada página cobre. Última conferência: ${COMPARISON_LAST_VERIFIED_LABEL}. Separamos o que vem incluído do que é cobrado à parte. Não usamos avaliações anônimas.`,
   },
 ] as const;
 
@@ -226,10 +226,6 @@ function DecisionWindow() {
               </Link>
             ))}
           </div>
-          <p className="mt-5 flex items-start gap-2 text-caption text-muted-ink">
-            <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-            Fontes oficiais verificadas em {COMPARISON_LAST_VERIFIED_LABEL}.
-          </p>
         </div>
       </div>
     </div>
@@ -262,9 +258,9 @@ export default function ComparePage() {
                   Compare sistemas para sua barbearia.
                 </h1>
                 <p className="mt-6 max-w-[65ch] text-lead text-muted-ink">
-                  Compare Flowo com AppBarber, Trinks, BestBarbers, Opero,
-                  Barva, Barbeiro.app, Avec e Graces. Comece pelo problema que
-                  você quer resolver, não pela maior lista de funções.
+                  Compare com AppBarber, Trinks, BestBarbers, Opero, Barva,
+                  Barbeiro.app, Avec e Graces. Comece pelo seu problema, não
+                  pela lista de funções.
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                   <a
@@ -297,9 +293,8 @@ export default function ComparePage() {
                 Abra a comparação que responde à sua dúvida.
               </h2>
               <p className="text-lead text-muted-ink">
-                Cada página mostra onde cada plataforma é forte, o preço
-                publicado, os recursos adicionais e o perfil de operação que
-                tende a aproveitar melhor cada escolha.
+                Cada página mostra onde cada sistema é forte, o preço
+                publicado, o que custa à parte e para quem serve.
               </p>
             </div>
 
@@ -346,9 +341,8 @@ export default function ComparePage() {
                 Antes da marca, compare a rotina.
               </h2>
               <p className="text-lead text-muted-ink">
-                Uma mensalidade menor não ajuda se o cliente continua esperando
-                resposta. Uma plataforma ampla pode ser a escolha certa quando
-                estoque, marketplace ou fiscal são o centro da decisão.
+                Mensalidade menor não resolve cliente sem resposta. Se estoque,
+                marketplace ou nota fiscal pesam mais, outro sistema pode servir.
               </p>
             </div>
             <div className="overflow-x-auto border border-line bg-cream [contain:paint]">
@@ -444,7 +438,13 @@ export default function ComparePage() {
               <h2 className="text-h2 font-semibold text-ink-strong">
                 Dúvidas antes de comparar.
               </h2>
-              <div className="border-t border-line">
+              <div>
+                <p className="mb-6 flex items-start gap-3 text-body text-muted-ink">
+                  <ShieldCheck className="mt-1 h-4 w-4 shrink-0 text-ink" aria-hidden="true" />
+                  Páginas oficiais dos concorrentes conferidas em {COMPARISON_LAST_VERIFIED_LABEL}.
+                  Preços e módulos podem mudar: confirme antes de contratar.
+                </p>
+                <div className="border-t border-line">
                 {hubFaq.map((item) => (
                   <details
                     key={item.question}
@@ -464,6 +464,7 @@ export default function ComparePage() {
                     </p>
                   </details>
                 ))}
+                </div>
               </div>
             </div>
           </div>

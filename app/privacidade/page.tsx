@@ -27,7 +27,7 @@ const sections: LegalSection[] = [
           Para dados da própria barbearia, usuários da conta, visitantes,
           candidatos e contatos comerciais, a Devled normalmente atua como
           controladora. Para dados de clientes tratados por instrução da
-          barbearia — como cadastro, agenda, conversa e pagamento — a barbearia
+          barbearia (como cadastro, agenda, conversa e pagamento), a barbearia
           normalmente define as finalidades e atua como controladora, enquanto a
           Devled opera a plataforma Flowo em seu nome. A função exata depende do
           contexto e do contrato aplicável.
@@ -67,7 +67,7 @@ const sections: LegalSection[] = [
         <p>
           Testes controlados usam dados fictícios ou destinatários autorizados e
           ficam restritos a organizações identificadas para essa finalidade.
-          Não utilizamos dados de clientes reais para homologação sem uma
+          Não utilizamos dados de clientes reais em testes sem uma
           finalidade, autorização e proteção compatíveis.
         </p>
       </>
@@ -248,7 +248,7 @@ const sections: LegalSection[] = [
     content: (
       <p>
         Aplicamos controles de acesso por função, isolamento entre organizações,
-        autenticação, registros de auditoria, proteção de segredos, validação de
+        autenticação, registros de auditoria, proteção de segredos, conferência de
         webhooks, idempotência e monitoramento. Nenhum sistema é infalível.
         Eventos relevantes são investigados e comunicados aos envolvidos e às
         autoridades quando a legislação exigir.
@@ -318,7 +318,7 @@ const sections: LegalSection[] = [
     content: (
       <>
         <p>
-          {LEGAL_ENTITY.name} — CNPJ {LEGAL_ENTITY.taxId}
+          {LEGAL_ENTITY.name}, CNPJ {LEGAL_ENTITY.taxId}
           <br />
           {LEGAL_ENTITY.address}
           <br />

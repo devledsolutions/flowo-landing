@@ -10,7 +10,7 @@ import { buildMetadata } from "@/lib/seo";
 
 const PAGE_TITLE = "Guias para Barbearias";
 const PAGE_DESCRIPTION =
-  "Guias práticos de agendamento, WhatsApp com IA, equipe, pagamentos e financeiro para organizar sua barbearia com o Flowo.";
+  "Guias práticos de agendamento, WhatsApp com IA, equipe, pagamentos e financeiro para organizar sua barbearia com a Flowo.";
 
 export const metadata = buildMetadata({
   title: PAGE_TITLE,
@@ -26,17 +26,17 @@ const strategicLinks = [
   },
   {
     title: "Sistema de Agendamento para Barbearia",
-    description: "Página comercial focada em operação e recorrência.",
+    description: "Agenda por barbeiro, confirmação e comanda.",
     href: "/sistema-agendamento-barbearia",
   },
   {
     title: "Agenda da Barbearia no WhatsApp",
-    description: "Captação e confirmação de clientes no canal principal.",
+    description: "Como a Flowo atende e confirma no WhatsApp.",
     href: "/agenda-barbearia-whatsapp",
   },
   {
     title: "Pagamentos PIX no Atendimento",
-    description: "Fechamento pós-serviço com PIX, cartão ou dinheiro.",
+    description: "Receba depois do corte com PIX, cartão ou dinheiro.",
     href: "/software-barbearia-com-pix",
   },
   {
@@ -78,8 +78,7 @@ export default function GuidesPage() {
                 </h2>
                 <p className="mt-2 max-w-measure text-muted-ink">
                   Estas páginas mostram como agenda, WhatsApp, pagamentos e
-                  equipe funcionam hoje no Flowo, incluindo dependências de
-                  plano e ativação.
+                  equipe funcionam hoje na Flowo, e o que depende de plano.
                 </p>
                 <ul className="mt-6 grid gap-3">
                   {strategicLinks.map((item) => (

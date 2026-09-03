@@ -50,9 +50,12 @@ function BrowserBar({ path }: { path: string }) {
 export function AgendaPreview({
   className,
   detailed = false,
+  chrome = true,
 }: {
   className?: string;
   detailed?: boolean;
+  /** Browser bar on top; off when the preview already sits inside an app frame. */
+  chrome?: boolean;
 }) {
   return (
     <div
@@ -63,7 +66,7 @@ export function AgendaPreview({
         className
       )}
     >
-      <BrowserBar path="agenda" />
+      {chrome && <BrowserBar path="agenda" />}
       <div className="flex items-center justify-between border-b border-line px-3 py-2 sm:px-5 sm:py-3">
         <div>
           <p className="text-[10px] font-semibold leading-none text-ink sm:text-sm">
@@ -273,11 +276,17 @@ export function PaymentPreview({ className }: { className?: string }) {
   );
 }
 
-export function ProductDisclaimer({ className }: { className?: string }) {
+export function ProductDisclaimer({
+  className,
+  label = "Demonstração com dados ilustrativos",
+}: {
+  className?: string;
+  label?: string;
+}) {
   return (
     <p className={cn("flex items-center gap-1.5 text-[10px] text-faint-ink sm:text-caption", className)}>
       <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
-      Demonstração com dados ilustrativos
+      {label}
     </p>
   );
 }

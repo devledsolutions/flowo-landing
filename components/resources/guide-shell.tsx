@@ -41,7 +41,7 @@ export function GuideHeader({
   readTime,
   title,
   lead,
-  updatedAt = "29 de julho de 2026",
+  updatedAt = "3 de setembro de 2026",
 }: {
   crumbs: Crumb[];
   readTime: string;
@@ -141,10 +141,10 @@ export function GuideAvailability({
 }) {
   return (
     <aside
-      aria-label="Disponibilidade no Flowo"
+      aria-label="Disponibilidade na Flowo"
       className="mb-10 max-w-3xl rounded-lg border border-line bg-surface p-5 sm:mb-12 sm:p-6"
     >
-      <p className="text-label font-semibold text-ink">Como isso existe no Flowo</p>
+      <p className="text-label font-semibold text-ink">Como isso existe na Flowo</p>
       <dl className="mt-4 grid gap-4 sm:grid-cols-2">
         {items.map((item) => (
           <div key={`${item.label}-${item.value}`}>
@@ -173,7 +173,7 @@ export function GuideProductPath({
     <aside className="my-8 rounded-lg border border-line bg-surface p-5 sm:p-6">
       <div className="flex items-center gap-2">
         <MapPin className="h-4 w-4 text-ink" aria-hidden="true" />
-        <p className="font-semibold text-ink">Onde fazer no Flowo</p>
+        <p className="font-semibold text-ink">Onde fazer na Flowo</p>
       </div>
       <ul className="mt-4 space-y-4">
         {items.map((item) => (
@@ -184,7 +184,7 @@ export function GuideProductPath({
             <span className="text-label font-semibold text-ink">{item.surface}</span>
             <span className="text-label leading-relaxed text-muted-ink">
               <span className="font-medium text-ink">{item.path}</span>
-              {" — "}
+              {" · "}
               {item.action}
             </span>
           </li>
@@ -337,31 +337,6 @@ export function GuideChecklist({ items }: { items: string[] }) {
         </li>
       ))}
     </ul>
-  );
-}
-
-/** Sample WhatsApp exchange. Kept neutral: it illustrates tone, not results. */
-export function GuideChatSample({
-  customer,
-  reply,
-}: {
-  customer: string;
-  reply: string;
-}) {
-  return (
-    <figure className="my-8 rounded-lg border border-line bg-surface p-6">
-      <figcaption className="mb-3 text-caption text-faint-ink">
-        Exemplo de conversa
-      </figcaption>
-      <div className="space-y-3">
-        <p className="max-w-[85%] rounded-lg rounded-bl-sm bg-surface-2 p-3 text-[0.95rem] text-ink">
-          {customer}
-        </p>
-        <p className="ml-auto max-w-[85%] rounded-lg rounded-br-sm bg-ink p-3 text-[0.95rem] text-background">
-          {reply}
-        </p>
-      </div>
-    </figure>
   );
 }
 

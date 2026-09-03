@@ -24,7 +24,7 @@ export default function ManagementDiagnosticPage() {
         navCta: "Receber o guia",
         kicker: "Raio-X gratuito para a rotina da barbearia",
         title: <>Antes de trocar tudo, descubra o que merece atenção primeiro.</>,
-        lead: "Cinco perguntas sobre atendimento, agenda, equipe, caixa e retorno. O resultado ajuda você a escolher uma mudança possível para esta semana.",
+        lead: "Cinco perguntas sobre atendimento, agenda, equipe, caixa e retorno. O resultado aponta uma mudança possível para esta semana.",
         trust: ["5 perguntas", "Resultado imediato", "Sem diagnóstico inventado"],
         tool: <ManagementDiagnostic />,
         problemLabel: "A operação não precisa de mais uma lista genérica.",

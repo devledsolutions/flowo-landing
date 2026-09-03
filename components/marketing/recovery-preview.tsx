@@ -134,7 +134,7 @@ export function RecoveryProductPreview() {
           </ul>
           <div className="mt-6 border-t border-line pt-5">
             <p className="text-[9px] font-semibold uppercase tracking-[0.1em] text-muted-ink">
-              Evidência
+              Caminho registrado
             </p>
             <p className="mt-2 text-xs font-semibold text-ink">Contato → agenda → atendimento</p>
             <p className="mt-1 text-[9px] leading-relaxed text-muted-ink">
@@ -205,7 +205,7 @@ export function RecoveryHomeSection() {
 
 export function RecoveryEvidenceSteps() {
   const steps = [
-    { icon: Users, label: "Cliente contatado", detail: "Entrega confirmada pelo provedor" },
+    { icon: Users, label: "Cliente contatado", detail: "Entrega confirmada no WhatsApp" },
     { icon: CalendarClock, label: "Agendamento gerado", detail: "Ligado à oportunidade" },
     { icon: CheckCircle2, label: "Atendimento concluído", detail: "Retorno efetivamente realizado" },
     { icon: Clock3, label: "Receita realizada", detail: "Somente com comanda fechada" },

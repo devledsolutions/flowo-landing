@@ -30,7 +30,7 @@ const shortsPlan = [
   {
     title: "Como aumentar ticket médio sem parecer venda forçada",
     duration: "45-60s",
-    hook: "Seu cliente já ia gastar R$ 50. Como fazer virar R$ 72 com naturalidade?",
+    hook: "Seu cliente já ia pagar o corte. Como oferecer a barba sem parecer venda forçada?",
     steps: [
       "Mostre um combo simples (corte + barba + acabamento).",
       "Explique quando ofertar: no agendamento e na confirmação.",
@@ -68,8 +68,8 @@ const shortsPlan = [
     duration: "45-60s",
     hook: "Parou de depender só de cliente novo? Faça este plano de 30 dias.",
     steps: [
-      "Pós-atendimento em até 24h.",
-      "Reativação segmentada para inativos 45+ dias.",
+      "Mensagem de pós-atendimento no mesmo dia.",
+      "Chame de volta quem sumiu, com permissão.",
       "Oferta de retorno com contexto.",
     ],
     cta: "Abra o roteiro de reativação e adapte.",
@@ -158,7 +158,7 @@ export default function VideosPage() {
               {/* Hero */}
               <div className="mt-10 mb-14">
                 <p className="text-label font-semibold uppercase tracking-[0.14em] text-faint-ink">
-                  8 roteiros de 45–60 segundos
+                  8 roteiros de 45 a 60 segundos
                 </p>
                 <h1 className="mt-3 text-h2 font-bold leading-tight text-ink">
                   Roteiros para gravar sem começar pela tela em branco
@@ -173,10 +173,10 @@ export default function VideosPage() {
               <div className="mb-10 flex flex-col gap-4 rounded-lg border border-line bg-surface p-6 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <h2 className="text-h3 font-bold text-ink">
-                    Pacote de distribuição pronto
+                    Pacote pronto para baixar
                   </h2>
                   <p className="mt-1 text-label text-muted-ink">
-                    Inclui hook, estrutura de roteiro e CTA para cada tema.
+                    Gancho, sequência e chamada para ação de cada tema.
                   </p>
                 </div>
                 <DownloadGateModal
@@ -250,11 +250,10 @@ export default function VideosPage() {
               <div className="on-ink mt-16 rounded-lg p-8 sm:p-10">
                 <div className="max-w-2xl">
                   <h2 className="text-h3 font-bold">
-                    Quer preparar a operação para a demanda que o conteúdo gerar?
+                    Quer preparar a barbearia para os clientes que o vídeo vai trazer?
                   </h2>
                   <p className="mt-3 text-muted-ink">
-                    Estruture agenda, equipe e atendimento no WhatsApp antes de
-                    ampliar a divulgação da sua barbearia.
+                    Arrume agenda, equipe e WhatsApp antes de divulgar mais.
                   </p>
                   <div className="mt-6 flex flex-wrap items-center gap-4">
                     <Button size="lg" className="rounded-full px-7" asChild>

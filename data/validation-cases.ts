@@ -1,13 +1,26 @@
-export interface ValidationCaseStep {
-  title: string;
-  description: string;
-}
+/**
+ * The two scenarios the case pages describe: one solo barber, one shop with
+ * a team. Everything a case page shows comes from here. The conversations are
+ * illustrative and match what each scenario describes; no result number
+ * (minutes saved, clients, percentages) has been measured yet, so none lives
+ * here.
+ */
+
+export type ValidationCaseMessage =
+  | { from: "cliente" | "flowo" | "equipe"; text: string; at: string }
+  | { day: string };
 
 export interface ValidationCaseMedia {
   src: string;
   alt: string;
   label: string;
   caption: string;
+}
+
+export interface ValidationCaseAgendaStep {
+  title: string;
+  detail: string;
+  tone: "ok" | "muted";
 }
 
 export interface ValidationCaseBeforeAfter {
@@ -26,17 +39,24 @@ export interface ValidationCase {
   logo: string;
   location: string;
   profile: string;
-  headline: string;
+  /** Two lines on desktop, one string per line. */
+  headline: readonly [string, string];
+  /** Under the headline; at most 20 words. */
+  lead: string;
+  /** Meta description and Article schema. */
   summary: string;
-  campaignPromise: string;
-  challenge: string;
-  heroMedia: ValidationCaseMedia;
-  supportingMedia: readonly ValidationCaseMedia[];
+  /** The routine before the Flowo, in the owner's words. */
+  routine: string;
+  conversation: readonly ValidationCaseMessage[];
+  /** Height of the drawn phone screen, in logical pt. */
+  conversationHeight: number;
+  agendaSteps: readonly ValidationCaseAgendaStep[];
+  /** What the Flowo did in this scenario, three or four short lines. */
   proofPoints: readonly string[];
   beforeAfter: readonly ValidationCaseBeforeAfter[];
+  /** Real product screens shown on the case page. */
+  screens: readonly ValidationCaseMedia[];
   setup: readonly string[];
-  steps: readonly ValidationCaseStep[];
-  operationalOutcome: string;
   capabilities: readonly {
     title: string;
     description: string;
@@ -47,44 +67,18 @@ export interface ValidationCase {
   planAnchor: "#plano-solo" | "#plano-equipe";
 }
 
-const bookingMedia: ValidationCaseMedia = {
-  src: "/images/validation-cases/product/whatsapp-booking.png",
-  alt: "Conversa demonstrativa em que a IA da Flowo oferece três horários e confirma o agendamento",
-  label: "Conversa até a confirmação",
-  caption:
-    "A IA consulta a disponibilidade configurada, apresenta opções e registra a escolha na mesma conversa.",
+const agendaScreen: ValidationCaseMedia = {
+  src: "/images/product/dashboard-agenda.png",
+  alt: "Agenda da Flowo no computador, com a semana, cinco barbeiros e os horários de cada um.",
+  label: "A agenda no computador",
+  caption: "Cada barbeiro tem a própria coluna. O horário que a Flowo marca aparece aqui na hora.",
 };
 
-const dashboardMedia: ValidationCaseMedia = {
-  src: "/images/validation-cases/product/home-dashboard.png",
-  alt: "Tela inicial do aplicativo Flowo com os próximos horários da barbearia",
-  label: "A rotina em um só lugar",
-  caption:
-    "O compromisso confirmado passa a fazer parte da agenda que o profissional acompanha no celular.",
-};
-
-const agendaMedia: ValidationCaseMedia = {
-  src: "/images/validation-cases/product/agenda-team.png",
-  alt: "Agenda do aplicativo Flowo com horários, serviços e profissionais diferentes",
-  label: "Agenda organizada por profissional",
-  caption:
-    "Cada horário mantém serviço, duração, profissional e situação visíveis para a operação.",
-};
-
-const conversationMedia: ValidationCaseMedia = {
-  src: "/images/validation-cases/product/conversation-control.png",
-  alt: "Conversa no aplicativo Flowo com atendimento ativo e agendamento confirmado",
-  label: "A equipe acompanha a conversa",
-  caption:
-    "Quando o atendimento pede uma pessoa, a equipe assume no mesmo histórico e mantém o contexto.",
-};
-
-const teamMedia: ValidationCaseMedia = {
-  src: "/images/validation-cases/product/team-controls.png",
-  alt: "Tela de gestão da Flowo com acessos para equipe, conversas e configurações da barbearia",
-  label: "Controle para uma operação maior",
-  caption:
-    "Serviços, equipe, conversas e regras ficam acessíveis em uma estrutura preparada para mais de um profissional.",
+const conversasScreen: ValidationCaseMedia = {
+  src: "/images/product/dashboard-conversas.png",
+  alt: "Tela de conversas da Flowo, com a lista de clientes e o botão para a equipe assumir a conversa.",
+  label: "As conversas no computador",
+  caption: "A equipe vê o que a Flowo respondeu e assume a conversa com um clique.",
 };
 
 export const VALIDATION_CASES: readonly ValidationCase[] = [
@@ -93,104 +87,108 @@ export const VALIDATION_CASES: readonly ValidationCase[] = [
     name: "Linha Onze Barbearia",
     logo: "/images/validation-cases/linha-onze-professional-v2.png",
     location: "São Paulo, SP",
-    profile: "Operação solo",
-    headline: "O WhatsApp agenda enquanto o barbeiro continua na cadeira.",
+    profile: "Barbeiro solo",
+    headline: ["O cliente marca sozinho.", "Você não para o corte."],
+    lead: "Uma cadeira, uma agenda. A Flowo responde, olha o que está livre e confirma.",
     summary:
-      "Um cenário de uma cadeira, agenda concentrada no proprietário e WhatsApp como principal porta de entrada para novos horários.",
-    campaignPromise:
-      "O cliente recebe opções reais, escolhe e chega à confirmação sem obrigar o barbeiro a interromper o atendimento para abrir a agenda.",
-    challenge:
-      "Para quem trabalha sozinho, cada pedido de horário abre uma segunda tarefa: parar o corte, conferir a agenda, responder, esperar a escolha e lembrar de registrar. A Flowo conecta essa conversa à disponibilidade configurada para que o pedido não dependa da memória do profissional.",
-    heroMedia: bookingMedia,
-    supportingMedia: [dashboardMedia, agendaMedia],
+      "Barbeiro que trabalha sozinho, com o WhatsApp como principal porta de entrada de horários. A Flowo responde, consulta a agenda e confirma.",
+    routine:
+      "Quem trabalha sozinho para o corte a cada pedido de horário: abre a agenda, responde, espera a escolha e ainda precisa lembrar de anotar. Com a Flowo, a conversa olha a sua agenda. O pedido não depende mais da sua memória.",
+    conversation: [
+      { day: "Terça" },
+      { from: "cliente", text: "Oi! Tem horário sábado de manhã?", at: "12:14" },
+      {
+        from: "flowo",
+        text: "Tenho sábado às 9:00, 9:30 e 10:30. Qual fica melhor pra você?",
+        at: "12:14",
+      },
+      { from: "cliente", text: "9:30", at: "12:15" },
+      {
+        from: "flowo",
+        text: "Agendado. Corte no sábado às 9:30. Se precisar remarcar, é só me chamar aqui.",
+        at: "12:15",
+      },
+      { from: "cliente", text: "Valeu!", at: "12:15" },
+    ],
+    conversationHeight: 620,
+    agendaSteps: [
+      {
+        title: "Sábado, 9:30 · Corte",
+        detail: "O horário entrou na sua agenda enquanto você cortava.",
+        tone: "ok",
+      },
+      {
+        title: "Confirmação enviada",
+        detail: "O cliente recebeu a confirmação na mesma conversa.",
+        tone: "ok",
+      },
+      {
+        title: "Você assume quando quiser",
+        detail: "Uma pergunta que a Flowo não deve responder vai para você, com o histórico.",
+        tone: "muted",
+      },
+    ],
     proofPoints: [
-      "pedido entendido na conversa",
-      "disponibilidade consultada",
-      "horário criado na agenda",
-      "confirmação enviada ao cliente",
+      "A Flowo entendeu o pedido na conversa",
+      "Ofereceu só horários livres na sua agenda",
+      "Marcou o horário e confirmou com o cliente",
     ],
     beforeAfter: [
       {
-        before: "Parar o atendimento para abrir a agenda.",
-        after: "A IA consulta os horários configurados.",
+        before: "Parar o corte para abrir a agenda.",
+        after: "A Flowo olha a agenda por você.",
       },
       {
-        before: "Responder opções uma a uma no WhatsApp.",
-        after: "O cliente recebe alternativas compatíveis na conversa.",
+        before: "Responder as opções uma a uma.",
+        after: "O cliente recebe os horários livres de uma vez.",
       },
       {
-        before: "Confiar na memória para registrar o combinado.",
-        after: "A escolha vira compromisso na agenda da Flowo.",
+        before: "Lembrar de anotar o combinado.",
+        after: "A escolha vira horário na agenda na hora.",
       },
     ],
+    screens: [agendaScreen],
     setup: [
-      "serviços com duração e preço cadastrados",
-      "dias, turnos, intervalos e folgas do profissional configurados",
-      "WhatsApp conectado ao atendimento da Flowo",
-      "regras de confirmação e passagem para atendimento humano definidas",
+      "seus serviços, com duração e preço",
+      "seus dias, turnos, intervalos e folgas",
+      "seu WhatsApp conectado à Flowo",
+      "quando a Flowo confirma sozinha e quando passa para você",
     ],
-    steps: [
-      {
-        title: "O cliente pede um horário",
-        description:
-          "A IA entende serviço, preferência de dia e contexto da conversa sem exigir que o cliente aprenda um novo canal.",
-      },
-      {
-        title: "A agenda responde",
-        description:
-          "A Flowo procura opções que respeitam duração, expediente, intervalos e bloqueios já registrados.",
-      },
-      {
-        title: "O cliente escolhe",
-        description:
-          "A conversa mantém as opções disponíveis até a definição do horário desejado.",
-      },
-      {
-        title: "O compromisso aparece na rotina",
-        description:
-          "O agendamento é criado para o profissional correto e a confirmação volta para o cliente.",
-      },
-    ],
-    operationalOutcome:
-      "A Flowo recebe o pedido no WhatsApp, consulta a disponibilidade configurada, apresenta horários e registra a escolha na agenda. O cliente recebe a confirmação na mesma conversa; o barbeiro acompanha o compromisso no celular sem interromper o atendimento para organizar cada mensagem.",
     capabilities: [
       {
-        title: "Agenda como fonte de verdade",
-        description:
-          "A resposta considera o que foi configurado e o que já está ocupado, em vez de oferecer horários por aproximação.",
+        title: "Só oferece o que está livre",
+        description: "A Flowo olha o que você configurou e o que já está ocupado. Não chuta horário.",
       },
       {
-        title: "Atendimento humano quando necessário",
-        description:
-          "O profissional pode assumir a conversa quando surgir uma exceção e retomar a automação depois.",
+        title: "Você entra quando quiser",
+        description: "Assuma a conversa quando surgir uma exceção. Depois a Flowo volta a atender.",
       },
       {
-        title: "Rotina visível no celular",
-        description:
-          "Próximos horários e situações do atendimento ficam disponíveis para consulta rápida.",
+        title: "Agenda no celular",
+        description: "Os próximos horários ficam no seu celular, prontos para consultar entre um cliente e outro.",
       },
     ],
     suitedFor: [
       "barbeiro que trabalha sozinho",
-      "agenda concentrada em uma cadeira",
-      "atendimento interrompido por pedidos de horário",
-      "operação que quer começar com um fluxo simples e controlado",
+      "uma cadeira, uma agenda",
+      "corte interrompido por pedido de horário",
+      "quem quer começar simples",
     ],
     faqs: [
       {
-        question: "A IA pode oferecer um horário que já está ocupado?",
+        question: "A Flowo pode oferecer um horário que já está ocupado?",
         answer:
-          "O fluxo consulta a agenda configurada antes de apresentar opções. Por isso, serviços, duração, expediente e bloqueios precisam estar corretos.",
+          "Ela olha a sua agenda antes de oferecer. Por isso serviços, duração, expediente e folgas precisam estar certos.",
       },
       {
-        question: "Preciso usar pagamento pela Flowo para agendar?",
+        question: "Preciso receber pela Flowo para agendar?",
         answer:
-          "Não. Pagamentos integrados são opcionais e acontecem depois do serviço quando a barbearia escolhe usar esse recurso.",
+          "Não. Pagamento pela Flowo é opcional e acontece depois do serviço, se você quiser usar.",
       },
       {
-        question: "Posso responder pessoalmente quando eu quiser?",
+        question: "Posso responder eu mesmo quando quiser?",
         answer:
-          "Sim. O atendimento humano pode assumir a conversa e pausar a IA quando a situação exigir uma decisão do profissional.",
+          "Sim. Você assume a conversa e a Flowo fica em espera até você devolver.",
       },
     ],
     plan: "Solo",
@@ -201,104 +199,119 @@ export const VALIDATION_CASES: readonly ValidationCase[] = [
     name: "Quatro Tempos Barbearia",
     logo: "/images/validation-cases/quatro-tempos-professional-v2.png",
     location: "Curitiba, PR",
-    profile: "Operação com equipe",
-    headline: "Cada barbeiro mantém seu horário. A recepção mantém o controle.",
+    profile: "Barbearia com equipe",
+    headline: ["A agenda de cada um.", "A recepção no controle."],
+    lead: "Vários barbeiros, horários diferentes. A Flowo remarca na agenda certa e passa a conversa para a equipe quando precisa.",
     summary:
-      "Um cenário com mais de um profissional, agendas individuais e uma recepção que precisa acompanhar confirmações, mudanças e exceções.",
-    campaignPromise:
-      "A conversa consulta o profissional certo, atualiza o compromisso certo e continua no mesmo contexto quando a equipe precisa assumir.",
-    challenge:
-      "Com equipe, a dificuldade não é apenas encontrar um espaço livre. É respeitar a escala de cada barbeiro, localizar o compromisso correto quando algo muda e impedir que automação e recepção respondam ao mesmo tempo. A Flowo organiza esse caminho em torno da agenda e do histórico da conversa.",
-    heroMedia: agendaMedia,
-    supportingMedia: [conversationMedia, teamMedia, bookingMedia],
+      "Barbearia com mais de um barbeiro, agendas individuais e uma recepção que acompanha confirmações, mudanças e exceções.",
+    routine:
+      "Com equipe, o difícil não é achar um espaço livre. É respeitar a escala de cada barbeiro, achar o horário certo quando o cliente muda de ideia e não ter duas pessoas respondendo ao mesmo tempo. A Flowo trabalha em cima da agenda de cada um e do histórico da conversa.",
+    conversation: [
+      { day: "Quarta" },
+      { from: "cliente", text: "Oi! Consigo mudar meu corte de quinta com o Rafael?", at: "10:02" },
+      {
+        from: "flowo",
+        text: "Consigo. Seu horário com o Rafael é quinta às 16:00. Ele tem sexta às 10:00, 14:30 ou sábado às 9:00. Qual prefere?",
+        at: "10:02",
+      },
+      { from: "cliente", text: "Sexta 14:30", at: "10:03" },
+      {
+        from: "flowo",
+        text: "Pronto. Corte com o Rafael remarcado para sexta às 14:30. A quinta ficou livre.",
+        at: "10:03",
+      },
+      { from: "cliente", text: "Se eu levar meu irmão, faz um preço pros dois?", at: "10:05" },
+      {
+        from: "equipe",
+        text: "Oi! Aqui é a Laura, da recepção. Preço combinado a gente fecha por aqui. Quer que eu já reserve os dois horários com o Rafael na sexta?",
+        at: "10:08",
+      },
+    ],
+    conversationHeight: 760,
+    agendaSteps: [
+      {
+        title: "Quinta, 16:00 · Corte com Rafael",
+        detail: "A Flowo achou o horário na agenda do Rafael, não na de outro barbeiro.",
+        tone: "ok",
+      },
+      {
+        title: "Remarcado para sexta, 14:30",
+        detail: "A quinta ficou livre e a sexta ocupada, sem ninguém apagar nada.",
+        tone: "ok",
+      },
+      {
+        title: "A recepção assumiu",
+        detail: "A pergunta de preço foi para a equipe. A Flowo ficou em espera.",
+        tone: "muted",
+      },
+      {
+        title: "A Flowo voltou a atender",
+        detail: "Quando a recepção devolveu a conversa, a Flowo retomou de onde parou.",
+        tone: "ok",
+      },
+    ],
     proofPoints: [
-      "horários individuais considerados",
-      "remarcação e cancelamento registrados",
-      "atendimento humano no mesmo histórico",
-      "IA pausada e retomada com controle",
+      "Respeitou a agenda de cada barbeiro",
+      "Remarcou e cancelou na agenda certa",
+      "Passou a conversa para a recepção, com o histórico",
+      "Ficou em espera e voltou quando a equipe devolveu",
     ],
     beforeAfter: [
       {
         before: "Conferir várias agendas antes de responder.",
-        after: "A consulta considera o profissional e suas regras.",
+        after: "A Flowo olha a agenda do barbeiro certo.",
       },
       {
-        before: "Alterar a conversa e esquecer de atualizar a agenda.",
-        after: "A mudança é aplicada ao compromisso localizado.",
+        before: "Combinar na conversa e esquecer de mudar a agenda.",
+        after: "A mudança vai direto para o horário certo.",
       },
       {
-        before: "Recepção e automação responderem ao mesmo tempo.",
-        after: "A equipe pausa a IA, assume e decide quando retomar.",
+        before: "Recepção e robô respondendo ao mesmo tempo.",
+        after: "A equipe assume, a Flowo espera e volta quando vocês quiserem.",
       },
     ],
+    screens: [agendaScreen, conversasScreen],
     setup: [
-      "profissionais, serviços e vínculos organizados individualmente",
-      "dias, turnos, intervalos e folgas definidos por profissional",
-      "conversas conectadas ao histórico de agendamento",
-      "permissões e passagem para atendimento humano combinadas com a equipe",
+      "cada barbeiro com os seus serviços",
+      "dias, turnos, intervalos e folgas de cada um",
+      "o WhatsApp da barbearia conectado à Flowo",
+      "quem da equipe pode assumir a conversa",
     ],
-    steps: [
-      {
-        title: "O contexto certo é localizado",
-        description:
-          "A conversa recupera o compromisso e o profissional relacionados ao pedido antes de propor uma mudança.",
-      },
-      {
-        title: "A agenda é atualizada",
-        description:
-          "Remarcação ou cancelamento altera o compromisso existente sem criar duas versões do mesmo horário.",
-      },
-      {
-        title: "A equipe assume quando precisa",
-        description:
-          "Uma pessoa continua no mesmo histórico, com a IA pausada, para resolver exceções ou negociar alternativas.",
-      },
-      {
-        title: "A automação volta com controle",
-        description:
-          "Depois da intervenção humana, a equipe escolhe quando a IA pode retomar o fluxo da conversa.",
-      },
-    ],
-    operationalOutcome:
-      "A Flowo consulta a agenda do profissional certo, confirma, remarca ou cancela o compromisso e mantém o histórico da conversa conectado à operação. A recepção pode assumir quando necessário, resolver a exceção no mesmo contexto e decidir quando a IA volta a atender.",
     capabilities: [
       {
-        title: "Horários por profissional",
-        description:
-          "Dias, turnos, intervalos e folgas podem refletir a rotina de cada integrante da equipe.",
+        title: "Horário por barbeiro",
+        description: "Dias, turnos, intervalos e folgas de cada um. A Flowo respeita a escala de todos.",
       },
       {
-        title: "Conversa e agenda alinhadas",
-        description:
-          "A equipe acompanha o histórico e a situação do compromisso sem depender de mensagens soltas.",
+        title: "Conversa e agenda juntas",
+        description: "A equipe vê o histórico e a situação do horário sem caçar mensagem solta.",
       },
       {
-        title: "Controle operacional",
-        description:
-          "Gestores definem a configuração e a equipe assume exceções sem perder o contexto do cliente.",
+        title: "A equipe manda",
+        description: "Você define as regras. A recepção assume exceções sem perder o contexto do cliente.",
       },
     ],
     suitedFor: [
-      "barbearia com dois ou mais profissionais",
+      "barbearia com dois ou mais barbeiros",
       "equipe com dias, turnos e folgas diferentes",
       "recepção que acompanha mudanças de agenda",
-      "gestor que precisa manter controle humano sobre conversas",
+      "dono que quer a equipe no controle das conversas",
     ],
     faqs: [
       {
         question: "Cada barbeiro pode ter um horário diferente?",
         answer:
-          "Sim. A operação com equipe permite configurar dias, turnos, intervalos e folgas por profissional, conforme o plano e a implantação contratados.",
+          "Sim. Dias, turnos, intervalos e folgas são configurados por barbeiro, conforme o plano contratado.",
       },
       {
         question: "O que acontece quando a recepção assume a conversa?",
         answer:
-          "A IA é pausada para evitar respostas concorrentes. A equipe continua no mesmo histórico e decide quando a automação pode voltar.",
+          "A Flowo para de responder, para não ter duas respostas ao mesmo tempo. A equipe continua no mesmo histórico e decide quando a Flowo volta.",
       },
       {
-        question: "A Flowo exige que todos recebam pela plataforma?",
+        question: "Todo mundo precisa receber pela Flowo?",
         answer:
-          "Não. Pagamentos integrados são opcionais. A agenda e o atendimento podem funcionar sem obrigar a barbearia a receber pela Flowo.",
+          "Não. Pagamento pela Flowo é opcional. Agenda e atendimento funcionam sem isso.",
       },
     ],
     plan: "Equipe",
@@ -310,7 +323,7 @@ export function getValidationCase(slug: string): ValidationCase {
   const validationCase = VALIDATION_CASES.find((item) => item.slug === slug);
 
   if (!validationCase) {
-    throw new Error(`Caso de validação não encontrado: ${slug}`);
+    throw new Error(`Caso não encontrado: ${slug}`);
   }
 
   return validationCase;

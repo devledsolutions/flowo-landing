@@ -1,11 +1,5 @@
 import Link from "next/link";
-import {
-  ArrowRight,
-  GraduationCap,
-  Mic2,
-  PackageOpen,
-  UsersRound,
-} from "lucide-react";
+import { ArrowRight, Check, GraduationCap, Mic2, PackageOpen, UsersRound } from "lucide-react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { Breadcrumb } from "@/components/breadcrumb";
@@ -17,34 +11,30 @@ const PATH = "/parcerias";
 export const metadata = buildMetadata({
   title: "Parcerias, Imprensa e Conteúdo para Barbearias",
   description:
-    "Aulas, demonstrações e conteúdo com a Flowo para escolas, educadores, distribuidores, contadores, consultores e canais de barbearia.",
+    "Aulas, demonstrações e material prático com a Flowo para escolas, distribuidores, contadores, consultores e canais de barbearia.",
   path: PATH,
 });
 
 const partnerTypes = [
   {
     icon: GraduationCap,
-    title: "Escolas e educadores",
-    description:
-      "Aula prática sobre agenda, atendimento no WhatsApp e números da cadeira, com demonstração transparente do produto.",
+    title: "Escolas e professores",
+    description: "Aula prática sobre agenda, atendimento no WhatsApp e os números da cadeira, com a Flowo funcionando ao vivo.",
   },
   {
     icon: PackageOpen,
     title: "Distribuidores e fornecedores",
-    description:
-      "Guias e workshops que ajudam a base profissional a organizar atendimento, equipe, retorno e fechamento.",
+    description: "Guias e oficinas para a sua base de barbeiros organizar atendimento, equipe, retorno e fechamento.",
   },
   {
     icon: UsersRound,
     title: "Contadores e consultores",
-    description:
-      "Materiais operacionais sobre comandas, comissões, caixa e nota fiscal, sem substituir orientação profissional.",
+    description: "Material sobre comandas, comissões, caixa e nota fiscal. Não substitui a orientação do profissional.",
   },
   {
     icon: Mic2,
     title: "Podcasts, canais e imprensa",
-    description:
-      "Demonstração real, aprendizados dos pilotos e dados próprios com método e limitações disponíveis para pauta.",
+    description: "Demonstração ao vivo e uma conversa franca sobre o que a Flowo já faz e o que ainda não medimos.",
   },
 ] as const;
 
@@ -62,9 +52,7 @@ export default function ParceriasPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c"),
-        }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c") }}
       />
       <Navbar />
       <main id="main-content">
@@ -77,14 +65,12 @@ export default function ParceriasPage() {
               ]}
             />
             <div className="mt-10 max-w-4xl">
-              <h1 className="max-w-[17ch] text-h2 font-semibold leading-tight text-ink-strong">
+              <h1 className="max-w-[18ch] text-h2 font-semibold leading-tight text-ink-strong">
                 Conteúdo útil para quem ajuda barbearias a crescer.
               </h1>
               <p className="mt-6 max-w-measure text-lead text-muted-ink">
-                A Flowo colabora com escolas, educadores, distribuidores,
-                contadores, consultores e canais do setor. Levamos demonstração,
-                material prático e, quando houver amostra suficiente, dados
-                próprios — sem exigir elogio, roteiro positivo ou link.
+                Escolas, distribuidores, contadores, consultores e canais do setor. Levamos demonstração
+                e material prático. Não pedimos elogio, roteiro nem link.
               </p>
             </div>
           </div>
@@ -93,10 +79,10 @@ export default function ParceriasPage() {
         <section className="section-normal border-y border-line bg-surface">
           <div className="container-page grid gap-12 lg:grid-cols-[0.58fr_1.42fr] lg:gap-20">
             <div>
-              <h2 className="text-h3 font-semibold text-ink">Formas de colaborar</h2>
+              <h2 className="text-h3 font-semibold text-ink">Como podemos trabalhar juntos</h2>
               <p className="mt-4 max-w-measure text-body text-muted-ink">
-                Cada parceria começa por uma necessidade real da audiência, não
-                por um publieditorial disfarçado.
+                Toda parceria começa por algo que a sua audiência precisa. Não fazemos propaganda
+                disfarçada de conteúdo.
               </p>
             </div>
             <div className="divide-y divide-line border-y border-line">
@@ -107,9 +93,7 @@ export default function ParceriasPage() {
                   </span>
                   <div>
                     <h3 className="font-semibold text-ink">{item.title}</h3>
-                    <p className="mt-2 max-w-measure text-body text-muted-ink">
-                      {item.description}
-                    </p>
+                    <p className="mt-2 max-w-measure text-body text-muted-ink">{item.description}</p>
                   </div>
                 </div>
               ))}
@@ -120,14 +104,14 @@ export default function ParceriasPage() {
         <section className="section-normal">
           <div className="container-page grid gap-12 lg:grid-cols-2 lg:gap-20">
             <div>
-              <h2 className="text-h3 font-semibold text-ink">Material para avaliar antes</h2>
+              <h2 className="text-h3 font-semibold text-ink">Veja antes de propor</h2>
               <ul className="mt-7 divide-y divide-line border-y border-line">
                 <li>
                   <Link
                     href="/demonstracao-agendamento-whatsapp"
                     className="group flex min-h-16 items-center justify-between gap-4 py-4 font-semibold text-ink"
                   >
-                    Demonstração do WhatsApp até a agenda
+                    A Flowo atendendo no WhatsApp
                     <ArrowRight aria-hidden="true" className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </Link>
                 </li>
@@ -145,21 +129,26 @@ export default function ParceriasPage() {
                     href="/comparar"
                     className="group flex min-h-16 items-center justify-between gap-4 py-4 font-semibold text-ink"
                   >
-                    Comparações com fontes e data
+                    Comparações com fonte e data
                     <ArrowRight aria-hidden="true" className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </Link>
                 </li>
               </ul>
+              <p className="mt-8 flex max-w-measure items-start gap-3 border-t border-line pt-6 text-body text-muted-ink">
+                <Check className="mt-1 h-4 w-4 shrink-0 text-ink" aria-hidden="true" />
+                O que podemos mostrar hoje: o atendimento no WhatsApp, testado no sistema real da Flowo em
+                26 de julho de 2026 com números de teste nossos. Ainda não temos resultado medido com
+                barbearias clientes para divulgar. Quando tivermos, vem com período e contexto.
+              </p>
             </div>
             <div className="on-ink rounded-xl p-7 sm:p-9">
               <p className="text-label text-muted-ink">Proponha uma pauta</p>
               <h2 className="mt-3 text-h3 font-semibold text-ink">
-                Conte qual é a sua audiência e o que seria útil para ela.
+                Conte quem é a sua audiência e o que seria útil para ela.
               </h2>
               <p className="mt-4 text-body text-muted-ink">
-                Respondemos com uma proposta objetiva de aula, entrevista,
-                demonstração ou material. Relações comerciais e patrocínios são
-                identificados com clareza.
+                Respondemos com uma proposta de aula, entrevista, demonstração ou material. Se houver
+                relação comercial ou patrocínio, a gente deixa claro.
               </p>
               <a
                 href={`mailto:${LEGAL_ENTITY.contactEmail}?subject=Parceria%20com%20a%20Flowo`}

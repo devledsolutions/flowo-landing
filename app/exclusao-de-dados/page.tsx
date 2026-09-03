@@ -76,7 +76,7 @@ const sections: LegalSection[] = [
     content: (
       <p>
         Confirmaremos o recebimento e responderemos nos prazos aplicáveis. Após
-        a validação, eliminamos ou anonimizamos dados sem outra base de retenção.
+        a conferência, eliminamos ou anonimizamos dados sem outra base de retenção.
         Alguns registros podem permanecer pelo período exigido para obrigações
         fiscais, prevenção de fraude, segurança, exercício de direitos ou ciclos
         limitados de backup, com acesso restrito e finalidade definida.
@@ -101,7 +101,7 @@ const sections: LegalSection[] = [
     content: (
       <>
         <p>
-          {LEGAL_ENTITY.name} — CNPJ {LEGAL_ENTITY.taxId}
+          {LEGAL_ENTITY.name}, CNPJ {LEGAL_ENTITY.taxId}
           <br />
           {LEGAL_ENTITY.address}
           <br />

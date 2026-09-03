@@ -52,7 +52,14 @@ demonstrações de produto, controles de janela e estados semânticos.
 
 - Container máximo: 1200 px com gutter fluido.
 - Seções: cadência curta, normal ou ampla; alternar conforme a narrativa.
-- Desktop: grids assimétricos de texto + prova.
+- Desktop: grids assimétricos de texto + prova. Exceção: o hero da home reproduz
+  a composição do hero do fora.so (fundo escuro em gradiente radial, três planos
+  de colinas com parallax, copy centrada e um card de produto entre os planos),
+  por decisão do fundador em 2026-09-02. As medidas de referência estão no
+  comentário de `components/hero.tsx`. O fechamento e o rodapé da home seguem a
+  composição do fechamento e do rodapé do fora.so (bloco de texto de 344px, card do
+  produto vazando pela direita, faixa de colinas invadindo 64px do rodapé; rodapé com
+  marca à esquerda e três colunas de links), mesma decisão, mesma data.
 - Mobile: uma coluna, CTA primário visível cedo e ordem narrativa preservada.
 - Mockups: janela ou dispositivo crível, com legenda clara quando for prévia.
 
@@ -80,7 +87,11 @@ demonstrações de produto, controles de janela e estados semânticos.
 
 - Transições de estado: 150–250 ms, `ease-out`.
 - Entrada de seção: 500–800 ms somente como melhoria progressiva.
-- Sem autoplay, parallax ou movimento contínuo.
+- Sem autoplay nem movimento contínuo.
+- Parallax só como profundidade de planos no hero, ligado ao scroll, apenas em
+  desktop e desligado com redução de movimento. Decisão do fundador em
+  2026-09-02, a partir da referência fora.so. Transform apenas, um rAF por
+  evento de scroll.
 - Com redução de movimento, todo conteúdo permanece visível e funcional.
 
 ## Rejeições explícitas

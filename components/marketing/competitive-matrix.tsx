@@ -23,18 +23,17 @@ export function CompetitiveMatrix() {
             </h2>
           </div>
           <p className="max-w-measure text-lead text-muted-ink">
-            Uma agenda pode ser suficiente para uma operação. A Flowo entra quando a pergunta chega no WhatsApp e alguém precisa responder sem largar o corte. As fontes abaixo são separadas entre declaração oficial, observação e item ainda não verificado.
+            Uma agenda pode ser suficiente para uma operação. A Flowo entra quando a pergunta chega no WhatsApp e alguém precisa responder sem largar o corte. Cada item abaixo diz se veio de uma página oficial do concorrente ou de uma rotina que a gente observa nas barbearias.
           </p>
         </div>
 
         <div className="mt-12 hidden overflow-x-auto border border-line bg-surface lg:block">
           <table className="w-full min-w-[54rem] border-collapse">
-            <caption className="sr-only">Cenários comparados e evidência disponível para o Flowo</caption>
+            <caption className="sr-only">Cenários comparados e o que o Flowo já mostra em cada um</caption>
             <thead>
               <tr className="border-b border-line bg-surface-2">
-                <th className="w-[27%] px-5 py-4 text-left text-label font-semibold text-ink">Cenário</th>
-                <th className="w-[38%] border-l border-line px-5 py-4 text-left text-label font-semibold text-ink">Com Flowo</th>
-                <th className="border-l border-line px-5 py-4 text-left text-label font-semibold text-ink">Evidência</th>
+                <th className="w-[40%] px-5 py-4 text-left text-label font-semibold text-ink">Cenário</th>
+                <th className="border-l border-line px-5 py-4 text-left text-label font-semibold text-ink">Com Flowo</th>
               </tr>
             </thead>
             <tbody>
@@ -44,7 +43,6 @@ export function CompetitiveMatrix() {
                   <td className="border-l border-line px-5 py-4 text-sm text-ink">
                     <span className="flex items-start gap-2"><Check className="mt-0.5 h-4 w-4 shrink-0 text-[oklch(0.43_0.11_150)]" aria-hidden="true" />Resposta contextual e ação na agenda, quando a configuração permite.</span>
                   </td>
-                  <td className="border-l border-line px-5 py-4 text-sm text-muted-ink">{row.evidence}</td>
                 </tr>
               ))}
             </tbody>
@@ -61,12 +59,14 @@ export function CompetitiveMatrix() {
                   <p className="mt-2 text-sm leading-relaxed text-ink">
                     Resposta contextual e ação na agenda, quando a configuração permite.
                   </p>
-                  <p className="mt-2 text-xs leading-relaxed text-muted-ink">{row.evidence}</p>
                 </div>
               </div>
             </article>
           ))}
         </div>
+        <p className="mt-4 max-w-measure text-xs leading-relaxed text-muted-ink">
+          Atendimento da Flowo mostrado com dados de teste. Confirme o plano e a configuração antes de prometer.
+        </p>
 
         <div className="mt-14 grid gap-10 lg:grid-cols-3">
           {layers.map((layer) => (

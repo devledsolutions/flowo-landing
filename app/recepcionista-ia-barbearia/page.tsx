@@ -9,7 +9,7 @@ const soloPrice = formatBRL(getPlan("solo").monthly);
 export const metadata = buildMetadata({
   title: "Recepcionista com IA para Barbearia no WhatsApp | Flowo",
   description:
-    `Chegou ‘tem horário hoje?’ A Flowo confere e já marca no WhatsApp, com agenda por profissional. Planos desde ${soloPrice}/mês.`,
+    `A Flowo responde "tem horário?" no WhatsApp da barbearia, olha a agenda de cada barbeiro e confirma. Planos desde ${soloPrice}/mês.`,
   path: PAGE_PATH,
   absoluteTitle: true,
 });
@@ -18,17 +18,17 @@ const faq = [
   {
     question: "Cada barbeiro pode ter horários diferentes?",
     answer:
-      "Sim. Nos planos com equipe, cada profissional pode ter dias, turnos, folgas, serviços e duração próprios.",
+      "Sim. Nos planos com equipe, cada barbeiro tem dias, turnos, folgas, serviços e duração próprios. A Flowo só oferece o que está livre para ele.",
   },
   {
     question: "O pagamento integrado é obrigatório?",
     answer:
-      "Não. A barbearia pode continuar recebendo em dinheiro ou na própria maquininha. PIX e cartão Flowo são opcionais e usados depois do atendimento.",
+      "Não. Dinheiro e maquininha própria continuam valendo. PIX e cartão Flowo são opcionais e usados depois do atendimento.",
   },
   {
     question: "O Flowo tem período de teste?",
     answer:
-      "Não há teste automático. Clientes elegíveis dos planos Solo ou Equipe podem receber uma avaliação assistida de 14 dias, liberada manualmente pela equipe, sem cartão, renovação ou cobrança automática.",
+      "Não há teste automático. Nos planos Solo e Equipe, a equipe Flowo pode liberar uma avaliação assistida de 14 dias, sem cartão e sem cobrança automática.",
   },
 ];
 
@@ -42,7 +42,7 @@ export default function RecepcionistaIaBarbeariaPage() {
         url: absoluteUrl(PAGE_PATH),
         name: "Recepcionista com IA para Barbearia no WhatsApp",
         description:
-          "Página de produto da Flowo para barbearias que querem conectar atendimento no WhatsApp, agenda por profissional e operação.",
+          "A Flowo atende no WhatsApp da barbearia, olha a agenda de cada barbeiro e confirma o horário. Comandas e pagamentos opcionais.",
         inLanguage: "pt-BR",
         isPartOf: {
           "@type": "WebSite",
@@ -74,7 +74,7 @@ export default function RecepcionistaIaBarbeariaPage() {
         operatingSystem: "Web",
         url: absoluteUrl(PAGE_PATH),
         description:
-          "Atendimento no WhatsApp ligado à agenda da barbearia, com horários por profissional, comandas e pagamentos opcionais.",
+          "Atendimento no WhatsApp ligado à agenda da barbearia, com horários por barbeiro, comandas e pagamentos opcionais.",
         offers: PLANS.filter(hasPublishedPrice).map((plan) => ({
           "@type": "Offer",
           name: `Plano ${plan.name}`,

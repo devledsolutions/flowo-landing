@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { ProductCapabilityPage } from "@/components/marketing/product-capability-page";
@@ -36,6 +37,24 @@ export default function PixSoftwarePage() {
       <Navbar />
       <main id="main-content">
         <ProductCapabilityPage capability={capability} />
+
+        <section className="border-b border-line bg-surface py-8 md:py-10">
+          <div className="container-page">
+            <p className="max-w-measure text-label text-muted-ink">
+              <strong className="font-semibold text-ink">O que já foi testado.</strong> O atendimento no
+              WhatsApp ligado à agenda foi testado pela Flowo em 26 de julho de 2026, com números de teste da
+              própria Flowo. A tela desta página é do produto, com dados ilustrativos. Ainda não medimos
+              recebimento por PIX e cartão Flowo em barbearias clientes.{" "}
+              <Link
+                href="/demonstracao-agendamento-whatsapp"
+                className="font-medium text-ink underline underline-offset-4"
+              >
+                Ver a demonstração completa
+              </Link>
+              .
+            </p>
+          </div>
+        </section>
       </main>
       <Footer />
     </>

@@ -18,7 +18,7 @@ interface PricingSectionProps {
 
 /**
  * Core pricing block: toggle + the three plan cards. Renders no <section>
- * wrapper and no id — the parent page owns section semantics, so nesting
+ * wrapper and no id: the parent page owns section semantics, so nesting
  * and duplicate-id bugs cannot come from here.
  */
 export function PricingSection({

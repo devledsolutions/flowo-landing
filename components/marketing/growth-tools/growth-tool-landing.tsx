@@ -146,7 +146,7 @@ export function GrowthToolLanding({ content }: { content: GrowthToolContent }) {
               <article className={styles.campaignProofCard}>
                 <span>02</span>
                 <h3>Leve uma referência prática</h3>
-                <p>Checklist, painel ou guia em linguagem de barbearia — sem teoria que fica na gaveta.</p>
+                <p>Checklist, painel ou guia em linguagem de barbearia, sem teoria que fica na gaveta.</p>
               </article>
               <article className={styles.campaignProofCard}>
                 <span>03</span>
@@ -212,13 +212,12 @@ export function GrowthToolLanding({ content }: { content: GrowthToolContent }) {
             </div>
             <div className={styles.trialBody}>
               <p>
-                Depois de usar o material, barbearias elegíveis dos planos Solo
-                ou Equipe podem solicitar uma avaliação assistida de 14 dias.
-                A equipe ajuda na configuração inicial e confirma se o período
-                faz sentido para a sua operação.
+                Depois de usar o material, dá para pedir 14 dias de teste
+                acompanhado nos planos Solo ou Equipe. A equipe da Flowo
+                configura com você e libera o período depois de uma conversa.
               </p>
               <ul>
-                <li>Concessão manual, após uma conversa com a equipe.</li>
+                <li>Liberado pela equipe, depois de uma conversa.</li>
                 <li>Sem cartão, renovação ou cobrança automática.</li>
                 <li>Você decide se quer seguir depois da avaliação.</li>
               </ul>
@@ -240,7 +239,7 @@ export function GrowthToolLanding({ content }: { content: GrowthToolContent }) {
           <p>{content.formCopy}</p>
           {isCampaign ? (
             <p className={styles.formBrandNote}>
-              Material da Flowo, feito para aplicar na rotina — e não só salvar
+              Material da Flowo, feito para aplicar na rotina, e não só salvar
               no celular.
             </p>
           ) : null}

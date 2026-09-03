@@ -92,7 +92,7 @@ function MaterialPreview({ material }: { material: ResourceMaterial }) {
             <span className="border-b border-line bg-surface-2 px-2 py-1.5 font-semibold text-ink">
               Total
             </span>
-            {["Semana 1", "Em revisão", "R$ —", "Semana 2", "Pronto", "R$ —"].map(
+            {["Semana 1", "Em revisão", "a definir", "Semana 2", "Pronto", "a definir"].map(
               (cell, index) => (
                 <span
                   key={`${cell}-${index}`}

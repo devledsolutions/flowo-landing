@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Check, Minus } from "lucide-react";
 import Navbar from "@/components/navbar";
@@ -8,6 +7,9 @@ import {
   CommercialHero,
   RelatedSolutions,
 } from "@/components/marketing/commercial-page";
+import { PhoneFrame } from "@/components/home/phone-frame";
+import { WhatsAppChat, type ChatMessage } from "@/components/home/whatsapp-chat";
+import { ProductDisclaimer } from "@/components/home/product-previews";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
 import { getPlan } from "@/data/pricing-data";
 import { FlowoProductProof } from "@/components/marketing/flowo-product-proof";
@@ -17,7 +19,7 @@ const PATH = "/flowo-vs-planilha";
 export const metadata = buildMetadata({
   title: "Flowo vs Planilha para Barbearia",
   description:
-    "Compare o Flowo com planilhas na gestão da agenda da barbearia: agendamento pelo WhatsApp, confirmação automática e visão da equipe em tempo real.",
+    "Compare a Flowo com a planilha: a Flowo agenda pelo WhatsApp, confirma o horário e mantém a agenda da equipe atualizada sem ninguém digitar.",
   path: PATH,
 });
 
@@ -67,6 +69,25 @@ const comparison: {
   },
 ];
 
+/** Illustrative names and prices, the same ones the app screenshots use. */
+const conversation: ChatMessage[] = [
+  { day: "Terça" },
+  { from: "cliente", text: "Oi! Tem horário amanhã depois das 18h com o João?", at: "09:37" },
+  {
+    from: "flowo",
+    text: "Tenho três horários com o João amanhã: 18:00, 18:30 e 19:00. Qual fica melhor pra você?",
+    at: "09:37",
+  },
+  { from: "cliente", text: "18:30", at: "09:38" },
+  {
+    from: "flowo",
+    text: "Agendado. Corte masculino amanhã às 18:30 com o João, 40 min, R$ 55. Se precisar remarcar, é só me chamar aqui.",
+    at: "09:38",
+  },
+  { from: "cliente", text: "Consigo passar pras 19:00?", at: "14:02" },
+  { from: "flowo", text: "Consigo. Mudei seu corte com o João para amanhã às 19:00. Te espero!", at: "14:02" },
+];
+
 function CellValue({ value }: { value: boolean | string }) {
   if (typeof value === "string") {
     return <span className="text-label font-medium text-muted-ink">{value}</span>;
@@ -91,7 +112,7 @@ export default function FlowoVsPlanilhaPage() {
           current="Flowo vs Planilha"
           eyebrow="Comparação de rotina, não só de ferramenta"
           title="A planilha registra. O Flowo executa a rotina."
-          description="Planilha resolve no começo, mas vira gargalo quando a operação cresce: alguém ainda precisa responder, anotar e confirmar cada horário. Compare o trabalho que continua manual."
+          description="A planilha resolve no começo. Depois alguém precisa responder, anotar e confirmar cada horário. Compare o trabalho que continua manual."
           preview="comparacao"
         />
 
@@ -156,15 +177,15 @@ export default function FlowoVsPlanilhaPage() {
           <div className="container-page grid items-center gap-12 lg:grid-cols-[1.2fr_1fr]">
             <div>
               <h2 className="text-h3 font-semibold text-ink">
-                Da planilha para uma operação que roda sozinha
+                Da planilha para uma agenda que se atualiza sozinha
               </h2>
               <p className="mt-4 max-w-measure text-body text-muted-ink">
                 Na planilha, cada agendamento depende de alguém parar para
-                anotar. No Flowo, a IA atende o cliente no WhatsApp, marca no
-                horário livre e confirma presença antes do corte. A agenda da
-                equipe fica atualizada em tempo real. Depois do serviço, a
-                comanda registra dinheiro, maquininha própria ou, quando
-                ativados, PIX e cartão Flowo.
+                anotar. Na Flowo, a conversa do WhatsApp marca no horário livre
+                e pede a confirmação antes do corte. Se o cliente remarca, a
+                agenda da equipe muda junto. Depois do serviço, a comanda
+                registra dinheiro, maquininha própria ou, quando ativados, PIX
+                e cartão pela Flowo.
               </p>
               <p className="mt-4 max-w-measure text-body text-muted-ink">
                 Para organizar também o caixa, veja os guias de{" "}
@@ -191,14 +212,14 @@ export default function FlowoVsPlanilhaPage() {
                 .
               </p>
             </div>
-            <div className="relative aspect-[4/5] overflow-hidden rounded-lg">
-              <Image
-                src="https://images.unsplash.com/photo-1567894340315-735d7c361db0?auto=format&fit=crop&w=1200&q=80"
-                alt="Barbeiro de avental fazendo o acabamento do corte de um cliente na cadeira"
-                fill
-                sizes="(min-width: 1024px) 38vw, 100vw"
-                className="img-duotone object-cover"
-              />
+            <div className="mx-auto w-[340px] max-w-full lg:w-full lg:max-w-[24rem] lg:justify-self-end">
+              <PhoneFrame className="lg:hidden">
+                <WhatsAppChat width={340} logicalHeight={900} messages={conversation} />
+              </PhoneFrame>
+              <PhoneFrame className="hidden lg:block">
+                <WhatsAppChat width={384} logicalHeight={900} messages={conversation} />
+              </PhoneFrame>
+              <ProductDisclaimer label="Conversa ilustrativa, com o fluxo testado em produção" className="mt-4" />
             </div>
           </div>
         </section>
@@ -226,9 +247,23 @@ export default function FlowoVsPlanilhaPage() {
             },
           ]}
         />
+
+        <section className="section-tight border-t border-line bg-surface">
+          <div className="container-page">
+            <h2 className="text-h3 font-semibold text-ink-strong">O que já testamos</h2>
+            <p className="mt-3 max-w-measure text-body text-muted-ink">
+              A conversa desta página é ilustrativa. O fluxo de marcar, confirmar,
+              remarcar e cancelar foi testado em produção com números de teste da
+              própria Flowo, em 26 de julho de 2026. Ainda não medimos quanto
+              tempo uma barbearia economiza ao sair da planilha. Por isso esta
+              página não promete número.
+            </p>
+          </div>
+        </section>
+
         <CommercialCta
           title="Troque anotação por execução."
-          description="Centralize agenda, confirmação, comanda e recebimento em uma rotina que não depende de atualizar cada célula."
+          description="Agenda, confirmação, comanda e recebimento no mesmo lugar. Sem atualizar célula por célula."
           price={getPlan("solo").monthly}
         />
       </main>

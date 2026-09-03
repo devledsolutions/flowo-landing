@@ -56,7 +56,7 @@ app/
 ├── recursos/                   # Resources section
 │   ├── guias/                 # Guide pages
 │   └── videos/                # Video resources
-├── casos-de-sucesso/          # Success story pages
+├── casos-de-validacao/        # Named validation cases
 └── api/
     ├── lead-capture/route.ts  # Lead capture endpoint (TODO: implement storage)
     └── contact-form/route.ts  # Contact form endpoint

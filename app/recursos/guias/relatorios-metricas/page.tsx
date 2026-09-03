@@ -16,6 +16,7 @@ import {
   GuideContent,
 } from "@/components/resources/guide-shell";
 import { GuideStructuredData } from "@/components/resources/resource-structured-data";
+import { GuideHonesty, GuideScreenshot } from "@/app/recursos/_components/guide-media";
 import { getGuide } from "@/data/guides";
 import { buildGuideMetadata } from "@/lib/seo";
 
@@ -25,13 +26,22 @@ export const metadata = buildGuideMetadata(guide);
 
 const tableOfContents = [
   { id: "painel", label: "O que aparece em Métricas" },
-  { id: "receita", label: "Como o Flowo calcula receita" },
-  { id: "planos", label: "Indicadores por plano" },
-  { id: "ocupacao", label: "Ocupação: cálculo complementar" },
+  { id: "receita", label: "Como a Flowo conta a receita" },
+  { id: "planos", label: "O que cada plano mostra" },
+  { id: "ocupacao", label: "Ocupação: conta por fora" },
   { id: "rotina", label: "Rotina semanal de decisão" },
 ];
 
-export default function MetricsGuidePage() {
+const planRows = [
+  ["Agenda e receita", "Todos os planos", "Ver a evolução do período"],
+  ["Clientes sumidos", "Lista no Equipe e no Empresarial", "Escolher quem chamar de volta"],
+  ["Receita por serviço", "Equipe e Empresarial", "Rever catálogo e oferta"],
+  ["Horários de pico", "Todos; sugestões no Equipe e no Empresarial", "Ajustar escala"],
+  ["Atendimentos por barbeiro", "Equipe e Empresarial", "Ver a carga de cada um"],
+  ["Clientes VIP", "Empresarial", "Reconhecer quem mais volta"],
+] as const;
+
+export default function ReportsMetricsGuidePage() {
   return (
     <>
       <GuideStructuredData guide={guide} />
@@ -47,175 +57,122 @@ export default function MetricsGuidePage() {
             ]}
             readTime={guide.readTime}
             title="Relatórios e métricas para barbearias"
-            lead="Use os números que o Flowo realmente calcula e saiba onde o painel termina. Assim, uma recomendação de gestão não vira uma promessa de funcionalidade."
+            lead="Use os números que a Flowo calcula de verdade e saiba onde o painel termina. Dica de gestão não é função do app."
+            updatedAt="3 de setembro de 2026"
           />
 
           <GuideAvailability
             items={[
               {
-                label: "Área principal",
-                value: "Métricas no painel web",
-                description:
-                  "A página compara períodos e consulta dados reais da agenda, clientes e atendimentos concluídos.",
+                label: "Onde",
+                value: "Métricas, no painel",
+                description: "Compara períodos com dados da agenda, dos clientes e dos atendimentos concluídos.",
               },
               {
-                label: "Planos superiores",
-                value: "Detalhes avançados",
-                description:
-                  "Clientes em risco, receita por serviço, horários de pico e outros blocos variam conforme o plano.",
+                label: "Equipe e Empresarial",
+                value: "Mais detalhe",
+                description: "Clientes sumidos, receita por serviço, horários de pico e atendimentos por barbeiro.",
               },
               {
                 label: "Empresarial",
                 value: "Clientes VIP",
-                description:
-                  "A lista de melhores clientes por visitas e receita é reservada ao plano Empresarial.",
+                description: "A lista dos melhores clientes por visitas e receita.",
               },
               {
-                label: "Limite atual",
+                label: "Limite de hoje",
                 value: "Sem taxa de ocupação pronta",
-                description:
-                  "O painel não deve ser vendido como uma tabela completa de ocupação e desempenho individual por profissional.",
+                description: "O painel não calcula ocupação por barbeiro. A conta está mais abaixo.",
               },
             ]}
           />
 
           <GuideContent items={tableOfContents}>
-            <GuideSection
-              id="painel"
-              icon={BarChart3}
-              title="O que aparece em Métricas"
-            >
+            <GuideSection id="painel" icon={BarChart3} title="O que aparece em Métricas">
               <p>
-                A página reúne indicadores do período atual e comparação com o
-                período anterior. Os blocos liberados dependem das permissões do
-                usuário e do plano da barbearia.
+                A página mostra o período atual e compara com o anterior. O que aparece depende do
+                seu plano e da sua permissão.
               </p>
               <GuideCards
                 items={[
                   {
                     title: "Receita e agendamentos",
-                    description:
-                      "Receita de atendimentos concluídos, quantidade de agendamentos e evolução no período.",
+                    description: "Receita dos atendimentos concluídos, número de horários e evolução.",
                   },
                   {
                     title: "Conclusão e faltas",
-                    description:
-                      "Taxas derivadas dos estados da agenda, quando o plano libera o detalhamento.",
+                    description: "Taxas tiradas dos status da agenda, quando o plano mostra o detalhe.",
                   },
                   {
-                    title: "Clientes em risco",
-                    description:
-                      "Clientes com histórico e tempo sem retorno; planos inferiores podem ver apenas o total.",
+                    title: "Clientes sumidos",
+                    description: "Quem tem histórico e está sem voltar. O Solo vê só o total.",
                   },
                   {
                     title: "Receita por serviço",
-                    description:
-                      "Distribuição e tendência dos serviços concluídos no período.",
+                    description: "Quanto cada serviço rendeu no período.",
                   },
                   {
                     title: "Horários de pico",
-                    description:
-                      "Dia e hora de maior movimento, com sugestão adicional nos planos superiores.",
+                    description: "Dia e hora de mais movimento, com sugestão nos planos de equipe.",
                   },
                   {
                     title: "Clientes VIP",
-                    description:
-                      "Ranking por visitas e receita no plano Empresarial.",
+                    description: "Ranking por visitas e receita, no Empresarial.",
                   },
                 ]}
               />
               <GuideProductPath
                 items={[
                   {
-                    surface: "Painel web",
+                    surface: "Painel",
                     path: "Métricas",
-                    action:
-                      "escolha o período e consulte os blocos liberados para o seu plano.",
+                    action: "escolha o período e veja os blocos do seu plano.",
                   },
                   {
-                    surface: "App móvel",
-                    path: "Mais → Financeiro / operação",
-                    action:
-                      "acompanhe os indicadores móveis disponíveis; o relatório completo permanece no painel web.",
+                    surface: "App",
+                    path: "Mais → Métricas",
+                    action: "os principais números no celular. O relatório completo fica no painel.",
                   },
                 ]}
               />
             </GuideSection>
 
-            <GuideSection
-              id="receita"
-              icon={TrendingUp}
-              title="Como o Flowo calcula receita"
-            >
+            <GuideSection id="receita" icon={TrendingUp} title="Como a Flowo conta a receita">
               <p>
-                A receita do relatório considera atendimentos concluídos. Ela
-                representa o serviço realizado e não uma previsão baseada em
-                horários apenas reservados.
+                A receita do relatório é dos atendimentos concluídos. É o que aconteceu, não uma
+                previsão feita a partir de horários só reservados.
               </p>
-              <GuideScopeNote title="Pagamento é pós-serviço">
-                O Flowo não usa sinal ou depósito. Valores previstos e valores
-                concluídos não devem ser misturados ao interpretar o caixa.
+              <GuideScreenshot
+                src="/images/product/dashboard-financeiro.png"
+                alt="Tela Financeiro da Flowo: recebido no dia, valor em aberto, repasse da equipe e ticket médio de 30 dias"
+                caption="Tela Financeiro, com dados ilustrativos: recebido, em aberto, repasse e ticket médio. O relatório por período fica em Métricas."
+                height={1082}
+              />
+              <GuideScopeNote title="Pagamento é depois do serviço">
+                A Flowo não usa sinal nem depósito. Não misture valor previsto com valor
+                concluído ao olhar o caixa.
               </GuideScopeNote>
-              <GuideCallout title="Mantenha o status da agenda correto">
-                Se um atendimento concluído continuar como agendado, ou uma falta
-                não for registrada como no-show, as taxas e tendências perdem
-                qualidade. O relatório depende da operação bem fechada.
+              <GuideCallout title="Mantenha o status da agenda certo">
+                Atendimento feito que ficou como “agendado”, ou falta que não virou “não veio”,
+                estraga as taxas. O relatório depende da agenda bem fechada.
               </GuideCallout>
             </GuideSection>
 
-            <GuideSection
-              id="planos"
-              icon={Users}
-              title="Indicadores por plano"
-            >
+            <GuideSection id="planos" icon={Users} title="O que cada plano mostra">
               <p>
-                O bloqueio por plano é parte da experiência. Um cartão bloqueado
-                não significa ausência de dados; significa que aquele
-                detalhamento não está incluído na assinatura atual.
+                Um cartão bloqueado não quer dizer que o dado não existe. Quer dizer que aquele
+                detalhe não está no seu plano.
               </p>
               <div className="my-8 overflow-x-auto rounded-lg border border-line">
                 <table className="w-full min-w-[36rem] text-label">
                   <thead className="border-b border-line bg-surface-2">
                     <tr>
-                      <th className="p-4 text-left font-semibold text-ink">
-                        Indicador
-                      </th>
-                      <th className="p-4 text-left font-semibold text-ink">
-                        Disponibilidade
-                      </th>
-                      <th className="p-4 text-left font-semibold text-ink">
-                        Uso prático
-                      </th>
+                      <th className="p-4 text-left font-semibold text-ink">Indicador</th>
+                      <th className="p-4 text-left font-semibold text-ink">Em que plano</th>
+                      <th className="p-4 text-left font-semibold text-ink">Para quê</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-line bg-surface">
-                    {[
-                      [
-                        "KPIs de agenda e receita",
-                        "Base",
-                        "Acompanhar evolução do período",
-                      ],
-                      [
-                        "Clientes em risco",
-                        "Detalhe nos planos superiores",
-                        "Priorizar reativação",
-                      ],
-                      [
-                        "Receita por serviço",
-                        "Detalhe nos planos superiores",
-                        "Rever catálogo e oferta",
-                      ],
-                      [
-                        "Horários de pico",
-                        "Base + sugestões nos superiores",
-                        "Ajustar escala e disponibilidade",
-                      ],
-                      [
-                        "Clientes VIP",
-                        "Empresarial",
-                        "Reconhecer os melhores relacionamentos",
-                      ],
-                    ].map(([metric, availability, use]) => (
+                    {planRows.map(([metric, availability, use]) => (
                       <tr key={metric}>
                         <td className="p-4 font-medium text-ink">{metric}</td>
                         <td className="p-4 text-muted-ink">{availability}</td>
@@ -225,70 +182,57 @@ export default function MetricsGuidePage() {
                   </tbody>
                 </table>
               </div>
-              <GuideScopeNote
-                status="conditional"
-                title="Permissão também interfere"
-              >
-                Proprietário, administrador e gerente podem acessar a análise
-                conforme suas permissões. O perfil de profissional não recebe o
-                relatório completo.
+              <GuideScopeNote status="conditional" title="Permissão também conta">
+                Dono, administrador e gerente veem o relatório conforme a permissão. O perfil de
+                barbeiro não recebe o relatório completo.
               </GuideScopeNote>
             </GuideSection>
 
-            <GuideSection
-              id="ocupacao"
-              icon={Target}
-              title="Ocupação: cálculo complementar"
-            >
+            <GuideSection id="ocupacao" icon={Target} title="Ocupação: conta por fora">
               <p>
-                A página atual não apresenta uma taxa de ocupação completa por
-                profissional. Se essa métrica for importante para sua rotina,
-                calcule-a com a capacidade planejada e deixe claro que é uma
-                análise complementar.
+                O painel não mostra taxa de ocupação por barbeiro. Se esse número importa para
+                você, calcule com a capacidade planejada e trate como conta complementar.
               </p>
               <GuideCallout>
-                <strong>
-                  Ocupação = tempo reservado ÷ tempo disponível para atendimento
-                </strong>
-                . Use duração dos serviços, horário individual e folgas; contar
-                apenas “quantidade de horários” pode distorcer serviços de
-                durações diferentes.
+                <strong>Ocupação = tempo reservado ÷ tempo disponível para atender</strong>. Use a
+                duração dos serviços, o horário de cada barbeiro e as folgas. Contar só “quantos
+                horários” distorce serviços de durações diferentes.
               </GuideCallout>
-              <GuideScopeNote
-                status="practice"
-                title="Não use faixas universais como regra"
-              >
-                “75% é excelente” ou “abaixo de 50% é ruim” depende de margem,
-                duração, demanda, horário e estratégia. Compare cada barbearia
-                com a própria linha de base.
+              <GuideScopeNote status="practice" title="Não use faixa universal como regra">
+                O que é “boa ocupação” depende de margem, duração, procura e estratégia. Compare a
+                sua barbearia com o seu próprio ponto de partida.
               </GuideScopeNote>
             </GuideSection>
 
-            <GuideSection
-              id="rotina"
-              icon={Clock}
-              title="Rotina semanal de decisão"
-            >
+            <GuideSection id="rotina" icon={Clock} title="Rotina semanal de decisão">
               <GuideChecklist
                 items={[
-                  "Feche comandas e atualize status antes de abrir o relatório",
+                  "Feche comandas e acerte os status antes de abrir o relatório",
                   "Compare o mesmo intervalo com o período anterior",
-                  "Escolha um problema: faltas, serviço em queda ou clientes em risco",
-                  "Faça uma mudança pequena e registre a data",
-                  "Revise o resultado na semana seguinte antes de trocar outra variável",
+                  "Escolha um problema: faltas, serviço em queda ou clientes sumidos",
+                  "Faça uma mudança pequena e anote a data",
+                  "Veja o resultado na semana seguinte antes de mexer em outra coisa",
                 ]}
               />
-              <GuideCallout title="O relatório orienta; não decide sozinho">
-                Horário de pico pode sugerir reforço, mas contratação e preço
-                dependem de custo, margem e contexto. O Flowo mostra o sinal;
-                a decisão continua com a gestão.
+              <GuideCallout title="O relatório aponta. Quem decide é você">
+                Horário de pico pode sugerir reforço, mas contratar e mudar preço dependem de
+                custo, margem e contexto.
               </GuideCallout>
             </GuideSection>
           </GuideContent>
 
+          <GuideHonesty
+            tested={[
+              "Quais indicadores existem em Métricas e em que plano aparecem: conferidos no produto em 3 de setembro de 2026.",
+            ]}
+            notMeasured={[
+              "Se barbearias que olham Métricas toda semana decidem melhor. Não temos esse dado.",
+            ]}
+          />
+
           <GuideCta
-            title="Quer decidir com dados operacionais reais?"
-            description="Feche a agenda corretamente e use Métricas para comparar períodos sem confundir recomendação com automação."
+            title="Quer decidir com os números da sua operação?"
+            description="Feche a agenda direito e use Métricas para comparar períodos."
           />
 
           <GuidePrevNext

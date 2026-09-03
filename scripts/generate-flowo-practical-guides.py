@@ -32,16 +32,21 @@ PAGE_W, PAGE_H = A4
 M = 42
 CONTENT_W = PAGE_W - 2 * M
 
-INK = HexColor("#171810")
-CREAM = HexColor("#F4F0E5")
-PAPER = HexColor("#FFFDF8")
+# Same tokens the site renders: ink and cream, no third colour. These sheets get
+# printed, so contrast and hairlines carry the hierarchy instead of fills.
+INK = HexColor("#171811")
+INK_STRONG = HexColor("#10100A")
+CREAM = HexColor("#F6F6F3")
+PAPER = HexColor("#FCFBF9")
+SURFACE_2 = HexColor("#F1F0EC")
 WHITE = HexColor("#FFFFFF")
-MUTED = HexColor("#69685F")
-LINE = HexColor("#D8D4C7")
-GREEN = HexColor("#76B38A")
-GREEN_DARK = HexColor("#2C6A43")
-GREEN_PALE = HexColor("#E1F0E5")
-RED_PALE = HexColor("#F7E7E2")
+MUTED = HexColor("#595852")
+FAINT = HexColor("#6F6F69")
+LINE = HexColor("#DCDBD7")
+GRID = HexColor("#C7C5BF")  # table rules, a step darker so they survive printing
+
+# Footer sits at 30pt, so a page's content may run down to here.
+CONTENT_FLOOR = 76
 
 
 @dataclass(frozen=True)
@@ -195,7 +200,7 @@ GUIDES = (
         ),
         disclaimer=(
             "Recursos de equipe e comissão variam por plano e configuração. "
-            "Confirme o escopo antes da contratação."
+            "Confirme o que está incluído antes de contratar."
         ),
         keywords="barbearia, comissões, barbeiros, comanda, acerto, Flowo",
         cta_path="/recursos/comissoes-barbeiros",
@@ -427,7 +432,7 @@ GUIDES = (
             "Dinheiro e maquininha própria continuam disponíveis.",
             "Pagamento integrado é opcional e sempre pós-atendimento.",
             "Comanda registra serviço, desconto e forma de pagamento.",
-            "Nota fiscal depende do município, dos dados e da homologação.",
+            "Nota fiscal depende do município, dos dados fiscais e da liberação da prefeitura.",
         ),
         disclaimer=(
             "Superfícies fiscais estão em piloto assistido. Disponibilidade real "
@@ -500,6 +505,104 @@ def writing_lines(
         y -= gap
 
 
+def fit_columns(columns):
+    """Scale declared column widths so the table spans the content width exactly."""
+    total = sum(width for _title, width in columns)
+    if total <= 0:
+        return list(columns)
+    factor = CONTENT_W / total
+    scaled = [(title, width * factor) for title, width in columns]
+    # absorb the rounding drift into the last column
+    drift = CONTENT_W - sum(width for _t, width in scaled)
+    title, width = scaled[-1]
+    scaled[-1] = (title, width + drift)
+    return scaled
+
+
+def grid(
+    c: canvas.Canvas,
+    x0: float,
+    bottom: float,
+    top: float,
+    columns,
+    rows: int,
+    height: float,
+) -> None:
+    """Rules for a fill-in table: verticals between columns, one line per row."""
+    c.setStrokeColor(GRID)
+    c.setLineWidth(0.7)
+    x = x0
+    for column_index, (_title, width) in enumerate(columns):
+        x += width
+        if column_index < len(columns) - 1:
+            c.line(x, top, x, bottom)
+    for row in range(rows + 1):
+        y = top - height * row
+        c.line(x0, y, x0 + CONTENT_W, y)
+
+
+def note_block(
+    c: canvas.Canvas,
+    y_top: float,
+    label: str,
+    body: str,
+    *,
+    dark: bool = False,
+    lines: int = 0,
+) -> None:
+    """The closing note of a page, drawn from the content floor up.
+
+    Anchored to the bottom so every page ends on the same line, and sized by
+    its own text so a short note never leaves a hole above the footer.
+    """
+    height = 34 + 12 * max(1, len(base.wrap_text(body, "PoppinsMedium", 8, CONTENT_W - 36)))
+    height += 26 * lines
+    height = min(height, max(56.0, y_top - CONTENT_FLOOR))
+    top = CONTENT_FLOOR + height
+    c.setFillColor(INK if dark else SURFACE_2)
+    c.rect(M, CONTENT_FLOOR, CONTENT_W, height, fill=1, stroke=0)
+    c.setFillColor(base.rgb_with_alpha("#FFFFFF", 0.6) if dark else FAINT)
+    c.setFont("PoppinsSemiBold", 7)
+    c.drawString(M + 18, top - 20, label.upper())
+    base.paragraph(
+        c,
+        body,
+        M + 18,
+        top - 40,
+        CONTENT_W - 36,
+        "PoppinsMedium",
+        8,
+        11.5,
+        WHITE if dark else INK,
+    )
+    if lines:
+        writing_lines(c, M + 18, CONTENT_FLOOR + 26, CONTENT_W - 36, lines, 26)
+
+
+def row_height(y_top: float, y_bottom: float, count: int, *, gap: float = 10) -> float:
+    """Split the free height between `count` rows so the list fills the page."""
+    if count <= 0:
+        return 0.0
+    return min(96.0, max(44.0, (y_top - y_bottom - gap * (count - 1)) / count))
+
+
+def list_row(
+    c: canvas.Canvas,
+    y: float,
+    height: float,
+    *,
+    dark: bool = False,
+    fill: bool = True,
+) -> None:
+    """One row of a list: a quiet surface plus a hairline, never a card."""
+    if fill:
+        c.setFillColor(base.rgb_with_alpha("#FFFFFF", 0.06) if dark else PAPER)
+        c.rect(M, y - height, CONTENT_W, height, fill=1, stroke=0)
+    c.setStrokeColor(base.rgb_with_alpha("#FFFFFF", 0.16) if dark else LINE)
+    c.setLineWidth(0.6)
+    c.line(M, y - height, PAGE_W - M, y - height)
+
+
 def cover(c: canvas.Canvas, guide: Guide) -> None:
     page_bg(c, PAPER)
     base.draw_logo(c, M, PAGE_H - 72, 76)
@@ -507,14 +610,17 @@ def cover(c: canvas.Canvas, guide: Guide) -> None:
     c.setFont("PoppinsSemiBold", 7)
     c.drawString(M, PAGE_H - 112, guide.cover_label)
 
+    title_lines = guide.title.splitlines()
+    band_h = 92 + 43 * len(title_lines)
+    band_y = 724 - band_h
     c.setFillColor(INK)
-    c.rect(0, 480, PAGE_W, 244, fill=1, stroke=0)
-    c.setFillColor(GREEN)
-    c.rect(PAGE_W - 116, 480, 116, 244, fill=1, stroke=0)
+    c.rect(0, band_y, PAGE_W, band_h, fill=1, stroke=0)
+    c.setFillColor(base.rgb_with_alpha("#FFFFFF", 0.18))
+    c.rect(M, band_y, 1, band_h, fill=1, stroke=0)
     c.setFillColor(WHITE)
     c.setFont("Lora", 36)
-    y = 656
-    for line in guide.title.splitlines():
+    y = band_y + band_h - 62
+    for line in title_lines:
         c.drawString(M, y, line)
         y -= 43
 
@@ -522,7 +628,7 @@ def cover(c: canvas.Canvas, guide: Guide) -> None:
         c,
         guide.subtitle,
         M,
-        432,
+        band_y - 42,
         440,
         "PoppinsSemiBold",
         11.5,
@@ -530,31 +636,32 @@ def cover(c: canvas.Canvas, guide: Guide) -> None:
         INK,
     )
 
-    c.setFillColor(CREAM)
-    c.roundRect(M, 190, CONTENT_W, 158, 8, fill=1, stroke=0)
-    c.setFillColor(MUTED)
+    list_top = band_y - 118
+    c.setFillColor(FAINT)
     c.setFont("PoppinsSemiBold", 7)
-    c.drawString(M + 18, 320, "VOCÊ VAI ORGANIZAR")
-    y = 288
+    c.drawString(M, list_top, "VOCÊ VAI ORGANIZAR")
+    c.setStrokeColor(LINE)
+    c.setLineWidth(0.6)
+    y = list_top - 14
     for index, item in enumerate(guide.cover_items, start=1):
-        c.setFillColor(GREEN_PALE)
-        c.circle(M + 25, y + 2, 8, fill=1, stroke=0)
-        c.setFillColor(GREEN_DARK)
-        c.setFont("PoppinsBold", 6)
-        c.drawCentredString(M + 25, y, str(index))
+        c.line(M, y, PAGE_W - M, y)
+        c.setFillColor(FAINT)
+        c.setFont("PoppinsBold", 7)
+        c.drawString(M, y - 20, f"{index:02d}")
         c.setFillColor(INK)
-        c.setFont("PoppinsMedium", 7.6)
-        c.drawString(M + 46, y - 1, item)
-        y -= 27
+        c.setFont("PoppinsMedium", 8.6)
+        c.drawString(M + 30, y - 20, item)
+        y -= 32
+    c.line(M, y, PAGE_W - M, y)
 
     c.setFillColor(INK)
-    c.roundRect(M, 76, CONTENT_W, 76, 8, fill=1, stroke=0)
-    c.setFillColor(GREEN)
+    c.rect(M, CONTENT_FLOOR, CONTENT_W, 84, fill=1, stroke=0)
+    c.setFillColor(base.rgb_with_alpha("#FFFFFF", 0.6))
     c.setFont("PoppinsSemiBold", 7)
-    c.drawString(M + 18, 125, "MATERIAL PRÁTICO")
+    c.drawString(M + 18, CONTENT_FLOOR + 58, "MATERIAL PRÁTICO")
     c.setFillColor(WHITE)
     c.setFont("Lora", 15)
-    c.drawString(M + 18, 98, guide.cover_prompt)
+    c.drawString(M + 18, CONTENT_FLOOR + 28, guide.cover_prompt)
     footer(c, guide, 1)
     c.showPage()
 
@@ -562,62 +669,48 @@ def cover(c: canvas.Canvas, guide: Guide) -> None:
 def how_to(c: canvas.Canvas, guide: Guide) -> None:
     page_bg(c, CREAM)
     y = header(c, guide, "Como usar", guide.how_to_title, guide.use_intro, 2)
+    note_top = CONTENT_FLOOR + 96
+    height = row_height(y, note_top + 24, len(guide.use_steps))
     for number, title, body in guide.use_steps:
-        c.setFillColor(PAPER)
-        c.roundRect(M, y - 62, CONTENT_W, 62, 7, fill=1, stroke=0)
-        c.setFillColor(GREEN_PALE)
-        c.circle(M + 28, y - 31, 12, fill=1, stroke=0)
-        c.setFillColor(GREEN_DARK)
-        c.setFont("PoppinsBold", 6.5)
-        c.drawCentredString(M + 28, y - 33, number)
+        mid = y - height / 2
+        list_row(c, y, height)
+        c.setFillColor(FAINT)
+        c.setFont("PoppinsBold", 8)
+        c.drawString(M + 14, mid + 5, number)
         c.setFillColor(INK)
-        c.setFont("PoppinsSemiBold", 8.7)
-        c.drawString(M + 58, y - 23, title)
-        base.paragraph(c, body, M + 58, y - 41, 420, size=7.1, leading=10, color=MUTED)
-        y -= 75
+        c.setFont("PoppinsSemiBold", 9.2)
+        c.drawString(M + 44, mid + 5, title)
+        base.paragraph(c, body, M + 44, mid - 12, 430, size=8, leading=11, color=MUTED)
+        y -= height + 10
 
-    c.setFillColor(INK)
-    c.roundRect(M, 86, CONTENT_W, 112, 8, fill=1, stroke=0)
-    c.setFillColor(GREEN)
-    c.setFont("PoppinsSemiBold", 7)
-    c.drawString(M + 18, 169, "ANTES DE COMEÇAR")
-    base.paragraph(
-        c,
-        guide.before_start,
-        M + 18,
-        145,
-        CONTENT_W - 36,
-        "PoppinsMedium",
-        7.8,
-        11.5,
-        base.rgb_with_alpha("#FFFFFF", 0.76),
-    )
+    note_block(c, y, "Antes de começar", guide.before_start, dark=True)
     c.showPage()
 
 
 def audit(c: canvas.Canvas, guide: Guide) -> None:
     page_bg(c, PAPER)
     y = header(c, guide, "Diagnóstico", guide.audit_title, guide.audit_intro, 3)
+    height = row_height(y, CONTENT_FLOOR, len(guide.audit_items), gap=8)
     for category, prompt in guide.audit_items:
-        c.setFillColor(CREAM)
-        c.roundRect(M, y - 66, CONTENT_W, 66, 6, fill=1, stroke=0)
-        checkbox(c, M + 16, y - 23)
-        c.setFillColor(MUTED)
-        c.setFont("PoppinsSemiBold", 6.2)
-        c.drawString(M + 45, y - 19, category.upper())
+        mid = y - height / 2
+        list_row(c, y, height)
+        checkbox(c, M + 16, mid + 3, 13)
+        c.setFillColor(FAINT)
+        c.setFont("PoppinsSemiBold", 6.6)
+        c.drawString(M + 46, mid + 8, category.upper())
         base.paragraph(
             c,
             prompt,
-            M + 45,
-            y - 39,
-            CONTENT_W - 65,
+            M + 46,
+            mid - 10,
+            CONTENT_W - 66,
             "PoppinsMedium",
-            7.3,
-            10,
+            8.2,
+            11,
             INK,
             max_lines=2,
         )
-        y -= 77
+        y -= height + 8
     c.showPage()
 
 
@@ -632,42 +725,46 @@ def framework(c: canvas.Canvas, guide: Guide) -> None:
         4,
         dark=True,
     )
-    for index, (number, title, body) in enumerate(guide.framework):
-        highlighted = index in {1, 3}
-        c.setFillColor(GREEN if highlighted else base.rgb_with_alpha("#FFFFFF", 0.08))
-        c.roundRect(M, y - 59, CONTENT_W, 59, 6, fill=1, stroke=0)
-        c.setFillColor(INK if highlighted else WHITE)
+    note_top = CONTENT_FLOOR + 84
+    height = row_height(y, note_top + 24, len(guide.framework))
+    for number, title, body in guide.framework:
+        mid = y - height / 2
+        list_row(c, y, height, dark=True)
+        c.setFillColor(base.rgb_with_alpha("#FFFFFF", 0.55))
         c.setFont("PoppinsBold", 8)
-        c.drawString(M + 16, y - 24, number)
-        c.setFont("PoppinsSemiBold", 8)
-        c.drawString(M + 62, y - 24, title)
+        c.drawString(M + 16, mid - 3, number)
+        c.setFillColor(WHITE)
+        c.setFont("PoppinsSemiBold", 9)
+        c.drawString(M + 50, mid - 3, title)
         base.paragraph(
             c,
             body,
             M + 190,
-            y - 24,
-            CONTENT_W - 208,
+            mid - 3,
+            CONTENT_W - 206,
             "Poppins",
-            7,
-            10,
-            INK if highlighted else base.rgb_with_alpha("#FFFFFF", 0.68),
+            8,
+            11,
+            base.rgb_with_alpha("#FFFFFF", 0.72),
             max_lines=2,
         )
-        y -= 70
-    c.setFillColor(base.rgb_with_alpha("#FFFFFF", 0.08))
-    c.roundRect(M, 78, CONTENT_W, 82, 7, fill=1, stroke=0)
-    c.setFillColor(GREEN)
+        y -= height + 10
+
+    height = 84
+    c.setFillColor(base.rgb_with_alpha("#FFFFFF", 0.1))
+    c.rect(M, CONTENT_FLOOR, CONTENT_W, height, fill=1, stroke=0)
+    c.setFillColor(base.rgb_with_alpha("#FFFFFF", 0.6))
     c.setFont("PoppinsSemiBold", 7)
-    c.drawString(M + 16, 135, "REGRA DE OURO")
+    c.drawString(M + 18, CONTENT_FLOOR + height - 20, "REGRA DE OURO")
     base.paragraph(
         c,
         guide.framework_rule,
-        M + 16,
-        111,
-        CONTENT_W - 32,
+        M + 18,
+        CONTENT_FLOOR + height - 40,
+        CONTENT_W - 36,
         "PoppinsMedium",
-        7.5,
-        10.5,
+        8.4,
+        12,
         WHITE,
         max_lines=2,
     )
@@ -684,123 +781,119 @@ def worksheet(c: canvas.Canvas, guide: Guide) -> None:
         guide.worksheet_intro,
         5,
     )
+    columns = fit_columns(guide.worksheet_columns)
     c.setFillColor(INK)
-    c.roundRect(M, y - 34, CONTENT_W, 34, 6, fill=1, stroke=0)
+    c.rect(M, y - 30, CONTENT_W, 30, fill=1, stroke=0)
     x = M
     c.setFillColor(WHITE)
-    c.setFont("PoppinsSemiBold", 5.7)
-    for title, width in guide.worksheet_columns:
-        c.drawString(x + 6, y - 21, title)
+    c.setFont("PoppinsSemiBold", 6.2)
+    for title, width in columns:
+        c.drawString(x + 8, y - 19, title)
         x += width
-    y -= 34
-    for row in range(6):
-        c.setFillColor(PAPER if row % 2 == 0 else CREAM)
-        c.rect(M, y - 58, CONTENT_W, 58, fill=1, stroke=0)
-        x = M
-        c.setStrokeColor(LINE)
+    y -= 30
+    note_top = CONTENT_FLOOR + 84
+    rows = 6
+    height = max(46.0, (y - note_top - 20) / rows)
+    table_top, table_bottom = y, y - height * rows
+
+    # Fill first, rule after: a row's fill would otherwise cover the rule above it.
+    c.setFillColor(PAPER)
+    c.rect(M, table_bottom, CONTENT_W, height * rows, fill=1, stroke=0)
+    grid(c, M, table_bottom, table_top, columns, rows, height)
+
+    for row in range(rows):
+        row_y = table_top - height * row
         values = guide.worksheet_rows[row] if row < len(guide.worksheet_rows) else ()
-        for column_index, (_, width) in enumerate(guide.worksheet_columns):
+        x = M
+        for column_index, (_, width) in enumerate(columns):
             if column_index < len(values) and values[column_index]:
                 base.paragraph(
                     c,
                     values[column_index],
-                    x + 6,
-                    y - 21,
-                    width - 12,
+                    x + 8,
+                    row_y - 21,
+                    width - 16,
                     "PoppinsMedium",
-                    6.3,
-                    8.5,
+                    6.6,
+                    9,
                     INK,
                     max_lines=2,
                 )
-            c.line(x + width, y, x + width, y - 58)
             x += width
-        c.line(M, y - 58, PAGE_W - M, y - 58)
-        y -= 58
+    y = table_bottom
 
-    c.setFillColor(GREEN_PALE)
-    c.roundRect(M, 78, CONTENT_W, 102, 7, fill=1, stroke=0)
-    c.setFillColor(GREEN_DARK)
-    c.setFont("PoppinsSemiBold", 7)
-    c.drawString(M + 16, 153, "PARA NÃO PERDER O HISTÓRICO")
-    base.paragraph(
-        c,
-        guide.worksheet_note,
-        M + 16,
-        128,
-        CONTENT_W - 32,
-        "PoppinsMedium",
-        7.4,
-        10.8,
-        INK,
-    )
+    note_block(c, y, "Para não perder o histórico", guide.worksheet_note)
     c.showPage()
 
 
 def test_page(c: canvas.Canvas, guide: Guide) -> None:
     page_bg(c, PAPER)
     y = header(c, guide, "Conferência", guide.test_title, guide.test_intro, 6)
-    columns = (("SITUAÇÃO", 240), ("ESPERADO", 125), ("RESP.", 78), ("OK", 42))
+    columns = fit_columns(
+        (("SITUAÇÃO", 240), ("ESPERADO", 125), ("RESP.", 78), ("OK", 42))
+    )
     c.setFillColor(INK)
-    c.roundRect(M, y - 34, CONTENT_W, 34, 6, fill=1, stroke=0)
+    c.rect(M, y - 30, CONTENT_W, 30, fill=1, stroke=0)
     x = M
     c.setFillColor(WHITE)
-    c.setFont("PoppinsSemiBold", 5.9)
+    c.setFont("PoppinsSemiBold", 6.2)
     for title, width in columns:
-        c.drawString(x + 7, y - 21, title)
+        c.drawString(x + 8, y - 19, title)
         x += width
-    y -= 34
+    y -= 30
+    rows = len(guide.scenarios)
+    height = max(48.0, (y - CONTENT_FLOOR) / max(1, rows))
+    table_top, table_bottom = y, y - height * rows
+    c.setFillColor(PAPER)
+    c.rect(M, table_bottom, CONTENT_W, height * rows, fill=1, stroke=0)
+    grid(c, M, table_bottom, table_top, columns, rows, height)
+
     for index, scenario in enumerate(guide.scenarios):
-        c.setFillColor(CREAM if index % 2 == 0 else PAPER)
-        c.rect(M, y - 61, CONTENT_W, 61, fill=1, stroke=0)
+        row_y = table_top - height * index
         base.paragraph(
             c,
             scenario,
-            M + 8,
-            y - 23,
-            220,
+            M + 10,
+            row_y - 24,
+            columns[0][1] - 20,
             "PoppinsMedium",
-            6.8,
-            9,
+            7.6,
+            10,
             INK,
-            max_lines=2,
+            max_lines=3,
         )
-        x = M
-        c.setStrokeColor(LINE)
-        for _, width in columns:
-            c.line(x + width, y, x + width, y - 61)
-            x += width
-        checkbox(c, PAGE_W - M - 28, y - 22, 12)
-        c.line(M, y - 61, PAGE_W - M, y - 61)
-        y -= 61
+        checkbox(c, PAGE_W - M - 28, row_y - 24, 13)
     c.showPage()
 
 
 def plan_page(c: canvas.Canvas, guide: Guide) -> None:
     page_bg(c, CREAM)
     y = header(c, guide, "Plano", guide.plan_title, guide.plan_intro, 7)
+    note_top = CONTENT_FLOOR + 86
+    height = row_height(y, note_top + 20, len(guide.plan), gap=8)
     for number, title, task in guide.plan:
-        c.setFillColor(PAPER)
-        c.roundRect(M, y - 50, CONTENT_W, 50, 6, fill=1, stroke=0)
-        c.setFillColor(GREEN_PALE)
-        c.circle(M + 25, y - 25, 10, fill=1, stroke=0)
-        c.setFillColor(GREEN_DARK)
-        c.setFont("PoppinsBold", 6)
-        c.drawCentredString(M + 25, y - 27, number)
+        list_row(c, y, height)
+        c.setFillColor(FAINT)
+        c.setFont("PoppinsBold", 7.5)
+        c.drawString(M + 14, y - height / 2 - 3, number)
         c.setFillColor(INK)
-        c.setFont("PoppinsSemiBold", 7.4)
-        c.drawString(M + 48, y - 21, title)
+        c.setFont("PoppinsSemiBold", 8.4)
+        c.drawString(M + 44, y - height / 2 - 3, title)
         c.setFillColor(MUTED)
-        c.setFont("Poppins", 6.7)
-        c.drawString(M + 166, y - 21, task)
-        checkbox(c, PAGE_W - M - 28, y - 19, 11)
-        y -= 59
+        c.setFont("Poppins", 7.6)
+        c.drawString(M + 190, y - height / 2 - 3, task)
+        checkbox(c, PAGE_W - M - 28, y - height / 2 - 1, 12)
+        y -= height + 8
+
+    height = 86
     c.setFillColor(INK)
-    c.roundRect(M, 78, CONTENT_W, 74, 7, fill=1, stroke=0)
-    c.setFillColor(WHITE)
+    c.rect(M, CONTENT_FLOOR, CONTENT_W, height, fill=1, stroke=0)
+    c.setFillColor(base.rgb_with_alpha("#FFFFFF", 0.6))
     c.setFont("PoppinsSemiBold", 7)
-    c.drawString(M + 16, 126, "PRÓXIMA REVISÃO")
-    writing_lines(c, M + 16, 100, CONTENT_W - 32, 1)
+    c.drawString(M + 18, CONTENT_FLOOR + height - 22, "PRÓXIMA REVISÃO")
+    c.setStrokeColor(base.rgb_with_alpha("#FFFFFF", 0.28))
+    c.setLineWidth(0.6)
+    c.line(M + 18, CONTENT_FLOOR + 28, PAGE_W - M - 18, CONTENT_FLOOR + 28)
     c.showPage()
 
 
@@ -827,14 +920,14 @@ def next_step(c: canvas.Canvas, guide: Guide) -> None:
     )
 
     c.setFillColor(INK)
-    c.roundRect(M, 332, CONTENT_W, 218, 8, fill=1, stroke=0)
-    c.setFillColor(GREEN)
+    c.rect(M, 332, CONTENT_W, 218, fill=1, stroke=0)
+    c.setFillColor(base.rgb_with_alpha("#FFFFFF", 0.6))
     c.setFont("PoppinsSemiBold", 7)
     c.drawString(M + 18, 520, "O QUE FICA CONECTADO")
     y = 481
     for point in guide.flowo_points:
-        c.setFillColor(GREEN)
-        c.circle(M + 23, y + 2, 4, fill=1, stroke=0)
+        c.setFillColor(base.rgb_with_alpha("#FFFFFF", 0.55))
+        c.circle(M + 23, y + 2, 3, fill=1, stroke=0)
         base.paragraph(
             c,
             point,
@@ -849,9 +942,9 @@ def next_step(c: canvas.Canvas, guide: Guide) -> None:
         )
         y -= 41
 
-    c.setFillColor(CREAM)
-    c.roundRect(M, 184, CONTENT_W, 104, 8, fill=1, stroke=0)
-    c.setFillColor(MUTED)
+    c.setFillColor(SURFACE_2)
+    c.rect(M, 184, CONTENT_W, 104, fill=1, stroke=0)
+    c.setFillColor(FAINT)
     c.setFont("PoppinsSemiBold", 7)
     c.drawString(M + 16, 260, "CONDIÇÃO IMPORTANTE")
     base.paragraph(
@@ -866,9 +959,9 @@ def next_step(c: canvas.Canvas, guide: Guide) -> None:
         INK,
     )
 
-    c.setFillColor(GREEN)
-    c.roundRect(M, 104, 248, 48, 24, fill=1, stroke=0)
     c.setFillColor(INK)
+    c.roundRect(M, 104, 248, 48, 24, fill=1, stroke=0)
+    c.setFillColor(WHITE)
     c.setFont("PoppinsBold", 7.5)
     c.drawCentredString(M + 124, 123, "CONHECER A FLOWO")
     c.setFillColor(MUTED)

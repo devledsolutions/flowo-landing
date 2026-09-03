@@ -15,15 +15,17 @@ import {
   GuideCallout,
   GuideCards,
   GuideChecklist,
-  GuideContent,
   GuideCta,
   GuideHeader,
   GuidePage,
   GuidePrevNext,
   GuideScopeNote,
   GuideSection,
+  GuideContent,
 } from "@/components/resources/guide-shell";
 import { GuideStructuredData } from "@/components/resources/resource-structured-data";
+import { bookingConversation } from "@/components/home/whatsapp-chat";
+import { GuideHonesty, GuideWhatsApp } from "@/app/recursos/_components/guide-media";
 import { getGuide } from "@/data/guides";
 import { formatBRL, getPlan } from "@/data/pricing-data";
 import { buildGuideMetadata } from "@/lib/seo";
@@ -38,7 +40,7 @@ const tableOfContents = [
   { id: "resposta", label: "Qual é o melhor sistema" },
   { id: "criterios", label: "Os 7 critérios que importam" },
   { id: "canais", label: "WhatsApp, link ou aplicativo" },
-  { id: "equipe", label: "Agenda por profissional" },
+  { id: "equipe", label: "Agenda por barbeiro" },
   { id: "preco", label: "Preço real do pacote" },
   { id: "comparar", label: "Compare as opções" },
   { id: "teste", label: "Teste antes de decidir" },
@@ -47,11 +49,11 @@ const tableOfContents = [
 const decisionRows = [
   {
     need: "Atender e agendar no WhatsApp",
-    inspect: "Se a conversa consulta a agenda real ou apenas envia um link.",
+    inspect: "Se a conversa olha a agenda de verdade ou só manda um link.",
   },
   {
     need: "Equipe com horários diferentes",
-    inspect: "Dias, turnos, folgas, serviços e duração por profissional.",
+    inspect: "Dias, turnos, folgas, serviços e duração por barbeiro.",
   },
   {
     need: "Aplicativo com a marca da barbearia",
@@ -63,11 +65,11 @@ const decisionRows = [
   },
   {
     need: "Financeiro e comissão",
-    inspect: "O que é automático, o que exige revisão e quais módulos são extras.",
+    inspect: "O que é automático, o que pede revisão e o que é módulo extra.",
   },
   {
-    need: "Implantação rápida",
-    inspect: "Migração de clientes, configuração do canal e suporte após a venda.",
+    need: "Começar rápido",
+    inspect: "Migração de clientes, configuração do WhatsApp e suporte depois da venda.",
   },
 ];
 
@@ -86,113 +88,87 @@ export default function BestBarbershopSystemGuidePage() {
               { label: "Como escolher", href: "#" },
             ]}
             readTime={guide.readTime}
-            title="Melhor sistema para barbearia: como escolher sem cair na lista de recursos"
-            lead="Não existe uma plataforma melhor para toda barbearia. Existe a que resolve o seu gargalo, respeita a rotina da equipe e cabe no custo total que você pretende assumir."
-            updatedAt="31 de julho de 2026"
+            title="Melhor sistema para barbearia: como escolher"
+            lead="Não existe o melhor para toda barbearia. Existe o que resolve o seu gargalo, respeita a rotina da equipe e cabe no custo total."
+            updatedAt="3 de setembro de 2026"
           />
 
           <GuideContent items={tableOfContents}>
-            <GuideSection
-              id="resposta"
-              icon={Scale}
-              title="Qual é o melhor sistema para barbearia?"
-            >
+            <GuideSection id="resposta" icon={Scale} title="Qual é o melhor sistema para barbearia?">
               <p>
-                A resposta depende de onde o atendimento começa e de como a
-                barbearia opera. Se os clientes já pedem horário pelo WhatsApp,
-                uma recepção conectada à agenda pode eliminar a consulta manual.
-                Se o objetivo é oferecer um aplicativo com a própria marca, uma
-                plataforma centrada em app pode ser mais adequada. Se preço é a
-                prioridade absoluta, há opções gratuitas e planos-base menores.
+                Depende de onde o atendimento começa. Se os clientes já pedem horário pelo
+                WhatsApp, uma recepção ligada à agenda tira a consulta manual do seu dia. Se a
+                meta é um aplicativo com a sua marca, um sistema centrado em app pode servir
+                melhor. Se preço é o único critério, há opções gratuitas e planos menores.
               </p>
               <GuideCallout title="Comece pelo gargalo, não pelo logotipo">
-                Anote as três tarefas que mais tomam tempo ou geram erro hoje.
-                Depois avalie cada sistema executando essas tarefas do início ao
-                fim. Uma lista com cinquenta recursos não prova que o fluxo
-                principal funciona bem.
+                Anote as três tarefas que mais tomam tempo ou dão erro hoje. Depois faça essas
+                tarefas do começo ao fim em cada sistema. Uma lista de cinquenta recursos não
+                prova que o fluxo principal funciona.
               </GuideCallout>
             </GuideSection>
 
-            <GuideSection
-              id="criterios"
-              icon={Search}
-              title="Os 7 critérios que realmente mudam a decisão"
-            >
+            <GuideSection id="criterios" icon={Search} title="Os 7 critérios que mudam a decisão">
               <GuideChecklist
                 items={[
                   "Canal: WhatsApp, link, aplicativo ou uma combinação clara",
-                  "Agenda: disponibilidade real por profissional e por serviço",
+                  "Agenda: horário livre de verdade por barbeiro e por serviço",
                   "Equipe: permissões, comissão, folgas e acesso no celular",
-                  "Operação: comanda, clientes, caixa, estoque e relatórios necessários",
-                  "Relacionamento: confirmação, lembrete, retorno e consentimento",
-                  "Implantação: migração, configuração, treinamento e suporte",
+                  "Operação: comanda, clientes, caixa, estoque e relatórios",
+                  "Relacionamento: confirmação, lembrete, retorno e permissão do cliente",
+                  "Implantação: migração, configuração, treino e suporte",
                   "Custo total: plano, usuários, módulos, mensagens, pagamentos e equipamentos",
                 ]}
               />
               <GuideScopeNote status="practice" title="Dê peso diferente a cada critério">
-                Uma barbearia de uma cadeira não deve avaliar multi-unidades com o
-                mesmo peso de agenda e preço. Uma rede não deve escolher somente
-                pelo menor plano inicial. Defina o que é obrigatório, desejável e
+                Uma barbearia de uma cadeira não precisa avaliar rede de unidades. Uma rede não
+                deve escolher só pelo plano mais barato. Defina o que é obrigatório, desejável e
                 dispensável antes da demonstração.
               </GuideScopeNote>
             </GuideSection>
 
-            <GuideSection
-              id="canais"
-              icon={MessageCircle}
-              title="WhatsApp, link ou aplicativo: o canal muda a conversão"
-            >
+            <GuideSection id="canais" icon={MessageCircle} title="WhatsApp, link ou aplicativo: o canal muda tudo">
               <GuideCards
                 items={[
                   {
-                    title: "WhatsApp com agenda conectada",
-                    description:
-                      "O cliente conversa no canal que já usa. Confirme se a automação entende o pedido, consulta disponibilidade e conclui o agendamento sem apenas entregar outro link.",
+                    title: "WhatsApp ligado à agenda",
+                    description: "O cliente fala no canal que já usa. Confira se o sistema entende o pedido, olha o horário livre e conclui o agendamento sem mandar outro link.",
                   },
                   {
                     title: "Página de agendamento",
-                    description:
-                      "É simples de compartilhar e não exige instalação. Teste velocidade, clareza dos horários e quantidade de etapas no celular.",
+                    description: "Fácil de compartilhar, sem instalar nada. Teste velocidade, clareza dos horários e quantas etapas tem no celular.",
                   },
                   {
                     title: "Aplicativo próprio",
-                    description:
-                      "Fortalece a marca e pode concentrar assinatura, pagamento e push. Considere download, login, prazo de publicação e manutenção.",
+                    description: "Reforça a marca e pode juntar assinatura, pagamento e notificação. Pese download, login, prazo de publicação e manutenção.",
                   },
                 ]}
               />
               <p>
-                O Flowo escolhe o primeiro caminho: a IA atende e agenda pelo
-                WhatsApp. AppBarber e BestBarbers dão mais peso à experiência em
-                aplicativo. Trinks combina agenda online, aplicativo e um
-                ecossistema mais amplo. Nenhum canal é automaticamente melhor;
-                ele precisa combinar com o comportamento dos seus clientes.
+                A Flowo escolhe o primeiro caminho: ela atende e agenda no WhatsApp. AppBarber e
+                BestBarbers dão mais peso ao aplicativo próprio. Trinks junta agenda online,
+                aplicativo e um ecossistema mais amplo. Nenhum canal é melhor sozinho. Ele precisa
+                combinar com o jeito dos seus clientes.
               </p>
+              <GuideWhatsApp messages={bookingConversation} />
             </GuideSection>
 
-            <GuideSection
-              id="equipe"
-              icon={Users}
-              title="Diferentes barbeiros precisam de diferentes agendas"
-            >
+            <GuideSection id="equipe" icon={Users} title="Barbeiros diferentes precisam de agendas diferentes">
               <p>
-                Não basta cadastrar o horário da loja. Pergunte se cada
-                profissional pode ter dias, turnos, folgas, serviços e duração
-                próprios. Em seguida, simule dois clientes tentando reservar o
-                mesmo horário e confirme como o sistema evita o conflito.
+                Não basta cadastrar o horário da loja. Pergunte se cada barbeiro pode ter dias,
+                turnos, folgas, serviços e duração próprios. Depois simule dois clientes
+                tentando o mesmo horário e veja como o sistema evita o choque.
               </p>
               <GuideCards
                 columns={2}
                 items={[
                   {
                     title: "Barbearia pequena",
-                    description:
-                      "Priorize configuração simples, visão do dia e acesso rápido pelo celular.",
+                    description: "Priorize configuração simples, visão do dia e acesso rápido pelo celular.",
                   },
                   {
                     title: "Equipe e rede",
-                    description:
-                      "Exija permissões, relatórios por profissional, visão consolidada e regras claras de comissão.",
+                    description: "Exija permissões, relatório por barbeiro, visão geral e regra clara de comissão.",
                   },
                 ]}
               />
@@ -204,44 +180,33 @@ export default function BestBarbershopSystemGuidePage() {
               </Link>
             </GuideSection>
 
-            <GuideSection
-              id="preco"
-              icon={BadgeDollarSign}
-              title="Quanto custa um sistema para barbearia?"
-            >
+            <GuideSection id="preco" icon={BadgeDollarSign} title="Quanto custa um sistema para barbearia?">
               <p>
-                O valor publicado pode ser gratuito, por profissional, por
-                unidade ou por pacote. Compare a configuração que você realmente
-                usará: número de barbeiros, WhatsApp, IA, mensagens, fiscal,
-                pagamentos, app próprio, implantação e suporte.
+                O preço publicado pode ser gratuito, por barbeiro, por unidade ou por pacote.
+                Compare a configuração que você vai usar de verdade: número de barbeiros,
+                WhatsApp, atendimento automático, mensagens, nota fiscal, pagamentos, app
+                próprio, implantação e suporte.
               </p>
-              <GuideCallout title="Plano-base não é custo total">
-                Um plano barato com módulos separados pode custar mais quando o
-                WhatsApp, a IA e a equipe entram. Um plano mais caro também pode
-                ser desperdício se inclui uma operação que a barbearia não
-                precisa. Peça o valor mensal final por escrito.
+              <GuideCallout title="Plano básico não é custo total">
+                Um plano barato com módulos separados pode sair mais caro quando WhatsApp,
+                atendimento automático e equipe entram. Um plano caro também pode ser
+                desperdício se traz o que você não usa. Peça o valor mensal final por escrito.
               </GuideCallout>
               <p>
-                O Flowo publica os planos Solo por {soloPrice} e Equipe por {equipePrice}
-                por mês. O Empresarial é sob consulta e a assinatura não tem
-                fidelidade. Não há teste automático; uma avaliação assistida
-                de 14 dias pode ser concedida a clientes elegíveis de Solo ou
-                Equipe. A recepção com IA no WhatsApp está incluída;
-                pagamentos integrados são opcionais e acontecem depois do
-                atendimento. As páginas comparativas registram os preços
-                públicos dos concorrentes e a data da consulta.
+                A Flowo publica os planos Solo por {soloPrice} e Equipe por {equipePrice} por
+                mês. O Empresarial é sob consulta. Não há fidelidade. Não há teste automático:
+                uma avaliação assistida de 14 dias pode ser liberada para clientes elegíveis de
+                Solo ou Equipe. O atendimento no WhatsApp está incluído. Pagamentos pela Flowo são
+                opcionais e acontecem depois do corte. As páginas comparativas registram os
+                preços públicos dos concorrentes e a data da consulta.
               </p>
             </GuideSection>
 
-            <GuideSection
-              id="comparar"
-              icon={Smartphone}
-              title="Compare as opções pela proposta central"
-            >
+            <GuideSection id="comparar" icon={Smartphone} title="Compare pela proposta central">
               <div className="my-8 overflow-x-auto rounded-lg border border-line bg-surface">
                 <table className="w-full min-w-[42rem] border-collapse">
                   <caption className="sr-only">
-                    Necessidades da barbearia e o que verificar em cada sistema
+                    O que a barbearia precisa e o que conferir em cada sistema
                   </caption>
                   <thead>
                     <tr className="border-b border-line bg-background">
@@ -249,7 +214,7 @@ export default function BestBarbershopSystemGuidePage() {
                         Se você precisa de
                       </th>
                       <th className="px-5 py-4 text-left text-label font-semibold text-ink">
-                        Verifique isto na demonstração
+                        Confira na demonstração
                       </th>
                     </tr>
                   </thead>
@@ -292,40 +257,45 @@ export default function BestBarbershopSystemGuidePage() {
               </Link>
             </GuideSection>
 
-            <GuideSection
-              id="teste"
-              icon={CalendarDays}
-              title="Teste o fluxo inteiro antes de decidir"
-            >
+            <GuideSection id="teste" icon={CalendarDays} title="Teste o fluxo inteiro antes de decidir">
               <GuideChecklist
                 items={[
-                  "Crie dois profissionais com horários e serviços diferentes",
-                  "Faça um agendamento como cliente pelo celular",
+                  "Crie dois barbeiros com horários e serviços diferentes",
+                  "Agende como cliente pelo celular",
                   "Tente reservar um horário já ocupado",
                   "Remarque, cancele e confirme o mesmo atendimento",
-                  "Abra e feche a comanda sem ativar pagamento integrado",
+                  "Abra e feche a comanda sem ligar pagamento pela Flowo",
                   "Confira comissão, histórico e permissões da equipe",
-                  "Peça ajuda e avalie o tempo e a qualidade da resposta",
+                  "Peça ajuda e veja o tempo e a qualidade da resposta",
                 ]}
               />
-              <GuideScopeNote title="A Flowo publica uma demonstração técnica do fluxo">
-                O teste documenta mensagem, consulta de disponibilidade,
-                agendamento, remarcação, cancelamento e confirmação em ambiente
-                controlado. Ele prova funcionamento técnico, não resultado
-                comercial de cliente.
+              <GuideScopeNote title="A Flowo publica a própria demonstração">
+                A conversa completa, do pedido ao cancelamento, está numa página só, com a
+                agenda mudando a cada passo e o que ainda não foi medido dito no fim.
               </GuideScopeNote>
               <Link
                 href="/demonstracao-agendamento-whatsapp"
                 className="inline-flex min-h-11 items-center font-semibold text-ink underline underline-offset-4"
               >
-                Ver a demonstração e seus limites
+                Ver a demonstração da Flowo
               </Link>
             </GuideSection>
           </GuideContent>
 
+          <GuideHonesty
+            tested={[
+              "A conversa mostrada acima, com agendamento, remarcação e cancelamento entrando na agenda: testada em produção com números de teste da própria Flowo, em 26 de julho de 2026.",
+              "Preços dos concorrentes: os públicos, com a data da consulta anotada em cada página comparativa.",
+            ]}
+            notMeasured={[
+              "Resultado comercial de barbearias que trocaram de sistema para a Flowo.",
+              "Comparação de tempo de implantação entre os sistemas.",
+            ]}
+          />
+
           <GuideCta
             title="Quer comparar usando a rotina da sua barbearia?"
-            description="Traga número de profissionais, horários, serviços e o canal por onde os clientes pedem agendamento. A demonstração deve responder ao seu cenário real."
+            description="Traga número de barbeiros, horários, serviços e o canal por onde os clientes pedem horário. A demonstração tem que responder ao seu caso."
           />
 
           <GuidePrevNext

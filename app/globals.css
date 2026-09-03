@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* ============================================================
-   BARBEARIA NOIR — committed ink+cream monochrome (OKLCH).
+   BARBEARIA NOIR: committed ink+cream monochrome (OKLCH).
    The only non-neutral hues allowed anywhere on the page:
    (a) WhatsApp green / blue-tick INSIDE the phone mock,
    (b) low-chroma semantic states (--success / --danger) for the
@@ -64,7 +64,7 @@
 
     /* --- section cadence (three rhythms, not one-size py-24) --- */
     --section-y-tight: clamp(3rem, 6vw, 4.5rem);
-    --section-y-normal: clamp(4.5rem, 9vw, 7.5rem);
+    --section-y-normal: clamp(3.5rem, 9vw, 7.5rem);
     --section-y-loose: clamp(6rem, 12vw, 10rem);
     --container-max: 75rem;                    /* 1200px */
     --gutter: clamp(1.25rem, 5vw, 2.5rem);
@@ -134,7 +134,7 @@
 }
 
 @layer components {
-  /* Section cadence utilities — pick one per section, vary the rhythm. */
+  /* Section cadence utilities: pick one per section, vary the rhythm. */
   .section-tight {
     padding-block: var(--section-y-tight);
   }

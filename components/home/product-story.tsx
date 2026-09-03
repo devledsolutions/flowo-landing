@@ -99,7 +99,7 @@ export default function ProductStory() {
 
       <section
         aria-labelledby="payment-proof-title"
-        className="on-ink overflow-hidden"
+        className="overflow-hidden border-t border-line bg-surface"
       >
         <div className="container-page section-normal grid items-center gap-12 lg:grid-cols-[0.7fr_1.3fr] lg:gap-20">
           <div>
@@ -121,7 +121,7 @@ export default function ProductStory() {
                     <span className="mx-auto flex h-10 w-10 items-center justify-center rounded-full border border-line bg-surface">
                       <Icon className="h-4 w-4 text-ink" aria-hidden="true" />
                     </span>
-                    <p className="mt-2 truncate text-[11px] text-ink">{label}</p>
+                    <p className="mt-2 truncate text-caption text-ink">{label}</p>
                   </div>
                   {index < 2 && <ArrowRight className="h-4 w-4 shrink-0 text-faint-ink" aria-hidden="true" />}
                 </li>

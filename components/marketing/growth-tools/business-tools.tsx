@@ -283,7 +283,7 @@ export function ManagementDiagnostic() {
       <div className={styles.resultPanel} aria-live="polite">
         <span className={styles.resultLabel}>{completed ? "SEU PONTO DE PARTIDA" : "COMPLETE AS PERGUNTAS"}</span>
         <div className={styles.resultPrimary}>
-          <strong>{completed ? yesCount : "—"}</strong>
+          <strong>{completed ? yesCount : "…"}</strong>
           <span>rotinas para olhar com cuidado</span>
         </div>
         <div className={styles.messagePreview}>{completed ? result : "O resultado aparece aqui, sem pedir cadastro."}</div>

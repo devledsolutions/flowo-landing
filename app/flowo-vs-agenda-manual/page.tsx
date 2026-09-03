@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Check, Minus } from "lucide-react";
 import Navbar from "@/components/navbar";
@@ -8,6 +7,9 @@ import {
   CommercialHero,
   RelatedSolutions,
 } from "@/components/marketing/commercial-page";
+import { PhoneFrame } from "@/components/home/phone-frame";
+import { WhatsAppChat, type ChatMessage } from "@/components/home/whatsapp-chat";
+import { ProductDisclaimer } from "@/components/home/product-previews";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
 import { getPlan } from "@/data/pricing-data";
 import { FlowoProductProof } from "@/components/marketing/flowo-product-proof";
@@ -17,7 +19,7 @@ const PATH = "/flowo-vs-agenda-manual";
 export const metadata = buildMetadata({
   title: "Flowo vs Agenda Manual para Barbearias",
   description:
-    "Compare o Flowo com a agenda de papel ou caderno: confirmação automática pelo WhatsApp, agenda por barbeiro e menos retrabalho para a equipe.",
+    "Compare a Flowo com o caderno: a Flowo responde no WhatsApp, marca na agenda do barbeiro certo e confirma o horário. Menos retrabalho para a equipe.",
   path: PATH,
 });
 
@@ -67,6 +69,30 @@ const comparison: {
   },
 ];
 
+/** Illustrative names and prices, the same ones the app screenshots use. */
+const conversation: ChatMessage[] = [
+  { day: "Quinta" },
+  { from: "cliente", text: "Boa tarde! Tem horário sábado de manhã com o João?", at: "14:12" },
+  {
+    from: "flowo",
+    text: "Tenho sábado com o João às 09:00, 10:30 e 11:00. Qual fica melhor pra você?",
+    at: "14:12",
+  },
+  { from: "cliente", text: "10:30", at: "14:13" },
+  {
+    from: "flowo",
+    text: "Agendado. Corte masculino sábado às 10:30 com o João, 40 min, R$ 55. Se precisar mudar, é só me chamar aqui.",
+    at: "14:13",
+  },
+  { day: "Sexta" },
+  {
+    from: "flowo",
+    text: "Oi! Lembrete do seu corte amanhã às 10:30 com o João. Confirma pra mim?",
+    at: "10:00",
+  },
+  { from: "cliente", text: "Confirmado!", at: "10:04" },
+];
+
 function CellValue({ value }: { value: boolean | string }) {
   if (typeof value === "string") {
     return <span className="text-label font-medium text-muted-ink">{value}</span>;
@@ -91,7 +117,7 @@ export default function FlowoVsAgendaManualPage() {
           current="Flowo vs Agenda Manual"
           eyebrow="O custo escondido do caderno"
           title="O caderno guarda horários. O Flowo cuida deles."
-          description="Agenda de papel funciona até certo ponto. Quando o volume cresce, aparecem conflitos, faltas sem aviso e retrabalho. Veja o que muda quando confirmação e disponibilidade deixam de depender da memória."
+          description="O caderno funciona até o movimento crescer. Depois vêm horário duplicado, falta sem aviso e retrabalho. Veja o que muda."
           preview="comparacao"
         />
 
@@ -154,24 +180,24 @@ export default function FlowoVsAgendaManualPage() {
 
         <section className="section-normal border-t border-line">
           <div className="container-page grid items-center gap-12 lg:grid-cols-[1fr_1.2fr]">
-            <div className="relative aspect-square overflow-hidden rounded-lg">
-              <Image
-                src="https://images.unsplash.com/photo-1621645582931-d1d3e6564943?auto=format&fit=crop&w=1000&q=80"
-                alt="Cadeira de barbeiro preta e cromada, retrato de objeto"
-                fill
-                sizes="(min-width: 1024px) 40vw, 100vw"
-                className="img-duotone object-cover"
-              />
+            <div className="mx-auto w-[340px] max-w-full lg:w-full lg:max-w-[24rem]">
+              <PhoneFrame className="lg:hidden">
+                <WhatsAppChat width={340} logicalHeight={900} messages={conversation} />
+              </PhoneFrame>
+              <PhoneFrame className="hidden lg:block">
+                <WhatsAppChat width={384} logicalHeight={900} messages={conversation} />
+              </PhoneFrame>
+              <ProductDisclaimer label="Conversa ilustrativa, com o fluxo testado em produção" className="mt-4" />
             </div>
             <div>
               <h2 className="text-h3 font-semibold text-ink">
                 O que a agenda manual não faz por você
               </h2>
               <p className="mt-4 max-w-measure text-body text-muted-ink">
-                O caderno não responde WhatsApp, não lembra o cliente do
-                horário e não avisa quando dois barbeiros marcaram a mesma
-                cadeira. No Flowo, a IA atende a conversa, marca no horário
-                livre do barbeiro certo e confirma presença antes do corte.
+                O caderno não responde WhatsApp. Não lembra o cliente do horário.
+                Não avisa quando dois barbeiros marcaram a mesma cadeira. A Flowo
+                responde a conversa, marca no horário livre do barbeiro certo e
+                pede a confirmação antes do corte.
               </p>
               <p className="mt-4 max-w-measure text-body text-muted-ink">
                 Para aprofundar a decisão, veja os guias de{" "}
@@ -224,9 +250,23 @@ export default function FlowoVsAgendaManualPage() {
             },
           ]}
         />
+
+        <section className="section-tight border-t border-line bg-surface">
+          <div className="container-page">
+            <h2 className="text-h3 font-semibold text-ink-strong">O que já testamos</h2>
+            <p className="mt-3 max-w-measure text-body text-muted-ink">
+              A conversa desta página é ilustrativa. O fluxo de marcar, confirmar,
+              remarcar e cancelar foi testado em produção com números de teste da
+              própria Flowo, em 26 de julho de 2026. Ainda não medimos quantas
+              faltas ou conflitos uma barbearia evita com a Flowo. Por isso esta
+              página não promete número.
+            </p>
+          </div>
+        </section>
+
         <CommercialCta
           title="Pare de apagar incêndio na agenda."
-          description="Automatize agendamento, confirmação e lembrete pelo WhatsApp e deixe a equipe trabalhar com a mesma informação."
+          description="A Flowo agenda, confirma e lembra pelo WhatsApp. A equipe inteira trabalha com a mesma informação."
           price={getPlan("solo").monthly}
         />
       </main>
