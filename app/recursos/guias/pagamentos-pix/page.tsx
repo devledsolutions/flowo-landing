@@ -17,6 +17,7 @@ import {
   GuideContent,
 } from "@/components/resources/guide-shell";
 import { GuideStructuredData } from "@/components/resources/resource-structured-data";
+import { GuideHonesty, GuideScreenshot } from "@/app/recursos/_components/guide-media";
 import { getGuide } from "@/data/guides";
 import { buildGuideMetadata } from "@/lib/seo";
 
@@ -25,10 +26,10 @@ const guide = getGuide("/recursos/guias/pagamentos-pix");
 export const metadata = buildGuideMetadata(guide);
 
 const tableOfContents = [
-  { id: "regra", label: "A regra: pagamento depois do serviço" },
+  { id: "regra", label: "A regra: pagar depois do serviço" },
   { id: "ativacao", label: "Ative a conta de recebimento" },
-  { id: "comanda", label: "Feche a comanda com o valor correto" },
-  { id: "checkout", label: "PIX e cartão pelo checkout" },
+  { id: "comanda", label: "Feche a comanda com o valor certo" },
+  { id: "checkout", label: "PIX e cartão pela Flowo" },
   { id: "caixa", label: "Acompanhe saldo e histórico" },
 ];
 
@@ -48,210 +49,177 @@ export default function PixPaymentsGuidePage() {
             ]}
             readTime={guide.readTime}
             title="Pagamentos com PIX na barbearia"
-            lead="Receba depois de concluir o atendimento. O Flowo liga a forma de pagamento à comanda e mantém agenda, cliente e financeiro no mesmo fluxo."
+            lead="Receba depois do corte. A comanda guarda o serviço, o barbeiro e a forma de pagamento no mesmo lugar."
+            updatedAt="3 de setembro de 2026"
           />
 
           <GuideAvailability
             items={[
               {
-                label: "Formas de pagamento",
-                value: "Dinheiro, PIX e cartão",
-                description:
-                  "O fechamento pode registrar dinheiro ou gerar uma cobrança digital vinculada ao atendimento.",
+                label: "Como receber",
+                value: "Dinheiro, maquininha, PIX e cartão",
+                description: "Dinheiro e maquininha própria são só registro. PIX e cartão pela Flowo geram a cobrança.",
               },
               {
-                label: "Momento da cobrança",
+                label: "Quando",
                 value: "Depois do serviço",
-                description:
-                  "Não existe sinal, depósito ou pagamento obrigatório para reservar horário.",
+                description: "Não existe sinal, depósito nem pagamento para reservar horário.",
               },
               {
-                label: "Onde operar",
-                value: "Painel web e app móvel",
-                description:
-                  "Comandas, checkout, histórico, chaves PIX e saldo têm superfícies operacionais nas duas experiências.",
+                label: "Onde",
+                value: "Painel e app",
+                description: "Comandas, cobrança, histórico, chaves PIX e saldo nos dois.",
               },
               {
                 label: "Ativação",
-                value: "Conta aprovada e dados válidos",
-                description:
-                  "Cobranças digitais dependem da conta de pagamento ativa e dos dados exigidos para o cliente.",
+                value: "Conta aprovada",
+                description: "PIX e cartão pela Flowo pedem a conta de recebimento ativa e dados do cliente.",
               },
             ]}
           />
 
           <GuideContent items={tableOfContents}>
-            <GuideSection
-              id="regra"
-              icon={Shield}
-              title="A regra: pagamento depois do serviço"
-            >
+            <GuideSection id="regra" icon={Shield} title="A regra: pagar depois do serviço">
               <p>
-                No Flowo, agendamento e pagamento são etapas separadas. O cliente
-                reserva sem pagar e a barbearia cobra quando o serviço foi
-                realizado, pelo fechamento da comanda.
+                Na Flowo, agendar e pagar são etapas separadas. O cliente reserva sem pagar. A
+                barbearia cobra quando o serviço foi feito, ao fechar a comanda.
               </p>
               <GuideScopeNote title="Sem sinal e sem pagamento antecipado">
-                PIX e cartão são opções para quitar o atendimento já prestado.
-                Não use o checkout como condição para confirmar um horário.
+                PIX e cartão servem para quitar o atendimento feito. Não use a cobrança como
+                condição para confirmar horário.
               </GuideScopeNote>
               <GuideCallout title="Por que isso importa">
-                Os relatórios de receita consideram atendimentos concluídos e
-                comandas fechadas. Uma cobrança gerada antes da execução
-                distorceria a operação e contraria a regra comercial do produto.
+                O relatório de receita conta atendimentos concluídos e comandas fechadas. Uma
+                cobrança antes do corte bagunçaria esses números.
               </GuideCallout>
             </GuideSection>
 
-            <GuideSection
-              id="ativacao"
-              icon={Wallet}
-              title="Ative a conta de recebimento"
-            >
+            <GuideSection id="ativacao" icon={Wallet} title="Ative a conta de recebimento">
               <p>
-                Para gerar PIX ou cartão, a barbearia precisa concluir o cadastro
-                da conta de pagamento. Informe dados verdadeiros do titular ou da
-                empresa e acompanhe o estado até aparecer como ativo.
+                Para gerar PIX ou cartão pela Flowo, a barbearia conclui o cadastro da conta de
+                recebimento. Informe dados verdadeiros e acompanhe até aparecer como ativa.
               </p>
               <GuideSteps
                 items={[
                   {
-                    title: "Abra as configurações de pagamentos",
-                    description:
-                      "Use Configurações no painel web ou a área equivalente no app móvel.",
+                    title: "Abra as configurações de pagamento",
+                    description: "Em Configurações no painel, ou na área equivalente do app.",
                   },
                   {
                     title: "Preencha o cadastro",
-                    description:
-                      "Informe CPF/CNPJ, responsável, telefone e endereço solicitados pelo fluxo.",
+                    description: "CPF ou CNPJ, responsável, telefone e endereço.",
                   },
                   {
-                    title: "Acompanhe a análise",
-                    description:
-                      "Cadastro pendente ou rejeitado ainda não permite uma cobrança digital real.",
+                    title: "Espere a análise",
+                    description: "Cadastro pendente ou recusado ainda não gera cobrança de verdade.",
                   },
                   {
-                    title: "Cadastre a chave de retirada",
-                    description:
-                      "Depois da ativação, use uma chave PIX da própria barbearia para retirar saldo disponível.",
+                    title: "Cadastre a chave PIX de saque",
+                    description: "Uma chave da própria barbearia, para retirar o saldo disponível.",
                   },
                 ]}
               />
-              <GuideScopeNote
-                status="conditional"
-                title="Saldo disponível não é igual a saldo futuro"
-              >
-                Valores de cartão podem levar tempo para liquidar. Saques e
-                repasses só usam o saldo realmente disponível, não cobranças
-                ainda pendentes.
+              <GuideScopeNote status="conditional" title="Saldo disponível não é saldo futuro">
+                Cartão pode levar dias para liquidar. Saques e repasses usam só o que já está
+                disponível, não o que ainda está pendente.
               </GuideScopeNote>
             </GuideSection>
 
-            <GuideSection
-              id="comanda"
-              icon={ReceiptText}
-              title="Feche a comanda com o valor correto"
-            >
+            <GuideSection id="comanda" icon={ReceiptText} title="Feche a comanda com o valor certo">
               <p>
-                A comanda reúne serviços, produtos, descontos e o profissional
-                responsável. Revise os itens antes de escolher a forma de
-                pagamento.
+                A comanda reúne serviços, produtos, desconto e o barbeiro. Revise os itens antes
+                de escolher como receber.
               </p>
+              <GuideScreenshot
+                src="/images/product/dashboard-comandas.png"
+                alt="Tela Comandas da Flowo: comanda aberta com corte e barba, botões para adicionar serviço, produto e desconto, e as opções Dinheiro, Maquininha, PIX Flowo e Cartão Flowo"
+              />
               <GuideChecklist
                 items={[
-                  "Confirme serviço, produto, quantidade e desconto",
-                  "Vincule o profissional correto quando o item gerar comissão",
-                  "Use dinheiro quando o valor já foi recebido presencialmente",
-                  "Gere PIX ou cartão apenas para o total final da comanda",
-                  "Não crie uma segunda cobrança se já existir uma pendente válida",
+                  "Confira serviço, produto, quantidade e desconto",
+                  "Ligue o barbeiro certo quando o item gera comissão",
+                  "Use dinheiro ou maquininha quando já recebeu no balcão",
+                  "Gere PIX ou cartão só pelo total final da comanda",
+                  "Não crie outra cobrança se já existe uma pendente válida",
                 ]}
               />
               <GuideProductPath
                 items={[
                   {
-                    surface: "Painel web",
+                    surface: "Painel",
                     path: "Comandas",
-                    action:
-                      "abra o atendimento, revise os itens e escolha como fechar.",
+                    action: "abra o atendimento, revise os itens e escolha como fechar.",
                   },
                   {
-                    surface: "App móvel",
+                    surface: "App",
                     path: "Comandas",
-                    action:
-                      "faça o mesmo fluxo e compartilhe o checkout quando necessário.",
+                    action: "o mesmo fechamento, e compartilhe a cobrança quando precisar.",
                   },
                 ]}
               />
             </GuideSection>
 
-            <GuideSection
-              id="checkout"
-              icon={CreditCard}
-              title="PIX e cartão pelo checkout"
-            >
+            <GuideSection id="checkout" icon={CreditCard} title="PIX e cartão pela Flowo">
               <p>
-                Para PIX, o Flowo gera QR Code e código copia e cola. Para
-                cartão, abre um checkout protegido. O link pode ser compartilhado
-                com o cliente depois do atendimento, inclusive pelo WhatsApp
-                quando o canal estiver conectado.
+                Para PIX, a Flowo gera o QR Code e o código copia e cola. Para cartão, abre uma
+                página de pagamento protegida. O link pode ir para o cliente depois do corte,
+                inclusive pelo WhatsApp conectado.
               </p>
               <GuideCards
                 columns={2}
                 items={[
                   {
                     title: "PIX",
-                    description:
-                      "A cobrança pendente válida é reaproveitada; uma expirada pode ser regenerada sem duplicar o pagamento.",
+                    description: "A cobrança pendente é reaproveitada. Uma vencida pode ser gerada de novo sem duplicar.",
                   },
                   {
                     title: "Cartão",
-                    description:
-                      "O checkout valida os dados e acompanha aprovação, pendência ou recusa antes de fechar a comanda.",
+                    description: "A página confere os dados e acompanha aprovação, pendência ou recusa antes de fechar.",
                   },
                 ]}
               />
-              <GuideScopeNote
-                status="conditional"
-                title="Há requisitos mínimos do provedor"
-              >
-                Cobranças digitais exigem valor mínimo de R$ 5,00 e CPF/CNPJ
-                válido do cliente. Se esses dados faltarem, use uma forma
-                presencial ou corrija o cadastro.
+              <GuideScopeNote status="conditional" title="Tem valor mínimo e dados do cliente">
+                Cobrança pela Flowo pede no mínimo R$ 5,00 e CPF ou CNPJ válido do cliente. Se
+                faltar, receba no balcão ou corrija o cadastro.
               </GuideScopeNote>
             </GuideSection>
 
-            <GuideSection
-              id="caixa"
-              icon={Wallet}
-              title="Acompanhe saldo e histórico"
-            >
+            <GuideSection id="caixa" icon={Wallet} title="Acompanhe saldo e histórico">
               <p>
-                Em Financeiro, acompanhe pagamentos, saldo disponível, valores
-                pendentes e retiradas. Esse controle é operacional; ele não
-                substitui contabilidade, conciliação fiscal ou demonstrativo de
-                lucro.
+                Em Financeiro, veja pagamentos, saldo disponível, valores pendentes e saques. É
+                um controle da operação. Não substitui contador nem conciliação fiscal.
               </p>
               <GuideProductPath
                 items={[
                   {
-                    surface: "Painel web",
+                    surface: "Painel",
                     path: "Financeiro → Histórico / Chaves PIX",
-                    action:
-                      "consulte transações e gerencie os destinos de retirada.",
+                    action: "consulte os pagamentos e as chaves de saque.",
                   },
                   {
-                    surface: "App móvel",
+                    surface: "App",
                     path: "Mais → Financeiro",
-                    action:
-                      "acompanhe saldo, pagamentos, histórico e retirada.",
+                    action: "saldo, pagamentos, histórico e saque.",
                   },
                 ]}
               />
             </GuideSection>
           </GuideContent>
 
+          <GuideHonesty
+            tested={[
+              "Fechar comanda, gerar PIX e cartão e ver o saldo: conferidos no produto em 3 de setembro de 2026.",
+              "Valor mínimo de R$ 5,00 por cobrança: conferido no produto na mesma data.",
+            ]}
+            notMeasured={[
+              "Quanto do recebimento das barbearias passa a ser por PIX ou cartão pela Flowo.",
+              "Tempo economizado no fechamento do caixa.",
+            ]}
+          />
+
           <GuideCta
             title="Quer fechar o atendimento sem separar agenda e caixa?"
-            description="Use comandas para registrar o serviço e receber por dinheiro, PIX ou cartão depois da execução."
+            description="Use a comanda para registrar o serviço e receber em dinheiro, maquininha, PIX ou cartão depois do corte."
           />
 
           <GuidePrevNext
