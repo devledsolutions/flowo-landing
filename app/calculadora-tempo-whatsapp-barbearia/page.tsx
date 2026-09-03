@@ -28,7 +28,7 @@ const faqs = [
   {
     question: "O Flowo responde o WhatsApp da barbearia?",
     answer:
-      "O Flowo conecta recepção com IA, agenda e regras da equipe. O que fica disponível depende do plano, da configuração e da implantação contratada.",
+      "Sim. A Flowo responde no seu número do WhatsApp, olha a agenda e confirma. Cancelar pela conversa entra em todos os planos; remarcar, a partir do plano Equipe.",
   },
 ];
 
@@ -61,7 +61,7 @@ export default function WhatsAppTimeCalculatorPage() {
             </>
           ),
           lead:
-            "Informe o volume de mensagens e veja uma estimativa clara do tempo usado para consultar agenda, responder e retomar conversas enquanto você atende.",
+            "Informe o volume de mensagens e veja quanto tempo vai para consultar agenda, responder e retomar conversas enquanto você atende.",
           trust: [
             "Cálculo sem cadastro",
             "Valores escolhidos por você",
