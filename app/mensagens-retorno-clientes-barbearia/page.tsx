@@ -28,7 +28,7 @@ const faqs = [
   {
     question: "Como o Flowo ajuda no retorno de clientes?",
     answer:
-      "O Flowo organiza histórico e comunicação; o Flowo Recupera é um add-on em beta acompanhada. Disponibilidade e consentimento dependem da contratação e da configuração.",
+      "A Flowo guarda o histórico de cada cliente e envia campanhas dentro da franquia do seu plano. O Flowo Recupera, que sugere quem chamar de volta, é contratado à parte e ainda está em fase de teste com poucas barbearias.",
   },
 ];
 
