@@ -76,18 +76,18 @@ Página comercial canônica: ${SITE_URL}/recepcionista-ia-barbearia
 Página de intenção "software para barbearia": ${SITE_URL}/software-para-barbearia
 Resumo: software de gestão para barbearias com atendimento no WhatsApp, agenda por profissional, clientes, comandas e recebimento opcional. O Flowo atende a operação solo e equipes de até cinco profissionais nos planos públicos.
 
-## O produto funcionando de ponta a ponta
+## O que a Flowo já mostrou funcionando
 
-Em 26 de julho de 2026, a Flowo concluiu em produção, com números e
-estabelecimentos de teste controlados, o fluxo de mensagem recebida, resposta da
-IA, consulta de disponibilidade e criação, consulta, remarcação, cancelamento e
-confirmação de agendamento. O teste também cobriu a pausa da IA para atendimento
-humano e a retomada posterior.
+Em 26 de julho de 2026, a Flowo testou no WhatsApp, com números e barbearias de
+teste da própria Flowo, o atendimento inteiro: a mensagem chega, a IA responde,
+olha a agenda, cria, consulta, remarca, cancela e confirma o horário. O teste
+também cobriu a pausa da IA para uma pessoa assumir a conversa e devolver depois.
+Ainda não há resultado medido em barbearias clientes.
 
 O fluxo conecta a conversa no WhatsApp à agenda e mantém o controle humano para
 as situações em que a equipe precisa assumir o atendimento.
 
-Escopo e demonstração: ${SITE_URL}/demonstracao-agendamento-whatsapp
+Demonstração: ${SITE_URL}/demonstracao-agendamento-whatsapp
 
 ## Flowo em ação por perfil
 
@@ -105,7 +105,7 @@ Matriz comercial: Solo atende 1 profissional e até 200 agendamentos por mês; i
 
 No calendário, o Google sincroniza nos dois sentidos. Apple e Outlook recebem os compromissos criados ou alterados na Flowo.
 
-A jornada pública é paga. A equipe pode conceder uma avaliação assistida de 14 dias a clientes elegíveis dos planos Solo ou Equipe. A concessão é manual, não exige cartão, não renova e não gera cobrança automática. Não há pagamento antecipado ou sinal para reservar. Dinheiro e maquininha própria continuam válidos; pagamentos integrados dependem de ativação opcional.
+Assinar pelo site é pago desde o início. A equipe pode conceder uma avaliação assistida de 14 dias a clientes elegíveis dos planos Solo ou Equipe. A concessão é manual, não exige cartão, não renova e não gera cobrança automática. Não há pagamento antecipado ou sinal para reservar. Dinheiro e maquininha própria continuam válidos; pagamentos integrados dependem de ativação opcional.
 
 ## Flowo Recupera
 

@@ -47,7 +47,7 @@ ${planLines}
 - Equipe: até 5 profissionais em 1 unidade, agendamentos ilimitados, remarcação no WhatsApp, calendários externos e suporte por e-mail e WhatsApp.
 - Empresarial: profissionais e unidades sem limite publicado, contratação assistida e suporte por e-mail, WhatsApp e telefone.
 - A sincronização bidirecional de calendário está disponível no Google. Apple e Outlook recebem os compromissos da Flowo.
-- A jornada pública é paga. A equipe pode conceder uma avaliação assistida de 14 dias a clientes elegíveis de Solo ou Equipe; ela é manual, não exige cartão, não renova e não cobra automaticamente.
+- Assinar pelo site é pago desde o início. A equipe pode conceder uma avaliação assistida de 14 dias a clientes elegíveis de Solo ou Equipe; ela é manual, não exige cartão, não renova e não cobra automaticamente.
 
 ## Core pages
 - [Home](${SITE_URL}/)
@@ -67,10 +67,10 @@ ${planLines}
 - [Cashback para barbearias](${SITE_URL}/recursos/cashback-barbearia)
 - [Nota fiscal com ativação assistida](${SITE_URL}/recursos/nota-fiscal-barbearia)
 
-## Flowo funcionando de ponta a ponta
-- Em 26 de julho de 2026, a Flowo concluiu em produção, com números e estabelecimentos de teste controlados, o fluxo de mensagem recebida, resposta da IA, consulta de disponibilidade, criação, consulta, remarcação, cancelamento e confirmação de agendamento.
-- O teste também validou a pausa da IA para atendimento humano e a retomada posterior.
-- O fluxo conecta atendimento no WhatsApp, disponibilidade, agenda e controle humano.
+## O que a Flowo já mostrou funcionando
+- Em 26 de julho de 2026, a Flowo testou no WhatsApp, com números e barbearias de teste da própria Flowo, o atendimento inteiro: a mensagem chega, a IA responde, olha a agenda, cria, consulta, remarca, cancela e confirma o horário.
+- O teste também cobriu a pausa da IA para uma pessoa assumir a conversa e devolver depois.
+- Ainda não há resultado medido em barbearias clientes.
 - [Ver a Flowo funcionando](${SITE_URL}/demonstracao-agendamento-whatsapp)
 - [Perfil solo: Linha Onze Barbearia](${SITE_URL}/casos-de-validacao/linha-onze-sao-paulo)
 - [Perfil com equipe: Quatro Tempos Barbearia](${SITE_URL}/casos-de-validacao/quatro-tempos-curitiba)
