@@ -72,36 +72,36 @@ export default function GuidesPage() {
         <section className="pb-section-normal">
           <div className="container-page">
             <div className="mx-auto max-w-3xl">
-              <div className="rounded-lg border border-line bg-surface p-6 sm:p-8">
-                <h2 className="text-h3 font-bold text-ink">
-                  Veja o produto aplicado ao problema
-                </h2>
-                <p className="mt-2 max-w-measure text-muted-ink">
-                  Estas páginas mostram como agenda, WhatsApp, pagamentos e
-                  equipe funcionam hoje na Flowo, e o que depende de plano.
-                </p>
-                <ul className="mt-6 grid gap-3">
-                  {strategicLinks.map((item) => (
-                    <li key={item.href}>
-                      <Link
-                        href={item.href}
-                        className="group flex items-center justify-between gap-4 rounded-lg border border-line bg-background p-4 transition-colors duration-200 ease-out-quint hover:border-ink/40"
-                      >
-                        <div>
-                          <p className="font-semibold text-ink">{item.title}</p>
-                          <p className="text-label text-muted-ink">
-                            {item.description}
-                          </p>
-                        </div>
-                        <ArrowUpRight
-                          className="h-4 w-4 flex-shrink-0 text-faint-ink transition-colors group-hover:text-ink"
-                          aria-hidden="true"
-                        />
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <h2 className="font-serif text-[1.5rem] font-medium leading-[1.2] tracking-[-0.015em] text-ink-strong">
+                Veja o produto aplicado ao problema
+              </h2>
+              <p className="mt-3 max-w-measure leading-relaxed text-muted-ink">
+                Estas páginas mostram como agenda, WhatsApp, pagamentos e equipe
+                funcionam hoje na Flowo, e o que depende de plano.
+              </p>
+              <ul className="mt-6 divide-y divide-line border-y border-line">
+                {strategicLinks.map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className="group flex items-baseline justify-between gap-6 py-4 outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2"
+                    >
+                      <span>
+                        <span className="block font-medium text-ink">
+                          {item.title}
+                        </span>
+                        <span className="mt-1 block text-label leading-relaxed text-muted-ink">
+                          {item.description}
+                        </span>
+                      </span>
+                      <ArrowUpRight
+                        className="h-4 w-4 shrink-0 translate-y-1 text-faint-ink transition-colors group-hover:text-ink"
+                        aria-hidden="true"
+                      />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </section>
