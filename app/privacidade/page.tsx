@@ -182,12 +182,22 @@ const sections: LegalSection[] = [
             .
           </li>
           <li>
-            <strong>Twilio Segment e PostHog:</strong> usados, após autorização
-            de cookies analíticos, para medir páginas, origem de campanha,
-            interações, cadastro e onboarding. Podem processar identificadores
+            <strong>Twilio Segment:</strong> usado, após autorização de
+            cookies analíticos, para medir páginas, origem de campanha,
+            interações, cadastro e onboarding. Pode processar identificadores
             técnicos, dados de dispositivo e eventos de uso. Nome e contato só
             são associados quando a pessoa envia voluntariamente um formulário
             ou cria uma conta.
+          </li>
+          <li>
+            <strong>PostHog:</strong> usado para medir uso e para gravar a
+            navegação dentro do produto, com base no legítimo interesse de
+            manter o serviço funcionando e corrigir defeitos. A gravação
+            registra as telas visitadas, cliques e rolagem. O conteúdo digitado
+            é mascarado antes de sair do navegador, o que inclui senha, dados de
+            cartão e texto de formulário. Você pode pedir a interrupção da
+            gravação e a exclusão do que já foi gravado pelo canal de contato
+            desta política.
           </li>
           <li>
             <strong>Resend:</strong> usado para e-mails operacionais e,
@@ -289,9 +299,16 @@ const sections: LegalSection[] = [
       <>
         <p>
           O site e os aplicativos usam armazenamento essencial para sessão,
-          segurança e preferências. Métricas não essenciais só são ativadas
-          depois da sua escolha no aviso de cookies e podem ser recusadas ou
-          retiradas nas preferências.
+          segurança e preferências. Cookies de análise e de publicidade só são
+          ativados depois da sua escolha no aviso de cookies e podem ser
+          recusados ou retirados nas preferências.
+        </p>
+        <p>
+          A gravação de navegação dentro do produto é a exceção, e ela não
+          depende do aviso de cookies. Ela existe para encontrar e corrigir
+          defeito de uso, roda com o conteúdo digitado mascarado, e se apoia no
+          legítimo interesse. Você pode se opor a ela e pedir a exclusão das
+          gravações pelo canal de contato desta política.
         </p>
         <p>
           Podemos manter a primeira origem de campanha durante a sessão para
