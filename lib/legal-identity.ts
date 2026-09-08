@@ -8,5 +8,5 @@ export const LEGAL_ENTITY = {
   privacyEmail: "privacidade@flowo.com.br",
 } as const;
 
-export const LEGAL_UPDATED_AT = "16 de agosto de 2026";
+export const LEGAL_UPDATED_AT = "8 de setembro de 2026";
 export const LEGAL_TERMS_UPDATED_AT = "29 de agosto de 2026";

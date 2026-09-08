@@ -208,6 +208,58 @@ const sections: LegalSection[] = [
             preferências podem ser alterados pelos links presentes nos e-mails.
           </li>
           <li>
+            <strong>Clerk:</strong> autenticação e gestão de contas de acesso.
+            Processa nome, e-mail, credenciais, sessões e registros de login das
+            pessoas que entram no painel e no aplicativo.
+          </li>
+          <li>
+            <strong>Convex:</strong> banco de dados e execução do backend.
+            Armazena os dados operacionais da barbearia, incluindo cadastro de
+            clientes, agenda, comandas, mensagens e histórico.
+          </li>
+          <li>
+            <strong>Vercel:</strong> hospedagem do site e do painel, e roteamento
+            das chamadas de inteligência artificial. Processa endereço IP, dados
+            técnicos de requisição e logs de acesso.
+          </li>
+          <li>
+            <strong>Provedores de inteligência artificial:</strong> a
+            interpretação de mensagens e a geração de respostas usam modelos de
+            terceiros, hoje DeepSeek como principal e Google (Gemini) e OpenAI
+            como alternativas, acessados pelo roteamento da Vercel. O conteúdo
+            necessário à resposta, que pode incluir a mensagem do cliente, o
+            nome, o telefone e o contexto do agendamento, é enviado a esses
+            provedores no momento do atendimento. A transcrição de áudios pode
+            usar Deepgram, e a voz das ligações de venda usa ElevenLabs. Esses
+            provedores estão fora do Brasil, e a transferência observa o item
+            sobre transferência internacional abaixo.
+          </li>
+          <li>
+            <strong>Asaas:</strong> processamento de pagamentos, cobrança por
+            PIX e cartão, recebimento e repasse. Processa dados de cobrança,
+            identificação do recebedor e informações necessárias à liquidação.
+          </li>
+          <li>
+            <strong>Focus NFe:</strong> emissão de documentos fiscais. Processa
+            os dados exigidos pela legislação fiscal, incluindo identificação do
+            tomador do serviço quando informada.
+          </li>
+          <li>
+            <strong>RevenueCat:</strong> controle de assinaturas contratadas na
+            App Store e no Google Play. Processa identificadores de compra e
+            estado da assinatura.
+          </li>
+          <li>
+            <strong>Google e Microsoft:</strong> sincronização de agenda quando
+            a barbearia conecta um calendário, e serviços de mapa e endereço.
+            Processam os dados de agendamento que a própria conta autoriza a
+            sincronizar.
+          </li>
+          <li>
+            <strong>Upstash:</strong> cache e controle de fila. Processa
+            identificadores técnicos temporários.
+          </li>
+          <li>
             <strong>SMSDev:</strong> usado para transportar SMS no Brasil. SMS
             de novidades e convites da própria Flowo só é enviado quando a
             pessoa marca o opt-in específico para esse canal. O consentimento
@@ -222,9 +274,12 @@ const sections: LegalSection[] = [
           cliente.
         </p>
         <p>
-          Alguns fornecedores podem processar dados fora do Brasil. Nesses
-          casos, adotamos os mecanismos de transferência e proteção exigidos
-          pela legislação aplicável.
+          Parte desses fornecedores processa dados fora do Brasil, entre eles os
+          provedores de inteligência artificial, de autenticação, de banco de
+          dados, de hospedagem e de mensagens. Nesses casos, adotamos os
+          mecanismos de transferência e proteção exigidos pela legislação
+          aplicável, e o tratamento se limita ao necessário para prestar o
+          serviço contratado.
         </p>
       </>
     ),
