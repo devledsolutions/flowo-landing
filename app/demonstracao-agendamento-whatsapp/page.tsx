@@ -19,7 +19,7 @@ const PATH = "/demonstracao-agendamento-whatsapp";
 export const metadata = buildMetadata({
   title: "Demonstração: a Flowo atendendo no WhatsApp",
   description:
-    "Uma conversa completa: o cliente pede horário, a Flowo olha a agenda e confirma. Depois remarca, cancela e passa a conversa para a equipe quando precisa.",
+    "Uma demonstração da IA da Flowo: o cliente pede horário, a Flowo olha a agenda e confirma. Depois remarca, cancela e passa a conversa para a equipe quando precisa.",
   path: PATH,
 });
 
@@ -172,7 +172,7 @@ export default function DemonstracaoAgendamentoWhatsappPage() {
       />
       <Navbar />
       <main id="main-content">
-        <section className="border-b border-line bg-cream pb-16 pt-32 md:pt-40 lg:pb-24">
+        <section id="demonstracao" className="border-b border-line bg-cream pb-16 pt-32 md:pt-40 lg:pb-24">
           <div className="container-page">
             <Breadcrumb
               items={[
@@ -203,14 +203,12 @@ export default function DemonstracaoAgendamentoWhatsappPage() {
                     <ArrowRight className="h-4 w-4" aria-hidden="true" />
                   </TrackedLink>
                   <TrackedLink
-                    href={WHATSAPP_URL}
+                    href="#demonstracao"
                     event="CTA Clicked"
-                    properties={{ page: PATH, placement: "demo_hero", destination: "whatsapp_sales", intent: "ask_question" }}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    properties={{ page: PATH, placement: "demo_hero", destination: "demo_conversation", intent: "watch_demo" }}
                     className="inline-flex h-12 items-center justify-center rounded-full border border-control-border px-7 text-label font-semibold text-ink transition-colors hover:bg-surface"
                   >
-                    Falar com a Flowo
+                    Assistir à demonstração
                   </TrackedLink>
                 </div>
 
@@ -310,8 +308,8 @@ export default function DemonstracaoAgendamentoWhatsappPage() {
                 Veja a mesma conversa com os seus serviços e horários.
               </h2>
               <p className="mt-4 max-w-[34rem] text-body text-muted-ink">
-                Conte como sua equipe trabalha e a gente monta a demonstração com a sua barbearia dentro da
-                conversa.
+                Da mensagem no WhatsApp ao horário confirmado na agenda. Conte como sua equipe trabalha e a
+                gente monta a demonstração com a sua barbearia dentro da conversa.
               </p>
             </div>
             <TrackedLink
