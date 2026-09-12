@@ -12,8 +12,8 @@ import {
 import {
   VOICE_CODE_LENGTH,
   VOICE_CODE_RESEND_SECONDS,
-  VOICE_CONTACT_CONSENT_TEXT,
 } from "@/lib/voice-verification";
+import { LeadContactPreferences } from "@/components/lead-contact-preferences";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -350,6 +350,11 @@ export function LeadCaptureModal({
     setEmailMarketingConsent(false);
     setSmsMarketingConsent(false);
     setWhatsappMarketingConsent(false);
+    setVoiceConsent(false);
+    setVoiceStep("none");
+    setVoiceCode("");
+    setVoiceError("");
+    setResendIn(0);
     setCountryCode("BR");
     setDialCode("+55");
     setIsSuccess(false);
@@ -371,6 +376,7 @@ export function LeadCaptureModal({
     if (code !== "BR") {
       setSmsMarketingConsent(false);
       setWhatsappMarketingConsent(false);
+      setVoiceConsent(false);
     }
   };
 
@@ -634,7 +640,10 @@ export function LeadCaptureModal({
                     type="email"
                     autoComplete="email"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      if (!e.target.value.trim()) setEmailMarketingConsent(false);
+                    }}
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -713,68 +722,18 @@ export function LeadCaptureModal({
                     .
                   </span>
                 </label>
-                <label className="flex items-start gap-2 text-xs leading-5 text-muted-ink">
-                  <input
-                    type="checkbox"
-                    checked={emailMarketingConsent}
-                    disabled={!email}
-                    onChange={(event) =>
-                      setEmailMarketingConsent(event.target.checked)
-                    }
-                    className="mt-0.5 h-4 w-4 shrink-0 accent-ink disabled:opacity-50"
-                  />
-                  <span>
-                    Quero receber por e-mail conteúdos, novidades e ofertas da
-                    Flowo. Posso cancelar quando quiser.
-                  </span>
-                </label>
-                {countryCode === "BR" && (
-                  <label className="flex items-start gap-2 text-xs leading-5 text-muted-ink">
-                    <input
-                      type="checkbox"
-                      checked={whatsappMarketingConsent}
-                      onChange={(event) =>
-                        setWhatsappMarketingConsent(event.target.checked)
-                      }
-                      className="mt-0.5 h-4 w-4 shrink-0 accent-ink"
-                    />
-                    <span>
-                      Quero receber pelo WhatsApp dicas práticas, novidades e
-                      convites da Flowo. Posso responder SAIR quando quiser.
-                    </span>
-                  </label>
-                )}
-                {countryCode === "BR" && (
-                  <label className="flex items-start gap-2 text-xs leading-5 text-muted-ink">
-                    <input
-                      type="checkbox"
-                      checked={smsMarketingConsent}
-                      onChange={(event) =>
-                        setSmsMarketingConsent(event.target.checked)
-                      }
-                      className="mt-0.5 h-4 w-4 shrink-0 accent-ink"
-                    />
-                    <span>
-                      Quero receber por SMS novidades e convites da Flowo. A
-                      frequência é limitada e posso responder SAIR a qualquer
-                      momento.
-                    </span>
-                  </label>
-                )}
-                {countryCode === "BR" && (
-                  <label className="flex items-start gap-2 text-xs leading-5 text-muted-ink">
-                    <input
-                      type="checkbox"
-                      checked={voiceConsent}
-                      onChange={(event) => setVoiceConsent(event.target.checked)}
-                      className="mt-0.5 h-4 w-4 shrink-0 accent-ink"
-                    />
-                    <span>
-                      {VOICE_CONTACT_CONSENT_TEXT} Enviamos um código para
-                      confirmar o número antes de qualquer ligação.
-                    </span>
-                  </label>
-                )}
+                <LeadContactPreferences
+                  emailAvailable={Boolean(email.trim())}
+                  phoneAvailable={countryCode === "BR"}
+                  value={{ email: emailMarketingConsent, whatsapp: whatsappMarketingConsent, sms: smsMarketingConsent }}
+                  onChange={(preferences) => {
+                    setEmailMarketingConsent(preferences.email);
+                    setWhatsappMarketingConsent(preferences.whatsapp);
+                    setSmsMarketingConsent(preferences.sms);
+                  }}
+                  voiceConsent={voiceConsent}
+                  onVoiceConsentChange={setVoiceConsent}
+                />
                 <Button
                   type="submit"
                   className="w-full rounded-full font-semibold"
@@ -786,9 +745,6 @@ export function LeadCaptureModal({
                 >
                   {isSubmitting ? "Enviando..." : "Quero receber contato"}
                 </Button>
-                <p className="text-center text-caption text-muted-ink">
-                  Sem spam. Você pode pedir a exclusão dos dados a qualquer momento.
-                </p>
               </form>
             </>
           )}

@@ -24,6 +24,12 @@ opcionais de e-mail, WhatsApp e SMS marketing. Os três canais têm consentiment
 independentes: aceitar um canal não autoriza os demais. Downloads e pedidos de
 contato continuam funcionando sem qualquer opt-in de marketing.
 
+No modal de contato, uma opção desmarcada reúne os canais de marketing disponíveis
+e os nomeia no próprio aceite. “Escolher canais e ligação” permite ajustar cada
+canal e solicitar uma ligação separadamente. O envio mantém os três consentimentos
+individuais; o aceite de marketing não solicita ligação. A ligação continua
+dependendo da confirmação do número por código.
+
 O plano gratuito do Segment inclui até 1.000 visitantes mensais, duas fontes e
 distribuição para destinos, mas não substitui uma ferramenta de campanhas nem
 oferece o produto completo de Consent Management. A
