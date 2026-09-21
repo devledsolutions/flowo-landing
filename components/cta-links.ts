@@ -3,8 +3,13 @@
  * The public journey is pay-first: the primary CTA goes straight to app signup.
  * Assisted evaluations are granted only by sales, never through this link.
  */
-const SIGNUP_BASE_URL = "https://barber.flowo.com.br/sign-up";
-export const LOGIN_URL = "https://barber.flowo.com.br";
+import { PUBLIC_ENVIRONMENT } from "@/lib/environment";
+
+const SIGNUP_BASE_URL = new URL(
+  "/sign-up",
+  `${PUBLIC_ENVIRONMENT.appOrigin}/`,
+).toString();
+export const LOGIN_URL = PUBLIC_ENVIRONMENT.appOrigin;
 
 type SignupPlan = "solo" | "equipe";
 type SignupCycle = "monthly" | "yearly";
@@ -49,9 +54,7 @@ export function buildSignupUrl({
 // analytics provider hydrates and adds the consented anonymous handoff id.
 export const SIGNUP_URL = buildSignupUrl();
 
-export const WHATSAPP_NUMBER = (
-  process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "5541936181301"
-).replace(/\D/g, "");
+export const WHATSAPP_NUMBER = PUBLIC_ENVIRONMENT.whatsappNumber;
 
 export const WHATSAPP_NUMBER_E164 = `+${WHATSAPP_NUMBER}`;
 

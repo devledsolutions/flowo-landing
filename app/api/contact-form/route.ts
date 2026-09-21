@@ -6,6 +6,7 @@ import { getClientIp } from "@/lib/request-ip";
 import { applyRateLimit } from "@/lib/rate-limit";
 import { contactFormSchema, getValidationMessage } from "@/lib/validation";
 import { verifyTurnstile } from "@/lib/turnstile";
+import { resolveConvexUrl } from "@/lib/server-environment";
 
 export const runtime = "nodejs";
 export const preferredRegion = ["gru1"];
@@ -136,8 +137,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const convexUrl =
-      process.env.CONVEX_URL || process.env.NEXT_PUBLIC_CONVEX_URL;
+    const convexUrl = resolveConvexUrl();
     if (!convexUrl) {
       Sentry.captureMessage("Convex configuration missing for contact form", {
         level: "error",

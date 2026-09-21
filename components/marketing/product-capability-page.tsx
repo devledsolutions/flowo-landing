@@ -18,6 +18,7 @@ import {
   Users,
 } from "lucide-react";
 import { SIGNUP_URL } from "@/components/cta-links";
+import { PUBLIC_ENVIRONMENT } from "@/lib/environment";
 import type {
   ProductCapability,
   ProductCapabilityId,
@@ -57,7 +58,9 @@ function BrowserFrame({
         </div>
         <div className="mx-auto flex min-h-7 w-full max-w-60 items-center justify-center gap-1.5 rounded-md border border-ink/[0.08] bg-surface px-3 text-[10px] text-muted-ink">
           <LockKeyhole className="h-2.5 w-2.5" aria-hidden="true" />
-          <span className="truncate">barber.flowo.com.br/{path}</span>
+          <span className="truncate">
+            {PUBLIC_ENVIRONMENT.appHostname}/{path}
+          </span>
         </div>
         <span className="hidden text-[10px] font-semibold tracking-[0.16em] text-ink sm:inline">
           FLOWO

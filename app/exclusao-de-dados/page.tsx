@@ -2,6 +2,7 @@ import Link from "next/link";
 import { LegalPage, type LegalSection } from "@/components/legal-page";
 import { LEGAL_ENTITY, LEGAL_UPDATED_AT } from "@/lib/legal-identity";
 import { buildMetadata } from "@/lib/seo";
+import { PUBLIC_ENVIRONMENT } from "@/lib/environment";
 
 export const metadata = buildMetadata({
   title: "Exclusão de Conta e Dados",
@@ -36,7 +37,7 @@ const sections: LegalSection[] = [
           configurações da conta. Também é possível usar a{" "}
           <a
             className="underline underline-offset-4"
-            href="https://barber.flowo.com.br/excluir-conta"
+            href={`${PUBLIC_ENVIRONMENT.appOrigin}/excluir-conta`}
           >
             página segura de exclusão da conta
           </a>{" "}

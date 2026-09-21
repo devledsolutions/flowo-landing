@@ -12,6 +12,7 @@ import {
   DEFAULT_OG_IMAGE,
   TWITTER_HANDLE,
 } from "@/lib/seo"
+import { PUBLIC_ENVIRONMENT } from "@/lib/environment"
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -82,23 +83,31 @@ export const metadata: Metadata = {
     images: [DEFAULT_OG_IMAGE],
   },
   robots: {
-    index: true,
-    follow: true,
+    index: PUBLIC_ENVIRONMENT.isPublicProduction,
+    follow: PUBLIC_ENVIRONMENT.isPublicProduction,
     googleBot: {
-      index: true,
-      follow: true,
+      index: PUBLIC_ENVIRONMENT.isPublicProduction,
+      follow: PUBLIC_ENVIRONMENT.isPublicProduction,
       "max-video-preview": -1,
       "max-image-preview": "large",
       "max-snippet": -1,
     },
   },
   verification: {
-    ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ...(PUBLIC_ENVIRONMENT.isPublicProduction &&
+    process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
       ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
       : {}),
     other: {
-      "facebook-domain-verification": "llh12wjtj6ysmbmtxeuzlq4xunrnwe",
-      ...(process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
+      ...(PUBLIC_ENVIRONMENT.isPublicProduction &&
+      process.env.NEXT_PUBLIC_FACEBOOK_DOMAIN_VERIFICATION
+        ? {
+            "facebook-domain-verification":
+              process.env.NEXT_PUBLIC_FACEBOOK_DOMAIN_VERIFICATION,
+          }
+        : {}),
+      ...(PUBLIC_ENVIRONMENT.isPublicProduction &&
+      process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
         ? {
             "msvalidate.01": process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION,
           }

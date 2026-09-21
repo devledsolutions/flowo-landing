@@ -1,5 +1,6 @@
 import { CalendarDays, Check, MessageCircle, ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { PUBLIC_ENVIRONMENT } from "@/lib/environment";
 
 const professionals = [
   {
@@ -40,7 +41,7 @@ function BrowserBar({ path }: { path: string }) {
         <span className="h-2 w-2 rounded-full bg-[#5bbf74]" />
       </div>
       <div className="mx-auto flex h-4 w-[58%] items-center justify-center rounded-md border border-line bg-surface px-2 text-[6px] text-muted-ink sm:h-5 sm:text-[8px]">
-        barber.flowo.com.br/{path}
+        {PUBLIC_ENVIRONMENT.appHostname}/{path}
       </div>
       <span className="w-7" aria-hidden="true" />
     </div>

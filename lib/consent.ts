@@ -7,6 +7,8 @@
  * - Market best practices for privacy compliance
  */
 
+import { PUBLIC_ENVIRONMENT, cookieDomainAttribute } from "@/lib/environment";
+
 // Extend Window interface for gtag (compatible with Next.js types)
 declare global {
   interface Window {
@@ -29,8 +31,8 @@ export interface ConsentMetadata {
 
 export const COOKIE_PREFERENCES_EVENT = "flowo:open-cookie-preferences";
 
-const CONSENT_STORAGE_KEY = 'cookieConsent';
-const CONSENT_DATE_KEY = 'cookieConsentDate';
+const CONSENT_STORAGE_KEY = PUBLIC_ENVIRONMENT.consentCookieName;
+const CONSENT_DATE_KEY = PUBLIC_ENVIRONMENT.consentCookieDateName;
 const CONSENT_VERSION = '1.0';
 const CONSENT_EXPIRY_DAYS = 365; // 1 year - LGPD best practice
 
@@ -44,19 +46,22 @@ function setCookie(name: string, value: string, days: number): void {
   date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
   const expires = `expires=${date.toUTCString()}`;
 
-  const attributes = `${expires};path=/;SameSite=Lax;Secure`;
+  const attributes = `${expires}; Path=/; SameSite=Lax; Secure`;
 
-  // Keep a possible legacy host-only cookie aligned before writing the shared
-  // cookie. Otherwise both cookies can coexist with conflicting values and the
-  // browser may return the older choice first after a reload.
-  document.cookie = `${name}=${value};${attributes}`;
-
-  // Share the visitor's choice with barber.flowo.com.br so signup and
-  // onboarding never start advertising trackers without the same consent.
-  const hostname = window.location.hostname;
-  if (hostname === 'flowo.com.br' || hostname.endsWith('.flowo.com.br')) {
-    document.cookie = `${name}=${value};${attributes};domain=.flowo.com.br`;
+  // Production intentionally shares consent with the application. Permanent
+  // QA remains host-only because its landing/app hostnames have production as
+  // their only common cookie domain.
+  const domainAttribute = cookieDomainAttribute();
+  if (domainAttribute) {
+    // Remove a legacy host-only copy before writing the shared production
+    // cookie. Keeping both scopes with the same name makes browser ordering
+    // ambiguous and can resurrect an older consent choice.
+    document.cookie = `${name}=; Max-Age=0; Path=/; SameSite=Lax; Secure`;
+    document.cookie = `${name}=${value};${attributes}${domainAttribute}`;
+    return;
   }
+
+  document.cookie = `${name}=${value};${attributes}`;
 }
 
 /**
@@ -86,12 +91,10 @@ function getCookie(name: string): string | null {
  */
 function deleteCookie(name: string): void {
   if (typeof document === 'undefined') return;
-  document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;SameSite=Lax;Secure`;
-  if (
-    window.location.hostname === 'flowo.com.br' ||
-    window.location.hostname.endsWith('.flowo.com.br')
-  ) {
-    document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;domain=.flowo.com.br;SameSite=Lax;Secure`;
+  document.cookie = `${name}=; Max-Age=0; Path=/; SameSite=Lax; Secure`;
+  const domainAttribute = cookieDomainAttribute();
+  if (domainAttribute) {
+    document.cookie = `${name}=; Max-Age=0; Path=/; SameSite=Lax; Secure${domainAttribute}`;
   }
 }
 

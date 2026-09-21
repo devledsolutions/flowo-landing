@@ -1,7 +1,15 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/seo";
+import { PUBLIC_ENVIRONMENT } from "@/lib/environment";
 
 export default function robots(): MetadataRoute.Robots {
+  if (!PUBLIC_ENVIRONMENT.isPublicProduction) {
+    return {
+      rules: [{ userAgent: "*", disallow: "/" }],
+      host: SITE_URL,
+    };
+  }
+
   // Search engines need the Next.js assets to render and evaluate the pages.
   const restrictedPaths = ["/api/", "/monitoring"];
 

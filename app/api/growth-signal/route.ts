@@ -4,6 +4,8 @@ import { makeFunctionReference } from "convex/server";
 import { z } from "zod";
 import { getClientIp } from "@/lib/request-ip";
 import { applyRateLimit } from "@/lib/rate-limit";
+import { resolveConvexUrl } from "@/lib/server-environment";
+import { PUBLIC_ENVIRONMENT } from "@/lib/environment";
 
 export const runtime = "nodejs";
 export const preferredRegion = ["gru1"];
@@ -49,7 +51,9 @@ function readCookie(request: Request, name: string): string | undefined {
 
 function hasAnalyticsConsent(request: Request): boolean {
   try {
-    const consent = JSON.parse(readCookie(request, "cookieConsent") || "{}") as {
+    const consent = JSON.parse(
+      readCookie(request, PUBLIC_ENVIRONMENT.consentCookieName) || "{}",
+    ) as {
       analytics?: unknown;
     };
     return consent.analytics === true;
@@ -77,7 +81,7 @@ export async function POST(request: Request) {
   }
   const parsed = signalSchema.safeParse(await request.json().catch(() => null));
   if (!parsed.success) return new NextResponse(null, { status: 400 });
-  const convexUrl = process.env.CONVEX_URL || process.env.NEXT_PUBLIC_CONVEX_URL;
+  const convexUrl = resolveConvexUrl();
   if (!convexUrl) return new NextResponse(null, { status: 503 });
   const convex = new ConvexHttpClient(convexUrl);
   await convex.mutation(recordKnownLeadSignal, {

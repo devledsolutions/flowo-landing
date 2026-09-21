@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useState, useCallback, ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { getSavedConsent, type ConsentPreferences } from "@/lib/consent";
+import { PUBLIC_ENVIRONMENT } from "@/lib/environment";
 
 const ATTRIBUTION_STORAGE_KEY = "flowo:first-touch-attribution";
 const SESSION_ATTRIBUTION_STORAGE_KEY = "flowo:first-touch-attribution:session";
@@ -516,7 +517,7 @@ export function SegmentProvider({ children, writeKey }: SegmentProviderProps) {
 
       try {
         const destination = new URL(href, window.location.origin);
-        if (destination.hostname !== "barber.flowo.com.br") return href;
+        if (destination.origin !== PUBLIC_ENVIRONMENT.appOrigin) return href;
 
         const anonymousId = getAnonymousId();
         const attribution = getAcquisitionContext();
@@ -587,7 +588,7 @@ export function SegmentProvider({ children, writeKey }: SegmentProviderProps) {
             ? "navigation"
             : "content");
 
-      if (destination.hostname === "barber.flowo.com.br") {
+      if (destination.origin === PUBLIC_ENVIRONMENT.appOrigin) {
         anchor.href = decorateDestination(destination.toString());
         track("CTA Clicked", {
           button_text: label,

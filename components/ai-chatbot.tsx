@@ -4,6 +4,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { MessageCircle, X } from "lucide-react";
 import { formatBRL, getPlan } from "@/data/pricing-data";
+import { SIGNUP_URL } from "@/components/cta-links";
+import { PUBLIC_ENVIRONMENT } from "@/lib/environment";
 
 interface HelpEntry {
   id: string;
@@ -56,7 +58,7 @@ const helpEntries: HelpEntry[] = [
     answer: (
       <>
         Não. Seu cliente usa o WhatsApp que já tem, e você acessa o painel pelo
-        navegador, em barber.flowo.com.br.
+        navegador, em {PUBLIC_ENVIRONMENT.appHostname}.
       </>
     ),
   },
@@ -67,7 +69,7 @@ const helpEntries: HelpEntry[] = [
       <>
         Crie sua conta, escolha um plano e conecte o WhatsApp da barbearia.{" "}
         <a
-          href="https://barber.flowo.com.br/sign-up"
+          href={SIGNUP_URL}
           className="font-medium text-ink underline underline-offset-2"
         >
           Começar agora

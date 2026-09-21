@@ -1,4 +1,5 @@
 import { CalendarDays, MessageCircle, Users } from "lucide-react";
+import { PUBLIC_ENVIRONMENT } from "@/lib/environment";
 
 const agendaSample = [
   { time: "09:00", client: "Marcos A.", service: "Corte", barber: "Rafa", status: "Confirmado" },
@@ -15,7 +16,7 @@ const summarySample = [
 
 export default function ProductDemo({
   title = "O dia inteiro em um painel só",
-  description = "Enquanto a IA atende no WhatsApp, você acompanha agenda, conversas e clientes em barber.flowo.com.br.",
+  description = `Enquanto a IA atende no WhatsApp, você acompanha agenda, conversas e clientes em ${PUBLIC_ENVIRONMENT.appHostname}.`,
 }: {
   title?: string;
   description?: string;
@@ -46,7 +47,7 @@ export default function ProductDemo({
                 <span className="h-2.5 w-2.5 rounded-full bg-line" />
               </span>
               <span className="mx-auto rounded-full bg-surface px-4 py-1 text-[11px] text-muted-ink">
-                barber.flowo.com.br
+                {PUBLIC_ENVIRONMENT.appHostname}
               </span>
             </div>
 

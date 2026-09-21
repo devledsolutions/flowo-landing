@@ -11,6 +11,7 @@ import {
   Star,
   Users,
 } from "lucide-react";
+import { PUBLIC_ENVIRONMENT } from "@/lib/environment";
 
 const opportunities = [
   {
@@ -80,7 +81,9 @@ export function RecoveryProductPreview() {
         <span className="h-2 w-2 rounded-full bg-[#ff5f57]" />
         <span className="h-2 w-2 rounded-full bg-[#febc2e]" />
         <span className="h-2 w-2 rounded-full bg-[#28c840]" />
-        <span className="ml-3 text-[9px] text-muted-ink">barber.flowo.com.br/recupera</span>
+        <span className="ml-3 text-[9px] text-muted-ink">
+          {PUBLIC_ENVIRONMENT.appHostname}/recupera
+        </span>
       </div>
       <div className="grid gap-0 lg:grid-cols-[1fr_0.42fr]">
         <div className="p-4 sm:p-6">
