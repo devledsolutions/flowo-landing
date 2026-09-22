@@ -15,8 +15,6 @@ function qaEnvironment(overrides = {}) {
     NEXT_PUBLIC_FLOWO_COOKIE_DOMAIN: "host-only",
     NEXT_PUBLIC_TURNSTILE_SITE_KEY: "turnstile_site_qa",
     TURNSTILE_SECRET_KEY: "turnstile_secret_qa",
-    UPSTASH_REDIS_REST_URL: "https://qa-redis.example",
-    UPSTASH_REDIS_REST_TOKEN: "redis_qa",
     NEXT_PUBLIC_POSTHOG_KEY: "phc_qa",
     POSTHOG_API_KEY: "phc_qa",
     FLOWO_QA_VERCEL_ORG_ID: "team_qa",
@@ -28,7 +26,6 @@ function qaEnvironment(overrides = {}) {
     FLOWO_PRODUCTION_CONSENT_COOKIE_NAME: "cookieConsent",
     FLOWO_PRODUCTION_SALES_WHATSAPP_NUMBER: "5511999991111",
     FLOWO_PRODUCTION_TURNSTILE_SITE_KEY: "turnstile_site_production",
-    FLOWO_PRODUCTION_REDIS_REST_URL: "https://production-redis.example",
     ...overrides,
   };
 }
@@ -52,11 +49,11 @@ test("rejects a production project, origin, or backend reused by QA", () => {
 
 test("requires production identities used to prove isolation", () => {
   const errors = validateQaLandingBoundary(
-    qaEnvironment({ FLOWO_PRODUCTION_REDIS_REST_URL: "" }),
+    qaEnvironment({ FLOWO_PRODUCTION_CONVEX_URL: "" }),
   );
   assert.ok(
     errors.includes(
-      "FLOWO_PRODUCTION_REDIS_REST_URL: required to prove QA isolation",
+      "FLOWO_PRODUCTION_CONVEX_URL: required to prove QA isolation",
     ),
   );
 });

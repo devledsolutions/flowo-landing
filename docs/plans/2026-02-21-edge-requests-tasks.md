@@ -9,7 +9,7 @@
 
 ## Em Execução (anti-abuso de endpoints)
 - [x] **T2.1** Criar utilitário para captura de IP real (`lib/request-ip.ts`).
-- [x] **T2.2** Criar rate limiter com fallback local + Redis (`lib/rate-limit.ts`).
+- [x] **T2.2** Criar rate limiter distribuído no Convex com fallback local para desenvolvimento (`lib/rate-limit.ts`).
 - [x] **T2.3** Integrar rate limit no `/api/lead-capture`.
 - [x] **T2.4** Integrar rate limit no `/api/contact-form`.
 - [x] **T2.5** Adicionar honeypot nos formulários clientes (`company` hidden field).

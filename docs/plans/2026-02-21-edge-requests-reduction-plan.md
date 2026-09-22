@@ -71,11 +71,10 @@ pnpm build
 ### 5.2 Anti-abuso de formulário
 - Honeypot + validação server-side + throttling.
 
-### 5.3 Exemplo (Upstash)
+### 5.3 Implementação (Convex)
 ```ts
-// pseudo
-const { success } = await ratelimit.limit(ip);
-if (!success) return NextResponse.json({ message: "Too many requests" }, { status: 429 });
+// As rotas chamam uma política fixa via apiRateLimits:consume no Convex.
+// O IP é hasheado antes de sair do processo da aplicação.
 ```
 
 ## Fase 6 - Vercel Firewall / WAF (D1-D5)
@@ -145,7 +144,7 @@ import Image from "next/image";
 - `.env.example` atualizado com toggle `SENTRY_TUNNEL_ROUTE`.
 - Fase 5 iniciada (proteção de API):
   - `lib/request-ip.ts` para identificação de IP;
-  - `lib/rate-limit.ts` para throttling por janela com fallback local + Redis;
+  - `lib/rate-limit.ts` para throttling por janela com Convex e fallback local;
   - rate limit, validação `zod` e honeypot aplicados em `app/api/lead-capture/route.ts` e `app/api/contact-form/route.ts`;
   - Turnstile aplicado frontend/backend para bloqueio anti-bot;
   - campos honeypot (`company`) adicionados em formulários cliente;

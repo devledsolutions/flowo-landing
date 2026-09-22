@@ -1,12 +1,36 @@
-import { Redis } from "@upstash/redis";
 import { PUBLIC_ENVIRONMENT } from "@/lib/environment";
+import { createHash } from "node:crypto";
+import { ConvexHttpClient } from "convex/browser";
+import { makeFunctionReference } from "convex/server";
+
+type Bucket =
+  | "contact-form"
+  | "lead-capture"
+  | "growth-signal"
+  | "growth-experiment"
+  | "voice-verification-request"
+  | "voice-verification-confirm";
+
+type ConvexPolicy =
+  | "landing-contact-ip-minute"
+  | "landing-lead-capture-ip-minute"
+  | "landing-growth-signal-ip-minute"
+  | "landing-growth-experiment-ip-minute"
+  | "landing-voice-verification-request-ip-minute"
+  | "landing-voice-verification-confirm-ip-minute";
+
+type BucketPolicy = {
+  policy: ConvexPolicy;
+  limit: number;
+  windowMs: number;
+};
 
 type BucketEntry = {
   count: number;
   resetAt: number;
 };
 
-type LimitResult = {
+export type LimitResult = {
   allowed: boolean;
   limit: number;
   remaining: number;
@@ -15,34 +39,93 @@ type LimitResult = {
 };
 
 type LimitOptions = {
-  bucket: string;
+  bucket: Bucket;
   key: string;
   limit: number;
   windowMs: number;
 };
 
+type ConsumeRateLimitArgs = {
+  serverSecret: string;
+  policy: ConvexPolicy;
+  key: string;
+};
+
+type ConsumeRateLimitResult = {
+  allowed: boolean;
+  retryAfterMs: number;
+};
+
+const consumeRateLimit = makeFunctionReference<
+  "mutation",
+  ConsumeRateLimitArgs
+>("apiRateLimits:consume");
+
+const bucketPolicies: Record<Bucket, BucketPolicy> = {
+  "contact-form": {
+    policy: "landing-contact-ip-minute",
+    limit: 10,
+    windowMs: 60_000,
+  },
+  "lead-capture": {
+    policy: "landing-lead-capture-ip-minute",
+    limit: 15,
+    windowMs: 60_000,
+  },
+  "growth-signal": {
+    policy: "landing-growth-signal-ip-minute",
+    limit: 60,
+    windowMs: 60_000,
+  },
+  "growth-experiment": {
+    policy: "landing-growth-experiment-ip-minute",
+    limit: 30,
+    windowMs: 60_000,
+  },
+  "voice-verification-request": {
+    policy: "landing-voice-verification-request-ip-minute",
+    limit: 5,
+    windowMs: 60_000,
+  },
+  "voice-verification-confirm": {
+    policy: "landing-voice-verification-confirm-ip-minute",
+    limit: 10,
+    windowMs: 60_000,
+  },
+};
+
 const buckets = new Map<string, Map<string, BucketEntry>>();
 let cleanupCounter = 0;
-let redisClient: Redis | null | undefined;
+let convexClient: ConvexHttpClient | null | undefined;
 
-function getRedisClient(): Redis | null {
-  if (redisClient !== undefined) {
-    return redisClient;
+function getBucketPolicy(options: LimitOptions): BucketPolicy {
+  const policy = bucketPolicies[options.bucket];
+
+  // Route values are retained for response headers, but the actual policy and
+  // limits are owned by Convex. This catches accidental route drift locally
+  // instead of silently weakening a public endpoint.
+  if (policy.limit !== options.limit || policy.windowMs !== options.windowMs) {
+    throw new Error(`Rate-limit configuration drift for ${options.bucket}`);
   }
 
-  const url = process.env.UPSTASH_REDIS_REST_URL;
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+  return policy;
+}
 
-  if (!url || !token) {
-    redisClient = null;
-    return redisClient;
+function getConvexClient(): ConvexHttpClient | null {
+  if (convexClient !== undefined) return convexClient;
+
+  const convexUrl = process.env.CONVEX_URL || process.env.NEXT_PUBLIC_CONVEX_URL;
+  if (!convexUrl) {
+    convexClient = null;
+    return convexClient;
   }
 
-  redisClient = new Redis({
-    url,
-    token,
-  });
-  return redisClient;
+  convexClient = new ConvexHttpClient(convexUrl);
+  return convexClient;
+}
+
+function hashKey(value: string): string {
+  return createHash("sha256").update(value).digest("hex");
 }
 
 function getBucket(name: string): Map<string, BucketEntry> {
@@ -60,11 +143,9 @@ function cleanupExpiredEntries(): void {
 
   const now = Date.now();
 
-  for (const [, bucket] of buckets) {
+  for (const bucket of buckets.values()) {
     for (const [key, value] of bucket) {
-      if (value.resetAt <= now) {
-        bucket.delete(key);
-      }
+      if (value.resetAt <= now) bucket.delete(key);
     }
   }
 }
@@ -83,10 +164,7 @@ function applyInMemoryRateLimit({
 
   if (!current || current.resetAt <= now) {
     const resetAt = now + windowMs;
-    target.set(key, {
-      count: 1,
-      resetAt,
-    });
+    target.set(key, { count: 1, resetAt });
 
     return {
       allowed: true,
@@ -119,44 +197,42 @@ function applyInMemoryRateLimit({
   };
 }
 
-async function applyRedisRateLimit({
-  bucket,
-  key,
-  limit,
-  windowMs,
-}: LimitOptions): Promise<LimitResult | null> {
-  const redis = getRedisClient();
-  if (!redis) return null;
-
-  const windowSeconds = Math.ceil(windowMs / 1000);
-  const redisKey = `ratelimit:${bucket}:${key}`;
+async function applyConvexRateLimit(
+  options: LimitOptions,
+  policy: BucketPolicy
+): Promise<LimitResult | null> {
+  const convex = getConvexClient();
+  const serverSecret = process.env.CONVEX_SERVER_SECRET;
+  if (!convex || !serverSecret) return null;
 
   try {
-    const current = await redis.incr(redisKey);
-    if (current === 1) {
-      await redis.expire(redisKey, windowSeconds);
-    }
-
-    const ttl = Math.max((await redis.ttl(redisKey)) || windowSeconds, 1);
-    const resetAt = Date.now() + ttl * 1000;
-    const allowed = current <= limit;
+    const result = (await convex.mutation(consumeRateLimit, {
+      serverSecret,
+      policy: policy.policy,
+      key: `landing:${options.bucket}:${hashKey(options.key)}`,
+    })) as ConsumeRateLimitResult;
+    const retryAfterSeconds = result.allowed
+      ? Math.ceil(options.windowMs / 1000)
+      : Math.max(Math.ceil(result.retryAfterMs / 1000), 1);
+    const resetAt = Date.now() + retryAfterSeconds * 1000;
 
     return {
-      allowed,
-      limit,
-      remaining: allowed ? Math.max(limit - current, 0) : 0,
+      allowed: result.allowed,
+      limit: policy.limit,
+      remaining: result.allowed ? Math.max(policy.limit - 1, 0) : 0,
       resetAt,
-      retryAfterSeconds: ttl,
+      retryAfterSeconds,
     };
   } catch (error) {
-    console.error("Redis rate limiter failed:", error);
+    console.error("Convex rate limiter failed, falling back to memory:", error);
     return null;
   }
 }
 
 export async function applyRateLimit(options: LimitOptions): Promise<LimitResult> {
-  const redisResult = await applyRedisRateLimit(options);
-  if (redisResult) return redisResult;
+  const policy = getBucketPolicy(options);
+  const convexResult = await applyConvexRateLimit(options, policy);
+  if (convexResult) return convexResult;
 
   if (PUBLIC_ENVIRONMENT.deploymentEnvironment === "development") {
     return applyInMemoryRateLimit(options);
