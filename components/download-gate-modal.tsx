@@ -42,6 +42,10 @@ import {
 } from "@/components/turnstile-widget";
 import { buildWhatsAppUrl } from "@/components/cta-links";
 import { useLeadRemarketing } from "@/hooks/use-lead-remarketing";
+import {
+  captureLandingException,
+  captureLandingMessage,
+} from "@/lib/observability/posthog-client";
 import countries from "@/lib/countries";
 import { useSegment } from "@/providers/segment-provider";
 import { FlagIcon, type FlagIconCode } from "react-flag-kit";
@@ -320,6 +324,19 @@ export function DownloadGateModal({
             resourceTitle,
           },
         });
+        captureLandingMessage(
+          "Download gate form submission failed",
+          "download-gate-modal.api-error",
+          {
+            component: "download-gate-modal",
+            error_type: "api_error",
+            statusCode: response.status,
+            hasName: Boolean(name),
+            hasEmail: Boolean(email),
+            resourceTitle,
+          },
+          "warning",
+        );
         return;
       }
 
@@ -392,6 +409,16 @@ export function DownloadGateModal({
         extra: {
           errorMessage: error instanceof Error ? error.message : "Unknown error",
         },
+      });
+      captureLandingException(error, "download-gate-modal.network-error", {
+        component: "download-gate-modal",
+        error_type: "network_error",
+        hasName: Boolean(name),
+        hasEmail: Boolean(email),
+        hasWhatsapp: Boolean(whatsapp),
+        countryCode,
+        dialCode,
+        resourceTitle,
       });
     } finally {
       if (requestGeneration === requestGenerationRef.current) {

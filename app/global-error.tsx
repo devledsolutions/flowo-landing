@@ -3,6 +3,7 @@
 import * as Sentry from "@sentry/nextjs";
 import NextError from "next/error";
 import { useEffect } from "react";
+import { captureLandingException } from "@/lib/observability/posthog-client";
 
 export default function GlobalError({
   error,
@@ -11,6 +12,9 @@ export default function GlobalError({
 }) {
   useEffect(() => {
     Sentry.captureException(error);
+    captureLandingException(error, "global-error", {
+      digest: error.digest,
+    });
   }, [error]);
 
   return (

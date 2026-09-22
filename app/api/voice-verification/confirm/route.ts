@@ -5,6 +5,7 @@ import { makeFunctionReference } from "convex/server";
 import { getClientIp } from "@/lib/request-ip";
 import { applyRateLimit } from "@/lib/rate-limit";
 import { resolveConvexUrl } from "@/lib/server-environment";
+import { captureLandingException } from "@/lib/observability/posthog-server";
 
 export const runtime = "nodejs";
 export const preferredRegion = ["gru1"];
@@ -73,6 +74,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: true, ...result });
   } catch (error) {
     Sentry.captureException(error, { tags: { component: "voice-verification" } });
+    await captureLandingException(error, "voice-verification.confirm.uncaught", {
+      component: "voice-verification",
+    });
     return NextResponse.json(
       { success: false, message: "Não foi possível conferir o código agora." },
       { status: 502 }
