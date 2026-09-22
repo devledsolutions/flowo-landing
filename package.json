@@ -11,6 +11,7 @@
     "typecheck": "tsc --noEmit",
     "env:check": "node scripts/check-environment-isolation.mjs",
     "test:environment": "node --test scripts/__tests__/check-environment-isolation.test.mjs",
+    "test:qa-isolation": "node --test scripts/__tests__/check-environment-isolation.test.mjs scripts/__tests__/check-qa-landing-boundary.test.mjs scripts/__tests__/check-qa-vercel-project-policy.test.mjs scripts/__tests__/attest-qa-landing-deployment.test.mjs scripts/__tests__/qa-deploy-workflow.test.mjs scripts/__tests__/search-isolation.test.mjs",
     "brand:check": "node scripts/check-brand-assets.mjs",
     "seo:audit": "node scripts/audit-seo.mjs",
     "seo:indexnow": "node scripts/submit-indexnow.mjs",

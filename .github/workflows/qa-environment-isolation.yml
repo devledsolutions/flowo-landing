@@ -1,0 +1,208 @@
+name: QA Landing Environment Isolation
+
+on:
+  workflow_dispatch:
+    inputs:
+      deploy:
+        description: Deploy the selected main revision to permanent landing QA
+        type: boolean
+        required: false
+        default: false
+      confirm_origin:
+        description: Type the exact permanent QA landing origin when deploying
+        type: string
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+concurrency:
+  group: flowo-qa-landing-environment-isolation
+  cancel-in-progress: false
+
+jobs:
+  isolation:
+    name: QA landing resources differ from production
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: qa
+    env:
+      NEXT_PUBLIC_DEPLOYMENT_ENVIRONMENT: qa
+      NEXT_PUBLIC_SITE_URL: ${{ vars.FLOWO_QA_MARKETING_ORIGIN }}
+      NEXT_PUBLIC_APP_URL: ${{ vars.FLOWO_QA_APP_ORIGIN }}
+      CONVEX_URL: ${{ vars.FLOWO_QA_CONVEX_URL }}
+      NEXT_PUBLIC_CONVEX_URL: ${{ vars.FLOWO_QA_CONVEX_URL }}
+      NEXT_PUBLIC_WHATSAPP_NUMBER: ${{ vars.FLOWO_QA_SALES_WHATSAPP_NUMBER }}
+      NEXT_PUBLIC_CONSENT_COOKIE_NAME: ${{ vars.FLOWO_QA_CONSENT_COOKIE_NAME }}
+      NEXT_PUBLIC_FLOWO_COOKIE_DOMAIN: host-only
+      NEXT_PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.FLOWO_QA_TURNSTILE_SITE_KEY }}
+      TURNSTILE_SECRET_KEY: ${{ secrets.FLOWO_QA_TURNSTILE_SECRET_KEY }}
+      UPSTASH_REDIS_REST_URL: ${{ vars.FLOWO_QA_REDIS_REST_URL }}
+      UPSTASH_REDIS_REST_TOKEN: ${{ secrets.FLOWO_QA_REDIS_REST_TOKEN }}
+      SENTRY_DSN: ${{ vars.FLOWO_QA_LANDING_SENTRY_DSN }}
+      NEXT_PUBLIC_SENTRY_DSN: ${{ vars.FLOWO_QA_LANDING_SENTRY_DSN }}
+      SENTRY_ENVIRONMENT: qa
+      NEXT_PUBLIC_SENTRY_ENVIRONMENT: qa
+      SENTRY_ORG: ${{ vars.FLOWO_QA_SENTRY_ORG }}
+      SENTRY_PROJECT: ${{ vars.FLOWO_QA_LANDING_SENTRY_PROJECT }}
+      SENTRY_AUTH_TOKEN: ${{ secrets.FLOWO_QA_SENTRY_AUTH_TOKEN }}
+      SENTRY_TUNNEL_ROUTE: "0"
+      NEXT_PUBLIC_SEGMENT_WRITE_KEY: ${{ vars.FLOWO_QA_SEGMENT_WEB_WRITE_KEY }}
+      NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ vars.FLOWO_QA_GA_MEASUREMENT_ID }}
+      NEXT_PUBLIC_GOOGLE_ADS_ID: ${{ vars.FLOWO_QA_GOOGLE_ADS_ID }}
+      NEXT_PUBLIC_GOOGLE_ADS_LEAD_CONVERSION_LABEL: ${{ vars.FLOWO_QA_GOOGLE_ADS_LEAD_CONVERSION_LABEL }}
+      NEXT_PUBLIC_META_PIXEL_ID: ${{ vars.FLOWO_QA_META_PIXEL_ID }}
+      NEXT_PUBLIC_TIKTOK_PIXEL_ID: ${{ vars.FLOWO_QA_TIKTOK_PIXEL_ID }}
+      FLOWO_QA_MARKETING_ORIGIN: ${{ vars.FLOWO_QA_MARKETING_ORIGIN }}
+      FLOWO_QA_APP_ORIGIN: ${{ vars.FLOWO_QA_APP_ORIGIN }}
+      FLOWO_QA_VERCEL_ORG_ID: ${{ vars.FLOWO_QA_VERCEL_ORG_ID }}
+      FLOWO_QA_LANDING_VERCEL_PROJECT_ID: ${{ vars.FLOWO_QA_LANDING_VERCEL_PROJECT_ID }}
+      FLOWO_QA_VERCEL_TOKEN: ${{ secrets.FLOWO_QA_VERCEL_TOKEN }}
+      FLOWO_PRODUCTION_MARKETING_ORIGIN: ${{ vars.FLOWO_PRODUCTION_MARKETING_ORIGIN }}
+      FLOWO_PRODUCTION_APP_ORIGIN: ${{ vars.FLOWO_PRODUCTION_APP_ORIGIN }}
+      FLOWO_PRODUCTION_CONVEX_URL: ${{ vars.FLOWO_PRODUCTION_CONVEX_URL }}
+      FLOWO_PRODUCTION_LANDING_VERCEL_PROJECT_ID: ${{ vars.FLOWO_PRODUCTION_LANDING_VERCEL_PROJECT_ID }}
+      FLOWO_PRODUCTION_CONSENT_COOKIE_NAME: ${{ vars.FLOWO_PRODUCTION_CONSENT_COOKIE_NAME }}
+      FLOWO_PRODUCTION_SALES_WHATSAPP_NUMBER: ${{ vars.FLOWO_PRODUCTION_SALES_WHATSAPP_NUMBER }}
+      FLOWO_PRODUCTION_TURNSTILE_SITE_KEY: ${{ vars.FLOWO_PRODUCTION_TURNSTILE_SITE_KEY }}
+      FLOWO_PRODUCTION_REDIS_REST_URL: ${{ vars.FLOWO_PRODUCTION_REDIS_REST_URL }}
+      FLOWO_PRODUCTION_LANDING_SENTRY_PROJECT: ${{ vars.FLOWO_PRODUCTION_LANDING_SENTRY_PROJECT }}
+      FLOWO_PRODUCTION_SEGMENT_WEB_WRITE_KEY: ${{ vars.FLOWO_PRODUCTION_SEGMENT_WEB_WRITE_KEY }}
+      FLOWO_PRODUCTION_GA_MEASUREMENT_ID: ${{ vars.FLOWO_PRODUCTION_GA_MEASUREMENT_ID }}
+      FLOWO_PRODUCTION_GOOGLE_ADS_ID: ${{ vars.FLOWO_PRODUCTION_GOOGLE_ADS_ID }}
+      FLOWO_PRODUCTION_GOOGLE_ADS_LEAD_CONVERSION_LABEL: ${{ vars.FLOWO_PRODUCTION_GOOGLE_ADS_LEAD_CONVERSION_LABEL }}
+      FLOWO_PRODUCTION_META_PIXEL_ID: ${{ vars.FLOWO_PRODUCTION_META_PIXEL_ID }}
+      FLOWO_PRODUCTION_TIKTOK_PIXEL_ID: ${{ vars.FLOWO_PRODUCTION_TIKTOK_PIXEL_ID }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+
+      - name: Setup Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+
+      - name: Validate QA isolation contracts
+        run: pnpm test:qa-isolation
+
+      - name: Validate complete QA runtime configuration
+        run: pnpm env:check
+
+      - name: Prove QA resources differ from production
+        run: node scripts/check-qa-landing-boundary.mjs
+
+      - name: Verify QA landing Vercel project policy
+        shell: bash
+        env:
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          pnpm dlx vercel@59.11.7 api \
+            "/v9/projects/$FLOWO_QA_LANDING_VERCEL_PROJECT_ID?teamId=$FLOWO_QA_VERCEL_ORG_ID" \
+            --token="$FLOWO_QA_VERCEL_TOKEN" --raw \
+            | node scripts/check-qa-vercel-project-policy.mjs
+
+  deploy:
+    name: Deploy the approved revision to permanent landing QA
+    needs: isolation
+    if: inputs.deploy == true
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: qa
+    env:
+      FLOWO_QA_MARKETING_ORIGIN: ${{ vars.FLOWO_QA_MARKETING_ORIGIN }}
+      FLOWO_QA_APP_ORIGIN: ${{ vars.FLOWO_QA_APP_ORIGIN }}
+      FLOWO_QA_VERCEL_ORG_ID: ${{ vars.FLOWO_QA_VERCEL_ORG_ID }}
+      FLOWO_QA_LANDING_VERCEL_PROJECT_ID: ${{ vars.FLOWO_QA_LANDING_VERCEL_PROJECT_ID }}
+      FLOWO_PRODUCTION_LANDING_VERCEL_PROJECT_ID: ${{ vars.FLOWO_PRODUCTION_LANDING_VERCEL_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ secrets.FLOWO_QA_VERCEL_TOKEN }}
+
+    steps:
+      - name: Confirm the permanent QA landing target
+        shell: bash
+        env:
+          CONFIRMED_ORIGIN: ${{ inputs.confirm_origin }}
+        run: |
+          if [[ "$GITHUB_REF" != "refs/heads/main" ]]; then
+            echo "Deployment refused: permanent landing QA accepts only refs/heads/main." >&2
+            exit 1
+          fi
+          if [[ "$CONFIRMED_ORIGIN" != "$FLOWO_QA_MARKETING_ORIGIN" ]]; then
+            echo "Deployment refused: confirm_origin must equal FLOWO_QA_MARKETING_ORIGIN." >&2
+            exit 1
+          fi
+
+      - name: Checkout the selected revision
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          ref: ${{ github.sha }}
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+
+      - name: Setup Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install the locked toolchain
+        run: pnpm install --frozen-lockfile
+
+      - name: Link and build landing QA without deploying
+        shell: bash
+        run: |
+          mkdir -p .vercel
+          node -e 'const fs=require("node:fs"); fs.writeFileSync(".vercel/project.json", JSON.stringify({orgId:process.env.FLOWO_QA_VERCEL_ORG_ID,projectId:process.env.FLOWO_QA_LANDING_VERCEL_PROJECT_ID}));'
+          pnpm dlx vercel@59.11.7 pull --yes --environment=production \
+            --token="$VERCEL_TOKEN" > /dev/null
+          pnpm dlx vercel@59.11.7 build --prod --token="$VERCEL_TOKEN"
+
+      - name: Deploy the prebuilt QA landing
+        shell: bash
+        run: |
+          pnpm dlx vercel@59.11.7 deploy --prebuilt --prod --yes \
+            --meta flowoEnvironment=qa \
+            --meta flowoSourceRef=main \
+            --meta flowoSourceRevision="$GITHUB_SHA" \
+            --token="$VERCEL_TOKEN" > "$RUNNER_TEMP/vercel-qa-landing-url.txt"
+
+      - name: Inspect deployed Vercel provenance
+        shell: bash
+        run: |
+          deployment_url="$(tr -d '\r\n' < "$RUNNER_TEMP/vercel-qa-landing-url.txt")"
+          pnpm dlx vercel@59.11.7 inspect "$deployment_url" \
+            --token="$VERCEL_TOKEN" --wait --timeout 3m \
+            --format=json > "$RUNNER_TEMP/vercel-qa-landing-inspect.json"
+
+      - name: Wait for the permanent QA landing origin
+        shell: bash
+        run: |
+          for attempt in {1..12}; do
+            if curl --fail --silent --show-error "$FLOWO_QA_MARKETING_ORIGIN/" > /dev/null; then
+              break
+            fi
+            if [[ "$attempt" == "12" ]]; then
+              echo "Permanent QA landing origin did not become available." >&2
+              exit 1
+            fi
+            sleep 5
+          done
+
+      - name: Attest revision, target, app link and noindex defenses
+        run: |
+          node scripts/attest-qa-landing-deployment.mjs \
+            "$RUNNER_TEMP/vercel-qa-landing-inspect.json" \
+            "$RUNNER_TEMP/flowo-qa-landing-deployment-attestation.json"
+
+      - name: Upload redacted QA landing deployment attestation
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: flowo-qa-landing-deployment-${{ github.sha }}
+          path: ${{ runner.temp }}/flowo-qa-landing-deployment-attestation.json
+          if-no-files-found: error
+          retention-days: 30

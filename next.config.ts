@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 import { withSentryConfig } from "@sentry/nextjs";
 
+const blocksSearchIndexing =
+  process.env.NEXT_PUBLIC_DEPLOYMENT_ENVIRONMENT !== "production";
+
 const nextConfig: NextConfig = {
   reactStrictMode: false, // This is causing double rendering in development
   outputFileTracingRoot: process.cwd(),
@@ -14,6 +17,19 @@ const nextConfig: NextConfig = {
   },
   async headers() {
     return [
+      ...(blocksSearchIndexing
+        ? [
+            {
+              source: "/:path*",
+              headers: [
+                {
+                  key: "X-Robots-Tag",
+                  value: "noindex, nofollow, noarchive",
+                },
+              ],
+            },
+          ]
+        : []),
       {
         source: "/robots.txt",
         headers: [
