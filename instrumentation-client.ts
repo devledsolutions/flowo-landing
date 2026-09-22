@@ -6,6 +6,8 @@ type RouterTransitionArgs = Parameters<
 let sentryPromise: Promise<SentryModule> | undefined;
 
 async function initializeClientMonitoring() {
+  const { initializeLandingPostHog } = await import("@/lib/observability/posthog-client");
+  initializeLandingPostHog();
   const Sentry = await import("@sentry/nextjs");
 
   Sentry.init({

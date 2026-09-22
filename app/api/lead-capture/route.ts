@@ -10,6 +10,10 @@ import { verifyTurnstile } from "@/lib/turnstile";
 import { VOICE_CONTACT_CONSENT_VERSION } from "@/lib/voice-verification";
 import { PUBLIC_ENVIRONMENT, environmentSiteUrl } from "@/lib/environment";
 import { resolveConvexUrl } from "@/lib/server-environment";
+import {
+  captureLandingException,
+  captureLandingMessage,
+} from "@/lib/observability/posthog-server";
 
 export const runtime = "nodejs";
 export const preferredRegion = ["gru1"];
@@ -159,6 +163,12 @@ export async function POST(request: Request) {
         error_type: "rate_limit",
       },
     });
+    await captureLandingMessage(
+      "Lead capture rate limit exceeded",
+      "lead-capture.rate-limit",
+      { component: "lead-capture", error_type: "rate_limit" },
+      "warning",
+    );
 
     return tooManyRequestsResponse(rateLimit.retryAfterSeconds);
   }
@@ -245,6 +255,11 @@ export async function POST(request: Request) {
           error_type: "configuration",
         },
       });
+      await captureLandingMessage(
+        "Convex configuration missing for lead capture",
+        "lead-capture.configuration",
+        { component: "lead-capture", error_type: "configuration" },
+      );
       return NextResponse.json(
         { success: false, message: "Não foi possível registrar o contato agora." },
         { status: 503 }
@@ -343,6 +358,11 @@ export async function POST(request: Request) {
           },
         },
       },
+    });
+    await captureLandingException(error, "lead-capture.uncaught", {
+      component: "lead-capture",
+      error_type: "uncaught",
+      source: "website",
     });
 
     return NextResponse.json(

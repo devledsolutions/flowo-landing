@@ -30,6 +30,10 @@ import { CheckCircle2, XCircle } from "lucide-react";
 import { TurnstileWidget } from "@/components/turnstile-widget";
 import { useSegment } from "@/providers/segment-provider";
 import { useLeadRemarketing } from "@/hooks/use-lead-remarketing";
+import {
+  captureLandingException,
+  captureLandingMessage,
+} from "@/lib/observability/posthog-client";
 import Link from "next/link";
 
 const formatPhoneNumber = (phone: string, dialCode: string) => {
@@ -248,6 +252,18 @@ export function LeadCaptureModal({
             hasEmail: !!email,
           },
         });
+        captureLandingMessage(
+          "Lead capture form submission failed",
+          "lead-capture-modal.api-error",
+          {
+            component: "lead-capture-modal",
+            error_type: "api_error",
+            statusCode: response.status,
+            hasName: Boolean(name),
+            hasEmail: Boolean(email),
+          },
+          "warning",
+        );
 
         return;
       }
@@ -331,6 +347,15 @@ export function LeadCaptureModal({
         extra: {
           errorMessage: err instanceof Error ? err.message : "Unknown error",
         },
+      });
+      captureLandingException(err, "lead-capture-modal.network-error", {
+        component: "lead-capture-modal",
+        error_type: "network_error",
+        hasName: Boolean(name),
+        hasEmail: Boolean(email),
+        hasWhatsapp: Boolean(whatsapp),
+        countryCode,
+        dialCode,
       });
     } finally {
       setIsSubmitting(false);

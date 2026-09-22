@@ -7,6 +7,10 @@ import { applyRateLimit } from "@/lib/rate-limit";
 import { contactFormSchema, getValidationMessage } from "@/lib/validation";
 import { verifyTurnstile } from "@/lib/turnstile";
 import { resolveConvexUrl } from "@/lib/server-environment";
+import {
+  captureLandingException,
+  captureLandingMessage,
+} from "@/lib/observability/posthog-server";
 
 export const runtime = "nodejs";
 export const preferredRegion = ["gru1"];
@@ -143,6 +147,11 @@ export async function POST(request: Request) {
         level: "error",
         tags: { component: "contact-form" },
       });
+      await captureLandingMessage(
+        "Convex configuration missing for contact form",
+        "contact-form.configuration",
+        { component: "contact-form", error_type: "configuration" },
+      );
       return NextResponse.json(
         { success: false, message: "Não foi possível registrar o contato agora." },
         { status: 503 }
@@ -188,6 +197,10 @@ export async function POST(request: Request) {
     Sentry.captureException(error, {
       tags: { component: "contact-form" },
       extra: { route: "/api/contact-form" },
+    });
+    await captureLandingException(error, "contact-form.uncaught", {
+      component: "contact-form",
+      route: "/api/contact-form",
     });
     return NextResponse.json(
       { success: false, message: "Não foi possível enviar sua mensagem." },

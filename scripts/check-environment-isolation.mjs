@@ -169,6 +169,18 @@ export function validateLandingEnvironment(env) {
     }
   }
 
+  const posthogNames = ["NEXT_PUBLIC_POSTHOG_KEY", "POSTHOG_API_KEY"];
+  const posthogValues = posthogNames.map((name) => value(env, name));
+  const anyPostHog = posthogValues.some(Boolean);
+  if (hosted || anyPostHog) {
+    for (const [index, name] of posthogNames.entries()) {
+      if (!posthogValues[index]) errors.push(`${name} is required for PostHog isolation`);
+    }
+  }
+  if (posthogValues[0] && !posthogValues[0].startsWith("phc_")) {
+    errors.push("NEXT_PUBLIC_POSTHOG_KEY must be a PostHog project key");
+  }
+
   if (deploymentEnvironment !== "production") {
     for (const name of [
       "NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION",

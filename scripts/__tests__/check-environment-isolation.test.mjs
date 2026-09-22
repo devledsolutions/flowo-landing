@@ -23,6 +23,8 @@ function qaEnvironment(overrides = {}) {
     SENTRY_ORG: "flowo-qa",
     SENTRY_PROJECT: "landing-qa",
     SENTRY_AUTH_TOKEN: "sentry_qa",
+    NEXT_PUBLIC_POSTHOG_KEY: "phc_qa",
+    POSTHOG_API_KEY: "phc_qa",
     ...overrides,
   };
 }

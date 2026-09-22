@@ -6,6 +6,10 @@ import { getClientIp } from "@/lib/request-ip";
 import { applyRateLimit } from "@/lib/rate-limit";
 import { VOICE_CONTACT_CONSENT_VERSION } from "@/lib/voice-verification";
 import { resolveConvexUrl } from "@/lib/server-environment";
+import {
+  captureLandingException,
+  captureLandingMessage,
+} from "@/lib/observability/posthog-server";
 
 export const runtime = "nodejs";
 export const preferredRegion = ["gru1"];
@@ -61,6 +65,11 @@ export async function POST(request: Request) {
     Sentry.captureMessage("Convex configuration missing for voice verification", {
       level: "error",
     });
+    await captureLandingMessage(
+      "Convex configuration missing for voice verification",
+      "voice-verification.request.configuration",
+      { component: "voice-verification", error_type: "configuration" },
+    );
     return NextResponse.json(
       { success: false, message: "Não foi possível enviar o código agora." },
       { status: 503 }
@@ -85,6 +94,9 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     Sentry.captureException(error, { tags: { component: "voice-verification" } });
+    await captureLandingException(error, "voice-verification.request.uncaught", {
+      component: "voice-verification",
+    });
     return NextResponse.json(
       { success: false, message: "Não foi possível enviar o código agora." },
       { status: 502 }
