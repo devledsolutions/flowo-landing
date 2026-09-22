@@ -22,8 +22,10 @@ Session replay e autocapture genérico permanecem desligados.
 
 1. Confirmar no projeto `D Flowo - Convex` que `Error tracking > Configuration >
    Exception autocapture` está habilitado.
-2. Validar uma exceção controlada em preview e conferir o par
-   `surface=landing`/`environment=preview`.
+2. Validar uma exceção controlada em um deployment QA manual ou no harness
+   local e conferir o par `surface=landing`/`environment=qa` (ou
+   `environment=development`). Os Previews automáticos da Vercel estão
+   desabilitados; não tratar uma URL antiga de Preview como evidência atual.
 3. Repetir em produção com o `release` do deploy e conferir a mesma issue no
    PostHog e no Sentry.
 4. Alertas devem filtrar `surface` e `environment`; nunca misturar landing,
