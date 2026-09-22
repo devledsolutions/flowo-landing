@@ -6,11 +6,13 @@
 
 Sem `TURNSTILE_SECRET_KEY`, a validação é ignorada (modo compatibilidade).
 
-## Upstash Redis (Rate Limit distribuído)
-- `UPSTASH_REDIS_REST_URL`
-- `UPSTASH_REDIS_REST_TOKEN`
+## Convex (Rate Limit distribuído)
+- `CONVEX_URL` ou `NEXT_PUBLIC_CONVEX_URL`: endpoint do deployment Convex.
+- `CONVEX_SERVER_SECRET`: segredo server-only usado pelo mutation de rate limit.
 
-Sem essas variáveis, a aplicação usa fallback local em memória.
+As rotas públicas usam políticas fixas no Convex. O fallback em memória existe
+somente para desenvolvimento local sem essas variáveis e não substitui a
+configuração obrigatória nos ambientes publicados.
 
 ## Sentry Tunnel (opcional)
 - `SENTRY_TUNNEL_ROUTE=1` habilita `/monitoring`.

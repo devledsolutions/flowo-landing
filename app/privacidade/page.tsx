@@ -256,8 +256,9 @@ const sections: LegalSection[] = [
             sincronizar.
           </li>
           <li>
-            <strong>Upstash:</strong> cache e controle de fila. Processa
-            identificadores técnicos temporários.
+            <strong>Convex:</strong> persistência, sincronização e controle de
+            acesso às operações do aplicativo. Processa identificadores técnicos
+            temporários quando necessário para proteger as rotas públicas.
           </li>
           <li>
             <strong>SMSDev:</strong> usado para transportar SMS no Brasil. SMS

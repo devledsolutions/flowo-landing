@@ -133,13 +133,6 @@ export function validateLandingEnvironment(env) {
   );
   requirePair(
     env,
-    "UPSTASH_REDIS_REST_URL",
-    "UPSTASH_REDIS_REST_TOKEN",
-    errors,
-    hosted,
-  );
-  requirePair(
-    env,
     "NEXT_PUBLIC_GOOGLE_ADS_ID",
     "NEXT_PUBLIC_GOOGLE_ADS_LEAD_CONVERSION_LABEL",
     errors,
