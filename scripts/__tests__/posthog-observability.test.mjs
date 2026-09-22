@@ -9,7 +9,7 @@ const {
   landingTelemetryDimensions,
   redactLandingTelemetry,
   sanitizeLandingPostHogEvent,
-} = await import("./posthog-shared.ts");
+} = await import("../../lib/observability/posthog-shared.ts");
 
 test("landing exceptions keep stable dimensions", () => {
   assert.deepEqual(landingTelemetryDimensions, {
