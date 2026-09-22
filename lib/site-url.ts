@@ -1,3 +1,5 @@
+import { PUBLIC_ENVIRONMENT } from "@/lib/environment";
+
 export function getSiteUrl(): string {
-  return process.env.NEXT_PUBLIC_SITE_URL || "https://www.flowo.com.br";
+  return PUBLIC_ENVIRONMENT.siteOrigin;
 }

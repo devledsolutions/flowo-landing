@@ -4,6 +4,8 @@ import { makeFunctionReference } from "convex/server";
 import { z } from "zod";
 import { getClientIp } from "@/lib/request-ip";
 import { applyRateLimit } from "@/lib/rate-limit";
+import { resolveConvexUrl } from "@/lib/server-environment";
+import { PUBLIC_ENVIRONMENT } from "@/lib/environment";
 
 export const runtime = "nodejs";
 export const preferredRegion = ["gru1"];
@@ -28,10 +30,14 @@ function analyticsConsent(request: Request): boolean {
   const entry = cookie
     .split(";")
     .map((value) => value.trim())
-    .find((value) => value.startsWith("cookieConsent="));
+    .find((value) =>
+      value.startsWith(`${PUBLIC_ENVIRONMENT.consentCookieName}=`),
+    );
   if (!entry) return false;
   try {
-    const raw = decodeURIComponent(entry.slice("cookieConsent=".length));
+    const raw = decodeURIComponent(
+      entry.slice(`${PUBLIC_ENVIRONMENT.consentCookieName}=`.length),
+    );
     return (JSON.parse(raw) as { analytics?: unknown }).analytics === true;
   } catch {
     return false;
@@ -49,7 +55,7 @@ export async function POST(request: Request) {
     windowMs: 60_000,
   });
   if (!limit.allowed) return NextResponse.json({ variantKey: null }, { status: 429 });
-  const convexUrl = process.env.CONVEX_URL || process.env.NEXT_PUBLIC_CONVEX_URL;
+  const convexUrl = resolveConvexUrl();
   if (!convexUrl) return NextResponse.json({ variantKey: null }, { status: 503 });
   const convex = new ConvexHttpClient(convexUrl);
   const assignment = await convex.mutation(assignWebsiteVariant, {

@@ -12,8 +12,8 @@ async function initializeClientMonitoring() {
     dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
     tracesSampleRate: 0.1,
     debug: false,
-    enabled: process.env.NODE_ENV === "production",
-    environment: process.env.NODE_ENV || "development",
+    enabled: Boolean(process.env.NEXT_PUBLIC_SENTRY_DSN),
+    environment: process.env.NEXT_PUBLIC_SENTRY_ENVIRONMENT,
   });
 
   return Sentry;

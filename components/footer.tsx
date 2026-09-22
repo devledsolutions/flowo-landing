@@ -6,7 +6,9 @@ import { LEGAL_ENTITY } from "@/lib/legal-identity";
 import { NewsletterSignup } from "@/components/newsletter-signup";
 import { SIGNUP_URL } from "@/components/cta-links";
 import { cn } from "@/lib/utils";
-const APP_URL = "https://barber.flowo.com.br";
+import { PUBLIC_ENVIRONMENT } from "@/lib/environment";
+
+const APP_URL = PUBLIC_ENVIRONMENT.appOrigin;
 
 const produtoLinks = [
   { href: "/recepcionista-ia-barbearia", label: "Recepcionista com IA" },

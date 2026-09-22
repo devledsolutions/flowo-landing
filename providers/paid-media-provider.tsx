@@ -11,6 +11,7 @@ import {
 } from "react";
 import { usePathname } from "next/navigation";
 import { getSavedConsent, type ConsentPreferences } from "@/lib/consent";
+import { cookieDomainAttribute } from "@/lib/environment";
 
 type PaidMediaLead = {
   source: string;
@@ -65,11 +66,9 @@ function ensureGtag(): NonNullable<Window["gtag"]> {
 
 function removeCookie(name: string): void {
   document.cookie = `${name}=; Max-Age=0; path=/; SameSite=Lax; Secure`;
-  if (
-    window.location.hostname === "flowo.com.br" ||
-    window.location.hostname.endsWith(".flowo.com.br")
-  ) {
-    document.cookie = `${name}=; Max-Age=0; path=/; domain=.flowo.com.br; SameSite=Lax; Secure`;
+  const domainAttribute = cookieDomainAttribute();
+  if (domainAttribute) {
+    document.cookie = `${name}=; Max-Age=0; path=/; SameSite=Lax; Secure${domainAttribute}`;
   }
 }
 

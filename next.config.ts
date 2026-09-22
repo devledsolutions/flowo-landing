@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 import { withSentryConfig } from "@sentry/nextjs";
 
+const blocksSearchIndexing =
+  process.env.NEXT_PUBLIC_DEPLOYMENT_ENVIRONMENT !== "production";
+
 const nextConfig: NextConfig = {
   reactStrictMode: false, // This is causing double rendering in development
   outputFileTracingRoot: process.cwd(),
@@ -14,6 +17,19 @@ const nextConfig: NextConfig = {
   },
   async headers() {
     return [
+      ...(blocksSearchIndexing
+        ? [
+            {
+              source: "/:path*",
+              headers: [
+                {
+                  key: "X-Robots-Tag",
+                  value: "noindex, nofollow, noarchive",
+                },
+              ],
+            },
+          ]
+        : []),
       {
         source: "/robots.txt",
         headers: [
@@ -120,9 +136,9 @@ export default withSentryConfig(nextConfig, {
   // For all available options, see:
   // https://www.npmjs.com/package/@sentry/webpack-plugin#options
 
-  org: "luiz-abreu",
+  org: process.env.SENTRY_ORG,
 
-  project: "flowo-landing",
+  project: process.env.SENTRY_PROJECT,
 
   // Only print logs for uploading source maps in CI
   silent: !process.env.CI,

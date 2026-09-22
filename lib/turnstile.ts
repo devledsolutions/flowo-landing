@@ -1,3 +1,5 @@
+import { PUBLIC_ENVIRONMENT } from "@/lib/environment";
+
 type VerifyTurnstileParams = {
   token: string;
   ip?: string;
@@ -24,8 +26,16 @@ export async function verifyTurnstile({
 }: VerifyTurnstileParams): Promise<TurnstileResult> {
   const secretKey = process.env.TURNSTILE_SECRET_KEY;
 
-  // Keep local/dev environments simple when Turnstile is not configured.
+  // Keep local development simple. Hosted QA and production must never turn a
+  // missing anti-bot secret into an allow-all endpoint.
   if (!secretKey) {
+    if (PUBLIC_ENVIRONMENT.deploymentEnvironment !== "development") {
+      return {
+        success: false,
+        skipped: false,
+        errors: ["turnstile-not-configured"],
+      };
+    }
     return {
       success: true,
       skipped: true,
@@ -85,6 +95,15 @@ export async function verifyTurnstile({
         success: false,
         skipped: false,
         errors: ["action-mismatch"],
+      };
+    }
+
+    const expectedHostname = new URL(PUBLIC_ENVIRONMENT.siteOrigin).hostname;
+    if (data.hostname && data.hostname !== expectedHostname) {
+      return {
+        success: false,
+        skipped: false,
+        errors: ["hostname-mismatch"],
       };
     }
 

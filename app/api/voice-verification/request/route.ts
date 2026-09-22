@@ -5,6 +5,7 @@ import { makeFunctionReference } from "convex/server";
 import { getClientIp } from "@/lib/request-ip";
 import { applyRateLimit } from "@/lib/rate-limit";
 import { VOICE_CONTACT_CONSENT_VERSION } from "@/lib/voice-verification";
+import { resolveConvexUrl } from "@/lib/server-environment";
 
 export const runtime = "nodejs";
 export const preferredRegion = ["gru1"];
@@ -55,7 +56,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const convexUrl = process.env.CONVEX_URL || process.env.NEXT_PUBLIC_CONVEX_URL;
+  const convexUrl = resolveConvexUrl();
   if (!convexUrl) {
     Sentry.captureMessage("Convex configuration missing for voice verification", {
       level: "error",

@@ -4,6 +4,7 @@ import { ConvexHttpClient } from "convex/browser";
 import { makeFunctionReference } from "convex/server";
 import { getClientIp } from "@/lib/request-ip";
 import { applyRateLimit } from "@/lib/rate-limit";
+import { resolveConvexUrl } from "@/lib/server-environment";
 
 export const runtime = "nodejs";
 export const preferredRegion = ["gru1"];
@@ -55,7 +56,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: false }, { status: 400 });
   }
 
-  const convexUrl = process.env.CONVEX_URL || process.env.NEXT_PUBLIC_CONVEX_URL;
+  const convexUrl = resolveConvexUrl();
   if (!convexUrl) {
     return NextResponse.json(
       { success: false, message: "Não foi possível conferir o código agora." },

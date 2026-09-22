@@ -1,4 +1,5 @@
 import { Redis } from "@upstash/redis";
+import { PUBLIC_ENVIRONMENT } from "@/lib/environment";
 
 type BucketEntry = {
   count: number;
@@ -148,7 +149,7 @@ async function applyRedisRateLimit({
       retryAfterSeconds: ttl,
     };
   } catch (error) {
-    console.error("Redis rate limiter failed, falling back to memory:", error);
+    console.error("Redis rate limiter failed:", error);
     return null;
   }
 }
@@ -157,5 +158,16 @@ export async function applyRateLimit(options: LimitOptions): Promise<LimitResult
   const redisResult = await applyRedisRateLimit(options);
   if (redisResult) return redisResult;
 
-  return applyInMemoryRateLimit(options);
+  if (PUBLIC_ENVIRONMENT.deploymentEnvironment === "development") {
+    return applyInMemoryRateLimit(options);
+  }
+
+  const retryAfterSeconds = Math.max(Math.ceil(options.windowMs / 1000), 1);
+  return {
+    allowed: false,
+    limit: options.limit,
+    remaining: 0,
+    resetAt: Date.now() + retryAfterSeconds * 1000,
+    retryAfterSeconds,
+  };
 }

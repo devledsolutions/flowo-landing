@@ -8,6 +8,8 @@ import { applyRateLimit } from "@/lib/rate-limit";
 import { leadCaptureSchema, getValidationMessage } from "@/lib/validation";
 import { verifyTurnstile } from "@/lib/turnstile";
 import { VOICE_CONTACT_CONSENT_VERSION } from "@/lib/voice-verification";
+import { PUBLIC_ENVIRONMENT, environmentSiteUrl } from "@/lib/environment";
+import { resolveConvexUrl } from "@/lib/server-environment";
 
 export const runtime = "nodejs";
 export const preferredRegion = ["gru1"];
@@ -97,14 +99,17 @@ function readAdvertisingConsent(request: Request): {
   granted: boolean;
   version?: string;
 } {
-  const rawPreferences = readCookie(request, "cookieConsent");
+  const rawPreferences = readCookie(
+    request,
+    PUBLIC_ENVIRONMENT.consentCookieName,
+  );
   if (!rawPreferences) {
     return { granted: false };
   }
   try {
     const preferences = JSON.parse(rawPreferences) as { marketing?: unknown };
     const metadata = JSON.parse(
-      readCookie(request, "cookieConsentDate") || "{}"
+      readCookie(request, PUBLIC_ENVIRONMENT.consentCookieDateName) || "{}"
     ) as { consentVersion?: unknown };
     if (preferences.marketing !== true && preferences.marketing !== false) {
       return { granted: false };
@@ -231,8 +236,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const convexUrl =
-      process.env.CONVEX_URL || process.env.NEXT_PUBLIC_CONVEX_URL;
+    const convexUrl = resolveConvexUrl();
     if (!convexUrl) {
       Sentry.captureMessage("Convex configuration missing for lead capture", {
         level: "error",
@@ -302,7 +306,7 @@ export async function POST(request: Request) {
         ? optional(request.headers.get("user-agent") || undefined)
         : undefined,
       eventSourceUrl: advertisingConsent.granted
-        ? landingPath || refererHeader || "https://www.flowo.com.br/"
+        ? environmentSiteUrl(landingPath || refererHeader)
         : undefined,
       website: optional(company),
     });
