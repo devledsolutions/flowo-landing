@@ -16,13 +16,6 @@ function qaEnvironment(overrides = {}) {
     TURNSTILE_SECRET_KEY: "turnstile_secret_qa",
     UPSTASH_REDIS_REST_URL: "https://qa-redis.example",
     UPSTASH_REDIS_REST_TOKEN: "redis_qa",
-    SENTRY_DSN: "https://server@sentry.example/1",
-    NEXT_PUBLIC_SENTRY_DSN: "https://client@sentry.example/1",
-    SENTRY_ENVIRONMENT: "qa",
-    NEXT_PUBLIC_SENTRY_ENVIRONMENT: "qa",
-    SENTRY_ORG: "flowo-qa",
-    SENTRY_PROJECT: "landing-qa",
-    SENTRY_AUTH_TOKEN: "sentry_qa",
     NEXT_PUBLIC_POSTHOG_KEY: "phc_qa",
     POSTHOG_API_KEY: "phc_qa",
     ...overrides,
@@ -56,23 +49,20 @@ test("rejects a mismatched Convex browser deployment", () => {
   assert.ok(errors.includes("CONVEX_URL and NEXT_PUBLIC_CONVEX_URL must match"));
 });
 
-test("requires Turnstile, Redis and Sentry in hosted QA", () => {
+test("requires Turnstile, Redis and PostHog in hosted QA", () => {
   const errors = validateLandingEnvironment(
     qaEnvironment({
       NEXT_PUBLIC_TURNSTILE_SITE_KEY: "",
       TURNSTILE_SECRET_KEY: "",
       UPSTASH_REDIS_REST_URL: "",
       UPSTASH_REDIS_REST_TOKEN: "",
-      SENTRY_DSN: "",
-      NEXT_PUBLIC_SENTRY_DSN: "",
-      SENTRY_ORG: "",
-      SENTRY_PROJECT: "",
-      SENTRY_AUTH_TOKEN: "",
+      NEXT_PUBLIC_POSTHOG_KEY: "",
+      POSTHOG_API_KEY: "",
     }),
   ).join("\n");
   assert.match(errors, /TURNSTILE/);
   assert.match(errors, /UPSTASH/);
-  assert.match(errors, /SENTRY_DSN/);
+  assert.match(errors, /NEXT_PUBLIC_POSTHOG_KEY/);
 });
 
 test("rejects production search verification outside production", () => {

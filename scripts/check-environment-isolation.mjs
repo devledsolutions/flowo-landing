@@ -146,29 +146,6 @@ export function validateLandingEnvironment(env) {
     false,
   );
 
-  const sentryNames = [
-    "SENTRY_DSN",
-    "NEXT_PUBLIC_SENTRY_DSN",
-    "SENTRY_ENVIRONMENT",
-    "NEXT_PUBLIC_SENTRY_ENVIRONMENT",
-    "SENTRY_ORG",
-    "SENTRY_PROJECT",
-    "SENTRY_AUTH_TOKEN",
-  ];
-  const sentryValues = sentryNames.map((name) => value(env, name));
-  const anySentry = sentryValues.some(Boolean);
-  if (hosted || anySentry) {
-    for (const [index, name] of sentryNames.entries()) {
-      if (!sentryValues[index]) errors.push(`${name} is required for Sentry isolation`);
-    }
-  }
-  for (const name of ["SENTRY_ENVIRONMENT", "NEXT_PUBLIC_SENTRY_ENVIRONMENT"]) {
-    const configured = value(env, name);
-    if (configured && configured !== deploymentEnvironment) {
-      errors.push(`${name} must match NEXT_PUBLIC_DEPLOYMENT_ENVIRONMENT`);
-    }
-  }
-
   const posthogNames = ["NEXT_PUBLIC_POSTHOG_KEY", "POSTHOG_API_KEY"];
   const posthogValues = posthogNames.map((name) => value(env, name));
   const anyPostHog = posthogValues.some(Boolean);

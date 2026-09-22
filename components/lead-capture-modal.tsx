@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import * as Sentry from "@sentry/nextjs";
 import {
   Dialog,
   DialogContent,
@@ -31,6 +30,7 @@ import { TurnstileWidget } from "@/components/turnstile-widget";
 import { useSegment } from "@/providers/segment-provider";
 import { useLeadRemarketing } from "@/hooks/use-lead-remarketing";
 import {
+  addLandingExceptionStep,
   captureLandingException,
   captureLandingMessage,
 } from "@/lib/observability/posthog-client";
@@ -179,16 +179,13 @@ export function LeadCaptureModal({
       experiment_variant: experimentVariant,
     });
 
-    Sentry.addBreadcrumb({
-      category: "lead-capture-modal",
-      message: "Form submission started",
-      level: "info",
-      data: {
-        hasName: !!name,
-        hasEmail: !!email,
-        hasWhatsapp: !!whatsapp,
-        countryCode,
-      },
+    addLandingExceptionStep("Form submission started", {
+      component: "lead-capture-modal",
+      event: "form-submission-started",
+      hasName: !!name,
+      hasEmail: !!email,
+      hasWhatsapp: !!whatsapp,
+      countryCode,
     });
 
     try {
@@ -239,19 +236,6 @@ export function LeadCaptureModal({
           status_code: response.status,
         });
 
-        Sentry.captureMessage("Lead capture form submission failed", {
-          level: "warning",
-          tags: {
-            component: "lead-capture-modal",
-            error_type: "api_error",
-          },
-          extra: {
-            statusCode: response.status,
-            errorMessage,
-            name,
-            hasEmail: !!email,
-          },
-        });
         captureLandingMessage(
           "Lead capture form submission failed",
           "lead-capture-modal.api-error",
@@ -312,10 +296,9 @@ export function LeadCaptureModal({
         });
       }
 
-      Sentry.addBreadcrumb({
-        category: "lead-capture-modal",
-        message: "Form submitted successfully",
-        level: "info",
+      addLandingExceptionStep("Form submitted successfully", {
+        component: "lead-capture-modal",
+        event: "form-submission-succeeded",
       });
     } catch (err) {
       setIsError(true);
@@ -326,28 +309,6 @@ export function LeadCaptureModal({
         status_code: 0,
       });
 
-      Sentry.captureException(err, {
-        level: "error",
-        tags: {
-          component: "lead-capture-modal",
-          error_type: "network_error",
-        },
-        contexts: {
-          form: {
-            name: "Lead Capture Form",
-            data: {
-              hasName: !!name,
-              hasEmail: !!email,
-              hasWhatsapp: !!whatsapp,
-              countryCode,
-              dialCode,
-            },
-          },
-        },
-        extra: {
-          errorMessage: err instanceof Error ? err.message : "Unknown error",
-        },
-      });
       captureLandingException(err, "lead-capture-modal.network-error", {
         component: "lead-capture-modal",
         error_type: "network_error",

@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import * as Sentry from "@sentry/nextjs";
 import { ConvexHttpClient } from "convex/browser";
 import { makeFunctionReference } from "convex/server";
 import { getClientIp } from "@/lib/request-ip";
@@ -143,10 +142,6 @@ export async function POST(request: Request) {
 
     const convexUrl = resolveConvexUrl();
     if (!convexUrl) {
-      Sentry.captureMessage("Convex configuration missing for contact form", {
-        level: "error",
-        tags: { component: "contact-form" },
-      });
       await captureLandingMessage(
         "Convex configuration missing for contact form",
         "contact-form.configuration",
@@ -194,10 +189,6 @@ export async function POST(request: Request) {
       message: "Message sent successfully",
     });
   } catch (error) {
-    Sentry.captureException(error, {
-      tags: { component: "contact-form" },
-      extra: { route: "/api/contact-form" },
-    });
     await captureLandingException(error, "contact-form.uncaught", {
       component: "contact-form",
       route: "/api/contact-form",

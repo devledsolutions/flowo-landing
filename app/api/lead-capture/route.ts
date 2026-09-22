@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { randomUUID } from "node:crypto";
-import * as Sentry from "@sentry/nextjs";
 import { ConvexHttpClient } from "convex/browser";
 import { makeFunctionReference } from "convex/server";
 import { getClientIp } from "@/lib/request-ip";
@@ -156,13 +155,6 @@ export async function POST(request: Request) {
   });
 
   if (!rateLimit.allowed) {
-    Sentry.captureMessage("Lead capture rate limit exceeded", {
-      level: "warning",
-      tags: {
-        component: "lead-capture",
-        error_type: "rate_limit",
-      },
-    });
     await captureLandingMessage(
       "Lead capture rate limit exceeded",
       "lead-capture.rate-limit",
@@ -248,13 +240,6 @@ export async function POST(request: Request) {
 
     const convexUrl = resolveConvexUrl();
     if (!convexUrl) {
-      Sentry.captureMessage("Convex configuration missing for lead capture", {
-        level: "error",
-        tags: {
-          component: "lead-capture",
-          error_type: "configuration",
-        },
-      });
       await captureLandingMessage(
         "Convex configuration missing for lead capture",
         "lead-capture.configuration",
@@ -326,16 +311,6 @@ export async function POST(request: Request) {
       website: optional(company),
     });
 
-    Sentry.addBreadcrumb({
-      category: "lead-capture",
-      message: "Lead persisted",
-      level: "info",
-      data: {
-        hasEmail: Boolean(email),
-        source,
-      },
-    });
-
     return NextResponse.json({
       success: true,
       message: "Lead captured successfully",
@@ -344,21 +319,6 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("Error capturing lead:", error);
 
-    Sentry.captureException(error, {
-      level: "error",
-      tags: {
-        component: "lead-capture",
-        error_type: "uncaught",
-      },
-      contexts: {
-        lead: {
-          name: "Lead Information",
-          data: {
-            source: "website",
-          },
-        },
-      },
-    });
     await captureLandingException(error, "lead-capture.uncaught", {
       component: "lead-capture",
       error_type: "uncaught",
