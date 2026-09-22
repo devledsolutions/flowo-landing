@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import * as Sentry from "@sentry/nextjs";
 import { ConvexHttpClient } from "convex/browser";
 import { makeFunctionReference } from "convex/server";
 import { getClientIp } from "@/lib/request-ip";
@@ -73,7 +72,6 @@ export async function POST(request: Request) {
     });
     return NextResponse.json({ success: true, ...result });
   } catch (error) {
-    Sentry.captureException(error, { tags: { component: "voice-verification" } });
     await captureLandingException(error, "voice-verification.confirm.uncaught", {
       component: "voice-verification",
     });

@@ -1,5 +1,4 @@
 import type { NextConfig } from "next";
-import { withSentryConfig } from "@sentry/nextjs";
 
 const blocksSearchIndexing =
   process.env.NEXT_PUBLIC_DEPLOYMENT_ENVIRONMENT !== "production";
@@ -132,34 +131,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withSentryConfig(nextConfig, {
-  // For all available options, see:
-  // https://www.npmjs.com/package/@sentry/webpack-plugin#options
-
-  org: process.env.SENTRY_ORG,
-
-  project: process.env.SENTRY_PROJECT,
-
-  // Only print logs for uploading source maps in CI
-  silent: !process.env.CI,
-
-  // For all available options, see:
-  // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
-
-  // Upload a larger set of source maps for prettier stack traces (increases build time)
-  widenClientFileUpload: true,
-
-  // Enable Sentry tunnel only when explicitly requested.
-  ...(process.env.SENTRY_TUNNEL_ROUTE === "1"
-    ? { tunnelRoute: "/monitoring" }
-    : {}),
-
-  webpack: {
-    // Automatically tree-shake Sentry logger statements to reduce bundle size.
-    treeshake: {
-      removeDebugLogging: true,
-    },
-    // Enables automatic instrumentation of Vercel Cron Monitors.
-    automaticVercelMonitors: true,
-  },
-});
+export default nextConfig;

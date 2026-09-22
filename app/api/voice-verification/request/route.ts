@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import * as Sentry from "@sentry/nextjs";
 import { ConvexHttpClient } from "convex/browser";
 import { makeFunctionReference } from "convex/server";
 import { getClientIp } from "@/lib/request-ip";
@@ -62,9 +61,6 @@ export async function POST(request: Request) {
 
   const convexUrl = resolveConvexUrl();
   if (!convexUrl) {
-    Sentry.captureMessage("Convex configuration missing for voice verification", {
-      level: "error",
-    });
     await captureLandingMessage(
       "Convex configuration missing for voice verification",
       "voice-verification.request.configuration",
@@ -93,7 +89,6 @@ export async function POST(request: Request) {
       expiresInSeconds: result.expiresInSeconds,
     });
   } catch (error) {
-    Sentry.captureException(error, { tags: { component: "voice-verification" } });
     await captureLandingException(error, "voice-verification.request.uncaught", {
       component: "voice-verification",
     });

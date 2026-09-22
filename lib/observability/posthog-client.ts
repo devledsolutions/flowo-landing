@@ -5,6 +5,8 @@ import {
   POSTHOG_HOST,
   buildLandingExceptionProperties,
   landingTelemetryDimensions,
+  redactLandingText,
+  redactLandingTelemetry,
   sanitizeLandingError,
   sanitizeLandingPostHogEvent,
 } from "@/lib/observability/posthog-shared";
@@ -64,8 +66,13 @@ export function addLandingExceptionStep(
 ): void {
   if (!initialized) initializeLandingPostHog();
   if (!initialized) return;
-  posthog.addExceptionStep(message, {
+  const sanitizedDetails = details
+    ? redactLandingTelemetry(details)
+    : undefined;
+  posthog.addExceptionStep(redactLandingText(message), {
     ...landingTelemetryDimensions,
-    ...(details ?? {}),
+    ...(sanitizedDetails && typeof sanitizedDetails === "object" && !Array.isArray(sanitizedDetails)
+      ? sanitizedDetails
+      : {}),
   });
 }

@@ -1,8 +1,8 @@
 # Observabilidade do landing
 
-O landing usa dual-write durante a migração: Sentry continua sendo a rede de
-segurança e o PostHog recebe as mesmas exceções operacionais. O código não deve
-depender do PostHog para responder ao visitante.
+O landing usa o PostHog como canal único de telemetria operacional de erros. O
+código não depende do PostHog para responder ao visitante: falha no monitoramento
+é absorvida e nunca vira uma segunda falha para o cliente.
 
 ## Configuração
 
@@ -26,15 +26,15 @@ Session replay e autocapture genérico permanecem desligados.
    local e conferir o par `surface=landing`/`environment=qa` (ou
    `environment=development`). Os Previews automáticos da Vercel estão
    desabilitados; não tratar uma URL antiga de Preview como evidência atual.
-3. Repetir em produção com o `release` do deploy e conferir a mesma issue no
-   PostHog e no Sentry.
+3. Repetir em produção com o `release` do deploy e conferir a exceção no
+   PostHog, separada por `surface=landing`, `platform=web` e `environment=production`.
 4. Alertas devem filtrar `surface` e `environment`; nunca misturar landing,
    dashboard, mobile ou backend no mesmo alerta.
 
-## Critério para retirar o Sentry
+## Critério de aceite
 
-Não remover Sentry por uma build verde. A retirada só é permitida depois de
-confirmar, em produção, eventos JavaScript e servidor no PostHog, redaction,
-stack trace útil, alertas acionáveis e uma janela de operação sem perda de
-telemetria. Até lá, alterações no Sentry devem ser apenas de privacidade,
-segmentação ou redução de ruído.
+Uma build verde não prova observabilidade. Antes de considerar a migração
+concluída, confirmar em produção eventos JavaScript e servidor no PostHog,
+redaction, stack trace útil, alertas acionáveis e uma janela de operação sem
+perda de telemetria. Essa exigência é específica da Landing; o mobile mantém
+seu próprio gate de crash nativo até a paridade física ser comprovada.

@@ -695,15 +695,16 @@ def consent_page(c: canvas.Canvas, page: int) -> None:
     y = table(c, y, (("Momento", 128), ("O que dispara", 375)),
               (("Antes do aceite",
                 "O padrão do Google, com tudo negado e sem chamada de rede. O "
-                "Sentry, cinco segundos depois do carregamento, sem porta de "
+                "PostHog, apenas para erros operacionais, sem porta de "
                 "consentimento. As fontes, que já vêm do próprio domínio."),
                ("Com aceite analítico",
                 "Google Analytics 4 e o Segment."),
                ("Com aceite de marketing",
                 "Google Ads, Pixel da Meta e Pixel do TikTok."),
-               ("Nunca antes do aceite",
+               ("Nunca antes do aceite para analytics e marketing",
                 "Segment, Pixel da Meta, Google Analytics, Google Ads, Pixel "
-                "do TikTok e PostHog. Conferido um a um.")),
+                "do TikTok. A telemetria operacional de erro é separada. "
+                "Conferido um a um.")),
               size=7.9)
 
     y -= 14

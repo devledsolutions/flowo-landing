@@ -47,4 +47,4 @@ PRs should include:
 ## Security & Configuration Tips
 - Copy from `.env.example`; keep secrets in `.env.local`.
 - Never commit credentials or production keys.
-- Review Sentry-related files when changing telemetry (`sentry.*.config.ts`, `instrumentation*.ts`).
+- Review the observability entrypoints and privacy redaction when changing telemetry (`instrumentation*.ts`, `lib/observability/*`).

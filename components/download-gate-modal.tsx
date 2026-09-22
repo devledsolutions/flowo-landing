@@ -9,7 +9,6 @@ import {
   type ReactElement,
 } from "react";
 import Link from "next/link";
-import * as Sentry from "@sentry/nextjs";
 import {
   CheckCircle2,
   ChevronDown,
@@ -43,6 +42,7 @@ import {
 import { buildWhatsAppUrl } from "@/components/cta-links";
 import { useLeadRemarketing } from "@/hooks/use-lead-remarketing";
 import {
+  addLandingExceptionStep,
   captureLandingException,
   captureLandingMessage,
 } from "@/lib/observability/posthog-client";
@@ -226,11 +226,10 @@ export function DownloadGateModal({
       resource_url: downloadUrl,
       requested_resource: stableRequestedResource,
     });
-    Sentry.addBreadcrumb({
-      category: "download-gate-modal",
-      message: "Resource download started by the lead",
-      level: "info",
-      data: { resourceTitle },
+    addLandingExceptionStep("Resource download started by the lead", {
+      component: "download-gate-modal",
+      event: "resource-download-started",
+      resourceTitle,
     });
   };
 
@@ -251,17 +250,14 @@ export function DownloadGateModal({
       requested_resource: stableRequestedResource,
     });
 
-    Sentry.addBreadcrumb({
-      category: "download-gate-modal",
-      message: "Form submission started",
-      level: "info",
-      data: {
-        resourceTitle,
-        hasName: Boolean(name),
-        hasEmail: Boolean(email),
-        hasWhatsapp: Boolean(whatsapp),
-        countryCode,
-      },
+    addLandingExceptionStep("Form submission started", {
+      component: "download-gate-modal",
+      event: "form-submission-started",
+      resourceTitle,
+      hasName: Boolean(name),
+      hasEmail: Boolean(email),
+      hasWhatsapp: Boolean(whatsapp),
+      countryCode,
     });
 
     try {
@@ -312,17 +308,6 @@ export function DownloadGateModal({
           resource_type: resourceType,
           requested_resource: stableRequestedResource,
           status_code: response.status,
-        });
-        Sentry.captureMessage("Download gate form submission failed", {
-          level: "warning",
-          tags: { component: "download-gate-modal", error_type: "api_error" },
-          extra: {
-            statusCode: response.status,
-            errorMessage: responseMessage,
-            hasName: Boolean(name),
-            hasEmail: Boolean(email),
-            resourceTitle,
-          },
         });
         captureLandingMessage(
           "Download gate form submission failed",
@@ -389,26 +374,6 @@ export function DownloadGateModal({
         resource_type: resourceType,
         requested_resource: stableRequestedResource,
         status_code: 0,
-      });
-      Sentry.captureException(error, {
-        level: "error",
-        tags: { component: "download-gate-modal", error_type: "network_error" },
-        contexts: {
-          form: {
-            name: "Download Gate Form",
-            data: {
-              hasName: Boolean(name),
-              hasEmail: Boolean(email),
-              hasWhatsapp: Boolean(whatsapp),
-              countryCode,
-              dialCode,
-              resourceTitle,
-            },
-          },
-        },
-        extra: {
-          errorMessage: error instanceof Error ? error.message : "Unknown error",
-        },
       });
       captureLandingException(error, "download-gate-modal.network-error", {
         component: "download-gate-modal",

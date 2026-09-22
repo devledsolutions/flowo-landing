@@ -17,13 +17,6 @@ function qaEnvironment(overrides = {}) {
     TURNSTILE_SECRET_KEY: "turnstile_secret_qa",
     UPSTASH_REDIS_REST_URL: "https://qa-redis.example",
     UPSTASH_REDIS_REST_TOKEN: "redis_qa",
-    SENTRY_DSN: "https://server@sentry.example/1",
-    NEXT_PUBLIC_SENTRY_DSN: "https://client@sentry.example/1",
-    SENTRY_ENVIRONMENT: "qa",
-    NEXT_PUBLIC_SENTRY_ENVIRONMENT: "qa",
-    SENTRY_ORG: "flowo",
-    SENTRY_PROJECT: "landing-qa",
-    SENTRY_AUTH_TOKEN: "sentry_qa",
     NEXT_PUBLIC_POSTHOG_KEY: "phc_qa",
     POSTHOG_API_KEY: "phc_qa",
     FLOWO_QA_VERCEL_ORG_ID: "team_qa",
@@ -36,7 +29,6 @@ function qaEnvironment(overrides = {}) {
     FLOWO_PRODUCTION_SALES_WHATSAPP_NUMBER: "5511999991111",
     FLOWO_PRODUCTION_TURNSTILE_SITE_KEY: "turnstile_site_production",
     FLOWO_PRODUCTION_REDIS_REST_URL: "https://production-redis.example",
-    FLOWO_PRODUCTION_LANDING_SENTRY_PROJECT: "landing-production",
     ...overrides,
   };
 }
