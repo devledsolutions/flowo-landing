@@ -96,6 +96,9 @@ jobs:
       - name: Prove QA resources differ from production
         run: node scripts/check-qa-landing-boundary.mjs
 
+      - name: Validate QA DNS
+        run: node scripts/check-qa-dns.mjs
+
       - name: Verify QA landing Vercel project policy
         shell: bash
         env:
