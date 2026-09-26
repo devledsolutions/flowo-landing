@@ -10,6 +10,9 @@ function qaEnvironment(overrides = {}) {
     CONVEX_URL: "https://qa-isolated.convex.cloud",
     NEXT_PUBLIC_CONVEX_URL: "https://qa-isolated.convex.cloud",
     NEXT_PUBLIC_WHATSAPP_NUMBER: "5511999990000",
+    NEXT_PUBLIC_FLOWO_SALES_EMAIL: "vendas@qa.flowo.com.br",
+    NEXT_PUBLIC_FLOWO_SUPPORT_EMAIL: "suporte@qa.flowo.com.br",
+    NEXT_PUBLIC_FLOWO_PRIVACY_EMAIL: "privacidade@qa.flowo.com.br",
     NEXT_PUBLIC_CONSENT_COOKIE_NAME: "flowoQaConsent",
     NEXT_PUBLIC_FLOWO_COOKIE_DOMAIN: "host-only",
     NEXT_PUBLIC_TURNSTILE_SITE_KEY: "turnstile_site_qa",
@@ -58,6 +61,22 @@ test("requires Turnstile and PostHog in hosted QA", () => {
   ).join("\n");
   assert.match(errors, /TURNSTILE/);
   assert.match(errors, /NEXT_PUBLIC_POSTHOG_KEY/);
+});
+
+test("requires QA-owned legal contacts and rejects production mailboxes", () => {
+  const missing = validateLandingEnvironment(
+    qaEnvironment({ NEXT_PUBLIC_FLOWO_SUPPORT_EMAIL: "" }),
+  );
+  assert.ok(missing.includes("NEXT_PUBLIC_FLOWO_SUPPORT_EMAIL is required in QA"));
+
+  const productionAddress = validateLandingEnvironment(
+    qaEnvironment({ NEXT_PUBLIC_FLOWO_SUPPORT_EMAIL: "suporte@flowo.com.br" }),
+  );
+  assert.ok(
+    productionAddress.includes(
+      "NEXT_PUBLIC_FLOWO_SUPPORT_EMAIL must use the QA-owned mail domain in QA",
+    ),
+  );
 });
 
 test("rejects production search verification outside production", () => {

@@ -110,22 +110,43 @@ export async function buildQaLandingDeploymentAttestation({
     );
   }
 
-  const [root, robots] = await Promise.all([
+  const [root, robots, health] = await Promise.all([
     fetchImpl(`${landingOrigin}/`, { cache: "no-store", redirect: "error" }),
     fetchImpl(`${landingOrigin}/robots.txt`, {
+      cache: "no-store",
+      redirect: "error",
+    }),
+    fetchImpl(`${landingOrigin}/api/health`, {
       cache: "no-store",
       redirect: "error",
     }),
   ]);
   if (!root.ok) throw new Error("Permanent QA landing root check failed.");
   if (!robots.ok) throw new Error("Permanent QA landing robots check failed.");
+  if (!health.ok) throw new Error("Permanent QA landing health check failed.");
 
   const rootContentType = root.headers.get("content-type")?.toLowerCase() ?? "";
   const xRobotsTag = root.headers.get("x-robots-tag")?.toLowerCase() ?? "";
   const html = await root.text();
   const robotsText = await robots.text();
+  const healthContentType = health.headers.get("content-type")?.toLowerCase() ?? "";
+  const healthCacheControl = health.headers.get("cache-control")?.toLowerCase() ?? "";
+  let healthPayload;
+  try {
+    healthPayload = JSON.parse(await health.text());
+  } catch {
+    throw new Error("Permanent QA landing health payload is invalid.");
+  }
   if (!rootContentType.includes("text/html")) {
     throw new Error("Permanent QA landing root did not return HTML.");
+  }
+  if (
+    !healthContentType.includes("application/json") ||
+    !healthCacheControl.split(",").some((directive) => directive.trim() === "no-store") ||
+    healthPayload?.ok !== true ||
+    healthPayload?.service !== "flowo-landing"
+  ) {
+    throw new Error("Permanent QA landing health response is unsafe.");
   }
   if (!xRobotsTag.includes("noindex") || !xRobotsTag.includes("nofollow")) {
     throw new Error("Permanent QA landing X-Robots-Tag is unsafe.");
@@ -168,6 +189,7 @@ export async function buildQaLandingDeploymentAttestation({
       vercelReady: true,
       vercelRevision: true,
       permanentOrigin: true,
+      healthEndpoint: true,
       appOriginLink: true,
       robotsHeader: true,
       robotsMetadata: true,

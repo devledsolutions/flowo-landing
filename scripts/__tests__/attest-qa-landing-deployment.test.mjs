@@ -35,6 +35,15 @@ function response({ body = "", headers = {}, status = 200 }) {
 }
 
 function fetchFixture(url) {
+  if (url.endsWith("/api/health")) {
+    return response({
+      body: JSON.stringify({ ok: true, service: "flowo-landing" }),
+      headers: {
+        "cache-control": "no-store",
+        "content-type": "application/json; charset=utf-8",
+      },
+    });
+  }
   if (url.endsWith("/robots.txt")) {
     return response({ body: "User-agent: *\nDisallow: /\n" });
   }
@@ -120,11 +129,66 @@ test("rejects a production Vercel project reused as QA", async () => {
   );
 });
 
+test("rejects a missing or failing public QA health endpoint", async () => {
+  await assert.rejects(
+    buildQaLandingDeploymentAttestation({
+      ...inputs(),
+      fetchImpl(url) {
+        if (url.endsWith("/api/health")) {
+          return response({ status: 404 });
+        }
+        return fetchFixture(url);
+      },
+    }),
+    /health check failed/,
+  );
+});
+
+test("rejects a health endpoint that does not identify the QA landing liveness contract", async () => {
+  await assert.rejects(
+    buildQaLandingDeploymentAttestation({
+      ...inputs(),
+      fetchImpl(url) {
+        if (url.endsWith("/api/health")) {
+          return response({
+            body: JSON.stringify({ ok: true, service: "flowo-production" }),
+            headers: {
+              "cache-control": "no-store",
+              "content-type": "application/json",
+            },
+          });
+        }
+        return fetchFixture(url);
+      },
+    }),
+    /health response is unsafe/,
+  );
+});
+
+test("rejects a cacheable QA health response", async () => {
+  await assert.rejects(
+    buildQaLandingDeploymentAttestation({
+      ...inputs(),
+      fetchImpl(url) {
+        if (url.endsWith("/api/health")) {
+          return response({
+            body: JSON.stringify({ ok: true, service: "flowo-landing" }),
+            headers: { "content-type": "application/json" },
+          });
+        }
+        return fetchFixture(url);
+      },
+    }),
+    /health response is unsafe/,
+  );
+});
+
 test("rejects a missing noindex response header", async () => {
   await assert.rejects(
     buildQaLandingDeploymentAttestation({
       ...inputs(),
       fetchImpl(url) {
+        if (url.endsWith("/api/health")) return fetchFixture(url);
         if (url.endsWith("/robots.txt")) return fetchFixture(url);
         return response({
           body: "<html><head></head><body>Production</body></html>",
@@ -141,6 +205,7 @@ test("rejects HTML without noindex metadata", async () => {
     buildQaLandingDeploymentAttestation({
       ...inputs(),
       fetchImpl(url) {
+        if (url.endsWith("/api/health")) return fetchFixture(url);
         if (url.endsWith("/robots.txt")) return fetchFixture(url);
         return response({
           body:
@@ -161,6 +226,7 @@ test("rejects a landing that links to no QA application origin", async () => {
     buildQaLandingDeploymentAttestation({
       ...inputs(),
       fetchImpl(url) {
+        if (url.endsWith("/api/health")) return fetchFixture(url);
         if (url.endsWith("/robots.txt")) return fetchFixture(url);
         return response({
           body:

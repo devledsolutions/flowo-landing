@@ -1,5 +1,6 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { resolveFlowoLegalContactEmails } from "../lib/legal-contact-emails.mjs";
 
 const COOKIE_NAME_PATTERN = /^[A-Za-z0-9_-]+$/;
 const COOKIE_DOMAIN_PATTERN = /^\.[A-Za-z0-9.-]+$/;
@@ -105,6 +106,19 @@ export function validateLandingEnvironment(env) {
     errors.push(
       "NEXT_PUBLIC_WHATSAPP_NUMBER must be an explicit Brazilian E.164 number",
     );
+  }
+
+  if (new Set(["development", "qa", "production"]).has(deploymentEnvironment)) {
+    try {
+      resolveFlowoLegalContactEmails({
+        deploymentEnvironment,
+        contactEmail: value(env, "NEXT_PUBLIC_FLOWO_SALES_EMAIL") || undefined,
+        supportEmail: value(env, "NEXT_PUBLIC_FLOWO_SUPPORT_EMAIL") || undefined,
+        privacyEmail: value(env, "NEXT_PUBLIC_FLOWO_PRIVACY_EMAIL") || undefined,
+      });
+    } catch (error) {
+      errors.push(error instanceof Error ? error.message : "Legal contact emails are invalid");
+    }
   }
 
   const cookieName = value(env, "NEXT_PUBLIC_CONSENT_COOKIE_NAME");

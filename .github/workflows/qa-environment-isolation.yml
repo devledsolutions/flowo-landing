@@ -29,33 +29,31 @@ jobs:
     environment: qa
     env:
       NEXT_PUBLIC_DEPLOYMENT_ENVIRONMENT: qa
-      NEXT_PUBLIC_SITE_URL: ${{ vars.FLOWO_QA_MARKETING_ORIGIN }}
-      NEXT_PUBLIC_APP_URL: ${{ vars.FLOWO_QA_APP_ORIGIN }}
-      CONVEX_URL: ${{ vars.FLOWO_QA_CONVEX_URL }}
-      NEXT_PUBLIC_CONVEX_URL: ${{ vars.FLOWO_QA_CONVEX_URL }}
-      NEXT_PUBLIC_WHATSAPP_NUMBER: ${{ vars.FLOWO_QA_SALES_WHATSAPP_NUMBER }}
-      NEXT_PUBLIC_CONSENT_COOKIE_NAME: ${{ vars.FLOWO_QA_CONSENT_COOKIE_NAME }}
-      NEXT_PUBLIC_FLOWO_COOKIE_DOMAIN: host-only
-      NEXT_PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.FLOWO_QA_TURNSTILE_SITE_KEY }}
-      TURNSTILE_SECRET_KEY: ${{ secrets.FLOWO_QA_TURNSTILE_SECRET_KEY }}
-      NEXT_PUBLIC_SEGMENT_WRITE_KEY: ${{ vars.FLOWO_QA_SEGMENT_WEB_WRITE_KEY }}
-      NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ vars.FLOWO_QA_GA_MEASUREMENT_ID }}
-      NEXT_PUBLIC_GOOGLE_ADS_ID: ${{ vars.FLOWO_QA_GOOGLE_ADS_ID }}
-      NEXT_PUBLIC_GOOGLE_ADS_LEAD_CONVERSION_LABEL: ${{ vars.FLOWO_QA_GOOGLE_ADS_LEAD_CONVERSION_LABEL }}
-      NEXT_PUBLIC_META_PIXEL_ID: ${{ vars.FLOWO_QA_META_PIXEL_ID }}
-      NEXT_PUBLIC_TIKTOK_PIXEL_ID: ${{ vars.FLOWO_QA_TIKTOK_PIXEL_ID }}
       FLOWO_QA_MARKETING_ORIGIN: ${{ vars.FLOWO_QA_MARKETING_ORIGIN }}
       FLOWO_QA_APP_ORIGIN: ${{ vars.FLOWO_QA_APP_ORIGIN }}
+      FLOWO_QA_CONVEX_URL: ${{ vars.FLOWO_QA_CONVEX_URL }}
+      FLOWO_QA_CONSENT_COOKIE_NAME: ${{ vars.FLOWO_QA_CONSENT_COOKIE_NAME }}
+      FLOWO_QA_SALES_WHATSAPP_NUMBER: ${{ vars.FLOWO_QA_SALES_WHATSAPP_NUMBER }}
+      FLOWO_QA_TURNSTILE_SITE_KEY: ${{ vars.FLOWO_QA_TURNSTILE_SITE_KEY }}
+      FLOWO_QA_POSTHOG_PROJECT_KEY: ${{ vars.FLOWO_QA_POSTHOG_PUBLIC_KEY }}
       FLOWO_QA_VERCEL_ORG_ID: ${{ vars.FLOWO_QA_VERCEL_ORG_ID }}
       FLOWO_QA_LANDING_VERCEL_PROJECT_ID: ${{ vars.FLOWO_QA_LANDING_VERCEL_PROJECT_ID }}
       FLOWO_QA_VERCEL_TOKEN: ${{ secrets.FLOWO_QA_VERCEL_TOKEN }}
+      FLOWO_QA_SEGMENT_WEB_WRITE_KEY: ${{ vars.FLOWO_QA_SEGMENT_WEB_WRITE_KEY }}
+      FLOWO_QA_GA_MEASUREMENT_ID: ${{ vars.FLOWO_QA_GA_MEASUREMENT_ID }}
+      FLOWO_QA_GOOGLE_ADS_ID: ${{ vars.FLOWO_QA_GOOGLE_ADS_ID }}
+      FLOWO_QA_GOOGLE_ADS_LEAD_CONVERSION_LABEL: ${{ vars.FLOWO_QA_GOOGLE_ADS_LEAD_CONVERSION_LABEL }}
+      FLOWO_QA_META_PIXEL_ID: ${{ vars.FLOWO_QA_META_PIXEL_ID }}
+      FLOWO_QA_TIKTOK_PIXEL_ID: ${{ vars.FLOWO_QA_TIKTOK_PIXEL_ID }}
       FLOWO_PRODUCTION_MARKETING_ORIGIN: ${{ vars.FLOWO_PRODUCTION_MARKETING_ORIGIN }}
       FLOWO_PRODUCTION_APP_ORIGIN: ${{ vars.FLOWO_PRODUCTION_APP_ORIGIN }}
       FLOWO_PRODUCTION_CONVEX_URL: ${{ vars.FLOWO_PRODUCTION_CONVEX_URL }}
+      FLOWO_PRODUCTION_POSTHOG_PUBLIC_KEY_SHA256: ${{ vars.FLOWO_PRODUCTION_POSTHOG_PUBLIC_KEY_SHA256 }}
       FLOWO_PRODUCTION_LANDING_VERCEL_PROJECT_ID: ${{ vars.FLOWO_PRODUCTION_LANDING_VERCEL_PROJECT_ID }}
       FLOWO_PRODUCTION_CONSENT_COOKIE_NAME: ${{ vars.FLOWO_PRODUCTION_CONSENT_COOKIE_NAME }}
       FLOWO_PRODUCTION_SALES_WHATSAPP_NUMBER: ${{ vars.FLOWO_PRODUCTION_SALES_WHATSAPP_NUMBER }}
       FLOWO_PRODUCTION_TURNSTILE_SITE_KEY: ${{ vars.FLOWO_PRODUCTION_TURNSTILE_SITE_KEY }}
+      FLOWO_PRODUCTION_TURNSTILE_DISABLED: "true"
       FLOWO_PRODUCTION_SEGMENT_WEB_WRITE_KEY: ${{ vars.FLOWO_PRODUCTION_SEGMENT_WEB_WRITE_KEY }}
       FLOWO_PRODUCTION_GA_MEASUREMENT_ID: ${{ vars.FLOWO_PRODUCTION_GA_MEASUREMENT_ID }}
       FLOWO_PRODUCTION_GOOGLE_ADS_ID: ${{ vars.FLOWO_PRODUCTION_GOOGLE_ADS_ID }}
@@ -78,11 +76,24 @@ jobs:
       - name: Validate QA isolation contracts
         run: pnpm test:qa-isolation
 
-      - name: Validate complete QA runtime configuration
-        run: pnpm env:check
+      - name: Verify Turnstile keys are scoped only to the QA Vercel project
+        shell: bash
+        run: |
+          audit_dir="$(mktemp -d "$RUNNER_TEMP/flowo-qa-turnstile-policy.XXXXXX")"
+          trap 'case "$audit_dir" in "$RUNNER_TEMP"/flowo-qa-turnstile-policy.*) rm -rf -- "$audit_dir" ;; esac' EXIT
+          mkdir -p "$audit_dir/qa/.vercel" "$audit_dir/production/.vercel"
+          AUDIT_DIR="$audit_dir" node -e 'const fs=require("node:fs"); const path=require("node:path"); for (const [dir,key] of [["qa","FLOWO_QA_LANDING_VERCEL_PROJECT_ID"],["production","FLOWO_PRODUCTION_LANDING_VERCEL_PROJECT_ID"]]) fs.writeFileSync(path.join(process.env.AUDIT_DIR,dir,".vercel/project.json"), JSON.stringify({orgId:process.env.FLOWO_QA_VERCEL_ORG_ID,projectId:process.env[key]}));'
+          pnpm dlx vercel@59.11.7 env ls production --format=json \
+            --token="$FLOWO_QA_VERCEL_TOKEN" --cwd="$audit_dir/qa" \
+            > "$audit_dir/qa-env.json"
+          pnpm dlx vercel@59.11.7 env ls production --format=json \
+            --token="$FLOWO_QA_VERCEL_TOKEN" --cwd="$audit_dir/production" \
+            > "$audit_dir/production-env.json"
+          node scripts/check-qa-turnstile-project-policy.mjs \
+            "$audit_dir/qa-env.json" "$audit_dir/production-env.json"
 
-      - name: Prove QA resources differ from production
-        run: node scripts/check-qa-landing-boundary.mjs
+      - name: Validate QA selectors differ from production
+        run: node scripts/check-qa-landing-boundary.mjs --selectors-only
 
       - name: Validate QA DNS
         run: node scripts/check-qa-dns.mjs
@@ -107,9 +118,34 @@ jobs:
     env:
       FLOWO_QA_MARKETING_ORIGIN: ${{ vars.FLOWO_QA_MARKETING_ORIGIN }}
       FLOWO_QA_APP_ORIGIN: ${{ vars.FLOWO_QA_APP_ORIGIN }}
+      FLOWO_QA_CONVEX_URL: ${{ vars.FLOWO_QA_CONVEX_URL }}
+      FLOWO_QA_CONSENT_COOKIE_NAME: ${{ vars.FLOWO_QA_CONSENT_COOKIE_NAME }}
+      FLOWO_QA_SALES_WHATSAPP_NUMBER: ${{ vars.FLOWO_QA_SALES_WHATSAPP_NUMBER }}
+      FLOWO_QA_TURNSTILE_SITE_KEY: ${{ vars.FLOWO_QA_TURNSTILE_SITE_KEY }}
+      FLOWO_QA_POSTHOG_PROJECT_KEY: ${{ vars.FLOWO_QA_POSTHOG_PUBLIC_KEY }}
+      FLOWO_QA_SEGMENT_WEB_WRITE_KEY: ${{ vars.FLOWO_QA_SEGMENT_WEB_WRITE_KEY }}
+      FLOWO_QA_GA_MEASUREMENT_ID: ${{ vars.FLOWO_QA_GA_MEASUREMENT_ID }}
+      FLOWO_QA_GOOGLE_ADS_ID: ${{ vars.FLOWO_QA_GOOGLE_ADS_ID }}
+      FLOWO_QA_GOOGLE_ADS_LEAD_CONVERSION_LABEL: ${{ vars.FLOWO_QA_GOOGLE_ADS_LEAD_CONVERSION_LABEL }}
+      FLOWO_QA_META_PIXEL_ID: ${{ vars.FLOWO_QA_META_PIXEL_ID }}
+      FLOWO_QA_TIKTOK_PIXEL_ID: ${{ vars.FLOWO_QA_TIKTOK_PIXEL_ID }}
       FLOWO_QA_VERCEL_ORG_ID: ${{ vars.FLOWO_QA_VERCEL_ORG_ID }}
       FLOWO_QA_LANDING_VERCEL_PROJECT_ID: ${{ vars.FLOWO_QA_LANDING_VERCEL_PROJECT_ID }}
       FLOWO_PRODUCTION_LANDING_VERCEL_PROJECT_ID: ${{ vars.FLOWO_PRODUCTION_LANDING_VERCEL_PROJECT_ID }}
+      FLOWO_PRODUCTION_MARKETING_ORIGIN: ${{ vars.FLOWO_PRODUCTION_MARKETING_ORIGIN }}
+      FLOWO_PRODUCTION_APP_ORIGIN: ${{ vars.FLOWO_PRODUCTION_APP_ORIGIN }}
+      FLOWO_PRODUCTION_CONVEX_URL: ${{ vars.FLOWO_PRODUCTION_CONVEX_URL }}
+      FLOWO_PRODUCTION_CONSENT_COOKIE_NAME: ${{ vars.FLOWO_PRODUCTION_CONSENT_COOKIE_NAME }}
+      FLOWO_PRODUCTION_SALES_WHATSAPP_NUMBER: ${{ vars.FLOWO_PRODUCTION_SALES_WHATSAPP_NUMBER }}
+      FLOWO_PRODUCTION_TURNSTILE_SITE_KEY: ${{ vars.FLOWO_PRODUCTION_TURNSTILE_SITE_KEY }}
+      FLOWO_PRODUCTION_TURNSTILE_DISABLED: "true"
+      FLOWO_PRODUCTION_POSTHOG_PUBLIC_KEY_SHA256: ${{ vars.FLOWO_PRODUCTION_POSTHOG_PUBLIC_KEY_SHA256 }}
+      FLOWO_PRODUCTION_SEGMENT_WEB_WRITE_KEY: ${{ vars.FLOWO_PRODUCTION_SEGMENT_WEB_WRITE_KEY }}
+      FLOWO_PRODUCTION_GA_MEASUREMENT_ID: ${{ vars.FLOWO_PRODUCTION_GA_MEASUREMENT_ID }}
+      FLOWO_PRODUCTION_GOOGLE_ADS_ID: ${{ vars.FLOWO_PRODUCTION_GOOGLE_ADS_ID }}
+      FLOWO_PRODUCTION_GOOGLE_ADS_LEAD_CONVERSION_LABEL: ${{ vars.FLOWO_PRODUCTION_GOOGLE_ADS_LEAD_CONVERSION_LABEL }}
+      FLOWO_PRODUCTION_META_PIXEL_ID: ${{ vars.FLOWO_PRODUCTION_META_PIXEL_ID }}
+      FLOWO_PRODUCTION_TIKTOK_PIXEL_ID: ${{ vars.FLOWO_PRODUCTION_TIKTOK_PIXEL_ID }}
       VERCEL_TOKEN: ${{ secrets.FLOWO_QA_VERCEL_TOKEN }}
 
     steps:
@@ -144,19 +180,43 @@ jobs:
       - name: Install the locked toolchain
         run: pnpm install --frozen-lockfile
 
-      - name: Link and build landing QA without deploying
+      - name: Link the exact QA project and deploy through its isolated remote build
         shell: bash
         run: |
           mkdir -p .vercel
           node -e 'const fs=require("node:fs"); fs.writeFileSync(".vercel/project.json", JSON.stringify({orgId:process.env.FLOWO_QA_VERCEL_ORG_ID,projectId:process.env.FLOWO_QA_LANDING_VERCEL_PROJECT_ID}));'
-          pnpm dlx vercel@59.11.7 pull --yes --environment=production \
-            --token="$VERCEL_TOKEN" > /dev/null
-          pnpm dlx vercel@59.11.7 build --prod --token="$VERCEL_TOKEN"
-
-      - name: Deploy the prebuilt QA landing
-        shell: bash
-        run: |
-          pnpm dlx vercel@59.11.7 deploy --prebuilt --prod --yes \
+          pnpm dlx vercel@59.11.7 deploy --prod --yes \
+            --build-env NEXT_PUBLIC_DEPLOYMENT_ENVIRONMENT=qa \
+            --build-env "FLOWO_QA_MARKETING_ORIGIN=$FLOWO_QA_MARKETING_ORIGIN" \
+            --build-env "FLOWO_QA_APP_ORIGIN=$FLOWO_QA_APP_ORIGIN" \
+            --build-env "FLOWO_QA_CONVEX_URL=$FLOWO_QA_CONVEX_URL" \
+            --build-env "FLOWO_QA_CONSENT_COOKIE_NAME=$FLOWO_QA_CONSENT_COOKIE_NAME" \
+            --build-env "FLOWO_QA_SALES_WHATSAPP_NUMBER=$FLOWO_QA_SALES_WHATSAPP_NUMBER" \
+            --build-env "FLOWO_QA_TURNSTILE_SITE_KEY=$FLOWO_QA_TURNSTILE_SITE_KEY" \
+            --build-env "FLOWO_QA_POSTHOG_PROJECT_KEY=$FLOWO_QA_POSTHOG_PROJECT_KEY" \
+            --build-env "FLOWO_QA_SEGMENT_WEB_WRITE_KEY=$FLOWO_QA_SEGMENT_WEB_WRITE_KEY" \
+            --build-env "FLOWO_QA_GA_MEASUREMENT_ID=$FLOWO_QA_GA_MEASUREMENT_ID" \
+            --build-env "FLOWO_QA_GOOGLE_ADS_ID=$FLOWO_QA_GOOGLE_ADS_ID" \
+            --build-env "FLOWO_QA_GOOGLE_ADS_LEAD_CONVERSION_LABEL=$FLOWO_QA_GOOGLE_ADS_LEAD_CONVERSION_LABEL" \
+            --build-env "FLOWO_QA_META_PIXEL_ID=$FLOWO_QA_META_PIXEL_ID" \
+            --build-env "FLOWO_QA_TIKTOK_PIXEL_ID=$FLOWO_QA_TIKTOK_PIXEL_ID" \
+            --build-env "FLOWO_QA_VERCEL_ORG_ID=$FLOWO_QA_VERCEL_ORG_ID" \
+            --build-env "FLOWO_QA_LANDING_VERCEL_PROJECT_ID=$FLOWO_QA_LANDING_VERCEL_PROJECT_ID" \
+            --build-env "FLOWO_PRODUCTION_MARKETING_ORIGIN=$FLOWO_PRODUCTION_MARKETING_ORIGIN" \
+            --build-env "FLOWO_PRODUCTION_APP_ORIGIN=$FLOWO_PRODUCTION_APP_ORIGIN" \
+            --build-env "FLOWO_PRODUCTION_CONVEX_URL=$FLOWO_PRODUCTION_CONVEX_URL" \
+            --build-env "FLOWO_PRODUCTION_CONSENT_COOKIE_NAME=$FLOWO_PRODUCTION_CONSENT_COOKIE_NAME" \
+            --build-env "FLOWO_PRODUCTION_SALES_WHATSAPP_NUMBER=$FLOWO_PRODUCTION_SALES_WHATSAPP_NUMBER" \
+            --build-env "FLOWO_PRODUCTION_TURNSTILE_SITE_KEY=$FLOWO_PRODUCTION_TURNSTILE_SITE_KEY" \
+            --build-env "FLOWO_PRODUCTION_TURNSTILE_DISABLED=$FLOWO_PRODUCTION_TURNSTILE_DISABLED" \
+            --build-env "FLOWO_PRODUCTION_POSTHOG_PUBLIC_KEY_SHA256=$FLOWO_PRODUCTION_POSTHOG_PUBLIC_KEY_SHA256" \
+            --build-env "FLOWO_PRODUCTION_SEGMENT_WEB_WRITE_KEY=$FLOWO_PRODUCTION_SEGMENT_WEB_WRITE_KEY" \
+            --build-env "FLOWO_PRODUCTION_GA_MEASUREMENT_ID=$FLOWO_PRODUCTION_GA_MEASUREMENT_ID" \
+            --build-env "FLOWO_PRODUCTION_GOOGLE_ADS_ID=$FLOWO_PRODUCTION_GOOGLE_ADS_ID" \
+            --build-env "FLOWO_PRODUCTION_GOOGLE_ADS_LEAD_CONVERSION_LABEL=$FLOWO_PRODUCTION_GOOGLE_ADS_LEAD_CONVERSION_LABEL" \
+            --build-env "FLOWO_PRODUCTION_META_PIXEL_ID=$FLOWO_PRODUCTION_META_PIXEL_ID" \
+            --build-env "FLOWO_PRODUCTION_TIKTOK_PIXEL_ID=$FLOWO_PRODUCTION_TIKTOK_PIXEL_ID" \
+            --build-env "FLOWO_PRODUCTION_LANDING_VERCEL_PROJECT_ID=$FLOWO_PRODUCTION_LANDING_VERCEL_PROJECT_ID" \
             --meta flowoEnvironment=qa \
             --meta flowoSourceRef=main \
             --meta flowoSourceRevision="$GITHUB_SHA" \
@@ -174,7 +234,8 @@ jobs:
         shell: bash
         run: |
           for attempt in {1..12}; do
-            if curl --fail --silent --show-error "$FLOWO_QA_MARKETING_ORIGIN/" > /dev/null; then
+            if curl --fail --silent "$FLOWO_QA_MARKETING_ORIGIN/" > /dev/null \
+              && curl --fail --silent "$FLOWO_QA_MARKETING_ORIGIN/api/health" > /dev/null; then
               break
             fi
             if [[ "$attempt" == "12" ]]; then
@@ -184,7 +245,7 @@ jobs:
             sleep 5
           done
 
-      - name: Attest revision, target, app link and noindex defenses
+      - name: Attest revision, target, health, app link and noindex defenses
         run: |
           node scripts/attest-qa-landing-deployment.mjs \
             "$RUNNER_TEMP/vercel-qa-landing-inspect.json" \

@@ -21,26 +21,56 @@ test("landing QA deployment is manual, target-confirmed, and serialized", () => 
   assert.match(workflow, /cancel-in-progress: false/);
 });
 
-test("preflight proves runtime, production separation, and remote Vercel policy", () => {
+test("preflight validates isolated selectors without requiring unreadable runtime secrets", () => {
+  const isolationJob = workflow.split("\n  deploy:")[0];
   assert.match(workflow, /pnpm test:qa-isolation/);
-  assert.match(workflow, /pnpm env:check/);
-  assert.match(workflow, /check-qa-landing-boundary\.mjs/);
+  assert.match(isolationJob, /check-qa-landing-boundary\.mjs --selectors-only/);
+  assert.doesNotMatch(isolationJob, /pnpm env:check/);
+  assert.doesNotMatch(isolationJob, /TURNSTILE_SECRET_KEY|POSTHOG_API_KEY/);
   assert.match(workflow, /check-qa-vercel-project-policy\.mjs/);
   assert.match(workflow, /FLOWO_PRODUCTION_LANDING_VERCEL_PROJECT_ID/);
+  assert.match(workflow, /FLOWO_PRODUCTION_POSTHOG_PUBLIC_KEY_SHA256/);
+  assert.match(workflow, /FLOWO_QA_POSTHOG_PROJECT_KEY: \$\{\{ vars\.FLOWO_QA_POSTHOG_PUBLIC_KEY \}\}/);
+  assert.doesNotMatch(workflow, /FLOWO_PRODUCTION_POSTHOG_PROJECT_KEY/);
 });
 
-test("build finishes before the only deploy command", () => {
-  const build = workflow.indexOf("vercel@59.11.7 build --prod");
-  const deploy = workflow.indexOf("vercel@59.11.7 deploy --prebuilt --prod");
-  assert.ok(build > -1);
-  assert.ok(build < deploy);
+test("production Turnstile may be marked disabled only after Vercel metadata proves absence", () => {
+  const metadataCheck = workflow.indexOf(
+    "Verify Turnstile keys are scoped only to the QA Vercel project",
+  );
+  const selectorCheck = workflow.indexOf(
+    "check-qa-landing-boundary.mjs --selectors-only",
+  );
+  assert.ok(metadataCheck > -1 && metadataCheck < selectorCheck);
+  assert.match(workflow, /check-qa-turnstile-project-policy\.mjs/);
+  assert.match(workflow, /vercel@59\.11\.7 env ls production --format=json/);
+  assert.match(workflow, /FLOWO_PRODUCTION_TURNSTILE_DISABLED: "true"/);
+});
+
+test("QA source is built remotely with runtime secrets kept in the isolated Vercel project", () => {
+  const deploy = workflow.indexOf("vercel@59.11.7 deploy --prod --yes");
+  assert.ok(deploy > -1);
   assert.equal(
-    workflow.match(/vercel@59\.11\.7 deploy --prebuilt --prod/g)?.length,
+    workflow.match(/vercel@59\.11\.7 deploy --prod --yes/g)?.length,
     1,
   );
+  assert.doesNotMatch(workflow, /vercel@59\.11\.7 deploy --prebuilt/);
+  assert.match(workflow, /--build-env "FLOWO_QA_POSTHOG_PROJECT_KEY=\$FLOWO_QA_POSTHOG_PROJECT_KEY"/);
+  assert.match(workflow, /--build-env "FLOWO_PRODUCTION_TURNSTILE_SITE_KEY=\$FLOWO_PRODUCTION_TURNSTILE_SITE_KEY"/);
+  assert.match(workflow, /--build-env "FLOWO_PRODUCTION_TURNSTILE_DISABLED=\$FLOWO_PRODUCTION_TURNSTILE_DISABLED"/);
+  assert.doesNotMatch(workflow, /--build-env [^\\\n]*(?:TURNSTILE_SECRET_KEY|POSTHOG_API_KEY)/);
+});
+
+test("every QA landing build invokes the boundary guard before Next.js", () => {
+  const packageJson = JSON.parse(
+    readFileSync(resolve(import.meta.dirname, "../../package.json"), "utf8"),
+  );
+  assert.match(packageJson.scripts.build, /check-qa-landing-boundary\.mjs --if-qa/);
 });
 
 test("post-deploy evidence binds exact SHA and all anti-indexing layers", () => {
+  assert.match(workflow, /FLOWO_QA_MARKETING_ORIGIN\/api\/health/);
+  assert.match(workflow, /Attest revision, target, health, app link and noindex defenses/);
   assert.match(workflow, /--meta flowoSourceRevision="\$GITHUB_SHA"/);
   assert.match(workflow, /vercel@59\.11\.7 inspect/);
   assert.match(workflow, /attest-qa-landing-deployment\.mjs/);
