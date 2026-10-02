@@ -2,6 +2,7 @@ import { PostHog } from "posthog-node";
 import {
   POSTHOG_HOST,
   buildLandingExceptionProperties,
+  landingTelemetryDimensions,
   sanitizeLandingError,
 } from "@/lib/observability/posthog-shared";
 
@@ -41,4 +42,30 @@ export async function captureLandingMessage(
   level: "error" | "warning" = "error",
 ): Promise<void> {
   await captureLandingException(new Error(message), context, details, level);
+}
+
+/**
+ * Aggregate usage counter that needs no consent: one shared distinct id, no
+ * person profile, no GeoIP and no IP forwarded. Callers pass only fixed
+ * dimensions (tool name, outcome, page path), never visitor input.
+ */
+export async function captureLandingUsage(
+  event: string,
+  properties: Record<string, string | boolean>,
+): Promise<void> {
+  if (!posthog) return;
+  try {
+    await posthog.captureImmediate({
+      distinctId: "flowo-landing-aggregate",
+      event,
+      properties: {
+        ...landingTelemetryDimensions,
+        ...properties,
+        $process_person_profile: false,
+      },
+      disableGeoip: true,
+    });
+  } catch {
+    // The counter is best effort and never fails the request.
+  }
 }
