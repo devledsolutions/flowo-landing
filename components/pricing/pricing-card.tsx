@@ -10,7 +10,7 @@ import {
   type BillingCycle,
   type Plan,
 } from "@/data/pricing-data";
-import { SIGNUP_URL } from "./links";
+import { buildSignupUrl } from "@/components/cta-links";
 import { TrackedLink } from "@/components/analytics/tracked-link";
 export const ENTERPRISE_EXPERIMENT_KEY = "enterprise-value-proposition-v1";
 
@@ -26,6 +26,14 @@ const CTA_BASE =
 export function PricingCard({ plan, cycle, experimentVariant }: PricingCardProps) {
   const isPopular = Boolean(plan.isPopular);
   const price = plan.salesLed ? null : planPriceForCycle(plan, cycle);
+  const signupUrl = plan.salesLed
+    ? null
+    : buildSignupUrl({
+        plan: plan.id,
+        cycle,
+        campaign: "pricing_page",
+        content: `pricing_card_${plan.id}`,
+      });
   const implementationVariant =
     plan.salesLed && experimentVariant === "implementation";
 
@@ -76,7 +84,7 @@ export function PricingCard({ plan, cycle, experimentVariant }: PricingCardProps
       )}
 
       <div className="mt-7">
-        {plan.salesLed ? (
+        {signupUrl === null ? (
           <LeadCaptureModal
             intent="enterprise"
             source="enterprise_pricing_page"
@@ -95,10 +103,11 @@ export function PricingCard({ plan, cycle, experimentVariant }: PricingCardProps
           </LeadCaptureModal>
         ) : (
           <TrackedLink
-            href={SIGNUP_URL}
+            href={signupUrl}
             event="CTA Clicked"
             properties={{
               page: "/precos",
+              plan: plan.id,
               placement: `pricing_card_${plan.id}`,
               destination: "dashboard_signup",
               intent: "start_plan",
