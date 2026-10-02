@@ -18,6 +18,8 @@ import {
 import { growthToolStyles as styles, ToolWindow } from "./tool-window";
 
 const hintClassName = "text-[0.66rem] font-normal leading-snug";
+// Both questions reserve two lines in the two-column layout, so the inputs line up.
+const questionClassName = "min-[621px]:min-h-[2lh]";
 
 export function PlanSelector() {
   const { track } = useSegment();
@@ -38,7 +40,7 @@ export function PlanSelector() {
     <ToolWindow label="ESCOLHA GUIADA" title="Qual plano combina com a sua rotina?" badge="2 minutos">
       <div className={styles.inputGrid}>
         <label>
-          Quantos profissionais atendem na agenda?
+          <span className={questionClassName}>Quantos profissionais atendem na agenda?</span>
           <input
             type="number"
             min={PROFESSIONALS_LIMITS.min}
@@ -53,7 +55,7 @@ export function PlanSelector() {
           </span>
         </label>
         <label>
-          Quantas unidades a barbearia tem?
+          <span className={questionClassName}>Quantas unidades a barbearia tem?</span>
           <input
             type="number"
             min={UNITS_LIMITS.min}
