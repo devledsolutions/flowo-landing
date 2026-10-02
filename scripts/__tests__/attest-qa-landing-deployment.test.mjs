@@ -6,7 +6,7 @@ import { buildQaLandingDeploymentAttestation } from "../attest-qa-landing-deploy
 const revision = "a".repeat(40);
 const environment = Object.freeze({
   GITHUB_SHA: revision,
-  GITHUB_REF: "refs/heads/main",
+  GITHUB_REF: "refs/heads/qa",
   GITHUB_REPOSITORY: "devledsolutions/flowo-landing",
   GITHUB_RUN_ID: "12345",
   GITHUB_RUN_ATTEMPT: "2",
@@ -68,10 +68,10 @@ function inputs(overrides = {}) {
       url: "flowo-landing-qa.vercel.app",
       meta: {
         flowoEnvironment: "qa",
-        flowoSourceRef: "main",
+        flowoSourceRef: "qa",
         flowoSourceRevision: revision,
       },
-      gitSource: { ref: "main", sha: revision },
+      gitSource: { ref: "qa", sha: revision },
       privateEnvironment: "must-not-leak",
     },
     fetchImpl: fetchFixture,
@@ -80,7 +80,7 @@ function inputs(overrides = {}) {
   };
 }
 
-test("attests the exact main revision and permanent QA landing", async () => {
+test("attests the exact qa revision and permanent QA landing", async () => {
   const result = await buildQaLandingDeploymentAttestation(inputs());
   assert.equal(result.status, "verified");
   assert.equal(result.source.revision, revision);
@@ -98,7 +98,7 @@ test("rejects branch dispatch or mismatched provenance", async () => {
       ...inputs(),
       environment: { ...environment, GITHUB_REF: "refs/heads/topic" },
     }),
-    /refs\/heads\/main/,
+    /refs\/heads\/qa/,
   );
   await assert.rejects(
     buildQaLandingDeploymentAttestation({

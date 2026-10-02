@@ -154,8 +154,8 @@ jobs:
         env:
           CONFIRMED_ORIGIN: ${{ inputs.confirm_origin }}
         run: |
-          if [[ "$GITHUB_REF" != "refs/heads/main" ]]; then
-            echo "Deployment refused: permanent landing QA accepts only refs/heads/main." >&2
+          if [[ "$GITHUB_REF" != "refs/heads/qa" ]]; then
+            echo "Deployment refused: permanent landing QA accepts only refs/heads/qa." >&2
             exit 1
           fi
           if [[ "$CONFIRMED_ORIGIN" != "$FLOWO_QA_MARKETING_ORIGIN" ]]; then
@@ -218,7 +218,7 @@ jobs:
             --build-env "FLOWO_PRODUCTION_TIKTOK_PIXEL_ID=$FLOWO_PRODUCTION_TIKTOK_PIXEL_ID" \
             --build-env "FLOWO_PRODUCTION_LANDING_VERCEL_PROJECT_ID=$FLOWO_PRODUCTION_LANDING_VERCEL_PROJECT_ID" \
             --meta flowoEnvironment=qa \
-            --meta flowoSourceRef=main \
+            --meta flowoSourceRef=qa \
             --meta flowoSourceRevision="$GITHUB_SHA" \
             --token="$VERCEL_TOKEN" > "$RUNNER_TEMP/vercel-qa-landing-url.txt"
 

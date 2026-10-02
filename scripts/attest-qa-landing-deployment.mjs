@@ -58,8 +58,8 @@ export async function buildQaLandingDeploymentAttestation({
   if (!SHA_PATTERN.test(sourceRevision)) {
     throw new Error("GITHUB_SHA must be a full lowercase commit SHA.");
   }
-  if (sourceRef !== "refs/heads/main") {
-    throw new Error("Permanent QA landing attestations require refs/heads/main.");
+  if (sourceRef !== "refs/heads/qa") {
+    throw new Error("Permanent QA landing attestations require refs/heads/qa.");
   }
   if (!repository || !/^\d+$/.test(runId) || !/^\d+$/.test(runAttempt)) {
     throw new Error("GitHub workflow identity is incomplete.");
@@ -101,9 +101,9 @@ export async function buildQaLandingDeploymentAttestation({
     vercelDeployment?.target !== "production" ||
     deployedProjectId !== expectedProjectId ||
     metadata.flowoEnvironment !== "qa" ||
-    metadata.flowoSourceRef !== "main" ||
+    metadata.flowoSourceRef !== "qa" ||
     metadata.flowoSourceRevision !== sourceRevision ||
-    (gitSource && (gitSource.ref !== "main" || gitSource.sha !== sourceRevision))
+    (gitSource && (gitSource.ref !== "qa" || gitSource.sha !== sourceRevision))
   ) {
     throw new Error(
       "Vercel landing deployment provenance does not match the approved QA revision.",

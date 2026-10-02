@@ -16,7 +16,7 @@ test("landing QA deployment is manual, target-confirmed, and serialized", () => 
   );
   assert.match(workflow, /if: inputs\.deploy == true/);
   assert.match(workflow, /CONFIRMED_ORIGIN[\s\S]*?FLOWO_QA_MARKETING_ORIGIN/);
-  assert.match(workflow, /GITHUB_REF[\s\S]*?refs\/heads\/main/);
+  assert.match(workflow, /GITHUB_REF[\s\S]*?refs\/heads\/qa/);
   assert.match(workflow, /environment: qa/);
   assert.match(workflow, /cancel-in-progress: false/);
 });

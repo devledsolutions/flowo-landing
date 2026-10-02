@@ -35,8 +35,11 @@ export function validateQaVercelProjectPolicy(
     }
   }
 
-  if (project.gitProviderOptions?.createDeployments !== "disabled") {
-    errors.push("gitProviderOptions.createDeployments: must equal disabled");
+  if (project.gitProviderOptions?.createDeployments !== "enabled") {
+    errors.push("gitProviderOptions.createDeployments: must equal enabled");
+  }
+  if (project.previewDeploymentsDisabled !== true) {
+    errors.push("previewDeploymentsDisabled: must equal true");
   }
 
   const [expectedOwner, expectedRepo] = expectedRepository.split("/");
@@ -44,9 +47,9 @@ export function validateQaVercelProjectPolicy(
     project.link?.type !== "github" ||
     project.link?.org !== expectedOwner ||
     project.link?.repo !== expectedRepo ||
-    project.link?.productionBranch !== "main"
+    project.link?.productionBranch !== "qa"
   ) {
-    errors.push("link: must resolve to GITHUB_REPOSITORY on main");
+    errors.push("link: must resolve to GITHUB_REPOSITORY on qa");
   }
 
   return { errors, ok: errors.length === 0 };
@@ -96,7 +99,7 @@ async function main() {
   }
 
   console.log(
-    "QA landing Vercel policy check passed: Git auto-deploy is disabled and the locked repository build owns publication.",
+    "QA landing Vercel policy check passed: Git tracks qa with previews disabled and the locked repository build owns publication.",
   );
 }
 

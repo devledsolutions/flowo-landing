@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import test from "node:test";
 
 import { validateQaVercelProjectPolicy } from "../check-qa-vercel-project-policy.mjs";
@@ -16,34 +17,52 @@ const safeProject = Object.freeze({
   buildCommand: "pnpm build",
   installCommand: "pnpm install --frozen-lockfile",
   rootDirectory: null,
-  gitProviderOptions: { createDeployments: "disabled" },
+  gitProviderOptions: { createDeployments: "enabled" },
+  previewDeploymentsDisabled: true,
   link: {
     type: "github",
     org: "devledsolutions",
     repo: "flowo-landing",
-    productionBranch: "main",
+    productionBranch: "qa",
   },
 });
 
-test("accepts the manually deployed landing QA project", () => {
+test("accepts the landing QA project tracking its dedicated branch", () => {
   assert.deepEqual(validateQaVercelProjectPolicy(safeProject, expected), {
     errors: [],
     ok: true,
   });
 });
 
-test("rejects automatic Git deployments without echoing remote values", () => {
+test("rejects a disabled QA Git connection without echoing remote values", () => {
   const result = validateQaVercelProjectPolicy(
     {
       ...safeProject,
-      gitProviderOptions: { createDeployments: "enabled" },
+      gitProviderOptions: { createDeployments: "disabled" },
     },
     expected,
   );
   assert.deepEqual(result.errors, [
-    "gitProviderOptions.createDeployments: must equal disabled",
+    "gitProviderOptions.createDeployments: must equal enabled",
   ]);
-  assert.doesNotMatch(JSON.stringify(result), /enabled|devledsolutions/);
+  assert.doesNotMatch(JSON.stringify(result), /disabled|devledsolutions/);
+});
+
+test("rejects main tracking and enabled previews in the QA project", () => {
+  const result = validateQaVercelProjectPolicy({
+    ...safeProject,
+    previewDeploymentsDisabled: false,
+    link: { ...safeProject.link, productionBranch: "main" },
+  }, expected);
+  assert.deepEqual(result.errors, [
+    "previewDeploymentsDisabled: must equal true",
+    "link: must resolve to GITHUB_REPOSITORY on qa",
+  ]);
+});
+
+test("the shared source does not override the project's branch tracking", () => {
+  const config = JSON.parse(readFileSync(new URL("../../vercel.json", import.meta.url), "utf8"));
+  assert.equal(config.git?.deploymentEnabled, undefined);
 });
 
 test("rejects unlocked installation or unexpected build configuration", () => {
@@ -68,6 +87,6 @@ test("rejects a production project ID or repository drift", () => {
   );
   assert.deepEqual(result.errors, [
     "project.id: QA and production project IDs must differ",
-    "link: must resolve to GITHUB_REPOSITORY on main",
+    "link: must resolve to GITHUB_REPOSITORY on qa",
   ]);
 });
