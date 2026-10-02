@@ -112,6 +112,17 @@ const sections: LegalSection[] = [
           decisões tomadas unicamente por tratamento automatizado que afetem
           seus interesses.
         </p>
+        <p>
+          A barbearia pode, por escolha própria, usar um assistente de IA de
+          terceiros com as ferramentas do site da Flowo, para consultar planos,
+          fazer cálculos ou pedir contato. Nesse caso, o que ela escreve no
+          assistente e o que as ferramentas mostram vão para o provedor desse
+          assistente, na conta da própria barbearia, e seguem as regras desse
+          provedor. A Flowo não controla esse provedor. Um pedido de contato ou
+          de material só chega à Flowo com a autorização que a pessoa
+          confirmar. Contamos quantas vezes cada ferramenta é usada, sem
+          identificar quem usou.
+        </p>
       </>
     ),
   },
@@ -126,6 +137,18 @@ const sections: LegalSection[] = [
           fiscal, monitoramento e análise. Cada integração depende da
           configuração da conta. Também podemos compartilhar dados para cumprir
           lei, ordem válida, defender direitos ou lidar com incidente.
+        </p>
+        <p>
+          Assistentes de IA que a barbearia escolhe usar com as ferramentas do
+          site não são operadores da Flowo. Os dados que ela informa a esses
+          assistentes ficam com o provedor escolhido, na conta dela.
+        </p>
+        <p>
+          Página pública da barbearia: quando a barbearia mantém sua página
+          pública ativa na Flowo, as avaliações dos clientes aparecem nela com a
+          nota, o comentário, a resposta da barbearia e o primeiro nome de quem
+          avaliou. Telefone, sobrenome e histórico de atendimentos não aparecem.
+          A barbearia pode ocultar uma avaliação.
         </p>
         <p>Entre os principais operadores utilizados atualmente estão:</p>
         <ul>
