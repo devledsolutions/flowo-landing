@@ -20,109 +20,14 @@ import {
 } from "@/components/home/product-previews";
 import { LeadMagnetForm } from "@/components/marketing/lead-magnet-form";
 import { useSegment } from "@/providers/segment-provider";
-
-type DiagnosticOption = {
-  label: string;
-  score: 0 | 1 | 2;
-};
-
-type DiagnosticQuestion = {
-  id: string;
-  question: string;
-  context: string;
-  weakPoint: string;
-  options: readonly DiagnosticOption[];
-};
-
-const questions: readonly DiagnosticQuestion[] = [
-  {
-    id: "whatsapp_owner",
-    question: "Quem responde o WhatsApp enquanto a equipe está atendendo?",
-    context: "Pense principalmente nos horários de maior movimento.",
-    weakPoint:
-      "Quem responde o WhatsApp: hoje a recepção divide a mão com o corte.",
-    options: [
-      { label: "Ninguém. A gente vê quando sobra tempo.", score: 0 },
-      { label: "Um barbeiro responde entre um corte e outro.", score: 1 },
-      { label: "Há uma pessoa ou rotina dedicada à recepção.", score: 2 },
-    ],
-  },
-  {
-    id: "availability_discovery",
-    question: "Como o cliente descobre quais horários estão livres?",
-    context: "Considere o caminho mais comum, não a exceção.",
-    weakPoint:
-      "Como o cliente descobre horário: ele precisa de você para saber o que está livre.",
-    options: [
-      { label: "Pergunta no WhatsApp e alguém confere.", score: 0 },
-      { label: "Parte consulta sozinha; parte ainda pergunta.", score: 1 },
-      { label: "Consulta a disponibilidade sem depender da equipe.", score: 2 },
-    ],
-  },
-  {
-    id: "no_show_rule",
-    question: "O que acontece antes de um horário que pode virar falta?",
-    context: "Escolha o processo que realmente acontece hoje.",
-    weakPoint:
-      "O que acontece na falta: sem confirmação, o horário vazio não volta para a grade.",
-    options: [
-      { label: "Nada. Só descobrimos quando o cliente não vem.", score: 0 },
-      { label: "A equipe confirma quando lembra ou quando dá tempo.", score: 1 },
-      { label: "Existe confirmação com antecedência e regra definida.", score: 2 },
-    ],
-  },
-  {
-    id: "schedule_rules",
-    question: "Onde ficam folgas, almoço e bloqueios de cada barbeiro?",
-    context: "Vale o lugar usado para decidir se um horário pode ser oferecido.",
-    weakPoint:
-      "Onde ficam folgas e bloqueios: informação que não está no sistema não pode virar regra.",
-    options: [
-      { label: "Na cabeça da equipe.", score: 0 },
-      { label: "Em papel, planilha ou grupo de mensagens.", score: 1 },
-      { label: "Na agenda, separados por profissional.", score: 2 },
-    ],
-  },
-  {
-    id: "fit_in_rule",
-    question: "Quem decide um encaixe de última hora?",
-    context: "Pense no que acontece quando o sábado já está cheio.",
-    weakPoint:
-      "Quem decide o encaixe: cada exceção volta para a sua mesa.",
-    options: [
-      { label: "Quem vê a mensagem primeiro.", score: 0 },
-      { label: "O dono ou gerente precisa aprovar.", score: 1 },
-      { label: "A equipe segue uma regra combinada.", score: 2 },
-    ],
-  },
-] as const;
-
-const scoreBands = [
-  {
-    max: 40,
-    name: "Agenda reativa",
-    diagnosis:
-      "Quase todo horário é decidido na hora, por conversa. Funciona no movimento baixo e desmonta quando a agenda aperta.",
-    action:
-      "Escreva a regra de uma coisa só: o prazo de confirmação. Não tente reorganizar tudo na mesma semana.",
-  },
-  {
-    max: 70,
-    name: "Organizada por pessoas",
-    diagnosis:
-      "Existe processo, mas ele mora na cabeça de alguém. Se essa pessoa falta, a agenda volta a depender de improviso.",
-    action:
-      "Tire a regra da cabeça e coloque no sistema: horário, almoço e folga por barbeiro.",
-  },
-  {
-    max: 100,
-    name: "Agenda com regra",
-    diagnosis:
-      "A regra está escrita e vale sem você. É a condição para automatizar a recepção sem perder controle.",
-    action:
-      "Automatize a pergunta mais repetida e meça uma semana comparável antes de ampliar.",
-  },
-] as const;
+import {
+  AGENDA_READINESS_DIAGNOSTIC_ID,
+  AGENDA_READINESS_QUESTIONS as questions,
+  scoreAgendaReadiness,
+  type AgendaReadinessBand,
+  type AgendaReadinessOption,
+  type AgendaReadinessScore,
+} from "@/lib/calculators/agenda-readiness";
 
 const scoreInputs = [
   {
@@ -142,11 +47,13 @@ const scoreInputs = [
   },
 ] as const;
 
-const emptyAnswers = (): Array<number | null> => questions.map(() => null);
+const emptyAnswers = (): Array<AgendaReadinessScore | null> =>
+  questions.map(() => null);
 
 export function AgendaReadinessDiagnostic() {
   const { track } = useSegment();
-  const [answers, setAnswers] = useState<Array<number | null>>(emptyAnswers);
+  const [answers, setAnswers] =
+    useState<Array<AgendaReadinessScore | null>>(emptyAnswers);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [completed, setCompleted] = useState(false);
   const questionHeadingRef = useRef<HTMLHeadingElement>(null);
@@ -154,39 +61,28 @@ export function AgendaReadinessDiagnostic() {
 
   useEffect(() => {
     track("Agenda Diagnostic Viewed", {
-      diagnostic_id: "agenda_readiness_v1",
+      diagnostic_id: AGENDA_READINESS_DIAGNOSTIC_ID,
       question_count: questions.length,
     });
   }, [track]);
 
   const answeredCount = answers.filter((answer) => answer !== null).length;
   const selectedOption = answers[currentQuestion];
-  const score = useMemo(() => {
-    const earned = answers.reduce<number>(
-      (total, answer) => total + (answer === null ? 0 : answer),
-      0,
-    );
-    return Math.round((earned / (questions.length * 2)) * 100);
-  }, [answers]);
-  const band = scoreBands.find((item) => score <= item.max) ?? scoreBands[2];
-  const weakestQuestionIndex = useMemo(() => {
-    const lowestScore = Math.min(...answers.map((answer) => answer ?? 2));
-    return answers.findIndex((answer) => answer === lowestScore);
-  }, [answers]);
-  const weakestQuestion = questions[Math.max(0, weakestQuestionIndex)];
+  const result = useMemo(() => scoreAgendaReadiness(answers), [answers]);
+  const { score, band } = result;
 
   const focusQuestion = () => {
     window.requestAnimationFrame(() => questionHeadingRef.current?.focus());
   };
 
-  const handleAnswer = (optionIndex: number, option: DiagnosticOption) => {
+  const handleAnswer = (optionIndex: number, option: AgendaReadinessOption) => {
     setAnswers((current) => {
       const next = [...current];
       next[currentQuestion] = option.score;
       return next;
     });
     track("Agenda Diagnostic Answered", {
-      diagnostic_id: "agenda_readiness_v1",
+      diagnostic_id: AGENDA_READINESS_DIAGNOSTIC_ID,
       question_id: questions[currentQuestion].id,
       option_index: optionIndex,
       option_score: option.score,
@@ -205,10 +101,10 @@ export function AgendaReadinessDiagnostic() {
 
     setCompleted(true);
     track("Agenda Diagnostic Completed", {
-      diagnostic_id: "agenda_readiness_v1",
+      diagnostic_id: AGENDA_READINESS_DIAGNOSTIC_ID,
       score,
       band: band.name,
-      weakest_question: weakestQuestion.id,
+      weakest_question: result.weakestQuestionId,
     });
     window.requestAnimationFrame(() => resultHeadingRef.current?.focus());
   };
@@ -224,7 +120,7 @@ export function AgendaReadinessDiagnostic() {
     setCurrentQuestion(0);
     setCompleted(false);
     track("Agenda Diagnostic Reset", {
-      diagnostic_id: "agenda_readiness_v1",
+      diagnostic_id: AGENDA_READINESS_DIAGNOSTIC_ID,
       previous_score: score,
     });
     focusQuestion();
@@ -268,11 +164,8 @@ export function AgendaReadinessDiagnostic() {
               <DiagnosticResult
                 score={score}
                 band={band}
-                weakPoint={
-                  score === 100
-                    ? "Próximo ponto de evolução: automatizar uma rotina por vez e acompanhar o resultado."
-                    : weakestQuestion.weakPoint
-                }
+                weakPointLabel={result.weakPointLabel}
+                weakPoint={result.weakPoint}
                 headingRef={resultHeadingRef}
                 onReset={handleReset}
               />
@@ -453,12 +346,14 @@ export function AgendaReadinessDiagnostic() {
 function DiagnosticResult({
   score,
   band,
+  weakPointLabel,
   weakPoint,
   headingRef,
   onReset,
 }: {
   score: number;
-  band: (typeof scoreBands)[number];
+  band: AgendaReadinessBand;
+  weakPointLabel: string;
   weakPoint: string;
   headingRef: RefObject<HTMLHeadingElement>;
   onReset: () => void;
@@ -500,7 +395,7 @@ function DiagnosticResult({
         </div>
         <div className="bg-surface p-6 sm:p-8">
           <p className="text-caption font-semibold text-muted-ink">
-            {score === 100 ? "Próxima evolução" : "Ponto mais frágil"}
+            {weakPointLabel}
           </p>
           <p className="mt-3 text-sm leading-relaxed text-ink">{weakPoint}</p>
         </div>

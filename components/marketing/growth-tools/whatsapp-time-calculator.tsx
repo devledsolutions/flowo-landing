@@ -4,13 +4,13 @@ import { useMemo, useState } from "react";
 import { Clock3 } from "lucide-react";
 import { useSegment } from "@/providers/segment-provider";
 import {
+  calculateWhatsAppTime,
+  WHATSAPP_TIME_NOTE,
+} from "@/lib/calculators/whatsapp-time";
+import {
   growthToolStyles as styles,
   ToolWindow,
 } from "./tool-window";
-
-function clamp(value: number, min: number, max: number) {
-  return Math.min(Math.max(Number.isFinite(value) ? value : min, min), max);
-}
 
 export function WhatsAppTimeCalculator() {
   const { track } = useSegment();
@@ -20,15 +20,16 @@ export function WhatsAppTimeCalculator() {
   const [serviceMinutes, setServiceMinutes] = useState(45);
   const [calculated, setCalculated] = useState(false);
 
-  const result = useMemo(() => {
-    const dailyMinutes = clamp(messages, 0, 300) * clamp(minutes, 0.5, 15);
-    const weeklyHours = (dailyMinutes * clamp(days, 1, 7)) / 60;
-    const monthlyHours = weeklyHours * 4.33;
-    const serviceSlots = Math.floor(
-      (monthlyHours * 60) / clamp(serviceMinutes, 10, 240),
-    );
-    return { weeklyHours, monthlyHours, serviceSlots };
-  }, [days, messages, minutes, serviceMinutes]);
+  const result = useMemo(
+    () =>
+      calculateWhatsAppTime({
+        messagesPerDay: messages,
+        minutesPerMessage: minutes,
+        daysPerWeek: days,
+        serviceMinutes,
+      }),
+    [days, messages, minutes, serviceMinutes],
+  );
 
   const calculate = () => {
     setCalculated(true);
@@ -117,10 +118,7 @@ export function WhatsAppTimeCalculator() {
             <strong>{result.serviceSlots} serviços de {serviceMinutes} min</strong>
           </div>
         </div>
-        <p className={styles.resultNote}>
-          Estimativa baseada somente nos dados informados. Ela mede tempo, não
-          faturamento nem horários efetivamente perdidos.
-        </p>
+        <p className={styles.resultNote}>{WHATSAPP_TIME_NOTE}</p>
       </div>
     </ToolWindow>
   );

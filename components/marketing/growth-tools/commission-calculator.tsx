@@ -4,6 +4,11 @@ import { useMemo, useState } from "react";
 import { ReceiptText } from "lucide-react";
 import { useSegment } from "@/providers/segment-provider";
 import {
+  calculateCommission,
+  COMMISSION_NOTE,
+  COMMISSION_RATE_MAX,
+} from "@/lib/calculators/commission";
+import {
   growthToolStyles as styles,
   ToolWindow,
 } from "./tool-window";
@@ -12,10 +17,6 @@ const brl = new Intl.NumberFormat("pt-BR", {
   style: "currency",
   currency: "BRL",
 });
-
-function positive(value: number) {
-  return Math.max(Number.isFinite(value) ? value : 0, 0);
-}
 
 export function CommissionCalculator() {
   const { track } = useSegment();
@@ -26,25 +27,24 @@ export function CommissionCalculator() {
   const [adjustments, setAdjustments] = useState(120);
   const [calculated, setCalculated] = useState(false);
 
-  const result = useMemo(() => {
-    const serviceCommission =
-      positive(services - adjustments) * (positive(serviceRate) / 100);
-    const productCommission =
-      positive(products) * (positive(productRate) / 100);
-    return {
-      serviceCommission,
-      productCommission,
-      total: serviceCommission + productCommission,
-      serviceBase: positive(services - adjustments),
-    };
-  }, [adjustments, productRate, products, serviceRate, services]);
+  const result = useMemo(
+    () =>
+      calculateCommission({
+        services,
+        serviceRate,
+        products,
+        productRate,
+        adjustments,
+      }),
+    [adjustments, productRate, products, serviceRate, services],
+  );
 
   const calculate = () => {
     setCalculated(true);
     track("Growth Tool Calculated", {
       tool_id: "commission_closing",
-      service_rate: serviceRate,
-      product_rate: productRate,
+      service_rate: result.serviceRate,
+      product_rate: result.productRate,
       has_adjustments: adjustments > 0,
     });
   };
@@ -72,7 +72,7 @@ export function CommissionCalculator() {
           <input
             type="number"
             min="0"
-            max="100"
+            max={COMMISSION_RATE_MAX}
             step="0.5"
             inputMode="decimal"
             value={serviceRate}
@@ -95,7 +95,7 @@ export function CommissionCalculator() {
           <input
             type="number"
             min="0"
-            max="100"
+            max={COMMISSION_RATE_MAX}
             step="0.5"
             inputMode="decimal"
             value={productRate}
@@ -136,10 +136,7 @@ export function CommissionCalculator() {
             <strong>{brl.format(result.productCommission)}</strong>
           </div>
         </div>
-        <p className={styles.resultNote}>
-          Simulação operacional. A regra real deve estar escrita e conferida com
-          orientação contábil e trabalhista adequada à relação da sua equipe.
-        </p>
+        <p className={styles.resultNote}>{COMMISSION_NOTE}</p>
       </div>
     </ToolWindow>
   );
