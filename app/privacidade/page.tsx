@@ -214,13 +214,14 @@ const sections: LegalSection[] = [
           </li>
           <li>
             <strong>PostHog:</strong> usado para medir uso e para gravar a
-            navegação dentro do produto, com base no legítimo interesse de
-            manter o serviço funcionando e corrigir defeitos. A gravação
-            registra as telas visitadas, cliques e rolagem. O conteúdo digitado
-            é mascarado antes de sair do navegador, o que inclui senha, dados de
-            cartão e texto de formulário. Você pode pedir a interrupção da
-            gravação e a exclusão do que já foi gravado pelo canal de contato
-            desta política.
+            navegação no site e no painel web após a autorização de análise.
+            A gravação registra telas, cliques, rolagem e conteúdo exibido ou
+            preenchido, que pode incluir nomes, contatos e informações do
+            atendimento. Campos de senha, códigos de acesso, credenciais e
+            dados de cartão são excluídos da gravação. Não gravamos corpos de
+            requisições nem seus cabeçalhos. Você pode retirar a autorização
+            nas preferências de cookies e solicitar a exclusão das gravações
+            pelo canal de contato desta política.
           </li>
           <li>
             <strong>Resend:</strong> usado para e-mails operacionais e,
@@ -383,11 +384,12 @@ const sections: LegalSection[] = [
           recusados ou retirados nas preferências.
         </p>
         <p>
-          A gravação de navegação dentro do produto é a exceção, e ela não
-          depende do aviso de cookies. Ela existe para encontrar e corrigir
-          defeito de uso, roda com o conteúdo digitado mascarado, e se apoia no
-          legítimo interesse. Você pode se opor a ela e pedir a exclusão das
-          gravações pelo canal de contato desta política.
+          A gravação de navegação no site e no painel web também depende da
+          autorização de análise. O conteúdo comum não é mascarado; senhas,
+          códigos de acesso, credenciais e dados de cartão ficam excluídos.
+          A retirada da autorização interrompe novas gravações. O registro
+          técnico de erros, sem conteúdo de formulários e com remoção de dados
+          sensíveis, é separado dessa gravação e nos ajuda a corrigir defeitos.
         </p>
         <p>
           Podemos manter a primeira origem de campanha durante a sessão para
