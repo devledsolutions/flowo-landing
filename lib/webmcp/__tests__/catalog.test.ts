@@ -46,6 +46,12 @@ describe("WebMCP catalog", () => {
     }
   });
 
+  it("tells the agent that contact tools wait for the person's click", () => {
+    for (const tool of tools.filter((item) => item.annotations.consequentialHint)) {
+      expect(tool.description, tool.name).toContain("só envia depois que a pessoa clicar em Autorizar e enviar");
+    }
+  });
+
   it("never imports the internal product contract from browser code", () => {
     for (const file of [...sourceFiles("lib/webmcp"), ...sourceFiles("components/webmcp"), ...sourceFiles("lib/calculators")]) {
       if (file.includes("__tests__")) continue;

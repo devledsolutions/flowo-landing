@@ -23,6 +23,7 @@ export const ERROR_CODES = [
   "verificacao_pendente",
   "verificacao_falhou",
   "cancelado_pela_pessoa",
+  "cancelado_pelo_assistente",
   "limite_de_tentativas",
   "indisponivel",
   "erro_interno",

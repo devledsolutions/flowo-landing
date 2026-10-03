@@ -1,98 +1,44 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { useSegment } from "@/providers/segment-provider";
-import { ToolError } from "@/lib/webmcp/errors";
+import {
+  createConfirmationController,
+  type ConfirmationController,
+  type ConfirmationView,
+} from "@/lib/webmcp/confirmation";
 import { getModelContext } from "@/lib/webmcp/model-context";
 import { createUsageReporter } from "@/lib/webmcp/usage";
 import type { LeadToolDeps } from "@/lib/webmcp/tools";
 
-const AgentVerificationPanel = dynamic(() => import("./agent-verification-panel"), {
+const AgentConfirmationPanel = dynamic(() => import("./agent-confirmation-panel"), {
   ssr: false,
 });
-
-const VERIFICATION_TIMEOUT_MS = 30_000;
-const PENDING_HINT =
-  "Peça para a pessoa concluir a verificação na página e chame a ferramenta de novo.";
-
-type PendingVerification = {
-  resolve: (token: string) => void;
-  reject: (error: ToolError) => void;
-  timer: number;
-};
 
 /**
  * Registers the site's WebMCP tools once per document, only in browsers that
  * expose `document.modelContext`. The tool code is a separate chunk, so normal
- * visitors download nothing beyond this component. Tools read the current
+ * visitors download nothing beyond this component. Contact tools wait for the
+ * visitor's own click in the confirmation panel. Tools read the current
  * analytics helpers through refs and are never re-registered on re-render.
  */
 export function WebMcpTools() {
   const { track, getAcquisitionContext, getAnonymousId } = useSegment();
-  const [verifying, setVerifying] = useState(false);
-  const pendingRef = useRef<PendingVerification | null>(null);
-
-  const settle = useCallback((outcome: { token: string } | { error: ToolError }) => {
-    const pending = pendingRef.current;
-    if (!pending) return;
-    pendingRef.current = null;
-    window.clearTimeout(pending.timer);
-    setVerifying(false);
-    if ("token" in outcome) pending.resolve(outcome.token);
-    else pending.reject(outcome.error);
-  }, []);
-
-  const requestTurnstileToken = useCallback((): Promise<string> => {
-    // Without a configured site key the server only accepts this in local development.
-    if (!process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY) return Promise.resolve("");
-    if (pendingRef.current) {
-      return Promise.reject(
-        new ToolError(
-          "verificacao_pendente",
-          "Já existe uma verificação de segurança em andamento.",
-          PENDING_HINT,
-        ),
-      );
-    }
-    return new Promise<string>((resolve, reject) => {
-      const timer = window.setTimeout(
-        () =>
-          settle({
-            error: new ToolError(
-              "verificacao_pendente",
-              "A verificação de segurança não terminou a tempo.",
-              PENDING_HINT,
-            ),
-          }),
-        VERIFICATION_TIMEOUT_MS,
-      );
-      pendingRef.current = { resolve, reject, timer };
-      setVerifying(true);
+  const [view, setView] = useState<ConfirmationView>(null);
+  const controllerRef = useRef<ConfirmationController | null>(null);
+  if (controllerRef.current === null) {
+    controllerRef.current = createConfirmationController({
+      needsVerification: () => Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY),
+      onChange: setView,
     });
-  }, [settle]);
-
-  const handleToken = useCallback(
-    (token: string) => {
-      if (token) settle({ token });
-    },
-    [settle],
-  );
-
-  const handleCancel = useCallback(() => {
-    settle({
-      error: new ToolError(
-        "cancelado_pela_pessoa",
-        "A pessoa cancelou o envio na página.",
-        "Não envie de novo, a menos que a pessoa peça.",
-      ),
-    });
-  }, [settle]);
+  }
+  const controller = controllerRef.current;
 
   const depsRef = useRef<LeadToolDeps>({
     getAcquisitionContext,
     getAnonymousId,
-    requestTurnstileToken,
+    confirmSubmission: (request, signal) => controller.request(request, signal),
     fetch: (input, init) => window.fetch(input, init),
   });
   const trackRef = useRef(track);
@@ -101,7 +47,7 @@ export function WebMcpTools() {
     depsRef.current = {
       getAcquisitionContext,
       getAnonymousId,
-      requestTurnstileToken,
+      confirmSubmission: (request, signal) => controller.request(request, signal),
       fetch: (input, init) => window.fetch(input, init),
     };
     trackRef.current = track;
@@ -110,7 +56,7 @@ export function WebMcpTools() {
   useEffect(() => {
     const modelContext = getModelContext();
     if (!modelContext) return;
-    const controller = new AbortController();
+    const abortController = new AbortController();
     let active = true;
 
     import("@/lib/webmcp/tools")
@@ -120,7 +66,7 @@ export function WebMcpTools() {
           modelContext,
           buildTools(() => depsRef.current),
           createUsageReporter(() => trackRef.current),
-          controller.signal,
+          abortController.signal,
         );
         if (active) document.documentElement.dataset.webmcp = `registered:${registered}`;
       })
@@ -130,19 +76,19 @@ export function WebMcpTools() {
 
     return () => {
       active = false;
-      controller.abort();
+      abortController.abort();
       delete document.documentElement.dataset.webmcp;
     };
   }, []);
 
-  useEffect(
-    () => () => {
-      const pending = pendingRef.current;
-      if (pending) window.clearTimeout(pending.timer);
-      pendingRef.current = null;
-    },
-    [],
-  );
+  useEffect(() => () => controller.dispose(), [controller]);
 
-  return verifying ? <AgentVerificationPanel onToken={handleToken} onCancel={handleCancel} /> : null;
+  return view ? (
+    <AgentConfirmationPanel
+      view={view}
+      onApprove={controller.approve}
+      onCancel={controller.cancel}
+      onToken={controller.provideToken}
+    />
+  ) : null;
 }
