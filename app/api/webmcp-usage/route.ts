@@ -21,16 +21,14 @@ const usageSchema = z.strictObject({
   teste: z.boolean().optional(),
 });
 
-const SAME_SITE_FETCHES = new Set(["same-origin", "same-site"]);
-
 /**
  * Only the site's own pages may count. Browsers send `Sec-Fetch-Site` on
- * every request, including `sendBeacon`; when it is absent, a matching
- * `Origin` is required instead. A request with neither is refused.
+ * every request, including `sendBeacon`, and it must be `same-origin`; when it
+ * is absent, the `Origin` must match exactly. A request with neither is refused.
  */
 function isFromThisSite(request: Request): boolean {
   const fetchSite = request.headers.get("sec-fetch-site");
-  if (fetchSite !== null) return SAME_SITE_FETCHES.has(fetchSite);
+  if (fetchSite !== null) return fetchSite === "same-origin";
   const origin = request.headers.get("origin");
   if (origin === null) return false;
   return origin === new URL(request.url).origin || origin === PUBLIC_ENVIRONMENT.siteOrigin;

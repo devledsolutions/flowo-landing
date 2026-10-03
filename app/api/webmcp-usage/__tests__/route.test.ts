@@ -83,7 +83,7 @@ describe("only the site's own pages may count", () => {
 
   it.each([
     [{ "sec-fetch-site": "same-origin" }, 204],
-    [{ "sec-fetch-site": "same-site" }, 204],
+    [{ "sec-fetch-site": "same-site" }, 403],
     [{ "sec-fetch-site": "cross-site", origin: "http://localhost:3001" }, 403],
     [{ "sec-fetch-site": "none" }, 403],
     [{ origin: "http://localhost:3001" }, 204],
