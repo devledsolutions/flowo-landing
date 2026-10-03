@@ -94,6 +94,27 @@ so Actions was disabled at landing repository level; readback enabled=false.
 No CI dispatched, cloud build, deploy or store submission.
 Both repositories disable Vercel branch previews in vercel.json.
 
+## Pre-merge ingest-envelope regression — 2026-10-03
+
+The live-readiness review found that the existing exception sanitizer also rewrote
+SDK transport fields: the public ingest `token` became `[Redacted]`, UUIDs could
+be rewritten as phone numbers, `$pathname`/`tag_name` matched the personal-name
+rule, and nested rrweb snapshots were truncated at the exception depth limit.
+The installed SDK sends this envelope after `before_send`; its transport key must
+remain the configured public project key. These findings are source/contract
+proof, not yet a measured production failure rate.
+
+Five regression cases were run before the fix: four failed and one passed.
+After the fix all five pass. The fix exempts only the exact configured public
+ingest key, valid UUID transport identifiers and the already-protected SDK
+snapshot/autocapture blobs. Private and nested tokens, exception contact details,
+URL credentials, consent withdrawal and credential/payment DOM selectors remain
+protected. Replay URL cleaning is shared with event URL cleaning.
+
+Fresh verification: 28 focused Vitest cases and 3 existing Node observability
+cases pass; typecheck, lint and consent audit pass. Production ingest and replay
+playback still require post-deployment browser/provider evidence.
+
 ## References
 
 - https://posthog.com/docs/session-replay/privacy

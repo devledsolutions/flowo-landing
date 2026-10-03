@@ -60,7 +60,7 @@ export function initializeLandingPostHog(): void {
     before_send(event) {
       // Recheck the durable preference to close races during withdrawal.
       if (event?.event !== "$exception" && !hasAnalyticsConsent()) return null;
-      return sanitizeLandingPostHogEvent(event);
+      return sanitizeLandingPostHogEvent(event, key);
     },
     loaded(instance) {
       instance.register(landingTelemetryDimensions);

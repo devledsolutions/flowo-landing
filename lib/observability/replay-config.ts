@@ -1,4 +1,7 @@
 import type { AutocaptureConfig, SessionRecordingOptions } from "posthog-js";
+import { replayUrlWithoutSecrets } from "./posthog-shared";
+
+export { replayUrlWithoutSecrets } from "./posthog-shared";
 
 // General text/input masking and sampling belong to the PostHog project.
 // These exclusions are a credential/payment safety floor, not a blanket mask.
@@ -31,21 +34,6 @@ export const webAutocaptureOptions: AutocaptureConfig = {
   element_attribute_ignorelist: ["value", "href", "src"],
   capture_copied_text: false,
 };
-
-export function replayUrlWithoutSecrets(value: string): string {
-  try {
-    const url = new URL(value, "https://replay.invalid");
-    url.pathname = url.pathname.replace(
-      /\/(horario-disponivel|contratar|avaliar|lista-espera|assinatura)\/[^/]+/g,
-      "/$1/[token]",
-    );
-    // Auth callbacks can carry arbitrary provider-specific credential names.
-    // Campaign attribution remains in explicit analytics properties.
-    return value.startsWith("/") ? url.pathname : url.origin + url.pathname;
-  } catch {
-    return "[invalid URL]";
-  }
-}
 
 export const webReplayOptions: SessionRecordingOptions = {
   blockSelector: REPLAY_SECRET_SELECTOR,
