@@ -199,7 +199,7 @@ export function SalesCampaignPage() {
     <div className="min-h-screen bg-cream pb-20 md:pb-0">
       <CampaignHeader />
 
-      <main id="main-content">
+      <main id="main-content" data-campaign="true">
         <section className="relative isolate overflow-hidden pt-24 sm:pt-28 lg:pt-32">
           <div className="container-page pb-16 pt-10 sm:pb-20 lg:pb-28">
             <div className="grid items-center gap-12 lg:grid-cols-[1fr_1fr] lg:gap-16">
