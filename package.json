@@ -81,6 +81,7 @@
     "ai": "7.0.42",
     "eslint": "^9",
     "eslint-config-next": "15.5.22",
+    "jsdom": "^20.0.3",
     "pdfkit": "^0.17.2",
     "postcss": "^8.5.25",
     "remotion": "^4.0.500",

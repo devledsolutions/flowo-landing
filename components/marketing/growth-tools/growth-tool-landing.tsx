@@ -270,7 +270,7 @@ export function GrowthToolLanding({ content }: { content: GrowthToolContent }) {
       </main>
       {isCampaign ? <CampaignFooter /> : <Footer />}
       {isCampaign ? (
-        <div className={styles.mobileCta}>
+        <div className={styles.mobileCta} data-bottom-fixed="true">
           <a href="#material" aria-label="Receber material gratuito da Flowo">
             Receber material gratuito
           </a>

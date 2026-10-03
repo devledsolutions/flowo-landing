@@ -61,6 +61,47 @@ if (/Segment owns TikTok/i.test(paidMedia)) {
   );
 }
 
+// WebMCP usage counter: runs without consent, so it must stay anonymous.
+const webmcpUsageRoute = fs.readFileSync(
+  path.join(root, "app/api/webmcp-usage/route.ts"),
+  "utf8"
+);
+if (/cookie/i.test(webmcpUsageRoute)) {
+  errors.push("O contador de uso do WebMCP não pode ler cookies.");
+}
+const posthogServer = fs.readFileSync(
+  path.join(root, "lib/observability/posthog-server.ts"),
+  "utf8"
+);
+const usageCapture =
+  posthogServer.match(/export async function captureLandingUsage[\s\S]*?\n}\n/)?.[0] ?? "";
+if (!usageCapture) {
+  errors.push("captureLandingUsage não foi encontrado.");
+} else {
+  if (!/disableGeoip:\s*true/.test(usageCapture)) {
+    errors.push("captureLandingUsage precisa enviar disableGeoip: true.");
+  }
+  if (!/\$process_person_profile:\s*false/.test(usageCapture)) {
+    errors.push("captureLandingUsage precisa enviar $process_person_profile: false.");
+  }
+}
+
+const listFiles = (dir) => {
+  const absolute = path.join(root, dir);
+  if (!fs.existsSync(absolute)) return [];
+  return fs.readdirSync(absolute, { withFileTypes: true }).flatMap((entry) => {
+    const relative = path.join(dir, entry.name);
+    if (entry.isDirectory()) return listFiles(relative);
+    return /\.(ts|tsx)$/.test(entry.name) && !/\.test\.tsx?$/.test(entry.name) ? [relative] : [];
+  });
+};
+for (const file of [...listFiles("lib/webmcp"), ...listFiles("components/webmcp")]) {
+  const source = fs.readFileSync(path.join(root, file), "utf8");
+  if (/window\.analytics|\bfbq\b|\bttq\b|\bgtag\b/.test(source)) {
+    errors.push(`${file} não pode chamar ferramentas de análise ou publicidade diretamente.`);
+  }
+}
+
 console.log(
   JSON.stringify(
     {

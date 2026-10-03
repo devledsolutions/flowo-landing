@@ -24,6 +24,7 @@ export default function FloatingCTA() {
 
   return (
     <div
+      data-bottom-fixed="true"
       className={`fixed bottom-[calc(env(safe-area-inset-bottom)+1rem)] right-4 z-40 transition-[opacity,transform] duration-200 ease-out-quint ${
         isVisible
           ? "translate-y-0 opacity-100"

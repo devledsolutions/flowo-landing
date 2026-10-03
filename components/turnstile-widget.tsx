@@ -13,6 +13,7 @@ declare global {
           action?: string;
           theme?: "light" | "dark" | "auto";
           size?: "normal" | "flexible" | "compact";
+          appearance?: "always" | "execute" | "interaction-only";
           callback?: (token: string) => void;
           "expired-callback"?: () => void;
           "error-callback"?: () => void;
@@ -29,6 +30,8 @@ type TurnstileWidgetProps = {
   onTokenChange: (token: string) => void;
   onStatusChange?: (status: TurnstileStatus) => void;
   className?: string;
+  /** "interaction-only" stays hidden unless the visitor has to interact. */
+  appearance?: "always" | "interaction-only";
 };
 
 export type TurnstileStatus =
@@ -45,6 +48,7 @@ export function TurnstileWidget({
   onTokenChange,
   onStatusChange,
   className,
+  appearance = "always",
 }: TurnstileWidgetProps) {
   const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
   const [scriptLoaded, setScriptLoaded] = useState(false);
@@ -103,6 +107,7 @@ export function TurnstileWidget({
         action,
         theme: "auto",
         size: widgetSize,
+        appearance,
         callback: (token) => {
           onTokenChange(token);
           setStatus("verified");
@@ -129,7 +134,7 @@ export function TurnstileWidget({
       }
       widgetIdRef.current = null;
     };
-  }, [action, onTokenChange, scriptLoaded, siteKey, widgetSize]);
+  }, [action, appearance, onTokenChange, scriptLoaded, siteKey, widgetSize]);
 
   const handleRetry = () => {
     onTokenChange("");
