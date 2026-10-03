@@ -118,9 +118,9 @@ const sections: LegalSection[] = [
           fazer cálculos ou pedir contato. Nesse caso, o que ela escreve no
           assistente e o que as ferramentas mostram vão para o provedor desse
           assistente, na conta da própria barbearia, e seguem as regras desse
-          provedor. A Flowo não controla esse provedor. Um pedido de contato ou
-          de material só chega à Flowo com a autorização que a pessoa
-          confirmar. Contamos quantas vezes cada ferramenta é usada, sem
+          provedor. A Flowo não controla esse provedor. Antes de enviar um pedido
+          de contato ou de material, o site mostra os dados na página e só
+          envia depois que a pessoa clicar em “Autorizar e enviar”. Contamos quantas vezes cada ferramenta é usada, sem
           identificar quem usou.
         </p>
       </>
