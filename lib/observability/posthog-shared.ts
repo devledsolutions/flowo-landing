@@ -17,7 +17,7 @@ export type LandingTelemetryValue =
 
 export type LandingTelemetryProperties = Record<string, LandingTelemetryValue>;
 
-export const landingTelemetryDimensions: LandingTelemetryProperties = {
+export const landingTelemetryDimensions = {
   surface: "landing",
   platform: "web",
   environment: process.env.NEXT_PUBLIC_DEPLOYMENT_ENVIRONMENT ?? "development",
@@ -25,7 +25,7 @@ export const landingTelemetryDimensions: LandingTelemetryProperties = {
     process.env.NEXT_PUBLIC_RELEASE ??
     process.env.VERCEL_GIT_COMMIT_SHA ??
     "unversioned",
-};
+} as const;
 
 export function redactLandingText(value: string): string {
   return value

@@ -15,6 +15,15 @@ import {
 
 let initialized = false;
 let analyticsEnabled = false;
+let lastPageviewPath: string | undefined;
+
+export function captureLandingPageview(): void {
+  if (!initialized || !hasAnalyticsConsent()) return;
+  const pathname = window.location.pathname;
+  if (pathname === lastPageviewPath) return;
+  lastPageviewPath = pathname;
+  posthog.capture("$pageview");
+}
 
 export function syncLandingPostHogConsent(): void {
   if (!initialized) return;
@@ -22,11 +31,15 @@ export function syncLandingPostHogConsent(): void {
   if (allowed === analyticsEnabled) return;
   analyticsEnabled = allowed;
   if (!allowed) {
+    lastPageviewPath = undefined;
     posthog.stopSessionRecording();
     posthog.reset();
   }
   posthog.set_config({
-    capture_pageview: allowed ? "history_change" : false,
+    // One explicit Next.js route observer owns pageviews. The installed SDK
+    // does not start HistoryAutocapture when false -> history_change is set
+    // after initialization, so toggling that option silently misses SPA pages.
+    capture_pageview: false,
     capture_pageleave: allowed,
     autocapture: allowed ? webAutocaptureOptions : false,
     disable_session_recording: !allowed || process.env.NODE_ENV === "development",
@@ -34,8 +47,7 @@ export function syncLandingPostHogConsent(): void {
     persistence: allowed ? "localStorage+cookie" : "memory",
   });
   posthog.register(landingTelemetryDimensions);
-  // set_config does not send an initial pageview; history changes are automatic.
-  if (allowed) posthog.capture("$pageview");
+  if (allowed) captureLandingPageview();
 }
 
 export function initializeLandingPostHog(): void {
