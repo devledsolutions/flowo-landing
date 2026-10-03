@@ -28,13 +28,16 @@ export type ToolResult = ToolOk | ToolErr;
 
 export type ToolRunOutput = { dados: unknown; fonte?: string; aviso?: string };
 
+/** Per-call context. `signal` aborts when the browser or the agent cancels the call. */
+export type ToolRunContext = { signal: AbortSignal };
+
 export type WebMcpTool<S extends z.ZodObject = z.ZodObject> = {
   name: ToolName;
   title: string;
   description: string;
   input: S;
   annotations: ModelContextToolAnnotations;
-  run: (input: z.output<S>) => Promise<ToolRunOutput> | ToolRunOutput;
+  run: (input: z.output<S>, context: ToolRunContext) => Promise<ToolRunOutput> | ToolRunOutput;
 };
 
 export function defineTool<S extends z.ZodObject>(tool: WebMcpTool<S>): WebMcpTool {
@@ -104,9 +107,10 @@ export function createExecute(
   tool: WebMcpTool,
   report: ToolCallReporter,
   now: () => number = () => Date.now(),
-): (raw: unknown) => Promise<string> {
-  return async (raw: unknown) => {
+): (raw: unknown, client?: { signal?: AbortSignal }) => Promise<string> {
+  return async (raw: unknown, client?: { signal?: AbortSignal }) => {
     const started = now();
+    const signal = client?.signal ?? new AbortController().signal;
     let result: ToolResult;
     try {
       const input = readRawInput(raw);
@@ -125,7 +129,7 @@ export function createExecute(
             })),
           );
         } else {
-          const output = await tool.run(parsed.data);
+          const output = await tool.run(parsed.data, { signal });
           result = {
             ok: true,
             ferramenta: tool.name,

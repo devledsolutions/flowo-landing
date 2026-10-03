@@ -175,3 +175,21 @@ describe("execute", () => {
     expect(result.ok).toBe(true);
   });
 });
+
+describe("abort signal", () => {
+  it("forwards the call's signal to run, and gives a live one when absent", async () => {
+    const seen: AbortSignal[] = [];
+    const tool = {
+      ...echo,
+      run: (_input: unknown, context: { signal: AbortSignal }) => {
+        seen.push(context.signal);
+        return { dados: null };
+      },
+    };
+    const controller = new AbortController();
+    await createExecute(tool, () => undefined)(JSON.stringify({ plano: "solo" }), { signal: controller.signal });
+    await createExecute(tool, () => undefined)(JSON.stringify({ plano: "solo" }));
+    expect(seen[0]).toBe(controller.signal);
+    expect(seen[1].aborted).toBe(false);
+  });
+});
