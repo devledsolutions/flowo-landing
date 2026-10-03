@@ -19,6 +19,13 @@
  *   KEYS=Tab,Enter                real key presses sent while the check runs
  *   KEYS_DELAY_MS=3000            when to send them, after the check starts
  *
+ * Real input on request: a check can call
+ *   await globalThis.__webmcpRealInput({ click: "Autorizar e enviar" })
+ *   await globalThis.__webmcpRealInput({ keys: ["Tab", "Enter"] })
+ * and the driver performs it with CDP mouse and keyboard events, which the page
+ * sees as trusted user input (unlike a script calling element.click()). A click
+ * lands on whatever is on top at the button's position, so overlaps show up.
+ *
  * Every page opened by this driver sets sessionStorage["flowo:webmcp-teste"]="1",
  * so its calls are marked as tests in the usage counter.
  * The process exits with 1 when the check returns { ok: false } or fails.
@@ -92,6 +99,52 @@ async function browserSocketUrl() {
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+const INPUT_BRIDGE = `
+globalThis.__webmcpRealInput = (request) =>
+  new Promise((resolve) => {
+    (globalThis.__webmcpInputQueue = globalThis.__webmcpInputQueue || []).push({ ...request, resolve });
+  });`;
+
+const NEXT_INPUT = `(() => {
+  const next = (globalThis.__webmcpInputQueue || [])[0];
+  if (!next) return null;
+  if (next.keys) return { kind: "keys", keys: next.keys };
+  const button = Array.from(document.querySelectorAll("button")).find(
+    (item) => item.textContent.trim() === next.click && !item.disabled,
+  );
+  if (!button) return { kind: "wait" };
+  button.scrollIntoView({ block: "nearest" });
+  const rect = button.getBoundingClientRect();
+  return { kind: "click", x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+})()`;
+
+const INPUT_DONE = `(() => {
+  const next = (globalThis.__webmcpInputQueue || []).shift();
+  if (next) next.resolve(true);
+})()`;
+
+async function mouseClick(cdp, sessionId, x, y) {
+  await cdp.send("Input.dispatchMouseEvent", { type: "mouseMoved", x, y }, sessionId);
+  await cdp.send("Input.dispatchMouseEvent", { type: "mousePressed", x, y, button: "left", clickCount: 1 }, sessionId);
+  await cdp.send("Input.dispatchMouseEvent", { type: "mouseReleased", x, y, button: "left", clickCount: 1 }, sessionId);
+}
+
+async function serviceInputRequests(cdp, sessionId) {
+  const pending = await cdp
+    .send("Runtime.evaluate", { expression: NEXT_INPUT, returnByValue: true }, sessionId)
+    .catch(() => null);
+  const request = pending?.result?.value;
+  if (!request || request.kind === "wait") return;
+  if (request.kind === "click") await mouseClick(cdp, sessionId, request.x, request.y);
+  if (request.kind === "keys") {
+    for (const key of request.keys) {
+      await pressKey(cdp, sessionId, key);
+      await sleep(150);
+    }
+  }
+  await cdp.send("Runtime.evaluate", { expression: INPUT_DONE }, sessionId).catch(() => null);
+}
+
 const KEY_CODES = { Tab: 9, Enter: 13, Escape: 27, " ": 32 };
 
 async function pressKey(cdp, sessionId, key) {
@@ -140,7 +193,8 @@ async function runCheck() {
       "Page.addScriptToEvaluateOnNewDocument",
       {
         source: `try { sessionStorage.setItem("flowo:webmcp-teste", "1"); } catch {}
-globalThis.__webmcpCheckArgs = ${JSON.stringify(checkArgs)};`,
+globalThis.__webmcpCheckArgs = ${JSON.stringify(checkArgs)};
+${INPUT_BRIDGE}`,
       },
       sessionId,
     );
@@ -149,17 +203,26 @@ globalThis.__webmcpCheckArgs = ${JSON.stringify(checkArgs)};`,
     await loaded;
     await sleep(waitMs);
 
-    const evaluationPromise = cdp.send(
-      "Runtime.evaluate",
-      { expression: check, awaitPromise: true, returnByValue: true, userGesture: true },
-      sessionId,
-    );
+    let checkFinished = false;
+    const evaluationPromise = cdp
+      .send(
+        "Runtime.evaluate",
+        { expression: check, awaitPromise: true, returnByValue: true, userGesture: true },
+        sessionId,
+      )
+      .finally(() => {
+        checkFinished = true;
+      });
     if (process.env.KEYS) {
       await sleep(Number(process.env.KEYS_DELAY_MS || 3000));
       for (const key of process.env.KEYS.split(",").map((item) => item.trim()).filter(Boolean)) {
         await pressKey(cdp, sessionId, key);
         await sleep(300);
       }
+    }
+    while (!checkFinished) {
+      await serviceInputRequests(cdp, sessionId);
+      await sleep(150);
     }
     const evaluation = await evaluationPromise;
     if (evaluation.exceptionDetails) {

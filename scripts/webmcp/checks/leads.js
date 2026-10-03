@@ -1,6 +1,6 @@
 // Lead tools. Without consent nothing is sent and no panel opens. With CHECK_ARGS='{"submit":true}'
-// it also sends one sales request and one material request with test contacts, clicking
-// "Autorizar e enviar" in the confirmation panel for each.
+// it also sends one sales request and one material request with test contacts, with a real
+// click (CDP mouse events from the driver) on "Autorizar e enviar" in the panel for each.
 (async () => {
   const mc = document.modelContext;
   if (!mc) return { ok: false, problems: ["document.modelContext is missing"] };
@@ -28,7 +28,11 @@
       return pending;
     }
     if (leadRequests() !== sentBefore()) problems.push(`${name}: request before the click`);
-    Array.from(dialog.querySelectorAll("button")).find((item) => item.textContent.trim() === "Autorizar e enviar").click();
+    if (!globalThis.__webmcpRealInput) {
+      problems.push("run this check through scripts/webmcp/cdp.mjs");
+      return pending;
+    }
+    await globalThis.__webmcpRealInput({ click: "Autorizar e enviar" });
     return pending;
   }
   let baseline = 0;
