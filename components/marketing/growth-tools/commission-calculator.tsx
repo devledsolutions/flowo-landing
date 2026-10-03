@@ -19,15 +19,6 @@ const brl = new Intl.NumberFormat("pt-BR", {
   currency: "BRL",
 });
 
-function RateHint({ id, value }: { id: string; value: number }) {
-  const hint = commissionRateHint(value);
-  return hint ? (
-    <span id={id} role="status" className="text-[0.66rem] font-normal leading-snug">
-      {hint}
-    </span>
-  ) : null;
-}
-
 export function CommissionCalculator() {
   const { track } = useSegment();
   const [services, setServices] = useState(8200);
@@ -36,6 +27,9 @@ export function CommissionCalculator() {
   const [productRate, setProductRate] = useState(10);
   const [adjustments, setAdjustments] = useState(120);
   const [calculated, setCalculated] = useState(false);
+
+  const serviceRateHint = commissionRateHint(serviceRate);
+  const productRateHint = commissionRateHint(productRate);
 
   const result = useMemo(
     () =>
@@ -85,11 +79,10 @@ export function CommissionCalculator() {
             max={COMMISSION_RATE_MAX}
             step="0.5"
             inputMode="decimal"
-            aria-describedby={commissionRateHint(serviceRate) ? "commission-service-rate-hint" : undefined}
+            aria-describedby={serviceRateHint ? "commission-rate-hint" : undefined}
             value={serviceRate}
             onChange={(event) => setServiceRate(Number(event.target.value))}
           />
-          <RateHint id="commission-service-rate-hint" value={serviceRate} />
         </label>
         <label>
           Produtos vendidos (R$)
@@ -110,12 +103,21 @@ export function CommissionCalculator() {
             max={COMMISSION_RATE_MAX}
             step="0.5"
             inputMode="decimal"
-            aria-describedby={commissionRateHint(productRate) ? "commission-product-rate-hint" : undefined}
+            aria-describedby={productRateHint ? "commission-rate-hint" : undefined}
             value={productRate}
             onChange={(event) => setProductRate(Number(event.target.value))}
           />
-          <RateHint id="commission-product-rate-hint" value={productRate} />
         </label>
+        {serviceRateHint || productRateHint ? (
+          <p
+            id="commission-rate-hint"
+            role="status"
+            className={`${styles.fullInput} text-[0.72rem] leading-snug text-[var(--tool-muted)]`}
+          >
+            {serviceRateHint ? <span className="block">Comissão em serviços. {serviceRateHint}</span> : null}
+            {productRateHint ? <span className="block">Comissão em produtos. {productRateHint}</span> : null}
+          </p>
+        ) : null}
         <label className={styles.fullInput}>
           Descontos ou estornos que reduzem a base (R$)
           <input
