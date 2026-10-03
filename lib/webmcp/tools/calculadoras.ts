@@ -282,7 +282,7 @@ export const recomendarPlano = defineTool({
         : {
             tipo: "link",
             url: agentSignupUrl(plan, undefined, "recomendar_plano"),
-            explicacao: `Cria a conta já com o ${PLAN_NAMES[plan]} indicado. A pessoa confirma o plano antes de pagar.`,
+            explicacao: "Abre o cadastro com o plano indicado já marcado. A pessoa confirma o plano antes de pagar.",
           };
     return {
       dados: {

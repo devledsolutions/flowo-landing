@@ -70,6 +70,9 @@ describe("calculator tools (golden inputs)", () => {
     expect(data.preco_texto.replace(/ /g, " ")).toContain("R$ 789/mês");
     expect(data.proximo_passo.tipo).toBe("link");
     expect(new URL(data.proximo_passo.url ?? "").searchParams.get("plan")).toBe("equipe");
+    expect((data.proximo_passo as { explicacao?: string }).explicacao).toBe(
+      "Abre o cadastro com o plano indicado já marcado. A pessoa confirma o plano antes de pagar.",
+    );
   });
 
   it("recomendar_plano sends multiple units to sales", async () => {
