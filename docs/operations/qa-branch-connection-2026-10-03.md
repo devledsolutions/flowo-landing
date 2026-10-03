@@ -38,8 +38,15 @@ Turnstile no projeto de produção, esse marcador foi adicionado como `true`
 somente no projeto QA e relido. Isso descreve o estado real de produção;
 não desativa o Turnstile QA nem enfraquece o guard.
 
-O próximo push de `qa` deve comprovar o build com os três seletores sincronizados.
-Até existir deployment `READY`, alias e health do SHA esperado, a publicação
-pública permanece não comprovada. Build/health não certificam formulários,
-Siteverify, entrega de leads, e-mail ou WhatsApp: esses fluxos exigem evidência
-end-to-end com destinatários QA autorizados.
+O push `83ad38c06057af653086d943adcea51e1ad3da72` disparou automaticamente
+o deployment Git `dpl_GmMkQ59nZgS9yWvYdyXz8bUtcjzZ`, com build `pnpm build`
+e estado `READY`. Ownership, branch `qa`, SHA e source Git foram conferidos
+no deployment, sem confiar em listagem global. O alias `qa.flowo.com.br`
+foi promovido; seu GET `/api/health` respondeu 200 com JSON
+`service: flowo-landing` e `Cache-Control: no-store`.
+
+Isso comprova conexão Git, build e health dessa fonte, não certifica formulários,
+Siteverify, entrega de leads, e-mail ou WhatsApp. Esses fluxos exigem evidência
+end-to-end com destinatários QA autorizados. O dashboard QA é outro projeto e
+continua sem build aceito por bindings incompletos; o sucesso da landing não
+o valida nem atesta prontidão integral do ambiente.
