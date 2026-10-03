@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next"
 import { Poppins, Lora } from "next/font/google"
 import "./globals.css"
 import { SegmentProvider } from "@/providers/segment-provider"
+import { LandingPostHogProvider } from "@/providers/landing-posthog-provider"
 import { MetaRemarketingProvider } from "@/providers/meta-remarketing-provider"
 import { PaidMediaProvider } from "@/providers/paid-media-provider"
 import { CookieBanner } from "@/components/cookie-banner"
@@ -168,10 +169,12 @@ export default function RootLayout({
           tiktokPixelId={process.env.NEXT_PUBLIC_TIKTOK_PIXEL_ID}
         >
           <MetaRemarketingProvider pixelId={process.env.NEXT_PUBLIC_META_PIXEL_ID}>
-            <SegmentProvider writeKey={process.env.NEXT_PUBLIC_SEGMENT_WRITE_KEY}>
-              {children}
-              <WebMcpTools />
-            </SegmentProvider>
+            <LandingPostHogProvider>
+              <SegmentProvider writeKey={process.env.NEXT_PUBLIC_SEGMENT_WRITE_KEY}>
+                {children}
+                <WebMcpTools />
+              </SegmentProvider>
+            </LandingPostHogProvider>
           </MetaRemarketingProvider>
         </PaidMediaProvider>
         <CookieBanner />

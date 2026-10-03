@@ -5,6 +5,12 @@ const blocksSearchIndexing =
 
 const nextConfig: NextConfig = {
   reactStrictMode: false, // This is causing double rendering in development
+  env: {
+    NEXT_PUBLIC_RELEASE:
+      process.env.NEXT_PUBLIC_RELEASE?.trim() ||
+      process.env.VERCEL_GIT_COMMIT_SHA?.trim() ||
+      "unversioned",
+  },
   outputFileTracingRoot: process.cwd(),
   images: {
     remotePatterns: [

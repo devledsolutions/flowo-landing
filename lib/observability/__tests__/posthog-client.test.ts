@@ -17,6 +17,7 @@ beforeEach(() => {
   vi.resetModules();
   vi.clearAllMocks();
   mock.consent = false;
+  window.history.replaceState({}, "", "/");
   vi.stubEnv("NEXT_PUBLIC_POSTHOG_KEY", "phc_test_fixture");
   vi.stubEnv("NODE_ENV", "production");
   // Isolate global listeners between module instances.
@@ -41,7 +42,7 @@ describe("landing PostHog consent lifecycle", () => {
     syncLandingPostHogConsent();
     expect(mock.set_config).toHaveBeenCalledTimes(1);
     expect(mock.set_config).toHaveBeenCalledWith(expect.objectContaining({
-      disable_session_recording: false, capture_pageview: "history_change",
+      disable_session_recording: false, capture_pageview: false,
       disable_persistence: false,
     }));
     expect(mock.capture.mock.calls).toEqual([["$pageview"]]);
@@ -86,5 +87,36 @@ describe("landing PostHog consent lifecycle", () => {
     expect(mock.init).toHaveBeenCalledTimes(1);
     expect(window.addEventListener).toHaveBeenCalledWith("consent-updated", expect.any(Function));
     expect(window.addEventListener).toHaveBeenCalledWith("focus", expect.any(Function));
+  });
+  it("captures exactly once per Next.js route, including after consent on the initial document", async () => {
+    mock.consent = true;
+    const { initializeLandingPostHog, captureLandingPageview } = await import("../posthog-client");
+    initializeLandingPostHog();
+    captureLandingPageview();
+    expect(mock.capture).toHaveBeenCalledTimes(1);
+    window.history.pushState({}, "", "/precos");
+    captureLandingPageview();
+    captureLandingPageview();
+    expect(mock.capture).toHaveBeenCalledTimes(2);
+    window.history.pushState({}, "", "/recursos");
+    captureLandingPageview();
+    // A return to a prior route is a new pageview, not a duplicate.
+    window.history.replaceState({}, "", "/precos");
+    captureLandingPageview();
+    expect(mock.capture).toHaveBeenCalledTimes(4);
+  });
+  it("does not record new routes after withdrawal and resumes the current route once", async () => {
+    mock.consent = true;
+    const { initializeLandingPostHog, captureLandingPageview, syncLandingPostHogConsent } = await import("../posthog-client");
+    initializeLandingPostHog();
+    mock.consent = false;
+    syncLandingPostHogConsent();
+    window.history.pushState({}, "", "/precos");
+    captureLandingPageview();
+    expect(mock.capture).toHaveBeenCalledTimes(1);
+    mock.consent = true;
+    syncLandingPostHogConsent();
+    captureLandingPageview();
+    expect(mock.capture).toHaveBeenCalledTimes(2);
   });
 });

@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useState, useCallback, ReactNode 
 import { usePathname } from "next/navigation";
 import { getSavedConsent, type ConsentPreferences } from "@/lib/consent";
 import { PUBLIC_ENVIRONMENT } from "@/lib/environment";
+import { landingTelemetryDimensions } from "@/lib/observability/posthog-shared";
 
 const ATTRIBUTION_STORAGE_KEY = "flowo:first-touch-attribution";
 const SESSION_ATTRIBUTION_STORAGE_KEY = "flowo:first-touch-attribution:session";
@@ -198,13 +199,14 @@ function promoteSessionAttribution(): void {
   }
 }
 
-function getAnalyticsContext(): AnalyticsProperties {
+export function getAnalyticsContext(): AnalyticsProperties {
   const consent = getSavedConsent();
   const firstTouch = getFirstTouchAttribution();
   const lastTouch = getLastTouchAttribution();
   const current = getCurrentAttribution();
 
   return {
+    ...landingTelemetryDimensions,
     page_path: window.location.pathname,
     first_landing_path: firstTouch.landingPath,
     first_referrer: firstTouch.referrer,
@@ -489,7 +491,7 @@ export function SegmentProvider({ children, writeKey }: SegmentProviderProps) {
     if (!window.analytics) initializeSegment();
 
     if (window.analytics) {
-      window.analytics.page(category, name, properties);
+      window.analytics.page(category, name, { ...properties, ...getAnalyticsContext() });
     }
   }, [analyticsConsentGranted, initializeSegment]);
 
