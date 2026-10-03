@@ -29,7 +29,16 @@ estado desativado; não é uma credencial emprestada nem sucesso simulado.
 As duas inclusões foram relidas e comparadas em memória, sem imprimir valores.
 Nenhuma validação de isolamento foi removida ou desabilitada.
 
-O próximo push de `qa` deve comprovar o build Git com essa configuração corrigida.
+O push `b13f0272659d7e33dd3c49ded4f2d07fd74c871f` disparou automaticamente
+o deployment Git `dpl_2qs7AH8ueoWNvGhQdLix7v5S77jH` do projeto QA correto,
+confirmando a conexão Git sem depender de Actions. O guard recusou apenas
+`FLOWO_PRODUCTION_TURNSTILE_DISABLED`, marcador complementar exigido quando
+a referência de produção é `disabled`. Depois da revalidação da ausência de
+Turnstile no projeto de produção, esse marcador foi adicionado como `true`
+somente no projeto QA e relido. Isso descreve o estado real de produção;
+não desativa o Turnstile QA nem enfraquece o guard.
+
+O próximo push de `qa` deve comprovar o build com os três seletores sincronizados.
 Até existir deployment `READY`, alias e health do SHA esperado, a publicação
 pública permanece não comprovada. Build/health não certificam formulários,
 Siteverify, entrega de leads, e-mail ou WhatsApp: esses fluxos exigem evidência
