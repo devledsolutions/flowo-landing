@@ -11,6 +11,9 @@ export default defineConfig({
     include: ["**/__tests__/**/*.test.{ts,tsx}"],
     exclude: ["node_modules/**", ".next/**", "worktrees/**", "tmp/**"],
     env: {
+      // The Vercel build runs the suite with NODE_ENV=production, which loads
+      // React's production build and breaks act() in the DOM tests.
+      NODE_ENV: "test",
       NEXT_PUBLIC_DEPLOYMENT_ENVIRONMENT: "development",
       NEXT_PUBLIC_SITE_URL: "http://localhost:3001",
       NEXT_PUBLIC_APP_URL: "http://localhost:3000",
