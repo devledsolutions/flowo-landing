@@ -131,6 +131,11 @@ export function validateLandingEnvironment(env) {
     errors,
     hosted,
   );
+  if (hosted && !value(env, "CONVEX_SERVER_SECRET")) {
+    errors.push(
+      "CONVEX_SERVER_SECRET is required in hosted environments; without it lib/rate-limit.ts refuses every form request",
+    );
+  }
   requirePair(
     env,
     "NEXT_PUBLIC_GOOGLE_ADS_ID",

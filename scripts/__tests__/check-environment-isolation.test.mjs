@@ -14,6 +14,7 @@ function qaEnvironment(overrides = {}) {
     NEXT_PUBLIC_FLOWO_COOKIE_DOMAIN: "host-only",
     NEXT_PUBLIC_TURNSTILE_SITE_KEY: "turnstile_site_qa",
     TURNSTILE_SECRET_KEY: "turnstile_secret_qa",
+    CONVEX_SERVER_SECRET: "convex_server_secret_qa",
     NEXT_PUBLIC_POSTHOG_KEY: "phc_qa",
     POSTHOG_API_KEY: "phc_qa",
     ...overrides,
@@ -58,6 +59,13 @@ test("requires Turnstile and PostHog in hosted QA", () => {
   ).join("\n");
   assert.match(errors, /TURNSTILE/);
   assert.match(errors, /NEXT_PUBLIC_POSTHOG_KEY/);
+});
+
+test("requires the Convex server secret in hosted QA", () => {
+  const errors = validateLandingEnvironment(
+    qaEnvironment({ CONVEX_SERVER_SECRET: "  " }),
+  ).join("\n");
+  assert.match(errors, /CONVEX_SERVER_SECRET is required in hosted environments/);
 });
 
 test("rejects production search verification outside production", () => {
