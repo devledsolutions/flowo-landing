@@ -10,7 +10,7 @@ vi.mock("@/lib/observability/posthog-server", () => ({ captureLandingUsage: mock
 
 import { POST } from "../route";
 
-function request(body: unknown, headers: Record<string, string> = {}) {
+function request(body: unknown, headers: Record<string, string> = { "sec-fetch-site": "same-origin" }) {
   return new Request("http://localhost:3001/api/webmcp-usage", {
     method: "POST",
     headers: { "Content-Type": "application/json", ...headers },
@@ -37,7 +37,9 @@ describe("POST /api/webmcp-usage", () => {
   });
 
   it("uses a separate key in the existing per-minute policy", async () => {
-    await POST(request({ tool: "ver_planos", outcome: "ok", path: "/" }, { "x-forwarded-for": "203.0.113.9" }));
+    await POST(
+      request({ tool: "ver_planos", outcome: "ok", path: "/" }, { "sec-fetch-site": "same-origin", "x-forwarded-for": "203.0.113.9" }),
+    );
     expect(mocks.applyRateLimit).toHaveBeenCalledWith({
       bucket: "growth-signal",
       key: "webmcp:203.0.113.9",
@@ -69,9 +71,32 @@ describe("POST /api/webmcp-usage", () => {
   });
 
   it("never reads the cookie header", async () => {
-    const req = request({ tool: "ver_planos", outcome: "ok", path: "/" }, { cookie: "cookieConsent=x" });
+    const req = request({ tool: "ver_planos", outcome: "ok", path: "/" }, { "sec-fetch-site": "same-origin", cookie: "cookieConsent=x" });
     const get = vi.spyOn(req.headers, "get");
     await POST(req);
     expect(get.mock.calls.map(([name]) => String(name).toLowerCase())).not.toContain("cookie");
+  });
+});
+
+describe("only the site's own pages may count", () => {
+  const VALID = { tool: "ver_planos", outcome: "ok", path: "/" };
+
+  it.each([
+    [{ "sec-fetch-site": "same-origin" }, 204],
+    [{ "sec-fetch-site": "same-site" }, 204],
+    [{ "sec-fetch-site": "cross-site", origin: "http://localhost:3001" }, 403],
+    [{ "sec-fetch-site": "none" }, 403],
+    [{ origin: "http://localhost:3001" }, 204],
+    [{ origin: "https://evil.example" }, 403],
+    [{}, 403],
+  ] as const)("headers %j answer %i", async (headers, status) => {
+    const response = await POST(request(VALID, { ...headers }));
+    expect(response.status).toBe(status);
+    expect(mocks.captureLandingUsage).toHaveBeenCalledTimes(status === 204 ? 1 : 0);
+  });
+
+  it("refuses a cross-site request before touching the rate limit", async () => {
+    await POST(request(VALID, { "sec-fetch-site": "cross-site" }));
+    expect(mocks.applyRateLimit).not.toHaveBeenCalled();
   });
 });
