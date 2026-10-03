@@ -80,6 +80,7 @@ export function CookieBanner() {
     <section
       aria-label="Aviso de cookies"
       data-cookie-banner="true"
+      data-bottom-fixed="true"
       className={`fixed inset-x-0 bottom-0 z-50 animate-in slide-in-from-bottom-4 fade-in duration-300${
         isCampaignPage ? " flowo-campaign-cookie" : ""
       }`}

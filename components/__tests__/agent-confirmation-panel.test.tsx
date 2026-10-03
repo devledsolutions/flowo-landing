@@ -4,6 +4,7 @@ import AgentConfirmationPanel from "@/components/webmcp/agent-confirmation-panel
 import type { ConfirmationView } from "@/lib/webmcp/confirmation";
 
 const VIEW: NonNullable<ConfirmationView> = {
+  id: 7,
   step: "confirm",
   request: {
     titulo: "Pedido de contato com a equipe comercial",
@@ -50,11 +51,12 @@ describe("agent confirmation panel", () => {
     expect(text(material)).toContain("Autorizo o uso dos dados para entregar este material, conforme a Política de Privacidade");
   });
 
-  it("offers Cancelar first and Autorizar e enviar, enabled only before the check", () => {
+  it("offers Cancelar first and starts with Autorizar e enviar disabled", () => {
     const html = render();
     expect(html.indexOf(">Cancelar<")).toBeGreaterThan(-1);
     expect(html.indexOf(">Cancelar<")).toBeLessThan(html.indexOf(">Autorizar e enviar<"));
-    expect(html).not.toMatch(/disabled=""[^>]*>Autorizar e enviar/);
+    expect(html).toMatch(/disabled=""[^>]*>Autorizar e enviar/);
+    expect(html).toContain('data-request-id="7"');
     const verifying = render({ ...VIEW, step: "verify" });
     expect(verifying).toMatch(/disabled=""[^>]*>Autorizar e enviar/);
     expect(text(verifying)).toContain("Autorizado. Fazendo uma verificação de segurança antes de enviar.");

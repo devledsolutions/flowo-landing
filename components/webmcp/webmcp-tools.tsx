@@ -16,6 +16,13 @@ const AgentConfirmationPanel = dynamic(() => import("./agent-confirmation-panel"
   ssr: false,
 });
 
+function announcementFor(view: ConfirmationView): string {
+  if (!view) return "";
+  return view.step === "verify"
+    ? "Autorizado. Fazendo uma verificação de segurança antes de enviar."
+    : "Um assistente de IA quer enviar seus dados à Flowo. Confira os dados e escolha Autorizar e enviar ou Cancelar.";
+}
+
 /**
  * Registers the site's WebMCP tools once per document, only in browsers that
  * expose `document.modelContext`. The tool code is a separate chunk, so normal
@@ -26,6 +33,7 @@ const AgentConfirmationPanel = dynamic(() => import("./agent-confirmation-panel"
 export function WebMcpTools() {
   const { track, getAcquisitionContext, getAnonymousId } = useSegment();
   const [view, setView] = useState<ConfirmationView>(null);
+  const [enabled, setEnabled] = useState(false);
   const controllerRef = useRef<ConfirmationController | null>(null);
   if (controllerRef.current === null) {
     controllerRef.current = createConfirmationController({
@@ -56,6 +64,8 @@ export function WebMcpTools() {
   useEffect(() => {
     const modelContext = getModelContext();
     if (!modelContext) return;
+    // The live region exists from here on, before any request can fill it.
+    setEnabled(true);
     const abortController = new AbortController();
     let active = true;
 
@@ -83,12 +93,21 @@ export function WebMcpTools() {
 
   useEffect(() => () => controller.dispose(), [controller]);
 
-  return view ? (
-    <AgentConfirmationPanel
-      view={view}
-      onApprove={controller.approve}
-      onCancel={controller.cancel}
-      onToken={controller.provideToken}
-    />
-  ) : null;
+  if (!enabled) return null;
+  return (
+    <>
+      <div className="sr-only" role="status" aria-live="polite" aria-atomic="true" data-webmcp-live="">
+        {announcementFor(view)}
+      </div>
+      {view ? (
+        <AgentConfirmationPanel
+          key={view.id}
+          view={view}
+          onApprove={controller.approve}
+          onCancel={controller.cancel}
+          onToken={controller.provideToken}
+        />
+      ) : null}
+    </>
+  );
 }

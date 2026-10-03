@@ -9,12 +9,17 @@ export type LeadConfirmationRequest = {
 };
 
 export type ConfirmationView = {
+  /** Changes for every request, so an approval always refers to the data on screen. */
+  id: number;
   request: LeadConfirmationRequest;
   /** "confirm" waits for the click; "verify" runs the security check after it. */
   step: "confirm" | "verify";
 } | null;
 
+/** Time the visitor has to read and decide. */
 export const CONFIRMATION_TIMEOUT_MS = 90_000;
+/** Fresh time after the click, so an interactive security challenge can finish. */
+export const VERIFICATION_TIMEOUT_MS = 90_000;
 
 const RETRY_HINT =
   "Peça para a pessoa conferir os dados na página e clicar em Autorizar e enviar, depois chame a ferramenta de novo.";
@@ -48,10 +53,12 @@ export function cancelledByAssistantError(): ToolError {
 }
 
 type Pending = {
+  id: number;
   request: LeadConfirmationRequest;
   step: "confirm" | "verify";
   resolve: (token: string) => void;
   reject: (error: ToolError) => void;
+  restartTimer: (ms: number) => void;
   release: () => void;
 };
 
@@ -65,12 +72,15 @@ export function createConfirmationController({
   needsVerification,
   onChange,
   timeoutMs = CONFIRMATION_TIMEOUT_MS,
+  verificationTimeoutMs = VERIFICATION_TIMEOUT_MS,
 }: {
   needsVerification: () => boolean;
   onChange: (view: ConfirmationView) => void;
   timeoutMs?: number;
+  verificationTimeoutMs?: number;
 }) {
   let pending: Pending | null = null;
+  let lastId = 0;
 
   function finish(outcome: { token: string } | { error: ToolError }) {
     const current = pending;
@@ -87,30 +97,40 @@ export function createConfirmationController({
       if (signal.aborted) return Promise.reject(cancelledByAssistantError());
       if (pending) return Promise.reject(confirmationBusyError());
       return new Promise<string>((resolve, reject) => {
-        const timer = setTimeout(() => finish({ error: confirmationTimeoutError() }), timeoutMs);
+        const id = ++lastId;
+        let timer: ReturnType<typeof setTimeout> | undefined;
+        const restartTimer = (ms: number) => {
+          clearTimeout(timer);
+          timer = setTimeout(() => finish({ error: confirmationTimeoutError() }), ms);
+        };
         const onAbort = () => finish({ error: cancelledByAssistantError() });
         signal.addEventListener("abort", onAbort, { once: true });
+        restartTimer(timeoutMs);
         pending = {
+          id,
           request,
           step: "confirm",
           resolve,
           reject,
+          restartTimer,
           release: () => {
             clearTimeout(timer);
             signal.removeEventListener("abort", onAbort);
           },
         };
-        onChange({ request, step: "confirm" });
+        onChange({ id, request, step: "confirm" });
       });
     },
-    approve() {
-      if (!pending || pending.step !== "confirm") return;
+    /** Approves only the request whose data is on screen. */
+    approve(id: number) {
+      if (!pending || pending.id !== id || pending.step !== "confirm") return;
       if (!needsVerification()) {
         finish({ token: "" });
         return;
       }
       pending.step = "verify";
-      onChange({ request: pending.request, step: "verify" });
+      pending.restartTimer(verificationTimeoutMs);
+      onChange({ id: pending.id, request: pending.request, step: "verify" });
     },
     provideToken(token: string) {
       if (pending?.step === "verify" && token) finish({ token });
