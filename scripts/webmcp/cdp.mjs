@@ -16,6 +16,8 @@
  *   SCREENSHOT=/tmp/page.png      saves a viewport screenshot after the check
  *   VIEWPORT=1280x900             viewport for the page
  *   VERBOSE=1                     prints page console errors
+ *   KEYS=Tab,Enter                real key presses sent while the check runs
+ *   KEYS_DELAY_MS=3000            when to send them, after the check starts
  *
  * Every page opened by this driver sets sessionStorage["flowo:webmcp-teste"]="1",
  * so its calls are marked as tests in the usage counter.
@@ -90,6 +92,16 @@ async function browserSocketUrl() {
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+const KEY_CODES = { Tab: 9, Enter: 13, Escape: 27, " ": 32 };
+
+async function pressKey(cdp, sessionId, key) {
+  const code = KEY_CODES[key];
+  if (!code) throw new Error(`Unsupported key: ${key}`);
+  const base = { key, code: key === " " ? "Space" : key, windowsVirtualKeyCode: code, nativeVirtualKeyCode: code };
+  await cdp.send("Input.dispatchKeyEvent", { type: "keyDown", ...base, ...(key === "Enter" ? { text: "\r" } : {}) }, sessionId);
+  await cdp.send("Input.dispatchKeyEvent", { type: "keyUp", ...base }, sessionId);
+}
+
 async function closeBrowser() {
   const cdp = await CdpConnection.open(await browserSocketUrl());
   await cdp.send("Browser.close").catch(() => undefined);
@@ -137,11 +149,19 @@ globalThis.__webmcpCheckArgs = ${JSON.stringify(checkArgs)};`,
     await loaded;
     await sleep(waitMs);
 
-    const evaluation = await cdp.send(
+    const evaluationPromise = cdp.send(
       "Runtime.evaluate",
       { expression: check, awaitPromise: true, returnByValue: true, userGesture: true },
       sessionId,
     );
+    if (process.env.KEYS) {
+      await sleep(Number(process.env.KEYS_DELAY_MS || 3000));
+      for (const key of process.env.KEYS.split(",").map((item) => item.trim()).filter(Boolean)) {
+        await pressKey(cdp, sessionId, key);
+        await sleep(300);
+      }
+    }
+    const evaluation = await evaluationPromise;
     if (evaluation.exceptionDetails) {
       console.log(JSON.stringify({ ok: false, exception: evaluation.exceptionDetails.exception?.description ?? evaluation.exceptionDetails.text }, null, 2));
     } else {
