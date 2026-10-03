@@ -42,6 +42,27 @@ expect(pricing.includes("Pagamentos integrados opcionais"), "optional payment ca
 const pricingSection = fs.readFileSync(path.join(root, "components", "home-pricing-section.tsx"), "utf8");
 expect(pricingSection.includes("14 dias"), "assisted trial copy disappeared");
 
+// The plan recommendation runs in the browser, so it cannot import the contract.
+// Its limits are read as text here and compared with the contract at build time.
+const planRecommendation = fs.readFileSync(path.join(root, "lib", "calculators", "plan-recommendation.ts"), "utf8");
+const recommendationLimit = (name) => {
+  const match = planRecommendation.match(new RegExp(`export const ${name} = (\\d+);`));
+  return match ? Number(match[1]) : undefined;
+};
+expect(
+  recommendationLimit("SOLO_MAX_PROFESSIONALS") === contract.plans.solo.maxProfessionals,
+  "plan recommendation Solo professional limit drifted from the contract",
+);
+expect(
+  recommendationLimit("EQUIPE_MAX_PROFESSIONALS") === contract.plans.equipe.maxProfessionals,
+  "plan recommendation Equipe professional limit drifted from the contract",
+);
+expect(
+  recommendationLimit("EQUIPE_MAX_UNITS") === 1,
+  "plan recommendation must send more than one unit to Empresarial",
+);
+expect(contract.plans.empresarial.maxProfessionals === null, "Empresarial must keep unlimited professionals");
+
 if (errors.length) {
   console.error(["Product contract check failed:", ...errors.map((error) => `- ${error}`)].join("\n"));
   process.exit(1);

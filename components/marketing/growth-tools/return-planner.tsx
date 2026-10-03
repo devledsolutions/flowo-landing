@@ -1,8 +1,18 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { CalendarCheck2 } from "lucide-react";
 import { useSegment } from "@/providers/segment-provider";
+import {
+  isValidIsoDate,
+  localIsoDate,
+  planReturn,
+  returnMessage,
+  RETURN_PLANNER_NOTE,
+  RETURN_SERVICES,
+  type ReturnService,
+  type ReturnTone,
+} from "@/lib/calculators/return-planner";
 import {
   growthToolStyles as styles,
   ToolWindow,
@@ -12,48 +22,48 @@ const dateFormatter = new Intl.DateTimeFormat("pt-BR", {
   day: "2-digit",
   month: "long",
   year: "numeric",
+  timeZone: "UTC",
 });
 
-function toIsoInput(date: Date) {
-  return date.toISOString().slice(0, 10);
-}
-
-function addDays(date: Date, days: number) {
-  const next = new Date(date);
-  next.setDate(next.getDate() + days);
-  return next;
+function formatIsoDate(value: string) {
+  return dateFormatter.format(new Date(`${value}T00:00:00Z`));
 }
 
 export function ReturnPlanner() {
   const { track } = useSegment();
-  const [lastVisit, setLastVisit] = useState(() => {
-    const date = new Date();
-    date.setDate(date.getDate() - 24);
-    return toIsoInput(date);
-  });
+  // The default date depends on the visitor's time zone, so it is filled in
+  // after hydration instead of on the server.
+  const [lastVisit, setLastVisit] = useState("");
   const [interval, setInterval] = useState(30);
   const [advance, setAdvance] = useState(3);
-  const [service, setService] = useState("corte");
-  const [tone, setTone] = useState<"direto" | "proximo">("proximo");
+  const [service, setService] = useState<ReturnService>("corte");
+  const [tone, setTone] = useState<ReturnTone>("proximo");
   const [calculated, setCalculated] = useState(false);
 
-  const result = useMemo(() => {
-    const parsed = new Date(`${lastVisit}T12:00:00`);
-    const base = Number.isNaN(parsed.getTime()) ? new Date() : parsed;
-    const target = addDays(base, Math.max(interval, 1));
-    const contact = addDays(target, -Math.max(advance, 0));
-    const message =
-      tone === "direto"
-        ? `Olá! Aqui é da [nome da barbearia]. Pela data do seu último ${service}, pode estar chegando a hora de cuidar do visual de novo. Quer que eu consulte os horários? Se não quiser receber este tipo de lembrete, é só avisar.`
-        : `Oi! Tudo bem? Aqui é da [nome da barbearia]. Lembramos do seu último ${service} e queríamos saber se faz sentido ver um próximo horário. Posso consultar a agenda para você? Se preferir não receber lembretes, é só falar.`;
-    return { target, contact, message };
-  }, [advance, interval, lastVisit, service, tone]);
+  useEffect(() => {
+    setLastVisit((current) => current || localIsoDate(new Date(), 24));
+  }, []);
+
+  const plan = useMemo(
+    () =>
+      isValidIsoDate(lastVisit)
+        ? planReturn({
+            lastVisit,
+            intervalDays: interval,
+            advanceDays: advance,
+            service,
+            tone,
+          })
+        : null,
+    [advance, interval, lastVisit, service, tone],
+  );
+  const message = plan?.message ?? returnMessage(service, tone);
 
   const calculate = () => {
     setCalculated(true);
     track("Growth Tool Calculated", {
       tool_id: "customer_return_planner",
-      service,
+      service: RETURN_SERVICES[service],
       typical_interval_days: interval,
       contact_advance_days: advance,
       message_tone: tone,
@@ -90,11 +100,14 @@ export function ReturnPlanner() {
         </label>
         <label>
           Serviço
-          <select value={service} onChange={(event) => setService(event.target.value)}>
+          <select
+            value={service}
+            onChange={(event) => setService(event.target.value as ReturnService)}
+          >
             <option value="corte">Corte</option>
             <option value="barba">Barba</option>
-            <option value="corte e barba">Corte e barba</option>
-            <option value="procedimento">Outro procedimento</option>
+            <option value="corte_e_barba">Corte e barba</option>
+            <option value="outro">Outro procedimento</option>
           </select>
         </label>
         <label>
@@ -115,7 +128,7 @@ export function ReturnPlanner() {
           <select
             value={tone}
             onChange={(event) =>
-              setTone(event.target.value as "direto" | "proximo")
+              setTone(event.target.value as ReturnTone)
             }
           >
             <option value="proximo">Próximo e cuidadoso</option>
@@ -132,25 +145,21 @@ export function ReturnPlanner() {
           {calculated ? "PLANO SUGERIDO" : "PRÉVIA DO PLANEJAMENTO"}
         </span>
         <div className={styles.resultPrimary}>
-          <strong>{dateFormatter.format(result.contact)}</strong>
+          <strong>{plan ? formatIsoDate(plan.contactDate) : "…"}</strong>
           <span>data sugerida para revisar o contato</span>
         </div>
         <div className={styles.resultGrid}>
           <div>
             <small>Retorno estimado</small>
-            <strong>{dateFormatter.format(result.target)}</strong>
+            <strong>{plan ? formatIsoDate(plan.returnDate) : "…"}</strong>
           </div>
           <div>
             <small>Intervalo usado</small>
             <strong>{interval} dias</strong>
           </div>
         </div>
-        <div className={styles.messagePreview}>{result.message}</div>
-        <p className={styles.resultNote}>
-          Revise consentimento, agendamento futuro e conversas abertas antes de
-          enviar. O intervalo é uma referência informada por você, não uma regra
-          para todos os clientes.
-        </p>
+        <div className={styles.messagePreview}>{message}</div>
+        <p className={styles.resultNote}>{RETURN_PLANNER_NOTE}</p>
       </div>
     </ToolWindow>
   );

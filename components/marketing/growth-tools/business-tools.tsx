@@ -1,8 +1,23 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { BarChart3, Calculator, Compass, MessageCircle } from "lucide-react";
+import { BarChart3, Calculator, MessageCircle } from "lucide-react";
 import { useSegment } from "@/providers/segment-provider";
+import {
+  AGENDA_OCCUPANCY_NOTE,
+  calculateAgendaOccupancy,
+} from "@/lib/calculators/agenda-occupancy";
+import {
+  MANAGEMENT_DIAGNOSTIC_NOTE,
+  MANAGEMENT_DIAGNOSTIC_VERSION,
+  MANAGEMENT_QUESTIONS,
+  scoreManagementDiagnostic,
+  type ManagementAnswers,
+} from "@/lib/calculators/management-diagnostic";
+import {
+  calculateWhatsAppOpportunity,
+  WHATSAPP_OPPORTUNITY_NOTE,
+} from "@/lib/calculators/whatsapp-opportunity";
 import { growthToolStyles as styles, ToolWindow } from "./tool-window";
 
 const brl = new Intl.NumberFormat("pt-BR", {
@@ -10,10 +25,6 @@ const brl = new Intl.NumberFormat("pt-BR", {
   currency: "BRL",
   maximumFractionDigits: 0,
 });
-
-function numberValue(value: number, min: number, max: number) {
-  return Math.min(Math.max(Number.isFinite(value) ? value : min, min), max);
-}
 
 function formatPercent(value: number) {
   return `${value.toFixed(0).replace(".", ",")}%`;
@@ -27,15 +38,10 @@ export function WhatsAppOpportunityCalculator() {
   const [averageTicket, setAverageTicket] = useState(60);
   const [calculated, setCalculated] = useState(false);
 
-  const result = useMemo(() => {
-    const monthlyMessages = numberValue(messagesPerDay, 0, 300) * numberValue(daysPerWeek, 1, 7) * 4.33;
-    const conversationsToReview = monthlyMessages * (numberValue(unansweredRate, 0, 100) / 100);
-    return {
-      monthlyMessages,
-      conversationsToReview,
-      scenarioValue: conversationsToReview * numberValue(averageTicket, 0, 2_000),
-    };
-  }, [averageTicket, daysPerWeek, messagesPerDay, unansweredRate]);
+  const result = useMemo(
+    () => calculateWhatsAppOpportunity({ messagesPerDay, daysPerWeek, unansweredRate, averageTicket }),
+    [averageTicket, daysPerWeek, messagesPerDay, unansweredRate],
+  );
 
   const calculate = () => {
     setCalculated(true);
@@ -88,7 +94,7 @@ export function WhatsAppOpportunityCalculator() {
           </div>
         </div>
         <p className={styles.resultNote}>
-          *É um cenário para priorizar uma revisão, não uma promessa de faturamento perdido. Confirme quantas conversas realmente viram atendimento.
+          *{WHATSAPP_OPPORTUNITY_NOTE}
         </p>
       </div>
     </ToolWindow>
@@ -104,15 +110,10 @@ export function OccupancyCalculator() {
   const [bookedPerWeek, setBookedPerWeek] = useState(72);
   const [calculated, setCalculated] = useState(false);
 
-  const result = useMemo(() => {
-    const weeklyCapacity = numberValue(professionals, 1, 50) * numberValue(hoursPerDay, 1, 16) * 60 * numberValue(daysPerWeek, 1, 7) / numberValue(serviceMinutes, 10, 240);
-    const occupancy = weeklyCapacity ? (numberValue(bookedPerWeek, 0, 10_000) / weeklyCapacity) * 100 : 0;
-    return {
-      weeklyCapacity,
-      occupancy: Math.min(100, Math.max(0, occupancy)),
-      openSlots: Math.max(0, weeklyCapacity - numberValue(bookedPerWeek, 0, 10_000)),
-    };
-  }, [bookedPerWeek, daysPerWeek, hoursPerDay, professionals, serviceMinutes]);
+  const result = useMemo(
+    () => calculateAgendaOccupancy({ professionals, hoursPerDay, daysPerWeek, serviceMinutes, bookedPerWeek }),
+    [bookedPerWeek, daysPerWeek, hoursPerDay, professionals, serviceMinutes],
+  );
 
   const calculate = () => {
     setCalculated(true);
@@ -167,101 +168,31 @@ export function OccupancyCalculator() {
             <strong>{result.openSlots.toFixed(0)} horários</strong>
           </div>
         </div>
-        <p className={styles.resultNote}>A conta não conhece folgas, encaixes, intervalos ou duração diferente por serviço. Use-a como ponto de conversa para organizar a agenda.</p>
+        <p className={styles.resultNote}>{AGENDA_OCCUPANCY_NOTE}</p>
       </div>
     </ToolWindow>
   );
 }
-
-export function PlanSelector() {
-  const { track } = useSegment();
-  const [professionals, setProfessionals] = useState(2);
-  const [organization, setOrganization] = useState("um_numero");
-  const [priority, setPriority] = useState("agenda");
-  const [selected, setSelected] = useState(false);
-
-  const plan = professionals <= 1 ? "Solo" : professionals <= 5 ? "Equipe" : "Empresarial";
-  const planSlug = plan.toLowerCase();
-  const summary = plan === "Solo"
-    ? "Para quem atende sozinho e quer parar de largar o celular para responder horário."
-    : plan === "Equipe"
-      ? "Para uma equipe de até cinco profissionais, com agenda e operação no mesmo lugar."
-      : "Para operações com mais profissionais, unidades ou regras comerciais próprias.";
-
-  const select = () => {
-    setSelected(true);
-    track("Plan Selected", { plan: planSlug, professionals, organization, priority });
-  };
-
-  return (
-    <ToolWindow label="ESCOLHA GUIADA" title="Qual plano combina com a sua rotina?" badge="2 minutos">
-      <div className={styles.inputGrid}>
-        <label>
-          Quantas pessoas atendem hoje?
-          <input type="number" min="1" max="500" inputMode="numeric" value={professionals} onChange={(event) => setProfessionals(Number(event.target.value))} />
-        </label>
-        <label>
-          Como chegam as mensagens?
-          <select value={organization} onChange={(event) => setOrganization(event.target.value)}>
-            <option value="um_numero">Um número</option>
-            <option value="varios_numeros">Mais de um número</option>
-            <option value="a_definir">Ainda estamos decidindo</option>
-          </select>
-        </label>
-        <label className={styles.fullInput}>
-          O que mais quer resolver primeiro?
-          <select value={priority} onChange={(event) => setPriority(event.target.value)}>
-            <option value="agenda">Responder e marcar horários</option>
-            <option value="equipe">Organizar equipe e comissões</option>
-            <option value="financeiro">Acompanhar caixa e recebimentos</option>
-          </select>
-        </label>
-      </div>
-      <button className={styles.calculateButton} onClick={select} type="button">
-        <Compass aria-hidden="true" size={17} />
-        Ver recomendação
-      </button>
-      <div className={styles.resultPanel} aria-live="polite">
-        <span className={styles.resultLabel}>{selected ? "RECOMENDAÇÃO DA FLOWO" : "PRÉVIA DA RECOMENDAÇÃO"}</span>
-        <div className={styles.resultPrimary}>
-          <strong>{plan}</strong>
-          <span>plano para começar</span>
-        </div>
-        <div className={styles.messagePreview}>{summary}</div>
-        <div className={styles.resultGrid}>
-          <div><small>Prioridade informada</small><strong>{priority === "agenda" ? "Agenda e WhatsApp" : priority === "equipe" ? "Equipe" : "Financeiro"}</strong></div>
-          <div><small>Próximo passo</small><strong><a href={`/precos?plan=${planSlug}`} className="underline underline-offset-4">Ver detalhes</a></strong></div>
-        </div>
-        <p className={styles.resultNote}>A recomendação é um ponto de partida. O time pode ajustar o plano quando entender unidades, profissionais e regras da operação.</p>
-      </div>
-    </ToolWindow>
-  );
-}
-
-const diagnosticQuestions = [
-  { id: "whatsapp", label: "Quando chega um pedido de horário durante um corte, alguém precisa parar?", yes: "O WhatsApp ainda depende de uma pessoa" },
-  { id: "agenda", label: "Cada profissional tem horários, folgas ou intervalos diferentes?", yes: "A agenda precisa de regras por profissional" },
-  { id: "finance", label: "Você confere comandas, recebimentos e comissões em lugares diferentes?", yes: "O fechamento pede uma fonte única" },
-  { id: "return", label: "Existe uma rotina clara para lembrar clientes de voltar?", yes: "O retorno ainda depende da memória" },
-  { id: "numbers", label: "A equipe sabe qual número usar e quem assume uma conversa fora do padrão?", yes: "A passagem para a equipe precisa ficar explícita" },
-] as const;
 
 export function ManagementDiagnostic() {
   const { track } = useSegment();
-  const [answers, setAnswers] = useState<Record<string, boolean>>({});
+  const [answers, setAnswers] = useState<ManagementAnswers>({});
   const [completed, setCompleted] = useState(false);
-  const yesCount = diagnosticQuestions.filter((question) => answers[question.id]).length;
-  const result = yesCount >= 3 ? "Conectar atendimento e operação" : yesCount > 0 ? "Escolher uma rotina para padronizar" : "Manter o que funciona e medir uma semana";
+  const diagnostic = scoreManagementDiagnostic(answers);
 
   const complete = () => {
     setCompleted(true);
-    track("Growth Tool Calculated", { tool_id: "management_diagnostic", yes_count: yesCount });
+    track("Growth Tool Calculated", {
+      tool_id: "management_diagnostic",
+      attention_count: diagnostic.attentionCount,
+      diagnostic_version: MANAGEMENT_DIAGNOSTIC_VERSION,
+    });
   };
 
   return (
     <ToolWindow label="RAIO-X DA GESTÃO" title="Em três minutos, encontre o gargalo de hoje." badge="5 perguntas">
       <div className="space-y-3">
-        {diagnosticQuestions.map((question, index) => (
+        {MANAGEMENT_QUESTIONS.map((question, index) => (
           <fieldset key={question.id} className="rounded-lg border border-[var(--tool-line)] p-3">
             <legend className="px-1 text-[0.72rem] font-semibold text-[var(--tool-muted)]">{String(index + 1).padStart(2, "0")}</legend>
             <p className="text-[0.82rem] leading-relaxed text-[var(--tool-ink)]">{question.label}</p>
@@ -276,18 +207,27 @@ export function ManagementDiagnostic() {
           </fieldset>
         ))}
       </div>
-      <button className={styles.calculateButton} onClick={complete} type="button" disabled={Object.keys(answers).length < diagnosticQuestions.length}>
+      <button className={styles.calculateButton} onClick={complete} type="button" disabled={!diagnostic.complete}>
         <Calculator aria-hidden="true" size={17} />
         Ver meu ponto de partida
       </button>
       <div className={styles.resultPanel} aria-live="polite">
         <span className={styles.resultLabel}>{completed ? "SEU PONTO DE PARTIDA" : "COMPLETE AS PERGUNTAS"}</span>
         <div className={styles.resultPrimary}>
-          <strong>{completed ? yesCount : "…"}</strong>
+          <strong>{completed ? diagnostic.attentionCount : "…"}</strong>
           <span>rotinas para olhar com cuidado</span>
         </div>
-        <div className={styles.messagePreview}>{completed ? result : "O resultado aparece aqui, sem pedir cadastro."}</div>
-        <p className={styles.resultNote}>{completed ? "O Raio-X não substitui uma análise da operação. Ele ajuda a escolher a primeira conversa da equipe." : "Responda as cinco perguntas para liberar um primeiro diagnóstico."}</p>
+        <div className={styles.messagePreview}>
+          {completed ? diagnostic.result : "O resultado aparece aqui, sem pedir cadastro."}
+          {completed && diagnostic.findings.length > 0 ? (
+            <ul className="mt-2 list-disc space-y-1 pl-4">
+              {diagnostic.findings.map((finding) => (
+                <li key={finding}>{finding}</li>
+              ))}
+            </ul>
+          ) : null}
+        </div>
+        <p className={styles.resultNote}>{completed ? MANAGEMENT_DIAGNOSTIC_NOTE : "Responda as cinco perguntas para liberar um primeiro diagnóstico."}</p>
       </div>
     </ToolWindow>
   );

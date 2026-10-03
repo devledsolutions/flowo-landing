@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { GrowthToolLanding } from "@/components/marketing/growth-tools/growth-tool-landing";
 import { GrowthToolSchema } from "@/components/marketing/growth-tools/growth-tool-schema";
-import { PlanSelector } from "@/components/marketing/growth-tools/business-tools";
+import { PlanSelector } from "@/components/marketing/growth-tools/plan-selector";
 import { buildMetadata } from "@/lib/seo";
 
 const PATH = "/qual-plano-flowo";
@@ -24,7 +24,7 @@ export default function PlanSelectorPage() {
         navCta: "Ver preços",
         kicker: "Escolha guiada para a rotina da barbearia",
         title: <>O plano certo começa pelo jeito que vocês trabalham.</>,
-        lead: "Responda três perguntas sobre equipe, número de WhatsApp e prioridade. A recomendação aparece na hora, sem cadastro.",
+        lead: "Responda três perguntas sobre equipe, unidades e prioridade. A recomendação aparece na hora, sem cadastro.",
         trust: ["Solo, Equipe ou Empresarial", "Sem cartão para descobrir", "Preços claros antes do cadastro"],
         tool: <PlanSelector />,
         problemLabel: "Preço sem contexto vira comparação rasa.",
@@ -35,7 +35,7 @@ export default function PlanSelectorPage() {
         sectionCopy: "Veja o que cada plano resolve. Fale com a gente se tiver uma exceção, mais de uma unidade ou uma regra própria.",
         steps: [
           { title: "Conte quem atende", copy: "Só quem vai usar a agenda de verdade, não quem só aparece no quadro." },
-          { title: "Explique o número", copy: "Todo mundo chega pelo mesmo WhatsApp ou cada barbeiro tem o seu?" },
+          { title: "Conte as unidades", copy: "Uma unidade é um endereço com atendimento. Mais de uma unidade já pede o Empresarial." },
           { title: "Escolha a primeira dor", copy: "Agenda, equipe ou caixa? Uma prioridade por vez ajuda a começar sem configurar demais." },
           { title: "Veja os detalhes", copy: "Compare o plano recomendado com os outros e tire dúvidas antes de contratar." },
         ],

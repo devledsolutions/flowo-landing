@@ -127,6 +127,13 @@ const sections: LegalSection[] = [
           configuração da conta. Também podemos compartilhar dados para cumprir
           lei, ordem válida, defender direitos ou lidar com incidente.
         </p>
+        <p>
+          Página pública da barbearia: quando a barbearia mantém sua página
+          pública ativa na Flowo, as avaliações dos clientes aparecem nela com a
+          nota, o comentário, a resposta da barbearia e o primeiro nome de quem
+          avaliou. Telefone, sobrenome e histórico de atendimentos não aparecem.
+          A barbearia pode ocultar uma avaliação.
+        </p>
         <p>Entre os principais operadores utilizados atualmente estão:</p>
         <ul>
           <li>
