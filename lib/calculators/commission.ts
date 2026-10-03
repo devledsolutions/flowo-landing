@@ -25,6 +25,17 @@ export type CommissionResult = {
   total: number;
 };
 
+/**
+ * Short pt-BR hint when a typed rate is outside 0 to 100, so the cap is never
+ * silent. Undefined when the rate is used as typed.
+ */
+export function commissionRateHint(value: number): string | undefined {
+  if (!Number.isFinite(value)) return undefined;
+  if (value > COMMISSION_RATE_MAX) return `O máximo é ${COMMISSION_RATE_MAX}%. A conta usa ${COMMISSION_RATE_MAX}%.`;
+  if (value < 0) return "O mínimo é 0%. A conta usa 0%.";
+  return undefined;
+}
+
 function positive(value: number): number {
   return Math.max(Number.isFinite(value) ? value : 0, 0);
 }

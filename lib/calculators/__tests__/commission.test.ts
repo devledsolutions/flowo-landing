@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { calculateCommission } from "../commission";
+import { calculateCommission, commissionRateHint } from "../commission";
 
 const defaults = {
   services: 8200,
@@ -42,5 +42,21 @@ describe("calculateCommission", () => {
       adjustments: -300,
     });
     expect(result.total).toBe(0);
+  });
+});
+
+describe("commissionRateHint", () => {
+  it("says when a rate above 100% is capped", () => {
+    expect(commissionRateHint(150)).toBe("O máximo é 100%. A conta usa 100%.");
+  });
+
+  it("says when a negative rate is raised to 0%", () => {
+    expect(commissionRateHint(-5)).toBe("O mínimo é 0%. A conta usa 0%.");
+  });
+
+  it("stays quiet for rates used as typed", () => {
+    expect(commissionRateHint(0)).toBeUndefined();
+    expect(commissionRateHint(45)).toBeUndefined();
+    expect(commissionRateHint(100)).toBeUndefined();
   });
 });

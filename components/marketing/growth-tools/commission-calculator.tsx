@@ -7,6 +7,7 @@ import {
   calculateCommission,
   COMMISSION_NOTE,
   COMMISSION_RATE_MAX,
+  commissionRateHint,
 } from "@/lib/calculators/commission";
 import {
   growthToolStyles as styles,
@@ -17,6 +18,15 @@ const brl = new Intl.NumberFormat("pt-BR", {
   style: "currency",
   currency: "BRL",
 });
+
+function RateHint({ id, value }: { id: string; value: number }) {
+  const hint = commissionRateHint(value);
+  return hint ? (
+    <span id={id} role="status" className="text-[0.66rem] font-normal leading-snug">
+      {hint}
+    </span>
+  ) : null;
+}
 
 export function CommissionCalculator() {
   const { track } = useSegment();
@@ -75,9 +85,11 @@ export function CommissionCalculator() {
             max={COMMISSION_RATE_MAX}
             step="0.5"
             inputMode="decimal"
+            aria-describedby={commissionRateHint(serviceRate) ? "commission-service-rate-hint" : undefined}
             value={serviceRate}
             onChange={(event) => setServiceRate(Number(event.target.value))}
           />
+          <RateHint id="commission-service-rate-hint" value={serviceRate} />
         </label>
         <label>
           Produtos vendidos (R$)
@@ -98,9 +110,11 @@ export function CommissionCalculator() {
             max={COMMISSION_RATE_MAX}
             step="0.5"
             inputMode="decimal"
+            aria-describedby={commissionRateHint(productRate) ? "commission-product-rate-hint" : undefined}
             value={productRate}
             onChange={(event) => setProductRate(Number(event.target.value))}
           />
+          <RateHint id="commission-product-rate-hint" value={productRate} />
         </label>
         <label className={styles.fullInput}>
           Descontos ou estornos que reduzem a base (R$)
