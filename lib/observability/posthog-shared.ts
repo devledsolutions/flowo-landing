@@ -86,12 +86,25 @@ export function buildLandingExceptionProperties(
   };
 }
 
+export function replayUrlWithoutSecrets(value: string): string {
+  try {
+    const url = new URL(value, "https://replay.invalid");
+    url.pathname = url.pathname.replace(
+      /\/(horario-disponivel|contratar|avaliar|lista-espera|assinatura)\/[^/]+/g,
+      "/$1/[token]",
+    );
+    return value.startsWith("/") ? url.pathname : url.origin + url.pathname;
+  } catch {
+    return "[invalid URL]";
+  }
+}
+
 export function sanitizeLandingPostHogEvent<T extends {
   event?: string;
   properties?: Record<string, unknown>;
   $set?: Record<string, unknown>;
   $set_once?: Record<string, unknown>;
-}>(event: T | null): T | null {
+}>(event: T | null, publicProjectKey?: string): T | null {
   if (!event) return event;
   const sanitizeProperties = (properties: Record<string, unknown> | undefined) => {
     const redacted = redactLandingTelemetry(properties);
@@ -101,15 +114,36 @@ export function sanitizeLandingPostHogEvent<T extends {
   };
 
   if (event.properties) {
-    const properties = sanitizeProperties(event.properties);
-    for (const key of ["$current_url", "$initial_current_url", "$session_entry_url"]) {
-      if (key in properties && typeof properties[key] === "string") {
-        try {
-          const url = new URL(properties[key] as string);
-          properties[key] = `${url.origin}${url.pathname}`;
-        } catch {
-          properties[key] = "[Redacted url]";
-        }
+    const source = event.properties;
+    const transport: Record<string, unknown> = {};
+    const details = { ...source };
+    // This is the public ingest key, not an application credential. Only the
+    // exact configured key is exempt; nested/private tokens remain redacted.
+    const trustedEnvelope = Boolean(publicProjectKey) && source.token === publicProjectKey;
+    if (trustedEnvelope) {
+      transport.token = source.token;
+      delete details.token;
+    }
+    for (const key of ["distinct_id", "$session_id", "$window_id", "$pageview_id"]) {
+      const value = source[key];
+      if (typeof value === "string" && /^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/i.test(value)) {
+        transport[key] = value;
+        delete details[key];
+      }
+    }
+    // rrweb and autocapture already apply the configured credential selectors.
+    // A generic exception scrubber changes tag names and truncates the DOM,
+    // making recordings unusable. Do not recursively rewrite these SDK blobs.
+    const sdkPayloadKey = event.event === "$snapshot" ? "$snapshot_data"
+      : event.event === "$autocapture" ? "$elements" : undefined;
+    if (trustedEnvelope && sdkPayloadKey && sdkPayloadKey in source) {
+      transport[sdkPayloadKey] = source[sdkPayloadKey];
+      delete details[sdkPayloadKey];
+    }
+    const properties = { ...sanitizeProperties(details), ...transport };
+    for (const key of ["$current_url", "$initial_current_url", "$session_entry_url", "$referrer", "$pathname", "$initial_pathname"]) {
+      if (typeof source[key] === "string" && source[key]) {
+        properties[key] = replayUrlWithoutSecrets(source[key]);
       }
     }
     event.properties = properties;

@@ -296,6 +296,9 @@ export function clearConsent(): void {
       });
     }
 
+    window.dispatchEvent(new CustomEvent('consent-updated', {
+      detail: { necessary: true, analytics: false, marketing: false },
+    }));
     console.info('[Consent] User consent withdrawn');
   } catch (error) {
     console.error('[Consent] Error clearing consent:', error);
