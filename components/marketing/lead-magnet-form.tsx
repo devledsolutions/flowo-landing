@@ -30,7 +30,7 @@ const DEFAULT_CONFIG: LeadMagnetConfig = {
   submitLabel: "Baixar meu Raio-X da Agenda",
   successTitle: "Seu Raio-X da Agenda está pronto.",
   successDescription:
-    "O download está disponível agora. Também enviamos uma cópia do link para o e-mail informado.",
+    "O download está disponível agora. Solicitamos também o envio do link para o e-mail informado; a entrega ainda será processada.",
   productCtaLabel: "Conhecer a IA que responde “tem horário?”",
   productCtaHref: "/recepcionista-ia-barbearia",
 };
