@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { authRedirects } from "./lib/auth-redirects";
 
 const blocksSearchIndexing =
   process.env.NEXT_PUBLIC_DEPLOYMENT_ENVIRONMENT !== "production";
@@ -19,6 +20,9 @@ const nextConfig: NextConfig = {
         hostname: "images.unsplash.com",
       },
     ],
+  },
+  async redirects() {
+    return authRedirects(process.env.NEXT_PUBLIC_APP_URL);
   },
   async headers() {
     return [
