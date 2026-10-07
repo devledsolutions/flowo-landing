@@ -8,8 +8,8 @@ O site usa o workspace **Flowo** e a fonte **Flowo Website** do Segment como
 camada única de eventos. A URL cadastrada na fonte é
 `https://www.flowo.com.br`. Não carregar outro SDK de analytics diretamente nas
 páginas. Os eventos consentidos são distribuídos pelo Segment ao PostHog
-(análise de produto e conversão) e ao AWS S3 (arquivo), sem adicionar esses SDKs
-ao JavaScript do site.
+(análise de produto e conversão), sem adicionar esse SDK ao JavaScript do site.
+O arquivo em AWS S3 foi desativado em 07/10/2026.
 
 Eventos só são enviados depois do consentimento de analytics. Nenhum evento
 abaixo contém nome, e-mail, telefone ou outra informação pessoal.
@@ -37,7 +37,7 @@ aplicação é, portanto, responsável por impedir o carregamento do Analytics.j
 até que o visitante autorize cookies analíticos. Destinos de publicidade não
 recebem a fonte inteira. Meta, Google Ads e TikTok usam loaders dedicados,
 carregados somente com consentimento de marketing. O Segment distribui a fonte
-do site apenas para PostHog e S3; Pixel e Conversions API do TikTok não podem
+do site apenas para o PostHog; Pixel e Conversions API do TikTok não podem
 ser destinos dessa fonte, pois consentimento analítico não autoriza
 publicidade.
 
