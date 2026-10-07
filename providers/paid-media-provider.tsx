@@ -59,7 +59,11 @@ const TIKTOK_SCRIPT_ID = "flowo-tiktok-pixel";
 function ensureGtag(): NonNullable<Window["gtag"]> {
   window.dataLayer = window.dataLayer || [];
   if (!window.gtag) {
-    window.gtag = (...args: unknown[]) => window.dataLayer?.push(args);
+    // gtag.js only processes Arguments objects, not arrays.
+    window.gtag = function gtag() {
+      // eslint-disable-next-line prefer-rest-params
+      window.dataLayer?.push(arguments as unknown as unknown[]);
+    };
   }
   return window.gtag;
 }
