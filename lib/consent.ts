@@ -108,9 +108,11 @@ export function initializeDefaultConsent(): void {
   // Initialize dataLayer if it doesn't exist
   window.dataLayer = window.dataLayer || [];
 
-  // Define gtag function
-  window.gtag = function(...args: unknown[]) {
-    window.dataLayer?.push(args);
+  // gtag.js only processes Arguments objects; arrays pushed through rest
+  // parameters are ignored, which dropped consent updates and configs.
+  window.gtag = function gtag() {
+    // eslint-disable-next-line prefer-rest-params
+    window.dataLayer?.push(arguments as unknown as unknown[]);
   };
 
   // Set default consent to denied (LGPD requirement)
