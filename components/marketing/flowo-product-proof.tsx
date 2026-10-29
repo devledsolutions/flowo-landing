@@ -67,7 +67,7 @@ const deliveryLayers = [
     label: "Conforme plano e operação",
     detail: "Depende do plano",
     tone: "bg-surface-2",
-    items: ["Comissões no Empresarial", "Fiscal com ativação assistida"],
+    items: ["Comissões no Equipe e no Empresarial", "Fiscal com ativação assistida"],
   },
 ] as const;
 

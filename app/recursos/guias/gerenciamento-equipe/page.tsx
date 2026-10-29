@@ -197,7 +197,7 @@ export default function TeamManagementGuidePage() {
 
             <GuideSection id="comissoes" icon={Wallet} title="Comissões: plano e limites de hoje">
               <p>
-                No plano Empresarial, com o módulo ligado, a Flowo credita a comissão do barbeiro
+                Nos planos Equipe e Empresarial, a Flowo credita a comissão do barbeiro
                 quando a comanda é paga. O responsável define a porcentagem e a chave PIX.
               </p>
               <GuideScopeNote status="conditional" title="Crédito automático não é repasse automático">
@@ -205,8 +205,9 @@ export default function TeamManagementGuidePage() {
                 feito por um responsável e depende de saldo disponível na conta da barbearia.
               </GuideScopeNote>
               <GuideCallout title="Resumo">
-                Equipe organiza barbeiros, serviços e horários. Empresarial soma a comissão
-                quando ligada. Nenhum plano faz repasse semanal automático.
+                Equipe e Empresarial organizam barbeiros, serviços, horários e comissão. O Solo
+                não tem comissão, porque atende um profissional. Nenhum plano faz repasse semanal
+                automático.
               </GuideCallout>
             </GuideSection>
           </GuideContent>

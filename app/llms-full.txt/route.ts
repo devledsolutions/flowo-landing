@@ -74,7 +74,7 @@ O WhatsApp é a recepção do Flowo; o painel é a central de supervisão. A pro
 Página comercial canônica: ${SITE_URL}/recepcionista-ia-barbearia
 
 Página de intenção "software para barbearia": ${SITE_URL}/software-para-barbearia
-Resumo: software de gestão para barbearias com atendimento no WhatsApp, agenda por profissional, clientes, comandas e recebimento opcional. O Flowo atende a operação solo e equipes de até cinco profissionais nos planos públicos.
+Resumo: software de gestão para barbearias com atendimento no WhatsApp, agenda por profissional, clientes, comandas e recebimento opcional. O Flowo atende a operação solo e equipes de até três profissionais na agenda nos planos públicos.
 
 ## O que a Flowo já mostrou funcionando
 
@@ -101,7 +101,7 @@ dados de teste; ainda não há resultado medido nelas.
 
 ${plans}
 
-Matriz comercial: Solo atende 1 profissional e até 200 agendamentos por mês; inclui cancelamento no WhatsApp e suporte por e-mail, mas não inclui remarcação no WhatsApp nem calendários externos. Equipe atende até 5 profissionais em 1 unidade, com agendamentos ilimitados, remarcação no WhatsApp, calendários externos e suporte por e-mail e WhatsApp. Empresarial é assistido, atende operações maiores ou com várias unidades e inclui suporte por e-mail, WhatsApp e telefone.
+Matriz comercial: Solo atende 1 profissional e até 200 agendamentos por mês; inclui cancelamento no WhatsApp e suporte por e-mail, mas não inclui remarcação no WhatsApp nem calendários externos. Equipe atende até 3 profissionais na agenda em 1 unidade, com comissão da equipe, agendamentos ilimitados, remarcação no WhatsApp, calendários externos e suporte por e-mail e WhatsApp. Empresarial é assistido, atende operações maiores ou com várias unidades e inclui suporte por e-mail, WhatsApp e telefone.
 
 No calendário, o Google sincroniza nos dois sentidos. Apple e Outlook recebem os compromissos criados ou alterados na Flowo.
 

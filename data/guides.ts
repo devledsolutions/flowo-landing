@@ -73,7 +73,7 @@ export const GUIDES: GuideEntry[] = [
       "Cadastre profissionais, serviços, horários e folgas e entenda como funcionam disponibilidade e comissões.",
     readTime: "11 min",
     category: "Equipe",
-    topics: ["Agendas individuais", "Folgas", "Comissões no Empresarial"],
+    topics: ["Agendas individuais", "Folgas", "Comissões no Equipe e no Empresarial"],
     group: "operacao",
     icon: "users",
     publishedTime: "2024-12-16T22:06:44.000Z",

@@ -159,11 +159,11 @@ export const PRODUCT_CAPABILITIES: Record<
     id: "commissions",
     path: "/recursos/comissoes-barbeiros",
     breadcrumb: "Comissões de barbeiros",
-    eyebrow: "Gestão no Empresarial",
+    eyebrow: "Gestão no Equipe e no Empresarial",
     title: "Comissão calculada. Repasse sob seu controle.",
     description:
       "Depois que o atendimento é pago, o Flowo atualiza o saldo de comissão. O responsável confere os valores e inicia o repasse por PIX.",
-    statusLabel: "Plano Empresarial",
+    statusLabel: "Planos Equipe e Empresarial",
     statusDetail:
       "O cálculo depende da configuração da equipe. O repasse não acontece sozinho: o gestor revisa e inicia a transferência.",
     seoTitle: "Comissão de Barbeiros: Cálculo e Repasse por PIX",
@@ -190,7 +190,7 @@ export const PRODUCT_CAPABILITIES: Record<
       },
     ],
     safeguards: [
-      "Disponível no Empresarial quando habilitado",
+      "Disponível nos planos Equipe e Empresarial",
       "Cálculo ligado a comandas pagas",
       "Saldo separado por profissional",
       "Repasse iniciado pelo gestor",
@@ -210,9 +210,9 @@ export const PRODUCT_CAPABILITIES: Record<
       },
       {
         href: "/precos",
-        label: "Conhecer o Empresarial",
+        label: "Ver os planos",
         description:
-          "Compare limites, unidades e recursos disponíveis para operações maiores.",
+          "Compare limites, unidades e recursos de cada plano.",
       },
     ],
   },

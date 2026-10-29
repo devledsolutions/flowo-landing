@@ -28,7 +28,7 @@ const faqs = [
   {
     question: "O Flowo controla comissões?",
     answer:
-      "Sim, no plano Empresarial. O gestor revisa a comissão de cada barbeiro a partir das comandas fechadas e inicia o repasse.",
+      "Sim, nos planos Equipe e Empresarial. O gestor revisa a comissão de cada barbeiro a partir das comandas fechadas e inicia o repasse.",
   },
 ];
 

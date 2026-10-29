@@ -74,7 +74,8 @@ export const PLANS: readonly Plan[] = [
     annualPerMonth: 658,
     isPopular: true,
     features: [
-      'Até 5 profissionais',
+      'Até 3 profissionais na agenda',
+      'Comissão da equipe calculada na comanda',
       'Agendamentos ilimitados',
       'IA no WhatsApp: atende, agenda e confirma',
       'Cancelamento e remarcação pelo WhatsApp',
@@ -93,6 +94,7 @@ export const PLANS: readonly Plan[] = [
     consultationLabel: 'Sob consulta',
     features: [
       'Profissionais ilimitados',
+      'Comissão da equipe calculada na comanda',
       'Múltiplas unidades',
       'Agendamentos ilimitados',
       'IA no WhatsApp: atende, agenda e confirma',

@@ -27,7 +27,7 @@ const optionalCapabilities = [
   },
   {
     icon: Users,
-    status: "Empresarial",
+    status: "Equipe e Empresarial",
     title: "Comissões",
     description:
       "Cálculo após comandas pagas e repasse por PIX iniciado pelo gestor.",

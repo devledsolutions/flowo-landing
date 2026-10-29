@@ -12,7 +12,7 @@ const expect = (condition, message) => {
   if (!condition) errors.push(message);
 };
 
-expect(contract.version === "2026-08-29.1", "contract version is stale");
+expect(contract.version === "2026-10-29.1", "contract version is stale");
 expect(contract.positioning.headline.includes("tem horário hoje?"), "positioning headline drifted");
 expect(contract.trial.durationDays === 14, "trial duration must remain 14 days");
 expect(contract.trial.requiresCard === false, "assisted trial must not require a card");

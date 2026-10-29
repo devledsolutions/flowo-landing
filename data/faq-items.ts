@@ -27,7 +27,7 @@ export const faqItems: FAQItem[] = [
   },
   {
     question: "Serve para barbeiro solo ou só para barbearias grandes?",
-    answer: "Serve para os dois. O Solo atende um profissional. O Equipe organiza até cinco profissionais em uma unidade, com horários individuais. O Empresarial é contratado com a equipe Flowo para operações maiores ou com várias unidades.",
+    answer: "Serve para os dois. O Solo atende um profissional. O Equipe organiza até três profissionais na agenda em uma unidade, com horários individuais e comissão. O Empresarial é contratado com a equipe Flowo para operações maiores ou com várias unidades.",
     category: "Planos"
   },
   {

@@ -7,14 +7,14 @@ describe("recommendPlan (same rule as the app's recommendTier)", () => {
   it.each([
     [1, 1, "solo"],
     [2, 1, "equipe"],
-    [5, 1, "equipe"],
-    [6, 1, "empresarial"],
+    [3, 1, "equipe"],
+    [4, 1, "empresarial"],
     [1, 2, "empresarial"],
     [3, 2, "empresarial"],
     [0, 1, "solo"],
     [Number.NaN, Number.NaN, "solo"],
-    [5.9, 1, "equipe"],
-    [6.1, 1, "empresarial"],
+    [3.9, 1, "equipe"],
+    [4.1, 1, "empresarial"],
   ] as const)("%s professionals, %s units -> %s", (pros, units, plan) => {
     expect(recommendPlan(pros, units)).toBe(plan);
   });
