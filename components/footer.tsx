@@ -5,6 +5,7 @@ import { CookiePreferencesButton } from "@/components/cookie-preferences-button"
 import { LEGAL_ENTITY } from "@/lib/legal-identity";
 import { NewsletterSignup } from "@/components/newsletter-signup";
 import { SIGNUP_URL } from "@/components/cta-links";
+import { StoreBadges } from "@/components/store-badges";
 import { cn } from "@/lib/utils";
 import { PUBLIC_ENVIRONMENT } from "@/lib/environment";
 
@@ -153,6 +154,7 @@ export default function Footer({ compact = false }: { compact?: boolean }) {
                   </a>
                 </li>
               </ul>
+              <StoreBadges page="footer" placement="footer" size="small" className="mt-6 justify-center lg:justify-start" />
             </div>
 
             <nav aria-label="Produto" className="lg:pt-4">
@@ -218,6 +220,7 @@ export default function Footer({ compact = false }: { compact?: boolean }) {
                 </a>
               </li>
             </ul>
+            <StoreBadges page="footer" placement="footer" size="small" className="mt-6" />
           </div>
 
           <nav aria-label="Produto">

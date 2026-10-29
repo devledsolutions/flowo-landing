@@ -110,7 +110,7 @@ const coreCapabilities = [
     icon: Smartphone,
     title: "Aplicativo para a equipe",
     description:
-      "A experiência móvel para barbeiros e gestores está em preparação.",
+      "Agenda, comandas e conversas no celular, no app para iPhone e Android.",
   },
 ] as const;
 

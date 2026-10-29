@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 const navItems = [
   { name: "Como funciona", href: "/sistema-agendamento-barbearia" },
   { name: "Demonstração", href: "/demonstracao-agendamento-whatsapp" },
+  { name: "App", href: "/aplicativo-para-barbeiros" },
   { name: "Preços", href: "/precos" },
 ];
 

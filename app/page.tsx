@@ -5,6 +5,7 @@ import Hero from "@/components/hero";
 // import Hero from "@/components/home/hero-fora-exact";
 import ProductStory from "@/components/home/product-story";
 import OptionalOperations from "@/components/home/optional-operations";
+import AppBand from "@/components/home/app-band";
 import SwitchingReassurance from "@/components/home/switching-reassurance";
 import ScenarioSelector from "@/components/home/scenario-selector";
 import HomePricingSection from "@/components/home-pricing-section";
@@ -32,6 +33,7 @@ export default function Home() {
         <ValidatedProof />
         <ProductStory />
         <OptionalOperations />
+        <AppBand />
         <SwitchingReassurance />
         <ScenarioSelector />
         <section id="precos" className="section-normal scroll-mt-24">

@@ -260,7 +260,7 @@ export default function ResourcesPage() {
             name: "Aplicativo para Barbeiros",
             path: "/aplicativo-para-barbeiros",
             description:
-              "Aplicativo em preparação para agenda, presenças, clientes e comandas da equipe.",
+              "App para iPhone e Android com agenda, presenças, clientes e comandas da equipe.",
           },
           {
             name: "Nota Fiscal para Barbearias",
