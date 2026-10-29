@@ -164,7 +164,7 @@ const productResources = [
   },
   {
     icon: Smartphone,
-    label: "Em preparação",
+    label: "iPhone e Android",
     title: "Aplicativo para a equipe",
     description:
       "Agenda, presenças, clientes e comandas no celular de barbeiros e gestores.",

@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { Check } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
+import { TrackedLink } from "@/components/analytics/tracked-link";
 import { ParallaxPlanes } from "@/components/home/parallax-planes";
 import { PhoneFrame } from "@/components/home/phone-frame";
 import { WhatsAppChat } from "@/components/home/whatsapp-chat";
@@ -91,9 +92,16 @@ export default function Hero() {
 
       <div className="relative mx-auto w-full max-w-[1080px] px-6 text-center lg:px-0">
         <div className={`${APPEAR} mt-[121px] flex justify-center lg:mt-[161px]`}>
-          <span className="inline-flex items-center rounded-full border border-ink/15 bg-ink/5 px-3 py-1 text-caption font-medium text-muted-ink">
-            WhatsApp conectado à agenda
-          </span>
+          <TrackedLink
+            href="/aplicativo-para-barbeiros"
+            event="CTA Clicked"
+            properties={{ page: "/", placement: "hero_app_pill", destination: "app_page", intent: "app_download" }}
+            className="inline-flex min-h-9 items-center gap-2 rounded-full border border-ink/15 bg-ink/5 py-1 pl-1 pr-3 text-caption font-medium text-muted-ink transition-colors hover:bg-ink/10 hover:text-ink"
+          >
+            <span className="rounded-full bg-ink px-2 py-0.5 font-semibold text-cream">Novo</span>
+            App para iPhone e Android
+            <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+          </TrackedLink>
         </div>
         <h1
           className={`${APPEAR} motion-safe:delay-[80ms] mx-auto mt-6 max-w-[640px] text-[36px] leading-[1.12] tracking-[-0.04em] text-ink-strong lg:text-[56px]`}

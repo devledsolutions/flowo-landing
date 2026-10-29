@@ -27,8 +27,9 @@ equipe, comandas, relacionamento e formas de recebimento. Pagamentos integrados
 são opcionais e acontecem depois do serviço.
 
 O aplicativo para barbeiros e gestores estende a rotina operacional ao celular.
-Enquanto não houver lançamento público nas lojas, ele deve ser apresentado como
-produto em preparação, nunca como aplicativo já disponível.
+Ele está na App Store e no Google Play. Apresente-o como disponível, com os
+selos oficiais e os links das lojas, sem prometer datas, recursos futuros ou uso
+medido que ainda não existe.
 
 ## Personalidade
 
