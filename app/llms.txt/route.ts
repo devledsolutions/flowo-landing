@@ -78,7 +78,7 @@ ${planLines}
 
 ## Add-ons e acesso acompanhado
 - [Flowo Recupera](${SITE_URL}/flowo-recupera): add-on em beta acompanhado para identificar oportunidades de retorno; resultados passam por revisão humana, consentimento e fechamento real da comanda.
-- [Aplicativo para barbeiros](${SITE_URL}/aplicativo-para-barbeiros): app para iPhone e Android, em preparação. Já tem agenda, presenças, comandas, clientes, conversas, equipe, serviços, produtos, estoque, financeiro, métricas, campanhas e configurações. O acesso varia por plano, função, permissão e ativação; ainda não está nas lojas.
+- [Aplicativo para barbeiros](${SITE_URL}/aplicativo-para-barbeiros): app para iPhone (App Store) e Android (Google Play), grátis para baixar, com a mesma conta do painel. Tem agenda, presenças, comandas, clientes, conversas, equipe, serviços, produtos, estoque, financeiro, métricas, campanhas e configurações. O acesso varia por plano, função, permissão e ativação.
 
 ## Comparative pages
 - [Hub de comparações](${SITE_URL}/comparar)

@@ -300,7 +300,7 @@ export default function SoftwareParaBarbeariaPage() {
             {
               href: "/aplicativo-para-barbeiros",
               label: "Aplicativo para a equipe",
-              description: "Agenda e comandas no celular. Em preparação para iPhone e Android.",
+              description: "Agenda e comandas no celular, no app para iPhone e Android.",
             },
           ]}
         />

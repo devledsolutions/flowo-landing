@@ -93,14 +93,12 @@ O clique em “Tirar dúvidas” é identificado por
 microconversão, não um lead confirmado. O lead só deve ser confirmado quando o
 formulário for aceito ou quando uma mensagem realmente chegar ao WhatsApp.
 
-### Lista de interesse do aplicativo
+### Download do aplicativo
 
-| Evento | Momento |
-| --- | --- |
-| `App Waitlist Viewed` | formulário montado na página |
-| `App Waitlist Started` | primeiro foco em um campo |
-| `App Waitlist Submitted` | API confirmou o cadastro |
-| `App Waitlist Failed` | erro HTTP ou de rede |
+A lista de interesse saiu do site em 29/10/2026, quando o app chegou às lojas.
+Os eventos `App Waitlist *` ficam só no histórico. Os selos usam `CTA Clicked`
+com `intent=app_download` e `destination=app_store` ou `google_play`. O aviso
+"Novo" no topo da home usa `placement=hero_app_pill` e leva à página do app.
 
 ### Contato comercial
 
@@ -248,8 +246,8 @@ honeypot e limites distribuídos permanecem ativos no caminho principal.
 
 1. Home: `CTA Clicked` com `intent=see_product` → `compare_plans` →
    `start_plan` ou `start_now`.
-2. Aplicativo: `learn_about_app` → `App Waitlist Viewed` →
-   `App Waitlist Started` → `App Waitlist Submitted`.
+2. Aplicativo: `CTA Clicked` com `intent=app_download` (selo da App Store ou do
+   Google Play). A instalação acontece na loja e não é medida pelo site.
 3. Venda assistida: `ask_question` ou abertura do formulário →
    `Lead Form Succeeded`.
 4. Aquisição até ativação: `CTA Clicked` com

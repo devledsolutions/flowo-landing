@@ -164,7 +164,7 @@ const productResources = [
   },
   {
     icon: Smartphone,
-    label: "Em preparação",
+    label: "iPhone e Android",
     title: "Aplicativo para a equipe",
     description:
       "Agenda, presenças, clientes e comandas no celular de barbeiros e gestores.",
@@ -260,7 +260,7 @@ export default function ResourcesPage() {
             name: "Aplicativo para Barbeiros",
             path: "/aplicativo-para-barbeiros",
             description:
-              "Aplicativo em preparação para agenda, presenças, clientes e comandas da equipe.",
+              "App para iPhone e Android com agenda, presenças, clientes e comandas da equipe.",
           },
           {
             name: "Nota Fiscal para Barbearias",

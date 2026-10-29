@@ -1,11 +1,11 @@
 import Link from "next/link";
 import {
-  ArrowDown,
-  ArrowRight,
   BarChart3,
   CalendarDays,
   Check,
   ClipboardCheck,
+  Download,
+  KeyRound,
   MessageCircleMore,
   ReceiptText,
   Settings,
@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
-import { MobileAppWaitlistForm } from "@/components/mobile-app-waitlist-form";
+import { StoreBadges, APP_STORE_URL, GOOGLE_PLAY_URL } from "@/components/store-badges";
 import { TrackedLink } from "@/components/analytics/tracked-link";
 import { PhoneFrame } from "@/components/home/phone-frame";
 import { ProductDisclaimer } from "@/components/home/product-previews";
@@ -26,15 +26,25 @@ const PATH = "/aplicativo-para-barbeiros";
 export const metadata = buildMetadata({
   title: "Aplicativo para Barbearia: Agenda, Clientes e Gestão",
   description:
-    "O app da Flowo para barbeiros e gestores: agenda, comandas, clientes, conversas e financeiro no celular. Em preparação para iPhone e Android.",
+    "O app da Flowo para barbeiros e gestores: agenda, comandas, clientes, conversas e financeiro no celular. Grátis para baixar no iPhone e no Android.",
   path: PATH,
 });
 
 const faqItems = [
   {
-    question: "O app já está nas lojas?",
+    question: "Onde baixo o app?",
     answer:
-      "Ainda não. O app está construído, mas ainda não foi publicado para iPhone e Android. Não temos data. A lista de interesse avisa quando sair.",
+      "Na App Store, para iPhone, e no Google Play, para Android. Procure por Flowo ou use os botões desta página. Baixar é grátis.",
+  },
+  {
+    question: "Preciso criar outra conta?",
+    answer:
+      "Não. Entre com Apple, Google ou o código que chega no seu e-mail. A conta, a agenda e os clientes são os mesmos do painel web.",
+  },
+  {
+    question: "O barbeiro também usa o app?",
+    answer:
+      "Sim. Convide cada pessoa pelo app ou pelo painel. Com o perfil Barbeiro, ela vê a agenda, as comandas e os próprios acertos. Dono, gerente e financeiro veem só o que a função permite.",
   },
   {
     question: "O que já existe no app?",
@@ -42,8 +52,9 @@ const faqItems = [
       "Agenda, presenças, comandas, clientes, conversas, lista de espera, serviços, produtos, estoque, pacotes, equipe, horários, comissões, financeiro, métricas, campanhas e configurações. O que cada pessoa vê depende do plano e da função.",
   },
   {
-    question: "Todo mundo da equipe vê a mesma coisa?",
-    answer: "Não. Dono, gerente, financeiro e barbeiro veem só o que a função permite.",
+    question: "O cliente precisa baixar o app?",
+    answer:
+      "Não. O app é para a barbearia. O cliente marca pelo WhatsApp, com a Bia, ou pela página de agendamento.",
   },
   {
     question: "Preciso receber pela Flowo?",
@@ -51,9 +62,27 @@ const faqItems = [
       "Não. Dinheiro e maquininha própria continuam valendo. PIX e cartão Flowo são opcionais e usados depois do atendimento.",
   },
   {
-    question: "Preciso esperar o app para usar a Flowo?",
+    question: "O painel web continua?",
     answer:
-      "Não. O painel web e o atendimento no WhatsApp já funcionam hoje. O app vai usar a mesma agenda e os mesmos clientes. O painel continua existindo.",
+      "Sim. O app e o painel usam a mesma agenda e os mesmos clientes. Use o que for mais prático em cada momento.",
+  },
+] as const;
+
+const startSteps = [
+  {
+    title: "Baixe o app",
+    description: "Na App Store ou no Google Play. É grátis.",
+    icon: Download,
+  },
+  {
+    title: "Entre com a sua conta",
+    description: "Apple, Google ou código por e-mail. A mesma conta do painel.",
+    icon: KeyRound,
+  },
+  {
+    title: "Chame a equipe",
+    description: "Convide cada barbeiro. Cada um entra pelo convite e já vê a própria agenda.",
+    icon: UsersRound,
   },
 ] as const;
 
@@ -141,10 +170,10 @@ const pageLd = {
   "@type": "WebPage",
   name: "Aplicativo Flowo para barbeiros e gestores",
   description:
-    "O app da Flowo para a rotina da barbearia no celular: agenda, comandas, clientes, conversas e financeiro. Em preparação para iPhone e Android.",
+    "O app da Flowo para a rotina da barbearia no celular: agenda, comandas, clientes, conversas e financeiro. Disponível para iPhone e Android.",
   url: absoluteUrl(PATH),
   inLanguage: "pt-BR",
-  dateModified: "2026-09-03",
+  dateModified: "2026-10-29",
   isPartOf: {
     "@type": "WebSite",
     name: "Flowo",
@@ -155,6 +184,8 @@ const pageLd = {
     name: "Flowo",
     applicationCategory: "BusinessApplication",
     operatingSystem: "iOS, Android",
+    downloadUrl: [APP_STORE_URL, GOOGLE_PLAY_URL],
+    offers: { "@type": "Offer", price: "0", priceCurrency: "BRL" },
   },
 };
 
@@ -179,44 +210,15 @@ export default function MobileAppPage() {
             <div>
               <p className="inline-flex min-h-9 items-center gap-2 border-y border-line py-2 text-caption font-semibold text-muted-ink">
                 <Smartphone className="h-4 w-4" aria-hidden="true" />
-                Em preparação para iPhone e Android
+                Disponível para iPhone e Android
               </p>
               <h1 className="mt-7 max-w-[12ch] text-display font-semibold leading-[1.02] tracking-[-0.04em] text-ink-strong">
                 A barbearia no seu bolso.
               </h1>
               <p className="mt-6 max-w-xl text-lead text-muted-ink">
-                Agenda, comandas, clientes e conversas no app da Flowo. O mesmo painel, na mão do barbeiro.
+                Agenda, comandas, clientes e conversas no app da Flowo. A mesma conta do painel, na mão do barbeiro.
               </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <TrackedLink
-                  href="#lista-de-interesse"
-                  event="CTA Clicked"
-                  properties={{
-                    page: PATH,
-                    placement: "hero",
-                    destination: "app_waitlist",
-                    intent: "app_launch_interest",
-                  }}
-                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-ink px-7 text-label font-semibold text-cream transition-colors hover:bg-ink/90"
-                >
-                  Entrar na lista
-                  <ArrowDown className="h-4 w-4" aria-hidden="true" />
-                </TrackedLink>
-                <TrackedLink
-                  href={SIGNUP_URL}
-                  event="CTA Clicked"
-                  properties={{
-                    page: PATH,
-                    placement: "hero",
-                    destination: "dashboard_signup",
-                    intent: "start_now",
-                  }}
-                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-line bg-surface/80 px-7 text-label font-semibold text-ink transition-colors hover:bg-surface"
-                >
-                  Usar o painel agora
-                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                </TrackedLink>
-              </div>
+              <StoreBadges page={PATH} placement="hero" className="mt-8" />
             </div>
 
             <div>
@@ -246,21 +248,31 @@ export default function MobileAppPage() {
         </section>
 
         <section
-          id="lista-de-interesse"
-          aria-labelledby="lista-de-interesse-title"
+          id="como-comecar"
+          aria-labelledby="como-comecar-title"
           className="scroll-mt-24 border-b border-line bg-surface-2"
         >
           <div className="container-page grid gap-8 py-12 lg:grid-cols-[0.72fr_1.28fr] lg:items-start lg:gap-16 lg:py-16">
             <div>
-              <p className="text-label font-semibold text-muted-ink">Lista de interesse do aplicativo</p>
-              <h2 id="lista-de-interesse-title" className="mt-4 text-h3 font-semibold text-ink">
-                Receba o aviso do lançamento.
+              <p className="text-label font-semibold text-muted-ink">Como começar</p>
+              <h2 id="como-comecar-title" className="mt-4 text-h3 font-semibold text-ink">
+                Três passos, no seu celular.
               </h2>
-              <p className="mt-4 text-body text-muted-ink">
-                Cadastro curto. A gente avisa quando o app sair. Sem prometer data.
-              </p>
             </div>
-            <MobileAppWaitlistForm />
+            <ol className="divide-y divide-line border-y border-line">
+              {startSteps.map((step, index) => (
+                <li key={step.title} className="flex gap-4 py-5">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-line bg-surface">
+                    <step.icon className="h-5 w-5" aria-hidden="true" />
+                  </span>
+                  <div>
+                    <p className="text-caption text-faint-ink">0{index + 1}</p>
+                    <h3 className="font-semibold text-ink">{step.title}</h3>
+                    <p className="mt-1 text-body text-muted-ink">{step.description}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
           </div>
         </section>
 
@@ -365,10 +377,10 @@ export default function MobileAppPage() {
         <section className="border-b border-line py-8 md:py-10">
           <div className="container-page">
             <p className="max-w-measure text-label text-muted-ink">
-              <strong className="font-semibold text-ink">O que já dá para afirmar.</strong> O app está
-              construído e ainda não foi publicado nas lojas. Não prometemos data. As telas desta página são do
-              app de verdade, com dados ilustrativos. Ainda não medimos o uso do app em barbearias clientes.
-              Hoje, a entrada na Flowo é o painel web com o atendimento no WhatsApp.{" "}
+              <strong className="font-semibold text-ink">O que já dá para afirmar.</strong> O app está na App
+              Store e no Google Play. As telas desta página são do app de verdade, com dados ilustrativos. Ainda
+              não medimos o uso do app em barbearias clientes. O atendimento no WhatsApp funciona igual com ou
+              sem o app.{" "}
               <Link href="/demonstracao-agendamento-whatsapp" className="font-medium text-ink underline underline-offset-4">
                 Ver o atendimento funcionando
               </Link>
@@ -382,26 +394,27 @@ export default function MobileAppPage() {
             <div>
               <p className="flex items-center gap-2 text-label font-semibold text-ink">
                 <Check className="h-4 w-4" aria-hidden="true" />
-                Não precisa esperar o app.
+                Baixe agora e use hoje.
               </p>
               <p className="mt-2 max-w-2xl text-body text-muted-ink">
-                O painel web e o atendimento no WhatsApp já funcionam hoje. O app vai usar a mesma agenda.
+                O app, o painel web e o atendimento no WhatsApp usam a mesma agenda. Prefere o computador?{" "}
+                <TrackedLink
+                  href={SIGNUP_URL}
+                  event="CTA Clicked"
+                  properties={{
+                    page: PATH,
+                    placement: "closing",
+                    destination: "dashboard_signup",
+                    intent: "start_now",
+                  }}
+                  className="font-semibold text-ink underline underline-offset-4"
+                >
+                  Use o painel web
+                </TrackedLink>
+                .
               </p>
             </div>
-            <TrackedLink
-              href={SIGNUP_URL}
-              event="CTA Clicked"
-              properties={{
-                page: PATH,
-                placement: "closing",
-                destination: "dashboard_signup",
-                intent: "start_now",
-              }}
-              className="inline-flex min-h-12 shrink-0 items-center justify-center gap-2 rounded-full bg-ink px-7 text-label font-semibold text-cream transition-colors hover:bg-ink/90"
-            >
-              Começar pelo painel web
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </TrackedLink>
+            <StoreBadges page={PATH} placement="closing" className="shrink-0" />
           </div>
         </section>
       </main>

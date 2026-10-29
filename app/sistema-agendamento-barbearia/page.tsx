@@ -132,7 +132,7 @@ const faqItems = [
   {
     question: "O cliente precisa baixar aplicativo para agendar?",
     answer:
-      "Não. O cliente agenda no WhatsApp da barbearia. A equipe usa o painel da Flowo. O app para barbeiros ainda está em preparação para as lojas.",
+      "Não. O cliente agenda no WhatsApp da barbearia. A equipe usa o painel da Flowo ou o app para iPhone e Android.",
   },
   {
     question: "O pagamento pela Flowo é obrigatório?",

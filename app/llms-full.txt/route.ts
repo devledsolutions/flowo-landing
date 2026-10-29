@@ -115,7 +115,8 @@ URL canônica: ${SITE_URL}/flowo-recupera
 
 ## Aplicativo para barbeiros
 
-O aplicativo Flowo está em preparação para iPhone e Android. A proposta é
+O aplicativo Flowo está disponível para iPhone, na App Store, e para Android,
+no Google Play. Baixar é grátis e a conta é a mesma do painel web. A proposta é
 complementar o painel web na rotina móvel de barbeiros, gestores e donos. O
 app já inclui onboarding, agenda, presenças, lista de
 espera, comandas, clientes, conversas, notificações, serviços, produtos,
@@ -124,8 +125,11 @@ financeiro, métricas, campanhas, assinatura e configurações.
 
 Nem toda pessoa vê todas as áreas: o acesso depende do plano, do papel, das
 permissões e da ativação de recursos opcionais. Recebimentos integrados não são
-obrigatórios. O aplicativo ainda não está disponível nas lojas e não há data
-pública de lançamento.
+obrigatórios. O cliente da barbearia não precisa baixar o app: ele marca pelo
+WhatsApp ou pela página de agendamento.
+
+- App Store: https://apps.apple.com/br/app/flowo/id6795006925
+- Google Play: https://play.google.com/store/apps/details?id=app.flowo.mobile
 
 URL canônica: ${SITE_URL}/aplicativo-para-barbeiros
 
