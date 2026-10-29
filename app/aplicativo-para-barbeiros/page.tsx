@@ -219,23 +219,6 @@ export default function MobileAppPage() {
                 Agenda, comandas, clientes e conversas no app da Flowo. A mesma conta do painel, na mão do barbeiro.
               </p>
               <StoreBadges page={PATH} placement="hero" className="mt-8" />
-              <p className="mt-5 text-label text-muted-ink">
-                Prefere o computador?{" "}
-                <TrackedLink
-                  href={SIGNUP_URL}
-                  event="CTA Clicked"
-                  properties={{
-                    page: PATH,
-                    placement: "hero",
-                    destination: "dashboard_signup",
-                    intent: "start_now",
-                  }}
-                  className="font-semibold text-ink underline underline-offset-4"
-                >
-                  Use o painel web
-                </TrackedLink>
-                .
-              </p>
             </div>
 
             <div>
@@ -414,7 +397,21 @@ export default function MobileAppPage() {
                 Baixe agora e use hoje.
               </p>
               <p className="mt-2 max-w-2xl text-body text-muted-ink">
-                O app, o painel web e o atendimento no WhatsApp usam a mesma agenda.
+                O app, o painel web e o atendimento no WhatsApp usam a mesma agenda. Prefere o computador?{" "}
+                <TrackedLink
+                  href={SIGNUP_URL}
+                  event="CTA Clicked"
+                  properties={{
+                    page: PATH,
+                    placement: "closing",
+                    destination: "dashboard_signup",
+                    intent: "start_now",
+                  }}
+                  className="font-semibold text-ink underline underline-offset-4"
+                >
+                  Use o painel web
+                </TrackedLink>
+                .
               </p>
             </div>
             <StoreBadges page={PATH} placement="closing" className="shrink-0" />
