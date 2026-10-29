@@ -4,7 +4,7 @@
  * scripts/check-product-contract.mjs at build time.
  */
 export const SOLO_MAX_PROFESSIONALS = 1;
-export const EQUIPE_MAX_PROFESSIONALS = 5;
+export const EQUIPE_MAX_PROFESSIONALS = 3;
 export const EQUIPE_MAX_UNITS = 1;
 
 export const PROFESSIONALS_LIMITS = { min: 1, max: 500 } as const;
@@ -21,8 +21,8 @@ export const PLAN_NAMES: Record<RecommendedPlan, string> = {
 
 export const PLAN_SUMMARIES: Record<RecommendedPlan, string> = {
   solo: "Para quem atende sozinho e quer parar de largar o celular para responder horário.",
-  equipe: "Para uma equipe de até cinco profissionais, com agenda e operação no mesmo lugar.",
-  empresarial: "Para operações com mais de cinco profissionais ou mais de uma unidade.",
+  equipe: "Para uma equipe de até três profissionais na agenda, com agenda, operação e comissões no mesmo lugar.",
+  empresarial: "Para operações com mais de três profissionais na agenda ou mais de uma unidade.",
 };
 
 export const PLAN_PRIORITIES: Record<PlanPriority, { option: string; label: string }> = {
@@ -56,7 +56,7 @@ export function planRecommendationReason(professionals: number, units: number): 
   if (plan === "empresarial") {
     return branches > EQUIPE_MAX_UNITS
       ? `Com ${place}, o Empresarial é o plano que reúne todas as unidades.`
-      : `Com ${team}, a equipe passa do limite de cinco profissionais do Equipe.`;
+      : `Com ${team}, a equipe passa do limite de três profissionais do Equipe.`;
   }
   if (plan === "equipe") {
     return `Com ${team} em 1 unidade, o Equipe comporta a equipe toda.`;

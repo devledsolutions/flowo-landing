@@ -40,7 +40,7 @@ const capabilities = [
   },
   {
     icon: Users,
-    label: "Empresarial",
+    label: "Equipe",
     title: "Comissões",
     description:
       "Calcule depois da comanda paga; o gestor confere e inicia o repasse.",

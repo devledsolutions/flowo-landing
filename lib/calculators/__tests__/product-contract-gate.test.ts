@@ -45,7 +45,7 @@ describe("product contract gate for the plan recommendation", () => {
 
   it("fails when the Equipe limit drifts from the contract", () => {
     const result = runGate((source) =>
-      source.replace("export const EQUIPE_MAX_PROFESSIONALS = 5;", "export const EQUIPE_MAX_PROFESSIONALS = 6;"),
+      source.replace("export const EQUIPE_MAX_PROFESSIONALS = 3;", "export const EQUIPE_MAX_PROFESSIONALS = 6;"),
     );
     expect(result.ok).toBe(false);
     expect(result.output).toContain("Equipe professional limit drifted");

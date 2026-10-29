@@ -243,7 +243,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
       {
         criterion: "Operação e financeiro",
         flowo:
-          "Agenda, comanda e recebimento opcional conectados; comissão com revisão do gestor no Empresarial.",
+          "Agenda, comanda e recebimento opcional conectados; comissão com revisão do gestor no Equipe e no Empresarial.",
         competitor:
           "Portfólio amplo com estoque, clube, fiscal, Belezinha, split e pagamento de profissionais.",
       },
@@ -849,7 +849,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
       {
         criterion: "Agenda e equipe",
         flowo:
-          "A agenda de todos os barbeiros fica em um lugar nos planos com equipe, com até 5 profissionais no Equipe e sem limite no Empresarial.",
+          "A agenda de todos os barbeiros fica em um lugar nos planos com equipe, com até 3 profissionais no Equipe e sem limite no Empresarial.",
         competitor:
           "A página oficial apresenta horários, serviços, profissionais e encaixes na base de gestão. A consulta de disponibilidade pela conversa aparece na página de WhatsApp.",
       },
@@ -971,7 +971,7 @@ export const COMPETITOR_COMPARISONS: readonly CompetitorComparison[] = [
       {
         criterion: "Horários da equipe",
         flowo:
-          "A agenda de todos os barbeiros fica em um lugar. O Equipe cobre até 5 profissionais e o Empresarial não tem limite.",
+          "A agenda de todos os barbeiros fica em um lugar. O Equipe cobre até 3 profissionais e o Empresarial não tem limite.",
         competitor:
           "Cada barbeiro tem coluna, horários e bloqueio individual. A cota é por plano: 1, 3, 8 ou 20 profissionais.",
       },

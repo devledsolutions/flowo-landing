@@ -10,7 +10,7 @@ import {
 
 const planFit = [
   ["Solo", "1 profissional"],
-  ["Equipe", "Até 5 profissionais"],
+  ["Equipe", "Até 3 profissionais"],
   ["Empresarial", "Várias unidades"],
 ] as const;
 

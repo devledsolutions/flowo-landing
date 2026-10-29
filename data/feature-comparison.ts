@@ -18,7 +18,7 @@ export const featureComparison: Record<string, FeatureComparisonItem[]> = {
     {
       name: "Profissionais",
       solo: "1",
-      equipe: "Até 5",
+      equipe: "Até 3",
       empresarial: "Ilimitados",
     },
     {

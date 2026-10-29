@@ -44,7 +44,7 @@ export function GET() {
 ## Planos e condições de acesso
 ${planLines}
 - Solo: 1 profissional, até 200 agendamentos por mês, cancelamento no WhatsApp e suporte por e-mail. Não inclui remarcação no WhatsApp nem calendários externos.
-- Equipe: até 5 profissionais em 1 unidade, agendamentos ilimitados, remarcação no WhatsApp, calendários externos e suporte por e-mail e WhatsApp.
+- Equipe: até 3 profissionais na agenda em 1 unidade, comissão da equipe, agendamentos ilimitados, remarcação no WhatsApp, calendários externos e suporte por e-mail e WhatsApp.
 - Empresarial: profissionais e unidades sem limite publicado, contratação assistida e suporte por e-mail, WhatsApp e telefone.
 - A sincronização bidirecional de calendário está disponível no Google. Apple e Outlook recebem os compromissos da Flowo.
 - Assinar pelo site é pago desde o início. A equipe pode conceder uma avaliação assistida de 14 dias a clientes elegíveis de Solo ou Equipe; ela é manual, não exige cartão, não renova e não cobra automaticamente.
