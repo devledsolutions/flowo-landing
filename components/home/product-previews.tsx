@@ -23,7 +23,7 @@ export function AgendaPreview({ className, detailed = false, chrome = true }: { 
   return (
     <div className={cn("overflow-hidden rounded-xl border border-ink/20 bg-surface", className)}>
       {chrome && <BrowserBar path="agenda" />}
-      <Image src="/images/product/agenda-equipe-web-20261112.png" alt="Agenda da Flowo com profissionais identificados no cabeçalho e atendimentos organizados por horário." width={1440} height={850} sizes={detailed ? "(min-width: 1024px) 800px, 100vw" : "(min-width: 1024px) 600px, 100vw"} className="h-auto w-full" />
+      <Image unoptimized src="/images/product/agenda-equipe-web-20261112.png" alt="Agenda da Flowo com profissionais identificados no cabeçalho e atendimentos organizados por horário." width={1440} height={850} sizes={detailed ? "(min-width: 1024px) 800px, 100vw" : "(min-width: 1024px) 600px, 100vw"} className="h-auto w-full" />
     </div>
   );
 }

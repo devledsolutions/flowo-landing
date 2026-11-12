@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next"
-import { Poppins, Lora } from "next/font/google"
+import localFont from "next/font/local"
 import "./globals.css"
 import { SegmentProvider } from "@/providers/segment-provider"
 import { LandingPostHogProvider } from "@/providers/landing-posthog-provider"
@@ -16,18 +16,26 @@ import {
 } from "@/lib/seo"
 import { PUBLIC_ENVIRONMENT } from "@/lib/environment"
 
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+const poppins = localFont({
+  src: [
+    { path: "../node_modules/@fontsource/poppins/files/poppins-latin-400-normal.woff2", weight: "400", style: "normal" },
+    { path: "../node_modules/@fontsource/poppins/files/poppins-latin-500-normal.woff2", weight: "500", style: "normal" },
+    { path: "../node_modules/@fontsource/poppins/files/poppins-latin-600-normal.woff2", weight: "600", style: "normal" },
+    { path: "../node_modules/@fontsource/poppins/files/poppins-latin-700-normal.woff2", weight: "700", style: "normal" },
+  ],
   variable: "--font-poppins",
   display: "optional",
 })
 
-const lora = Lora({
-  subsets: ["latin"],
-  weight: ["500", "600"],
-  style: ["normal", "italic"],
+const lora = localFont({
+  src: [
+    { path: "../node_modules/@fontsource/lora/files/lora-latin-500-normal.woff2", weight: "500", style: "normal" },
+    { path: "../node_modules/@fontsource/lora/files/lora-latin-500-italic.woff2", weight: "500", style: "italic" },
+    { path: "../node_modules/@fontsource/lora/files/lora-latin-600-normal.woff2", weight: "600", style: "normal" },
+    { path: "../node_modules/@fontsource/lora/files/lora-latin-600-italic.woff2", weight: "600", style: "italic" },
+  ],
   variable: "--font-lora",
+  adjustFontFallback: "Times New Roman",
   display: "optional",
 })
 

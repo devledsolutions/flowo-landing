@@ -30,11 +30,11 @@ export default function ProductStory() {
           </header>
           <div className="relative mt-10 pb-6 sm:pb-10 lg:mt-12">
             <div className="overflow-hidden rounded-xl border border-ink/15 bg-cream shadow-[0_24px_64px_-40px_oklch(0.17_0.012_110/0.45)] hidden sm:block lg:mr-40">
-              <Image src="/images/product/agenda-equipe-web-20261112.png" alt="Agenda web da Flowo, com foto ou iniciais acima do nome de cada profissional e os atendimentos em colunas." width={1440} height={850} sizes="(min-width: 1024px) 1000px, 100vw" className="h-auto w-full" />
+              <Image unoptimized src="/images/product/agenda-equipe-web-20261112.png" alt="Agenda web da Flowo, com foto ou iniciais acima do nome de cada profissional e os atendimentos em colunas." width={1440} height={850} sizes="(min-width: 1024px) 1000px, 100vw" className="h-auto w-full" />
             </div>
             <div className="mt-6 overflow-hidden rounded-xl border border-line bg-cream p-2 shadow-[0_18px_50px_-20px_oklch(0.17_0.012_110/0.35)] sm:absolute sm:-bottom-1 sm:right-0 sm:mt-0 sm:w-[25%] sm:max-w-[280px]">
               <p className="px-2 pb-2 pt-1 text-caption font-semibold text-ink">No app</p>
-              <Image src="/images/product/agenda-equipe-app-20261112.png" alt="Detalhe real da Agenda no app Flowo: iniciais acima dos profissionais e os agendamentos do dia." width={975} height={1061} sizes="(min-width: 640px) 280px, 100vw" className="h-auto w-full rounded-lg" />
+              <Image unoptimized src="/images/product/agenda-equipe-app-20261112.png" alt="Detalhe real da Agenda no app Flowo: iniciais acima dos profissionais e os agendamentos do dia." width={975} height={1061} sizes="(min-width: 640px) 280px, 100vw" className="h-auto w-full rounded-lg" />
             </div>
           </div>
           <ProductDisclaimer label="Capturas do Flowo com dados de demonstração" className="mt-4" />
