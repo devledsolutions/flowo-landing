@@ -111,7 +111,7 @@ export default function Hero() {
       >
         <div className="relative h-full w-full overflow-hidden rounded-t-[24px] border border-b-0 border-ink/20 bg-[oklch(0.2_0.012_110)] shadow-[0_40px_90px_-50px_oklch(0.08_0.01_110/0.8)]">
           <Image
-            src="/images/product/agenda-equipe-web-20261112.png"
+            unoptimized src="/images/product/agenda-equipe-web-20261112.png"
             alt="Agenda da Flowo com os profissionais identificados no topo de cada coluna e os atendimentos do dia."
             width={1440}
             height={850}
