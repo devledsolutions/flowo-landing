@@ -111,10 +111,10 @@ export default function Hero() {
       >
         <div className="relative h-full w-full overflow-hidden rounded-t-[24px] border border-b-0 border-ink/20 bg-[oklch(0.2_0.012_110)] shadow-[0_40px_90px_-50px_oklch(0.08_0.01_110/0.8)]">
           <Image
-            src="/images/product/dashboard-hoje.png"
-            alt="Dashboard da Flowo, tela Hoje: as cinco cadeiras da barbearia, o dia inteiro da equipe, o que precisa de decisão e o recebido do dia."
-            width={1920}
-            height={1040}
+            src="/images/product/agenda-equipe-web-20261112.png"
+            alt="Agenda da Flowo com os profissionais identificados no topo de cada coluna e os atendimentos do dia."
+            width={1440}
+            height={850}
             sizes="960px"
             priority
             className="h-full w-full object-cover object-left-top"
@@ -135,14 +135,6 @@ export default function Hero() {
         data-plane-rate={0.8}
         className={`${APPEAR} motion-safe:delay-[320ms] absolute inset-x-0 top-[500px] h-[522px] will-change-transform lg:hidden`}
       >
-        <PhoneFrame
-          src="/images/product/app-agenda.png"
-          alt="Agenda do app da Flowo com cinco barbeiros e os horários do dia."
-          width={720}
-          height={1564}
-          sizes="52vw"
-          className="absolute left-1/2 top-0 h-[22rem] w-[52%] translate-x-[18%] rotate-[4deg] opacity-90"
-        />
         <PhoneFrame className="absolute left-1/2 top-7 w-[288px] -translate-x-[58%] border-ink/30 shadow-[0_44px_90px_-40px_oklch(0.08_0.01_110/0.95)]">
           <WhatsAppChat width={288} />
         </PhoneFrame>
@@ -158,7 +150,7 @@ export default function Hero() {
 
       <ProductDisclaimer
         label="Telas do app com dados ilustrativos"
-        className="absolute bottom-3 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap text-cream/70 [&_svg]:text-cream/70"
+        className="absolute bottom-3 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap text-[#F8F6F2]/80 [&_svg]:text-[#F8F6F2]/80"
       />
     </ParallaxPlanes>
   );

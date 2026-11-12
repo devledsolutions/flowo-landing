@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight } from "lucide-react";
+import { ArrowRight } from "@/components/icons/flowo-icons";
 import { TrackedLink } from "@/components/analytics/tracked-link";
 import { useWebsiteExperiment } from "@/hooks/use-website-experiment";
 

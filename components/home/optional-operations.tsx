@@ -7,7 +7,7 @@ import {
   ReceiptText,
   Smartphone,
   Users,
-} from "lucide-react";
+} from "@/components/icons/flowo-icons";
 import { ProductCapabilityPreview } from "@/components/marketing/product-capability-page";
 
 const paymentChoices = [
@@ -43,7 +43,7 @@ const capabilities = [
     label: "Equipe",
     title: "Comissões",
     description:
-      "Calcule depois da comanda paga; o gestor confere e inicia o repasse.",
+      "Confira as comissões no extrato e registre o acerto com cada profissional.",
     cta: "Ver comissões",
     href: "/recursos/comissoes-barbeiros",
   },
@@ -52,7 +52,7 @@ const capabilities = [
     label: "Configurável",
     title: "Cashback",
     description:
-      "Defina percentual, prazo e limite de uso antes de ativar o benefício.",
+      "Ofereça um saldo para o cliente usar na próxima visita, com as regras que você definir.",
     cta: "Ver cashback",
     href: "/recursos/cashback-barbearia",
   },
@@ -61,7 +61,7 @@ const capabilities = [
     label: "Ativação assistida",
     title: "Nota fiscal",
     description:
-      "Confira município, dados fiscais e liberação da prefeitura antes de emitir pela comanda.",
+      "Emita pela comanda após configurar os dados fiscais e a autorização da prefeitura.",
     cta: "Ver nota fiscal",
     href: "/recursos/nota-fiscal-barbearia",
   },
@@ -84,12 +84,12 @@ export default function OptionalOperations() {
               id="optional-operations-title"
               className="mt-4 max-w-[18ch] text-h2 font-semibold tracking-[-0.025em] text-ink-strong"
             >
-              Receba do jeito que já recebe hoje.
+              Do atendimento à comanda, com tudo registrado.
             </h2>
           </div>
           <p className="max-w-measure text-lead text-muted-ink">
-            Registre dinheiro ou maquininha na comanda. Pix e cartão Flowo podem
-            ser ativados depois, sem mudar o agendamento.
+            Registre dinheiro e maquininha própria. Se ativar os pagamentos Flowo,
+            também pode receber por Pix e cartão depois do serviço.
           </p>
         </div>
 
@@ -110,25 +110,22 @@ export default function OptionalOperations() {
           <ProductCapabilityPreview kind="payments" />
         </div>
 
-        <div className="mt-16 grid gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-14 grid border-t border-line sm:grid-cols-2 sm:gap-x-10">
           {capabilities.map(({ icon: Icon, ...item }) => (
             <Link
               key={item.href}
               href={item.href}
-              className="group flex min-h-72 flex-col bg-surface p-6 transition-colors hover:bg-surface-2"
+              className="group grid grid-cols-[auto_1fr] gap-x-4 border-b border-line py-6 transition-colors hover:bg-surface-2"
             >
-              <div className="flex items-center justify-between gap-3">
+              <div className="flex flex-col items-start gap-3">
                 <Icon className="h-5 w-5 text-ink" aria-hidden="true" />
-                <span className="rounded-full border border-line px-2.5 py-1 text-[10px] font-medium text-muted-ink">
-                  {item.label}
-                </span>
               </div>
-              <h3 className="mt-8 text-lg font-semibold text-ink">{item.title}</h3>
-              <p className="mt-3 text-label text-muted-ink">{item.description}</p>
-              <span className="mt-auto flex items-center gap-2 pt-8 text-label font-semibold text-ink">
+              <div><h3 className="text-lg font-semibold text-ink">{item.title}</h3>
+              <p className="mt-2 text-label text-muted-ink">{item.description}</p>
+              <span className="mt-4 flex items-center gap-2 text-label font-semibold text-ink">
                 {item.cta}
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
-              </span>
+              </span></div>
             </Link>
           ))}
         </div>

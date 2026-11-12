@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight } from "@/components/icons/flowo-icons";
 import { SIGNUP_URL } from "@/components/cta-links";
 import { TrackedLink } from "@/components/analytics/tracked-link";
 import { ParallaxPlanes } from "@/components/home/parallax-planes";
@@ -29,7 +29,7 @@ export default function OnboardingClose() {
       className="on-ink relative z-10 h-[582px] lg:h-[910px]"
     >
       <div className="relative mx-auto h-full w-full max-w-[1080px] px-6 lg:px-0">
-        <div className={`${APPEAR} absolute left-6 top-[104px] z-[1] w-[342px] lg:left-0 lg:top-[204px] lg:w-[344px]`}>
+        <div className={`${APPEAR} absolute left-6 top-[104px] z-[1] w-[calc(100%-3rem)] max-w-[342px] lg:left-0 lg:top-[204px] lg:w-[344px]`}>
           <h2 className="text-[32px] font-semibold leading-[1.34] tracking-[-0.025em] text-ink-strong lg:text-[40px] lg:leading-[1.35]">
             A gente configura com você.
           </h2>
@@ -62,10 +62,10 @@ export default function OnboardingClose() {
         >
           <div className="relative h-full w-full overflow-hidden rounded-t-[24px] border border-b-0 border-cream/15 bg-[oklch(0.2_0.012_110)] shadow-[0_40px_90px_-50px_oklch(0.08_0.01_110/0.8)]">
             <Image
-              src="/images/product/dashboard-agenda.png"
-              alt="Dashboard da Flowo, tela Agenda: a semana da barbearia com uma coluna por barbeiro e os horários livres."
-              width={1920}
-              height={1041}
+              src="/images/product/agenda-equipe-web-20261112.png"
+              alt="Agenda da Flowo: o dia da equipe, com identificação dos profissionais e os horários livres."
+              width={1440}
+              height={850}
               sizes="960px"
               className="h-full w-full object-cover object-left-top"
             />
@@ -75,8 +75,8 @@ export default function OnboardingClose() {
             />
           </div>
           <ProductDisclaimer
-            label="Telas do app com dados ilustrativos"
-            className="absolute -bottom-7 left-1 text-cream/60 [&_svg]:text-cream/60"
+            label="Captura do Flowo com dados de demonstração"
+            className="absolute -bottom-7 left-1 text-[#F8F6F2]/80 [&_svg]:text-[#F8F6F2]/80"
           />
         </div>
       </div>

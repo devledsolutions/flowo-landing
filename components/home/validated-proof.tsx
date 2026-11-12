@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { ArrowRight, CheckCircle2 } from "@/components/icons/flowo-icons";
 
 const proofItems = [
   "a resposta saiu pelo WhatsApp",
