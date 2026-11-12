@@ -1,157 +1,61 @@
-import { ArrowRight, CalendarDays, Check, CreditCard, MessageCircle } from "lucide-react";
-import {
-  AgendaPreview,
-  ConfirmationPreview,
-  ConversationPreview,
-  JourneyConnector,
-  PaymentPreview,
-  ProductDisclaimer,
-} from "./product-previews";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, Check } from "@/components/icons/flowo-icons";
+import { ConversationPreview, ConfirmationPreview, ProductDisclaimer } from "./product-previews";
 
-const planFit = [
-  ["Solo", "1 profissional"],
-  ["Equipe", "Até 3 profissionais"],
-  ["Empresarial", "Várias unidades"],
-] as const;
-
-const paymentSteps = [
-  { icon: CalendarDays, label: "Agendado" },
-  { icon: Check, label: "Atendido" },
-  { icon: CreditCard, label: "Registrado" },
-] as const;
+const agendaDetails = [
+  "Foto ou iniciais para encontrar cada profissional.",
+  "Horários, serviços e folgas por pessoa.",
+  "A mesma agenda no computador e no app.",
+];
 
 export default function ProductStory() {
   return (
     <>
-      <section
-        id="produto-em-acao"
-        aria-labelledby="product-proof-title"
-        className="section-normal scroll-mt-24 border-t border-line bg-surface"
-      >
+      <section id="como-funciona" aria-labelledby="team-schedules-title" className="section-normal scroll-mt-24 overflow-hidden border-t border-line bg-surface">
         <div className="container-page">
-          <header className="max-w-3xl">
-            <h2
-              id="product-proof-title"
-              className="text-h2 font-semibold leading-tight tracking-[-0.025em] text-ink-strong"
-            >
-              O pedido sai do WhatsApp e entra na agenda.
-            </h2>
-            <p className="mt-4 text-lead text-muted-ink">
-              Sem copiar nome, serviço ou horário de uma tela para outra.
-            </p>
+          <header className="grid gap-6 lg:grid-cols-[1fr_0.72fr] lg:items-end lg:gap-20">
+            <div>
+              <p className="text-caption font-semibold text-muted-ink">Agenda da equipe</p>
+              <h2 id="team-schedules-title" className="mt-3 max-w-[19ch] text-h2 font-semibold leading-tight tracking-[-0.025em] text-ink-strong">
+                Cada profissional tem seu lugar na agenda.
+              </h2>
+            </div>
+            <div>
+              <p className="max-w-measure text-lead text-muted-ink">Veja quem atende, o que está marcado e onde ainda cabe um cliente.</p>
+              <ul className="mt-5 space-y-2.5">
+                {agendaDetails.map((detail) => <li key={detail} className="flex items-start gap-2.5 text-label text-muted-ink"><Check aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-ink" />{detail}</li>)}
+              </ul>
+            </div>
           </header>
+          <div className="relative mt-10 pb-6 sm:pb-10 lg:mt-12">
+            <div className="overflow-hidden rounded-xl border border-ink/15 bg-cream shadow-[0_24px_64px_-40px_oklch(0.17_0.012_110/0.45)] hidden sm:block lg:mr-40">
+              <Image src="/images/product/agenda-equipe-web-20261112.png" alt="Agenda web da Flowo, com foto ou iniciais acima do nome de cada profissional e os atendimentos em colunas." width={1440} height={850} sizes="(min-width: 1024px) 1000px, 100vw" className="h-auto w-full" />
+            </div>
+            <div className="mt-6 overflow-hidden rounded-xl border border-line bg-cream p-2 shadow-[0_18px_50px_-20px_oklch(0.17_0.012_110/0.35)] sm:absolute sm:-bottom-1 sm:right-0 sm:mt-0 sm:w-[25%] sm:max-w-[280px]">
+              <p className="px-2 pb-2 pt-1 text-caption font-semibold text-ink">No app</p>
+              <Image src="/images/product/agenda-equipe-app-20261112.png" alt="Detalhe real da Agenda no app Flowo: iniciais acima dos profissionais e os agendamentos do dia." width={975} height={1061} sizes="(min-width: 640px) 280px, 100vw" className="h-auto w-full rounded-lg" />
+            </div>
+          </div>
+          <ProductDisclaimer label="Capturas do Flowo com dados de demonstração" className="mt-4" />
+        </div>
+      </section>
 
-          <div className="mt-12 grid items-center gap-8 md:grid-cols-[0.7fr_0.15fr_1.45fr_0.15fr_0.7fr] md:gap-3">
-            <div>
-              <p className="mb-3 text-label font-semibold text-ink">1 · Mensagem</p>
+      <section id="produto-em-acao" aria-labelledby="product-proof-title" className="section-normal scroll-mt-24 bg-cream">
+        <div className="container-page grid items-center gap-10 lg:grid-cols-[0.75fr_1.25fr] lg:gap-20">
+          <div>
+            <p className="text-caption font-semibold text-muted-ink">Atendimento no WhatsApp</p>
+            <h2 id="product-proof-title" className="mt-3 max-w-[19ch] text-h2 font-semibold leading-tight tracking-[-0.025em] text-ink-strong">O cliente pede um horário. A Bia consulta a agenda.</h2>
+            <p className="mt-5 text-lead text-muted-ink">Ela oferece os horários disponíveis e registra a escolha do cliente. Sua equipe acompanha a conversa e assume quando precisar.</p>
+            <Link href="/demonstracao-agendamento-whatsapp" className="mt-7 inline-flex min-h-11 items-center gap-2 text-label font-semibold text-ink underline underline-offset-4 hover:text-muted-ink">Ver uma conversa completa<ArrowRight aria-hidden="true" className="h-4 w-4" /></Link>
+          </div>
+          <div>
+            <div className="grid items-center gap-5 sm:grid-cols-[1.1fr_0.9fr]">
               <ConversationPreview />
-            </div>
-            <JourneyConnector />
-            <div>
-              <p className="mb-3 text-label font-semibold text-ink">2 · Agenda</p>
-              <AgendaPreview detailed />
-            </div>
-            <JourneyConnector />
-            <div>
-              <p className="mb-3 text-label font-semibold text-ink">3 · Confirmação</p>
               <ConfirmationPreview />
             </div>
+            <ProductDisclaimer label="Exemplo de conversa e confirmação" className="mt-5" />
           </div>
-          <ProductDisclaimer className="mt-7" />
-        </div>
-      </section>
-
-      <section
-        id="como-funciona"
-        aria-labelledby="team-schedules-title"
-        className="section-normal scroll-mt-24 overflow-hidden bg-cream"
-      >
-        <div className="container-page grid items-center gap-12 lg:grid-cols-[1.35fr_0.65fr] lg:gap-16">
-          <div className="relative order-2 lg:order-1">
-            <AgendaPreview detailed className="lg:-ml-24 lg:w-[calc(100%+6rem)]" />
-            <ProductDisclaimer className="mt-4" />
-          </div>
-
-          <div className="order-1 lg:order-2">
-            <h2
-              id="team-schedules-title"
-              className="text-h2 font-semibold leading-tight tracking-[-0.025em] text-ink-strong"
-            >
-              Rafael trabalha de manhã. Pedro só à tarde. A Flowo sabe a diferença.
-            </h2>
-            <p className="mt-5 text-lead text-muted-ink">
-              Cada barbeiro pode ter seus dias, serviços e duração. A Flowo só
-              oferece o que está livre naquela agenda.
-            </p>
-            <dl className="mt-9 divide-y divide-line border-y border-line">
-              {planFit.map(([plan, fit]) => (
-                <div key={plan} className="flex items-center justify-between gap-5 py-4">
-                  <dt className="text-label font-semibold uppercase tracking-[0.08em] text-ink">
-                    {plan}
-                  </dt>
-                  <dd className="text-right text-label text-muted-ink">{fit}</dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-        </div>
-      </section>
-
-      <section
-        aria-labelledby="payment-proof-title"
-        className="overflow-hidden border-t border-line bg-surface"
-      >
-        <div className="container-page section-normal grid items-center gap-12 lg:grid-cols-[0.7fr_1.3fr] lg:gap-20">
-          <div>
-            <h2
-              id="payment-proof-title"
-              className="text-h2 font-semibold leading-tight tracking-[-0.025em] text-ink-strong"
-            >
-              Terminou o atendimento? Registre como o cliente pagou.
-            </h2>
-            <p className="mt-5 text-lead text-muted-ink">
-              Dinheiro e maquininha própria continuam valendo. Pix e cartão
-              Flowo são opcionais e só aparecem depois do serviço.
-            </p>
-
-            <ol className="mt-9 flex items-center gap-3" aria-label="Etapas do atendimento">
-              {paymentSteps.map(({ icon: Icon, label }, index) => (
-                <li key={label} className="flex min-w-0 flex-1 items-center gap-3">
-                  <div className="min-w-0 text-center">
-                    <span className="mx-auto flex h-10 w-10 items-center justify-center rounded-full border border-line bg-surface">
-                      <Icon className="h-4 w-4 text-ink" aria-hidden="true" />
-                    </span>
-                    <p className="mt-2 truncate text-caption text-ink">{label}</p>
-                  </div>
-                  {index < 2 && <ArrowRight className="h-4 w-4 shrink-0 text-faint-ink" aria-hidden="true" />}
-                </li>
-              ))}
-            </ol>
-          </div>
-
-          <div>
-            <PaymentPreview />
-            <ProductDisclaimer className="mt-4" />
-          </div>
-        </div>
-      </section>
-
-      <section className="border-b border-line bg-surface py-8">
-        <div className="container-page flex flex-col items-start justify-between gap-5 sm:flex-row sm:items-center">
-          <div className="flex items-start gap-3">
-            <MessageCircle className="mt-1 h-5 w-5 shrink-0 text-ink" aria-hidden="true" />
-            <p className="max-w-2xl text-body text-muted-ink">
-              A Flowo responde no WhatsApp da barbearia. Sua equipe vê o que
-              aconteceu e pode assumir quando precisar.
-            </p>
-          </div>
-          <a
-            href="#precos"
-            className="inline-flex h-11 shrink-0 items-center gap-2 rounded-full border border-line px-5 text-label font-semibold text-ink transition-colors hover:bg-surface-2"
-          >
-            Ver planos
-            <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </a>
         </div>
       </section>
     </>

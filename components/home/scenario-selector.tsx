@@ -6,7 +6,7 @@ import {
   ArrowRight,
   CalendarCheck2,
   MessageCircleMore,
-} from "lucide-react";
+} from "@/components/icons/flowo-icons";
 import { TrackedLink } from "@/components/analytics/tracked-link";
 import { useSegment } from "@/providers/segment-provider";
 
