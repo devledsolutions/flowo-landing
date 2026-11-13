@@ -29,6 +29,7 @@ import { CheckCircle2, XCircle } from "lucide-react";
 import { TurnstileWidget } from "@/components/turnstile-widget";
 import { useSegment } from "@/providers/segment-provider";
 import { useLeadRemarketing } from "@/hooks/use-lead-remarketing";
+import { leadSubmissionId, settleLeadSubmission } from "@/lib/lead-submission";
 import {
   addLandingExceptionStep,
   captureLandingException,
@@ -218,6 +219,7 @@ export function LeadCaptureModal({
           ...getAcquisitionContext(),
           segmentAnonymousId: getAnonymousId(),
           turnstileToken,
+          submissionId: leadSubmissionId(source),
         }),
       });
 
@@ -252,6 +254,7 @@ export function LeadCaptureModal({
         return;
       }
 
+      settleLeadSubmission(source);
       setIsSuccess(true);
       // Quem pediu ligação ainda não pediu de verdade: o pedido fica pendente
       // até o código ser conferido. Disparamos o envio aqui para a pessoa não

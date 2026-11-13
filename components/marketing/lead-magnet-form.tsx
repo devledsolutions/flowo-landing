@@ -6,6 +6,7 @@ import { CheckCircle2, Download, LoaderCircle } from "lucide-react";
 import { TurnstileWidget } from "@/components/turnstile-widget";
 import { useSegment } from "@/providers/segment-provider";
 import { useLeadRemarketing } from "@/hooks/use-lead-remarketing";
+import { leadSubmissionId, settleLeadSubmission } from "@/lib/lead-submission";
 import { buildWhatsAppUrl } from "@/components/cta-links";
 import styles from "@/components/design-review/lead-offer-landing.module.css";
 
@@ -159,6 +160,7 @@ export function LeadMagnetForm({
           ...getAcquisitionContext(),
           segmentAnonymousId: getAnonymousId(),
           turnstileToken,
+          submissionId: leadSubmissionId(source),
         }),
       });
       const data = (await response.json()) as {
@@ -179,6 +181,7 @@ export function LeadMagnetForm({
         return;
       }
 
+      settleLeadSubmission(source);
       identify(undefined, {
         name,
         email,

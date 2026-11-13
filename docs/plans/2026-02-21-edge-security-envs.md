@@ -6,9 +6,13 @@
 
 Sem `TURNSTILE_SECRET_KEY`, a validação é ignorada (modo compatibilidade).
 
-## Convex (Rate Limit distribuído)
+## Convex (Rate Limit distribuído e captura de lead)
 - `CONVEX_URL` ou `NEXT_PUBLIC_CONVEX_URL`: endpoint do deployment Convex.
-- `CONVEX_SERVER_SECRET`: segredo server-only usado pelo mutation de rate limit.
+- `CONVEX_SERVER_SECRET`: segredo server-only usado pelo mutation de rate limit
+  e pela captura de lead (`growth:captureWebsiteLead`). Tem de ser o mesmo valor
+  configurado no deployment Convex daquele ambiente. Nunca usar prefixo
+  `NEXT_PUBLIC_`. Sem ele, `/api/lead-capture` e `/api/contact-form` respondem
+  503 e não chamam o backend, inclusive em desenvolvimento local.
 
 As rotas públicas usam políticas fixas no Convex. O fallback em memória existe
 somente para desenvolvimento local sem essas variáveis e não substitui a

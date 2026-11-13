@@ -196,7 +196,14 @@ contratação continuam sendo validados novamente pelo checkout e pelo backend.
 `/api/lead-capture` grava primeiro em `websiteLeads` no Convex. A chave de
 deduplicação é o WhatsApp normalizado quando informado e o e-mail normalizado
 quando o telefone é opcional; reenvios atualizam origem e consentimento sem
-criar linhas ilimitadas. A função pública possui limite global e por contato.
+criar linhas ilimitadas. A função do backend só aceita as rotas de servidor do
+site: `/api/lead-capture` e `/api/contact-form` enviam `CONVEX_SERVER_SECRET`
+depois do limite por IP e do anti-robô, e sem esse segredo respondem 503 sem
+chamar o backend. Cada envio leva um `submissionId` gerado no navegador
+(`lib/lead-submission.ts`): a nova tentativa do mesmo envio repete o valor e o
+backend grava uma vez só; depois do sucesso o valor muda, então um novo pedido
+da mesma pessoa é um pedido novo. A função também tem limite global e por
+contato.
 O workspace comercial super-admin fica em `/plataforma/aquisicao`, com
 responsável, etapa, próxima ação, atrasos e histórico.
 

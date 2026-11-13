@@ -4,6 +4,12 @@ function trimOrEmpty(value: unknown): string {
   return typeof value === "string" ? value.trim() : "";
 }
 
+// Identifica o envio para o backend reconhecer repetição. Páginas antigas em
+// cache não mandam o campo; a rota então gera um por requisição.
+const submissionIdSchema = z
+  .uuid({ error: "Envio inválido. Recarregue a página e tente de novo." })
+  .optional();
+
 const whatsappSchema = z
   .string()
   .trim()
@@ -75,6 +81,7 @@ export const leadCaptureSchema = z.object({
     .max(4096)
     .optional()
     .or(z.literal("")),
+  submissionId: submissionIdSchema,
 });
 
 export const contactFormSchema = z
@@ -110,6 +117,7 @@ export const contactFormSchema = z
     .max(4096)
     .optional()
     .or(z.literal("")),
+  submissionId: submissionIdSchema,
   })
   .superRefine((value, ctx) => {
     if (value.contactChannel === "whatsapp" && !value.phone) {

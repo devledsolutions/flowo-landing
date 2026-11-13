@@ -274,3 +274,61 @@ describe("abort signal", () => {
     expect(fetch).not.toHaveBeenCalled();
   });
 });
+
+describe("submission identity across tool calls", () => {
+  function sequence(...responses: Array<Response | Error>) {
+    const queue = [...responses];
+    const fetch = vi.fn<typeof globalThis.fetch>(async () => {
+      const next = queue.shift();
+      if (!next) throw new Error("unexpected extra request");
+      if (next instanceof Error) throw next;
+      return next;
+    });
+    const value: LeadToolDeps = {
+      getAcquisitionContext: () => ({ landingPath: "/precos" }),
+      getAnonymousId: () => undefined,
+      confirmSubmission: vi.fn(async () => "token-ok"),
+      fetch,
+    };
+    const sent = () =>
+      fetch.mock.calls.map(([, init]) => {
+        const body: { submissionId?: unknown } = JSON.parse(String(init?.body));
+        return String(body.submissionId);
+      });
+    return { value, sent };
+  }
+
+  it("repeats the identifier while the send is unconfirmed and renews it after success", async () => {
+    const { value, sent } = sequence(
+      jsonResponse(200, { success: true }),
+      jsonResponse(503, { success: false }),
+      new TypeError("network down"),
+      jsonResponse(200, { success: true }),
+      jsonResponse(200, { success: true }),
+    );
+    const tool = createFalarComVendas(() => value);
+    for (let attempt = 0; attempt < 5; attempt += 1) await call(tool, VALID);
+
+    const [settled, failed, lost, retried, next] = sent();
+    for (const id of [settled, failed, lost, retried, next]) {
+      expect(id).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/);
+    }
+    expect(failed).not.toBe(settled);
+    expect(lost).toBe(failed);
+    expect(retried).toBe(failed);
+    expect(next).not.toBe(retried);
+  });
+
+  it("keeps one identifier per tool", async () => {
+    const { value, sent } = sequence(jsonResponse(503, { success: false }), jsonResponse(503, { success: false }));
+    await call(createFalarComVendas(() => value), VALID);
+    await call(createReceberMaterial(() => value), {
+      material_id: "comissoes-sem-planilha",
+      nome: "Pessoa Teste",
+      email: "flowo-qa-webmcp-unit@flowo.com.br",
+      consentimento: true,
+    });
+    const [sales, material] = sent();
+    expect(sales).not.toBe(material);
+  });
+});

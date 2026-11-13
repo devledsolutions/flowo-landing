@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { buildWhatsAppUrl } from "@/components/cta-links";
 import { RESOURCE_MATERIALS } from "@/data/resource-materials";
+import { leadSubmissionId, settleLeadSubmission } from "@/lib/lead-submission";
 import { SITE_URL } from "@/lib/seo";
 import type { AcquisitionContext } from "@/providers/segment-provider";
 import { cancelledByAssistantError, type LeadConfirmationRequest } from "../confirmation";
@@ -75,14 +76,19 @@ function throwIfAborted(signal: AbortSignal): void {
   if (signal.aborted) throw cancelledByAssistantError();
 }
 
-async function postLead(deps: LeadToolDeps, body: Record<string, unknown>): Promise<void> {
+async function postLead(
+  deps: LeadToolDeps,
+  body: Record<string, unknown> & { source: string },
+): Promise<void> {
   let response: Response;
   try {
     response = await deps.fetch("/api/lead-capture", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "same-origin",
-      body: JSON.stringify(body),
+      // The assistant calling the tool again after a failed send repeats the
+      // same submission, so the backend does not open a second contact.
+      body: JSON.stringify({ ...body, submissionId: leadSubmissionId(body.source) }),
     });
   } catch {
     throw unavailable();
@@ -95,7 +101,10 @@ async function postLead(deps: LeadToolDeps, body: Record<string, unknown>): Prom
     data = {};
   }
 
-  if (response.ok && data.success !== false) return;
+  if (response.ok && data.success !== false) {
+    settleLeadSubmission(body.source);
+    return;
+  }
 
   if (response.status === 400 && data.message === "Falha na verificação anti-bot.") {
     throw new ToolError(
@@ -143,7 +152,7 @@ async function confirmThenPost(
   deps: LeadToolDeps,
   request: LeadConfirmationRequest,
   signal: AbortSignal,
-  body: Record<string, unknown>,
+  body: Record<string, unknown> & { source: string },
 ): Promise<void> {
   throwIfAborted(signal);
   const turnstileToken = await deps.confirmSubmission(request, signal);
