@@ -41,6 +41,7 @@ import {
 } from "@/components/turnstile-widget";
 import { buildWhatsAppUrl } from "@/components/cta-links";
 import { useLeadRemarketing } from "@/hooks/use-lead-remarketing";
+import { leadSubmissionId, settleLeadSubmission } from "@/lib/lead-submission";
 import {
   addLandingExceptionStep,
   captureLandingException,
@@ -282,6 +283,7 @@ export function DownloadGateModal({
           ...getAcquisitionContext(),
           segmentAnonymousId: getAnonymousId(),
           turnstileToken,
+          submissionId: leadSubmissionId(`download:${resourceTitle}`),
         }),
         signal: controller.signal,
       });
@@ -325,6 +327,7 @@ export function DownloadGateModal({
         return;
       }
 
+      settleLeadSubmission(`download:${resourceTitle}`);
       setIsSuccess(true);
       trackLeadRemarketing({
         eventId: data.metaEventId,

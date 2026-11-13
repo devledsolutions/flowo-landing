@@ -1,11 +1,13 @@
 import { NextResponse } from "next/server";
-import { ConvexHttpClient } from "convex/browser";
-import { makeFunctionReference } from "convex/server";
+import { randomUUID } from "node:crypto";
 import { getClientIp } from "@/lib/request-ip";
 import { applyRateLimit } from "@/lib/rate-limit";
 import { contactFormSchema, getValidationMessage } from "@/lib/validation";
 import { verifyTurnstile } from "@/lib/turnstile";
-import { resolveConvexUrl } from "@/lib/server-environment";
+import {
+  resolveWebsiteLeadBackend,
+  sendWebsiteLead,
+} from "@/lib/website-lead-backend";
 import {
   captureLandingException,
   captureLandingMessage,
@@ -16,40 +18,6 @@ export const preferredRegion = ["gru1"];
 
 const CONTACT_WINDOW_MS = 60_000;
 const CONTACT_LIMIT = 10;
-
-type CaptureWebsiteLeadArgs = {
-  name: string;
-  email: string;
-  phone?: string;
-  source: string;
-  landingPath: string;
-  referrer?: string;
-  utmSource?: string;
-  utmMedium?: string;
-  utmCampaign?: string;
-  utmContent?: string;
-  utmTerm?: string;
-  fbclid?: string;
-  fbc?: string;
-  fbp?: string;
-  gclid?: string;
-  gbraid?: string;
-  wbraid?: string;
-  msclkid?: string;
-  ttclid?: string;
-  ctwaClid?: string;
-  segmentAnonymousId?: string;
-  consent: true;
-  salesContactRequestChannels: Array<"email" | "whatsapp">;
-  salesContactRequestMessage: string;
-  emailMarketingConsent: boolean;
-};
-
-const captureWebsiteLead = makeFunctionReference<
-  "mutation",
-  CaptureWebsiteLeadArgs,
-  { accepted: true }
->("growth:captureWebsiteLead");
 
 function optional(value: string | undefined): string | undefined {
   return value || undefined;
@@ -117,6 +85,7 @@ export async function POST(request: Request) {
       ctwaClid = "",
       segmentAnonymousId = "",
       turnstileToken = "",
+      submissionId = randomUUID(),
     } = parsed.data;
 
     // Return success for honeypot submissions to discourage bot retries.
@@ -140,12 +109,16 @@ export async function POST(request: Request) {
       );
     }
 
-    const convexUrl = resolveConvexUrl();
-    if (!convexUrl) {
+    const resolved = resolveWebsiteLeadBackend();
+    if (!resolved.ok) {
       await captureLandingMessage(
         "Convex configuration missing for contact form",
         "contact-form.configuration",
-        { component: "contact-form", error_type: "configuration" },
+        {
+          component: "contact-form",
+          error_type: "configuration",
+          missing: resolved.missing,
+        },
       );
       return NextResponse.json(
         { success: false, message: "Não foi possível registrar o contato agora." },
@@ -154,8 +127,7 @@ export async function POST(request: Request) {
     }
 
     const refererHeader = request.headers.get("referer") || "";
-    const convex = new ConvexHttpClient(convexUrl);
-    await convex.mutation(captureWebsiteLead, {
+    await sendWebsiteLead(resolved.backend, submissionId, {
       name,
       email,
       phone: optional(phone),

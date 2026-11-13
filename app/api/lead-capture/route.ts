@@ -1,14 +1,16 @@
 import { NextResponse } from "next/server";
 import { randomUUID } from "node:crypto";
-import { ConvexHttpClient } from "convex/browser";
-import { makeFunctionReference } from "convex/server";
 import { getClientIp } from "@/lib/request-ip";
 import { applyRateLimit } from "@/lib/rate-limit";
 import { leadCaptureSchema, getValidationMessage } from "@/lib/validation";
 import { verifyTurnstile } from "@/lib/turnstile";
 import { VOICE_CONTACT_CONSENT_VERSION } from "@/lib/voice-verification";
 import { PUBLIC_ENVIRONMENT, environmentSiteUrl } from "@/lib/environment";
-import { resolveConvexUrl } from "@/lib/server-environment";
+import {
+  resolveWebsiteLeadBackend,
+  sendWebsiteLead,
+  websiteLeadMetaEventId,
+} from "@/lib/website-lead-backend";
 import {
   captureLandingException,
   captureLandingMessage,
@@ -19,59 +21,6 @@ export const preferredRegion = ["gru1"];
 
 const LEAD_CAPTURE_WINDOW_MS = 60_000;
 const LEAD_CAPTURE_LIMIT = 15;
-
-type CaptureWebsiteLeadArgs = {
-  name: string;
-  email?: string;
-  phone?: string;
-  source: string;
-  businessName?: string;
-  professionalsCount?: number;
-  unitsCount?: number;
-  purchaseTimeline?: "now" | "quarter" | "planning";
-  experimentKey?: string;
-  experimentVariant?: string;
-  requestedResource?: string;
-  landingPath: string;
-  referrer?: string;
-  utmSource?: string;
-  utmMedium?: string;
-  utmCampaign?: string;
-  utmContent?: string;
-  utmTerm?: string;
-  fbclid?: string;
-  fbc?: string;
-  fbp?: string;
-  gclid?: string;
-  gbraid?: string;
-  wbraid?: string;
-  msclkid?: string;
-  ttclid?: string;
-  ctwaClid?: string;
-  segmentAnonymousId?: string;
-  consent: true;
-  salesContactRequestChannels?: Array<"email" | "phone" | "whatsapp">;
-  voiceContactConsent?: boolean;
-  voiceContactConsentVersion?: string;
-  salesContactRequestMessage?: string;
-  emailMarketingConsent?: boolean;
-  smsMarketingConsent?: boolean;
-  whatsappMarketingConsent?: boolean;
-  marketingConsent?: boolean;
-  advertisingConsent?: boolean;
-  advertisingConsentVersion?: string;
-  metaEventId?: string;
-  clientIpAddress?: string;
-  clientUserAgent?: string;
-  eventSourceUrl?: string;
-  website?: string;
-};
-
-const captureWebsiteLead = makeFunctionReference<
-  "mutation",
-  CaptureWebsiteLeadArgs,
-  { accepted: true }
->("growth:captureWebsiteLead");
 
 function optional(value: string | undefined): string | undefined {
   return value || undefined;
@@ -215,6 +164,7 @@ export async function POST(request: Request) {
       ctwaClid = "",
       segmentAnonymousId = "",
       turnstileToken = "",
+      submissionId = randomUUID(),
     } = parsed.data;
 
     // Return success for honeypot hits to avoid feedback loops for bots.
@@ -238,12 +188,16 @@ export async function POST(request: Request) {
       );
     }
 
-    const convexUrl = resolveConvexUrl();
-    if (!convexUrl) {
+    const resolved = resolveWebsiteLeadBackend();
+    if (!resolved.ok) {
       await captureLandingMessage(
         "Convex configuration missing for lead capture",
         "lead-capture.configuration",
-        { component: "lead-capture", error_type: "configuration" },
+        {
+          component: "lead-capture",
+          error_type: "configuration",
+          missing: resolved.missing,
+        },
       );
       return NextResponse.json(
         { success: false, message: "Não foi possível registrar o contato agora." },
@@ -253,9 +207,10 @@ export async function POST(request: Request) {
 
     const refererHeader = request.headers.get("referer") || "";
     const advertisingConsent = readAdvertisingConsent(request);
-    const metaEventId = advertisingConsent.granted ? randomUUID() : undefined;
-    const convex = new ConvexHttpClient(convexUrl);
-    await convex.mutation(captureWebsiteLead, {
+    const metaEventId = advertisingConsent.granted
+      ? websiteLeadMetaEventId(submissionId)
+      : undefined;
+    await sendWebsiteLead(resolved.backend, submissionId, {
       name,
       email: optional(email),
       phone: optional(whatsapp),

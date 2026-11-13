@@ -6,6 +6,7 @@ import { ArrowRight, Check } from "lucide-react";
 import { TurnstileWidget } from "@/components/turnstile-widget";
 import { useSegment } from "@/providers/segment-provider";
 import { useLeadRemarketing } from "@/hooks/use-lead-remarketing";
+import { leadSubmissionId, settleLeadSubmission } from "@/lib/lead-submission";
 
 export function NewsletterSignup() {
   const trackLeadRemarketing = useLeadRemarketing();
@@ -49,6 +50,7 @@ export function NewsletterSignup() {
           turnstileToken,
           segmentAnonymousId: getAnonymousId(),
           ...getAcquisitionContext(),
+          submissionId: leadSubmissionId("newsletter:site-footer"),
         }),
       });
 
@@ -56,6 +58,7 @@ export function NewsletterSignup() {
         metaEventId?: string;
       };
       if (!response.ok) throw new Error("newsletter_capture_failed");
+      settleLeadSubmission("newsletter:site-footer");
 
       trackLeadRemarketing({
         eventId: data.metaEventId,

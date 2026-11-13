@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { TurnstileWidget } from "@/components/turnstile-widget"
 import { useSegment } from "@/providers/segment-provider"
+import { leadSubmissionId, settleLeadSubmission } from "@/lib/lead-submission"
 
 export default function ContactForm() {
   const { track, identify, getAnonymousId, getAcquisitionContext } = useSegment()
@@ -54,6 +55,7 @@ export default function ContactForm() {
           ...getAcquisitionContext(),
           segmentAnonymousId: getAnonymousId(),
           turnstileToken,
+          submissionId: leadSubmissionId('contact:site'),
         }),
       })
 
@@ -61,6 +63,7 @@ export default function ContactForm() {
         const data = await response.json().catch(() => ({ message: "" }))
         throw new Error(data.message || 'Não conseguimos enviar sua mensagem.')
       }
+      settleLeadSubmission('contact:site')
 
       setSuccess(true)
       setSubmittedChannel(contactChannel)

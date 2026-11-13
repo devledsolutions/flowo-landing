@@ -6,6 +6,7 @@ import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { TurnstileWidget } from "@/components/turnstile-widget";
 import { useSegment } from "@/providers/segment-provider";
 import { useLeadRemarketing } from "@/hooks/use-lead-remarketing";
+import { leadSubmissionId, settleLeadSubmission } from "@/lib/lead-submission";
 
 function formatBrazilianPhone(value: string) {
   const digits = value.replace(/\D/g, "").slice(0, 11);
@@ -81,6 +82,7 @@ export function MobileAppWaitlistForm() {
           ...getAcquisitionContext(),
           segmentAnonymousId: getAnonymousId(),
           turnstileToken,
+          submissionId: leadSubmissionId("app-mobile-waitlist"),
         }),
       });
       const data = (await response.json()) as {
@@ -98,6 +100,7 @@ export function MobileAppWaitlistForm() {
         return;
       }
 
+      settleLeadSubmission("app-mobile-waitlist");
       setStatus("success");
       trackLeadRemarketing({
         eventId: data.metaEventId,
