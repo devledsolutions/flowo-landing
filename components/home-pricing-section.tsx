@@ -13,7 +13,7 @@ import {
   type Plan,
 } from "@/data/pricing-data";
 import { cn } from "@/lib/utils";
-import { buildSignupUrl } from "@/components/cta-links";
+import { buildSignupUrl, buildWhatsAppUrl } from "@/components/cta-links";
 import { TrackedLink } from "@/components/analytics/tracked-link";
 import { useSegment } from "@/providers/segment-provider";
 import { useWebsiteExperiment } from "@/hooks/use-website-experiment";
@@ -51,6 +51,10 @@ const CTA =
   "inline-flex h-9 items-center justify-center gap-1.5 rounded-full px-5 text-[14px] font-medium transition-colors duration-200";
 const CTA_PRIMARY = cn(CTA, "bg-ink text-cream hover:bg-ink/90");
 const CTA_SECONDARY = cn(CTA, "border border-control-border text-ink hover:bg-surface-2");
+
+const PLAN_QUESTION_WHATSAPP_URL = buildWhatsAppUrl(
+  "Olá! Vim pelo site da Flowo e tenho uma dúvida sobre os planos.",
+);
 
 const purchaseFacts = [
   ["Antes de conectar o WhatsApp", "A gente confere com você se o número atual pode ser usado."],
@@ -243,7 +247,28 @@ export default function HomePricingSection() {
         })}
       </div>
 
-      <div className="mt-10 border-y border-line bg-surface">
+      <p className="mt-6 flex flex-wrap items-center justify-center gap-x-2 text-center text-[14px] leading-[21px] text-muted-ink">
+        Ainda comparando os planos?
+        <TrackedLink
+          href={PLAN_QUESTION_WHATSAPP_URL}
+          event="CTA Clicked"
+          properties={{
+            page: "/",
+            placement: "pricing_whatsapp_question",
+            destination: "whatsapp_sales",
+            intent: "ask_question",
+            billing_cycle: cycle,
+          }}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex min-h-11 items-center gap-1 font-medium text-ink underline decoration-ink/30 underline-offset-4 transition-colors hover:decoration-ink"
+        >
+          Tire sua dúvida no WhatsApp
+          <ArrowRight className="h-4 w-4" aria-hidden="true" />
+        </TrackedLink>
+      </p>
+
+      <div className="mt-6 border-y border-line bg-surface">
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 lg:divide-x lg:divide-line">
           {purchaseFacts.map(([title, description]) => (
             <div

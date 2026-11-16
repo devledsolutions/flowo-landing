@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { PricingCard } from "@/components/pricing/pricing-card";
 import { PlanSelector } from "@/components/marketing/growth-tools/plan-selector";
 import { getPlan } from "@/data/pricing-data";
+import HomePricingSection from "@/components/home-pricing-section";
 
 function hrefs(markup: string): URL[] {
   return [...markup.matchAll(/href="([^"]+)"/g)]
@@ -54,5 +55,19 @@ describe("plan selector", () => {
     expect(link?.searchParams.get("utm_content")).toBe("plan_selector");
     expect(markup).toContain('href="/precos"');
     expect(markup).not.toContain("/precos?plan=");
+  });
+});
+
+describe("home pricing WhatsApp question", () => {
+  it("offers a WhatsApp question below the plans without replacing signup", () => {
+    const markup = renderToStaticMarkup(<HomePricingSection />);
+    const whatsapp = hrefs(markup).filter((url) => url.hostname === "wa.me");
+    expect(whatsapp).toHaveLength(1);
+    expect(whatsapp[0].pathname).toBe("/5511999999999");
+    expect(whatsapp[0].searchParams.get("text")).toBe(
+      "Olá! Vim pelo site da Flowo e tenho uma dúvida sobre os planos.",
+    );
+    expect(markup).toContain("Tire sua dúvida no WhatsApp");
+    expect(signupLinks(markup).map((url) => url.searchParams.get("plan"))).toEqual(["solo", "equipe"]);
   });
 });
