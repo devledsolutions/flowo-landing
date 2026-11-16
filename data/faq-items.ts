@@ -11,6 +11,11 @@ export const faqItems: FAQItem[] = [
     category: "WhatsApp"
   },
   {
+    question: "Meu número pode ser bloqueado?",
+    answer: "A Flowo usa a API oficial do WhatsApp, o canal que o próprio WhatsApp oferece para empresas atenderem clientes de forma automática. A Devled, empresa que faz a Flowo, é Provedor de Tecnologia verificado pela Meta, dona do WhatsApp. Bloqueio costuma acontecer com programas não oficiais, que usam o WhatsApp sem autorização.",
+    category: "WhatsApp"
+  },
+  {
     question: "Como funciona o pagamento via PIX?",
     answer: "PIX e cartão integrados são opcionais e usados somente depois do serviço. A barbearia também pode receber em dinheiro ou na própria maquininha e registrar a forma de pagamento na comanda. O Flowo nunca exige sinal ou pagamento para reservar.",
     category: "Pagamento"
@@ -79,6 +84,7 @@ export const faqItems: FAQItem[] = [
 
 const homeFaqQuestions = new Set([
   "Como funciona o agendamento pelo WhatsApp?",
+  "Meu número pode ser bloqueado?",
   "Como funciona o pagamento via PIX?",
   "Quanto tempo leva para configurar o Flowo na minha barbearia?",
   "Serve para barbeiro solo ou só para barbearias grandes?",

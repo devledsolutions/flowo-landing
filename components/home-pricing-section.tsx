@@ -57,7 +57,7 @@ const PLAN_QUESTION_WHATSAPP_URL = buildWhatsAppUrl(
 );
 
 const purchaseFacts = [
-  ["Antes de conectar o WhatsApp", "A gente confere com você se o número atual pode ser usado."],
+  ["API oficial do WhatsApp", "A Devled, que faz a Flowo, é Provedor de Tecnologia verificado pela Meta."],
   ["A gente configura com você", "Serviços, equipe, horários e respostas são revisados antes da ativação."],
   ["14 dias para clientes elegíveis", "A avaliação assistida não pede cartão nem renova automaticamente."],
   ["Você pode cancelar", "Cancele no Flowo ou na loja onde assinou, sem multa de fidelidade."],
