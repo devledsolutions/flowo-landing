@@ -4,6 +4,7 @@ import { ParallaxPlanes } from "@/components/home/parallax-planes";
 import { PhoneFrame } from "@/components/home/phone-frame";
 import { WhatsAppChat } from "@/components/home/whatsapp-chat";
 import { HeroExperimentCopy } from "@/components/home/hero-experiment-copy";
+import { ShieldCheck } from "@/components/icons/flowo-icons";
 import { ProductDisclaimer } from "@/components/home/product-previews";
 
 /**
@@ -91,8 +92,9 @@ export default function Hero() {
 
       <div className="relative mx-auto w-full max-w-[1080px] px-6 text-center lg:px-0">
         <div className={`${APPEAR} mt-[121px] flex justify-center lg:mt-[161px]`}>
-          <span className="inline-flex items-center rounded-full border border-ink/15 bg-ink/5 px-3 py-1 text-caption font-medium text-muted-ink">
-            WhatsApp conectado à agenda
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-ink/20 bg-surface px-3.5 py-1.5 text-caption font-semibold text-ink shadow-sm">
+            <ShieldCheck className="h-4 w-4" aria-hidden="true" />
+            API oficial do WhatsApp
           </span>
         </div>
         <h1
