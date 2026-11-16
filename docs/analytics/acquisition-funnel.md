@@ -12,7 +12,9 @@ páginas. Os eventos consentidos são distribuídos pelo Segment ao PostHog
 O arquivo em AWS S3 foi desativado em 07/10/2026.
 
 Eventos só são enviados depois do consentimento de analytics. Nenhum evento
-abaixo contém nome, e-mail, telefone ou outra informação pessoal.
+abaixo contém nome, e-mail, telefone ou outra informação pessoal. A única
+exceção é a contagem de páginas vistas sem cookies, enviada direto ao PostHog
+(`docs/operations/observability.md`).
 
 Quando uma pessoa envia voluntariamente um formulário e aceita o texto de
 consentimento, o site faz um `identify` separado com os dados declarados. Esses

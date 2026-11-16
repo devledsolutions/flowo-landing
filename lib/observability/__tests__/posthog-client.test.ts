@@ -1,15 +1,22 @@
 // @vitest-environment jsdom
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-const mock = vi.hoisted(() => ({
-  consent: false,
-  init: vi.fn(),
-  set_config: vi.fn(),
-  register: vi.fn(),
-  capture: vi.fn(),
-  reset: vi.fn(),
-  stopSessionRecording: vi.fn(),
-}));
+const mock = vi.hoisted(() => {
+  const state = {
+    consent: false,
+    sdkStatus: "pending" as "granted" | "denied" | "pending",
+    init: vi.fn(),
+    set_config: vi.fn(),
+    register: vi.fn(),
+    capture: vi.fn(),
+    reset: vi.fn(),
+    stopSessionRecording: vi.fn(),
+    get_explicit_consent_status: vi.fn(() => state.sdkStatus),
+    opt_in_capturing: vi.fn(() => { state.sdkStatus = "granted"; }),
+    opt_out_capturing: vi.fn(() => { state.sdkStatus = "denied"; }),
+  };
+  return state;
+});
 vi.mock("posthog-js", () => ({ default: mock }));
 vi.mock("@/lib/consent", () => ({ hasAnalyticsConsent: () => mock.consent }));
 
@@ -17,6 +24,7 @@ beforeEach(() => {
   vi.resetModules();
   vi.clearAllMocks();
   mock.consent = false;
+  mock.sdkStatus = "pending";
   window.history.replaceState({}, "", "/");
   vi.stubEnv("NEXT_PUBLIC_POSTHOG_KEY", "phc_test_fixture");
   vi.stubEnv("NODE_ENV", "production");
@@ -26,16 +34,37 @@ beforeEach(() => {
 afterEach(() => { vi.unstubAllEnvs(); vi.restoreAllMocks(); });
 
 describe("landing PostHog consent lifecycle", () => {
-  it("starts with operational errors only, no replay, persistence or pageviews", async () => {
-    const { initializeLandingPostHog } = await import("../posthog-client");
+  it("starts cookieless, without replay, persistence or autocapture, and still counts the pageview", async () => {
+    const { initializeLandingPostHog, captureLandingPageview } = await import("../posthog-client");
     initializeLandingPostHog();
     expect(mock.init.mock.calls[0][1]).toMatchObject({
-      disable_session_recording: true, disable_persistence: true,
+      cookieless_mode: "on_reject", opt_out_capturing_by_default: true,
+      disable_session_recording: true, disable_persistence: true, persistence: "memory",
       capture_pageview: false, autocapture: false, capture_exceptions: true,
     });
-    expect(mock.capture).not.toHaveBeenCalled();
+    expect(mock.opt_in_capturing).not.toHaveBeenCalled();
+    expect(mock.opt_out_capturing).not.toHaveBeenCalled();
+    captureLandingPageview();
+    expect(mock.capture.mock.calls).toEqual([["$pageview"]]);
   });
-  it("grants consent, emits one pageview, and keeps remote recording conditions", async () => {
+  it("without consent sends only cookieless pageviews and sanitized exceptions", async () => {
+    const { initializeLandingPostHog } = await import("../posthog-client");
+    initializeLandingPostHog();
+    const beforeSend = mock.init.mock.calls[0][1].before_send;
+    const cookieless = {
+      event: "$pageview",
+      properties: { token: "phc_test_fixture", distinct_id: "$posthog_cookieless", $cookieless_mode: true },
+    };
+    expect(beforeSend(cookieless)).toMatchObject({
+      properties: { token: "phc_test_fixture", distinct_id: "$posthog_cookieless", $cookieless_mode: true },
+    });
+    expect(beforeSend({ event: "$pageview", properties: { distinct_id: "0192f0aa-1111-7000-8000-000000000001" } })).toBeNull();
+    expect(beforeSend({ event: "$autocapture", properties: { $cookieless_mode: true } })).toBeNull();
+    expect(beforeSend({ event: "$pageleave", properties: { $cookieless_mode: true } })).toBeNull();
+    expect(beforeSend({ event: "$exception", properties: { token: "secret" } }))
+      .toMatchObject({ properties: { token: "[Redacted]" } });
+  });
+  it("opts in without an extra event and keeps remote recording conditions", async () => {
     mock.consent = true;
     const { initializeLandingPostHog, syncLandingPostHogConsent } = await import("../posthog-client");
     initializeLandingPostHog();
@@ -43,35 +72,64 @@ describe("landing PostHog consent lifecycle", () => {
     expect(mock.set_config).toHaveBeenCalledTimes(1);
     expect(mock.set_config).toHaveBeenCalledWith(expect.objectContaining({
       disable_session_recording: false, capture_pageview: false,
-      disable_persistence: false,
+      disable_persistence: false, persistence: "localStorage+cookie",
     }));
-    expect(mock.capture.mock.calls).toEqual([["$pageview"]]);
+    expect(mock.opt_in_capturing.mock.calls).toEqual([[{ captureEventName: false }]]);
+    // A returning visitor starts persisted, so the stored anonymous id survives reloads and the opt-in.
+    expect(mock.init.mock.calls[0][1]).toMatchObject({
+      opt_out_capturing_by_default: false, disable_persistence: false, persistence: "localStorage+cookie",
+    });
+    expect(mock.capture).not.toHaveBeenCalled();
     expect(mock.init.mock.calls[0][1].session_recording).not.toHaveProperty("maskAllInputs");
   });
-  it("withdraws, stops and resets, then resumes exactly once after renewed consent", async () => {
-    const { initializeLandingPostHog, syncLandingPostHogConsent } = await import("../posthog-client");
+  it("accepting on the current page does not count the same visit twice", async () => {
+    const { initializeLandingPostHog, captureLandingPageview, syncLandingPostHogConsent } = await import("../posthog-client");
+    initializeLandingPostHog();
+    captureLandingPageview();
+    mock.consent = true;
+    syncLandingPostHogConsent();
+    captureLandingPageview();
+    expect(mock.capture).toHaveBeenCalledTimes(1);
+    window.history.pushState({}, "", "/precos");
+    captureLandingPageview();
+    expect(mock.capture).toHaveBeenCalledTimes(2);
+  });
+  it("withdrawal stops recording, drops the consented identity and resumes cookieless counting", async () => {
+    const { initializeLandingPostHog, captureLandingPageview, syncLandingPostHogConsent } = await import("../posthog-client");
     initializeLandingPostHog();
     mock.consent = true;
     syncLandingPostHogConsent();
     mock.consent = false;
     syncLandingPostHogConsent();
     expect(mock.stopSessionRecording).toHaveBeenCalledTimes(1);
-    expect(mock.reset).toHaveBeenCalledTimes(1);
+    expect(mock.opt_out_capturing).toHaveBeenCalledTimes(1);
     expect(mock.set_config).toHaveBeenLastCalledWith(expect.objectContaining({
       disable_session_recording: true, autocapture: false,
-      capture_pageview: false, capture_pageleave: false, disable_persistence: true,
+      capture_pageview: false, capture_pageleave: false, disable_persistence: true, persistence: "memory",
     }));
+    window.history.pushState({}, "", "/precos");
+    captureLandingPageview();
+    expect(mock.capture).toHaveBeenCalledTimes(1);
     mock.consent = true;
     syncLandingPostHogConsent();
-    expect(mock.capture).toHaveBeenCalledTimes(2);
+    expect(mock.opt_in_capturing).toHaveBeenCalledTimes(2);
   });
-  it("drops behavioral events after withdrawal, but retains sanitized exceptions", async () => {
+  it("withdraws an SDK opt-in that outlived the site's consent cookie", async () => {
+    mock.sdkStatus = "granted";
     const { initializeLandingPostHog } = await import("../posthog-client");
     initializeLandingPostHog();
-    const beforeSend = mock.init.mock.calls[0][1].before_send;
-    expect(beforeSend({ event: "$autocapture", properties: {} })).toBeNull();
-    expect(beforeSend({ event: "$exception", properties: { token: "secret" } }))
-      .toMatchObject({ properties: { token: "[Redacted]" } });
+    expect(mock.stopSessionRecording).toHaveBeenCalledTimes(1);
+    expect(mock.opt_out_capturing).toHaveBeenCalledTimes(1);
+    expect(mock.opt_in_capturing).not.toHaveBeenCalled();
+  });
+  it("repeated focus checks do not repeat a consent transition", async () => {
+    mock.consent = true;
+    const { initializeLandingPostHog, syncLandingPostHogConsent } = await import("../posthog-client");
+    initializeLandingPostHog();
+    syncLandingPostHogConsent();
+    syncLandingPostHogConsent();
+    expect(mock.opt_in_capturing).toHaveBeenCalledTimes(1);
+    expect(mock.set_config).toHaveBeenCalledTimes(1);
   });
   it("does not enable recording in local development even after consent", async () => {
     vi.stubEnv("NODE_ENV", "development");
@@ -88,8 +146,7 @@ describe("landing PostHog consent lifecycle", () => {
     expect(window.addEventListener).toHaveBeenCalledWith("consent-updated", expect.any(Function));
     expect(window.addEventListener).toHaveBeenCalledWith("focus", expect.any(Function));
   });
-  it("captures exactly once per Next.js route, including after consent on the initial document", async () => {
-    mock.consent = true;
+  it("captures exactly once per Next.js route", async () => {
     const { initializeLandingPostHog, captureLandingPageview } = await import("../posthog-client");
     initializeLandingPostHog();
     captureLandingPageview();
@@ -104,19 +161,5 @@ describe("landing PostHog consent lifecycle", () => {
     window.history.replaceState({}, "", "/precos");
     captureLandingPageview();
     expect(mock.capture).toHaveBeenCalledTimes(4);
-  });
-  it("does not record new routes after withdrawal and resumes the current route once", async () => {
-    mock.consent = true;
-    const { initializeLandingPostHog, captureLandingPageview, syncLandingPostHogConsent } = await import("../posthog-client");
-    initializeLandingPostHog();
-    mock.consent = false;
-    syncLandingPostHogConsent();
-    window.history.pushState({}, "", "/precos");
-    captureLandingPageview();
-    expect(mock.capture).toHaveBeenCalledTimes(1);
-    mock.consent = true;
-    syncLandingPostHogConsent();
-    captureLandingPageview();
-    expect(mock.capture).toHaveBeenCalledTimes(2);
   });
 });

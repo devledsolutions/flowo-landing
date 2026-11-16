@@ -14,12 +14,22 @@ import {
 } from "@/lib/observability/posthog-shared";
 
 let initialized = false;
+let consentSynced = false;
 let analyticsEnabled = false;
 let lastPageviewPath: string | undefined;
 
+type CapturedEvent = { event?: string; properties?: Record<string, unknown> } | null;
+
+// Without consent the SDK marks the event cookieless: PostHog counts it with a
+// daily server-side hash and nothing is stored on the visitor's device.
+function isCookielessPageview(event: CapturedEvent): boolean {
+  return event?.event === "$pageview" && event.properties?.$cookieless_mode === true;
+}
+
 export function captureLandingPageview(): void {
-  if (!initialized || !hasAnalyticsConsent()) return;
+  if (!initialized) return;
   const pathname = window.location.pathname;
+  // A consent change on the same route keeps this guard: one visit is one pageview.
   if (pathname === lastPageviewPath) return;
   lastPageviewPath = pathname;
   posthog.capture("$pageview");
@@ -28,12 +38,15 @@ export function captureLandingPageview(): void {
 export function syncLandingPostHogConsent(): void {
   if (!initialized) return;
   const allowed = hasAnalyticsConsent();
-  if (allowed === analyticsEnabled) return;
+  if (consentSynced && allowed === analyticsEnabled) return;
+  // The SDK keeps its own opt-in after the site's consent cookie expires or is cleared.
+  const leavingConsent = analyticsEnabled || posthog.get_explicit_consent_status() === "granted";
+  consentSynced = true;
   analyticsEnabled = allowed;
-  if (!allowed) {
-    lastPageviewPath = undefined;
+  if (!allowed && leavingConsent) {
     posthog.stopSessionRecording();
-    posthog.reset();
+    // Drops the consented identity and resumes the cookieless count.
+    posthog.opt_out_capturing();
   }
   posthog.set_config({
     // One explicit Next.js route observer owns pageviews. The installed SDK
@@ -46,8 +59,8 @@ export function syncLandingPostHogConsent(): void {
     disable_persistence: !allowed,
     persistence: allowed ? "localStorage+cookie" : "memory",
   });
+  if (allowed) posthog.opt_in_capturing({ captureEventName: false });
   posthog.register(landingTelemetryDimensions);
-  if (allowed) captureLandingPageview();
 }
 
 export function initializeLandingPostHog(): void {
@@ -56,6 +69,10 @@ export function initializeLandingPostHog(): void {
   if (!key) return;
 
   initialized = true;
+  // A visitor who already accepted starts persisted: the SDK reuses the stored
+  // anonymous id instead of minting one per page load, and the opt-in below
+  // does not reset it.
+  const consented = hasAnalyticsConsent();
   posthog.init(key, {
     api_host: POSTHOG_HOST,
     ui_host: "https://us.posthog.com",
@@ -64,14 +81,20 @@ export function initializeLandingPostHog(): void {
     autocapture: false,
     capture_exceptions: true,
     disable_session_recording: true,
-    disable_persistence: true,
-    persistence: "memory",
+    disable_persistence: !consented,
+    persistence: consented ? "localStorage+cookie" : "memory",
     person_profiles: "never",
+    // Visitors who reject the banner or never answer it are still counted,
+    // cookieless. Accepting switches to the regular, persisted mode.
+    cookieless_mode: "on_reject",
+    opt_out_capturing_by_default: !consented,
     session_recording: webReplayOptions,
     enable_recording_console_log: false,
     before_send(event) {
       // Recheck the durable preference to close races during withdrawal.
-      if (event?.event !== "$exception" && !hasAnalyticsConsent()) return null;
+      if (event?.event !== "$exception" && !hasAnalyticsConsent() && !isCookielessPageview(event)) {
+        return null;
+      }
       return sanitizeLandingPostHogEvent(event, key);
     },
     loaded(instance) {

@@ -215,6 +215,8 @@ const sections: LegalSection[] = [
           <li>
             <strong>PostHog:</strong> usado para medir uso e para gravar a
             navegação no site e no painel web após a autorização de análise.
+            Sem essa autorização, conta apenas as páginas vistas no site, sem
+            cookies, como descrito em “Cookies, métricas e comunicações”.
             A gravação registra telas, cliques, rolagem e conteúdo exibido ou
             preenchido, que pode incluir nomes, contatos e informações do
             atendimento. Campos de senha, códigos de acesso, credenciais e
@@ -382,6 +384,15 @@ const sections: LegalSection[] = [
           segurança e preferências. Cookies de análise e de publicidade só são
           ativados depois da sua escolha no aviso de cookies e podem ser
           recusados ou retirados nas preferências.
+        </p>
+        <p>
+          Se você recusar os cookies de análise ou não responder ao aviso,
+          contamos apenas as páginas vistas no site, sem cookies e sem gravar
+          nada no seu aparelho. O PostHog agrupa essas visitas com um código
+          calculado a partir do endereço IP e do navegador, combinado com um
+          valor que muda todo dia e é descartado depois. Esse código não
+          identifica você nem liga visitas de dias diferentes. Não há gravação
+          de navegação, cliques ou formulários nesse modo.
         </p>
         <p>
           A gravação de navegação no site e no painel web também depende da
