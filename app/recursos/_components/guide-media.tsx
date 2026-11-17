@@ -2,7 +2,6 @@ import Image from "next/image";
 import { Check } from "lucide-react";
 import { PhoneFrame } from "@/components/home/phone-frame";
 import { WhatsAppChat, type ChatMessage } from "@/components/home/whatsapp-chat";
-import { ProductDisclaimer } from "@/components/home/product-previews";
 
 /**
  * Media blocks shared by the guias em /recursos/guias/*. The guide shell
@@ -15,7 +14,7 @@ import { ProductDisclaimer } from "@/components/home/product-previews";
 export function GuideWhatsApp({
   messages,
   logicalHeight = 844,
-  caption = "Conversa ilustrativa, com dados de teste",
+  caption,
 }: {
   messages: ChatMessage[];
   logicalHeight?: number;
@@ -33,9 +32,9 @@ export function GuideWhatsApp({
           <WhatsAppChat width={384} logicalHeight={logicalHeight} messages={messages} />
         </PhoneFrame>
       </div>
-      <figcaption className="mt-4 flex justify-center">
-        <ProductDisclaimer label={caption} />
-      </figcaption>
+      {caption ? (
+        <figcaption className="mt-4 text-center text-caption text-faint-ink">{caption}</figcaption>
+      ) : null}
     </figure>
   );
 }
@@ -43,7 +42,7 @@ export function GuideWhatsApp({
 export function GuideScreenshot({
   src,
   alt,
-  caption = "Tela do app com dados ilustrativos",
+  caption,
   width = 1920,
   height = 1041,
 }: {
@@ -63,9 +62,9 @@ export function GuideScreenshot({
         sizes="(min-width: 1024px) 720px, 100vw"
         className="w-full rounded-xl border border-line bg-surface shadow-[0_24px_48px_-24px_rgba(23,24,16,0.35)]"
       />
-      <figcaption className="mt-3">
-        <ProductDisclaimer label={caption} />
-      </figcaption>
+      {caption ? (
+        <figcaption className="mt-3 text-caption text-faint-ink">{caption}</figcaption>
+      ) : null}
     </figure>
   );
 }
@@ -73,7 +72,7 @@ export function GuideScreenshot({
 export function GuideAppScreen({
   src,
   alt,
-  caption = "Tela do app com dados ilustrativos",
+  caption,
 }: {
   src: string;
   alt: string;
@@ -84,9 +83,9 @@ export function GuideAppScreen({
       <div className="mx-auto w-[300px] max-w-full">
         <PhoneFrame src={src} alt={alt} width={720} height={1564} sizes="300px" className="border-ink/30" />
       </div>
-      <figcaption className="mt-4 flex justify-center">
-        <ProductDisclaimer label={caption} />
-      </figcaption>
+      {caption ? (
+        <figcaption className="mt-4 text-center text-caption text-faint-ink">{caption}</figcaption>
+      ) : null}
     </figure>
   );
 }

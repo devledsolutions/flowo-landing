@@ -257,7 +257,7 @@ export const FLOWO_SCENARIO_SUMMARY: readonly {
 }[] = COMPETITIVE_SCENARIOS.map((scenario) => ({
   scenario,
   evidence:
-    "Atendimento da Flowo mostrado com dados de teste; confirme o plano e a configuração antes de prometer.",
+    "Confirme o plano e a configuração antes de prometer.",
 }));
 
 export const LAYER_LABELS: Record<ComparisonLayer, string> = {

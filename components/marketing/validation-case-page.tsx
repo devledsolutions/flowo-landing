@@ -265,7 +265,6 @@ export function ValidationCasePage({ validationCase }: ValidationCasePageProps) 
                     <p className="text-label text-muted-ink">
                       <span className="font-semibold text-ink">{screen.label}.</span> {screen.caption}
                     </p>
-                    <ProductDisclaimer label="Telas do app com dados ilustrativos" className="shrink-0" />
                   </figcaption>
                 </figure>
               ))}

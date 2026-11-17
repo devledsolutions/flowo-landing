@@ -6,7 +6,6 @@ import Footer from "@/components/footer";
 import { Breadcrumb } from "@/components/breadcrumb";
 import { PhoneFrame } from "@/components/home/phone-frame";
 import { WhatsAppChat, type ChatMessage } from "@/components/home/whatsapp-chat";
-import { ProductDisclaimer } from "@/components/home/product-previews";
 import { CommercialCta, RelatedSolutions } from "@/components/marketing/commercial-page";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
 import { cn } from "@/lib/utils";
@@ -246,7 +245,6 @@ export default function SchedulingSystemPage() {
                   </li>
                 ))}
               </ul>
-              <ProductDisclaimer className="mt-8" label="Conversa e telas com dados ilustrativos" />
             </div>
             <div className="flex justify-center lg:justify-end">
               <PhoneFrame className="lg:hidden">

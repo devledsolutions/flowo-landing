@@ -82,7 +82,7 @@ export default function FlowoRecuperaPage() {
                 <RecoveryProductPreview />
                 <p className="mt-4 flex items-center justify-center gap-1.5 text-caption text-faint-ink">
                   <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
-                  Telas ilustrativas do que estamos construindo. Vagas limitadas no teste.
+                  Telas do que estamos construindo. Vagas limitadas no teste.
                 </p>
               </div>
             </div>

@@ -43,7 +43,7 @@ export default function PixSoftwarePage() {
             <p className="max-w-measure text-label text-muted-ink">
               <strong className="font-semibold text-ink">O que já foi testado.</strong> O atendimento no
               WhatsApp ligado à agenda foi testado pela Flowo em 26 de julho de 2026, com números de teste da
-              própria Flowo. A tela desta página é do produto, com dados ilustrativos. Ainda não medimos
+              própria Flowo. A tela desta página é do produto. Ainda não medimos
               recebimento por PIX e cartão Flowo em barbearias clientes.{" "}
               <Link
                 href="/demonstracao-agendamento-whatsapp"

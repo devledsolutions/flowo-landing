@@ -15,9 +15,6 @@ import {
   ShieldCheck,
   Users,
 } from "lucide-react";
-import {
-  ProductDisclaimer,
-} from "@/components/home/product-previews";
 import { LeadMagnetForm } from "@/components/marketing/lead-magnet-form";
 import { useSegment } from "@/providers/segment-provider";
 import {
@@ -314,7 +311,7 @@ export function AgendaReadinessDiagnostic() {
             <div className="preview-light overflow-hidden rounded-xl border border-line bg-surface-2 p-4 sm:p-6">
               <div className="border-b border-line pb-4">
                 <p className="text-caption font-semibold text-muted-ink">
-                  Demonstração do fluxo · dados ilustrativos
+                  Como funciona
                 </p>
                 <p className="mt-2 max-w-[34ch] text-sm font-semibold leading-snug text-ink">
                   WhatsApp, horários válidos e agenda no mesmo fluxo.
@@ -335,7 +332,6 @@ export function AgendaReadinessDiagnostic() {
                 </PhoneFrame>
               </div>
             </div>
-            <ProductDisclaimer className="mt-4" />
           </div>
         </div>
       </section>

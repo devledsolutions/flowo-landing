@@ -17,7 +17,6 @@ import Footer from "@/components/footer";
 import { MobileAppWaitlistForm } from "@/components/mobile-app-waitlist-form";
 import { TrackedLink } from "@/components/analytics/tracked-link";
 import { PhoneFrame } from "@/components/home/phone-frame";
-import { ProductDisclaimer } from "@/components/home/product-previews";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
 import { SIGNUP_URL } from "@/components/cta-links";
 
@@ -240,7 +239,6 @@ export default function MobileAppPage() {
                   priority
                 />
               </div>
-              <ProductDisclaimer label="Telas do app com dados ilustrativos" className="mt-6 justify-center" />
             </div>
           </div>
         </section>
@@ -367,7 +365,7 @@ export default function MobileAppPage() {
             <p className="max-w-measure text-label text-muted-ink">
               <strong className="font-semibold text-ink">O que já dá para afirmar.</strong> O app está
               construído e ainda não foi publicado nas lojas. Não prometemos data. As telas desta página são do
-              app de verdade, com dados ilustrativos. Ainda não medimos o uso do app em barbearias clientes.
+              app de verdade. Ainda não medimos o uso do app em barbearias clientes.
               Hoje, a entrada na Flowo é o painel web com o atendimento no WhatsApp.{" "}
               <Link href="/demonstracao-agendamento-whatsapp" className="font-medium text-ink underline underline-offset-4">
                 Ver o atendimento funcionando

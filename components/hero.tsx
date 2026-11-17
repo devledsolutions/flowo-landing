@@ -5,7 +5,6 @@ import { PhoneFrame } from "@/components/home/phone-frame";
 import { WhatsAppChat } from "@/components/home/whatsapp-chat";
 import { HeroExperimentCopy } from "@/components/home/hero-experiment-copy";
 import { ShieldCheck } from "@/components/icons/flowo-icons";
-import { ProductDisclaimer } from "@/components/home/product-previews";
 
 /**
  * Flowo's hero on the fora.so staging mechanism.
@@ -150,10 +149,6 @@ export default function Hero() {
         className="left-[-120px] top-[897px] h-[125px] w-[630px] lg:top-[984px] lg:h-[285px]"
       />
 
-      <ProductDisclaimer
-        label="Telas do app com dados ilustrativos"
-        className="absolute bottom-3 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap text-[#F8F6F2]/80 [&_svg]:text-[#F8F6F2]/80"
-      />
     </ParallaxPlanes>
   );
 }

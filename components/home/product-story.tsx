@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Check } from "@/components/icons/flowo-icons";
-import { ConversationPreview, ConfirmationPreview, ProductDisclaimer } from "./product-previews";
+import { ConversationPreview, ConfirmationPreview } from "./product-previews";
 
 const agendaDetails = [
   "Foto ou iniciais para encontrar cada profissional.",
@@ -37,7 +37,6 @@ export default function ProductStory() {
               <Image unoptimized src="/images/product/agenda-equipe-app-20261112.png" alt="Detalhe real da Agenda no app Flowo: iniciais acima dos profissionais e os agendamentos do dia." width={975} height={1061} sizes="(min-width: 640px) 280px, 100vw" className="h-auto w-full rounded-lg" />
             </div>
           </div>
-          <ProductDisclaimer label="Capturas do Flowo com dados de demonstração" className="mt-4" />
         </div>
       </section>
 
@@ -54,7 +53,6 @@ export default function ProductStory() {
               <ConversationPreview />
               <ConfirmationPreview />
             </div>
-            <ProductDisclaimer label="Exemplo de conversa e confirmação" className="mt-5" />
           </div>
         </div>
       </section>
