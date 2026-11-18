@@ -142,7 +142,7 @@ export default function FinancialControlGuidePage() {
               <GuideScreenshot
                 src="/images/product/dashboard-financeiro.png"
                 alt="Tela Financeiro da Flowo: saldo disponível, recebido no dia, valor em aberto e o que vai para a equipe"
-                caption="Tela Financeiro, com dados ilustrativos. Cada linha vem de uma comanda recebida."
+                caption="Tela Financeiro. Cada linha vem de uma comanda recebida."
                 height={1082}
               />
               <GuideCards

@@ -3,7 +3,6 @@ import { ArrowRight } from "@/components/icons/flowo-icons";
 import { SIGNUP_URL } from "@/components/cta-links";
 import { TrackedLink } from "@/components/analytics/tracked-link";
 import { ParallaxPlanes } from "@/components/home/parallax-planes";
-import { ProductDisclaimer } from "@/components/home/product-previews";
 
 /**
  * The close, staged the way fora.so stages its last section, in Flowo's skin.
@@ -74,10 +73,6 @@ export default function OnboardingClose() {
               className="pointer-events-none absolute inset-x-0 top-0 h-px bg-cream opacity-60 [mask-image:linear-gradient(90deg,transparent_0%,black_50%,transparent_100%)]"
             />
           </div>
-          <ProductDisclaimer
-            label="Captura do Flowo com dados de demonstração"
-            className="absolute -bottom-7 left-1 text-[#F8F6F2]/80 [&_svg]:text-[#F8F6F2]/80"
-          />
         </div>
       </div>
 

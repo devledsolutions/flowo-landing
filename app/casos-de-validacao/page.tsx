@@ -273,7 +273,6 @@ export default function ValidationCasesPage() {
                     />
                     <figcaption className="mt-4">
                       <p className="text-label text-muted-ink">{screen.caption}</p>
-                      <ProductDisclaimer label="Telas do app com dados ilustrativos" className="mt-1" />
                     </figcaption>
                   </figure>
                 ) : null}

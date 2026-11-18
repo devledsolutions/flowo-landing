@@ -28,11 +28,11 @@ const previewLabels: Record<ProductCapabilityId, string> = {
   payments:
     "Comanda do Flowo mostrando dinheiro, maquininha própria, PIX Flowo e cartão Flowo como escolhas equivalentes.",
   cashback:
-    "Configuração ilustrativa de cashback com percentual, prazo, mínimo de resgate e limite por comanda.",
+    "Configuração de cashback com percentual, prazo, mínimo de resgate e limite por comanda.",
   commissions:
-    "Painel ilustrativo de comissões com saldo por profissional e repasse iniciado pelo gestor.",
+    "Painel de comissões com saldo por profissional e repasse iniciado pelo gestor.",
   fiscal:
-    "Painel ilustrativo de ativação fiscal assistida, com conferência do município e liberação da prefeitura.",
+    "Painel de ativação fiscal assistida, com conferência do município e liberação da prefeitura.",
 };
 
 function BrowserFrame({
@@ -330,10 +330,6 @@ export function ProductCapabilityPage({
               ) : (
                 <ProductCapabilityPreview kind={capability.id} />
               )}
-              <p className="mt-4 flex items-center justify-center gap-1.5 text-caption text-faint-ink">
-                <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
-                {capability.id === "payments" ? "Telas do app com dados ilustrativos" : "Demonstração ilustrativa do produto"}
-              </p>
             </div>
           </div>
         </div>

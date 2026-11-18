@@ -170,10 +170,10 @@ export function PaymentPreview({ className }: { className?: string }) {
 
 export function ProductDisclaimer({
   className,
-  label = "Demonstração com dados ilustrativos",
+  label,
 }: {
   className?: string;
-  label?: string;
+  label: string;
 }) {
   return (
     <p className={cn("flex items-center gap-1.5 text-[10px] text-faint-ink sm:text-caption", className)}>

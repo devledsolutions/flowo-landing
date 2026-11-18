@@ -5,7 +5,6 @@ import { Breadcrumb } from "@/components/breadcrumb";
 import { TrackedLink } from "@/components/analytics/tracked-link";
 import { PhoneFrame } from "@/components/home/phone-frame";
 import { WhatsAppChat, type ChatMessage } from "@/components/home/whatsapp-chat";
-import { ProductDisclaimer } from "@/components/home/product-previews";
 import {
   InstitutionalFilm,
   InstitutionalFilmSchema,
@@ -110,11 +109,6 @@ const whatFlowoDoes = [
 ] as const;
 
 const faqItems = [
-  {
-    question: "Essa conversa é com um cliente de verdade?",
-    answer:
-      "Não. Os nomes e valores são ilustrativos. O fluxo é o mesmo que a Flowo executou em produção com números de teste da própria Flowo, em 26 de julho de 2026.",
-  },
   {
     question: "O horário aparece mesmo na agenda?",
     answer:
@@ -244,7 +238,6 @@ export default function DemonstracaoAgendamentoWhatsappPage() {
                 <PhoneFrame className="hidden border-ink/30 shadow-[0_44px_90px_-40px_oklch(0.08_0.01_110/0.95)] lg:block">
                   <WhatsAppChat width={384} logicalHeight={1190} messages={conversation} />
                 </PhoneFrame>
-                <ProductDisclaimer label="Conversa ilustrativa, com o fluxo testado em produção" className="mt-4" />
               </div>
             </div>
           </div>

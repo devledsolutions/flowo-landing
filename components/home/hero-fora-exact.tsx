@@ -18,7 +18,6 @@ import {
 import { ParallaxPlanes } from "@/components/home/parallax-planes";
 import { PhoneFrame } from "@/components/home/phone-frame";
 import { HeroExperimentCopy } from "@/components/home/hero-experiment-copy";
-import { ProductDisclaimer } from "@/components/home/product-previews";
 
 /**
  * A faithful reproduction of fora.so's hero staging, with Flowo's content.
@@ -171,10 +170,6 @@ export default function HeroForaExact() {
         className="left-[-120px] top-[897px] h-[125px] w-[630px] lg:top-[984px] lg:h-[285px]"
       />
 
-      <ProductDisclaimer
-        label="Telas reais do app, com dados ilustrativos"
-        className="absolute bottom-3 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap text-white/60 [&_svg]:text-white/60"
-      />
     </ParallaxPlanes>
   );
 }

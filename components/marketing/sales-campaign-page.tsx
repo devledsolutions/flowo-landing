@@ -19,9 +19,6 @@ import {
   Users,
   WalletCards,
 } from "lucide-react";
-import {
-  ProductDisclaimer,
-} from "@/components/home/product-previews";
 import { InstitutionalFilmPlayer } from "@/components/marketing/institutional-film-player";
 import { PhoneFrame } from "@/components/home/phone-frame";
 import { WhatsAppChat, type ChatMessage } from "@/components/home/whatsapp-chat";
@@ -416,7 +413,6 @@ export function SalesCampaignPage() {
                   sizes="(min-width: 1024px) 640px, 100vw"
                   className="w-full rounded-2xl border border-line bg-surface shadow-[0_24px_48px_-24px_rgba(23,24,16,0.35)]"
                 />
-                <ProductDisclaimer className="mt-4" label="Telas do app com dados ilustrativos" />
               </div>
               <div>
                 <p className="text-label font-semibold uppercase tracking-[0.12em] text-faint-ink">
@@ -525,7 +521,6 @@ export function SalesCampaignPage() {
                   sizes="(min-width: 1024px) 520px, 100vw"
                   className="w-full rounded-2xl border border-line bg-surface shadow-[0_24px_48px_-24px_rgba(23,24,16,0.35)]"
                 />
-                <ProductDisclaimer className="mt-4" label="Telas do app com dados ilustrativos" />
               </div>
             </div>
           </div>
@@ -787,7 +782,6 @@ function CampaignProductHero() {
         <WhatsAppChat width={200} logicalHeight={620} messages={heroConversation} />
       </PhoneFrame>
     </div>
-    <ProductDisclaimer className="mt-3" label="Telas do app com dados ilustrativos" />
     </div>
   );
 }

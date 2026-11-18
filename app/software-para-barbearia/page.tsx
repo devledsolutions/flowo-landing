@@ -14,7 +14,6 @@ import {
   CommercialHero,
   RelatedSolutions,
 } from "@/components/marketing/commercial-page";
-import { ProductDisclaimer } from "@/components/home/product-previews";
 import { getPlan } from "@/data/pricing-data";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
 
@@ -183,7 +182,6 @@ export default function SoftwareParaBarbeariaPage() {
                 priority
               />
             </div>
-            <ProductDisclaimer label="Telas do app com dados ilustrativos" className="mt-4" />
           </div>
         </section>
 
@@ -266,7 +264,7 @@ export default function SoftwareParaBarbeariaPage() {
               <strong className="font-semibold text-ink">O que já foi testado.</strong> O atendimento no
               WhatsApp ligado à agenda (resposta, agendamento, remarcação, cancelamento e a passagem para a
               equipe) foi testado pela Flowo em 26 de julho de 2026, com números de teste da própria Flowo.
-              As telas desta página são do produto, com dados ilustrativos. Ainda não medimos resultado em
+              As telas desta página são do produto. Ainda não medimos resultado em
               barbearias clientes.{" "}
               <Link
                 href="/demonstracao-agendamento-whatsapp"

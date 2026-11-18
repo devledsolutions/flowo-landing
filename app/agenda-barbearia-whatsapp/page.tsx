@@ -10,7 +10,6 @@ import {
 } from "@/components/marketing/commercial-page";
 import { PhoneFrame } from "@/components/home/phone-frame";
 import { WhatsAppChat, type ChatMessage } from "@/components/home/whatsapp-chat";
-import { ProductDisclaimer } from "@/components/home/product-previews";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
 import { getPlan } from "@/data/pricing-data";
 
@@ -217,7 +216,6 @@ export default function WhatsappAgendaPage() {
               <PhoneFrame className="hidden border-ink/30 shadow-[0_44px_90px_-40px_oklch(0.08_0.01_110/0.95)] lg:block">
                 <WhatsAppChat width={384} logicalHeight={880} messages={conversation} />
               </PhoneFrame>
-              <ProductDisclaimer label="Conversa com dados ilustrativos" className="mt-4" />
             </div>
           </div>
         </section>
@@ -242,7 +240,6 @@ export default function WhatsappAgendaPage() {
                 className="h-auto w-full"
               />
             </div>
-            <ProductDisclaimer label="Telas do app com dados ilustrativos" className="mt-4" />
           </div>
         </section>
 
@@ -325,8 +322,7 @@ export default function WhatsappAgendaPage() {
         <section className="border-t border-line py-8 md:py-10">
           <div className="container-page">
             <p className="max-w-measure text-label text-muted-ink">
-              <strong className="font-semibold text-ink">O que já foi testado.</strong> A conversa desta página
-              é ilustrativa. O atendimento (resposta, agendamento, remarcação, cancelamento, confirmação e a
+              <strong className="font-semibold text-ink">O que já foi testado.</strong> O atendimento (resposta, agendamento, remarcação, cancelamento, confirmação e a
               passagem para a equipe) foi testado pela Flowo no WhatsApp em 26 de julho de 2026, com números
               de teste da própria Flowo. Ainda não medimos faltas evitadas nem tempo economizado em barbearias
               clientes.{" "}

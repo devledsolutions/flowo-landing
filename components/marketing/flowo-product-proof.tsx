@@ -11,12 +11,7 @@ import {
   UserRoundCheck,
   WalletCards,
 } from "lucide-react";
-import {
-  AgendaPreview,
-  ConfirmationPreview,
-  ConversationPreview,
-  ProductDisclaimer,
-} from "@/components/home/product-previews";
+import { AgendaPreview, ConfirmationPreview, ConversationPreview } from "@/components/home/product-previews";
 import { InstitutionalFilm } from "@/components/marketing/institutional-film";
 
 const operatingSteps = [
@@ -186,7 +181,7 @@ function ComparisonProductStage() {
             aria-hidden="true"
           />
           <p className="relative text-caption font-semibold uppercase tracking-[0.12em] text-muted-ink">
-            Demonstração do fluxo · dados ilustrativos
+            Como funciona
           </p>
 
           <AgendaPreview className="absolute left-5 right-[-9rem] top-20 rotate-[1.2deg] sm:left-10 sm:right-[-3rem] sm:top-24 lg:left-12 lg:right-[-5rem]" />
@@ -195,7 +190,6 @@ function ComparisonProductStage() {
         </div>
       </div>
       <div className="flex flex-col gap-3 border-t border-line px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-7">
-        <ProductDisclaimer />
         <p className="text-caption font-medium text-ink">
           Uma confirmação visível para o cliente e para a equipe.
         </p>
@@ -250,7 +244,7 @@ export function FlowoProductProof({
           <div className="relative min-h-[25rem] overflow-hidden rounded-xl border border-line bg-surface-2 p-5 sm:p-7">
             <div className="max-w-[78%]">
               <p className="text-caption font-semibold uppercase tracking-[0.12em] text-muted-ink">
-                Demonstração do fluxo · dados ilustrativos
+                Como funciona
               </p>
               <h3 className="mt-2 text-xl font-semibold text-ink">
                 O cliente pede. A IA oferece apenas horários válidos.

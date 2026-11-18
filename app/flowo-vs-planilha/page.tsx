@@ -9,7 +9,6 @@ import {
 } from "@/components/marketing/commercial-page";
 import { PhoneFrame } from "@/components/home/phone-frame";
 import { WhatsAppChat, type ChatMessage } from "@/components/home/whatsapp-chat";
-import { ProductDisclaimer } from "@/components/home/product-previews";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
 import { getPlan } from "@/data/pricing-data";
 import { FlowoProductProof } from "@/components/marketing/flowo-product-proof";
@@ -219,7 +218,6 @@ export default function FlowoVsPlanilhaPage() {
               <PhoneFrame className="hidden lg:block">
                 <WhatsAppChat width={384} logicalHeight={900} messages={conversation} />
               </PhoneFrame>
-              <ProductDisclaimer label="Conversa ilustrativa, com o fluxo testado em produção" className="mt-4" />
             </div>
           </div>
         </section>
@@ -252,7 +250,7 @@ export default function FlowoVsPlanilhaPage() {
           <div className="container-page">
             <h2 className="text-h3 font-semibold text-ink-strong">O que já testamos</h2>
             <p className="mt-3 max-w-measure text-body text-muted-ink">
-              A conversa desta página é ilustrativa. O fluxo de marcar, confirmar,
+              O fluxo de marcar, confirmar,
               remarcar e cancelar foi testado em produção com números de teste da
               própria Flowo, em 26 de julho de 2026. Ainda não medimos quanto
               tempo uma barbearia economiza ao sair da planilha. Por isso esta

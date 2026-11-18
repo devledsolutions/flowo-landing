@@ -8,7 +8,6 @@ import { SIGNUP_URL } from "@/components/cta-links";
 import { formatBRL } from "@/data/pricing-data";
 import { PhoneFrame } from "@/components/home/phone-frame";
 import { WhatsAppChat } from "@/components/home/whatsapp-chat";
-import { ProductDisclaimer } from "@/components/home/product-previews";
 import Image from "next/image";
 
 type PreviewKind =
@@ -133,7 +132,6 @@ function ProductPreview({ kind }: { kind: PreviewKind }) {
         <PhoneFrame>
           <WhatsAppChat width={300} logicalHeight={760} />
         </PhoneFrame>
-        <ProductDisclaimer className="mt-4" label="Conversa com dados ilustrativos" />
       </div>
     );
   }
@@ -149,7 +147,6 @@ function ProductPreview({ kind }: { kind: PreviewKind }) {
         priority
         className="w-full rounded-2xl border border-line bg-surface shadow-[0_24px_48px_-24px_rgba(23,24,16,0.35)]"
       />
-      <ProductDisclaimer className="mt-4" label="Telas do app com dados ilustrativos" />
     </div>
   );
 }

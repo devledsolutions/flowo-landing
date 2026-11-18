@@ -144,7 +144,7 @@ export default function ReportsMetricsGuidePage() {
               <GuideScreenshot
                 src="/images/product/dashboard-financeiro.png"
                 alt="Tela Financeiro da Flowo: recebido no dia, valor em aberto, repasse da equipe e ticket médio de 30 dias"
-                caption="Tela Financeiro, com dados ilustrativos: recebido, em aberto, repasse e ticket médio. O relatório por período fica em Métricas."
+                caption="Tela Financeiro: recebido, em aberto, repasse e ticket médio. O relatório por período fica em Métricas."
                 height={1082}
               />
               <GuideScopeNote title="Pagamento é depois do serviço">

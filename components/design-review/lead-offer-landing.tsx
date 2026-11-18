@@ -360,7 +360,7 @@ function ProductEvidence() {
     <div className={styles.productFrame}>
       <div className={styles.windowBar}>
         <WindowDots />
-        <span>Prévia de demonstração · dados ilustrativos</span>
+        <span>Flowo</span>
       </div>
       <div className={styles.productChrome}>
         <aside>

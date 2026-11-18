@@ -64,9 +64,6 @@ export function CompetitiveMatrix() {
             </article>
           ))}
         </div>
-        <p className="mt-4 max-w-measure text-xs leading-relaxed text-muted-ink">
-          Atendimento da Flowo mostrado com dados de teste. Confirme o plano e a configuração antes de prometer.
-        </p>
 
         <div className="mt-14 grid gap-10 lg:grid-cols-3">
           {layers.map((layer) => (
