@@ -250,15 +250,16 @@ const sections: LegalSection[] = [
           </li>
           <li>
             <strong>Provedores de inteligência artificial:</strong> a
-            interpretação de mensagens e a geração de respostas usam modelos de
-            terceiros, hoje DeepSeek como principal e Google (Gemini) e OpenAI
-            como alternativas, acessados pelo roteamento da Vercel. O conteúdo
+            interpretação de mensagens, a leitura de imagens e a geração de
+            respostas usam modelos de terceiros, hoje da OpenAI, da DeepSeek e
+            do Google (Gemini), acessados pelo roteamento da Vercel. O conteúdo
             necessário à resposta, que pode incluir a mensagem do cliente, o
             nome, o telefone e o contexto do agendamento, é enviado a esses
-            provedores no momento do atendimento. A transcrição de áudios pode
-            usar Deepgram, e a voz das ligações de venda usa ElevenLabs. Esses
-            provedores estão fora do Brasil, e a transferência observa o item
-            sobre transferência internacional abaixo.
+            provedores no momento do atendimento. A transcrição de áudios e as
+            respostas em áudio usam modelos da OpenAI pelo mesmo roteamento, e
+            a voz das ligações de venda usa ElevenLabs. Esses provedores estão
+            fora do Brasil, e a transferência observa o item sobre
+            transferência internacional abaixo.
           </li>
           <li>
             <strong>Asaas:</strong> processamento de pagamentos, cobrança por
